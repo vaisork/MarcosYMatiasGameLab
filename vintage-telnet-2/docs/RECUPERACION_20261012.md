@@ -89,3 +89,17 @@ La colaboración vecinal no introduce un género que contradiga la petición act
 ## Reconciliación final de divergencias
 
 Las 64 unidades textuales pendientes quedan evaluadas en [el registro por campo](RECONCILIACION_DIVERGENCIAS_20261012.md): cuatro intenciones adaptadas y 60 versiones actuales conservadas con evidencia. Los originales se mantienen protegidos. Esto cierra esas divergencias; no declara publicados los 78 commits históricos ni todos los recursos de producción.
+
+## Miniaturas finales del bestiario
+
+Se recuperan 16 miniaturas de imágenes que ya están integradas y referenciadas
+por criaturas actuales. Cada imagen completa coincide por SHA-256 con su padre
+en la entrega; cada miniatura se verifica por hash, formato, dimensiones y
+relación de aspecto. No se incorporan nuevas representaciones ni ambientes
+pendientes de aprobación. El manifiesto `client/art/bestiary-thumbnails.json`
+registra los consumidores y los archivos finales.
+
+La lista usa 703542 bytes en conjunto en lugar de 6252560 bytes
+de imágenes completas (88.7% menos). Ampliar conserva la
+imagen completa. Para ilustraciones antiguas sin miniatura registrada, se mantiene
+el archivo original. La selección no cambia el snapshot ni el descubrimiento.

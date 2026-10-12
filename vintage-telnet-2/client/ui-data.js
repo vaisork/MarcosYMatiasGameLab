@@ -1275,3 +1275,27 @@ export function capabilityReadingHint(action){
  if(reason==='Un disparo acertado corta la carga o reduce su precisión.')return 'Menos precisión si aciertas';
  return null;
 }
+
+// Lightweight views of illustrations already used by the authored bestiary.
+const bestiaryThumbnails=Object.freeze({
+  "/client/art/bestiary/aguaculebra-anime-v1.webp": "/client/art/bestiary/aguaculebra-anime-v1-thumb.webp",
+  "/client/art/bestiary/cienfango-anime-v1.webp": "/client/art/bestiary/cienfango-anime-v1-thumb.webp",
+  "/client/art/bestiary/clavaespina-anime-v1.webp": "/client/art/bestiary/clavaespina-anime-v1-thumb.webp",
+  "/client/art/bestiary/cortacorriente-anime-v1.webp": "/client/art/bestiary/cortacorriente-anime-v1-thumb.webp",
+  "/client/art/bestiary/escarbaraiz-anime-v1.webp": "/client/art/bestiary/escarbaraiz-anime-v1-thumb.webp",
+  "/client/art/bestiary/faucecieno-anime-v1.webp": "/client/art/bestiary/faucecieno-anime-v1-thumb.webp",
+  "/client/art/bestiary/garfarrama-anime-v1.webp": "/client/art/bestiary/garfarrama-anime-v1-thumb.webp",
+  "/client/art/bestiary/mordesombra-anime-v1.webp": "/client/art/bestiary/mordesombra-anime-v1-thumb.webp",
+  "/client/art/bestiary/mordijunco-anime-v1.webp": "/client/art/bestiary/mordijunco-anime-v1-thumb.webp",
+  "/client/art/bestiary/quebracascara-anime-v1.webp": "/client/art/bestiary/quebracascara-anime-v1-thumb.webp",
+  "/client/art/bestiary/raizacapa-anime-v1.webp": "/client/art/bestiary/raizacapa-anime-v1-thumb.webp",
+  "/client/art/bestiary/roecorteza-anime-v1.webp": "/client/art/bestiary/roecorteza-anime-v1-thumb.webp",
+  "/client/art/bestiary/sombranutria-anime-v1.webp": "/client/art/bestiary/sombranutria-anime-v1-thumb.webp",
+  "/client/art/bestiary/tragacharco-anime-v1.webp": "/client/art/bestiary/tragacharco-anime-v1-thumb.webp",
+  "/client/art/bestiary/tronchacolmillo-anime-v1.webp": "/client/art/bestiary/tronchacolmillo-anime-v1-thumb.webp",
+  "/client/art/bestiary/velomembrana-anime-v1.webp": "/client/art/bestiary/velomembrana-anime-v1-thumb.webp"
+});
+export function bestiaryThumbnail(creature){
+ const source=creature?.illustration;
+ return typeof source==='string'&&source.startsWith('/client/art/bestiary/')?bestiaryThumbnails[source]||source:null;
+}

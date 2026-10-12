@@ -1,0 +1,242 @@
+[
+  {
+    "target": "client/art/bestiary/aguaculebra-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/aguaculebra-anime-v1.webp",
+    "creatures": [
+      "aguaculebra"
+    ],
+    "bytes": 46318,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "6431d51c5580e630edb40b19d164007a7d176792e0b836a2a822327fcce43bca",
+    "parent_sha256": "e65bd76f2312a20a60ad8e12335e839a4bad33bbb0fd34fa3ded67fab2660217",
+    "parent_bytes": 399524
+  },
+  {
+    "target": "client/art/bestiary/cienfango-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/cienfango-anime-v1.webp",
+    "creatures": [
+      "cienfango"
+    ],
+    "bytes": 48984,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "fe344e14dc90128cc435ccd72396b7afc31dedce307a6ae140c3e1b5fbd5c9b1",
+    "parent_sha256": "00d3bf6944a7918269cd2aedcc86921b64371825bafd20c9e5572611bbb94971",
+    "parent_bytes": 445028
+  },
+  {
+    "target": "client/art/bestiary/clavaespina-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/clavaespina-anime-v1.webp",
+    "creatures": [
+      "clavaespina"
+    ],
+    "bytes": 48078,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "faf90ca4430f6268dca4727d26c895364d009d82841cb89cb50611e5a5243594",
+    "parent_sha256": "8da847d89397ca7a4937c7753eb372509e6cfacd2094cf78f4069ed8c64227ad",
+    "parent_bytes": 418612
+  },
+  {
+    "target": "client/art/bestiary/cortacorriente-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/cortacorriente-anime-v1.webp",
+    "creatures": [
+      "cortacorriente"
+    ],
+    "bytes": 43650,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "20c5b2038d83477a7e0091121aa5fb963280a909bccdb91541cae3b0a15942ff",
+    "parent_sha256": "31f6ea336d500934e1fb640de73bb0bf1cf5244d78dce7c8c43a01fa9ed841f0",
+    "parent_bytes": 391638
+  },
+  {
+    "target": "client/art/bestiary/escarbaraiz-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/escarbaraiz-anime-v1.webp",
+    "creatures": [
+      "escarbaraiz"
+    ],
+    "bytes": 44636,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "bc22f926d7fb8e05e530384b90175bd8deb3d9044d4572130011fba3241a3fb6",
+    "parent_sha256": "ca5e0a34fdfbe00955851a6eb6e5867a99f0c7cd74dbeac0e73a456929be8499",
+    "parent_bytes": 374838
+  },
+  {
+    "target": "client/art/bestiary/faucecieno-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/faucecieno-anime-v1.webp",
+    "creatures": [
+      "faucecieno"
+    ],
+    "bytes": 44148,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "5fdb703dfd69dd72458024d0d2fc7eb50517be748cf6be10098aba83ffdf1224",
+    "parent_sha256": "594964785737493f94131a318fe9010784d6894ccc31ac564aa25fbfae17aa23",
+    "parent_bytes": 400528
+  },
+  {
+    "target": "client/art/bestiary/garfarrama-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/garfarrama-anime-v1.webp",
+    "creatures": [
+      "garfarrama"
+    ],
+    "bytes": 44912,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "bc6b202ec17bed4ef319a3b306e632636c26f1295c5b1f7c17ca79d5b947db37",
+    "parent_sha256": "59e177f69c0e3fea8b7f30da5f90130b1f35860028905133d523a11a10cf1a18",
+    "parent_bytes": 360272
+  },
+  {
+    "target": "client/art/bestiary/mordesombra-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/mordesombra-anime-v1.webp",
+    "creatures": [
+      "mordesombra"
+    ],
+    "bytes": 43002,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "5615f42eecdca2b3a6a68964f586dd5b4a5d04355f03bda3f881ab45d83ff81b",
+    "parent_sha256": "76d945c010cac29113f38bd3ba0d0170860643188c3c6183797a89a3ed5466ae",
+    "parent_bytes": 390862
+  },
+  {
+    "target": "client/art/bestiary/mordijunco-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/mordijunco-anime-v1.webp",
+    "creatures": [
+      "mordijunco"
+    ],
+    "bytes": 43770,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "6e46f95f6f8409cfd1a5d3b40f3a8fd40f1e344e3cb49215c22d4016451ea73b",
+    "parent_sha256": "d42b7a845d31c066f545dd3210fc896debc6ecc574a3e8be9ae63f264ea78317",
+    "parent_bytes": 400916
+  },
+  {
+    "target": "client/art/bestiary/quebracascara-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/quebracascara-anime-v1.webp",
+    "creatures": [
+      "quebracascara"
+    ],
+    "bytes": 45382,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "f0724a9b17aa43d8aade12b26ac3aeb356302140824d54640915f28a0592719f",
+    "parent_sha256": "2a62ce6efc5db072ddac2be14d374c71c0cbbcdf1aefb554a8947cdca14b49b3",
+    "parent_bytes": 400344
+  },
+  {
+    "target": "client/art/bestiary/raizacapa-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/raizacapa-anime-v1.webp",
+    "creatures": [
+      "raizacapa"
+    ],
+    "bytes": 47192,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "af6bb1069fbdb1ffeca06972e1efd2a0d1547769fe2e0c104297211b1ef256f7",
+    "parent_sha256": "cd170313f829a7daaca8a2f7d3a821e4f3447ad6da6d1937c48166351fa06242",
+    "parent_bytes": 438394
+  },
+  {
+    "target": "client/art/bestiary/roecorteza-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/roecorteza-anime-v1.webp",
+    "creatures": [
+      "roecorteza"
+    ],
+    "bytes": 40540,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "709f2043f46e75be007705b10e043900cbff3139401e25623d67011f76e19742",
+    "parent_sha256": "c72f7be644a78ebc9b7677462cb2650a0747b8252db474a370b7b610f6bd5579",
+    "parent_bytes": 364074
+  },
+  {
+    "target": "client/art/bestiary/sombranutria-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/sombranutria-anime-v1.webp",
+    "creatures": [
+      "sombranutria"
+    ],
+    "bytes": 33904,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "274f7e754e76dda15de0c9aee06f3e23b27def4ba9cc5bc6589c99446a8f6a96",
+    "parent_sha256": "d346571b69eaef2833046c8134092cde129c121d1d4c3c06bbcf9079ca9df0f5",
+    "parent_bytes": 279720
+  },
+  {
+    "target": "client/art/bestiary/tragacharco-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/tragacharco-anime-v1.webp",
+    "creatures": [
+      "tragacharco"
+    ],
+    "bytes": 49448,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "5fef813e3095ebd13488aeef654ca8d541d522e7369fbc94523a30db7682cd39",
+    "parent_sha256": "5aa23288cf26109a9fe3c2380d0fe1ffaff040bc941f750f2368c9ce40fcd49f",
+    "parent_bytes": 481278
+  },
+  {
+    "target": "client/art/bestiary/tronchacolmillo-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/tronchacolmillo-anime-v1.webp",
+    "creatures": [
+      "tronchacolmillo"
+    ],
+    "bytes": 45166,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "b30a55a90ca0f044094a41d00b1b14116f1b45c746c2cb3ceac103781a017cf8",
+    "parent_sha256": "444a1a04f266dc9cbaa838d69abecea1a7f7203415e12de40ee5a19bcb20b5a4",
+    "parent_bytes": 438776
+  },
+  {
+    "target": "client/art/bestiary/velomembrana-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/velomembrana-anime-v1.webp",
+    "creatures": [
+      "velomembrana"
+    ],
+    "bytes": 34412,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "ae649f501e6a5bbe468f60d7e90cd2a56575d032ade993e5d94676ae3c10f463",
+    "parent_sha256": "b1bf1886185ab557c5365fe5fafdfac92005b5cda00e9d0c9ae6f33f57042ea9",
+    "parent_bytes": 267756
+  }
+]
