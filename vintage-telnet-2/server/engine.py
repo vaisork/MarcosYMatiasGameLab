@@ -78,7 +78,7 @@ class Engine:
         for variant in room.get('states',[]):
             if world is not None and self.allowed(variant,state,world):
                 for key,value in variant.get('overrides',{}).items():
-                    if key not in ('description','brief','dawn','day','dusk','night','rain','clear','weather','return','examine','focus'):continue
+                    if key not in ('description','brief','dawn','day','dusk','night','rain','clear','weather','return','examine','focus','art_variant'):continue
                     if key=='description' and 'brief' not in variant['overrides']:room.pop('brief',None)
                     room[key]=dict(room.get(key,{}),**value) if key=='examine' else value
         for cid,overrides in room.get('absent_creatures',{}).items():
@@ -982,6 +982,7 @@ class Engine:
                 entry['summary']=quest.get('paid_text','Este encargo ya está completado.')
             quests.append(entry)
         return {'version':world['version'],'character':char,'room':{'id':room['id'],'name':room['name'],'region':room['region'],'kind':room['kind'],'description':room['description'],
+            **({'art_variant':room['art_variant']} if room.get('art_variant') else {}),
             'npcs':[{'id':n['id'],'name':n['name'],'role':n.get('role',''),'description':n.get('description',''),'topics':[t for t,v in n.get('topics',{}).items() if not isinstance(v,dict) or self.allowed(v,state,world)]} for n in people],
             'exits':[{'direction':d,'label':d.capitalize()} for d in room.get('exits',{})]},
             'presence':[{k:v[k] for k in ('id','name','species','class_id')} for v in world.get('presence',{}).values() if v['id']!=character['id'] and v['room']==state['location'] and self.clock()-v['at']<30],

@@ -58,3 +58,15 @@ Conversaciones: `dialogue_memories` se inicializa al hablar y evita repetir el m
 Descansar conserva exactamente sus límites existentes. La acción anticipa efectos mediante una copia numérica del estado; cuando ni vida ni fatiga cambiarían, queda deshabilitada y la API rechaza el intento sin afectar recursos. Se explica provisión/cuidados al agotarse el margen.
 
 Las salas pueden declarar `absent_creatures: {creature_id: overrides}` para describir las consecuencias locales cuando `world.deaths[room:creature]` sigue activo o la criatura está refugiada. Sólo se aplican campos narrativos description/dawn/day/dusk/night/examine; los detalles examine se combinan con los existentes. Cuando vuelve una criatura presente, se restablece el texto normal. Las acciones de contacto y evaluación requieren presencia viva; una huella persistente no autoriza evaluar, examinar la criatura ni combatirla.
+
+## Variantes de ilustración por estado
+
+Los estados de sala pueden resolver `overrides.art_variant` con las mismas guardas
+personales o compartidas que su descripción. El snapshot de la sala actual expone
+únicamente la variante resuelta; no entrega flags ni destinos desconocidos.
+`placeArt` selecciona una pareja de archivos finales registrada por ID de sala y
+variante. Una variante desconocida conserva la vista base. Las vistas del mapa
+sin estado actual conservan su representación base. Hora y clima siguen siendo
+representativos y se explican en la lectura. El manifiesto
+`client/art/place-variants.json` registra rutas, SHA-256, tamaño y dimensiones;
+los originales de producción permanecen fuera del repositorio.
