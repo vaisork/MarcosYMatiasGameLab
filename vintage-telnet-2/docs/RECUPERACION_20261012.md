@@ -47,3 +47,21 @@ main conserva exactamente el campo base anterior; ninguna divergencia reciente
 se sobrescribe. Se revisaron las señales físicas y las salidas voluntarias: no
 añaden poderes, recompensas, materiales ni perfiles. El resto de los atributos
 de criaturas se comparó estructuralmente con main y permanece idéntico.
+
+## Recorridos y documentación recuperados
+
+Se recuperan la guía narrativa y su entrada de canon, además del recorrido API
+`review-narrative-stories.py`, adaptado a los temas vigentes de Seran. Cada modo
+crea una base temporal, usa el cliente de pruebas Flask y no abre puertos ni
+consulta jugadores de producción. No escribe entregas dentro del repositorio.
+
+Validación local: diez encargos pagados (218 movimientos, 272 acciones); cinco
+alternativas pagadas (135 movimientos, 165 acciones); recorrido independiente
+(94 movimientos, 118 acciones). Los tres modos entran en CI. Son evidencia
+técnica aislada, no una aprobación de diversión ni validación en Raspberry.
+
+Los otros dos scripts recuperados (`narrative-klv-journey.py` y
+`validate-narrative-klv.py`) quedan en recuperación: el primero depende de un
+servidor HTTP externo y el segundo de un snapshot histórico local que no es
+la base actual. Sus objetivos se cubren con los recorridos aislados y la
+comparación estructural de campos, sin incorporar esos supuestos antiguos.
