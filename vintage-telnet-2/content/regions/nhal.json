@@ -2366,7 +2366,24 @@
         "nhal_voz_escuchada": "Leris sabe que escuchaste a Elin, pero espera que atribuyas la observación antes de escribirla.",
         "nhal_relato_ampliado": "Leris lee ahora el raspón como parte de una entrega de comida. El relato ganó una persona y un gesto, no una hazaña inventada.",
         "hallazgo:rama_flexible": "Reconoce lo que llevas: «Rama flexible. Es de por aquí; mira el suelo cuando vuelvas a pasar.»"
-      }
+      },
+      "states": [
+        {
+          "requires_flags": [
+            "nhal_relato_ampliado"
+          ],
+          "overrides": {
+            "topics": {
+              "relato": "La parte de Elin ya está en la hoja: la comida fría, la puerta y la mano ocupada. También conservamos lo que sabemos de la reparación. Ahora quien escuche el relato podrá entender por qué aquel recipiente importaba en una casa, no sólo cómo quedó arreglado.",
+              "raspon": "Ya conocemos la explicación de Elin. El raspón ocurrió durante la entrega de comida; no fue una batalla que nadie vio. Dejé su voz junto a las notas de la reparación. Si otra persona recuerda algo distinto, sabremos qué parte debemos preguntarle."
+            },
+            "memory": {
+              "nhal_voz_escuchada": "Leris conserva la voz de Elin en la hoja, junto a la reparación. «La cena y la puerta ya tienen quien las cuente; no volveré a dejar fuera esa parte.»",
+              "nhal_relato_ampliado": "Leris lee ahora el raspón como parte de una entrega de comida. El relato ganó una persona y un gesto, no una hazaña inventada."
+            }
+          }
+        }
+      ]
     },
     "nhal_elin": {
       "id": "nhal_elin",
@@ -2400,7 +2417,7 @@
           ],
           "overrides": {
             "topics": {
-              "entrega": "El recipiente que trajiste queda junto a mi puerta. Desi conserva su tabla y el aro en el taller; pude recibirlo sin dejar las otras piezas sin apoyo."
+              "entrega": "El recipiente que trajiste queda junto a mi puerta. Desi conserva su tabla y el aro en el taller. Gracias por separar las piezas con cuidado. Yo ya puedo usar el recipiente pequeño y el juguete del secadero no perdió su apoyo. No tendrás que devolverme la misma pieza otra vez."
             }
           }
         }
@@ -2440,7 +2457,11 @@
             "nhal_figura_firme"
           ],
           "overrides": {
-            "description": "Desi recoge las tiras sobrantes de corteza. La figura ya no ocupa la mesa; desde una casa llegan pasos pequeños que la siguen llevando de un sitio a otro."
+            "description": "Desi recoge las tiras sobrantes de corteza. La figura ya no ocupa la mesa; desde una casa llegan pasos pequeños que la siguen llevando de un sitio a otro.",
+            "topics": {
+              "figura": "La figura de Rondamusgo ya se sostiene. Mi sobrino se la llevó y todavía pregunta si saldrá corriendo cuando la mire. La que espera secarse en el secadero es otra pieza reparada; ésa aún necesita su tabla. Aquí ya puedo recoger las tiras que sobraron de la tercera pata.",
+              "pata": "La tercera pata quedó firme y la figura ya está con el niño. No hace falta sujetarla otra vez. Me gustó verlo probarla en el suelo antes de llevársela: por fin pude soltar las dos manos sin que se tumbara."
+            }
           }
         }
       ],
@@ -2476,7 +2497,7 @@
           ],
           "overrides": {
             "topics": {
-              "recipiente": "Elin conserva el recipiente que llevaste. Desi mantuvo la tabla y el aro en el apoyo del taller. Ya no hace falta mover esa pieza del secadero."
+              "recipiente": "Elin conserva el recipiente que llevaste. Desi mantuvo la tabla bajo el juguete y el aro quedó en el secadero. Ya no hace falta mover esa pieza. Me gusta que la devolución terminara con las dos tareas en su sitio; habríamos tardado más si alguien hubiera recogido todo de una vez."
             }
           }
         }

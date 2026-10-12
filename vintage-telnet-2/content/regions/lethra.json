@@ -2319,7 +2319,19 @@
         "lethra_invitacion_llevada": "Mira sabe que Sola recibió la invitación. Acerca un segundo cuenco al sitio que guardaba junto a la ventana.",
         "lethra_costura_recordada": "Mira muestra la costura de Sola y recuerda que preguntaste quién la hizo, no cuánto valía el paño.",
         "hallazgo:fibra_junco": "Reconoce lo que llevas: «Fibra de junco. Es de por aquí; mira el suelo cuando vuelvas a pasar.»"
-      }
+      },
+      "states": [
+        {
+          "requires_flags": [
+            "lethra_invitacion_llevada"
+          ],
+          "overrides": {
+            "topics": {
+              "hermana": "Sola ya recibió la invitación. Va a terminar la unión de la barca antes de venir, así que no voy a llamarla otra vez para que corra. Le guardaré sitio junto a la ventana; conoce bien ese rincón."
+            }
+          }
+        }
+      ]
     },
     "lethra_sola": {
       "id": "lethra_sola",
@@ -2360,6 +2372,18 @@
       },
       "schedule": [
         "día"
+      ],
+      "states": [
+        {
+          "requires_flags": [
+            "lethra_invitacion_llevada"
+          ],
+          "overrides": {
+            "topics": {
+              "reunion": "Tengo la invitación anotada junto a mi trabajo. Primero dejaré sujeta esta unión y después iré a la cocina. Mira me guarda sitio; ya no tengo que adivinar si empezarán sin mí."
+            }
+          }
+        }
       ]
     },
     "lethra_nima": {
@@ -2392,7 +2416,10 @@
           ],
           "overrides": {
             "description": "Nima reúne los cuencos utilizados y deja el de su padre vuelto hacia la ventana. Desde la casa vecina llega el sonido de otra taza de agua.",
-            "dusk": "Nima escucha a su padre defender el gusto del caldo; deja cerca de él una jarra llena."
+            "dusk": "Nima escucha a su padre defender el gusto del caldo; deja cerca de él una jarra llena.",
+            "topics": {
+              "caldo": "Mi padre ya probó el caldo. Dice que estaba bien, aunque dejó la jarra de agua bastante más vacía. La próxima vez elegiremos las hojas juntos. Hoy no voy a echar más sólo para demostrar quién tenía razón."
+            }
           }
         }
       ],

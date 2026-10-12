@@ -1818,13 +1818,15 @@
         {
           "id": "hablar",
           "target": "edran_bren",
-          "topic": "rueda"
+          "topic": "rueda",
+          "room": "valdren_cobertizo"
         }
       ],
       "accept_dialogue": "Bren, el de los carros, tiene una rueda que cruje cuando el carro avanza. Tengo que hacerle una abrazadera, pero si no sé de qué lado cede la rueda, la haré a ciegas. Baja a la plaza y entra en el cobertizo de los carros, al oeste. Pregúntale a Bren por la rueda y tráeme lo que te diga: de qué lado se sale la cuña y cuánto. No tienes que arreglar nada; con la medida me basta.",
       "ready_text": "Ya sabes de qué lado se sale la cuña y cuánto. Vuelve a la fragua de Daro, al norte de la plaza, para darle la medida.",
       "delivery_text": "Repites lo que dijo Bren: un dedo, en la rueda izquierda. Daro lo escribe con tiza junto a la abrazadera.",
-      "payment_dialogue": "Un dedo, lado izquierdo. Con eso ajusto la pieza a esa rueda y no gasto hierro de más. Bren tendrá su abrazadera antes de volver a cargar."
+      "payment_dialogue": "Un dedo, lado izquierdo. Con eso ajusto la pieza a esa rueda y no gasto hierro de más. Bren tendrá su abrazadera antes de volver a cargar.",
+      "paid_text": "Llevaste a Daro la respuesta de Bren sobre el carro. La abrazadera ya tiene una medida con la que trabajar; el herrero conserva la reparación a su cargo."
     },
     "valdren_revision_cobertizos": {
       "id": "valdren_revision_cobertizos",
@@ -1842,17 +1844,20 @@
       "required_actions": [
         {
           "id": "examinar",
-          "target": "esquina"
+          "target": "esquina",
+          "room": "valdren_graneros"
         },
         {
           "id": "examinar",
-          "target": "estacas"
+          "target": "estacas",
+          "room": "edran_cobertizo_campo"
         }
       ],
       "accept_dialogue": "La última carreta del día trae la harina para el pan de mañana, y a veces llega cuando ya es de noche. Si la descargan en un sitio mojado, la harina se echa a perder. Necesito saber dos cosas: si la puerta baja del paso entre los graneros está seca, y si en el cobertizo de las estacas, pasado el lindero, queda un hueco bajo techo. Mira la esquina del granero y las estacas del cobertizo, y vuelve a contármelo.",
       "ready_text": "Has visto los dos sitios. Vuelve al comedor de Elva, junto al pozo, para decirle dónde puede esperar la harina.",
       "delivery_text": "Le cuentas a Elva lo que viste en la esquina del granero y en el cobertizo de las estacas. Ella lo apunta en la lista de cargas, junto a las ollas.",
-      "payment_dialogue": "Entonces ya sé dónde mandar la carreta si llega tarde. Mañana habrá pan para todos, también para quien todavía no ha vuelto."
+      "payment_dialogue": "Entonces ya sé dónde mandar la carreta si llega tarde. Mañana habrá pan para todos, también para quien todavía no ha vuelto.",
+      "paid_text": "Revisaste los dos espacios y volviste a Elva con lo observado. Ya tiene información para orientar a quienes lleguen tarde con una carga."
     },
     "valdren_estado_vado": {
       "id": "valdren_estado_vado",
@@ -1870,17 +1875,20 @@
       "required_actions": [
         {
           "id": "examinar",
-          "target": "apoyos"
+          "target": "apoyos",
+          "room": "edran_puente_juncos"
         },
         {
           "id": "examinar",
-          "target": "losa"
+          "target": "losa",
+          "room": "edran_hito_campos"
         }
       ],
       "accept_dialogue": "Mis carros cargados salen hacia Lethra y hacia Veyra, y los dos caminos cruzan agua. Antes de cargar quiero saber si los pasos aguantan. Uno es el Vado de Juncos: sal del pueblo por el este, sigue la acequia y baja por los sauces hasta el puente; mira sus apoyos desde la orilla. El otro está en el Paso hacia Veyra, al final de la calzada, al norte: mira la losa junto al poste. No te metas en el agua ni te acerques a ningún animal. Sólo mira y vuelve a contármelo.",
       "ready_text": "Ya has visto el puente y la losa. Vuelve al cobertizo de Bren, en Valdren, para contarle si sus carros pueden cruzar.",
       "delivery_text": "Le explicas a Bren cómo están los apoyos del puente y la losa del poste. Él lo apunta en una tablilla y la cuelga fuera de la cuerda de giro, donde la vean los conductores.",
-      "payment_dialogue": "Bien. Con esto sé por dónde puede ir cada carro sin descargar a medio camino. Se lo diré a cada conductor antes de cargar."
+      "payment_dialogue": "Bien. Con esto sé por dónde puede ir cada carro sin descargar a medio camino. Se lo diré a cada conductor antes de cargar.",
+      "paid_text": "Trajiste a Bren noticias de los apoyos del cruce y de la losa junto al hito. Puede preparar el viaje con esa información, sin confundir la revisión con una prueba de carga."
     },
     "khariel_polea": {
       "id": "khariel_polea",
@@ -1893,7 +1901,8 @@
       ],
       "required_actions": [
         {
-          "id": "hoshai_entregar_polea"
+          "id": "hoshai_entregar_polea",
+          "room": "hoshai_taller_apoyos"
         }
       ],
       "required_flags": [
@@ -1907,7 +1916,8 @@
       "accept_dialogue": "Me falta una polea del taller, la que usamos para subir cargas cortas por los peldaños. Ha aparecido en un campamento con una lona azul. Desde la plaza, baja dos tramos de escalones hasta la terraza de las cargas y toma el desvío del oeste. Allí acampa un viajero, Seran. Dice que la polea es suya hasta que alguien le pague un transporte. Habla con él antes de tocar nada: quiero la polea, pero también quiero saber qué cuenta reclama. Si vuelves con las dos cosas, habrás hecho el trabajo.",
       "ready_text": "La polea ha vuelto al banco de Daren y la cuenta de Seran queda apuntada a su lado. Puedes cerrar el encargo con Daren aquí mismo.",
       "delivery_text": "La polea vuelve a su gancho, encima del banco bajo. Ya pueden subir otra vez cargas cortas por los peldaños sin llevarlas a mano.",
-      "payment_dialogue": "Gracias. La polea es del taller y vuelve a trabajar. Lo de Seran lo miraré con calma: si le debemos un transporte, se lo pagaremos."
+      "payment_dialogue": "Gracias. La polea es del taller y vuelve a trabajar. Lo de Seran lo miraré con calma: si le debemos un transporte, se lo pagaremos.",
+      "paid_text": "La polea volvió al taller de Daren y la reclamación de Seran quedó registrada. Terminaste la recuperación; la cuenta del transporte sigue siendo un asunto distinto."
     },
     "khariel_cornisa": {
       "id": "khariel_cornisa",
@@ -1921,12 +1931,14 @@
       "required_actions": [
         {
           "id": "examinar",
-          "target": "cornisa"
+          "target": "cornisa",
+          "room": "hoshai_balcon_valle"
         },
         {
           "id": "hablar",
           "target": "hoshai_luma",
-          "topic": "cornisa"
+          "topic": "cornisa",
+          "room": "hoshai_mercado_cintas"
         }
       ],
       "required_flags": [
@@ -1940,7 +1952,8 @@
       "accept_dialogue": "Mando paquetes a los pueblos de abajo por la cornisa, ese camino estrecho pegado a la roca. El otro día, el observador del balcón apuntó en su cuaderno que una carga desapareció detrás de la roca, y ahora hay quien dice que la cornisa es peligrosa. Puede que sólo la perdiera de vista. Ve al balcón sobre el valle, pasado el depósito de herramientas. Mira la cornisa y deja allí una nota: que sólo pasen cargas pequeñas, o que alguien revise los apoyos antes. Luego vuelve y dímelo.",
       "ready_text": "Luma ya tiene tu recomendación. Puedes cerrar el encargo con ella aquí, en el mercado.",
       "delivery_text": "Luma ata una cinta clara a la tablilla de los envíos y escribe al lado lo que recomendaste para la cornisa.",
-      "payment_dialogue": "Cuando alguien vuelva a decir que la cornisa es peligrosa, le enseñaré esta nota. Es mejor que un rumor."
+      "payment_dialogue": "Cuando alguien vuelva a decir que la cornisa es peligrosa, le enseñaré esta nota. Es mejor que un rumor.",
+      "paid_text": "Revisaste la cornisa y explicaste tu elección a Luma. Tu recomendación quedó anotada para preparar las cargas; no necesitas repetir el encargo."
     },
     "velmora_recipiente": {
       "id": "velmora_recipiente",
@@ -1953,7 +1966,8 @@
       ],
       "required_actions": [
         {
-          "id": "nhal_entregar_recipiente"
+          "id": "nhal_entregar_recipiente",
+          "room": "nhal_umbral_elin"
         }
       ],
       "required_flags": [
@@ -1967,7 +1981,8 @@
       "accept_dialogue": "Elin, la artesana, dejó a reparar su recipiente pequeño en el taller de Desi y me pidió que se lo llevara. Yo no puedo dejar el puesto. Ya está arreglado y se está secando en el secadero, al lado de un juguete recién pegado. Comparten apoyo: si lo levantas mal, el juguete se cae. Habla primero con Elin, en su puerta, pasado el patio de reuniones, para saber cuál es el suyo. Luego pregunta a Desi, en el taller, cómo sacarlo. Llévaselo a Elin y vuelve a decirme que lo tiene.",
       "ready_text": "Elin ya tiene su recipiente y el juguete sigue secándose en su tabla. Vuelve al mercado de Velmora para contárselo a Varo.",
       "delivery_text": "Le cuentas a Varo que Elin recibió su recipiente y que el juguete sigue en su apoyo del secadero.",
-      "payment_dialogue": "Bien hecho. Elin tiene lo suyo y Desi no tendrá que volver a arreglar el juguete. Así me gusta que se hagan los recados."
+      "payment_dialogue": "Bien hecho. Elin tiene lo suyo y Desi no tendrá que volver a arreglar el juguete. Así me gusta que se hagan los recados.",
+      "paid_text": "Devolviste el recipiente pequeño a Elin sin mover la tabla del juguete. Varo recibió la explicación y el secadero conservó sus apoyos."
     },
     "narevia_preparativos": {
       "id": "narevia_preparativos",
@@ -1981,12 +1996,14 @@
       "required_actions": [
         {
           "id": "examinar",
-          "target": "costuras"
+          "target": "costuras",
+          "room": "lethra_plataforma_secado"
         },
         {
           "id": "hablar",
           "target": "lethra_nima",
-          "topic": "preparativos"
+          "topic": "preparativos",
+          "room": "lethra_cocina_reunion"
         }
       ],
       "required_flags": [
@@ -2000,7 +2017,8 @@
       "accept_dialogue": "Mira y su hermana Sola van a cenar con sus familias en la cocina vecinal. Yo llevo los cuencos, pero no sé dónde ponerlos. Mira quiere cubrir la mesa con el paño común, el que tiene costuras de toda la familia, y todavía está secándose en la plataforma. Ve a mirar las costuras: desde la plaza, entra en el taller de fibras y baja a la plataforma de secado. Decide si conviene esperar a que seque o cenar bajo la cubierta y dejarlo tendido. Cuéntaselo a Nima, en la cocina, y vuelve para decirme adónde llevo los cuencos.",
       "ready_text": "Nima ya sabe dónde irán los cuencos. Vuelve al mercado de Narevia para decírselo a Tila.",
       "delivery_text": "Le dices a Tila lo que acordaste con Nima. Tila cuenta los cuencos y los pasa a la cesta de arriba, la que no se moja.",
-      "payment_dialogue": "Entonces ya sé adónde ir. Llevaré los cuencos antes de que empiece la cena."
+      "payment_dialogue": "Entonces ya sé adónde ir. Llevaré los cuencos antes de que empiece la cena.",
+      "paid_text": "Revisaste el paño y comunicaste a Nima dónde propones preparar los cuencos. Tila ya conoce el acuerdo; cocinar y servir serán las tareas de la reunión."
     },
     "vaisgard_aviso_carga": {
       "id": "vaisgard_aviso_carga",
@@ -2015,7 +2033,8 @@
         {
           "id": "hablar",
           "target": "veyra_tov",
-          "topic": "aviso"
+          "topic": "aviso",
+          "room": "veyra_puerta_piedra"
         }
       ],
       "required_flags": [
@@ -2029,7 +2048,8 @@
       "accept_dialogue": "Ha llegado un rumor: dicen que a Tov, la porteadora de piedra, le han robado la carga. No pienso repetirlo sin saber de dónde viene. Tov está con su carro en la puerta del camino de Korven: desde la plaza de las cinco rutas, cruza el patio de los animales hacia el oeste. Pregúntale qué pasó de verdad. Después lleva su noticia a Nera, en el archivo de cargas, aquí al lado, al este. Vuelve cuando Nera lo haya apuntado.",
       "ready_text": "Nera ya tiene apuntada la noticia de Tov. Vuelve al patio de mensajes, al oeste, para contárselo a Arel.",
       "delivery_text": "Le cuentas a Arel lo que dijo Tov y lo que apuntó Nera. Arel copia el aviso en una tablilla nueva y escribe debajo de dónde viene.",
-      "payment_dialogue": "Separador roto, no robo. Eso es lo que saldrá por los caminos. Si hubiera repetido el rumor, Tov habría tenido que arreglar también su nombre."
+      "payment_dialogue": "Separador roto, no robo. Eso es lo que saldrá por los caminos. Si hubiera repetido el rumor, Tov habría tenido que arreglar también su nombre.",
+      "paid_text": "Escuchaste a Tov y llevaste al archivo un aviso con su origen. Arel recibió el recado terminado; la carga retrasada no se convirtió en una noticia inventada de robo."
     },
     "vaisgard_toldo": {
       "id": "vaisgard_toldo",
@@ -2042,7 +2062,8 @@
       "required_actions": [
         {
           "id": "examinar",
-          "target": "costura"
+          "target": "costura",
+          "room": "veyra_calle_toldos"
         }
       ],
       "required_flags": [
@@ -2056,7 +2077,8 @@
       "accept_dialogue": "El toldo que comparto con mi vecino se ha rasgado por una costura vieja. Cuando llueve, el agua cae justo en la puerta del taller de abajo, y ya hablan de cerrarlo. No hace falta: basta con coser bien y dejar que el agua salga hacia la calle. Primero mira la costura, para ver dónde está el daño. Después puedes ayudarme de dos maneras: traer un haz de junco (Bela, en el mercado de aquí al oeste, presta uno para esto) y lo atamos, o sujetarme las perchas mientras marco la costura, y yo la termino después sin gastar junco.",
       "ready_text": "El toldo ya tiene arreglo y el agua podrá salir hacia la calle. Puedes cerrar el encargo con Seli aquí mismo.",
       "delivery_text": "Seli tira del borde del toldo para probarlo. Esta vez, cuando llueva, el agua resbalará hacia la calle y no hacia la puerta del taller.",
-      "payment_dialogue": "El taller de abajo podrá seguir abierto. Ya les diré a los vecinos que no hacía falta cerrar nada: sólo coser bien."
+      "payment_dialogue": "El taller de abajo podrá seguir abierto. Ya les diré a los vecinos que no hacía falta cerrar nada: sólo coser bien.",
+      "paid_text": "Ayudaste a Seli con la costura sin tapar el desagüe. Se conserva la opción que elegiste: atar con junco o preparar las perchas para que ella complete la sujeción."
     },
     "brumak_taza": {
       "id": "brumak_taza",
@@ -2070,16 +2092,19 @@
         {
           "id": "hablar",
           "target": "korven_taren",
-          "topic": "medidas"
+          "topic": "medidas",
+          "room": "korven_entrante_piezas"
         },
         {
           "id": "examinar",
-          "target": "recipiente"
+          "target": "recipiente",
+          "room": "korven_horno_reposo"
         },
         {
           "id": "hablar",
           "target": "korven_taren",
-          "topic": "recomendación"
+          "topic": "recomendación",
+          "room": "korven_entrante_piezas"
         }
       ],
       "required_flags": [
@@ -2093,7 +2118,8 @@
       "accept_dialogue": "Quiero hacerle una taza a mi madre. La primera me salió tan pequeña que no le cabía nada; la segunda, tan grande que no la puede levantar. Antes de hacer la tercera necesito otra mirada. Pídeme las medidas, ve al horno viejo, aquí al este, y mira el recipiente torcido del banco: ahí se ve qué pasa cuando la base no va de acuerdo con el resto. Marca allí lo que recomiendas y vuelve a decírmelo.",
       "ready_text": "Taren ya tiene tu recomendación. Puedes cerrar el encargo con ella aquí, en el rincón de las muestras.",
       "delivery_text": "Taren pone tu marca junto a las medidas de la mano y aparta un trozo de arcilla para la prueba.",
-      "payment_dialogue": "Esta vez empiezo por lo que necesita mi madre, no por lo que me sale de las manos. Gracias por mirar con calma."
+      "payment_dialogue": "Esta vez empiezo por lo que necesita mi madre, no por lo que me sale de las manos. Gracias por mirar con calma.",
+      "paid_text": "Comparaste las muestras y diste a Taren tu recomendación. Terminaste la consulta; él todavía tiene que fabricar y probar la taza que quiere para su madre."
     }
   },
   "secrets": {

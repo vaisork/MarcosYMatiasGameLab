@@ -2512,7 +2512,10 @@
           ],
           "overrides": {
             "description": "Taren mantiene la taza grande sobre una cubierta seca. Tiene una sonrisa breve cada vez que alguien pregunta para quién es.",
-            "day": "Taren termina otra pieza sin volver a mezclar la taza grande con las muestras."
+            "day": "Taren termina otra pieza sin volver a mezclar la taza grande con las muestras.",
+            "topics": {
+              "pieza": "La taza grande ya tiene dueño: será para mi hermano, que siempre pide que le sirva más. Para mi madre haré otra prueba. Antes le preguntaré qué taza le gusta levantar; debí empezar por ahí en vez de adivinar."
+            }
           }
         },
         {

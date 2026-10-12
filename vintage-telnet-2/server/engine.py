@@ -56,6 +56,16 @@ class Engine:
             if aliases&values:return key,region
         raise RuleError('No hay una comunidad de origen disponible para esta especie.')
 
+    def creature_prose(self,room,creature_id):
+        creature=dict(self.content.creatures.get(creature_id,{}))
+        overrides=room.get('adversary_prose',{}).get(creature_id,{})
+        for field in ('name','description','warning','dialogue','combat_intro','defeat_text'):
+            value=overrides.get(field)
+            if field=='dialogue' and isinstance(value,dict):
+                creature[field]={topic:text for topic,text in value.items() if isinstance(text,str)}
+            elif field!='dialogue' and isinstance(value,str):creature[field]=value
+        return creature
+
     def room(self,character,world=None):
         state=character['state'];location=state['location']
         if location==state['home']:
@@ -176,8 +186,8 @@ class Engine:
             for variant in npc.get('states',[]):
                 if self.allowed(variant,state,world):
                     for key,value in variant.get('overrides',{}).items():
-                        if key=='topics' and isinstance(value,dict):
-                            person['topics']={**person.get('topics',{}),**value}
+                        if key in ('topics','memory','world_memory') and isinstance(value,dict):
+                            person[key]={**person.get(key,{}),**value}
                         if key in ('description','dawn','day','dusk','night'):
                             person[key]=value
             people.append(person)
@@ -277,7 +287,7 @@ class Engine:
     def observe(self,state,room,world):
         for signal in room.get('signals',[]):
             if not self.allowed(signal,state,world) or not signal_present(signal,room,world,self.clock()):continue
-            creature_id=signal['creature'];creature=self.content.creatures.get(creature_id)
+            creature_id=signal['creature'];creature=self.creature_prose(room,creature_id)
             if creature and creature.get('combatant_kind')!='human':
                 state['bestiary'].setdefault(creature_id,{'id':creature_id,'name':creature['name'],'description':creature.get('description',signal['text']),'first_seen':self.clock(),'status':'avistado'})
 
@@ -293,7 +303,7 @@ class Engine:
             if not active:break
             owner=world.setdefault('encounters',{}).get(key)
             primary=next((p for p in active if p['id']==owner),active[0]);world['encounters'][key]=primary['id']
-            creature_id=primary['state']['combat']['creature'];creature=self.content.creatures[creature_id]
+            creature_id=primary['state']['combat']['creature'];creature=self.creature_prose(self.room(primary,world),creature_id)
             prepared=primary['state']['combat'].get('prepared',False);responses=[]
             for player in active:
                 state=player['state'];combat=state['combat'];combat['hp']=animal['hp'];combat['prepared']=prepared
@@ -349,7 +359,7 @@ class Engine:
         for _ in range(rounds):
             if not state['combat']:break
             combat=state['combat'];state['_class']=character['class_id']
-            creature=self.content.creatures[combat['creature']]
+            creature=self.creature_prose(self.room(character,world),combat['creature'])
             if combat.get('intervention',{}).get('id')=='abrir_salida':
                 world.setdefault('creature_states',{}).setdefault(f"{state['location']}:{combat['creature']}",{})['escape_open']=True
                 self.withdraw_animal(character,world,combat['creature']);changed=True;break
@@ -377,6 +387,7 @@ class Engine:
     def victory(self,character,world,combat,creature,group=1,salvage=True):
         # A resolved encounter cannot credit this character twice, including a repeated tick.
         if character['state']['combat'] is not combat:return
+        creature=self.creature_prose(self.room(character,world),combat['creature'])
         self.clear_attention(character,world)
         state=character['state'];profile=combat['profile'];family=profile['family'];history=(state['victories']+[family])[-10:];count=history.count(family);multiplier=1 if count<=3 else .6 if count<=5 else .25
         coefficient={'trivial':.02,'favorable':.07,'comparable':.12,'peligroso':.20,'abrumador':.25}[profile['category']]
@@ -545,25 +556,31 @@ class Engine:
         for signal in room.get('signals',[]):
             cid=signal['creature']
             if cid in self.content.creatures and self.allowed(signal,state,world) and signal_present(dict(signal,persistent_trace=False),room,world,self.clock()):
-                actions.append({'id':'examinar_criatura','target':cid,'label':f"Examinar {self.content.creatures[cid]['name']}"})
-                creature=self.content.creatures[cid]
+                actions.append({'id':'examinar_criatura','target':cid,'label':f"Examinar {self.creature_prose(room,cid)['name']}"})
+                creature=self.creature_prose(room,cid)
                 if creature.get('combatant_kind')=='human' and f"{state['location']}:{cid}" not in world.get('encounters',{}):
+                    npc_topics={(npc['name'],topic) for npc in self.people(room,state,world,self.ambient(room,world)) for topic,value in npc.get('topics',{}).items() if not isinstance(value,dict) or self.allowed(value,state,world)}
                     for topic,text in self.adversary_dialogue(creature).items():
-                        if isinstance(text,str):actions.append({'id':'hablar_adversario','target':cid,'topic':topic,'label':f"Hablar con {creature['name']} · {topic}"})
-            if cid in m.PROFILES and (cid in state['bestiary'] or self.content.creatures.get(cid,{}).get('combatant_kind')=='human') and self.allowed(signal,state,world) and signal_present(dict(signal,persistent_trace=False),room,world,self.clock()):actions.append({'id':'evaluar','target':cid,'label':f"Evaluar {self.content.creatures[cid]['name']}"})
+                        if isinstance(text,str) and (creature['name'],topic) not in npc_topics:actions.append({'id':'hablar_adversario','target':cid,'topic':topic,'label':f"Hablar con {creature['name']} · {topic}"})
+            if cid in m.PROFILES and (cid in state['bestiary'] or self.content.creatures.get(cid,{}).get('combatant_kind')=='human') and self.allowed(signal,state,world) and signal_present(dict(signal,persistent_trace=False),room,world,self.clock()):actions.append({'id':'evaluar','target':cid,'label':f"Evaluar {self.creature_prose(room,cid)['name']}"})
             key=f"{state['location']}:{cid}"
             if cid in m.PROFILES and cid in self.content.creatures and self.allowed(signal,state,world) and signal_present(dict(signal,persistent_trace=False),room,world,self.clock()) :
                 warned=state.get('wildlife_target')==key or key in world.get('encounters',{})
                 if m.PROFILES[cid]['category'] in m.AVOIDABLE_CATEGORIES and not warned:
-                    actions.append({'id':'acercarse','target':cid,'label':f"Observar de cerca a {self.content.creatures[cid]['name']}"})
+                    actions.append({'id':'acercarse','target':cid,'label':f"Observar de cerca a {self.creature_prose(room,cid)['name']}"})
                 else:
-                    actions.append({'id':'combatir','target':cid,'label':('Insistir en enfrentarte a ' if m.PROFILES[cid]['category'] in m.AVOIDABLE_CATEGORIES else 'Enfrentarte a ')+self.content.creatures[cid]['name']+(f" · nivel {m.scaled(m.PROFILES[cid],signal.get('level'))['level']}" if signal.get('level') else '')})
+                    actions.append({'id':'combatir','target':cid,'label':('Insistir en enfrentarte a ' if m.PROFILES[cid]['category'] in m.AVOIDABLE_CATEGORIES else 'Enfrentarte a ')+self.creature_prose(room,cid)['name']+(f" · nivel {m.scaled(m.PROFILES[cid],signal.get('level'))['level']}" if signal.get('level') else '')})
                 if m.PROFILES[cid]['category'] in m.AVOIDABLE_CATEGORIES and warned:actions.append({'id':'retirarse','target':cid,'label':'Retirarte antes del enfrentamiento'})
         for qid,q in self.content.quests.items():
             if q.get('accept_room')==state['location']:
                 instance=state['quests'].get(qid)
+                speaker=self.quest_speaker(q,room,state,world)
+                absent=bool(q.get('npc') and not speaker)
+                quest_npc=self.content.npcs.get(q.get('npc'),{})
+                absence_reason=f"{quest_npc.get('name','Quien ofrece el encargo')} no está aquí ahora. Vuelve cuando esté presente."
+                if quest_npc.get('schedule'):absence_reason+=' Su horario aquí es de '+', '.join(quest_npc['schedule'])+'.'
                 if instance and instance['status']=='paid' and not q.get('repeatable',qid in ('valdren_recado_forja','valdren_revision_cobertizos','valdren_estado_vado')):continue
-                actions.append({'id':'cobrar' if instance and instance['status']=='ready' else 'aceptar','target':qid,'label':('Entregar ' if instance and instance['status']=='ready' else 'Aceptar ')+q['name'],'disabled':bool(instance and (instance['status']=='accepted' or (instance['status']=='paid' and not q.get('repeatable',qid in ('valdren_recado_forja','valdren_revision_cobertizos','valdren_estado_vado'))))),'reason':'El encargo está en marcha; completa la tarea antes de entregarlo.' if instance and instance['status']=='accepted' else ''})
+                actions.append({'id':'cobrar' if instance and instance['status']=='ready' else 'aceptar','target':qid,'label':('Entregar ' if instance and instance['status']=='ready' else 'Aceptar ')+q['name'],'disabled':absent or bool(instance and (instance['status']=='accepted' or (instance['status']=='paid' and not q.get('repeatable',qid in ('valdren_recado_forja','valdren_revision_cobertizos','valdren_estado_vado'))))),'reason':absence_reason if absent else ('El encargo está en marcha; completa la tarea antes de entregarlo.' if instance and instance['status']=='accepted' else '')})
         for category,item_id in state['equipment'].items():
             if item_id:actions.append({'id':'desequipar','target':category,'label':{'weapon':'Guardar arma','armor':'Quitar armadura','block':'Guardar escudo'}.get(category,'Quitar pieza de '+m.SLOT_NAMES.get(category,category))})
         forge=bool(room.get('forge_service') and any(n['id']==room['forge_service'] for n in self.people(room,state,world,self.ambient(room,world))))
@@ -654,7 +671,7 @@ class Engine:
                 for prefix in ('hablar','hablar con','conversar con'):
                     aliases.add(normalize(prefix+' '+npc.get('name',target)+' '+choice['topic']))
             elif id=='hablar_adversario':
-                creature=self.content.creatures[target]
+                creature=self.creature_prose(room,target)
                 aliases.add(normalize('hablar con '+creature['name']+' '+choice['topic']))
                 aliases.add(normalize('hablar '+creature['name']+' '+choice['topic']))
             elif id=='defender':aliases.add(normalize(target))
@@ -662,7 +679,7 @@ class Engine:
                 item=self.content.items.get(target) or next((i for i in state['inventory'] if i['id']==target),{})
                 aliases.add(normalize(id+' '+item.get('name',target)))
             elif id in ('combatir','evaluar','acercarse','retirarse','examinar_criatura'):
-                creature=self.content.creatures.get(target,{})
+                creature=self.creature_prose(room,target)
                 aliases.add(normalize(id+' '+creature.get('name',target)))
                 if id=='combatir':aliases.add(normalize('atacar '+creature.get('name',target)))
             if typed in aliases:matches.append(choice)
@@ -674,7 +691,7 @@ class Engine:
         return result
 
     def apply(self,character,world,intent):
-        state=character['state'];room=self.room(character,world);action=intent.get('id');target=intent.get('target');state['events']=[]
+        state=character['state'];room=self.room(character,world);action=intent.get('id');target=intent.get('target')
         known_before=set(state['bestiary'])
         candidates=self.actions(character,world)
         if action=='decir':
@@ -687,7 +704,8 @@ class Engine:
             world['chat_sequence']=message['id'];world.setdefault('chat',[]).append(message)
             state['events']=[event('chat','Envías tu mensaje a quienes están aquí.')];return
         candidate=next((a for a in candidates if a['id']==action and a.get('target')==target and (a.get('topic') is None or a.get('topic')==intent.get('topic'))),None)
-        if not candidate or candidate.get('disabled'):raise RuleError('Esa acción no está disponible en tu situación actual.',409)
+        if not candidate or candidate.get('disabled'):raise RuleError((candidate or {}).get('reason') or 'Esa acción no está disponible en tu situación actual.',409)
+        state['events']=[]
         if state['combat']:
             combat=state['combat']
             if combat.get('intervention'):raise RuleError('Ya has decidido tu intervención para esta ronda.',409)
@@ -705,7 +723,7 @@ class Engine:
             self.search(character,world)
         elif action=='examinar_criatura':
             self.observe(state,room,world)
-            creature=self.content.creatures[target]
+            creature=self.creature_prose(room,target)
             state['events']=[event('world',creature['description'])]
             if creature.get('combatant_kind')!='human':state['events'].append(event('discovery',f"{creature['name']} está en tu bestiario."))
         elif action=='mover':
@@ -734,12 +752,12 @@ class Engine:
                 if not contextual and recalled.get(target)!=recollection:state['events'].append(event('discovery',text))
                 recalled[target]=recollection
         elif action=='hablar_adversario':
-            creature=self.content.creatures[target];response=self.adversary_dialogue(creature)[intent['topic']]
+            creature=self.creature_prose(room,target);response=self.adversary_dialogue(creature)[intent['topic']]
             state['events']=[event('npc',f"{creature['name']}: {response}"),event('world','Mantienes la distancia. Hablar no te obliga a combatir; las salidas siguen siendo una opción.')]
         elif action=='evaluar':
             profile=m.PROFILES.get(target)
             if profile:
-                text=f"{self.content.creatures[target]['name']}: nivel {profile['level']}. Tu nivel: {state['level']}."
+                text=f"{self.creature_prose(room,target)['name']}: nivel {profile['level']}. Tu nivel: {state['level']}."
                 text+=' '+m.threat_observation(target)
                 if state['fatigue']>=70 or state['wound']:text+=' Tu fatiga o herida reduce el margen de seguridad.'
             else:text='Tus observaciones todavía no permiten medir con seguridad este peligro.'
@@ -749,14 +767,14 @@ class Engine:
             animal=world.setdefault('creature_states',{}).setdefault(key,{})
             animal['stage']='warning';animal.setdefault('attention',[])
             if character['id'] not in animal['attention']:animal['attention'].append(character['id'])
-            state['events']=[event('danger',self.content.creatures[target].get('warning','El Cornalomo orienta el cuerpo hacia ti y marca su distancia. Todavía puedes apartarte sin entrar en combate.'))]
+            state['events']=[event('danger',self.creature_prose(room,target).get('warning','El Cornalomo orienta el cuerpo hacia ti y marca su distancia. Todavía puedes apartarte sin entrar en combate.'))]
         elif action=='retirarse':
             self.clear_attention(character,world);state['events']=[event('action',m.peaceful_withdrawal(target))]
         elif action=='combatir':
             signal=next(i for i in room.get('signals',[]) if i['creature']==target)
             if target=='mordelinde' and f"{state['location']}:{target}" not in world.get('encounters',{}) and (world.get('creature_states',{}).get(f"{state['location']}:{target}",{}).get('escape_open') or not (signal.get('cornered') or room.get('combat_context',{}).get('creature_cornered'))):
                 self.withdraw_animal(character,world,target);return
-            profile=m.scaled(m.PROFILES[target],signal.get('level'));creature=self.content.creatures[target]
+            profile=m.scaled(m.PROFILES[target],signal.get('level'));creature=self.creature_prose(room,target)
             world.setdefault('encounters',{}).setdefault(f"{state['location']}:{target}",character['id'])
             state['combat']={'creature':target,'profile':profile,'hp':world.get('creature_states',{}).get(f"{state['location']}:{target}",{}).get('hp',profile['hp']),'round':0,'next_round':self.clock()+4,'prepared':profile.get('prepared',False),'cooldown':0}
             self.observe(state,room,world)
@@ -858,7 +876,7 @@ class Engine:
         for cid in state['bestiary']:
             if cid not in known_before and action!='examinar_criatura':
                 state['events'].append(event('discovery',f"Añades {state['bestiary'][cid]['name']} al bestiario."))
-        self.update_quests(state,world,intent)
+        self.update_quests(state,world,intent,room['id'])
         state['last_active']=self.clock()
 
     def effects(self,state,world,item):
@@ -886,11 +904,11 @@ class Engine:
             if known not in state['known']:state['known'].append(known)
         if item.get('journal') and item['journal'] not in state['journal']:state['journal'].append(item['journal'])
 
-    def update_quests(self,state,world,intent):
+    def update_quests(self,state,world,intent,room=None):
         for qid,instance in state['quests'].items():
             if instance['status']!='accepted':continue
             quest=self.content.quests[qid]
-            performed={k:intent[k] for k in ('id','target','topic') if k in intent}
+            performed={k:intent[k] for k in ('id','target','topic') if k in intent};performed['room']=room or state['location']
             if performed not in instance.setdefault('actions',[]):instance['actions'].append(performed)
             if state['location'] in quest.get('required_rooms',[]) and state['location'] not in instance['visited']:instance['visited'].append(state['location'])
             if set(quest.get('required_rooms',[])).issubset(instance['visited']) and set(quest.get('required_flags',[])).issubset(flags_for(state,world)) and all(any(all(done.get(k)==v for k,v in needed.items()) for done in instance['actions']) for needed in quest.get('required_actions',[])):
@@ -941,7 +959,7 @@ class Engine:
             node['unexplored_directions']=[direction for direction in exits if not any(route['from']==source and route['direction']==direction for route in routes)]
         combat=state['combat'];safe_combat=None
         if combat:
-            creature=self.content.creatures[combat['creature']]
+            creature=self.creature_prose(self.room(character,world),combat['creature'])
             safe_combat={'creature':combat['creature'],'combatant_kind':creature.get('combatant_kind','animal'),'name':creature['name']+(f" · nivel {combat['profile']['level']}" if combat['profile'].get('category') in m.SCALED_CATEGORIES and combat['profile']['level']>1 else ''),'round':combat['round'],'next_round':combat['next_round'],'prepared':combat['prepared'],'prepared_action':m.preparation(combat),'hp':combat['hp'],'hp_max':combat['profile']['hp'],'cooldown':combat['cooldown'],'intervention_pending':bool(combat.get('intervention'))}
             if creature.get('illustration') and creature.get('combatant_kind')=='human':safe_combat['illustration']=creature['illustration']
         char={key:character[key] for key in ('id','name','species','class_id','status')}
@@ -961,7 +979,7 @@ class Engine:
             if instance['status']=='paid':
                 payments=[line for line in state['ledger'] if line.get('kind')=='errand' and line.get('quest')==qid]
                 if payments:entry['paid_amount']=payments[-1]['amount']
-                entry['summary']='Entregaste este encargo.'
+                entry['summary']=quest.get('paid_text','Este encargo ya está completado.')
             quests.append(entry)
         return {'version':world['version'],'character':char,'room':{'id':room['id'],'name':room['name'],'region':room['region'],'kind':room['kind'],'description':room['description'],
             'npcs':[{'id':n['id'],'name':n['name'],'role':n.get('role',''),'description':n.get('description',''),'topics':[t for t,v in n.get('topics',{}).items() if not isinstance(v,dict) or self.allowed(v,state,world)]} for n in people],
