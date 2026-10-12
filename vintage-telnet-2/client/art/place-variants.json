@@ -1,0 +1,77 @@
+[
+  {
+    "room": "hoshai_cajas_camino",
+    "flag": "hoshai_polea_recogida",
+    "variant": "sin-polea",
+    "files": [
+      {
+        "path": "client/art/places/hoshai_cajas_camino-anime-v1-sin-polea.webp",
+        "sha256": "af3b27529ba6594a4b91910cf5c43676916c37934a37e803b27336703078e9ea",
+        "bytes": 319612,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/hoshai_cajas_camino-anime-v1-sin-polea-thumb.webp",
+        "sha256": "b19bdad546d127123084b657b1569102de34c7fd250361146b6a1d7b9d7eb7a5",
+        "bytes": 22978,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "room": "korven_almacen_fondo",
+    "flag": "korven_placa_recogida",
+    "variant": "sin-placa",
+    "files": [
+      {
+        "path": "client/art/places/korven_almacen_fondo-anime-v1-sin-placa.webp",
+        "sha256": "5e648d001ac63867be5c2a98a34bab808a1f3e363e4d7f28bd4a8fd9ec7e49a6",
+        "bytes": 227926,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/korven_almacen_fondo-anime-v1-sin-placa-thumb.webp",
+        "sha256": "b58032506d558b5338dbaa1b674dea94c0780ecea8eacb32ce91dedb2b8d6d92",
+        "bytes": 14456,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "room": "korven_almacen_balanzas",
+    "flag": "korven_placa_devuelta",
+    "variant": "placa-devuelta",
+    "files": [
+      {
+        "path": "client/art/places/korven_almacen_balanzas-anime-v1-placa-devuelta.webp",
+        "sha256": "ff11634a6d31fcebbab7036019aaba00da9967647a07f0862abc7a83951fb086",
+        "bytes": 175032,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/korven_almacen_balanzas-anime-v1-placa-devuelta-thumb.webp",
+        "sha256": "4d251cf0b47bed86de67be2ca3805d693c2dce68e078050dbbdc3ce83c9ec1fd",
+        "bytes": 13658,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  }
+]

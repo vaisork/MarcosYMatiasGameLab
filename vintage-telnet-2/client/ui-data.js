@@ -1211,12 +1211,33 @@ Object.assign(placeIllustrations,{
     "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
   }
 });
+const placeVariants=Object.freeze({
+  "hoshai_cajas_camino": {
+    "sin-polea": {
+      "illustration": "/client/art/places/hoshai_cajas_camino-anime-v1-sin-polea.webp",
+      "thumbnail": "/client/art/places/hoshai_cajas_camino-anime-v1-sin-polea-thumb.webp"
+    }
+  },
+  "korven_almacen_fondo": {
+    "sin-placa": {
+      "illustration": "/client/art/places/korven_almacen_fondo-anime-v1-sin-placa.webp",
+      "thumbnail": "/client/art/places/korven_almacen_fondo-anime-v1-sin-placa-thumb.webp"
+    }
+  },
+  "korven_almacen_balanzas": {
+    "placa-devuelta": {
+      "illustration": "/client/art/places/korven_almacen_balanzas-anime-v1-placa-devuelta.webp",
+      "thumbnail": "/client/art/places/korven_almacen_balanzas-anime-v1-placa-devuelta-thumb.webp"
+    }
+  }
+});
 export function placeArt(room){
  if(!room)return null;
  if(room.kind==='home'&&homeArtNames[room.region])return {name:room.name,illustration:`/client/art/places/${homeArtNames[room.region]}-home-anime-v1.webp`,thumbnail:`/client/art/places/${homeArtNames[room.region]}-home-thumb-v1.webp`,caption:'Representación de tu hogar. La hora, el clima y el equipo actual se consultan en el juego.'};
  if(room.id==='korven_peldanos_cortos')return {name:room.name,illustration:'/client/art/places/brumak-escalones-anime-v1.webp',thumbnail:'/client/art/places/brumak-escalones-thumb-v1.webp',caption:'Escalones bajos de Brumak. La hora y el clima actuales se describen en la lectura.'};
  const art=placeIllustrations[room.id]||(room.kind==='settlement'?placeIllustrations[townArtKeys[room.region]]:null);
- return art?{...art,thumbnail:art.thumbnail||art.illustration.replace('-anime-v1.webp','-thumb-v1.webp')}:null;
+ const variant=placeVariants[room.id]?.[room.art_variant];
+ return art?{...art,...variant,thumbnail:variant?.thumbnail||art.thumbnail||art.illustration.replace('-anime-v1.webp','-thumb-v1.webp')}:null;
 }
 
 // Presentation only: preserve the resolved result and every combat number.

@@ -2280,7 +2280,8 @@
             "return": "El hueco de la polea reaparece entre las dos cajas. Puedes situar el sendero del campamento desde la tira que sujeta la caja alta.",
             "examine": {
               "polea": "La marca del mango salió contigo al recoger la polea. En la madera de la caja quedó el apoyo que ocupaba."
-            }
+            },
+            "art_variant": "sin-polea"
           }
         }
       ],

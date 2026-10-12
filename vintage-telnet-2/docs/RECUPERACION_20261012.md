@@ -29,3 +29,12 @@ Las pruebas recuperadas cubren prosa contextual, inmutabilidad, ausencia de NPC,
 lugar de acciones, registros históricos y memoria compartida sin premios repetidos.
 La validación local utiliza dependencias existentes sin instalar ni iniciar servidores.
 Los originales, bundles y respaldos permanecen en sus ubicaciones consolidadas.
+
+## Arte de estados
+
+Tres variantes finales de la entrega consolidada: Hoshai sin polea, fondo de
+almacén de Korven sin placa y balanzas de Korven con la placa devuelta. Se integran
+seis WebP (773.662 bytes), verificados contra el SHA-256 de la entrega y decodificados
+para comprobar dimensiones. Sus flags y descripciones ya existían en main.
+No se añaden originales PNG, GLB, descartes ni recursos runtime. Las pruebas
+verifican estado personal/compartido, lecturas sin mutación, rutas reales y fallback.
