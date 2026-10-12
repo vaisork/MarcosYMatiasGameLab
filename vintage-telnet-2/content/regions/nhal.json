@@ -946,7 +946,7 @@
         {
           "id": "nhal_preparar_recipiente",
           "label": "Separar el recipiente sin mover el apoyo",
-          "text": "Levantas el recipiente del aro y dejas la tabla sujetando el juguete. Lo envuelves para llevarlo a Elin.",
+          "text": "Sujetas el recipiente por su borde y lo levantas despacio. La tabla sigue sosteniendo el juguete reparado de Desi; el aro vacío queda en el secadero. Envuelves sólo la pieza de Elin para el camino. Al mirar de nuevo el apoyo compruebas por qué te pidieron preguntar primero: una devolución no tenía que echar a perder otra tarea.",
           "requires_flags": [
             "nhal_elin_recipiente_reconocido",
             "nhal_desi_apoyo_aclarado"
@@ -1243,7 +1243,7 @@
         {
           "id": "nhal_ampliar_relato",
           "label": "Atribuir al relato la voz de Elin",
-          "text": "Leris pregunta quién dijo cada detalle y añade la entrega de comida, el apoyo y la mano ocupada. La reparación conserva su sitio en la hoja. El raspón queda unido a la voz de Elin y a aquella cena fría.",
+          "text": "Le cuentas a Leris lo que dijo Elin sobre la comida, la puerta y el raspón. Leris pregunta qué parte viste tú y cuál escuchaste de ella. Después añade la cena fría al relato, junto a la reparación. «Ahora también sabemos para qué querían el recipiente», dice. La historia conserva a las personas, no sólo a la pieza arreglada.",
           "set_flags": [
             "nhal_relato_ampliado"
           ],
@@ -2350,9 +2350,9 @@
       "home_room": "nhal_patio_relato",
       "description": "Lleva hojas corregidas y no esconde las tachaduras. Cuando alguien aporta un detalle nuevo deja que termine, aunque la frase que esperaba leer quede peor.",
       "topics": {
-        "relato": "Elin recibió el recipiente después. Si no la escuchamos, sólo contaremos la mitad del viaje.",
-        "raspon": "Sé cómo se reparó, pero no cómo se hizo. La diferencia cabe en una pregunta sencilla.",
-        "velmora": "Recordar juntos no obliga a que todos hayamos visto lo mismo.",
+        "relato": "Yo conozco la reparación del recipiente, pero Elin lo recibió después. Si cuento sólo lo que vi, faltará la parte de su casa. Ve a escucharla junto a su umbral y vuelve con sus palabras. A veces una historia cambia mucho cuando dejamos hablar a la persona que estaba al otro lado de la puerta.",
+        "raspon": "Sé qué tira usamos para reparar el raspón; no sé cómo se hizo. Podría inventar una caída o una pelea, pero entonces dejaría de ser la historia de ese recipiente. Prefiero preguntarle a Elin. Una pregunta pequeña puede ahorrarnos un relato equivocado.",
+        "velmora": "Aquí nos reunimos para recordar, pero no todos estuvimos en el mismo lugar. Yo digo lo que vi; otra persona añade lo suyo. No hace falta que nuestras historias suenen iguales. Hace falta que sepamos quién cuenta cada parte, para no convertir una suposición en un recuerdo.",
         "pausa": {
           "requires_flags": [
             "sec_v_pausa"
@@ -2365,7 +2365,7 @@
       "memory": {
         "nhal_voz_escuchada": "Leris sabe que escuchaste a Elin, pero espera que atribuyas la observación antes de escribirla.",
         "nhal_relato_ampliado": "Leris lee ahora el raspón como parte de una entrega de comida. El relato ganó una persona y un gesto, no una hazaña inventada.",
-        "hallazgo:rama_flexible": "Reconoce lo que llevas: «Rama flexible. Es de por aquí; mira el suelo cuando vuelvas a pasar.»"
+        "hallazgo:rama_flexible": "«Las ramas flexibles sirven para dar forma a los aros. Si conservaste la que encontraste, no tendrás que buscar otra para un trabajo pequeño.»"
       },
       "states": [
         {
@@ -2393,9 +2393,9 @@
       "home_room": "nhal_umbral_elin",
       "description": "Después de una lesión de trabajo mueve una mano más despacio. Acerca los apoyos del banco y recuerda riéndose la comida que recibió.",
       "topics": {
-        "recipiente": "Lo golpeé yo al recibirlo. Quería sostener comida y puerta con la misma mano; ninguna de las dos tareas tuvo paciencia.",
-        "leris": "Cuenta bien cuando deja lugar para lo que no vio. Dile que la cena estuvo fría y aun así fue buena.",
-        "madera": "Un apoyo nuevo puede devolver un uso sin prometer que el cuerpo volverá a ser idéntico.",
+        "recipiente": "El raspón lo hice yo. Me trajeron comida y quise sostener el recipiente mientras abría la puerta con la misma mano. Golpeó la madera y la cena llegó fría. No hubo una aventura terrible: hubo alguien intentando ayudar y otra persona con demasiadas cosas entre los dedos. Aun así comimos bien.",
+        "leris": "Leris sabe escuchar cuando algo no salió como esperaba. Dile que la cena estuvo fría, pero fue buena. Y que me trajeron comida hasta esta puerta: eso también importa. Si cuenta sólo la reparación, nadie sabrá para qué servía el recipiente que estuvieron arreglando.",
+        "madera": "Una pieza reparada puede volver a usarse aunque conserve una marca. No hace falta fingir que nunca se rompió. Mira dónde apoya ahora y para qué sirve; eso dice más que comparar cada raspón con lo que tenía antes.",
         "entrega": {
           "text": "El pequeño, el que está en el taller, es mío. No lo confundas con el cuenco grande del patio, que es de todos. El aro y la tabla donde se seca son de Desi. Pregúntale cómo sacarlo sin tirar nada.",
           "set_flags": [
@@ -2407,7 +2407,7 @@
       "night": "Guarda herramientas y recibe visitas breves en el umbral.",
       "memory": {
         "nhal_voz_escuchada": "Elin recuerda que escuchaste la parte doméstica del viaje, incluida la cena que llegó fría.",
-        "hallazgo:rama_flexible": "Reconoce lo que llevas: «Rama flexible. Es de por aquí; mira el suelo cuando vuelvas a pasar.»",
+        "hallazgo:rama_flexible": "«Las ramas flexibles sirven para dar forma a los aros. Si conservaste la que encontraste, no tendrás que buscar otra para un trabajo pequeño.»",
         "nhal_entrega_elin_completada": "Elin conserva el recipiente reparado junto a su puerta y recuerda que respetaste el apoyo del taller."
       },
       "states": [
@@ -2431,8 +2431,8 @@
       "home_room": "nhal_taller_cortezas",
       "description": "Desi intenta sostener una figura de corteza sobre tres apoyos. Al soltarla, una pata corta vuelve a caer. Se detiene a escuchar pasos pequeños que llegan desde una casa próxima.",
       "topics": {
-        "figura": "Mi sobrino pidió un Rondamusgo que pudiera quedarse quieto. El de verdad tampoco quiso, así que quizá éste ya sea bastante parecido.",
-        "pata": "Las otras dos se sujetan. La tercera necesita que alguien mantenga el cuerpo mientras coloco la tira; hacerlo con una mano me deja otra vez al principio.",
+        "figura": "Mi sobrino pidió un Rondamusgo que se quedara quieto para mirarlo de cerca. El de verdad no quiso esperar. Estoy haciendo esta figura con corteza, distinta del juguete reparado del secadero; si consigo sujetar la tercera pata, podrá llevárselo sin que se caiga. Quizá entonces descubra que incluso un animal de juguete da trabajo.",
+        "pata": "Las otras dos patas ya se sujetan. La tercera se mueve mientras intento colocar la tira. Necesito que alguien mantenga el cuerpo quieto; con una sola mano vuelvo siempre al principio. Si me ayudas, podremos dejar que seque sin que el juguete se tumbe otra vez.",
         "apoyo": {
           "text": "Llévate sólo el recipiente. El aro y la tabla se quedan: la tabla sostiene el juguete, que todavía está húmedo. Si la mueves, la pata se tuerce y vuelta a empezar.",
           "set_flags": [
@@ -2466,7 +2466,7 @@
         }
       ],
       "memory": {
-        "hallazgo:rama_flexible": "Reconoce lo que llevas: «Rama flexible. Es de por aquí; mira el suelo cuando vuelvas a pasar.»"
+        "hallazgo:rama_flexible": "«Las ramas flexibles sirven para dar forma a los aros. Si conservaste la que encontraste, no tendrás que buscar otra para un trabajo pequeño.»"
       }
     },
     "nhal_varo": {
@@ -2477,10 +2477,10 @@
       "role": "comerciante de camino",
       "description": "Varo comprueba si las ramas conservan flexibilidad antes de acercarlas al montón de resina. Las provisiones quedan bajo otra cubierta, lejos de las armas.",
       "topics": {
-        "comprar": "Trabajo con arcos, varitas comunes y provisiones. Las ramas flexibles sirven para aros, las semillas para comparar cultivos y la resina para las uniones. El mercado de Vaisgard reúne más tipos de armas.",
-        "vender": "La mochila muestra únicamente los materiales que necesita este puesto y el precio antes de vender. Conserva lo que vayas a usar en un encargo o en el afinado.",
+        "comprar": "Tengo arcos, varitas comunes y comida para el camino. Las ramas flexibles sirven para aros; las semillas ayudan a comparar cultivos y la resina une piezas pequeñas. Si necesitas otro tipo de arma, Vaisgard reúne más puestos. Mira primero lo que te falta: no quiero venderte una segunda pieza mientras sales sin comida.",
+        "vender": "Abre la mochila y verás qué materiales compro y cuánto vale cada uno. Puedes quedarte con lo que aún necesitas. Una rama que ahora parece un hallazgo cualquiera quizá sirva para un trabajo más adelante. Los objetos de un encargo no se venden como material suelto.",
         "recipiente": "Elin dejó a reparar su recipiente pequeño en el taller de Desi. Ya está arreglado, secándose al lado de un juguete. No lo cojas sin preguntar: primero habla con Elin para saber cuál es, y con Desi para saber cómo sacarlo.",
-        "viajar_sin_pelear": "Desde el pueblo, pasa por la calle de hogares y sube un tramo: allí empieza el sendero de altura. A veces alguien exige equipaje junto al alero. Puedes enfrentarte, volver por donde llegaste o conocer el borde visible para evitar esa parada. No confundas a una persona con la fauna del bosque.",
+        "viajar_sin_pelear": "Desde aquí puedes pasar por la calle de hogares y subir hacia el sendero de altura. A veces una persona exige equipaje junto al alero. No tienes que aceptar su pelea para seguir explorando: puedes regresar y buscar el borde visible cuando lo conozcas. Esa persona toma decisiones; las criaturas del bosque protegen su espacio. Conviene mirar antes de tratarlos a todos igual.",
         "cuidados": "El lugar de cuidados está junto a Mercado de Velmora. Cuesta dieciocho sellos y atiende heridas, no sólo hambre. Está cerca del pueblo: no hace falta cruzar otras regiones."
       },
       "memory": {
@@ -2511,7 +2511,7 @@
       "home_room": "nhal_sala_cuidados",
       "description": "Sira acerca la lámpara a la mesa y pregunta por el golpe antes de abrir la caja de paños.",
       "topics": {
-        "atención": "La recuperación cuesta dieciocho sellos: atendemos un grado de herida, quitamos la fatiga y recuperamos vitalidad hasta el noventa por ciento. Después vuelves a disponer de margen para descansar. No necesitas comprar un arma ni ganar una pelea para pedir cuidados.",
+        "atención": "Puedes contarme dónde te lastimaste sin apresurarte. La recuperación cuesta dieciocho sellos: atendemos un grado de herida, quitamos la fatiga y recuperamos vitalidad hasta el noventa por ciento. Después vuelves a tener margen para descansar. Te explicaré el servicio antes de que decidas; no hace falta ganar otra pelea para pedir ayuda.",
         "salida": "Puedes volver por la misma puerta. Si no puedes pagar ahora, descansa lo que permita tu estado y evita entrar otra vez en peligro; una retirada no borra tu progreso.",
         "descansar": "Descansar requiere un lugar seguro y usa un margen limitado. La provisión ayuda a recuperar fuerzas; los cuidados sirven para las heridas y para renovar ese margen. Mira tu estado antes de gastar."
       },

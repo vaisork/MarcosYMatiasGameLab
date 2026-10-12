@@ -722,7 +722,7 @@
         {
           "id": "edran_comprobar_rueda",
           "label": "Observar la rueda mientras Bren mueve el carro",
-          "text": "Ves cómo se mueve la cuña y avisas a Bren. Detiene el carro y la sujeta. La rueda ya puede girar sin que se salga la pieza.",
+          "text": "Bren empuja el carro mientras Lio espera junto a los sacos. El crujido vuelve a sonar. Ves la cuña moverse junto a la rueda y se lo señalas. «Ahí está. Gracias; desde el manillar no podía verla.» Bren detiene el carro y sujeta la pieza. Al probar otra vez, la rueda gira sin aquel ruido. Lio sigue junto a la carga; todavía falta comprobar el carro con su peso.",
           "set_flags": [
             "edran_rueda_comprobada"
           ],
@@ -2011,7 +2011,7 @@
         {
           "id": "edran_leer_nota",
           "label": "Leer de dónde procede la noticia",
-          "text": "La nota habla de una rueda que están reparando junto a Valdren. Lees también la última línea: la palabra «perdida» se añadió en otra tablilla.",
+          "text": "Lees la nota desde el principio. Habla de una rueda que están reparando junto a Valdren, no de sacos desaparecidos. La palabra «perdida» aparece en otra tablilla, añadida después. Aren acerca ambas para que puedas compararlas. Ahora sabes qué se observó y qué empezó a repetirse por el camino.",
           "set_flags": [
             "edran_nota_leida"
           ],
@@ -2025,7 +2025,7 @@
         {
           "id": "edran_corregir_mensaje",
           "label": "Aclarar la noticia con lo visto en el cobertizo",
-          "text": "Explicas a Aren qué viste con Bren. Corrige el mensaje para Elva: el carro se retrasó por la reparación y Lio seguía en el pueblo. Guarda la nota vieja junto a la nueva.",
+          "text": "Le cuentas a Aren lo que viste con Bren: la rueda, la cuña y el carro que seguía en Valdren. «Entonces Elva necesita leer esto, no aquel rumor», responde. Escribe una nota nueva: la carga se retrasó por la reparación y Lio seguía en el pueblo. Conserva la vieja al lado, para que la diferencia no vuelva a perderse.",
           "set_flags": [
             "edran_mensaje_aclarado"
           ],
@@ -3321,15 +3321,15 @@
       "home_room": "valdren_fragua",
       "description": "Daro mantiene libre el trayecto entre el hogar y el agua. Antes de repetir una pieza pregunta qué hizo fallar la anterior.",
       "topics": {
-        "trabajo": "Una abrazadera no falla sola. Si Bren me dice de qué lado cede la carga, podré ajustarla sin añadir hierro por añadirlo.",
-        "pueblo": "La cuesta obliga a escuchar quién baja antes de subir. Aquí las herramientas también tienen que dejar sitio al paso.",
+        "trabajo": "¿Ves esta abrazadera? Sujeta una parte del carro de Bren. Si la hago demasiado estrecha, no entrará; si la dejo suelta, el carro seguirá crujiendo. Necesito que alguien escuche a Bren en el cobertizo y vuelva con la medida. Así podré arreglar la pieza que necesita, en vez de adivinar con el hierro caliente.",
+        "pueblo": "Por aquí pasan carros de semillas, comida y herramientas. Cuando uno se atasca en la cuesta, los demás tienen que esperar. Por eso dejo libre la entrada de la fragua, aunque me falte sitio dentro. Una herramienta bien hecha ayuda poco si acaba estorbando a todo el pueblo.",
         "rueda": {
           "requires_flags": [
             "edran_rueda_comprobada"
           ],
-          "text": "Bren ya puede decirme dónde trabaja la cuña. Esa observación vale más que pedir otra rueda sin saber qué le ocurre."
+          "text": "Bren ya ha sujetado la cuña. Ese detalle nos dice por qué se movía la rueda; no hace falta cambiarla entera. Cuando vuelva a probar el carro con carga, escucharé si reaparece el ruido. Prefiero hacer una reparación pequeña que sirva a una grande que no resuelva nada."
         },
-        "armas": "Las varitas me llegan de talleres de Veyra. El puñal y la espada los preparo aquí; los arcos entran con los viajeros. Una hoja de Hoshai se busca en Khariel, y un martillo de Korven en Brumak.",
+        "armas": "Si vas a salir al camino, compara primero lo que puedes llevar. Los puñales y las espadas los preparo aquí; las varitas vienen de Veyra y los arcos llegan con los viajeros. Khariel tiene piezas de Hoshai y Brumak trabaja martillos de Korven. Comprar otra arma no la pone en tu mano: después tendrás que equiparla.",
         "reparación": "Una pieza quebrada en un suceso necesita una comprobación aparte. La arreglo por ocho sellos. Te la devolveré guardada: antes de salir, decide qué llevarás en la mano.",
         "afinado": "Puedo afinar una pieza común una vez por doce sellos y una fibra de Espinajo para fijar el mango. Ganará un punto de daño. Revisa qué arma llevas antes de encargarlo; no transforma una pieza en otra.",
         "dibujo": {
@@ -3340,7 +3340,7 @@
         }
       },
       "memory": {
-        "hallazgo:semillas_camino": "Reconoce lo que llevas: «Semillas secas. Es de por aquí; mira el suelo cuando vuelvas a pasar.»",
+        "hallazgo:semillas_camino": "«Las semillas que se encuentran junto al camino también cuentan de qué campo viene una carga. Si aún conservas alguna, compara su forma cuando vuelvas a pasar.»",
         "encargo_pagado:valdren_recado_forja": "Daro señala la tiza junto a la abrazadera. «Es la medida que trajiste de Bren. Ahora puedo comparar la pieza.»"
       },
       "day": "Daro separa una pieza para quien necesita comprobarla antes de recogerla.",
@@ -3366,17 +3366,17 @@
       "home_room": "valdren_casa_semillas",
       "description": "Iria usa tablillas que pueden borrarse, pero lee cada nombre antes de aceptar que una cuenta ha terminado.",
       "topics": {
-        "semillas": "Guardamos poco de cada lote para poder volver a empezar. No confundas lo que espera secarse con lo que ya puede prestarse.",
-        "tablilla": "Hay dos cuencos sin nombre. Una persona dice haberlos dejado; otra recuerda haberlos recibido. Necesito escuchar ambas cosas antes de decidir.",
+        "semillas": "Estas pocas semillas parecen poca cosa, ¿verdad? Son nuestra reserva. Si una cosecha sale mal, podemos volver a plantar con ellas. Algunos cuencos todavía esperan a secarse; otros ya están listos para prestar. Por eso anoto de dónde viene cada lote antes de entregarlo. Así no perdemos una variedad por confundir dos cuencos.",
+        "tablilla": "Tengo dos cuencos sin nombre y dos personas que recuerdan cosas distintas. Una dice que los dejó aquí; otra, que recibió un préstamo. Si escribo lo primero que escucho, quizá cobre a quien ya devolvió sus semillas. Ayúdame a escuchar las dos versiones. Después podremos poner los nombres junto a cada cuenco.",
         "agua": {
           "requires_flags": [
             "edran_acequia_abierta"
           ],
-          "text": "El huerto pequeño ya no recibe toda el agua. La parcela alta también tiene su parte; se nota antes de que crezca una sola hoja."
+          "text": "¿Te acuerdas del huerto pequeño? Antes recibía casi toda el agua. Ahora la acequia también alcanza la parcela alta. Aún no han crecido hojas nuevas, pero ya podemos tocar la tierra húmeda en los dos lados. El cambio empieza ahí, antes de que se vea una cosecha."
         }
       },
       "memory": {
-        "hallazgo:semillas_camino": "Reconoce lo que llevas: «Semillas secas. Es de por aquí; mira el suelo cuando vuelvas a pasar.»"
+        "hallazgo:semillas_camino": "«Las semillas que se encuentran junto al camino también cuentan de qué campo viene una carga. Si aún conservas alguna, compara su forma cuando vuelvas a pasar.»"
       },
       "day": "Iria lee el nombre de un recipiente antes de colocarlo en el estante.",
       "night": "Iria compara las tablillas del día con los recipientes que aún esperan nombre.",
@@ -3402,16 +3402,16 @@
       "description": "Bren escucha un carro mientras lo mueve. No acepta que alguien se coloque dentro de su giro para ayudarle a mirar.",
       "topics": {
         "rueda": "Cruje cuando el carro avanza, no cuando para. Es la rueda izquierda: la cuña se sale como un dedo por fuera del aro. Si te manda Daro, dile eso: un dedo, lado izquierdo. Si quieres verlo, quédate fuera de la cuerda; yo muevo el carro despacio.",
-        "carga": "Que un carro vacío pueda pasar no demuestra que pase cargado. El patio nos permite comprobar la inclinación antes del camino.",
+        "carga": "Un carro vacío parece obedecer a cualquiera. Cargado de sacos, la rueda pisa distinto y el peso tira hacia la cuesta. Lo probamos primero en este patio para no descubrir el problema en medio del camino. Prefiero que una entrega salga tarde a que alguien se lastime intentando sujetarla.",
         "noticias": {
           "requires_flags": [
             "edran_nota_leida"
           ],
-          "text": "La carga retrasada es ésta. Su rueda está aquí, delante de ti. No quiero que en Vaisgard la llamen perdida."
+          "text": "La carga de la nota es ésta, la que tienes delante. La rueda nos hizo parar, pero los sacos no desaparecieron. Si llevas noticias a Vaisgard, cuenta que el carro sigue en Valdren y que estamos revisándolo. Una demora puede arreglarse; un rumor de pérdida asusta a quien espera la comida."
         }
       },
       "memory": {
-        "hallazgo:semillas_camino": "Reconoce lo que llevas: «Semillas secas. Es de por aquí; mira el suelo cuando vuelvas a pasar.»",
+        "hallazgo:semillas_camino": "«Las semillas que se encuentran junto al camino también cuentan de qué campo viene una carga. Si aún conservas alguna, compara su forma cuando vuelvas a pasar.»",
         "encargo_pagado:valdren_estado_vado": "Bren te muestra los dos cruces en su tablilla. «Tus noticias del puente y del hito saldrán con el próximo carro.»"
       },
       "day": "Bren mantiene la cuerda de giro fuera del alcance de quienes miran.",
@@ -3437,14 +3437,14 @@
       "home_room": "valdren_comedor",
       "description": "Elva separa provisiones de camino de platos para comer sentado. Las tazas invertidas guardan sitio para quienes todavía faltan.",
       "topics": {
-        "mesa": "Un retraso no me dice cuánto tardará alguien. Su taza espera hasta que llega noticia, no hasta que me impaciento.",
-        "camino": "Puedo preparar comida de viaje. Para cuidar una herida necesitas la estancia de Sena, al otro lado del patio.",
-        "taza": "La pequeña es de Lio. Suele traer cuentas de los graneros. Mi hermano Aren escribe desde la casa del camino; ojalá pregunte por Lio antes de preguntar por los sacos.",
+        "mesa": "Dejé una taza para quien llegue tarde. No sé si tardará un rato o hasta mañana, pero no quiero que encuentre la mesa vacía. Si alguien trae noticias, podré decidir qué comida guardar. Hasta entonces prefiero esperar una explicación a enfadarme con una persona que quizá esté ayudando en el camino.",
+        "camino": "Antes de marcharte puedo venderte comida de viaje. Las provisiones te ayudan a recuperar fuerzas, pero no curan una herida. Para eso está Sena, al otro lado del patio. Si tienes poco dinero, mira qué necesitas ahora: comer, atenderte o guardar sellos para el trayecto.",
+        "taza": "La taza pequeña es de Lio. Suele venir con las cuentas de los graneros y se sienta junto a la ventana. Mi hermano Aren escribe desde la casa del camino, pero las últimas noticias sólo hablan de los sacos. A mí me importa saber también dónde está Lio. Un carro no cuenta todo lo que les pasa a las personas.",
         "noticia": {
           "requires_flags": [
             "edran_mensaje_aclarado"
           ],
-          "text": "Ya sé dónde se detuvo la carga. Lio se entretuvo ayudando con la rueda. Voy a dejarle la taza junto a la ventana: cuando llegue podrá explicar él cuánto tardó."
+          "text": "Así que Lio seguía en el pueblo, ayudando con la rueda. Eso es lo que necesitaba saber. Voy a dejar su taza junto a la ventana; cuando llegue podrá contarme cuánto tardó. Gracias por aclarar la noticia: ahora espero una cena atrasada, no a una persona que quizá se haya perdido."
         },
         "dibujos": {
           "requires_flags": [
@@ -3457,7 +3457,7 @@
         }
       },
       "memory": {
-        "hallazgo:semillas_camino": "Reconoce lo que llevas: «Semillas secas. Es de por aquí; mira el suelo cuando vuelvas a pasar.»",
+        "hallazgo:semillas_camino": "«Las semillas que se encuentran junto al camino también cuentan de qué campo viene una carga. Si aún conservas alguna, compara su forma cuando vuelvas a pasar.»",
         "encargo_pagado:valdren_revision_cobertizos": "Elva toca la lista de cargas. «Anoté tu comprobación de los dos espacios; queda aquí para quien llegue tarde.»"
       },
       "day": "Elva guarda una taza invertida para quien todavía no ha llegado.",
@@ -3471,12 +3471,12 @@
       "home_room": "valdren_cuidado",
       "description": "Sena mantiene los paños limpios separados de las capas de camino. Escucha antes de pedir que alguien descubra una herida.",
       "topics": {
-        "cuidado": "El descanso ayuda, pero no limpia una herida ni devuelve todo lo perdido. Aquí podemos atenderla sin mezclarla con el polvo del camino.",
-        "patio": "Los paños de herramientas se quedan en la cuerda baja. Los nuestros pasan a la alta cuando dejan de gotear.",
-        "hallazgos": "Compro las semillas sueltas para comparar los campos y las fibras para pequeños amarres. Abre tu mochila aquí: el precio aparece antes de vender. La caja de Nela no está en venta."
+        "cuidado": "Puedes sentarte antes de contarme qué pasó. Descansar ayuda, pero una herida necesita atención y un paño limpio. Aquí la revisamos lejos del polvo del camino. Mira el coste del servicio antes de decidir; no tienes que volver a pelear para demostrar que necesitas ayuda.",
+        "patio": "¿Ves las dos cuerdas? En la baja secamos los paños de herramientas. Los que usamos para atender a viajeros van a la alta, cuando dejan de gotear. Así nadie toma por error un paño lleno de grasa para cubrir una herida. El patio parece tranquilo, pero cada cuerda tiene su trabajo.",
+        "hallazgos": "Si encontraste semillas o fibras, abre la mochila y podremos ver cuáles compro. Las semillas me ayudan a comparar los campos; las fibras sirven para pequeños amarres. Verás el precio antes de vender, así puedes guardar lo que todavía necesitas. La caja de Nela es un encargo: no la trataré como mercancía."
       },
       "memory": {
-        "hallazgo:semillas_camino": "Reconoce lo que llevas: «Semillas secas. Es de por aquí; mira el suelo cuando vuelvas a pasar.»"
+        "hallazgo:semillas_camino": "«Las semillas que se encuentran junto al camino también cuentan de qué campo viene una carga. Si aún conservas alguna, compara su forma cuando vuelvas a pasar.»"
       },
       "day": "Sena cambia el paño de la mesa antes de atender a otra persona.",
       "night": "Sena conserva una lámpara baja y un asiento libre cerca de la puerta."
@@ -3489,17 +3489,17 @@
       "home_room": "edran_casa_camino",
       "description": "Aren ordena mensajes por destino y pregunta desde dónde se vio lo que cuentan. Deja espacio entre dos notas y vuelve a preguntar la hora.",
       "topics": {
-        "nota": "Elva es mi hermana. Ha reservado una taza para Lio y alguien le dijo que la carga se había perdido. Esta nota sólo describe una rueda detenida. Quiero que reciba noticia de la persona, además del carro.",
-        "Vaisgard": "La ruta sigue por la calzada, el hito y la puerta de los campos. Los muros aparecerán antes de que puedas reconocer sus trabajos.",
+        "nota": "Elva es mi hermana y espera a Lio para cenar. Le llegó la palabra «perdida», pero esta nota sólo habla de un carro parado por su rueda. Son noticias muy distintas. Lee de dónde viene el mensaje y, si has visto el carro con Bren, podremos corregirlo con lo que sabes. Quiero que mi hermana reciba noticias de Lio, no sólo de los sacos.",
+        "Vaisgard": "Sigue por la calzada hasta el hito y la puerta de los campos. Los muros de Vaisgard aparecerán antes de que distingas sus calles. Si llevas una noticia, cuenta también quién te la dijo y dónde la escuchaste. Allí reciben cargas de muchos caminos y una palabra mal entendida puede viajar más lejos que tú.",
         "correccion": {
           "requires_flags": [
             "edran_mensaje_aclarado"
           ],
-          "text": "Elva tendrá la nota nueva. Puede dejar la taza preparada sin preguntarse si el carro arrastró a Lio lejos del pueblo. La primera tablilla se queda aquí; corregirla no borra que circuló."
+          "text": "La nota nueva dice que el carro se retrasó y que Lio seguía en Valdren. Elva podrá preparar su taza sin imaginar que se perdió con la carga. Guardaré también la primera tablilla: así, si alguien repite el rumor, podremos mostrar de dónde salió y qué comprobamos después."
         }
       },
       "memory": {
-        "hallazgo:semillas_camino": "Reconoce lo que llevas: «Semillas secas. Es de por aquí; mira el suelo cuando vuelvas a pasar.»"
+        "hallazgo:semillas_camino": "«Las semillas que se encuentran junto al camino también cuentan de qué campo viene una carga. Si aún conservas alguna, compara su forma cuando vuelvas a pasar.»"
       },
       "day": "Aren pregunta desde dónde se vio una carga antes de registrar el mensaje.",
       "night": "Aren lee junto a la lámpara; las cargas del suelo bajo permanecen cerradas."
@@ -3512,9 +3512,9 @@
       "home_room": "edran_canal_entrada",
       "description": "Nela lleva botas embarradas y una tablilla donde anota cuánto sube el agua. Mantiene una cuerda atada a la escalera.",
       "topics": {
-        "canal": "Este canal llevaba agua a los campos. Ahora usamos la cámara sur para las herramientas. La repisa de las cuñas está al fondo del ramal este; si el agua pasa tus tobillos, vuelve por la cuerda.",
-        "personas": "Hay gente durmiendo detrás de la compuerta. No todos buscan pelea. Pregunta primero; una herramienta perdida no vale una herida.",
-        "materiales": "Sena compra los hallazgos en el lugar de cuidados de Valdren. Las semillas permiten comparar los cultivos; las fibras sirven para pequeños amarres.",
+        "canal": "Me faltan las cuñas de la toma del canal. Guardamos las herramientas en la cámara sur, pero la caja que busco quedó en la repisa del ramal este. Pregunta a Oren, en el refugio, antes de seguir: ha estado aquí abajo. Usa la cuerda de la escalera y vuelve si el agua pasa de tus tobillos. Necesito la caja, no que te pongas en peligro por ella.",
+        "personas": "Detrás de la compuerta hay gente que usa el canal como refugio. Que esté aquí no significa que quiera atacarte. Pregunta primero y escucha lo que te respondan. Si alguien te amenaza, puedes retirarte. Ninguna de mis herramientas vale una herida que podríamos haber evitado.",
+        "materiales": "Si recogiste semillas o fibras por el camino, Sena puede comprarlas en el lugar de cuidados de Valdren. Antes de vender, comprueba si las necesitas para otra cosa. Las semillas sirven para comparar cultivos y las fibras para amarres pequeños. Las cuñas de mi caja, en cambio, deben volver a la toma.",
         "cuerda": {
           "requires_items": {
             "cuerda_recuperada": 1
@@ -3570,7 +3570,7 @@
             "edran_caja_localizada"
           ]
         },
-        "camino": "Perdí el carro en el cruce. Un hombre exige un pago a quien lleva equipaje, pero puedes salir por donde entraste. Si te amenaza, no necesitas quedarte.",
+        "camino": "Perdí el carro en el cruce y acabé durmiendo aquí. Hay un hombre que exige un pago a quien lleva equipaje. No te digo que tengas que pelear con él: puedes volver por donde entraste. Yo sigo intentando decidir cómo salir sin perder también lo poco que me queda.",
         "ayuda": {
           "text": "¿Nela, la del canal? Si tiene trabajo, prefiero eso a seguir aquí abajo. Recojo la manta y voy a hablar con ella.",
           "set_flags": [
@@ -3595,8 +3595,8 @@
       "home_room": "edran_salida_huertos",
       "description": "Lina sostiene la lista contra un poste de la cerca. Aparta una cesta para dejar pasar el carro de los huertos.",
       "topics": {
-        "entrada": "Dime tu nombre y lo anoto junto a quienes llegan hoy. Así sabemos a quién avisar si una carga se retrasa. Entrar no cuesta sellos; basta con presentarte una vez.",
-        "peligro": "Si llegas herido, pide cuidados. Puedo guardar la nota hasta que vuelvas."
+        "entrada": "Bienvenido. Dime tu nombre y lo anoto entre quienes llegan hoy. Si alguien pregunta por ti o se retrasa una carga, sabremos a quién avisar. Entrar no cuesta sellos: sólo necesitas presentarte una vez. Después podrás volver sin contarme toda tu historia en cada visita.",
+        "peligro": "Si vienes herido, busca a Sena en el lugar de cuidados. Puedo esperar a que vuelvas para cualquier nota o presentación. Llegar al pueblo no te obliga a salir otra vez de inmediato. A veces el mejor comienzo de un viaje es sentarse y recuperar fuerzas."
       },
       "memory": {
         "permiso_valdren": "Lina encuentra tu nombre en la lista. «Ya te conozco. Pasa; hoy dejamos libre el borde para los carros.»"

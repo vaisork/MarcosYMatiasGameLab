@@ -970,7 +970,7 @@
         {
           "id": "lethra_recordar_costura",
           "label": "Preguntar quién reparó el paño",
-          "text": "Mira señala la costura corta de su hermana Sola y recuerda una reunión bajo lluvia. Mira pone el dedo sobre dos puntadas torcidas y sonríe al recordar quién las hizo.",
+          "text": "Mira alisa el paño y te muestra dos puntadas torcidas. «Éstas son de Sola. Teníamos la mesa lista y nos faltaba sujetar este borde antes de la lluvia.» Sonríe al pasar un dedo por el hilo. La costura sigue ahí: ahora sabes por qué esa parte del paño le importa.",
           "set_flags": [
             "lethra_costura_recordada"
           ],
@@ -1054,7 +1054,7 @@
         {
           "id": "lethra_elegir_paño",
           "label": "Proponer llevar el paño después de secarlo",
-          "text": "Compruebas las costuras y propones llevar el paño cuando termine de escurrir. La plataforma no quedará ocupada por mesas.",
+          "text": "Revisas las costuras y propones llevar el paño a la cocina cuando termine de escurrir. Así podrá cubrir la mesa sin mojar los cuencos. La plataforma queda libre para secar; todavía hace falta contarle el plan a Nima.",
           "set_flags": [
             "lethra_reunion_pano",
             "lethra_plan_elegido"
@@ -1067,7 +1067,7 @@
         {
           "id": "lethra_elegir_cubierto",
           "label": "Proponer hacer la reunión bajo cubierta",
-          "text": "Recomiendas reunir los cuencos en la cocina cubierta y dejar el paño secándose. No hace falta sostenerlo mojado sobre la comida.",
+          "text": "El paño sigue húmedo. Propones dejarlo en la plataforma y reunir los cuencos bajo la cubierta de la cocina. No habrá que sostener tela mojada sobre la comida. Todavía hace falta contarle a Nima dónde quieres preparar la mesa.",
           "set_flags": [
             "lethra_reunion_cubierta",
             "lethra_plan_elegido"
@@ -1164,8 +1164,8 @@
             "lethra_caldo_servido"
           ],
           "scope": "world",
-          "text": "Colocas cuencos en el lado libre de la mesa. Nima sirve porciones pequeñas y reserva una para la ventana vecina. Su padre prueba primero la que ella le ofrece. No dice nada; Nima sonríe y añade una hoja a su cuenco, sólo al suyo.",
-          "journal": "El caldo se repartió en cuencos pequeños. La porción de la ventana conserva una hoja más."
+          "text": "Pones los cuencos en el lado libre de la mesa. Nima sirve un poco en cada uno y reserva una porción para la ventana vecina. Su padre prueba el caldo y mira la olla sin decir nada. Ella contiene una sonrisa. «La próxima vez elegimos las hojas juntos.» Añade una hoja a su propio cuenco, y acerca la jarra de agua al de él.",
+          "journal": "El caldo se repartió en cuencos pequeños y se reservó una porción para la ventana vecina. Nima añadió una hoja a su propio cuenco."
         }
       ],
       "memories": [
@@ -1566,7 +1566,7 @@
         {
           "id": "lethra_llevar_invitacion",
           "label": "Llevar a Sola la invitación de Mira",
-          "text": "Sola escucha la invitación y la anota junto a su tarea pendiente. Mira podrá preparar un lugar en la cocina sin interpretar la demora como una ausencia inexplicable.",
+          "text": "Sola deja la herramienta sobre un apoyo seco para escuchar la invitación. Anota la hora junto a la unión que aún debe terminar. «Dile a Mira que me guarde sitio. Iré cuando deje esto sujeto.» Después vuelve a la barca; la invitación ya llegó, aunque su trabajo todavía no haya terminado.",
           "set_flags": [
             "lethra_invitacion_llevada"
           ],
@@ -1583,7 +1583,7 @@
         {
           "id": "lethra_atribuir_union",
           "label": "Aclarar qué unión se observó a flote",
-          "text": "Señalas la unión concreta y las condiciones en que se vio entrar agua. Sola compara esa observación con la superficie seca, evitando sellar por error otra pieza de la barca.",
+          "text": "Señalas la unión donde viste entrar agua y cuentas cómo estaba la barca en ese momento. Sola busca esa misma unión en seco. «Aquí puedo empezar», dice. Tu observación no arregla la barca por sí sola, pero le evita gastar resina sobre una pieza distinta.",
           "set_flags": [
             "lethra_union_atribuida"
           ],
@@ -2303,8 +2303,8 @@
       "home_room": "lethra_taller_fibras",
       "description": "Sus dedos trabajan las fibras mientras escucha y se detienen cuando una respuesta importa. Una costura cruza sobre otra más vieja; Mira sigue con el dedo sus puntadas desiguales.",
       "topics": {
-        "paño": "Cada reunión dejó una reparación. La costura corta es de mi hermana, que ya vive en otra ribera.",
-        "hermana": "Sola prometió volver para la comida. No quiero un aviso de peligro; quiero saber si recibió la invitación.",
+        "paño": "Este paño ha estado en muchas comidas. Si se rompe, lo remendamos en vez de tirarlo. ¿Ves esa costura corta y un poco torcida? La hizo mi hermana Sola una tarde de lluvia. Todavía aguanta; cada vez que la veo me acuerdo de ella sentada aquí.",
+        "hermana": "Sola vive en otra ribera y trabaja con las barcas. Prometió venir a comer, pero aún no sé si le llegó la invitación. No quiero que deje una reparación a medias por un susto. Si pasas por el Patio de las barcas, dile que le guardamos sitio en la cocina.",
         "fibras": "La que no sirve para secarse todavía puede servir para trenzar. El agua no arruina todos los trabajos igual.",
         "barquita": {
           "requires_flags": [
@@ -2341,9 +2341,9 @@
       "home_room": "lethra_cuidado_barcas",
       "description": "Su manga derecha conserva una mancha de resina y su trabajo exige cambiar de lado para revisar uniones. Entre dos ajustes pregunta si han abierto ya la cocina.",
       "topics": {
-        "reunion": "Esperaba que alguien trajera la hora acordada. Puedo terminar la unión pendiente y cruzar hacia la cocina.",
-        "mira": "La costura corta del paño es mía. La hice deprisa; todavía se burla de que sea la más resistente.",
-        "barcas": "Lo visto a flote y lo visto en seco tienen que contarse juntos.",
+        "reunion": "Quiero comer con Mira, pero antes debo acabar esta unión de la barca. Si la dejo suelta, otra persona tendrá que arreglarla por mí. Esperaba la hora de la comida para organizarme. Traer la invitación me ayuda más que decirme que corra.",
+        "mira": "La costura corta del paño es mía. Aquella tarde queríamos poner la mesa antes de que lloviera otra vez, así que cosí deprisa. Mira se ríe de las puntadas torcidas. Yo le digo que puede reírse mientras sigan sujetando la tela.",
+        "barcas": "Una unión puede parecer seca aquí y dejar pasar agua cuando la barca flota. Dime qué unión viste y en qué momento. Así reviso esa parte y no gasto resina tapando otra que estaba bien.",
         "barquita": {
           "requires_flags": [
             "lethra_barquita_rescatada"
@@ -2366,8 +2366,8 @@
       "day": "Revisa uniones de embarcaciones inclinadas.",
       "night": "Guarda herramientas y cubre reparaciones pendientes.",
       "memory": {
-        "lethra_invitacion_llevada": "Sola mantiene anotada la hora de reunión; el regreso a la cocina ya tiene destinatarios y no una espera sin explicación.",
-        "lethra_union_atribuida": "Sola conserva la observación atribuida de la unión junto a la revisión en seco, sin confundir toda humedad con fuga.",
+        "lethra_invitacion_llevada": "Sola comprueba la hora que anotó junto a la reparación. «La invitación está aquí. Ahora puedo organizar lo que falta antes de ir.»",
+        "lethra_union_atribuida": "Sola toca la unión que señalaste y busca su nota. «Ya sé qué parte viste a flote. La revisaré aquí en seco antes de gastar resina.»",
         "hallazgo:fibra_junco": "Reconoce lo que llevas: «Fibra de junco. Es de por aquí; mira el suelo cuando vuelvas a pasar.»"
       },
       "schedule": [
@@ -2394,8 +2394,8 @@
       "home_room": "lethra_cocina_reunion",
       "description": "Nima levanta la tapa de una olla y espera a que baje el vapor antes de probar. Tras el primer sorbo frunce el rostro, pero mantiene la cuchara levantada como si todavía pudiera convencerla.",
       "topics": {
-        "caldo": "Mi padre dice que estas hojas siempre amargan. Las puso él. Ahora me toca lograr que también se lo coma.",
-        "mesa": "Mira y Sola discutirán dónde sentarse y acabarán cerca de la misma ventana. Llevo años dejando ese lado libre.",
+        "caldo": "Mi padre echó estas hojas a la olla y ahora dice que amargan. ¡Las eligió él! Voy a servir un poco primero. Si no le gusta, podremos hablar de la receta sin desperdiciar una olla entera. La hoja de mi cuenco la pondré yo.",
+        "mesa": "Mira y Sola siempre discuten quién se sienta junto a la ventana. Después acercan sus sillas y caben las dos. Les dejo ese lado libre, pero necesito saber dónde estarán los cuencos antes de servir. No quiero andar buscando sitio con la olla caliente.",
         "preparativos": {
           "text": "Bien pensado. Apunto dónde van los cuencos, así no los movemos dos veces. Ahora le aviso a Mira para que sepa qué hacemos con el paño.",
           "set_flags": [
