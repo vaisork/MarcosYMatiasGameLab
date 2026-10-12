@@ -105,7 +105,7 @@
         {
           "id": "veyra_recibir_fibra_toldo",
           "label": "Recibir la fibra prestada para el toldo",
-          "text": "Bela te presta un haz de junco para llevar a Seli. No es un regalo del puesto: la fibra corresponde a la reparación del toldo.",
+          "text": "Bela saca un haz del estante de reparaciones y te lo presta para Seli. «Es para sujetar su toldo. Si no lo usáis, devuélvelo entero; otra persona puede necesitarlo.» No es mercancía regalada para vender: llevas material prestado para ese trabajo.",
           "give_items": {
             "junco_prestado_seli": 1
           },
@@ -120,7 +120,7 @@
         {
           "id": "veyra_devolver_fibra_toldo",
           "label": "Devolver a Bela el junco que no usaste",
-          "text": "Bela recibe el haz completo y lo devuelve al estante de reparaciones. Has preparado el toldo sin quedarte el material prestado.",
+          "text": "Entregas a Bela el haz que no gastaste. Ella comprueba que esté completo y lo devuelve al estante de reparaciones. «Preparaste las perchas y no hizo falta usarlo. Mejor tenerlo aquí para el siguiente arreglo.» La fibra prestada ya no ocupa tu mochila.",
           "requires_flags": [
             "encargo_veyra_toldo_perchas"
           ],
@@ -491,7 +491,7 @@
         {
           "id": "veyra_acordar_costura",
           "label": "Ayudar a acordar el desagüe",
-          "text": "Sostienes la pértiga mientras Seli y su vecino fijan el borde del toldo. El agua cae hacia el sitio que acordaron. El paso queda cubierto.",
+          "text": "Sostienes la pértiga mientras Seli y su vecina fijan el borde que se había doblado. Antes de soltarlo, comprueban hacia dónde caerá el agua. Ya no irá hacia el taller de abajo. El paso queda cubierto y Seli baja los brazos para sacudir el cansancio.",
           "set_flags": [
             "veyra_costura_acordada"
           ],
@@ -509,7 +509,7 @@
         {
           "id": "veyra_atar_toldo",
           "label": "Entregar el junco y sujetar el desgarro",
-          "text": "Seli utiliza el junco para sujetar la costura vieja y deja libre el borde por donde sale el agua. La fibra prestada queda trabajando en el toldo.",
+          "text": "Entregas tu fibra de junco para el arreglo. Seli te indica dónde sujetar la costura vieja y comprueba que el borde de desagüe quede abierto. El junco que llevabas queda usado en el toldo; no vuelve a la mochila. Cuando pase agua, Seli podrá revisar por dónde sale.",
           "requires_items": {
             "fibra_junco": 1
           },
@@ -541,7 +541,7 @@
         {
           "id": "veyra_atar_toldo_prestado",
           "label": "Entregar el junco prestado para el toldo",
-          "text": "Seli utiliza el junco para sujetar la costura vieja y deja libre el borde por donde sale el agua. La fibra prestada queda trabajando en el toldo.",
+          "text": "Entregas a Seli el haz que prestó Bela. Sujetáis la costura vieja con ese junco sin cerrar el borde de desagüe. «Ésta era la reparación para la que lo guardaba», dice Seli. La fibra prestada queda usada en el toldo; no hay un haz sin gastar que devolver.",
           "requires_items": {
             "junco_prestado_seli": 1
           },
@@ -1179,7 +1179,7 @@
         {
           "id": "veyra_aclarar_demora",
           "label": "Aclarar la demora de la carga",
-          "text": "Nera comprueba tu noticia y anota la pieza rota junto al nombre de Tov. El envío sigue pendiente, pero ya saben por qué tarda. La caja permanece cerrada.",
+          "text": "Cuentas a Nera lo que te mostró Tov: la carga sigue junto a la puerta y una tabla rota impide moverla con seguridad. Nera anota su nombre y la causa del retraso. «Entonces sigue pendiente de llegar.» La caja permanece cerrada; aclarar la noticia no ha reparado el carro.",
           "set_flags": [
             "veyra_demora_aclarada"
           ],
@@ -1356,7 +1356,7 @@
         {
           "id": "veyra_anotar_demora",
           "label": "Preguntar por la demora de Tov",
-          "text": "Tov te muestra la tabla rota que separa las cargas y te dice quién espera el envío. Ya puedes explicar la demora en el archivo.",
+          "text": "Tov señala la tabla rota entre las piedras. «Las separaba para que no se movieran juntas. Tengo que poner otra antes de bajar.» Te dice que Nera espera el envío en el archivo. Ya puedes explicar quién se retrasa y por qué, sin contar que la carga desapareció.",
           "set_flags": [
             "veyra_demora_conocida"
           ],
@@ -1980,9 +1980,9 @@
       "home_room": "veyra_archivo_cargas",
       "description": "Tiene los puños manchados de tinta y una uña rota de levantar cajas. Antes de mirar una firma pregunta de qué camino procede.",
       "topics": {
-        "cargas": "Una carga detenida todavía puede llegar. Antes de llamar pérdida a algo, quiero saber quién lo esperaba.",
-        "ciudad": "Los estantes son nuestros. Las piedras no nos han contado quién las puso.",
-        "rutas": "Un mensaje sin procedencia puede asustar a cinco caminos a la vez.",
+        "cargas": "En esta lista apunto lo que espera llegar. Si un carro tarda, necesito saber quién lo lleva y qué le ocurrió. Escribir «perdido» demasiado pronto haría que alguien dejara de esperar su pedido. Prefiero una noticia incompleta pero cierta a una explicación que nadie ha comprobado.",
+        "ciudad": "Guardamos las listas de ahora en estos estantes. Sobre quienes levantaron las piedras antiguas sabemos mucho menos. No te voy a dar un nombre sólo porque encaje con una historia bonita.",
+        "rutas": "Desde aquí salen recados hacia cinco caminos. Si copio una noticia sin saber de dónde viene, puedo asustar a personas que ni siquiera pasan por ese lugar. Siempre pregunto quién vio el problema y dónde.",
         "aviso_preciso": {
           "requires_flags": [
             "encargo_veyra_demora_conocida"
@@ -2069,8 +2069,8 @@
       "home_room": "veyra_puerta_piedra",
       "description": "Trabaja desde el nivel de los separadores y lleva una tabla de repuesto atada al carro, fuera de la carga. Su voz no intenta competir con las ruedas.",
       "topics": {
-        "carga": "No faltan piedras. Falta sujetarlas bien antes de cruzar el terraplén.",
-        "demora": "Me esperan en el archivo. Si llega antes una historia de robo, tendré que reparar también esa historia.",
+        "carga": "Las piedras siguen en el carro. Se rompió una tabla que las mantenía separadas, y ahora debo colocarlas y sujetarlas otra vez. No voy a bajar por el terraplén mientras puedan deslizarse. Prefiero llegar tarde a dejar caer la carga en el camino.",
+        "demora": "Nera me espera en el archivo. Me preocupa que alguien vea el carro parado y diga que me robaron. Entonces ella buscaría una carga que tengo aquí delante. Sólo necesito que sepa por qué voy a tardar.",
         "brumak": "Allí una puerta demasiado grande desperdicia sombra. Aquí me toca recordar a todos que una carga baja también ocupa espacio.",
         "aviso": {
           "text": "Nadie me ha robado nada. La carga está entera, mírala. Se rompió un separador, esta tabla de aquí, y tengo que volver a colocar las piedras antes de entrar. Dile a Nera que llegaré tarde, no que he perdido la carga.",
@@ -2118,19 +2118,19 @@
       "home_room": "veyra_calle_toldos",
       "description": "Una cinta de cuero mantiene apartadas las mangas mientras cose. Su bolsa separa hilo seco de trapos que ya recogieron agua.",
       "topics": {
-        "toldos": "La tela pertenece a dos fachadas; el agua siempre encuentra una tercera.",
-        "vecinos": "No quiero que cierren el taller de abajo por un desagüe que podemos corregir juntos.",
+        "toldos": "Este toldo une dos fachadas. Cuando su borde se dobla, el agua cae hacia el taller de abajo. La vecina y yo podemos enderezarlo, pero una de las dos necesita que alguien sostenga la pértiga mientras trabaja.",
+        "vecinos": "Quien trabaja abajo no puede dejar sus herramientas bajo la lluvia. No quiero que cierre el taller por este borde suelto. Si nos ponemos de acuerdo sobre dónde dejar salir el agua, el arreglo le sirve a ella y también a quienes pasan.",
         "narevia": "En casa aprendí a dejar pasar el agua antes de pensar en detenerla.",
-        "reparación": "Primero mira la costura vieja. Si llevas el junco de Bela, puedes sujetar el desgarro sin cerrar el desagüe. También puedes revisar las perchas y dejar el trabajo preparado para que yo termine."
+        "reparación": "Mira primero la costura vieja para encontrar el desgarro. Puedes sujetarlo con junco sin tapar la salida del agua. Bela presta un haz en el mercado, un paso al oeste. Si prefieres no gastar fibra, ayúdame a preparar las perchas y marcar dónde debo coser; yo terminaré la sujeción."
       },
       "day": "Ajusta costuras compartidas.",
       "night": "Guarda hilo seco y revisa los apoyos desde las puertas.",
       "memory": {
         "veyra_costura_acordada": "Seli muestra el borde corregido: el taller sigue abierto y el agua vuelve a la calle.",
         "hallazgo:cuerda_recuperada": "Reconoce lo que llevas: «Trozo de cuerda. Es de por aquí; mira el suelo cuando vuelvas a pasar.»",
-        "encargo_veyra_toldo_junco": "Seli señala el amarre de junco que colocaste: sujeta la unión sin tapar el agua.",
-        "encargo_veyra_toldo_perchas": "Seli conserva las marcas que preparaste en las perchas; no ha tenido que adivinar dónde empezaba el desgarro.",
-        "encargo_pagado:vaisgard_toldo": "Seli prueba el borde que ayudaste a sostener. «Puedo recoger la pértiga. El agua tiene salida hacia la calle.»"
+        "encargo_veyra_toldo_junco": "Seli toca el amarre que colocaste sin tirar de él. «El junco está sujeto y este borde queda libre para el agua. Lo revisaré cuando llueva.»",
+        "encargo_veyra_toldo_perchas": "Seli encuentra las marcas junto al desgarro. «Preparaste las perchas. Me toca terminar el amarre, pero ya no tengo que buscar dónde empezaba la rotura.»",
+        "encargo_pagado:vaisgard_toldo": "Seli guarda la cuenta de tu ayuda. «Ya te pagué. Ahora seguiré con lo que falta y revisaré por dónde sale el agua cuando pase. No quiero que el taller de abajo vuelva a mojarse.»"
       },
       "states": [
         {
@@ -2163,9 +2163,9 @@
       "home_room": "veyra_patio_senales",
       "description": "Lleva fundas distintas para hojas urgentes y recados ordinarios. Se detiene para escuchar una respuesta completa antes de repetirla.",
       "topics": {
-        "mensajes": "No conocer el camino de una noticia es peor que tardar en llevarla.",
+        "mensajes": "A veces me dan un recado y se marchan antes de responderme. Yo necesito saber quién vio lo que cuentan y dónde ocurrió. Si llevo «la carga desapareció» cuando sólo está esperando, hago que otras personas busquen en vano. Puedo tardar un poco más en escuchar.",
         "velmora": "Las marcas del bosque ayudan si sabes quién las mantiene. Copiar una marca no te entrega ese conocimiento.",
-        "espera": "Una persona que se va antes de escuchar puede entregar las palabras y perder su sentido.",
+        "espera": "Si alguien dice «todavía no llega», espero a oír el resto. Quizá la rueda esté rota o quizá la persona venga mañana. Son las mismas primeras palabras, pero no llevan el mismo recado.",
         "hueco": {
           "requires_flags": [
             "veyra_piedra_hueco"

@@ -1756,7 +1756,7 @@
         {
           "id": "hoshai_comunicar_nudo",
           "label": "Comunicar la observación a Iria",
-          "text": "Iria atribuye la observación al mirador y pide a su compañero que compare la unión desde arriba. La tablilla deja de tratar todo el apoyo como una pieza sin revisar.",
+          "text": "Explicas a Iria qué vuelta viste rozada desde el mirador. Ella busca el dibujo del apoyo y marca esa parte. «Desde aquí no podía verla. Le pediré a mi compañero que compare la unión de arriba.» La tablilla distingue ahora la observación del tramo que falta revisar; no declara seguro todo el paso.",
           "set_flags": [
             "hoshai_nudo_comunicado"
           ],
@@ -2237,7 +2237,7 @@
         {
           "id": "hoshai_recoger_polea",
           "label": "Recoger la polea acordada",
-          "text": "Guardas la polea y la tablilla de Seran para devolver ambas al taller.",
+          "text": "Reconoces la polea por la marca del taller y la guardas con la tablilla de Seran. Llevarás una herramienta y una explicación: Daren podrá revisar la pieza sin olvidar que alguien reclama el transporte. El acuerdo te permite recogerla sin volver a discutir junto a las cajas.",
           "requires_flags": [
             "hoshai_polea_acordada"
           ],
@@ -2349,9 +2349,9 @@
       "home_room": "hoshai_caseta_revision",
       "description": "Pelo gris corto, una manga cosida y un cuaderno que distingue lo observado de lo esperado. Se detiene junto a la pared y abre el cuaderno sobre la rodilla.",
       "topics": {
-        "nudo": "Desde aquí falta una parte. Quien ha mirado desde abajo puede completar la revisión.",
-        "cargas": "Un apoyo que sirve a mis pies puede no servir a una rueda. Lo revisamos por usos, no por orgullo.",
-        "hitos": "Los del borde llevan una marca de revisión. Sigue las piedras gastadas del camino: desde la tablilla se ve la siguiente.",
+        "nudo": "Desde esta caseta veo la parte alta del apoyo, pero la vuelta de abajo queda tapada. En el mirador del nudo podrás verla desde otro ángulo. Si observas un roce, dime exactamente dónde. Prefiero juntar dos observaciones pequeñas antes que escribir que toda la cuerda es segura sin haberla visto.",
+        "cargas": "Mis pies y una rueda no pesan ni se apoyan igual. Por eso revisamos para qué se usa cada paso. Un sendero cómodo para alguien sin equipaje puede ser malo para quien lleva una caja grande. Aquí los apoyos se comprueban pensando en la persona que viene después, no sólo en quien logra cruzar primero.",
+        "hitos": "Las piedras gastadas te muestran por dónde pasa la gente. Las del borde llevan marcas de revisión, para recordar qué apoyo miramos y cuál falta. Desde la tablilla puedes reconocer la siguiente. Si la niebla tapa el resto, conserva esa referencia cercana en vez de adivinar toda la ladera.",
         "marcas": {
           "requires_flags": [
             "pista_marcas_cresta"
@@ -2382,7 +2382,7 @@
       "memory": {
         "hoshai_nudo_comunicado": "Iria reconoce la observación atribuida del mirador y mantiene separado el tramo que exige revisión.",
         "hoshai_revision_acordada": "Iria muestra la tablilla corregida: ya no se aconseja usar la unión desgastada mientras esperan repararla.",
-        "hallazgo:resina_pino": "Reconoce lo que llevas: «Resina de pino. Es de por aquí; mira el suelo cuando vuelvas a pasar.»"
+        "hallazgo:resina_pino": "«La resina se queda pegada a los pinos aunque el viento mueva las ramas. Si guardaste la que encontraste, puede servir para una unión pequeña.»"
       },
       "schedule": [
         "día"
@@ -2396,16 +2396,16 @@
       "home_room": "hoshai_taller_apoyos",
       "description": "Su banco tiene dos alturas. Los filos de sus herramientas guardan serrín y polvo de peldaños; pregunta de qué lado llegó la carga.",
       "topics": {
-        "rampa": "Construir para quien no salta también mejora el paso de quienes transportan cosas.",
-        "canal": "La reparación dura poco si dejamos que el agua vuelva al centro del peldaño.",
-        "khariel": "Vine por un trabajo breve. Sigo aquí porque cada invierno enseña otro.",
-        "polea": "Una polea del taller llegó al campamento de lona azul. Desde la plaza, baja dos tramos y toma el desvío occidental. Habla con Seran antes de tocar las cajas; puede haber una cuenta pendiente."
+        "rampa": "Alguien dijo que no necesitábamos rampa porque aquí sabemos saltar. Pero ¿cómo saltas sujetando una caja o acompañando a quien tiene una pierna herida? Construir un paso para esas personas también nos ayuda a transportar cosas. No todos los viajes se hacen con las manos libres.",
+        "canal": "Si el agua vuelve al centro del peldaño, otra reparación durará poco. Hay que mirar por dónde baja, no sólo poner una piedra nueva encima. El barro que queda después de la lluvia nos ayuda a seguir su camino. Una escalera cuidada empieza antes del primer escalón.",
+        "khariel": "Vine a arreglar un apoyo y pensé quedarme unos días. Luego vi lo que cambiaba con el invierno: el agua, las cargas y las personas que necesitaban pasar. Sigo aquí porque cada estación nos deja otro trabajo. Ya no conozco sólo las piedras; también conozco a quienes las usan.",
+        "polea": "La polea que falta pertenece a este taller. Llegó al campamento de lona azul con unas cajas, y Seran dice que aún le deben el transporte. Desde la plaza baja dos tramos y toma el desvío occidental. Habla con él antes de tocar las cajas. Necesito recuperar la herramienta, pero también saber qué reclama; devolver una cosa no resuelve por sí solo la otra."
       },
       "day": "Repara piezas de apoyo para caminos y viviendas.",
       "night": "Prepara trabajos que puedan continuarse sin ruido al amanecer.",
       "memory": {
         "hoshai_canal_registrado": "Daren recuerda el barro señalado en el canal y añadió su revisión a la pieza del peldaño.",
-        "hallazgo:resina_pino": "Reconoce lo que llevas: «Resina de pino. Es de por aquí; mira el suelo cuando vuelvas a pasar.»",
+        "hallazgo:resina_pino": "«La resina se queda pegada a los pinos aunque el viento mueva las ramas. Si guardaste la que encontraste, puede servir para una unión pequeña.»",
         "hoshai_polea_devuelta": "La polea que trajiste vuelve a levantar cargas en el taller. Daren conserva la tablilla para revisar la cuenta con Seran.",
         "encargo_pagado:khariel_polea": "Daren toca la polea devuelta. «La pieza gira; tengo la tablilla de Seran junto al dibujo para comparar la cuenta.»",
         "hoshai_polea_por_fuerza": "Daren comprueba si tienes heridas antes de revisar la pieza. «La polea está aquí; la cuenta de transporte sigue sin resolverse. La próxima vez, intenta hablar antes.»"
@@ -2437,11 +2437,11 @@
         "hoshai_yesa_lista"
       ],
       "topics": {
-        "viaje": "Pensé que podría llevar los dos paquetes sin parar. El pequeño me ha obligado a sentarme más veces que el grande. Mi hijo decía que ése pesaría poco.",
-        "cinta": "El segundo bulto está en la estación del cordel. La cinta es para acordarme; ahora sólo consigo mirar el dedo y olvidarme de descansar."
+        "viaje": "Pensé que podía cargar los dos paquetes de una vez. El grande apoya bien en el brazo; el pequeño se mueve y me obliga a parar. Mi hijo decía que ése pesaría poco. Cuando vuelva le contaré que llevar algo no depende sólo de cuánto pesa, también de cómo puedes sujetarlo.",
+        "cinta": "Dejé el segundo bulto en la estación del cordel. Me até esta cinta para acordarme de él, pero ahora miro el dedo y me olvido de descansar. Tendré que hacer el viaje por partes. No he perdido el paquete: lo que me falta es recuperar fuerzas para buscarlo."
       },
       "memory": {
-        "hallazgo:resina_pino": "Reconoce lo que llevas: «Resina de pino. Es de por aquí; mira el suelo cuando vuelvas a pasar.»"
+        "hallazgo:resina_pino": "«La resina se queda pegada a los pinos aunque el viento mueva las ramas. Si guardaste la que encontraste, puede servir para una unión pequeña.»"
       }
     },
     "hoshai_luma": {
@@ -2452,8 +2452,8 @@
       "role": "comerciante de camino",
       "description": "Luma distingue las cargas por sus ataduras. Deja arcos y puñales junto al muro protegido del viento; la resina y las cuerdas esperan cerca de las barras de prueba.",
       "topics": {
-        "comprar": "Aquí priorizamos arcos y puñales de camino, provisiones y materiales para fijar apoyos: resina, cuerda y piedra veteada. Para comparar todas las armas, el mercado de Vaisgard recibe las cinco rutas.",
-        "vender": "La mochila muestra únicamente los materiales que necesita este puesto y el precio antes de vender. Conserva lo que vayas a usar en un encargo o en el afinado.",
+        "comprar": "Para estos caminos traigo arcos, puñales y comida de viaje. También compro resina, cuerda y piedra veteada para trabajos pequeños. Mira cada precio antes de elegir; una mochila llena no siempre ayuda a caminar. Si quieres comparar más armas, el mercado de Vaisgard recibe mercancía de las cinco rutas.",
+        "vender": "Muéstrame lo que llevas y verás qué materiales necesita este puesto y cuánto pago. No tienes que vender toda la mochila. Guarda lo que pueda servirte para un encargo o para afinar un arma. Prefiero que salgamos de un trato sabiendo qué conserva cada uno.",
         "cornisa": {
           "text": "Así que la viste con tus propios ojos. Eso me sirve más que lo que se oye en la plaza. Las cargas grandes seguirán por el camino principal; para lo demás, haré caso a tu nota.",
           "set_flags": [
@@ -2583,7 +2583,7 @@
       "home_room": "hoshai_sala_cuidados",
       "description": "Ena recibe a quienes llegan con golpes de las pendientes y comprueba el apoyo antes de ayudarles a sentarse.",
       "topics": {
-        "atención": "La recuperación cuesta dieciocho sellos: atendemos un grado de herida, quitamos la fatiga y recuperamos vitalidad hasta el noventa por ciento. Después vuelves a disponer de margen para descansar. No necesitas comprar un arma ni ganar una pelea para pedir cuidados.",
+        "atención": "En las cuestas se nota mucho cuando una pierna deja de responder bien. Aquí podemos atenderte antes de que intentes otro viaje. Por dieciocho sellos atendemos un grado de herida, quitamos la fatiga y recuperamos vitalidad hasta el noventa por ciento. Después vuelves a disponer de margen para descansar. Tú decides cuándo pedir el servicio.",
         "salida": "Puedes volver por la misma puerta. Si no puedes pagar ahora, descansa lo que permita tu estado y evita entrar otra vez en peligro; una retirada no borra tu progreso.",
         "descansar": "Descansar requiere un lugar seguro y usa un margen limitado. La provisión ayuda a recuperar fuerzas; los cuidados sirven para las heridas y para renovar ese margen. Mira tu estado antes de gastar."
       },

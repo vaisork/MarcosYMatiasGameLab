@@ -65,3 +65,15 @@ Los otros dos scripts recuperados (`narrative-klv-journey.py` y
 servidor HTTP externo y el segundo de un snapshot histórico local que no es
 la base actual. Sus objetivos se cubren con los recorridos aislados y la
 comparación estructural de campos, sin incorporar esos supuestos antiguos.
+
+## Diálogos y acciones de seis regiones
+
+Se recuperan 116 textos de tópicos, recuerdos y acciones, únicamente donde main
+conservaba exactamente la base histórica. Las listas de acciones se reconciliaron
+por ID y no se sustituyeron completas. Ninguna guarda, ID, salida, inventario,
+recompensa ni orden de acciones cambia, comprobado por comparación estructural.
+
+Dos adaptaciones explícitas: el aro del recipiente de Elin queda vacío y la tabla
+continúa sosteniendo el juguete del secadero; no se atribuye al aro ese apoyo.
+La acción de Taren evita introducir un pronombre de género no necesario. Las
+divergencias más recientes de main se conservan.

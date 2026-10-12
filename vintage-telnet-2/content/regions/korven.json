@@ -1496,7 +1496,7 @@
         {
           "id": "korven_separar_muestras",
           "label": "Separar muestras según su hallazgo",
-          "text": "Taren coloca la pieza húmeda sobre otra estera y registra de dónde procede. La pareja seca vuelve a poder compararse sin que una mancha reciente se atribuya por error al horno.",
+          "text": "Taren te deja libre una esquina de la mesa. Separas la pieza mojada de la pareja seca y anota dónde encontró cada una. «Esta mancha llegó con la lluvia», dice, tocando el borde húmedo. Ahora puede comparar lo que hizo el horno sin confundirlo con lo que pasó después.",
           "set_flags": [
             "korven_muestras_separadas"
           ],
@@ -1511,7 +1511,7 @@
         {
           "id": "korven_describir_error",
           "label": "Describir el espesor desigual",
-          "text": "Miras el borde torcido sin moverlo de su apoyo y comparas la parte más delgada. Taren acerca ambas muestras a la misma luz, dibuja el espesor y deja la nota junto al recipiente para continuar su trabajo.",
+          "text": "Sin levantar el recipiente torcido, señalas el lado donde la pared se vuelve más fina. Taren acerca las dos muestras a la misma luz y dibuja ese borde. «Aquí miraré cuando haga la siguiente», dice. Sujeta la nota con una piedra para que no se pierda entre las esteras.",
           "set_flags": [
             "korven_error_descrito"
           ],
@@ -1536,7 +1536,7 @@
             "korven_taza_probada"
           ],
           "scope": "world",
-          "text": "Apartas del asiento la cubierta que ocupa el lado seco. Taren coloca la taza grande y trae agua para comprobar el asa. La sostiene con las dos manos y deja escapar una risa: «Mejor se la doy a mi hermano. Siempre dice que le sirvo poco».",
+          "text": "Apartas la cubierta del lado seco del asiento. Taren pone allí la taza grande, trae agua y prueba el asa con las dos manos. Mira todo lo que cabe y se ríe. «Mejor se la doy a mi hermano. Siempre dice que le sirvo poco.» Para la taza de su madre tendrá que empezar otra prueba; ésta ya tiene destinatario.",
           "journal": "Taren probó el asa en el asiento seco y decidió para quién será la taza grande."
         },
         {
@@ -2127,7 +2127,7 @@
         {
           "id": "korven_devolver_placa",
           "label": "Entregar la placa a Ruma",
-          "text": "Ruma prueba la placa en la balanza y te entrega una provisión. Anota tu nombre junto a la marca de la pieza. «Ahora podré comparar los sacos pequeños.»",
+          "text": "Ruma limpia el polvo de las tres muescas y encaja la placa en la balanza. Prueba el apoyo antes de acercar un saco pequeño. «Era ésta. Ya no tendré que calcular el peso a ojo.» Anota tu nombre junto a la marca de la pieza y te entrega una provisión para el camino.",
           "requires_items": {
             "placa_balanza": 1
           },
@@ -2429,9 +2429,9 @@
       "home_room": "korven_registro_cauce",
       "description": "Guarda una pequeña vara con marcas de comparación y una funda distinta para notas escritas bajo lluvia. Pregunta por condiciones antes de escuchar conclusiones.",
       "topics": {
-        "bloques": "Una cara limpia importa si recuerdas dónde estaba. Si llovió, necesito otra comparación.",
+        "bloques": "Me importa saber qué bloque cambió, no sólo que viste una piedra limpia. Busca el hueco que dejó en el polvo y dime si había llovido. Así puedo señalar el apoyo que necesita revisión sin hacer que todos abandonen el camino.",
         "vibracion": "Las cargas también mueven recipientes. Primero miro qué pasó por el camino.",
-        "avisos": "Cerrar todo el cauce por una frase vaga obliga a otras personas a buscar apoyos peores.",
+        "avisos": "Hay personas que llevan cargas por este cauce. Si les digo que todo es peligroso sin haberlo comprobado, buscarán otro paso que quizá sea peor. Prefiero escribir dónde vimos el cambio y qué falta revisar.",
         "grieta": {
           "requires_flags": [
             "pista_losa_abierta"
@@ -2458,10 +2458,10 @@
       "home_room": "korven_entrante_piezas",
       "description": "Separa muestras por lugar y condición de hallazgo. Lleva una estera remendada porque no quiere fabricar otra pieza antes de entender la que falló.",
       "topics": {
-        "horno": "No sé por qué cesó todo su trabajo. Sí puedo comparar este borde con el recipiente que quedó torcido.",
+        "horno": "No sé por qué dejaron de trabajar en este horno. No quiero inventar una desgracia sólo porque esté vacío. El recipiente torcido sí está aquí: puedo mirar qué lado quedó más fino y aprender algo antes de cocer mi próxima taza.",
         "muestras": "Una mancha de lluvia no es el mismo color que dejó una cocción.",
-        "brumak": "Un objeto pequeño merece una revisión grande si muchas casas confían en él.",
-        "pieza": "Esta taza iba a ser para mi madre. La primera era pequeña; la segunda quedó enorme. Si hago una tercera, terminará bebiendo directamente del horno.",
+        "brumak": "En casa, una taza pasa de mano en mano durante años. Por eso me tomo tiempo con una pieza tan pequeña. Si el asa incomoda, alguien acabará sujetándola por el borde, aunque nunca venga a quejarse.",
+        "pieza": "Quería regalarle una taza a mi madre. La primera casi no admitía agua; con la segunda me pasé tanto que ahora tengo que levantarla con las dos manos. Me hace gracia, pero no quiero que ella tenga que esforzarse cada vez que beba. Antes de hacer otra, voy a comparar el borde y la base.",
         "materiales": "Acepto piedras veteadas para comparar muestras y ramas flexibles para los soportes de recipientes. Las armas las revisa Beran, en el taller del pueblo.",
         "medidas": {
           "text": "Mira estas dos marcas: la de la izquierda es la mano de mi madre; la de la derecha, la taza grande. El aro pequeño le queda bien a la mano, eso no lo cambio. Lo que dudo es la base: más ligera, para que pese menos, o más ancha, para que no se vuelque. Mira el recipiente torcido del horno y decide tú.",
@@ -2499,7 +2499,7 @@
         "hallazgo:piedra_veteada": "Reconoce lo que llevas: «Piedra veteada. Es de por aquí; mira el suelo cuando vuelvas a pasar.»",
         "encargo_korven_taza_aro": "Taren conserva tu marca de una base más ligera y un aro pequeño.",
         "encargo_korven_taza_base": "Taren prueba la estabilidad de la base que recomendaste antes de cocer otra taza.",
-        "encargo_pagado:brumak_taza": "Taren alinea la arcilla con tu marca. «Empiezo por esta prueba; el borde del horno sigue en las muestras.»"
+        "encargo_pagado:brumak_taza": "Taren deja tu marca junto a la arcilla. «Tu ayuda está pagada, pero la taza aún necesita una prueba. Quiero comprobar que se pueda sostener antes de entregarla.»"
       },
       "schedule": [
         "día"
@@ -2564,7 +2564,7 @@
       "topics": {
         "almacén": "Aquí guardábamos las cargas de paso. La balanza de la cámara occidental usa una placa de tres muescas. El corredor sur llega al depósito y el pasillo lateral permite rodear el cruce.",
         "balanza": {
-          "text": "La placa se reconoce por tres muescas. El depósito queda al sur del cruce; las balanzas, junto a la puerta occidental. Al volver puedo comparar la pieza contigo.",
+          "text": "Me falta la placa de tres muescas de la balanza. Sin ella no puedo comprobar las cargas pequeñas; no quiero cobrar por un peso que sólo he calculado a ojo. El depósito está al sur del cruce y la balanza junto a la puerta occidental. Si encuentras la placa, tráela y veremos si encaja.",
           "set_flags": [
             "korven_placa_encargada"
           ]
@@ -2573,7 +2573,7 @@
         "materiales": "Compro piedras para muestras, cuerda y junco para sujetar cargas. La mochila muestra el precio de lo que acepto; las piezas prestadas no están en venta."
       },
       "memory": {
-        "korven_placa_devuelta": "Ruma te muestra la balanza montada. «La placa que trajiste encaja; ahora puedo comprobar las cargas pequeñas.»"
+        "korven_placa_devuelta": "Ruma te muestra las tres muescas en la balanza. «La placa que trajiste encajó. Ya puedo pesar estos sacos pequeños sin calcular a ojo.»"
       },
       "day": "Ruma revisa un cierre doblado y aparta las piedras sueltas antes de dejarte pasar.",
       "night": "Ruma revisa un cierre doblado y aparta las piedras sueltas antes de dejarte pasar.",
