@@ -47,7 +47,10 @@ class NarrativeResultTests(unittest.TestCase):
  def test_absent_speaker_and_unknown_human_do_not_create_dialogue(self):
   quest=self.content.quests['valdren_recado_forja'];quest['accept_dialogue']='Ven, te explicaré el trabajo.'
   self.content.npcs['edran_daro']['home_room']='valdren_plaza'
-  self.act('aceptar','valdren_recado_forja')
+  import copy
+  before=copy.deepcopy(self.s)
+  with self.assertRaises(RuleError):self.act('aceptar','valdren_recado_forja')
+  self.assertEqual(self.s,before)
   self.assertFalse(any(line['kind']=='npc' for line in self.s['events']))
   self.assertNotIn('Ven, te explicaré',str(self.s['events']))
   with self.assertRaises(RuleError):self.act('hablar_adversario','forajido_camino',topic='exigencia')

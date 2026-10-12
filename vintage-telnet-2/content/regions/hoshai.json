@@ -2198,7 +2198,12 @@
             "qué quieres": "Que me paguen el transporte. Mientras no me paguen, la polea se queda conmigo.",
             "por qué": "Subí estas cajas hasta aquí y nadie me pagó. No soy un ladrón: es lo único que tengo para que me escuchen.",
             "dejar paso": "La terraza está libre. Si quieres arreglarlo hablando, habla conmigo, no con mi palo."
-          }
+          },
+          "name": "Seran",
+          "description": "Seran se coloca delante de las cajas bajo la lona azul. Guarda la polea del taller con una cuenta del transporte. No habla de comprar tu equipaje: reclama lo que dice que le deben por traer esa carga. El palo corto mantiene lejos a quien intenta recogerla sin escucharlo.",
+          "warning": "Seran alza el palo junto a las cajas. Puedes escuchar su reclamación o volver hacia la terraza. Recuperar la polea no te obliga a decidir la cuenta por la fuerza.",
+          "combat_intro": "Seran adelanta el palo y se planta delante de las cajas. «¡No sacarás la polea sin que Daren sepa lo que pasó con el transporte!» El desacuerdo deja paso al combate. Las cajas siguen bajo la lona; la cuenta continúa pendiente aunque decidas enfrentarte a él.",
+          "defeat_text": "Seran baja el palo y se aparta de las cajas. Ya puedes acercarte a la carga, pero la polea todavía está allí. La cuenta del transporte sigue pendiente; recuperar una herramienta no explica por sí solo quién debe pagarla."
         }
       },
       "wildlife_pool": [
@@ -2411,7 +2416,7 @@
           ],
           "overrides": {
             "topics": {
-              "polea": "La polea que devolviste gira otra vez en el taller. La entrega quedó anotada; que la pieza haya vuelto no salda por sí solo la cuenta del transporte."
+              "polea": "La polea que devolviste gira otra vez en el taller. Ya no está esperando bajo la lona del campamento. Guardé la tablilla de Seran junto al dibujo para revisar el transporte: devolver la herramienta no salda esa cuenta. Me alegra tener la pieza y la explicación; si hubiera vuelto una sola, faltaría la otra mitad."
             }
           }
         }

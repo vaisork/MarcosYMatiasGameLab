@@ -3352,7 +3352,7 @@
           ],
           "overrides": {
             "topics": {
-              "trabajo": "La medida que trajiste de Bren está junto a la abrazadera. Ahora puedo ajustar la pieza con esa referencia, sin añadir hierro por añadirlo."
+              "trabajo": "La medida que trajiste de Bren está junto a la abrazadera. Ya puedo comparar dónde cede el carro con la pieza que tengo aquí. Gracias por volver con una respuesta concreta. A veces un recado bien hecho ahorra más hierro que una mañana entera de golpes."
             }
           }
         }
@@ -3387,7 +3387,7 @@
           ],
           "overrides": {
             "topics": {
-              "tablilla": "Los dos cuencos ya tienen los nombres de quienes los dejaron y recogieron. La tablilla está junto a la cuenta de Elva; ya puedo distinguir lo prestado de lo recibido."
+              "tablilla": "Los dos cuencos ya tienen nombre. La tablilla está junto a la cuenta de Elva, así que puedo distinguir quién dejó las semillas y quién recibió el préstamo. Ahora, cuando venga alguien a recogerlas, no tendré que adivinar por el color de la madera."
             }
           }
         }
@@ -3550,7 +3550,7 @@
           ],
           "overrides": {
             "topics": {
-              "canal": "Las cuñas que devolviste están junto a la toma. Ya no necesitas buscar esa caja en la repisa. Si vuelves al canal, usa la cuerda de la escalera y deja libre el escalón del refugio."
+              "canal": "Las cuñas que devolviste están junto a la toma. Ya no necesitas buscar esa caja en la repisa; podemos preparar la reparación sin pedirlas prestadas. Si vuelves al canal, conserva la cuerda de la escalera como referencia y deja libre el escalón del refugio. Otras personas también necesitan entrar y salir."
             }
           }
         }
@@ -3610,7 +3610,7 @@
           ],
           "overrides": {
             "topics": {
-              "entrada": "Tu nombre ya está en la lista. Pasa; hoy dejamos libre el borde para los carros."
+              "entrada": "Tu nombre ya está en la lista. Puedes pasar; no hace falta volver a presentarte. Hoy dejamos libre el borde para los carros. Si buscas a alguien, escucha primero en la plaza: casi siempre una carga llega con noticias de otra casa."
             }
           }
         }
