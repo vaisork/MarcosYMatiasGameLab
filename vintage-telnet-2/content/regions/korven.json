@@ -1419,7 +1419,7 @@
         {
           "id": "korven_recomendar_aro",
           "label": "Recomendar una base más ligera",
-          "text": "Comparas el recipiente torcido con las medidas: lo que más pesa es la base, demasiado gruesa. Marcas una base más fina y dejas el aro como está, a la medida de la mano de la madre de Taren.",
+          "text": "Comparas el recipiente torcido con las medidas: lo que más pesa es la base, demasiado gruesa. Marcas una base más fina y dejas el aro como está, a la medida de la mano de la madre de Taren. La marca es una propuesta para la próxima prueba; Taren todavía debe comprobar el peso y el agarre.",
           "requires_flags": [
             "encargo_korven_taza_medida"
           ],
@@ -1434,7 +1434,7 @@
         {
           "id": "korven_recomendar_base",
           "label": "Recomendar una base más estable",
-          "text": "Comparas el recipiente torcido con las medidas: se inclina porque la base es estrecha. Marcas una base un poco más ancha y dejas el aro pequeño. La taza pesará algo más, pero no se volcará.",
+          "text": "Comparas el recipiente torcido con las medidas: se inclina porque la base es estrecha. Marcas una base un poco más ancha y dejas el aro pequeño. La marca propone darle más apoyo; Taren todavía debe comprobar cuánto pesa y cómo se sostiene antes de darla por buena.",
           "requires_flags": [
             "encargo_korven_taza_medida"
           ],

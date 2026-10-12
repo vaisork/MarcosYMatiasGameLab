@@ -85,3 +85,7 @@ el cierre del toldo no debe afirmar que se reparó después de preparar sólo la
 perchas. Se rescatan entrega y pago, y se adapta la indicación de cierre conservando
 su ubicación actual. La aceptación, flags, opciones, inventario y pago siguen iguales.
 La colaboración vecinal no introduce un género que contradiga la petición actual.
+
+## Reconciliación final de divergencias
+
+Las 64 unidades textuales pendientes quedan evaluadas en [el registro por campo](RECONCILIACION_DIVERGENCIAS_20261012.md): cuatro intenciones adaptadas y 60 versiones actuales conservadas con evidencia. Los originales se mantienen protegidos. Esto cierra esas divergencias; no declara publicados los 78 commits históricos ni todos los recursos de producción.
