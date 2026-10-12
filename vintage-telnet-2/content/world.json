@@ -2079,9 +2079,9 @@
       "accept_text": "Seli tiene un toldo rasgado que moja la puerta del taller de abajo. Examina la costura en la calle de los toldos. Luego elige: llevarle un haz de junco (Bela, en el mercado al oeste, presta uno) para atar el desgarro, o sujetar las perchas para que Seli lo termine. El encargo se entrega aquí mismo, a Seli.",
       "source": "Ampliación original autorizada: trabajo local con pago único anunciado",
       "accept_dialogue": "El toldo que comparto con mi vecino se ha rasgado por una costura vieja. Cuando llueve, el agua cae justo en la puerta del taller de abajo, y ya hablan de cerrarlo. No hace falta: basta con coser bien y dejar que el agua salga hacia la calle. Primero mira la costura, para ver dónde está el daño. Después puedes ayudarme de dos maneras: traer un haz de junco (Bela, en el mercado de aquí al oeste, presta uno para esto) y lo atamos, o sujetarme las perchas mientras marco la costura, y yo la termino después sin gastar junco.",
-      "ready_text": "El toldo ya tiene arreglo y el agua podrá salir hacia la calle. Puedes cerrar el encargo con Seli aquí mismo.",
-      "delivery_text": "Seli tira del borde del toldo para probarlo. Esta vez, cuando llueva, el agua resbalará hacia la calle y no hacia la puerta del taller.",
-      "payment_dialogue": "El taller de abajo podrá seguir abierto. Ya les diré a los vecinos que no hacía falta cerrar nada: sólo coser bien.",
+      "ready_text": "Ya ayudaste con la costura. Puedes cerrar el encargo con Seli aquí mismo; si preparaste las perchas, ella todavía debe terminar la sujeción.",
+      "delivery_text": "La costura vieja ya no es sólo una raya que viste al pasar. Sabes dónde hace falta sujetarla y has ayudado a preparar ese trabajo. El borde por donde sale el agua sigue libre; al volver junto al toldo, reconoces los apoyos de la unión antes de levantar la vista hacia la tela.",
+      "payment_dialogue": "Me has dejado una ayuda concreta. Si usamos junco, revisaré el amarre; si preparaste las perchas, seguiré desde esas marcas. Lo importante es que el agua aún tiene por dónde salir. Gracias. A veces un arreglo pequeño evita que dos vecinos se pasen la tarde discutiendo.",
       "paid_text": "Ayudaste a Seli con la costura sin tapar el desagüe. Se conserva la opción que elegiste: atar con junco o preparar las perchas para que ella complete la sujeción."
     },
     "brumak_taza": {

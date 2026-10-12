@@ -491,7 +491,7 @@
         {
           "id": "veyra_acordar_costura",
           "label": "Ayudar a acordar el desagüe",
-          "text": "Sostienes la pértiga mientras Seli y su vecina fijan el borde que se había doblado. Antes de soltarlo, comprueban hacia dónde caerá el agua. Ya no irá hacia el taller de abajo. El paso queda cubierto y Seli baja los brazos para sacudir el cansancio.",
+          "text": "Sostienes la pértiga mientras Seli y quien comparte el toldo fijan el borde que se había doblado. Antes de soltarlo, comprueban hacia dónde caerá el agua. Ya no irá hacia el taller de abajo. El paso queda cubierto y Seli baja los brazos para sacudir el cansancio.",
           "set_flags": [
             "veyra_costura_acordada"
           ],
@@ -2118,7 +2118,7 @@
       "home_room": "veyra_calle_toldos",
       "description": "Una cinta de cuero mantiene apartadas las mangas mientras cose. Su bolsa separa hilo seco de trapos que ya recogieron agua.",
       "topics": {
-        "toldos": "Este toldo une dos fachadas. Cuando su borde se dobla, el agua cae hacia el taller de abajo. La vecina y yo podemos enderezarlo, pero una de las dos necesita que alguien sostenga la pértiga mientras trabaja.",
+        "toldos": "Este toldo une dos fachadas. Cuando su borde se dobla, el agua cae hacia el taller de abajo. Podemos enderezarlo entre dos personas, pero una de ellas necesita que alguien sostenga la pértiga mientras trabaja.",
         "vecinos": "Quien trabaja abajo no puede dejar sus herramientas bajo la lluvia. No quiero que cierre el taller por este borde suelto. Si nos ponemos de acuerdo sobre dónde dejar salir el agua, el arreglo le sirve a ella y también a quienes pasan.",
         "narevia": "En casa aprendí a dejar pasar el agua antes de pensar en detenerla.",
         "reparación": "Mira primero la costura vieja para encontrar el desgarro. Puedes sujetarlo con junco sin tapar la salida del agua. Bela presta un haz en el mercado, un paso al oeste. Si prefieres no gastar fibra, ayúdame a preparar las perchas y marcar dónde debo coser; yo terminaré la sujeción."
