@@ -1,0 +1,816 @@
+{
+  "base_main": "9037c9faf2be6281780ba6ef9029465ec5b3ebc5",
+  "recovery_commit": "a80c1faa4ab7a395c264ba127c39a295c13caa96",
+  "scope": "64 divergent units reviewed individually; no historical files discarded",
+  "counts": {
+    "CONSERVAR_MAIN": 60,
+    "ADAPTAR_INTENCION": 4
+  },
+  "decisions": [
+    {
+      "file": "content/world.json",
+      "path": [
+        "creatures",
+        "hilaria_niebla",
+        "warning"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "Las advertencias actuales describen señal física, refugio y posibilidad de apartarse; el humano conserva voz contextual y rendición sin muerte. La intención antigua está cubierta sin restaurar temas obsoletos de diálogo.",
+      "recovered_sha256": "d974486a3203d83a9872822acfeb95875d86f0c25a10d2dd97b46de8ad21ef18",
+      "resolved_sha256": "8924fba1e2c311fc0aebdd144c270a6c678a6ba901e905dfae0177ef0432f263"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "creatures",
+        "rondamusgo",
+        "warning"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "Las advertencias actuales describen señal física, refugio y posibilidad de apartarse; el humano conserva voz contextual y rendición sin muerte. La intención antigua está cubierta sin restaurar temas obsoletos de diálogo.",
+      "recovered_sha256": "a3af596460cecda0fd6d7e55645158e614eaf8efad7ff983864fea0b857aee71",
+      "resolved_sha256": "ffbf139067d6f97b70731604cda989cbc1a621c80ac78362e6a56f38e0cf341c"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "creatures",
+        "pinzajunco",
+        "warning"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "Las advertencias actuales describen señal física, refugio y posibilidad de apartarse; el humano conserva voz contextual y rendición sin muerte. La intención antigua está cubierta sin restaurar temas obsoletos de diálogo.",
+      "recovered_sha256": "eb00be04e37e6750f20eb54d136da2179a06d2fe7cc51bd8cd56c21c51ebef17",
+      "resolved_sha256": "b7fcf412438fe2d13fcbc11aacd83ad9c8415abddff648c8be24a46c26d8191c"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "creatures",
+        "saltalodo",
+        "warning"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "Las advertencias actuales describen señal física, refugio y posibilidad de apartarse; el humano conserva voz contextual y rendición sin muerte. La intención antigua está cubierta sin restaurar temas obsoletos de diálogo.",
+      "recovered_sha256": "4f598f425b7d7fc5becb95cd86422513a8b6d15d8aa8a567969f429520c3b1cf",
+      "resolved_sha256": "cf94c99481be561bda95b7c27b2af7d784cd2d12627219eb4cd099c3ca6e0a5b"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "creatures",
+        "forajido_camino",
+        "combat_intro"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "Las advertencias actuales describen señal física, refugio y posibilidad de apartarse; el humano conserva voz contextual y rendición sin muerte. La intención antigua está cubierta sin restaurar temas obsoletos de diálogo.",
+      "recovered_sha256": "fbf0bfdc19dd97f146eeafbfd9c2fafa20010b242c636a72d3805cb5e206b127",
+      "resolved_sha256": "725c7914d455243e90914b409cde02c32f9cc386bd47f6a428d655d840ef8025"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "creatures",
+        "forajido_camino",
+        "dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "Las advertencias actuales describen señal física, refugio y posibilidad de apartarse; el humano conserva voz contextual y rendición sin muerte. La intención antigua está cubierta sin restaurar temas obsoletos de diálogo.",
+      "recovered_sha256": "e29c81acb593448fb543b3fbc88ae6129e0cef765fcd5a1ecab9a4699cace1d7",
+      "resolved_sha256": "e7eeaa867328ad55f771d8485a44821f364600f2b2625ed1ff9e6507bf92f023"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "creatures",
+        "forajido_camino",
+        "defeat_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "Las advertencias actuales describen señal física, refugio y posibilidad de apartarse; el humano conserva voz contextual y rendición sin muerte. La intención antigua está cubierta sin restaurar temas obsoletos de diálogo.",
+      "recovered_sha256": "43bf5cf4baef794ab355f4dc6202f56d68f0219e2f8fc287d72c8324d7e810b7",
+      "resolved_sha256": "921c2a26a47616b6b7e5f76231cee69d57ec5bf33fd2a00b6007ec8f24398ed9"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "valdren_recado_forja",
+        "accept_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva la medida un dedo/lado izquierdo, las direcciones al cobertizo y la fabricación a cargo de Daro. El texto antiguo perdería esa medida. Requisito: conversar y volver, no fabricar.",
+      "recovered_sha256": "f86b65309867c8eb576d6b306c12c67b2f9cdc09b6bd67c1a13e0e9986a916f6",
+      "resolved_sha256": "b6d7378fb393b63b2c07bc5dfbe68b67fc14db27f6b2abf6df664ce33efb0871"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "valdren_recado_forja",
+        "delivery_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva la medida un dedo/lado izquierdo, las direcciones al cobertizo y la fabricación a cargo de Daro. El texto antiguo perdería esa medida. Requisito: conversar y volver, no fabricar.",
+      "recovered_sha256": "cf37a459608637f1ff0f0a35e10a737f9c40cb00c0760f73716ec527bfa29881",
+      "resolved_sha256": "9c4f7d8073d1c32c7614d928f2151b3835ff4a3493555be719423c2d1a577ce6"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "valdren_recado_forja",
+        "payment_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva la medida un dedo/lado izquierdo, las direcciones al cobertizo y la fabricación a cargo de Daro. El texto antiguo perdería esa medida. Requisito: conversar y volver, no fabricar.",
+      "recovered_sha256": "22d3fae36f0bcb41abc3999b91815ce6a617384418d7d087b01cf2db42662e25",
+      "resolved_sha256": "3cf5c471c7008356fc8ab3c4913d0ef318d4c406812548f665b32d41928f2365"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "valdren_recado_forja",
+        "ready_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva la medida un dedo/lado izquierdo, las direcciones al cobertizo y la fabricación a cargo de Daro. El texto antiguo perdería esa medida. Requisito: conversar y volver, no fabricar.",
+      "recovered_sha256": "3496c11c3e5c832a210f990c03ebe9bfaffb509f9e54f1c7b4cd34ce45fc50ab",
+      "resolved_sha256": "c4499e44cfec27189fafd49429261c5188368ed2a44689238f0401b07cb5aa86"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "valdren_revision_cobertizos",
+        "accept_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual pide observar los dos sitios y comunicarlo, sin vaciar ni reparar. Mantiene harina, llegada tardía y ubicaciones precisas; cubre el objetivo recuperado.",
+      "recovered_sha256": "8fb9be52e1f3d77261ed9e704f9a22460de595769820f632d47bb943e3790bc9",
+      "resolved_sha256": "79b1addd10b97e0ed589ae1eed06d13799a0df4ea480d92c1d06b1653378fca5"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "valdren_revision_cobertizos",
+        "delivery_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual pide observar los dos sitios y comunicarlo, sin vaciar ni reparar. Mantiene harina, llegada tardía y ubicaciones precisas; cubre el objetivo recuperado.",
+      "recovered_sha256": "1b3928be0e6469bbcde9c31d3d11a07733c3b09f559cae2a9656aa0e98c83fa2",
+      "resolved_sha256": "7bd1e04616233c58bb1349874b35fe62da9d91f02094ed13c3eb8cff86a54d1b"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "valdren_revision_cobertizos",
+        "payment_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual pide observar los dos sitios y comunicarlo, sin vaciar ni reparar. Mantiene harina, llegada tardía y ubicaciones precisas; cubre el objetivo recuperado.",
+      "recovered_sha256": "a3d45ad01fac41b0235106f681d5138f3fa5ac536b8f1b712eac0af473fc54ee",
+      "resolved_sha256": "7c549652d90127aec07bbdad2986ba868729eed830c36ad483331c2b37f33dbd"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "valdren_revision_cobertizos",
+        "ready_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual pide observar los dos sitios y comunicarlo, sin vaciar ni reparar. Mantiene harina, llegada tardía y ubicaciones precisas; cubre el objetivo recuperado.",
+      "recovered_sha256": "30af489403cd154eb8ca0240f7a3e605a6a7c8017ac2492c1dae489bac0bc75a",
+      "resolved_sha256": "a8ad38ea85ea3ddefaf4e2e30fd9ba9dd3b2b59290798b6c7b9504be651a34a8"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "valdren_estado_vado",
+        "accept_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La aceptación y entrega actuales piden observar desde la orilla y describir ambos cruces. Se adaptan aparte cierre/pago para no certificar el paso de un carro cargado.",
+      "recovered_sha256": "0118bf0fc4fb33cb1d8a9bbbe8f8d7141d40b35b793c60c1ed573e0b55bc6796",
+      "resolved_sha256": "4a6c5d649b52b5a4aa4c4108fcb1cd11b5792ad1bb1f6b0927ce3ebac251cce2"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "valdren_estado_vado",
+        "delivery_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La aceptación y entrega actuales piden observar desde la orilla y describir ambos cruces. Se adaptan aparte cierre/pago para no certificar el paso de un carro cargado.",
+      "recovered_sha256": "ebdca32faa17913512d50bad1a5aec6160dba2eb55f74d32d447a89efe330891",
+      "resolved_sha256": "35bc7eb5c555eb806f5af63de604ca80d28cede6a74d86296fd1aba17829a7ce"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "valdren_estado_vado",
+        "payment_dialogue"
+      ],
+      "decision": "ADAPTAR_INTENCION",
+      "reason": "Examinar los apoyos y la losa aporta observaciones; no prueba el paso de un carro cargado. Se conserva retorno a Bren y comparación posterior con su carga.",
+      "recovered_sha256": "1efe97473bc8b61f1e058d3c2a48fdb526ccd7bf6cca1539b144dbe527ed0cf5",
+      "resolved_sha256": "0eef273cac43681c069e310c231b3aa30839c135857a530ea3fefd978b33982d"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "valdren_estado_vado",
+        "ready_text"
+      ],
+      "decision": "ADAPTAR_INTENCION",
+      "reason": "Examinar los apoyos y la losa aporta observaciones; no prueba el paso de un carro cargado. Se conserva retorno a Bren y comparación posterior con su carga.",
+      "recovered_sha256": "e3e9a626bf3341bc6be2c7e82bf0cf2650e4086f374eac71754fdd0bb739c23c",
+      "resolved_sha256": "5eafae0e421c62f5aeb2c4880366c8129b774c4f5404d2a6e0d65c989835d903"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "khariel_polea",
+        "accept_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual mantiene ruta, polea y cuenta de Seran como hechos distintos; Daren debe revisar el transporte antes de decidir quién tiene razón.",
+      "recovered_sha256": "10540c338745aea0bbcd8c925966f001a6c4563b8af12cba2d3dfa45b10cf49e",
+      "resolved_sha256": "ffbb9062de9bdc7347a6ec1efa61fa7ab2f8ae4f71f957df7ef6a53308e29304"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "khariel_polea",
+        "delivery_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual mantiene ruta, polea y cuenta de Seran como hechos distintos; Daren debe revisar el transporte antes de decidir quién tiene razón.",
+      "recovered_sha256": "c4f60a7433190cdb3b6ad93044f567ba5358f0459f8bf1841169e3d98d9a00de",
+      "resolved_sha256": "bc05b67210671847322f8335ca0310a2f5cce4126965df416dfd6d6f1721339b"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "khariel_polea",
+        "payment_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual mantiene ruta, polea y cuenta de Seran como hechos distintos; Daren debe revisar el transporte antes de decidir quién tiene razón.",
+      "recovered_sha256": "fcafbf3950b51e0084760fe7176814676c83261edbf92a06aaed69ac09a0a65a",
+      "resolved_sha256": "2ec718e5f14cd01f3b70acf5049a23d48649e8295a439d504e937d8f0dfe1ad6"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "khariel_polea",
+        "ready_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual mantiene ruta, polea y cuenta de Seran como hechos distintos; Daren debe revisar el transporte antes de decidir quién tiene razón.",
+      "recovered_sha256": "8f79abf6238c9bf6785537c61e11719572622aa7f6fc8fca6a1ed496d9a4b228",
+      "resolved_sha256": "fe8ca4c0f5c7e9d6c2314e228415182296fe1e178bd4e411dbb41f49d8589434"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "khariel_cornisa",
+        "accept_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La nota actual distingue rumor de observación. Los estados de Luma preservan cargas pequeñas/revisión pendiente y camino principal para las grandes, sin certificar una ruta al cobrar.",
+      "recovered_sha256": "8e4d6a5b7223b8f13b91d83d718f90bacea391e89b490e97acdce7087d3a8d32",
+      "resolved_sha256": "0af02273a464bf61463f8f326ce25f2f5322b6e882efa5b22445976281718c88"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "khariel_cornisa",
+        "delivery_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La nota actual distingue rumor de observación. Los estados de Luma preservan cargas pequeñas/revisión pendiente y camino principal para las grandes, sin certificar una ruta al cobrar.",
+      "recovered_sha256": "eff0a172661b296bfd2c97069642710bcea4013f86644d757ace909886585a7a",
+      "resolved_sha256": "0f56065b06e4b1af40de8390ca19b23a718d1fb3afef876d7ca9e9906848f8e4"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "khariel_cornisa",
+        "payment_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La nota actual distingue rumor de observación. Los estados de Luma preservan cargas pequeñas/revisión pendiente y camino principal para las grandes, sin certificar una ruta al cobrar.",
+      "recovered_sha256": "1cad121f02c36c94b3a6eba8442b1e4a74ff03b3ec21539aa1e7c811b319cdbc",
+      "resolved_sha256": "9c30e7ecfcb0b05cc9447b1aaa67a2d3f1bdd400bdcb1510692b199d304cc294"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "khariel_cornisa",
+        "ready_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La nota actual distingue rumor de observación. Los estados de Luma preservan cargas pequeñas/revisión pendiente y camino principal para las grandes, sin certificar una ruta al cobrar.",
+      "recovered_sha256": "02e80ddda67f1b074406e2ff314dbd1acb55b1f48921b45acdde1dc7da6919f1",
+      "resolved_sha256": "6f9a3d46df8f609f95f6a40f61e7f3012ed3dee66a36dfcbd92210d9ffa08ae3"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "velmora_recipiente",
+        "accept_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual distingue recipiente de Elin y juguete de Desi, exige preguntar por el apoyo y devolver sólo el recipiente. Mantiene rutas y reconocimiento de la devolución.",
+      "recovered_sha256": "7fb38cb07d4aafd3f0f547c5de7d428c135292df90e81f19180c1d7604141b07",
+      "resolved_sha256": "e413d83fa4fcb7db6f130eb41a978cd63a5add8e2ba2e47c7508772047db5cb3"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "velmora_recipiente",
+        "delivery_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual distingue recipiente de Elin y juguete de Desi, exige preguntar por el apoyo y devolver sólo el recipiente. Mantiene rutas y reconocimiento de la devolución.",
+      "recovered_sha256": "95676b12a850f256e6a747ae9a95dcfca01de564d10299d49ca628b963cd242a",
+      "resolved_sha256": "f7ad4650d10d4c91a118c79facd4e4573c5487888bbe3425760d1b96a5940b23"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "velmora_recipiente",
+        "payment_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual distingue recipiente de Elin y juguete de Desi, exige preguntar por el apoyo y devolver sólo el recipiente. Mantiene rutas y reconocimiento de la devolución.",
+      "recovered_sha256": "9e8b79fa2928eb77e614b2701ff567f51027ef1a6dcfcc70fd1c0b739e26a1fc",
+      "resolved_sha256": "62eb1376289012a9f3137381aec8ca306a5a31d6bf13eb26878ff2327ebc52c8"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "velmora_recipiente",
+        "ready_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual distingue recipiente de Elin y juguete de Desi, exige preguntar por el apoyo y devolver sólo el recipiente. Mantiene rutas y reconocimiento de la devolución.",
+      "recovered_sha256": "a557ad68084bc79caadf2cb3b2ac3458ef10e962c6f92d3cdbdd41293e0cc2b7",
+      "resolved_sha256": "3f0d6b7e09ea23cb9b23890f27b17eae0250af6251fd47828d667bf0d1184c97"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "narevia_preparativos",
+        "accept_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva ambas opciones: esperar el paño o usar cubierta. Comunicar el plan no seca el paño ni sirve la cena; mantiene familia y ruta a Nima.",
+      "recovered_sha256": "c0d29121e051a0dc12d319527c450c266d96e20fd3df03bf72cebf6f6fc230c2",
+      "resolved_sha256": "7052309179dcdbf51406d2c51bef8fb398a0d85d29e66eed27ba582fe1264cc9"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "narevia_preparativos",
+        "delivery_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva ambas opciones: esperar el paño o usar cubierta. Comunicar el plan no seca el paño ni sirve la cena; mantiene familia y ruta a Nima.",
+      "recovered_sha256": "9d742cbf89846b046d94b6f2edec5fbf29a7f38297cf1e15d678b612ab046e51",
+      "resolved_sha256": "0660feda7be5724fb90dc999c2476e8ca3e18e317f43251b561d5818049e9e98"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "narevia_preparativos",
+        "payment_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva ambas opciones: esperar el paño o usar cubierta. Comunicar el plan no seca el paño ni sirve la cena; mantiene familia y ruta a Nima.",
+      "recovered_sha256": "246198c9b1dca00d85efb8920f391b6439b6781fe5e89ece2397f870776536f1",
+      "resolved_sha256": "d6c9fee965584c98bf00ff03feeda24bf6b232c91a292effe2734a291c566a25"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "narevia_preparativos",
+        "ready_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva ambas opciones: esperar el paño o usar cubierta. Comunicar el plan no seca el paño ni sirve la cena; mantiene familia y ruta a Nima.",
+      "recovered_sha256": "2ca2dd165542d37962f8e97e7ab0119bbbdf5387201ff1df419095db853d5fef",
+      "resolved_sha256": "4ec54fd29cefd78e7fc988041c356c188a00156824020c3c046e95db6b916b4f"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "vaisgard_aviso_carga",
+        "accept_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva procedencia de Tov, tabla rota, carga entera y ausencia de robo; su alternativa mantiene la lista pendiente para comprobación.",
+      "recovered_sha256": "f00c8455366f04502b62b2c835ca35a3e0cf5e5942eb6c786fe383cc54456c9e",
+      "resolved_sha256": "d3a1e74936c8dfb7ec2c9fb08cc350d32bfed989018d4344a649a79c094c4487"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "vaisgard_aviso_carga",
+        "delivery_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva procedencia de Tov, tabla rota, carga entera y ausencia de robo; su alternativa mantiene la lista pendiente para comprobación.",
+      "recovered_sha256": "9833cd72f7f73cf215557e78a8dfc3feeac4030763cfeee15d12d05a69ef26ea",
+      "resolved_sha256": "7c65966f87b83b9a8837f051c1f6ddcfebe0f38c124ef33ba61c449be46f07b1"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "vaisgard_aviso_carga",
+        "payment_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva procedencia de Tov, tabla rota, carga entera y ausencia de robo; su alternativa mantiene la lista pendiente para comprobación.",
+      "recovered_sha256": "a3994594a42020ff3874c2e66e1f7a4d9100c70ece6987e54752b735b7077034",
+      "resolved_sha256": "d65d748aee13213b371682fbf8104bc6aa08c3f458e4928bed60dba34b0f8453"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "vaisgard_aviso_carga",
+        "ready_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva procedencia de Tov, tabla rota, carga entera y ausencia de robo; su alternativa mantiene la lista pendiente para comprobación.",
+      "recovered_sha256": "681dea371af15014b084c38597414486c759c63e55467bbd9add86bee6b9252f",
+      "resolved_sha256": "7228052722e38b38336a6117024b81dba4ee58e2c642e56eeebb7068f46ca615"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "vaisgard_toldo",
+        "accept_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La aceptación actual explica préstamo de Bela, ruta y opción sin gastar junco. El cierre fue reconciliado en PR690; no queda una intención adicional sin cubrir.",
+      "recovered_sha256": "a4053f44684848cad348e0d2657dac7035086e9a09c22e09f6536de4570d8394",
+      "resolved_sha256": "ceef09ed4226f509064816b277f8100bc4563c0f74f2b796e58c166f57fbfd37"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "brumak_taza",
+        "accept_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual da medidas de la mano, aro fijo y dos opciones de base; al entregar se aparta arcilla para una prueba futura, no se fabrica ni regala una taza.",
+      "recovered_sha256": "52a69a5dffae045952c2d82be315bd1883d3e8597051b095569565935bd6b08e",
+      "resolved_sha256": "f9de5093d6f973a35411696eace3046124f66f4e904eae69d340c092ac2d05cd"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "brumak_taza",
+        "delivery_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual da medidas de la mano, aro fijo y dos opciones de base; al entregar se aparta arcilla para una prueba futura, no se fabrica ni regala una taza.",
+      "recovered_sha256": "55a17fe72b016448a484ee90996ef0b9a8e346639707d8a63d8f86d9dc29dd09",
+      "resolved_sha256": "97ee0b3014570bbabf20738fbf0805a10c3a8baf8091c6cf7f131aa883fcdcb3"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "brumak_taza",
+        "payment_dialogue"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual da medidas de la mano, aro fijo y dos opciones de base; al entregar se aparta arcilla para una prueba futura, no se fabrica ni regala una taza.",
+      "recovered_sha256": "545a08215771b36fe1fae3d7295cc984a9ba7693158dab6b01ff563e55ae1f59",
+      "resolved_sha256": "e0a3813a1c39625afdc23db90af3b08ad4ad2bf2aa4fc576dada425eced34aeb"
+    },
+    {
+      "file": "content/world.json",
+      "path": [
+        "quests",
+        "brumak_taza",
+        "ready_text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual da medidas de la mano, aro fijo y dos opciones de base; al entregar se aparta arcilla para una prueba futura, no se fabrica ni regala una taza.",
+      "recovered_sha256": "b8609b8fbba74cffdaaf82c141dbc730e26effc4b54ba82a96adef0b7152827d",
+      "resolved_sha256": "f5f8eb8a1550845515fb3d290c064ad9a381db5e1bca262d66ec41669e95208b"
+    },
+    {
+      "file": "content/regions/edran.json",
+      "path": [
+        "npcs",
+        "edran_bren",
+        "topics",
+        "rueda"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "El diálogo actual identifica rueda izquierda y un dedo, manteniendo separación de la cuerda y reparación a cargo de Bren. No eliminar la información necesaria para el recado.",
+      "recovered_sha256": "e094c543a26188155d02a9cfe739c4cd79b369f9f6373e2181be2f26d97586a5",
+      "resolved_sha256": "c540447dcd2cae31787e919eb3809a65cf9324687bf24fa0b95a91f27d6e31e9"
+    },
+    {
+      "file": "content/regions/edran.json",
+      "path": [
+        "npcs",
+        "edran_bren",
+        "states"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "El estado actual reconoce cuña sujeta y prueba con carga pendiente, conserva la medida de Daro y no da por concluida esa prueba.",
+      "recovered_sha256": "7076633801300d57185c36b73cfeaa74947d4b945277f7a4c3e7ae0dd3f5cd88",
+      "resolved_sha256": "8ba1ce33122d1715cf1184c21872d5240c825a648cbb87dc09a0e816c287a4db"
+    },
+    {
+      "file": "content/regions/edran.json",
+      "path": [
+        "npcs",
+        "edran_nela",
+        "topics",
+        "cuerda",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "Ambas versiones reconocen una segunda cuerda y su posición derecha; la versión actual ya cubre esa consecuencia concreta.",
+      "recovered_sha256": "863cd71bebc8c911f5683f9cba9ecc4d38e3728e5c25d552a757d30e2f717ae0",
+      "resolved_sha256": "eb85912218ccb4009ecee16d43fe68ed72aa329fe7f194d58ffb46c11d8bbc38"
+    },
+    {
+      "file": "content/regions/edran.json",
+      "path": [
+        "npcs",
+        "edran_oren",
+        "topics",
+        "caja",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva la repisa al este detrás de la compuerta y la decisión voluntaria de hablar con Nela. No falta una acción o salida que deba restaurarse.",
+      "recovered_sha256": "17012a85c944597e882ae6caedad09ecb27448f4ca63ab522e77feb15c862fe1",
+      "resolved_sha256": "59f582678a9073781540213a0de74ffd1aafeb857382b11e38a1fc6cfc2d40c5"
+    },
+    {
+      "file": "content/regions/edran.json",
+      "path": [
+        "npcs",
+        "edran_oren",
+        "topics",
+        "ayuda",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva la repisa al este detrás de la compuerta y la decisión voluntaria de hablar con Nela. No falta una acción o salida que deba restaurarse.",
+      "recovered_sha256": "bcc30f1d3e0a5aeede61ada1493ed6815fccf92b4b23507f7a8f8d3673408ff7",
+      "resolved_sha256": "5a815eb0ac431f20e7927a00f82df9406d6cc6f1ece3f8451b3e99f6dfc36125"
+    },
+    {
+      "file": "content/regions/hoshai.json",
+      "path": [
+        "rooms",
+        "hoshai_taller_apoyos",
+        "actions",
+        "hoshai_entregar_polea",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual devuelve herramienta y tablilla; Daren reconoce marca y compara sus notas antes de resolver la reclamación. No afirma que la deuda se pagó.",
+      "recovered_sha256": "266a03a5a11212fe50d1e36734ebe5e0efb0e8b1bfa2e2621d3a7c7eda9c1ebf",
+      "resolved_sha256": "2384d584ddcaea2f74ac13ef36b7f0e3469dc16b423886368401d70e0d886e16"
+    },
+    {
+      "file": "content/regions/hoshai.json",
+      "path": [
+        "npcs",
+        "hoshai_luma",
+        "topics",
+        "cornisa",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual deriva la recomendación de la observación y los estados específicos mantienen carga pequeña/revisión pendiente, sin perder la elección al cobrar.",
+      "recovered_sha256": "b2a2b143eef36eca4181cb0dadfa3407e977d45057539ff9376c594ce1331b3c",
+      "resolved_sha256": "945d19fe39142f52bc7a8723af4e77774e897701a1af61a4741ad123c4ae415e"
+    },
+    {
+      "file": "content/regions/hoshai.json",
+      "path": [
+        "npcs",
+        "hoshai_seran",
+        "topics",
+        "cuenta",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva transporte impagado, ruta sur, entrega de tablilla y ausencia de pago exigido al jugador. La cuenta no se resuelve por devolver la polea.",
+      "recovered_sha256": "ea4c5de79f4a4211121191284e86b6309e7dabde67b9da8548db5de39b616c6b",
+      "resolved_sha256": "781c97ed02ac0fe215e2538cb4783cfb87fee02f648805b46b917348a1e64b3a"
+    },
+    {
+      "file": "content/regions/hoshai.json",
+      "path": [
+        "npcs",
+        "hoshai_seran",
+        "topics",
+        "acuerdo",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva transporte impagado, ruta sur, entrega de tablilla y ausencia de pago exigido al jugador. La cuenta no se resuelve por devolver la polea.",
+      "recovered_sha256": "00c28816a60eb298f38558dd6b68c7d7f20da8fe1c39f68330f4244fdab81364",
+      "resolved_sha256": "6afcb608477fdc645f151327654d82f8e0b7a26b3a9c8d94670f3aeeaf9c1eb6"
+    },
+    {
+      "file": "content/regions/korven.json",
+      "path": [
+        "rooms",
+        "korven_horno_reposo",
+        "actions",
+        "korven_recomendar_aro",
+        "text"
+      ],
+      "decision": "ADAPTAR_INTENCION",
+      "reason": "Marcar una base es una recomendación para una prueba futura. Se conserva aro, medidas y alternativa, pero no se garantiza una taza estable o fabricada.",
+      "recovered_sha256": "34951b4c8b67bfae374364b6d97aa5b73feac4b080273f37296276e750a85daf",
+      "resolved_sha256": "3b7bc1baf183c6d1e86b5e7f0192024b9f2e952fcc3950ff640e74154a1433d0"
+    },
+    {
+      "file": "content/regions/korven.json",
+      "path": [
+        "rooms",
+        "korven_horno_reposo",
+        "actions",
+        "korven_recomendar_base",
+        "text"
+      ],
+      "decision": "ADAPTAR_INTENCION",
+      "reason": "Marcar una base es una recomendación para una prueba futura. Se conserva aro, medidas y alternativa, pero no se garantiza una taza estable o fabricada.",
+      "recovered_sha256": "82b3ab045dee384916f2f993439380e79e9addd246e19ffc4bb67409daaf0d5a",
+      "resolved_sha256": "59ccbbe4e55e39fb77b4ec3086d0cdee375a37e71387a5896d57f308c9549e63"
+    },
+    {
+      "file": "content/regions/korven.json",
+      "path": [
+        "npcs",
+        "korven_taren",
+        "topics",
+        "medidas",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual fija aro a la mano de su madre y explica diferencia peso/estabilidad de las bases. La propuesta antigua perdería precisión sin aportar una regla nueva.",
+      "recovered_sha256": "b2e415261459e8e9d411413feaeb10ead593ceda640f3d35a9649b0c10852177",
+      "resolved_sha256": "1b7fd5edd2598eb2214e173aa7e23cb2ab7278b848578e90e3dcf021a04ed138"
+    },
+    {
+      "file": "content/regions/lethra.json",
+      "path": [
+        "npcs",
+        "lethra_nima",
+        "topics",
+        "preparativos",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual expresa en primera persona dónde van los cuencos y avisa a Mira. La antigua narra a Nima en tercera persona dentro de su diálogo, contrario a la guía narrativa.",
+      "recovered_sha256": "724183d18d4ac739f13b37dabb838f9269ebfa5f252a1487107f2acf6b2f229e",
+      "resolved_sha256": "9ac47c5fcaedb62e9c49d80b54f4d99cd525aae0035c80548bcad0ce6544c330"
+    },
+    {
+      "file": "content/regions/nhal.json",
+      "path": [
+        "rooms",
+        "nhal_umbral_elin",
+        "actions",
+        "nhal_entregar_recipiente",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual devuelve sólo el recipiente, mantiene tabla bajo el juguete y reconoce preguntar primero. No reintroducir pronombres ni propiedad incompatible del texto antiguo.",
+      "recovered_sha256": "b43d36700dc55e3e754ebd22df9d07d8203c6fd1cb1f4e25e39cecc007f4219f",
+      "resolved_sha256": "ab4074d896ad64390cf667705a595bb025e9489daed5a4d5b6493051e782c54d"
+    },
+    {
+      "file": "content/regions/nhal.json",
+      "path": [
+        "npcs",
+        "nhal_elin",
+        "topics",
+        "entrega",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "Se conserva propiedad actual de aro/tabla de Desi. La propuesta antigua atribuye el aro a Elin; no hay autorización para cambiar esa propiedad. Recipiente y cuenco común ya se distinguen.",
+      "recovered_sha256": "6ae984c0d35b19e351d9f795e64a416ab8e9584b2bb66a45c3688e0f6552c0cd",
+      "resolved_sha256": "988d6e7c165e955b54c8a7268d8cbf1c795d53c213f8cf6b80ba4bafb2081806"
+    },
+    {
+      "file": "content/regions/nhal.json",
+      "path": [
+        "npcs",
+        "nhal_desi",
+        "topics",
+        "apoyo",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual pide dejar aro y tabla y explica apoyo del juguete húmedo. El tema figura y el estado nhal_figura_firme distinguen la figura del sobrino de ese juguete reparado.",
+      "recovered_sha256": "db741696046947d5bb3f128543d1a79833ba2653dbc0577108c3370b80001a09",
+      "resolved_sha256": "f1a9a29119bc670c56b77efef5fd01d14425be2920f9654abd8601a6c2eee095"
+    },
+    {
+      "file": "content/regions/nhal.json",
+      "path": [
+        "npcs",
+        "nhal_varo",
+        "topics",
+        "recipiente"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual da propietario y orden de consulta de Elin/Desi. No reintroducir a Leris en el recado del recipiente pequeño, distinto del relato del cuenco del patio.",
+      "recovered_sha256": "cbf3a33e15cfd3452732d43b7783d27e96e0e39f7ca8ebe3ff4e7f399a677dbe",
+      "resolved_sha256": "466f91c16035221dd2ead9cf6eadc03a8a6fad82b3a018002af77423753a4cd2"
+    },
+    {
+      "file": "content/regions/veyra.json",
+      "path": [
+        "rooms",
+        "veyra_calle_toldos",
+        "actions",
+        "veyra_preparar_perchas",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual prepara perchas sin gastar junco y permite devolver el préstamo a Bela. El cierre ya conserva el trabajo pendiente de Seli desde PR690.",
+      "recovered_sha256": "e2999766f4e00252e4b732001223055f6a3e207e787b82c1dfee087cb8170c70",
+      "resolved_sha256": "406773f31af9f7a81020e99ffbb125f85e4a04d237b87de9dd4051fcb4e2c438"
+    },
+    {
+      "file": "content/regions/veyra.json",
+      "path": [
+        "npcs",
+        "veyra_nera",
+        "topics",
+        "aviso_preciso",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva primera persona, origen de Tov, separador roto y carga pendiente en la alternativa de comprobación. La antigua convierte su diálogo en una escena en tercera persona.",
+      "recovered_sha256": "e802b9ff2036c05a8d4d3bf3a856a8ae79de95ae356678afcb35ee79dc038a89",
+      "resolved_sha256": "ef6f7784e46acf1394ab55892aef0852a26bea2f6fc067f8256127946d5eefaa"
+    },
+    {
+      "file": "content/regions/veyra.json",
+      "path": [
+        "npcs",
+        "veyra_nera",
+        "topics",
+        "pedir_comprobacion",
+        "text"
+      ],
+      "decision": "CONSERVAR_MAIN",
+      "reason": "La versión actual conserva primera persona, origen de Tov, separador roto y carga pendiente en la alternativa de comprobación. La antigua convierte su diálogo en una escena en tercera persona.",
+      "recovered_sha256": "90b723583b6f053afab86d8a325269bfa63af30e48585a4a1a94ce6d0eae0887",
+      "resolved_sha256": "1ef6838d4839c70e17b0420b52f547d34a1eb63d3a452889b8262a102e537a93"
+    }
+  ],
+  "hash_encoding": "SHA-256 de json.dumps(valor, ensure_ascii=False, sort_keys=True).encode(utf-8)"
+}

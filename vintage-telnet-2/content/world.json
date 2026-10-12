@@ -1889,9 +1889,9 @@
         }
       ],
       "accept_dialogue": "Mis carros cargados salen hacia Lethra y hacia Veyra, y los dos caminos cruzan agua. Antes de cargar quiero saber si los pasos aguantan. Uno es el Vado de Juncos: sal del pueblo por el este, sigue la acequia y baja por los sauces hasta el puente; mira sus apoyos desde la orilla. El otro está en el Paso hacia Veyra, al final de la calzada, al norte: mira la losa junto al poste. No te metas en el agua ni te acerques a ningún animal. Sólo mira y vuelve a contármelo.",
-      "ready_text": "Ya has visto el puente y la losa. Vuelve al cobertizo de Bren, en Valdren, para contarle si sus carros pueden cruzar.",
+      "ready_text": "Ya has visto los apoyos del puente y la losa. Vuelve al cobertizo de Bren, en Valdren, para contarle lo que observaste en cada cruce. Él comparará esas noticias con la carga del siguiente carro.",
       "delivery_text": "Le explicas a Bren cómo están los apoyos del puente y la losa del poste. Él lo apunta en una tablilla y la cuelga fuera de la cuerda de giro, donde la vean los conductores.",
-      "payment_dialogue": "Bien. Con esto sé por dónde puede ir cada carro sin descargar a medio camino. Se lo diré a cada conductor antes de cargar.",
+      "payment_dialogue": "Ya tengo noticias de los dos cruces. Antes de elegir el camino del siguiente carro compararé su carga con lo que viste desde la orilla. Gracias por mirar desde un sitio seguro; no te pedí probar el paso entrando al agua.",
       "paid_text": "Trajiste a Bren noticias de los apoyos del cruce y de la losa junto al hito. Puede preparar el viaje con esa información, sin confundir la revisión con una prueba de carga."
     },
     "khariel_polea": {
