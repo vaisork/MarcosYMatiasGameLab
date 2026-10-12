@@ -38,3 +38,12 @@ seis WebP (773.662 bytes), verificados contra el SHA-256 de la entrega y decodif
 para comprobar dimensiones. Sus flags y descripciones ya existían en main.
 No se añaden originales PNG, GLB, descartes ni recursos runtime. Las pruebas
 verifican estado personal/compartido, lecturas sin mutación, rutas reales y fallback.
+
+## Prosa de fauna recuperada
+
+Se rescatan 34 campos de descripción, advertencia e introducción al encuentro de
+15 criaturas desde los cambios rastreados protegidos. Sólo se aplican cuando
+main conserva exactamente el campo base anterior; ninguna divergencia reciente
+se sobrescribe. Se revisaron las señales físicas y las salidas voluntarias: no
+añaden poderes, recompensas, materiales ni perfiles. El resto de los atributos
+de criaturas se comparó estructuralmente con main y permanece idéntico.
