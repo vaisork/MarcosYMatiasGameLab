@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {placeArt,placeIllustrations} from './ui-data.js';
+import {createHash} from 'node:crypto';
+import {placeArt,placeIllustrations,bestiaryThumbnail} from './ui-data.js';
 const entries=JSON.parse(fs.readFileSync(new URL('./art/place-variants.json',import.meta.url)));
 for(const entry of entries){
  const room={id:entry.room,kind:'interior',region:'korven'};
@@ -21,3 +22,24 @@ for(const entry of entries){
 }
 assert.equal(placeArt(null),null);
 console.log('PASS: three room variants, final asset routes, unchanged names/captions and safe fallback.');
+
+const thumbnails=JSON.parse(fs.readFileSync(new URL('./art/bestiary-thumbnails.json',import.meta.url)));
+for(const entry of thumbnails){
+ const creature={id:entry.creatures[0],illustration:entry.illustration};
+ const before=JSON.stringify(creature);
+ assert.equal(bestiaryThumbnail(creature),'/'+entry.target);
+ assert.equal(creature.illustration,entry.illustration);
+ assert.equal(JSON.stringify(creature),before);
+ for(const asset of [entry.target,entry.illustration.slice(1)]){
+  const data=fs.readFileSync(new URL('../'+asset,import.meta.url));
+  assert.equal(data.subarray(8,12).toString(),'WEBP');
+  const expected=asset===entry.target?entry.sha256:entry.parent_sha256;
+  assert.equal(createHash('sha256').update(data).digest('hex'),expected);
+ }
+}
+const legacy={illustration:'/client/art/bestiary/mordelinde-anime-v1.webp'};
+assert.equal(bestiaryThumbnail(legacy),legacy.illustration);
+assert.equal(bestiaryThumbnail(null),null);
+assert.equal(bestiaryThumbnail({illustration:'https://external.invalid/image.webp'}),null);
+assert.equal(bestiaryThumbnail({illustration:'/client/art/encounters/forajido-camino-anime-v1.webp'}),null);
+console.log('PASS: 16 recovered bestiary thumbnails, full illustrations retained, legacy fallback and read-only selection.');

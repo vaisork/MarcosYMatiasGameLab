@@ -70,3 +70,9 @@ sin estado actual conservan su representación base. Hora y clima siguen siendo
 representativos y se explican en la lectura. El manifiesto
 `client/art/place-variants.json` registra rutas, SHA-256, tamaño y dimensiones;
 los originales de producción permanecen fuera del repositorio.
+
+Las miniaturas del bestiario son vistas ligeras de ilustraciones ya integradas.
+El cliente selecciona únicamente archivos del mapping cerrado
+`client/art/bestiary-thumbnails.json`; el snapshot sigue entregando las mismas
+criaturas descubiertas y sus ilustraciones completas. Ampliar usa el original.
+Ilustraciones anteriores sin mapping mantienen su archivo completo.
