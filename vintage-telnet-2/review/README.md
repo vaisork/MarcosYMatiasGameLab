@@ -1,4 +1,4 @@
-> Sesión 2026-10-11: [salida de casa, actividad DM e investigaciones](qa/session-20261011/README.md). Cambios desplegados en Raspberry; integración del código pendiente.
+> Sesión 2026-10-11: [salida de casa, actividad DM e investigaciones](qa/session-20261011/README.md). Cambios desplegados en Raspberry; código y pruebas incluidos en esta entrega.
 
 > Relevo actual: [Ubuntu, repo, Raspberry y operación](../../docs/VT2_RELEVO_20261008.md). Integración actual: `narrative-integration-20261008/` y `art-integration-20261008/`; despliegue real: `qa/raspberry-deploy/update-d5ee227/`.
 

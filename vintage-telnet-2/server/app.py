@@ -273,6 +273,11 @@ def create_app(config=None):
         if not session.get('master'):return jsonify(authenticated=False,csrf_token=csrf()),401
         with store.transaction() as db:
             rows=[dict(r) for r in db.execute("SELECT c.id,c.name,c.species,c.class_id,c.status,json_extract(c.state,'$.tester_enabled') AS tester_enabled,COALESCE(json_extract(c.state,'$.level'),1) AS level,json_extract(c.state,'$.portrait') AS portrait,a.username AS account,COALESCE(x.blocked,0) AS blocked FROM characters c JOIN accounts a ON a.id=c.account_id LEFT JOIN account_access x ON x.account_id=a.id")]
+            movement_counts=dict(db.execute("SELECT character_id,COUNT(*) FROM requests WHERE json_extract(intent,'$.id')='mover' GROUP BY character_id"))
+            places=dict(db.execute("SELECT id,COALESCE(json_array_length(state,'$.visited'),0) FROM characters"))
+            for row in rows:
+                row['movements']=movement_counts.get(row['id'],0)
+                row['places_visited']=places.get(row['id'],0)
             return jsonify(authenticated=True,csrf_token=csrf(),pending=[r for r in rows if r['status']=='pending'],approved=[r for r in rows if r['status']=='approved'])
 
     @app.post('/api/master/approve')

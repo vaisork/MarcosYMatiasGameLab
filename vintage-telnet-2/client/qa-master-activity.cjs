@@ -1,0 +1,10 @@
+const assert=require('assert/strict'),vm=require('vm'),fs=require('fs');
+const source=fs.readFileSync(__dirname+'/app.js','utf8'),storage=new Map();let error='';
+const context=vm.createContext({busy:false,localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},el:(tag,attrs,...children)=>({children}),subtitle:t=>t,button:(label,run)=>({label,run}),render(){},message:t=>error=t});
+vm.runInContext(source.slice(source.indexOf('function masterActivity('),source.indexOf('function renderMaster(')),context);
+const c={id:1,name:'Test',movements:85,places_visited:41};let panel=context.masterActivity(c);
+assert.equal(panel.children[1],'Sin revisión anterior.');panel.children[2].run();
+panel=context.masterActivity({...c,movements:97,places_visited:44});assert.equal(panel.children[1],'Desde tu revisión: +12 movimientos · +3 lugares');
+assert.equal(context.masterActivity({...c,id:2}).children[1],'Sin revisión anterior.');
+context.localStorage.setItem=()=>{throw Error('blocked')};panel.children[2].run();assert(error.includes('No se pudo guardar'));
+console.log('PASS: totals, first review, deltas, player isolation, storage failure');

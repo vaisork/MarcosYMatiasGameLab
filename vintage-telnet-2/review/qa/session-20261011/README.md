@@ -8,7 +8,7 @@ Javier pidió localizar VT2, investigar la salida de casa y partidas concretas, 
 
 1. Se identificó la instancia correcta: servicio de usuario `vintage-telnet-nuevo.service`, proyecto `/home/jdiaz/proyectos/vintage-telnet-nuevo`, escucha local `127.0.0.1:8083`. El servicio de sistema `vintage-telnet.service` corresponde a la versión anterior y estaba detenido. La primera comprobación confundió ambas versiones; se corrigió explícitamente.
 2. Flecha amarilla de salida de casa: `.travel-center` heredaba `pointer-events:none`. Se retiró esa propiedad en `client/style.css`. La orden escrita no sufría ese bloqueo. No se confirmó por qué otro dispositivo había funcionado antes; caché/versiones fue sólo una hipótesis.
-3. Actividad del DM: `/api/master/state` añade `movements` y `places_visited`. Cuenta solicitudes persistidas cuyo intent normalizado tiene `id=mover` y longitud de `state.visited`, respectivamente. No mide tiempo, pasos automáticos ni traslados del DM; no equivale a toda actividad del jugador.
+3. Actividad del DM: `/api/master/state` añade `movements` y `places_visited`. Cuenta solicitudes persistidas cuyo intent almacenado tiene `id=mover` y longitud de `state.visited`, respectivamente. No mide tiempo, pasos automáticos ni traslados del DM; no equivale a toda actividad del jugador.
 4. La lista existente de jugadores y la ficha muestran totales y diferencias desde la revisión. Se reutilizaron las tarjetas, filtros, paginación y ficha de equipo/misiones existentes; no se creó otra tabla ni otro sistema de gestión.
 5. «Marcar como revisado» guarda una referencia por personaje en `localStorage`. Primera revisión sin diferencias inventadas; error visible si no puede guardar. La referencia pertenece al navegador, no se sincroniza entre dispositivos y se pierde al borrar sus datos. No hay migración de SQLite.
 6. Se reinició el servicio para cargar el backend. Quedó `active`; el JavaScript servido coincide byte a byte con el archivo instalado. El endpoint DM sin sesión devuelve HTTP 401.
@@ -55,3 +55,11 @@ Javier: recargar `/dm`, comprobar contadores y marcar una revisión; falta valid
   "client/qa-master-activity.cjs": "030238f62d064b31ef34973b033bd6bdef81b01214e6d0e492be263304a57df9"
 }
 ```
+
+## Cierre de integración del código
+
+Por petición posterior de Javier se incorporan a la rama de integración los tres archivos de ejecución y las dos pruebas, comparados contra main a37f5fc. El delta coincide exactamente con lo desplegado; no sustituye otros cambios. Esta sección supersede el pendiente de integración descrito arriba una vez integrada la entrega. No se reinicia ni redespliega por registrar código.
+
+Límite del contador: cuenta órdenes persistidas con `id=mover`; las órdenes introducidas como texto conservan `text` y no se incluyen. No se presenta como un contador exhaustivo de todos los desplazamientos.
+
+Comprobación del candidato: pruebas focales de DM y controles cliente, sintaxis JavaScript y `git diff --check`. Sin cambios de partidas ni credenciales.
