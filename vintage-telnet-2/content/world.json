@@ -5,12 +5,12 @@
       "id": "mordelinde",
       "name": "Mordelinde",
       "region": "edran",
-      "description": "El cuerpo bajo y alargado conserva el color de la tierra entre las raíces. Las manos delanteras apartan semillas; cuando percibe un movimiento, el hocico deja de trabajar y busca una abertura antes que una presa. Su cola corta y peluda desaparece detrás del cuerpo en una carrera pegada al suelo.",
-      "warning": "El Mordelinde mira hacia una abertura próxima. Mantenerle libre esa salida evita obligarlo a defenderse.",
+      "description": "Un hocico pequeño remueve la tierra entre las raíces. El Mordelinde tiene el cuerpo bajo y alargado, casi del mismo color que el suelo, y una cola corta cubierta de pelo. Sus patas delanteras apartan semillas. Cuando nota movimiento cerca, levanta el hocico y mira hacia las aberturas entre la maleza: está buscando por dónde ponerse a salvo.",
+      "warning": "El Mordelinde deja de escarbar y mira una abertura próxima. Si tiene el paso libre, puede escapar hacia su refugio. No hace falta cerrárselo para observarlo.",
       "source": "Canon del prompt; descripción original nueva",
       "material": "piel_mordelinde",
       "illustration": "/client/art/bestiary/mordelinde-anime-v1.webp",
-      "combat_intro": "El Mordelinde se afirma sobre las patas y se vuelve hacia ti para defenderse.",
+      "combat_intro": "El Mordelinde se encoge sobre las patas y vuelve el hocico hacia ti. Acorralado, defiende el espacio que le queda; no ha salido de su refugio para perseguirte.",
       "loot": [
         {
           "item": "piel_mordelinde",
@@ -26,8 +26,8 @@
       "id": "espinajo_rastrojo",
       "name": "Espinajo de rastrojo",
       "region": "edran",
-      "description": "Las espinas sobresalen sobre un cuerpo compacto que cabe entre tallos cortados. El animal mantiene una parcela pequeña, deteniéndose y volviendo al mismo borde. Antes de cargar baja el cuerpo y orienta la defensa hacia lo que se aproxima; su espacio puede rodearse por el sendero.",
-      "warning": "El Espinajo se afirma entre los tallos y prepara una carga. Tienes una intervención antes de que alcance tu posición.",
+      "description": "Algo corre por debajo de los tallos cortados y vuelve a asomar en el mismo borde. Es un Espinajo: tiene el cuerpo compacto y una defensa de espinas que sobresale entre el rastrojo. Se detiene, mira y vuelve sobre sus pasos. No te sigue por todo el campo; protege esta parcela pequeña. El sendero permite pasar sin entrar en ella.",
+      "warning": "El Espinajo corre un trecho bajo los tallos y vuelve a asomar frente a ti. Baja el cuerpo y apunta las espinas hacia quien se aproxima. Sigue en su parcela; todavía puedes dejarle espacio y seguir el sendero.",
       "source": "Canon del prompt; descripción original nueva",
       "material": "fibra_espinajo",
       "illustration": "/client/art/bestiary/espinajo-rastrojo-anime-v1.webp",
@@ -40,17 +40,18 @@
           "item": "espina_espinajo",
           "chance": 0.45
         }
-      ]
+      ],
+      "combat_intro": "Al decidir enfrentarte, el Espinajo se mete bajo los tallos, cambia de posición y vuelve a asomar orientado hacia ti. Baja el cuerpo para cargar. Las espinas se mueven con él: ahora tienes que responder a su preparación."
     },
     "cornalomo": {
       "id": "cornalomo",
       "name": "Cornalomo",
       "region": "edran",
-      "description": "La hierba pierde altura alrededor de un cuerpo que deja huellas profundas. La criatura ocupa el prado con un peso capaz de cambiar la forma del terreno; su lomo se ve por encima de los tallos que ocultan animales menores. La distancia permite reconocerla sin entrar en su espacio.",
-      "warning": "El Cornalomo gira hacia ti y afirma su peso. Sus patas hunden la tierra al cambiar de posición. Todavía puedes retirarte antes del contacto.",
+      "description": "El Cornalomo sobresale por encima de la hierba que oculta a los animales pequeños. Su cuerpo deja un claro alrededor, y las patas marcan huellas profundas al cambiar de apoyo. No hace falta acercarse para notar su tamaño: el prado está aplastado por donde pasa. Desde lejos puedes ver qué parte del terreno ocupa antes de elegir tu camino.",
+      "warning": "El Cornalomo gira hacia ti y se afirma. La tierra se hunde un poco bajo sus patas cuando cambia el peso de lado. No ha llegado hasta ti: aún puedes apartarte antes del contacto.",
       "source": "Canon del prompt; descripción original nueva",
       "illustration": "/client/art/bestiary/cornalomo-anime-v1.webp",
-      "combat_intro": "El Cornalomo planta las patas y gira hacia ti. La tierra cede bajo su peso mientras entra en combate.",
+      "combat_intro": "Al insistir en enfrentarte, el Cornalomo planta las patas y vuelve todo el cuerpo hacia ti. La tierra cede bajo su peso. El espacio que desde lejos parecía un claro pequeño ahora queda ocupado por su fuerza.",
       "loot": [
         {
           "item": "cuerno_cornalomo",
@@ -62,8 +63,8 @@
       "id": "cascapedernal",
       "name": "Cascapedernal",
       "region": "korven",
-      "description": "Un caparazón oscuro se recoge contra la piedra, cerca de superficies raspadas de liquen. Cuando la sombra de una persona cruza demasiado cerca, el borde produce un golpe seco. La hendidura que utiliza es mucho más estrecha que su contorno aparente.",
-      "warning": "El Cascapedernal golpea la piedra con el caparazón y se orienta hacia ti. Tienes una intervención antes de que alcance tus manos.",
+      "description": "Un golpeteo seco sale de entre las piedras. El Cascapedernal tiene un caparazón duro y oscuro, y junto a él quedan líneas raspadas en el liquen del que se alimenta. Al notar una sombra cercana, se recoge y golpea el suelo con el borde del caparazón. Las hendiduras estrechas que lo rodean le ofrecen refugio.",
+      "warning": "El Cascapedernal se recoge y da un golpe seco contra la piedra. Su caparazón protege el cuerpo; acercar las manos a su refugio puede hacer que se defienda.",
       "source": "Canon del prompt; descripción original nueva",
       "illustration": "/client/art/bestiary/cascapedernal-anime-v1.webp",
       "loot": [
@@ -75,17 +76,18 @@
           "item": "cristal_veta",
           "chance": 0.1
         }
-      ]
+      ],
+      "combat_intro": "Al enfrentarte al Cascapedernal, su borde oscuro golpea otra vez la piedra. El animal se orienta hacia ti, encogido bajo el caparazón. El sonido permite seguir su movimiento entre los apoyos."
     },
     "dorsalodo": {
       "id": "dorsalodo",
       "name": "Dorsalodo",
       "region": "lethra",
-      "description": "Un cuerpo anfibio largo y pesado mantiene la espalda rugosa entre barro y vegetación. El agua profunda permite ocultar casi todo su volumen. Ondas demasiado amplias y juncos aplastados advierten su lugar antes de que la ribera permita distinguirlo entero.",
-      "warning": "El Dorsalodo abre un paso ancho entre los juncos. El agua se mueve bajo todo su cuerpo y alcanza la orilla. Aún puedes retirarte antes del contacto.",
+      "description": "Los juncos están aplastados en una franja ancha que entra al agua. Cerca de ella se mueve el Dorsalodo, largo y pesado, con una espalda rugosa que de lejos parece barro y vegetación amontonados. Las ondas que deja son demasiado grandes para los animales pequeños de la orilla. El canal profundo puede ocultar casi todo su cuerpo.",
+      "warning": "El Dorsalodo abre un paso entre los juncos y el agua se mueve bajo su cuerpo. La onda alcanza la orilla antes que él. Todavía puedes retirarte sin entrar en su alcance.",
       "source": "Canon del prompt; descripción original nueva",
       "illustration": "/client/art/bestiary/dorsalodo-anime-v2.webp",
-      "combat_intro": "El Dorsalodo llena el paso entre los juncos. El agua golpea la orilla cuando orienta su cuerpo hacia ti.",
+      "combat_intro": "Al insistir en el encuentro, ves cómo el Dorsalodo llena el paso entre los juncos. Su cuerpo largo se orienta hacia ti y el agua golpea la orilla. Ya no es una mancha de barro que puedas ignorar al cruzar.",
       "loot": [
         {
           "item": "escama_dorsalodo",
@@ -97,7 +99,7 @@
       "id": "hilaria_niebla",
       "name": "Hilaria de niebla",
       "region": "nhal",
-      "description": "El arácnido permanece al borde de una red baja tendida entre raíces y un tronco caído. Las gotas vuelven visibles hilos que el cuerpo opaco casi oculta. Una vibración grande lo lleva a una hendidura de corteza; una vibración pequeña puede ser la presa que espera.",
+      "description": "Las gotas de niebla dibujan hilos entre una raíz y un tronco caído. En el borde de esa red espera la Hilaria, un arácnido de cuerpo opaco que cuesta distinguir bajo las hojas. Algunas envolturas vacías muestran dónde atrapó insectos. No sale a perseguir viajeros: vigila la red y puede defenderla si algo la rompe.",
       "warning": "Las gotas dibujan hilos entre las raíces: una Hilaria de niebla tiene aquí su red. Rodéala; la red frena a quien la pisa.",
       "source": "Canon del prompt; descripción original nueva",
       "illustration": "/client/art/bestiary/hilaria-anime-v1.webp"
@@ -106,11 +108,11 @@
       "id": "rasgacorteza",
       "name": "Rasgacorteza",
       "region": "nhal",
-      "description": "La piel gruesa e irregular se parece a la corteza mojada junto a la que puede quedarse inmóvil. Los daños altos y el cambio de rutas de animales menores revelan su espacio. Las redes abandonadas y el silencio cercano permiten advertirlo antes de pasar bajo los árboles marcados.",
-      "warning": "El Rasgacorteza se separa del tronco y deja ver el tamaño de su cuerpo. Las ramas altas se doblan bajo su peso. Puedes retroceder antes de entrar en su alcance.",
+      "description": "Al principio parece parte del tronco húmedo. El Rasgacorteza tiene la piel gruesa e irregular, del color de la corteza oscura, y puede quedarse quieto junto a un árbol grande. Más arriba faltan trozos de corteza; cerca, algunas redes están abandonadas. El silencio y las huellas bajo las hojas ayudan a reconocer el espacio que ocupa.",
+      "warning": "El Rasgacorteza se separa del tronco y deja ver el tamaño que la sombra escondía. Las ramas se doblan junto a su cuerpo. Puedes retroceder antes de entrar en su alcance.",
       "source": "Canon del prompt; descripción original nueva",
       "illustration": "/client/art/bestiary/rasgacorteza-anime-v2.webp",
-      "combat_intro": "El Rasgacorteza se separa del tronco y ocupa el paso. Las ramas se doblan bajo su peso mientras se dispone a atacar.",
+      "combat_intro": "Al insistir en enfrentarte, el Rasgacorteza ocupa el paso junto al tronco. Las patas se separan del árbol y el cuerpo reúne fuerza para su golpe. La corteza que parecía inmóvil acaba de moverse hacia tu posición.",
       "loot": [
         {
           "item": "corteza_rasgacorteza",
@@ -122,7 +124,7 @@
       "id": "rondamusgo",
       "name": "Rondamusgo",
       "region": "nhal",
-      "description": "Cuatro patas cortas sostienen un cuerpo de pelo áspero donde se adhieren musgo y semillas. La criatura busca hongos y frutos bajo las hojas; al oír pasos se inmoviliza antes de correr hacia una raíz hueca. Su recorrido deja semillas donde vuelve a refugiarse.",
+      "description": "Un bulto de pelo áspero avanza despacio entre las hojas. El Rondamusgo lleva semillas y pequeños trozos de musgo pegados al cuerpo. Busca hongos, raíces tiernas y frutos caídos; cuando oye pasos, se queda inmóvil antes de buscar un hueco entre las raíces. Las semillas acumuladas cerca de esos huecos cuentan parte de su recorrido.",
       "warning": "El musgo se ha movido y hay semillas esparcidas: un Rondamusgo busca hongos. Si lo sorprendes, empuja y huye hacia una raíz hueca.",
       "source": "Canon del prompt; descripción original nueva",
       "illustration": "/client/art/bestiary/rondamusgo-anime-v1.webp",
@@ -143,8 +145,8 @@
       "id": "unapiedra",
       "name": "Uñapiedra",
       "region": "hoshai",
-      "description": "Las uñas encuentran apoyos que apenas sobresalen de la roca. La criatura mantiene el cuerpo cerca de la pendiente y cambia de lugar sin atravesar el espacio de quienes siguen el camino. Los apoyos pequeños explican su ruta.",
-      "warning": "",
+      "description": "La Uñapiedra parece abrazar la pendiente: tiene el cuerpo bajo, ancho y aplanado, con cuatro patas abiertas hacia los lados. Sus dedos de uñas curvas encuentran salientes pequeños. La cola larga equilibra el cuerpo cuando cambia de apoyo. Puede quedarse pegada a la piedra o moverse entre desniveles donde un viajero tendría que buscar un paso más amplio.",
+      "warning": "Mira dónde apoya los dedos la Uñapiedra. Mantiene el cuerpo cerca de la roca y usa la cola para equilibrarse; no necesita cruzar el espacio de tu camino.",
       "source": "Canon del prompt; descripción original nueva",
       "illustration": "/client/art/bestiary/unapiedra-anime-v1.webp"
     },
@@ -152,11 +154,11 @@
       "id": "rasgacumbres",
       "name": "Rasgacumbres",
       "region": "hoshai",
-      "description": "Las señales de altura anuncian una amenaza muy superior a la fauna del camino. Mirar el terreno alterado desde un apoyo seguro permite comprender la diferencia sin convertir la observación en un combate.",
-      "warning": "El Rasgacumbres baja de la cornisa y clava las patas en tu camino. Sus garras dejan marcas nuevas en la piedra. Puedes apartarte antes del contacto.",
+      "description": "Un cuerpo de pelo grueso aparece entre las rocas de altura. El Rasgacumbres tiene cuatro patas y las delanteras son especialmente fuertes. Las marcas profundas de garras y las piedras desplazadas desde la cornisa advierten por dónde se mueve. Es un gran depredador de montaña: conocer su tamaño desde un apoyo seguro permite decidir antes de acercarse.",
+      "warning": "El Rasgacumbres baja de la cornisa y clava las patas en el camino. Las garras dejan marcas nuevas. Aún hay distancia entre vosotros; puedes apartarte antes del contacto.",
       "source": "Canon del prompt; descripción original nueva",
       "illustration": "/client/art/bestiary/rasgacumbres-anime-v2.webp",
-      "combat_intro": "El Rasgacumbres clava las patas en el camino. Sus garras raspan la piedra mientras busca un ángulo para atacarte.",
+      "combat_intro": "Al insistir en el enfrentamiento, el Rasgacumbres afirma las patas y desplaza el peso hacia un lado. Las garras raspan la piedra mientras busca un ángulo desde el que alcanzarte.",
       "loot": [
         {
           "item": "garra_rasgacumbres",
@@ -168,11 +170,11 @@
       "id": "quebrarrocas",
       "name": "Quebrarrocas",
       "region": "korven",
-      "description": "La piedra fracturada forma un recorrido que continúa bajo el suelo duro. Los bloques desplazados no son la obra reciente de un viajero: anuncian una criatura capaz de abrir espacio donde una carga humana queda detenida.",
-      "warning": "El Quebrarrocas empuja un bloque y abre espacio entre las piedras. El roce deja polvo y una franja recién despejada. Todavía puedes volver por la senda.",
+      "description": "El suelo duro tiene grietas recientes y algunos bloques han cambiado de sitio. Entre esa piedra fracturada se mueve el Quebrarrocas, una gran criatura acorazada que empuja bloques para abrirse paso. El roce deja polvo en las uniones. Las vibraciones bajo los pies pueden anunciarlo antes de que asome todo su cuerpo.",
+      "warning": "El Quebrarrocas empuja un bloque y abre una franja entre las piedras. El polvo cae por el borde recién movido. Todavía puedes volver por la senda antes de acercarte a su alcance.",
       "source": "Canon del prompt; descripción original nueva",
       "illustration": "/client/art/bestiary/quebrarrocas-anime-v1.webp",
-      "combat_intro": "El Quebrarrocas deja atrás el bloque que empujaba y se orienta hacia ti. La piedra suelta cruje bajo su cuerpo.",
+      "combat_intro": "Al insistir en enfrentarte, el Quebrarrocas deja atrás el bloque que empujaba y se orienta hacia ti. La piedra suelta cruje bajo su cuerpo. Los apoyos que ocupa forman parte de la fuerza con la que prepara su empuje.",
       "loot": [
         {
           "item": "placa_quebrarrocas",
@@ -184,23 +186,25 @@
       "id": "saltacresta",
       "name": "Saltacresta",
       "region": "hoshai",
-      "description": "La criatura aprovecha cambios de nivel que un carro no puede seguir. Un apoyo pequeño y el movimiento de la vegetación permiten distinguir su paso del desprendimiento de una piedra.",
+      "description": "Un pequeño herbívoro corta brotes entre las rocas. El Saltacresta tiene patas traseras potentes y pezuñas divididas; puede saltar de una terraza natural a otra con un movimiento brusco. A veces se detiene arriba y emite chasquidos cortos. Cerca del matorral quedan huellas dobles y mechones de pelo: señales de su paso, no de un animal que sale a cazar viajeros.",
       "source": "Canon del prompt; descripción nueva de anatomía y conducta",
-      "illustration": "/client/art/bestiary/saltacresta-anime-v1.webp"
+      "illustration": "/client/art/bestiary/saltacresta-anime-v1.webp",
+      "warning": "El Saltacresta mira desde un apoyo alto antes de moverse. Deja espacio entre las terrazas: sus saltos y las patadas con que se defiende pueden sorprender a quien lo acorrala."
     },
     "colagrieta": {
       "id": "colagrieta",
       "name": "Colagrieta",
       "region": "korven",
-      "description": "El reptil alargado asoma primero la cabeza desde una fisura. Su cola gruesa sirve de apoyo al retroceder; las vibraciones fuertes lo llevan hacia dentro antes de que el espacio abierto permita verle entero.",
+      "description": "Primero asoma una cabeza desde la fisura. El Colagrieta es un reptil alargado que evita quedarse mucho tiempo en terreno abierto. Su cola gruesa le sirve de apoyo para retroceder. Cerca de la grieta puede haber cáscaras rotas y restos de comida arrastrada; busca pequeños animales e insectos y también aprovecha alimento abandonado.",
       "source": "Canon del prompt; descripción nueva de anatomía y conducta",
-      "illustration": "/client/art/bestiary/colagrieta-anime-v1.webp"
+      "illustration": "/client/art/bestiary/colagrieta-anime-v1.webp",
+      "warning": "El Colagrieta asoma la cabeza y mantiene el cuerpo junto a la fisura. Mira las marcas del polvo sin tapar la abertura: ese hueco es también su refugio."
     },
     "pinzajunco": {
       "id": "pinzajunco",
       "name": "Pinzajunco",
       "region": "lethra",
-      "description": "El crustáceo se desplaza de lado entre barro y raíces. Su pinza mayor se eleva hacia quien invade el borde poco profundo; detrás, un agujero conserva restos vegetales que arrastra para utilizar como refugio.",
+      "description": "El Pinzajunco camina de lado entre barro y raíces de la orilla. Sus dos pinzas no son iguales: levanta la mayor cuando algo entra en el pequeño espacio donde se alimenta. Arrastra restos vegetales hacia un agujero junto a los juncos para formar refugio. En el barro quedan líneas cortas, una al lado de otra, por donde ha pasado.",
       "source": "Canon del prompt; descripción nueva de anatomía y conducta",
       "illustration": "/client/art/bestiary/pinzajunco-anime-v2.webp",
       "warning": "Un chasquido de pinza y barro removido: un Pinzajunco defiende su madriguera. Si no pisas el borde, se repliega.",
@@ -222,7 +226,7 @@
       "id": "saltalodo",
       "name": "Saltalodo",
       "region": "lethra",
-      "description": "La piel moteada casi se pierde entre barro y hojas flotantes. El anfibio infla una bolsa del cuello antes de llamar. Un salto repentino lo lleva hacia agua profunda cuando el borde se llena de pasos.",
+      "description": "Entre barro y hojas flotantes cuesta ver la piel moteada del Saltalodo. Este anfibio robusto puede quedarse medio sumergido sin moverse. Antes de llamar, infla una bolsa del cuello; al asustarse puede dar un salto repentino hacia agua más profunda. Las huellas anchas y las salpicaduras ayudan a reconocerlo cerca de la charca.",
       "source": "Canon del prompt; descripción nueva de anatomía y conducta",
       "illustration": "/client/art/bestiary/saltalodo-anime-v1.webp",
       "warning": "Un chapoteo y una llamada breve: un Saltalodo hincha la bolsa del cuello y salta al agua profunda si te acercas.",
