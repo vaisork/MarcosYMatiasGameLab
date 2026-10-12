@@ -77,3 +77,11 @@ Dos adaptaciones explícitas: el aro del recipiente de Elin queda vacío y la ta
 continúa sosteniendo el juguete del secadero; no se atribuye al aro ese apoyo.
 La acción de Taren evita introducir un pronombre de género no necesario. Las
 divergencias más recientes de main se conservan.
+
+## Cierre de encargo sin reparación inventada
+
+La revisión de divergencias detectó una intención vigente de la entrega antigua:
+el cierre del toldo no debe afirmar que se reparó después de preparar sólo las
+perchas. Se rescatan entrega y pago, y se adapta la indicación de cierre conservando
+su ubicación actual. La aceptación, flags, opciones, inventario y pago siguen iguales.
+La colaboración vecinal no introduce un género que contradiga la petición actual.
