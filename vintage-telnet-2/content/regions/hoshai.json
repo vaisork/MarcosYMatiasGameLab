@@ -15,8 +15,8 @@
       "source": "Vintage_Telnet_Prompt_Actualizado.pdf — canon geográfico y especies; ampliación textual nueva autorizada 2026-10-05",
       "home": {
         "name": "Hogar sobre el descanso de Khariel",
-        "introduction": "La puerta de tu hogar se abre sobre un descanso de roca, separado del patio público por dos peldaños y una rampa breve. Dentro, un banco deja espacio detrás del asiento, y las herramientas de casa se guardan donde puedes alcanzarlas sin cruzar toda la habitación. Una ventana lateral mira la ladera en vez de la puerta de un vecino. Aquí puedes preparar lo que llevarás, pensar en el regreso y salir hacia Khariel; la montaña no empieza en una hazaña, sino en este umbral usado cada día.",
-        "description": "Tu hogar reúne banco, mesa y estantes en torno a una franja libre que conduce a la puerta. La ventana lateral permite ver una sección de ladera sin mostrar toda la sierra. Los bultos de viaje esperan sobre un apoyo distinto del que recibe utensilios domésticos. Afuera queda el descanso de Khariel y, desde él, el patio público. La habitación conserva un lugar propio para preparar una salida sin ocupar los pasos de otros.",
+        "introduction": "El banco de madera tiene hueco para acomodar la cola sin apretarla, y por la ventana lateral entra la brisa fresca de la montaña. En el apoyo de la puerta espera tu morral listo. Afuera, en la plaza de Khariel, se oyen risas en los escalones y el golpe rítmico de madera en el taller. ¿Bajarás al taller a ver qué construye Daren, o prefieres cruzar hacia el mercado de las cintas?",
+        "description": "El banco deja espacio cómodo para la cola y la ventana mira la ladera iluminada. Tu morral descansa en el apoyo de la puerta. Fuera queda la rampa hacia la plaza de Khariel, con el taller de Daren y el mercado de cintas a pocos pasos.",
         "day": "La ventana recoge luz de la ladera sobre una esquina de la mesa. Fuera se oyen recipientes bajados por la rampa. La jornada del pueblo comienza sin entrar por ello en tu espacio privado.",
         "night": "La luz de una vivienda vecina llega sólo hasta el descanso exterior. Dentro puedes ordenar apoyos cercanos con tu propia lámpara, mientras los sonidos de las cargas se separan de las voces domésticas que siguen despiertas.",
         "rain": "El agua baja por fuera de los dos peldaños y golpea el borde de la ventana. Los objetos domésticos permanecen secos; el apoyo de viaje recibe una cubierta mojada sin acercarla al banco donde descansas.",
@@ -1302,7 +1302,38 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "hoshai_llamar_puerta",
+          "label": "Llamar a una puerta",
+          "text": "Te colocas en el umbral de espera y llamas con dos toques a la puerta de madera. Una vecina Felaryn abre despacio, asomando sus bigotes y unos ojos dorados muy atentos. Detrás de ella se ve una repisa con vasijas de barro y una tela azul tendida a secar. «¡Hola!», saluda moviendo la punta de la cola. «Si buscas el lavadero, queda al este; si vienes de visita, buen descanso.»",
+          "set_flags": [
+            "hoshai_puerta_llamada"
+          ],
+          "forbids_flags": [
+            "hoshai_puerta_llamada"
+          ],
+          "scope": "player",
+          "journal": "Llamaste a una puerta del patio de las casas; una vecina Felaryn te saludó desde su umbral."
+        },
+        {
+          "id": "hoshai_llamar_puerta_revisita",
+          "label": "Llamar a una puerta",
+          "text": "Llamas de nuevo en el umbral de espera. La misma vecina Felaryn entreabre la puerta y te reconoce al instante con un movimiento amistoso de las orejas. La tela azul ya está doblada sobre la mesa, junto a un plato de higos secos. «¿Otra vuelta por los descansos?», pregunta con una sonrisa tranquila.",
+          "requires_flags": [
+            "hoshai_puerta_llamada"
+          ],
+          "scope": "player"
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "hoshai_puerta_llamada"
+          ],
+          "text": "En el descanso recuerdas la puerta donde la vecina Felaryn te recibió con amabilidad."
+        }
+      ],
       "brief": "El patio de las casas, entre escalones y descansos.",
       "states": [
         {
