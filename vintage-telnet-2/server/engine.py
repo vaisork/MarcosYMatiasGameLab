@@ -29,6 +29,7 @@ class Engine:
 
     def allowed(self,item,state,world):
         if not allowed(item,state,world):return False
+        if not set(item.get('requires_examined',[])).issubset(state.get('examined',{}).get(state['location'],[])):return False
         visit_requirement=item.get('requires_visits',{})
         visits=state.get('visits',{}).get(state['location'],0)
         if visits<visit_requirement.get('min',0) or ('max' in visit_requirement and visits>visit_requirement['max']):return False
@@ -656,7 +657,13 @@ class Engine:
             return ' '.join(re.sub(r'[^\w\s]',' ',value).split())
         if text.strip().casefold().startswith('decir '):return {'id':'decir','text':text.strip()[6:]}
         typed=normalize(text);state=character['state'];room=self.room(character,world);matches=[]
-        for choice in self.actions(character,world):
+        if typed in ('mira','mirar'):typed='mirar'
+        if typed in ('ayuda','inventario'):return {'id':typed}
+        choices=self.actions(character,world)
+        for npc in self.people(room,state,world,self.ambient(room,world)) if not state['combat'] else []:
+            if typed in {normalize(prefix+' '+npc['name']) for prefix in ('hablar','hablar con','conversar con')}:
+                return {'id':'saludar','target':npc['id']}
+        for choice in choices:
             id=choice['id'];target=choice.get('target');aliases={normalize(choice['label'])}
             if target is None:aliases.add(normalize(id))
             if id=='mover':
@@ -683,7 +690,23 @@ class Engine:
                 aliases.add(normalize(id+' '+creature.get('name',target)))
                 if id=='combatir':aliases.add(normalize('atacar '+creature.get('name',target)))
             if typed in aliases:matches.append(choice)
-        if len(matches)!=1:raise RuleError('No reconoces una acción disponible con esas palabras. Usa el nombre de una posibilidad del lugar.',409)
+        if not matches and not state['combat']:
+            def keywords(value):return set(normalize(value).split())-{'a','al','la','las','el','los','de','del','en','con','y','un','una'}
+            words=keywords(typed)
+            for authored in room.get('actions',[]):
+                label=keywords(authored['label'])
+                water=typed=='nadar' and bool(label&{'nadar','agua','sumergirse'})
+                if not ((words and words.issubset(label) and normalize(typed).split()[0]==normalize(authored['label']).split()[0]) or water):continue
+                without_species={k:v for k,v in authored.items() if k!='requires_species'}
+                if not self.allowed(without_species,state,world):continue
+                if not self.allowed(authored,state,world):
+                    raise RuleError('Tu especie no puede realizar esa acción. Requiere: '+', '.join(authored['requires_species'])+'.',409)
+                matches.append({'id':authored['id']})
+        if len(matches)!=1:
+            local=[a for a in choices if not a.get('disabled') and (a['id'] in ('mover','examinar') or a['id'] in {item['id'] for item in room.get('actions',[])})]
+            suggestions=[a['label'] for a in local[:3]]
+            suggestions += [a['label'] for a in choices if not a.get('disabled') and a['label'] not in suggestions][:max(0,3-len(suggestions))]
+            raise RuleError('No entiendo esas palabras. Puedes probar: '+'; '.join(suggestions)+'.',409)
         choice=matches[0]
         if choice.get('disabled'):raise RuleError(choice.get('reason') or 'Esa decisión todavía no está disponible.',409)
         result={key:choice[key] for key in ('id','target','topic') if key in choice}
@@ -692,6 +715,14 @@ class Engine:
 
     def apply(self,character,world,intent):
         state=character['state'];room=self.room(character,world);action=intent.get('id');target=intent.get('target')
+        if action in ('ayuda','inventario'):
+            text='Comandos básicos: mirar, observar, examinar <objeto>, ir <salida>, hablar con <nombre>, inventario.' if action=='ayuda' else 'Inventario: '+('; '.join(f"{item['name']} ({item.get('quantity',1)})" for item in state['inventory']) or 'vacío')+'.'
+            state['events']=[event('info',text)];return
+        if action=='saludar':
+            npc=next((n for n in self.people(room,state,world,self.ambient(room,world)) if n['id']==target),None)
+            if not npc or state['combat']:raise RuleError('No puedes conversar con ese personaje ahora.',409)
+            topics=[a['topic'] for a in self.actions(character,world) if a['id']=='hablar' and a['target']==target]
+            state['events']=[event('npc',npc['name']+': Hola. Temas disponibles: '+(', '.join(topics) or 'ninguno por ahora')+'.')];return
         known_before=set(state['bestiary'])
         candidates=self.actions(character,world)
         if action=='decir':
@@ -717,6 +748,9 @@ class Engine:
             if action in ('mirar','observar'):self.observe(state,room,world)
             if action=='observar':
                 observations=state.setdefault('observations',{});observations[room['id']]=observations.get(room['id'],0)+1
+            if action=='examinar':
+                examined=state.setdefault('examined',{}).setdefault(room['id'],[])
+                if target not in examined:examined.append(target)
             state['events']=self.narrative(character,world,action,target)
             if action=='observar':state['events'].append(event('action','Observas con atención.'))
         elif action=='buscar':

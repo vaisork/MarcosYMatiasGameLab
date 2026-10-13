@@ -1758,6 +1758,9 @@
           "requires_species": [
             "marevyn"
           ],
+          "requires_examined": [
+            "fondo"
+          ],
           "forbids_flags": [
             "lethra_barquita_rescatada"
           ],
