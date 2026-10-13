@@ -257,6 +257,9 @@ class SpeciesSecretsTests(unittest.TestCase):
  def engine(self,hour):return Engine(self.content,lambda:hour*3600,ZeroRandom())
  def offered(self,species,action_id,hour=12):
   state=m.new_state(species,'juramentado','home:1',hour*3600);state['location']=self.where[action_id]
+  # Satisfy discovery prerequisites before testing the species guard itself.
+  authored=next(a for a in self.content.rooms[state['location']]['actions'] if a['id']==action_id)
+  state['examined']={state['location']:authored.get('requires_examined',[])}
   return action_id in [a['id'] for a in self.engine(hour).actions({'state':state,'species':species},{'flags':[],'deaths':{}})]
  def test_each_species_gets_only_its_own_three(self):
   for species,ids in self.SECRETS.items():

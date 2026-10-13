@@ -15,8 +15,8 @@
       "source": "Vintage_Telnet_Prompt_Actualizado.pdf — canon geográfico y especies; ampliación textual nueva autorizada 2026-10-05",
       "home": {
         "name": "Hogar junto al canal de Narevia",
-        "introduction": "La plataforma de tu hogar queda por encima del canal y mantiene una entrada seca unida al paso público. Dentro, una mesa corta recibe recipientes de uso diario y un apoyo lateral permite dejar fibras o cargas húmedas sin llevarlas al lugar de descanso. La ventana abre hacia agua y vegetación, con una cubierta que desvía gotas fuera de la puerta. Aquí la vida no consiste en fingir que el canal está lejos: consiste en reconocer cómo se mueve y mantener un espacio propio entre sus cambios.",
-        "description": "Tu hogar reparte mesa, estantes y descanso sobre un suelo elevado. La ventana al canal recibe voces de otras plataformas sin entregar sus interiores. Junto a la entrada hay sitio para dejar un recipiente todavía mojado, separado de telas guardadas secas. El paso público conduce a Narevia por fuera de las puertas vecinas. Preparar una salida empieza por esa diferencia entre agua cercana, objetos protegidos y relaciones que esperan más allá de tu umbral.",
+        "introduction": "Bajo las tablas del suelo se escucha el chapoteo continuo del canal, fresco y tranquilo. En el apoyo de la entrada puedes dejar las cosas mojadas para no empapar la estera seca. Por la ventana entra olor a juncos y el rumor de las pértigas en la plaza de Narevia. ¿Cruzarás la pasarela hacia el mercado de Narevia o prefieres asomarte al taller de fibras?",
+        "description": "El suelo de tablas se eleva sobre el canal, con el agua corriendo debajo. La estera se mantiene seca junto al apoyo de juncos y la ventana da a la corriente. La puerta abre a las pasarelas de Narevia, a un paso del mercado y los talleres.",
         "day": "El reflejo del canal mueve una franja de luz por debajo de la ventana. Afuera se pasan recipientes entre plataformas. Puedes escuchar una llamada sin que quien la pronuncia se haya convertido en una visita a tu hogar.",
         "night": "Los reflejos de otras casas se separan sobre el agua y cambian cuando alguien cierra una ventana. Dentro queda luz cerca de la mesa. El canal continúa sonando sin hacer pública la quietud de tu descanso.",
         "rain": "Las gotas golpean la cubierta y caen al canal fuera de la puerta. El apoyo de entrada recibe una envoltura húmeda, mientras el suelo doméstico conserva su separación. La lluvia se escucha sin atravesar el techo.",
@@ -1478,7 +1478,38 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "lethra_llamar_ventana",
+          "label": "Llamar a la ventana",
+          "text": "Golpeas con los nudillos el marco de madera de la ventana baja y esperas sobre la tabla. Al momento, una mujer Marevyn aparta una cortina de junco. Te mira con curiosidad y sonríe: sobre su mesa humea un cuenco de caldo y en la repisa se secan tres caracolas limpias. «Hola, caminante», dice en voz baja. «Por aquí andamos preparando la comida.»",
+          "set_flags": [
+            "lethra_ventana_llamada"
+          ],
+          "forbids_flags": [
+            "lethra_ventana_llamada"
+          ],
+          "scope": "player",
+          "journal": "Llamaste a una ventana del patio; una vecina Marevyn se asomó con una sonrisa junto a sus caracolas."
+        },
+        {
+          "id": "lethra_llamar_ventana_revisita",
+          "label": "Llamar a la ventana",
+          "text": "Vuelves a llamar con cuidado en el marco de la ventana baja. La misma vecina se asoma enseguida, secándose las manos en un paño de lino. Reconoce tu cara y te saluda con un gesto amable: las tres caracolas siguen alineadas en la repisa, ahora junto a una taza vacía.",
+          "requires_flags": [
+            "lethra_ventana_llamada"
+          ],
+          "scope": "player"
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "lethra_ventana_llamada"
+          ],
+          "text": "En la ventana baja reconoces la cortina de junco donde te saludó la vecina Marevyn."
+        }
+      ],
       "brief": "El patio de las ventanas, con agua entre las casas.",
       "states": [
         {
@@ -1757,6 +1788,9 @@
           "label": "Sacar la barquita y dejarla en la raíz",
           "requires_species": [
             "marevyn"
+          ],
+          "requires_examined": [
+            "fondo"
           ],
           "forbids_flags": [
             "lethra_barquita_rescatada"

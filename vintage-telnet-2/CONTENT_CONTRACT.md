@@ -76,3 +76,5 @@ El cliente selecciona únicamente archivos del mapping cerrado
 `client/art/bestiary-thumbnails.json`; el snapshot sigue entregando las mismas
 criaturas descubiertas y sus ilustraciones completas. Ampliar usa el original.
 Ilustraciones anteriores sin mapping mantienen su archivo completo.
+
+Las acciones admiten `requires_examined:[objetivo]`: exige haber examinado esos objetivos en la sala actual. El motor conserva la observación personal en `state.examined` por ID de sala; mirar y observar no la conceden, ni se escribe durante consultas GET. Los alias por palabras clave sólo resuelven acciones locales y conservan todas sus guardas; las coincidencias ambiguas ofrecen sugerencias sin ejecutar acciones.
