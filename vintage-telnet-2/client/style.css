@@ -679,3 +679,11 @@ html body #navigation:not(.with-travel) .game-tabs{grid-template-columns:repeat(
 html body #navigation:not(.with-travel) .game-tabs button{min-height:48px;height:auto;padding:6px 2px}
 html body #navigation:not(.with-travel) .game-tabs .tab-label{font-size:12px;letter-spacing:normal}
 html body button:focus-visible,html body summary:focus-visible,html body #main:focus-visible{outline:3px solid var(--blue,#235fba);outline-offset:3px}
+
+/* Unspent attribute points; actions and costs come from the server. */
+html body .pa-notice{padding:12px;border:2px solid var(--blue);border-radius:12px;font-size:16px;line-height:1.5;background:#eef7ff;color:var(--night,#152b4a)}
+html body .attribute .attribute-upgrade{min-width:44px;min-height:44px;padding:6px;font-size:24px;flex-shrink:0}
+html body #navigation .game-tabs button{position:relative}
+html body #navigation .pa-badge{position:absolute;top:0;right:5px;color:#ffe07a;font-size:20px;line-height:1}
+html body #navigation button[aria-current=page] .pa-badge{color:#3a2300}
+@media(max-width:440px){html body .attribute-grid{grid-template-columns:minmax(0,1fr)}}
