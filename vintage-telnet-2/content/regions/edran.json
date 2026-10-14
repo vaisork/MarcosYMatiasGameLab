@@ -92,8 +92,12 @@
       "rain": "Los vecinos encajan tablillas bajo las patas del banco para impedir que se hunda. Una niña empuja con el zapato el agua retenida ante una puerta, sin tocar los montones de semillas.",
       "clear": "",
       "examine": {
-        "banco": "Tiene reparaciones de maderas distintas. Unas sujetan peso; otras sólo evitan que la ropa roce una astilla.",
-        "piedra": "Su cara superior está lisa por el uso. No hay marca de propiedad ni inscripción de un fundador."
+        "banco": "Tiene reparaciones de maderas distintas. Entre dos tablones del asiento hay una hendidura estrecha donde la madera no ajusta del todo.",
+        "piedra": "Su cara superior está lisa por el uso. No hay marca de propiedad ni inscripción de un fundador.",
+        "hendidura": {
+          "text": "Entre dos tablas del banco asoma una cinta de lana roja con una pequeña ficha de boj tallada a mano: tiene grabada una espiga y tres puntos. Parece una contraseña o juego de niños de hace años.",
+          "flag": "edran_hilo_ficha_vista"
+        }
       },
       "exits": {
         "norte": "valdren_calle_alta",
@@ -124,6 +128,25 @@
           ],
           "text": "Pasas la mano por el banco y notas que la madera cambia de dirección justo antes de tocar la piedra. No es un error: alguien prefirió que el banco rodeara la piedra antes que quitarla de su sitio.",
           "journal": "Valdren conserva algunas cosas sin necesidad de explicar de dónde vienen.",
+          "scope": "player"
+        },
+        {
+          "id": "edran_hilo_extraer_ficha",
+          "label": "Sacar la ficha de boj de la hendidura",
+          "requires_flags": [
+            "edran_hilo_ficha_vista"
+          ],
+          "forbids_flags": [
+            "edran_hilo_paso1"
+          ],
+          "requires_examined": [
+            "hendidura"
+          ],
+          "set_flags": [
+            "edran_hilo_paso1"
+          ],
+          "journal": "La ficha de boj tiene en el reverso una marca de tiza desvaída: 'Para quien riega antes del alba'. Huele a tierra húmeda y a huerta de Valdren.",
+          "text": "Tiras con suavidad de la lana roja y la ficha sale sin romperse. En el reverso de la madera hay una inscripción casi borrada hecha con tiza blanca: 'Para quien riega antes del alba'. Alguien la dejó allí como un recado secreto entre vecinos de los huertos.",
           "scope": "player"
         }
       ],
@@ -261,6 +284,14 @@
           "requires_time": [
             "noche"
           ]
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "edran_hilo_completado"
+          ],
+          "text": "La madera del banco ya no parece solo un asiento gastado; ahora sabes que su hendidura guardó durante años la promesa de infancia de dos hermanos de Valdren."
         }
       ],
       "max_layers": 4
@@ -431,7 +462,15 @@
       "clear": "",
       "examine": {
         "canaleta": "Un tapón de hojas desvía el agua hacia el huerto pequeño. Puede retirarse sin excavar ni cambiar la pendiente.",
-        "cuerda": "Las cuerdas evitan que entren animales durante la noche. No cierran el corredor público."
+        "cuerda": "Las cuerdas evitan que entren animales durante la noche. No cierran el corredor público.",
+        "estaquillas": {
+          "text": "Unas estaquillas de madera clavadas junto al agua tienen tres incisiones parejas en la parte superior, cubiertas de musgo seco.",
+          "flag": "edran_hilo_estaquillas_vistas",
+          "requires_flags": [
+            "edran_hilo_paso1"
+          ]
+        },
+        "espantapajaros": "Un monigote hecho de paja y un sayal viejo protege las lechugas. Alguien le ha colocado una zanahoria doblada como si fuera una pipa y un sombrero de paja con dos agujeros por donde asoma un nido de gorriones."
       },
       "exits": {
         "oeste": "valdren_plaza",
@@ -441,7 +480,38 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "edran_hilo_mirar_estaquillas",
+          "label": "Reconocer las marcas de riego en las estaquillas",
+          "requires_species": [
+            "humano"
+          ],
+          "requires_flags": [
+            "edran_hilo_paso1"
+          ],
+          "forbids_flags": [
+            "edran_hilo_paso2"
+          ],
+          "set_flags": [
+            "edran_hilo_paso2",
+            "edran_hilo_atajo_humano"
+          ],
+          "journal": "Como creciste en Valdren, reconoces al instante los tres cortes en la estaquilla: es la marca de siembra que usa la familia de Iria en la casa de las semillas.",
+          "text": "Miras las maderas que guían el agua entre los bancales. Cualquier forastero solo vería estacas viejas, pero tus ojos humanos de Valdren reconocen enseguida los tres cortes diagonales en la madera de fresno: es la misma seña que la familia de Iria pone en los tablones de riego.",
+          "scope": "player"
+        },
+        {
+          "id": "edran_easter_espantapajaros",
+          "label": "Hacer una reverencia al espantapájaros",
+          "requires_examined": [
+            "espantapajaros"
+          ],
+          "text": "Te inclinas con gran cortesía ante el muñeco de paja. Una ráfaga de viento mueve su manga derecha como si te devolviera el saludo, y del bolsillo de su sayal cae una cáscara de nuez vacía con una carita sonriente dibujada con tizón.",
+          "journal": "En los huertos de Valdren saludaste formalmente a un espantapájaros con pipa de zanahoria; el viento pareció responder a tu reverencia.",
+          "scope": "player"
+        }
+      ],
       "return": "Los postes desiguales te permiten localizar la plaza sin ver el banco. También reconoces la curva donde la canaleta debe recoger el agua de los dos lados.",
       "memories": [
         {
@@ -515,6 +585,16 @@
             "rain": "El agua de los dos huertos llega a la curva y continúa por la canaleta. La reparación exterior permite cruzar el corredor sin añadir tablas ante cada acceso.",
             "examine": {
               "canaleta": "La curva recibe corriente sin superar el borde. El reparto de la acequia sigue funcionando fuera del pueblo."
+            }
+          }
+        },
+        {
+          "requires_time": [
+            "noche"
+          ],
+          "overrides": {
+            "examine": {
+              "espantapajaros": "De noche, el espantapájaros parece una persona diminuta haciendo guardia entre las acelgas. Si te quedas muy quieto, oyes a un sapo croar rítmicamente desde su bota de trapo como si le estuviera contestando al silencio."
             }
           }
         }
@@ -933,7 +1013,14 @@
       "clear": "",
       "examine": {
         "tazas": "Una taza pequeña tiene una raya en la base. Quien la utiliza siempre la deja cerca de la ventana.",
-        "provisiones": "Se preparan para comer durante el viaje. No sustituyen el descanso ni el cuidado de una herida seria."
+        "provisiones": "Se preparan para comer durante el viaje. No sustituyen el descanso ni el cuidado de una herida seria.",
+        "repisa": {
+          "text": "En lo alto de la repisa de roble descansa una cazuela baja de barro cocido con tapa de madera. Al levantar la tapa, encuentras un trozo de corteza seca con un dibujo infantil de dos niños cruzando un puente con una carreta.",
+          "flag": "edran_hilo_repisa_vista",
+          "requires_flags": [
+            "edran_hilo_paso3"
+          ]
+        }
       },
       "exits": {
         "norte": "valdren_pozo"
@@ -957,6 +1044,26 @@
           ],
           "scope": "world",
           "journal": "La taza pequeña espera sobre un paño junto a la ventana. Hay otro asiento a su lado."
+        },
+        {
+          "id": "edran_hilo_concluir",
+          "label": "Leer el mensaje de carbón en la corteza de la cazuela",
+          "requires_flags": [
+            "edran_hilo_paso3",
+            "edran_hilo_repisa_vista"
+          ],
+          "forbids_flags": [
+            "edran_hilo_completado"
+          ],
+          "requires_examined": [
+            "repisa"
+          ],
+          "set_flags": [
+            "edran_hilo_completado"
+          ],
+          "journal": "En la cazuela de Elva estaba el dibujo de infancia de Iria y su hermano: dos niños despidiéndose junto al camino hacia Korven. La memoria de Valdren vive en estas pequeñas ternuras compartidas.",
+          "text": "Sostienes la corteza bajo la luz tibia del comedor. Bajo el dibujo de los dos niños y la carreta hay dos frases escritas con carbón fino: 'Para Iria, si me demoro al cruzar hacia las piedras de Korven. Guarda la espiga en la plaza; yo traeré una piedra gris del camino'. Elva te ve sonreír y asiente en silencio: el hermano regresó sano de aquel viaje y las carretas de grano siguieron cruzando los llanos durante años. Hacia el este, más allá de los cultivos, las sendas de tierra firme se pierden en dirección a las colinas de Korven.",
+          "scope": "player"
         }
       ],
       "return": "Las tazas invertidas guardan todavía los sitios reservados. El extremo del fuego tiene una silla libre; del otro llega una conversación baja.",
@@ -3397,10 +3504,32 @@
             "edran_acequia_abierta"
           ],
           "text": "¿Te acuerdas del huerto pequeño? Antes recibía casi toda el agua. Ahora la acequia también alcanza la parcela alta. Aún no han crecido hojas nuevas, pero ya podemos tocar la tierra húmeda en los dos lados. El cambio empieza ahí, antes de que se vea una cosecha."
+        },
+        "ficha_espiga": {
+          "label": "Mostrar la ficha de boj con la espiga tallada",
+          "requires_flags": [
+            "edran_hilo_paso2"
+          ],
+          "forbids_flags": [
+            "edran_hilo_paso3"
+          ],
+          "set_flags": [
+            "edran_hilo_paso3"
+          ],
+          "journal": "Iria reconoció la ficha: la talló su hermano cuando eran niños, antes de su primer viaje largo. Te pide que mires en la repisa del comedor de Elva.",
+          "text": "Iria deja reposar las manos sobre el borde del cuenco y mira la ficha con ternura. «Esa espiga la talló mi hermano mayor antes de marcharse con las carretas de grano hacia el este. La escondimos en el banco de la plaza la tarde que cumplí nueve años, prometiendo que el primero que volviera de labrar buscaría allí la merienda. Creí que el agua o el tiempo se la habrían llevado hace décadas. Si aún conservas esa curiosidad, ve al comedor comunal: Elva guarda en la repisa del fondo la cazuela pequeña donde nuestra madre nos dejaba el pan tostado con manteca.»"
+        },
+        "promesa_hermano": {
+          "label": "Hablar sobre la corteza encontrada en la repisa",
+          "requires_flags": [
+            "edran_hilo_completado"
+          ],
+          "text": "«Elva me contó que encontraste la corteza. Mi hermano cumplió su promesa y trajo aquella piedra de Korven; la guardé tanto tiempo que terminó haciéndose polvo entre los granos de centeno. Gracias por devolverle un instante de sol a esta casa, pequeña caminante.»"
         }
       },
       "memory": {
-        "hallazgo:semillas_camino": "«Las semillas que se encuentran junto al camino también cuentan de qué campo viene una carga. Si aún conservas alguna, compara su forma cuando vuelvas a pasar.»"
+        "hallazgo:semillas_camino": "«Las semillas que se encuentran junto al camino también cuentan de qué campo viene una carga. Si aún conservas alguna, compara su forma cuando vuelvas a pasar.»",
+        "edran_hilo_completado": "Iria te sonríe con calidez al verte entrar: «El banco de la plaza sigue en su sitio, y los recuerdos de casa también.»"
       },
       "day": "Iria lee el nombre de un recipiente antes de colocarlo en el estante.",
       "night": "Iria compara las tablillas del día con los recipientes que aún esperan nombre.",
@@ -3620,7 +3749,21 @@
       "description": "Lina sostiene la lista contra un poste de la cerca. Aparta una cesta para dejar pasar el carro de los huertos.",
       "topics": {
         "entrada": "Bienvenido. Dime tu nombre y lo anoto entre quienes llegan hoy. Si alguien pregunta por ti o se retrasa una carga, sabremos a quién avisar. Entrar no cuesta sellos: sólo necesitas presentarte una vez. Después podrás volver sin contarme toda tu historia en cada visita.",
-        "peligro": "Si vienes herido, busca a Sena en el lugar de cuidados. Puedo esperar a que vuelvas para cualquier nota o presentación. Llegar al pueblo no te obliga a salir otra vez de inmediato. A veces el mejor comienzo de un viaje es sentarse y recuperar fuerzas."
+        "peligro": "Si vienes herido, busca a Sena en el lugar de cuidados. Puedo esperar a que vuelvas para cualquier nota o presentación. Llegar al pueblo no te obliga a salir otra vez de inmediato. A veces el mejor comienzo de un viaje es sentarse y recuperar fuerzas.",
+        "marca_estaquillas": {
+          "label": "Preguntar por las marcas de tres cortes en las estaquillas",
+          "requires_flags": [
+            "edran_hilo_estaquillas_vistas"
+          ],
+          "forbids_flags": [
+            "edran_hilo_paso2"
+          ],
+          "set_flags": [
+            "edran_hilo_paso2"
+          ],
+          "journal": "Lina te explica que los tres cortes son la marca de la familia de Iria, de cuando su abuelo trazó los primeros surcos de la casa de las semillas.",
+          "text": "Lina sonríe al oírte y se apoya en su azada. «Esas muescas son viejísimas. Las hacía el abuelo de Iria para saber qué tablones correspondían al canal de las calabazas. Si buscas quién conoce ese rincón, sube a la casa de las semillas y pregúntale a ella misma.»"
+        }
       },
       "memory": {
         "permiso_valdren": "Lina encuentra tu nombre en la lista. «Ya te conozco. Pasa; hoy dejamos libre el borde para los carros.»"
@@ -3674,6 +3817,18 @@
         "edran_caja_recuperada"
       ],
       "source": "Ampliación original autorizada"
+    },
+    "edran_promesa_espiga": {
+      "id": "edran_promesa_espiga",
+      "title": "La espiga bajo el banco",
+      "premise": "Una ficha olvidada entre las tablas de la plaza rescata la memoria de dos hermanos de Valdren y una promesa de infancia.",
+      "steps": [
+        "edran_hilo_paso1",
+        "edran_hilo_paso2",
+        "edran_hilo_paso3",
+        "edran_hilo_completado"
+      ],
+      "source": "Historia personal de origen autorizada"
     }
   }
 }
