@@ -46,8 +46,8 @@ class RealContentTests(unittest.TestCase):
   restored=self.client.get('/api/state').json;self.assertEqual(restored['room']['id'],home);self.assertEqual(restored['character']['seals'],18)
   self.assertTrue(restored['journal']);self.assertLess(len(restored['map']['nodes']),len(self.content.rooms))
  def test_real_fauna_observation_retreat_and_major_warning(self):
-  self.create();self.walk('edran_bajo_humedo');self.action('observar')
-  sheltered=self.action('combatir','mordelinde');self.assertIsNone(sheltered['character']['combat']);self.assertEqual(sheltered['character']['xp'],0)
+  self.create();self.walk('edran_bajo_humedo');observed=self.action('observar')
+  sheltered=self.action('combatir','mordelinde');self.assertIsNone(sheltered['character']['combat']);self.assertEqual(sheltered['character']['xp'],observed['character']['xp'])
   self.walk('edran_prado');warning=self.action('acercarse','cornalomo');self.assertIsNone(warning['character']['combat'])
   retreat=self.action('retirarse','cornalomo');self.assertEqual(retreat['character']['hp'],100)
   self.assertTrue({'mordelinde','cornalomo'}.issubset({entry['id'] for entry in retreat['bestiary']}))
@@ -62,7 +62,7 @@ class RealContentTests(unittest.TestCase):
   self.assertTrue(any('pinza' in e['text'].lower() for e in examined['narrative']))
   self.assertTrue(any('bestiario' in e['text'] for e in examined['narrative']))
   self.assertIsNone(examined['character']['combat'])
-  self.assertEqual(examined['character']['xp'],initial['character']['xp'])
+  self.assertEqual(examined['character']['xp'],initial['character']['xp']+3)
   self.assertEqual(examined['character']['seals'],initial['character']['seals'])
   observed=self.action('observar')
   self.assertFalse(any(e['text'].startswith('Añades Pinzajunco') for e in observed['narrative']))
@@ -75,7 +75,7 @@ class RealContentTests(unittest.TestCase):
   same=self.post(self.client,'/api/action',payload);self.assertEqual(same.status_code,200)
   state=self.client.get('/api/state').json
   self.assertEqual(next(i['quantity'] for i in state['inventory'] if i['id']=='fibra_junco'),1)
-  self.assertEqual(state['character']['xp'],before['character']['xp']);self.assertEqual(state['character']['seals'],before['character']['seals'])
+  self.assertEqual(state['character']['xp'],before['character']['xp']+3);self.assertEqual(state['character']['seals'],before['character']['seals'])
   self.assertTrue(state['journal']);self.assertTrue(next(a for a in state['actions'] if a['id']=='buscar')['disabled'])
   self.clock.now+=61;again=self.action('buscar')
   self.assertEqual(next(i['quantity'] for i in again['inventory'] if i['id']=='fibra_junco'),1)

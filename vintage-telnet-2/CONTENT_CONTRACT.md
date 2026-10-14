@@ -88,3 +88,26 @@ viva examinable de la sala; mirar y las lecturas GET no enseñan datos. La entra
 persistente guarda los textos aprendidos, incluidos los de otras localidades;
 partidas anteriores exponen una lista vacía hasta aprender. Si no queda ningún
 dato local nuevo, el evento lo indica. Las personas no entran en el bestiario.
+
+## Experiencia por descubrimiento (decisión de Javier, 2026-10-14)
+
+El motor concede una sola vez por personaje: sala nueva 4 XP (excepto hogar),
+secreto del catálogo 10, texto nuevo del diario 3, cierre 25, encargo 15 y dato
+nuevo de conducta 3. La tabla `EXPLORATION_XP` vive en `server/mechanics.py`.
+Los encargos dan XP al pasar a `ready`; cobrar y repetir el mismo ID no vuelven
+a concederla. El cierre se reconoce por el flag del último paso de `stories`,
+por flags `hilo`/`arco` terminados en `completado`, `concluido`, `cerrado` o
+`resuelto`, o por entradas de diario que comienzan con «Cierre»/«Conclusión».
+Las fuentes distintas pueden sumar premios; varias historias con el mismo flag
+final cuentan como un único cierre. Un diario de cierre y un flag final nuevos
+en la misma transición reciben un solo premio de cierre. Un flag mundial sólo cuenta con participación
+personal. La XP de combate y la curva de niveles se conservan.
+
+`state.exploration_xp` guarda los identificadores premiados en el JSON persistente.
+Se inicializa con los logros anteriores a la primera acción, sin XP retroactiva;
+la carga y las lecturas sin transiciones no conceden premios ni migran el estado.
+Cada premio muestra `+N experiencia: <motivo>` y usa la subida de nivel existente.
+La calibración aislada de todas las salas, diarios y secretos de origen más un cierre
+alcanza entre los niveles 3 y 4 para las cinco especies, sin combate.
+Es una prueba de balance del motor con transiciones sintéticas, no un recorrido
+humano ni una validación de producción; otras pistas y encargos suman XP.
