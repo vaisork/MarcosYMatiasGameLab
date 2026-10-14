@@ -2160,8 +2160,8 @@
       },
       "exit_requirements": {
         "sur": {
-          "requires_level": 5,
-          "text": "La rampa que desciende al Bastión de las Aguas Antiguas bajo la acequia seca requiere templar tu experiencia de camino (nivel 5)."
+          "requires_level": 3,
+          "text": "La rampa que desciende al Bastión de las Aguas Antiguas bajo la acequia seca requiere templar tu experiencia de camino (nivel 3)."
         }
       },
       "examine": {
@@ -2175,7 +2175,7 @@
         {
           "id": "veyra_examinar_rejilla_antigua",
           "label": "Examinar la conducción antigua bajo la rejilla",
-          "requires_level": 5,
+          "requires_level": 3,
           "text": "Apartas las hojas de la rejilla seca y descubres una rampa de losas labradas que desciende bajo el camino de la acequia. Junto a los peldaños, una talla antigua muestra el cauce cerrado y una inscripción gastada: «Bastión de las Aguas Antiguas: regulador de los tres caudales». Al fondo de la rampa se divisa un umbral con una ranura circular.",
           "set_flags": [
             "acceso_bastion_descubierto"
@@ -2406,7 +2406,7 @@
         },
         {
           "id": "bastion_vado_arcano",
-          "label": "Lanzar un tirón guiado al cerrojo subacuático (Arcano)",
+          "label": "Revelar las marcas del paso y tirar de la cadena (Arcano)",
           "requires_classes": [
             "arcano"
           ],
@@ -2417,8 +2417,8 @@
             "bastion_vado_superado"
           ],
           "scope": "world",
-          "text": "Canalizas un impulso arcano a través del agua clara. La onda invisible envuelve el pasador de bronce y tira de él hacia atrás; la compuerta sube liberando el caudal.",
-          "journal": "Soltaste el pasador subacuático del caudal mediante un impulso arcano."
+          "text": "La resonancia revela unas marcas bajo el agua. Sigues su dibujo hasta una cadena accesible desde la orilla y tiras de ella con las manos; el pasador se suelta y la compuerta sube.",
+          "journal": "Revelaste las marcas del caudal y soltaste el pasador tirando de la cadena desde la orilla."
         },
         {
           "id": "bastion_vado_artifice",
@@ -2481,7 +2481,8 @@
       "examine": {
         "vigas": "Maderos gruesos petrificados por el paso de los siglos, firmes como la piedra.",
         "contrapeso": "Un bloque tallado que equilibra la trampilla de paso hacia el mecanismo.",
-        "cascotes": "Fragmentos de roca desprendidos que ofrecen peldaños para iniciar una escalada."
+        "cascotes": "Fragmentos de roca desprendidos que ofrecen peldaños para iniciar una escalada.",
+        "anclajes": "Unos anclajes de piedra sostienen una cuerda de apoyo enrollada junto al inicio de la cornisa. Puedes asegurarla para avanzar sin saltar."
       },
       "arrivals": {},
       "npcs": [],
@@ -2557,6 +2558,19 @@
           "scope": "world",
           "text": "Buscas grietas y salientes firmes en la pared de roca. Asciendes paso a paso con cuidado, alcanzas la base del contrapeso y retiras la cuña que lo inmoviliza.",
           "journal": "Escalaste la grieta y retiraste la cuña del contrapeso."
+        },
+        {
+          "id": "bastion_cornisa_cuerda",
+          "label": "Asegurar la cuerda por los anclajes de la cornisa",
+          "set_flags": [
+            "bastion_cornisa_superada"
+          ],
+          "forbids_flags": [
+            "bastion_cornisa_superada"
+          ],
+          "scope": "world",
+          "text": "Desenrollas la cuerda de apoyo de los anclajes de piedra y la aseguras a lo largo de la cornisa. Avanzas despacio hasta el contrapeso y retiras su cuña; el paso queda abierto.",
+          "journal": "Aseguraste la cuerda de la cornisa y retiraste la cuña del contrapeso."
         }
       ]
     },
@@ -2596,7 +2610,7 @@
       "actions": [
         {
           "id": "bastion_consola_1_fuerza",
-          "label": "Empujar la palanca pesada de la bancada este (Fuerza/Humano/Juramentado)",
+          "label": "Empujar la palanca pesada de la bancada este (Fuerza)",
           "requires_attribute": {
             "fuerza": 10
           },
@@ -2612,7 +2626,7 @@
         },
         {
           "id": "bastion_consola_2_agilidad",
-          "label": "Accionar el cuadrante de manivelas del saliente norte (Agilidad/Destreza/Felaryn)",
+          "label": "Accionar el cuadrante de manivelas del saliente norte (Destreza)",
           "requires_attribute": {
             "destreza": 10
           },
@@ -2628,7 +2642,7 @@
         },
         {
           "id": "bastion_consola_3_resistencia",
-          "label": "Girar la válvula de esclusa de la canaleta oeste (Resistencia/Intelecto/Marevyn)",
+          "label": "Girar la válvula de esclusa de la canaleta oeste (Resistencia)",
           "requires_attribute": {
             "resistencia": 10
           },
@@ -2659,6 +2673,22 @@
           "scope": "world",
           "text": "Con las tres consolas activadas, empujas el perno central. La gran rueda de bronce gira con un movimiento majestuoso y pesado; los contrapesos suben al unísono y la monumental reja de barras dobles se eleva hacia el techo, despejando el paso hacia la galería de ecos.",
           "journal": "Acoplaste el trinquete central y levantaste la reja monumental del Bastión."
+        },
+        {
+          "id": "bastion_consola_1_contrapeso",
+          "label": "Equilibrar la palanca con el contrapeso (Intelecto)",
+          "set_flags": [
+            "bastion_trinquete_1"
+          ],
+          "forbids_flags": [
+            "bastion_trinquete_1"
+          ],
+          "scope": "world",
+          "text": "Sigues las marcas del brazo de palanca y deslizas el contrapeso hasta equilibrarlo. Empujas la palanca ya aligerada y fijas la primera consola.",
+          "journal": "Fijaste la palanca este del trinquete central.",
+          "requires_attribute": {
+            "intelecto": 10
+          }
         }
       ]
     },
@@ -2925,7 +2955,7 @@
         "ciudad": "Guardamos las listas de ahora en estos estantes. Sobre quienes levantaron las piedras antiguas sabemos mucho menos. No te voy a dar un nombre sólo porque encaje con una historia bonita.",
         "disco_antiguo": {
           "text": "Nera busca en un arcón de metal bajo la mesa y saca una pieza redonda y pesada. «Lo sacaron del fondo de la acequia exterior cuando limpiaron los aliviaderos. Tiene tres marcas como las balanzas de Brumak, pero no es peso ni moneda; es una llave de paso antigua. Si vas a revisar las galerías bajo la acequia seca, llévatelo antes de que alguien lo use de pisapapeles.»",
-          "requires_level": 5,
+          "requires_level": 3,
           "give_items": {
             "disco_metal_antiguo": 1
           },

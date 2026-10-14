@@ -280,9 +280,9 @@ class Engine:
                     max_hp=m.PROFILES['dragon_aguas_antiguas']['hp']
                     if d_hp<max_hp:
                         if d_hp>max_hp*.75:hp_s="El dragón tiene algunos rasguños leves en las escamas y vigila con recelo."
-                        elif d_hp>max_hp*.50:hp_s="El dragón respira con esfuerzo; tiene heridas visibles en los costados."
-                        elif d_hp>max_hp*.25:hp_s="El dragón tiene heridas profundas y se apoya con esfuerzo sobre las piedras mojadas."
-                        else:hp_s="El dragón está muy maltrecho y apenas sostiene el peso; sus heridas son graves."
+                        elif d_hp>max_hp*.50:hp_s="El dragón respira con esfuerzo; mantiene las alas bajas y se mueve más despacio."
+                        elif d_hp>max_hp*.25:hp_s="El dragón está muy cansado y se apoya con esfuerzo sobre las piedras mojadas."
+                        else:hp_s="El dragón está muy maltrecho y apenas sostiene el peso; necesita descansar."
                         sig_text=f"{sig_text} {hp_s}"
                 layers['danger']=event('danger' if m.PROFILES.get(signal['creature'],{}).get('category') not in (None,'favorable') else 'trace',sig_text);break
         visits=state['visits'].get(room['id'],0)
@@ -377,9 +377,9 @@ class Engine:
             owner=world.setdefault('encounters',{}).get(key)
             primary=next((p for p in active if p['id']==owner),active[0]);world['encounters'][key]=primary['id']
             creature_id=primary['state']['combat']['creature'];creature=self.creature_prose(self.room(primary,world),creature_id)
-            prepared=primary['state']['combat'].get('prepared',False);responses=[]
+            prepared=primary['state']['combat'].get('prepared',False);prepared_action=primary['state']['combat'].get('prepared_action');responses=[]
             for player in active:
-                state=player['state'];combat=state['combat'];combat['hp']=animal['hp'];combat['prepared']=prepared
+                state=player['state'];combat=state['combat'];combat['hp']=animal['hp'];combat['prepared']=prepared;combat['prepared_action']=prepared_action
                 if combat.get('intervention',{}).get('id')=='abrir_salida':
                     animal['escape_open']=True
                     for person in active:self.withdraw_animal(person,world,creature_id)
@@ -392,7 +392,7 @@ class Engine:
                 state['events']=lines;state['last_active']=now;changed=True
                 if outcome=='fled':self.flee(player,world);continue
                 combat['eligible']=combat.get('eligible',False) or contribution;animal['hp']=max(0,combat['hp']);prepared=combat.get('prepared',False)
-                if creature_id=='dragon_aguas_antiguas':
+                if creature_id=='dragon_aguas_antiguas' and contribution:
                     if player['id'] not in world.setdefault('dragon_participants',[]):
                         world['dragon_participants'].append(player['id'])
                 responses.append((player,combat.get('_response',{})));combat['next_round']=due+4
@@ -413,6 +413,8 @@ class Engine:
                 if player['class_id'] in ('arcano','sombra','artifice') and any('Usas ' in event['text'] for event in player['state']['events']):accuracy=min(accuracy,response.get('accuracy',accuracy))
             if self.rng.random()*100<m.clamp(accuracy,20,90):
                 damage=max(1,m.rounded(combat['profile']['damage']*(1-reply.get('reduction',0))*(1-state.get('armor_reduction',0))*(1-reply.get('guard',0))))
+                barrier=combat.pop('barrier',0)
+                damage=max(0,damage-barrier)
                 state['hp']-=damage;m.wound(state,damage);state['events'].append(event('combat',m.creature_prose(creature,'hit',damage,combat['round'])))
                 if state['hp']<=0:self.death(primary,world)
             else:
@@ -422,7 +424,12 @@ class Engine:
                         player['state']['combat']['opening']=True
                         player['state']['events'].append(event('combat','Su respuesta falla. Tienes una apertura para tu siguiente ataque básico.'))
             for player in remaining:
-                if player['state']['combat']:player['state']['combat'].update(hp=animal['hp'],prepared=False)
+                if player['state']['combat']:
+                    shared=player['state']['combat'];shared.update(hp=animal['hp'],prepared=False)
+                    preps=shared['profile'].get('preparations')
+                    if preps:
+                        shared.update(prepared=True,prepared_action=preps[combat['round']%len(preps)])
+                        player['state']['events'].append(event('danger',shared['prepared_action']['tell']))
             due+=4
         return changed
 
@@ -494,6 +501,7 @@ class Engine:
         deathkey=f"{state['location']}:{combat['creature']}";world['deaths'][deathkey]=self.clock()+300
         world.setdefault('creature_states',{}).pop(deathkey,None)
         if combat['creature']=='dragon_aguas_antiguas':
+            world.setdefault('creature_states',{})[deathkey]={'hp':0}
             world.setdefault('flags',[])
             if 'dragon_vencido' not in world['flags']:world['flags'].append('dragon_vencido')
             if 'participated:dragon_vencido' not in state['flags']:state['flags'].append('participated:dragon_vencido')

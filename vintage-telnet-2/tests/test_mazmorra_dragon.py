@@ -128,7 +128,7 @@ class MazmorraDragonTests(unittest.TestCase):
         # Room description reflects visible wounds in child-friendly prose
         desc = self.engine.narrative(p2, self.world, 'mirar')
         danger_event = next(e for e in desc if e['kind'] == 'danger')
-        self.assertIn('heridas visibles', danger_event['text'])
+        self.assertIn('se mueve más despacio', danger_event['text'])
 
         # Player 2 engages: combat begins with 170 HP, NOT 240!
         self.engine.apply(p2, self.world, {'id': 'acercarse', 'target': 'dragon_aguas_antiguas'})
@@ -292,13 +292,153 @@ class MazmorraDragonTests(unittest.TestCase):
         self.assertEqual(levels, [5, 6, 7, 9])
         self.assertEqual(m.PROFILES['dragon_aguas_antiguas']['level'], 10)
 
+    def test_arcane_only_full_route_solo_and_pair(self):
+        # Favourable, deterministic rolls prove reachability, not a win-rate estimate.
+        from itertools import cycle
+        for species in [('humano',), ('felaryn',), ('felaryn', 'humano')]:
+            with self.subTest(species=species):
+                self.setUp()
+                party = [self.make_char(500+i, name, 'arcano', 3, name)
+                         for i, name in enumerate(species)]
+                rolls = cycle([0.0]*len(party)+[0.99])
+                self.rng.random = lambda: next(rolls)
+
+                def act(action, target=None):
+                    for player in party:
+                        intent = {'id': action}
+                        if target is not None:
+                            intent['target'] = target
+                        if action == 'mover' or player is party[0]:
+                            self.engine.apply(player, self.world, intent)
+
+                def fight(creature):
+                    rolls = cycle([0.0]*len(party)+[0.99])
+                    self.rng.random = lambda: next(rolls)
+                    for player in party:
+                        if any(a['id']=='acercarse' and a.get('target')==creature for a in self.engine.actions(player, self.world)):
+                            self.engine.apply(player, self.world, {'id': 'acercarse', 'target': creature})
+                        self.engine.apply(player, self.world, {'id': 'combatir', 'target': creature})
+                    for _ in range(500):
+                        if not any(p['state']['combat'] for p in party):
+                            break
+                        self.clock_val += 4
+                        self.engine.tick_shared(party, self.world)
+                    self.assertTrue(all(p['state']['combat'] is None for p in party))
+                    self.assertTrue(all(p['state']['hp'] > 0 for p in party))
+                    self.assertIn('victoria:'+party[0]['state']['location']+':'+creature,
+                                  party[0]['state']['flags'])
+
+                act('mover', 'sur')
+                act('bastion_forzar_umbral_intelecto')
+                act('mover', 'oeste')
+                fight('cienfango')
+                act('bastion_orden_aliviadero')
+                act('mover', 'oeste')
+                fight('aguaculebra')
+                act('bastion_vado_arcano')
+                act('mover', 'sur')
+                act('mover', 'este')
+                fight('mordesombra')
+                act('bastion_cornisa_cuerda')
+                act('mover', 'oeste')
+                act('bastion_consola_1_contrapeso')
+                act('bastion_consola_2_agilidad')
+                act('bastion_consola_3_resistencia')
+                act('bastion_acoplar_mecanismo')
+                act('mover', 'oeste')
+                fight('quebrarrocas')
+                act('bastion_seguir_doble_linea')
+                act('mover', 'oeste')
+                fight('dragon_aguas_antiguas')
+                act('mover', 'norte')
+                for player in party:
+                    self.engine.apply(player, self.world, {'id': 'reclamar_premio_arcano'})
+                    inventory = json.dumps(player['state']['inventory'], sort_keys=True)
+                    with self.assertRaises(RuleError):
+                        self.engine.apply(player, self.world, {'id': 'reclamar_premio_arcano'})
+                    self.assertEqual(inventory, json.dumps(player['state']['inventory'], sort_keys=True))
+                    self.assertIn('vara_caudales', inventory)
+                    self.assertIn('joyas_bastion', inventory)
+                    self.assertIn('escama_dragon', inventory)
+
+    def test_real_damage_survives_database_reload_and_handoff(self):
+        import tempfile
+        from server.store import Store
+        first = self.make_char(601, 'Felaryn', 'arcano', 3, 'felaryn')
+        second = self.make_char(602, 'Humano', 'arcano', 3)
+        room = 'veyra_mazmorra_boveda_guardian'
+        key = room+':dragon_aguas_antiguas'
+        first['state']['location'] = second['state']['location'] = room
+        for action in ('acercarse', 'combatir'):
+            self.engine.apply(first, self.world, {'id': action, 'target': 'dragon_aguas_antiguas'})
+        self.clock_val += 4
+        self.engine.tick(first, self.world)
+        hp = self.world['creature_states'][key]['hp']
+        self.assertLess(hp, 240)
+        self.assertGreater(hp, 0)
+        self.engine.apply(first, self.world, {'id': 'huir'})
+        self.clock_val += 4
+        self.engine.tick(first, self.world)
+        with tempfile.TemporaryDirectory() as directory:
+            store = Store(Path(directory)/'test.sqlite')
+            with store.transaction() as db:
+                store.save_world(db, self.world)
+            store = Store(Path(directory)/'test.sqlite')
+            with store.transaction() as db:
+                self.world = store.world(db)
+        for action in ('acercarse', 'combatir'):
+            self.engine.apply(second, self.world, {'id': action, 'target': 'dragon_aguas_antiguas'})
+        self.assertEqual(second['state']['combat']['hp'], hp)
+        self.assertIn(first['id'], self.world['dragon_participants'])
+
+    def test_shared_arcane_barrier_and_dragon_preparations(self):
+        party = [self.make_char(701+i, str(i), 'arcano', 3) for i in range(2)]
+        for player in party:
+            player['state']['location'] = 'veyra_mazmorra_boveda_guardian'
+            if any(a['id']=='acercarse' for a in self.engine.actions(player, self.world)):
+                self.engine.apply(player, self.world, {'id': 'acercarse', 'target': 'dragon_aguas_antiguas'})
+            self.engine.apply(player, self.world, {'id': 'combatir', 'target': 'dragon_aguas_antiguas'})
+        first = party[0]['state']
+        hp = first['hp']
+        self.engine.apply(party[0], self.world, {'id': 'velo_contencion'})
+        self.clock_val += 4
+        self.engine.tick_shared(party, self.world)
+        self.assertLess(hp-first['hp'], m.PROFILES['dragon_aguas_antiguas']['damage'])
+        for player in party:
+            combat = player['state']['combat']
+            self.assertTrue(combat['prepared'])
+            self.assertEqual(combat['prepared_action']['id'], 'coletazo_giratorio')
+        self.clock_val += 4
+        self.engine.tick_shared(party, self.world)
+        self.assertEqual(first['combat']['prepared_action']['id'], 'embate_ciego')
+
+    def test_each_class_prize_once_after_serialization(self):
+        for index, cls in enumerate(m.CLASSES):
+            with self.subTest(cls=cls):
+                player = self.make_char(800+index, cls, cls, 3)
+                player['state']['location'] = 'veyra_mazmorra_recorridos_fin'
+                world = dict(self.world, flags=['dragon_vencido'], dragon_participants=[player['id']])
+                intent = {'id': 'reclamar_premio_'+cls}
+                self.engine.apply(player, world, intent)
+                player, world = json.loads(json.dumps([player, world]))
+                inventory = json.dumps(player['state']['inventory'], sort_keys=True)
+                with self.assertRaises(RuleError):
+                    self.engine.apply(player, world, intent)
+                self.assertEqual(inventory, json.dumps(player['state']['inventory'], sort_keys=True))
+                weapons = [i for i in player['state']['inventory'] if i.get('catalog_id') in
+                           ('espada_bastion', 'vara_caudales', 'daga_aguas_profundas', 'arco_esclusa')]
+                self.assertEqual(len(weapons), 1)
+                self.assertEqual(weapons[0]['damage'], m.WEAPONS[m.CLASSES[cls]['weapon']]['damage']+4)
+                self.assertIn('joyas_bastion', inventory)
+                self.assertIn('escama_dragon' if cls in ('juramentado', 'arcano') else 'colmillo_dragon', inventory)
+
     def test_entrance_level_guard(self):
-        # Access requires level >= 5
-        char_low = self.make_char(401, 'Novato', 'juramentado', 4)
+        # Access requires level >= 3
+        char_low = self.make_char(401, 'Novato', 'juramentado', 2)
         acts_low = [a['target'] for a in self.engine.actions(char_low, self.world) if a['id'] == 'mover' and not a.get('disabled')]
         self.assertNotIn('sur', acts_low)
 
-        char_ready = self.make_char(402, 'Apto', 'juramentado', 5)
+        char_ready = self.make_char(402, 'Apto', 'juramentado', 3)
         acts_ready = [a['target'] for a in self.engine.actions(char_ready, self.world) if a['id'] == 'mover' and not a.get('disabled')]
         self.assertIn('sur', acts_ready)
 
