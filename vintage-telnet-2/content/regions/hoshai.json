@@ -1700,6 +1700,9 @@
         },
         {
           "id": "secreto_f_nudo",
+          "requires_examined": [
+            "nudo"
+          ],
           "label": "Buscar otro ángulo desde el saliente",
           "requires_species": [
             "felaryn"

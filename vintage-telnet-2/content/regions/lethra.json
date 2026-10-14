@@ -398,6 +398,9 @@
       "actions": [
         {
           "id": "secreto_m_corrientes",
+          "requires_examined": [
+            "hoja"
+          ],
           "label": "Meter la mano en el agua",
           "requires_species": [
             "marevyn"

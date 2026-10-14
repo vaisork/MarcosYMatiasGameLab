@@ -118,6 +118,12 @@ class Engine:
                 wobble=self.rng.random();signal['level']=max(1,min(6,1+distance//3+(-1 if wobble<.25 else 1 if wobble>=.75 else 0)))
         records[room['id']]={'signal':signal,'until':now+300}
 
+    def remember_clue(self,state,room,clue):
+        if not isinstance(clue,dict) or not clue.get('flag'):return
+        if clue['flag'] not in state['flags']:state['flags'].append(clue['flag'])
+        memory=f"En {room['name']}: {clue['text']}"
+        if memory not in state['journal']:state['journal'].append(memory)
+
     def search(self,character,world):
         self.encounter(character,world)
         state=character['state'];room=self.room(character,world);now=self.clock()
@@ -157,7 +163,7 @@ class Engine:
             trace=traces[min(int(fraction*len(traces)),len(traces)-1)]
             # A clue may remember that it was seen, so the place that explains it can offer to follow it up.
             if isinstance(trace,dict):
-                if trace.get('flag') and trace['flag'] not in state['flags']:state['flags'].append(trace['flag'])
+                self.remember_clue(state,room,trace)
                 trace=trace['text']
             state['events']=[event('trace',trace)]
         else:
@@ -751,6 +757,7 @@ class Engine:
             if action=='examinar':
                 examined=state.setdefault('examined',{}).setdefault(room['id'],[])
                 if target not in examined:examined.append(target)
+                self.remember_clue(state,room,room.get('examine',{}).get(target))
             state['events']=self.narrative(character,world,action,target)
             if action=='observar':state['events'].append(event('action','Observas con atención.'))
         elif action=='buscar':
@@ -789,7 +796,8 @@ class Engine:
             creature=self.creature_prose(room,target);response=self.adversary_dialogue(creature)[intent['topic']]
             state['events']=[event('npc',f"{creature['name']}: {response}"),event('world','Mantienes la distancia. Hablar no te obliga a combatir; las salidas siguen siendo una opción.')]
         elif action=='evaluar':
-            profile=m.PROFILES.get(target)
+            signal=next((i for i in room.get('signals',[]) if i['creature']==target),{})
+            profile=m.scaled(m.PROFILES[target],signal.get('level')) if target in m.PROFILES else None
             if profile:
                 text=f"{self.creature_prose(room,target)['name']}: nivel {profile['level']}. Tu nivel: {state['level']}."
                 text+=' '+m.threat_observation(target)
@@ -805,7 +813,7 @@ class Engine:
         elif action=='retirarse':
             self.clear_attention(character,world);state['events']=[event('action',m.peaceful_withdrawal(target))]
         elif action=='combatir':
-            signal=next(i for i in room.get('signals',[]) if i['creature']==target)
+            signal=next((i for i in room.get('signals',[]) if i['creature']==target),{})
             if target=='mordelinde' and f"{state['location']}:{target}" not in world.get('encounters',{}) and (world.get('creature_states',{}).get(f"{state['location']}:{target}",{}).get('escape_open') or not (signal.get('cornered') or room.get('combat_context',{}).get('creature_cornered'))):
                 self.withdraw_animal(character,world,target);return
             profile=m.scaled(m.PROFILES[target],signal.get('level'));creature=self.creature_prose(room,target)

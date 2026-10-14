@@ -1195,6 +1195,9 @@
         },
         {
           "id": "secreto_h_carga_pendiente",
+          "requires_examined": [
+            "estantes"
+          ],
           "label": "Leer las anotaciones abiertas",
           "requires_species": [
             "humano"
