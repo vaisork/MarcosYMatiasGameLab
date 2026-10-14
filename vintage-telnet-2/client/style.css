@@ -51,7 +51,7 @@
 
 /* Bounded reader: new paragraphs scroll inside instead of growing the card. */
 .terminal-feed{height:clamp(160px,38dvh,300px);min-height:0;max-height:none}
-@media(max-width:600px){.reading-adventure .room-context{padding:0 8px;margin-bottom:4px;border-radius:12px}.reading-adventure .room-context h1{font-size:14px}.reading-adventure .room-context .map-shortcut{background:transparent}.reading-adventure .reading{margin-top:4px}.reading-adventure .terminal-feed{height:clamp(160px,38dvh,280px);min-height:0;max-height:none}.reading-adventure .reading-tools{margin-bottom:0}}
+@media(max-width:600px){.reading-adventure .room-context{padding:0 8px;margin-bottom:4px;border-radius:12px}.reading-adventure .room-context h1{font-size:14px}.reading-adventure .room-context .map-shortcut{background:transparent}.reading-adventure .reading{margin-top:4px}.reading-adventure .terminal-feed{height:clamp(130px,24dvh,180px);min-height:0;max-height:none}.reading-adventure .reading-tools{margin-bottom:0}}
 
 /* User-requested proportions: 20% smaller reading type and compact place bar. */
 .reading{font-size:calc(var(--reading-size)*.8)}
@@ -257,7 +257,7 @@ body{background:linear-gradient(135deg,#eef6ed,#e8f1f6)}
 :root{--night:#0f1d2b;--night-2:#15283a;--night-3:#1d3850;--gold:#c9a24a;--gold-2:#ecd394;--gold-dark:#8a6a26;--parchment:#f4ead3;--parchment-2:#e9dcbb;--parchment-3:#fbf5e6;--ink:#2c2217;--ink-soft:#6a5741;
  --red:#b8433a;--green:#5d9a46;--blue:#3b7fae;--purple:#8a5fb0;--teal:#2f9488;--serif:"Palatino Linotype","Book Antiqua",Palatino,"P052","URW Palladio L",Georgia,"Noto Serif",serif;--reading-size:18px;color-scheme:light}
 html body{background:radial-gradient(ellipse at 50% -10%,#2a4a68 0,transparent 60%),linear-gradient(180deg,#132536 0,#0b1622 100%) fixed;color:var(--ink);font-family:var(--serif)}
-body .app{padding:10px 10px calc(96px + env(safe-area-inset-bottom))}
+body .app{padding:10px 10px calc(150px + env(safe-area-inset-bottom))}
 /* Cabecera: placa de madera noche con filete dorado */
 body .brand{background:linear-gradient(180deg,var(--night-3),var(--night));border:1px solid var(--gold-dark);border-radius:12px;padding:6px 12px;margin-bottom:10px;box-shadow:inset 0 0 0 1px #ffffff10,0 4px 14px #0007}
 body .brand a{color:var(--gold-2);font-family:var(--serif);font-weight:700;letter-spacing:.5px;text-decoration:none}
@@ -513,31 +513,28 @@ html body .combat-vital-track{height:4px}
 html body .room-context .selection p:last-of-type:not(:first-of-type){display:none}
 html body .room-context .selection h3,html.combat-active body .room-context .selection h3{font-size:11.5px;margin:0 0 2px}
 html body .room-context .selection .art-icon{width:22px;height:22px}
-/* Barra inferior: cruceta a la izquierda, pestañas a la derecha (cada una media pantalla) */
-html body #navigation.with-travel{display:grid;grid-template-columns:1fr 1fr;gap:6px;align-items:center;padding:5px}
-html body #navigation.with-travel .travel-pad{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,38px);gap:3px;justify-items:center;align-items:center;margin:0;padding:0;background:none;border:0}
+/* Barra inferior: cruceta a la izquierda, pestañas a la derecha; dock compacto y legible */
+html body #navigation.with-travel{display:grid;grid-template-columns:140px 1fr;gap:6px;align-items:center;padding:4px 6px}
+html body #navigation.with-travel .travel-pad{display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,38px);gap:3px;justify-items:center;align-items:center;margin:0;padding:0;background:none;border:0}
 html body #navigation.with-travel .travel-pad .travel-norte{grid-area:1/2}
 html body #navigation.with-travel .travel-pad .travel-oeste{grid-area:2/1}
 html body #navigation.with-travel .travel-pad .travel-center{grid-area:2/2}
 html body #navigation.with-travel .travel-pad .travel-este{grid-area:2/3}
 html body #navigation.with-travel .travel-pad .travel-sur{grid-area:3/2}
-html body #navigation .travel-pad button{width:44px;height:38px;min-height:0;min-width:0;padding:0;display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,var(--night-3),var(--night) 80%);color:var(--gold-2);border:1px solid var(--gold-dark);border-radius:9px;box-shadow:inset 0 0 0 1px #000,0 2px 0 #000a}
+html body #navigation .travel-pad button{width:44px;height:38px;min-height:0;min-width:0;padding:0;display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,var(--night-3),var(--night) 80%);color:var(--gold-2);border:1px solid var(--gold-dark);border-radius:8px;box-shadow:inset 0 0 0 1px #000,0 2px 0 #000a}
 html body #navigation .travel-pad button:disabled{opacity:.3}
 html body #navigation .travel-pad button:hover:not(:disabled){border-color:var(--gold)}
 html body #navigation .travel-pad svg{width:20px;height:20px}
-html body #navigation .travel-pad .travel-center:not(button){color:var(--gold-dark);font-size:18px}
-html body #navigation.with-travel .game-tabs{grid-template-columns:repeat(3,1fr);grid-auto-rows:56px;gap:3px}
-html body #navigation.with-travel .game-tabs button{min-height:0;height:56px;padding:4px 1px}
-html body #navigation.with-travel .game-tabs button svg{width:20px;height:20px}
-html body #navigation.with-travel .game-tabs .tab-label{font-size:10px}
-html.reading-adventure body .app{padding-bottom:calc(140px + env(safe-area-inset-bottom))}
-/* Estructura de antes: cruceta a la izquierda, siete iconos en cuadrícula a la derecha */
-html body #navigation .game-tabs{grid-template-columns:repeat(7,minmax(0,1fr))}
+html body #navigation .travel-pad .travel-center:not(button){color:var(--gold-dark);font-size:16px}
+html.reading-adventure body .app{padding-bottom:calc(150px + env(safe-area-inset-bottom))}
+html body #navigation .game-tabs{grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
+html body #navigation .game-tabs button{height:46px;min-height:0;padding:3px 1px;gap:2px}
+html body #navigation .game-tabs button svg{width:18px;height:18px}
+html body #navigation .game-tabs .tab-label{font-size:11px;line-height:1.1;letter-spacing:-.3px}
 html body #navigation.with-travel .game-tabs{grid-template-columns:repeat(3,1fr);grid-auto-rows:38px;gap:3px}
-html body #navigation.with-travel .game-tabs button{height:38px;padding:2px 1px;gap:0}
-html body #navigation.with-travel .game-tabs button svg{width:18px;height:18px}
-html body #navigation.with-travel .game-tabs .tab-label{font-size:8.5px;line-height:1}
-html body #navigation .game-tabs .tab-label{font-size:9.5px}
+html body #navigation.with-travel .game-tabs button{height:38px;min-height:0;padding:2px;gap:1px}
+html body #navigation.with-travel .game-tabs button svg{width:16px;height:16px}
+html body #navigation.with-travel .game-tabs .tab-label{font-size:11px;line-height:1;letter-spacing:-.2px}
 /* ===== Paleta anime alegre (2026-10-09): menos vintage, más color ===== */
 :root{--night:#2b3fb8;--night-2:#3a52d6;--night-3:#5a74f0;--gold:#ffc83d;--gold-2:#ffe07a;--gold-dark:#f0a020;--parchment:#f6f9ff;--parchment-2:#e6eeff;--parchment-3:#ffffff;--ink:#1d2550;--ink-soft:#56638f;
  --serif:"Nunito","Varela Round","M PLUS Rounded 1c","Trebuchet MS","Segoe UI",system-ui,sans-serif;background:#2a2f8f}
@@ -635,3 +632,13 @@ html.playing-map body #navigation .game-tabs{grid-template-columns:repeat(7,minm
 html body .bestiary-now{background:linear-gradient(160deg,#ff6b6b,#c22a5a);color:#fff;border-color:#ffb3c1;margin-right:6px}
 html body .selling-fold .selling-section h2{display:none}
 html body .selling-fold{margin-top:12px}
+html body .species-choice-list{display:grid;gap:8px;margin-top:6px}
+html body .species-choice-card{display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:10px;padding:8px 10px;border:2px solid #c3d2ff;border-radius:12px;background:linear-gradient(180deg,#ffffff,#eef7ff);cursor:pointer;transition:border-color 130ms,background 130ms}
+html body .species-choice-card:hover{background:linear-gradient(180deg,#ffffff,#e2eeff);border-color:var(--night-2,#2f86e8)}
+html body .species-choice-card:has(input:checked){border:2px solid var(--night,#1f6fd0);background:#e0eeff;box-shadow:0 0 0 2px #7fb2ee55}
+html body .species-choice-card input[type=radio]{width:18px;height:18px;margin:0;accent-color:var(--night,#1f6fd0);cursor:pointer}
+html body .species-choice-card .species-thumbnail{width:50px;height:66px;object-fit:cover;border-radius:8px;flex-shrink:0;border:1px solid #a8d0ff;background:#f0f5fa}
+html body .species-choice-card .species-info{display:flex;flex-direction:column;gap:3px;min-width:0}
+html body .species-choice-card .species-info strong{font-size:14px;color:var(--ink,#1d2550)}
+html body .species-choice-card .species-desc{font-size:12px;line-height:1.35;color:var(--ink-soft,#56638f)}
+html body .command-entry{margin-top:12px;padding-top:12px;border-top:1px solid #c3d2ff}
