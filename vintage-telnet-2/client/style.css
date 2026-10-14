@@ -644,3 +644,17 @@ html body .species-choice-card .species-info strong{font-size:14px;color:var(--i
 html body .species-choice-card .species-desc{font-size:12px;line-height:1.35;color:var(--ink-soft,#56638f)}
 html body .command-entry{margin-top:12px;padding-top:12px;border-top:1px solid #c3d2ff}
 html body .bestiary-behavior{border-top-color:#c3d2ff}
+
+/* Class decisions follow the reading; longer help never shrinks the chronicle. */
+html.combat-active body .quick-actions .action-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+html.combat-active body .quick-actions .action-grid button{min-height:44px;min-width:44px;padding:9px; text-align:left}
+html.combat-active body .quick-actions .action-grid .action-label{font-size:.9rem;line-height:1.3}
+html.combat-active body .quick-actions .action-grid .action-description,
+html.combat-active body .quick-actions .action-grid .action-reason{display:block;font-size:.8rem;line-height:1.4;color:#fff}
+html.combat-active body .quick-actions .capability-choice:disabled{opacity:1;background:#34445b;color:#fff;border-style:dashed;box-shadow:none}
+.class-actions{margin:12px 0;display:grid;gap:12px}
+.class-actions p{font-size:.95rem}
+html body .reading .event[aria-label^="Velo"]{border-left:4px solid #8fd0ff;background:#8fd0ff18}
+html body .reading .event[aria-label^="Apertura"]{border-left:4px solid #ffe07a;background:#ffe07a18}
+html body .reading .event[aria-label^="Traba"]{border-left:4px solid #ffb37b;background:#ffb37b18}
+html body .reading .event[aria-label^="Curación"]{border-left:4px solid #82e8af;background:#82e8af18}
