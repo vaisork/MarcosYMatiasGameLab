@@ -1090,7 +1090,43 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "korven_consultar_prestamo_cubiertas",
+          "label": "Preguntar a la encargada por los préstamos de tela",
+          "forbids_flags": [
+            "korven_prestamo_cubiertas_conocido"
+          ],
+          "set_flags": [
+            "korven_prestamo_cubiertas_conocido"
+          ],
+          "scope": "player",
+          "text": "La encargada baja una tablilla de yeso y te mira con ojos atentos. Explica que en Brumak una lona gruesa protege las piezas de barro de Taren y las barras de Beran del polvo que levanta el viento en las mesetas. Cualquier vecino puede llevarse una cubierta si la devuelve limpia y la cuelga a secar en su travesaño. Pasa los dedos por el tejido áspero y te enseña cómo anotan cada salida."
+        },
+        {
+          "id": "korven_revisar_cubierta_secado",
+          "label": "Comprobar con la encargada una cubierta devuelta",
+          "requires_flags": [
+            "korven_prestamo_cubiertas_conocido"
+          ],
+          "forbids_flags": [
+            "korven_cubierta_secado_revisada"
+          ],
+          "set_flags": [
+            "korven_cubierta_secado_revisada"
+          ],
+          "scope": "player",
+          "text": "La encargada te reconoce con una inclinación de cabeza y te invita a palpar el borde de una lona pesada. El tejido huele a lluvia reciente y a piedra molida del camino. Te hace notar que el centro ya no está frío ni suelta gotas gracias a la corriente del respiradero. «Un rato más de aire y estará lista para salir hacia la cisterna», dice mientras marca la tablilla."
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "korven_prestamo_cubiertas_conocido"
+          ],
+          "text": "Las lonas gruesas cuelgan ordenadas frente al respiradero. La encargada levanta la vista de sus tablillas y asiente al verte regresar."
+        }
+      ],
       "brief": "El depósito de cubiertas."
     },
     "korven_mirador_grietas": {
@@ -1328,6 +1364,22 @@
           "text": "Una anotación vieja de Oma describe una vibración corta. Otra, más reciente, habla de la grieta reabierta. Las fechas no coinciden: la piedra se ha movido más de una vez, en días distintos.",
           "journal": "Los movimientos del cauce no ocurrieron todos juntos. Todavía no puedo decir que tengan una sola causa.",
           "scope": "player"
+        },
+        {
+          "id": "conclusion_cauce_quebrarrocas",
+          "label": "Comparar las fechas con la abertura del cauce",
+          "requires_flags": [
+            "korven_fechas_distintas"
+          ],
+          "forbids_flags": [
+            "korven_misterio_cauce_resuelto"
+          ],
+          "set_flags": [
+            "korven_misterio_cauce_resuelto"
+          ],
+          "text": "Miras por la abertura y alineas las notas de Oma con los bloques del cauce. Cada vibración coincide con un desprendimiento de polvo fresco: un Quebrarrocas ha estado excavando galerías bajo el suelo y empuja las losas hacia arriba para abrirse paso. Las piedras partidas en días distintos son el rastro del avance de la bestia acorazada bajo Brumak. Pero la grieta madre más honda, la fractura antigua que la bestia aprovechó para cavar, sigue oculta en el misterio de la roca vieja.",
+          "journal": "¡Lo descubrí! Un Quebrarrocas empujó los bloques desde abajo en distintas fechas para excavar su galería, aunque la falla antigua de la roca madre sigue sin explicación.",
+          "scope": "player"
         }
       ],
       "memories": [
@@ -1336,6 +1388,12 @@
             "korven_aviso_localizado"
           ],
           "text": "La advertencia conserva la franja concreta del bloque observado. Otros apoyos siguen con su estado conocido, sin recibir una acusación de peligro por simple cercanía."
+        },
+        {
+          "requires_flags": [
+            "korven_misterio_cauce_resuelto"
+          ],
+          "text": "Por la abertura se ven los bloques del cauce: el registro confirma el paso del Quebrarrocas bajo tierra, mientras la fisura madre conserva su silencio."
         }
       ],
       "brief": "El registro del cauce, con sus tablillas en fundas."

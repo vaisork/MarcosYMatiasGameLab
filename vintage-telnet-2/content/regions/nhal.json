@@ -1185,7 +1185,43 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "nhal_probar_caldo_cocinera",
+          "label": "Preguntar a la cocinera por el caldo de setas",
+          "forbids_flags": [
+            "nhal_caldo_cocina_conocido"
+          ],
+          "set_flags": [
+            "nhal_caldo_cocina_conocido"
+          ],
+          "scope": "player",
+          "text": "La cocinera aparta la cuchara de madera humeante y te ofrece una taza tibia de caldo. El sabor es suave, con un regusto terroso a raíz dulce y setas del mercado de Varo. Te explica que cada tarde preparan la olla grande para que los vecinos coman calientes antes de escuchar los relatos de Leris en el patio. «Si una corteza amarga cae dentro, se estropea el trabajo de horas», sonríe mientras limpia el borde del recipiente."
+        },
+        {
+          "id": "nhal_ayudar_hojas_cocina",
+          "label": "Aprender con la cocinera a escoger las hojas",
+          "requires_flags": [
+            "nhal_caldo_cocina_conocido"
+          ],
+          "forbids_flags": [
+            "nhal_hojas_cocina_aprendidas"
+          ],
+          "set_flags": [
+            "nhal_hojas_cocina_aprendidas"
+          ],
+          "scope": "player",
+          "text": "La cocinera te saluda con una seña amable hacia el banco de corteza. Te muestra dos hojas recogidas bajo el dosel: una tiene el nervio pálido y perfumado, mientras la otra es oscura y deja los dedos pegajosos. Te guía para apartar las oscuras hacia el barreño antes de que toquen el caldero. «Ya tienes ojo fino para la cocina de Velmora», dice con voz satisfecha mientras atiza las brasas."
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "nhal_caldo_cocina_conocido"
+          ],
+          "text": "El aroma cálido del caldero llena el cuarto bajo las raíces. La cocinera asiente al verte entrar, segura de que conoces el valor de un plato caliente en Velmora."
+        }
+      ],
       "states": [
         {
           "requires_time": [
