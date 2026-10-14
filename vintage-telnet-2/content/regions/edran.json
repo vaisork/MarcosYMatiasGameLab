@@ -3078,6 +3078,30 @@
           "text": "La cuña de la mesa está gastada por un lado. Una marca de la pared del canal tiene justo su anchura, pero la piedra de alrededor es muchísimo más vieja. Alguien trabajó aquí cuando el canal ya llevaba mucho tiempo construido.",
           "journal": "El canal fue reparado después de construirse. Todavía no sé quién lo levantó.",
           "scope": "player"
+        },
+        {
+          "id": "conclusion_cuna_labradores",
+          "label": "Comprobar el encaje de la cuña en la juntura",
+          "requires_flags": [
+            "edran_canal_reparado"
+          ],
+          "forbids_flags": [
+            "edran_misterio_canal_resuelto"
+          ],
+          "set_flags": [
+            "edran_misterio_canal_resuelto"
+          ],
+          "text": "Pruebas la cuña en la juntura de la pared y calza al milímetro sobre un trozo de cáñamo embreado. Alguien de Valdren calafateó esta fisura con sus propias manos para desviar el agua hacia las acequias de los huertos cuando la toma vieja empezó a perder caudal. Fueron los antiguos labradores del pueblo quienes apuntalaron el paso para salvar la cosecha. Quién labró primero los túneles hondos de piedra y la conducción original sigue siendo un enigma bajo la tierra.",
+          "journal": "¡Lo descubrí! Los labradores de Valdren reforzaron la juntura con cuñas y cáñamo para no perder agua en sus huertos, aunque quién construyó los túneles antiguos sigue sin respuesta.",
+          "scope": "player"
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "edran_misterio_canal_resuelto"
+          ],
+          "text": "La juntura calafateada recuerda el ingenio de los labradores: las cuñas salvaron el agua de los huertos en un túnel cuyo origen nadie conoce."
         }
       ],
       "source": "Ampliación original autorizada: campaña nocturna",
