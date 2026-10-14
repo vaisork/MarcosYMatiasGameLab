@@ -50,7 +50,7 @@
 @media(min-width:360px){.playing-map #navigation .navigation-icons{grid-template-columns:repeat(7,minmax(44px,1fr))}.playing-map .app{padding-bottom:65px}}
 
 /* Bounded reader: new paragraphs scroll inside instead of growing the card. */
-.terminal-feed{height:clamp(130px,22dvh,160px);min-height:0;max-height:none}
+.terminal-feed{height:clamp(160px,38dvh,300px);min-height:0;max-height:none}
 @media(max-width:600px){.reading-adventure .room-context{padding:0 8px;margin-bottom:4px;border-radius:12px}.reading-adventure .room-context h1{font-size:14px}.reading-adventure .room-context .map-shortcut{background:transparent}.reading-adventure .reading{margin-top:4px}.reading-adventure .terminal-feed{height:clamp(130px,24dvh,180px);min-height:0;max-height:none}.reading-adventure .reading-tools{margin-bottom:0}}
 
 /* User-requested proportions: 20% smaller reading type and compact place bar. */
@@ -308,7 +308,7 @@ body .room-context .room-metadata{background:var(--parchment);color:var(--ink);b
 body .reading{background:linear-gradient(180deg,#fbf4e2,#f1e4c6);color:var(--ink);font-family:var(--serif);font-size:var(--reading-size);line-height:1.6;border:1px solid var(--gold-dark);border-radius:10px;box-shadow:inset 0 0 0 3px #fbf4e2,inset 0 0 0 4px #c9a24a55,0 6px 18px #0008;padding:16px 16px 12px;max-height:none;
  --world:var(--ink);--place:#3b2a14;--action:#2f5f86;--discovery:#8a5a10;--danger:#a3322a;--combat:#b04a1c;--secondary:#6a5741;--voice:#6a3f8c}
 body .reading h2{font-family:var(--serif);color:var(--gold-dark);font-size:.95rem;text-transform:uppercase;letter-spacing:1.5px}
-body .terminal-feed{max-height:clamp(140px,32dvh,240px);scrollbar-color:#c9a24a transparent}
+body .terminal-feed{max-height:48dvh;scrollbar-color:#c9a24a transparent}
 body .reading .event-kind{font-family:var(--serif);font-variant:small-caps;letter-spacing:.8px;font-size:12px;opacity:.85}
 body .reading .event-world .event-kind,body .reading .event-look .event-kind{display:none}
 body .reading .event-location{color:var(--place);font-weight:700;font-size:1.05em;border-top:1px solid #8a6a2644}
@@ -514,26 +514,26 @@ html body .room-context .selection p:last-of-type:not(:first-of-type){display:no
 html body .room-context .selection h3,html.combat-active body .room-context .selection h3{font-size:11.5px;margin:0 0 2px}
 html body .room-context .selection .art-icon{width:22px;height:22px}
 /* Barra inferior: cruceta a la izquierda, pestañas a la derecha; dock compacto y legible */
-html body #navigation.with-travel{display:grid;grid-template-columns:124px 1fr;gap:6px;align-items:center;padding:4px 6px}
-html body #navigation.with-travel .travel-pad{display:grid;grid-template-columns:repeat(3,38px);grid-template-rows:repeat(3,30px);gap:2px;justify-items:center;align-items:center;margin:0;padding:0;background:none;border:0}
+html body #navigation.with-travel{display:grid;grid-template-columns:140px 1fr;gap:6px;align-items:center;padding:4px 6px}
+html body #navigation.with-travel .travel-pad{display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,38px);gap:3px;justify-items:center;align-items:center;margin:0;padding:0;background:none;border:0}
 html body #navigation.with-travel .travel-pad .travel-norte{grid-area:1/2}
 html body #navigation.with-travel .travel-pad .travel-oeste{grid-area:2/1}
 html body #navigation.with-travel .travel-pad .travel-center{grid-area:2/2}
 html body #navigation.with-travel .travel-pad .travel-este{grid-area:2/3}
 html body #navigation.with-travel .travel-pad .travel-sur{grid-area:3/2}
-html body #navigation .travel-pad button{width:38px;height:30px;min-height:0;min-width:0;padding:0;display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,var(--night-3),var(--night) 80%);color:var(--gold-2);border:1px solid var(--gold-dark);border-radius:8px;box-shadow:inset 0 0 0 1px #000,0 2px 0 #000a}
+html body #navigation .travel-pad button{width:44px;height:38px;min-height:0;min-width:0;padding:0;display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,var(--night-3),var(--night) 80%);color:var(--gold-2);border:1px solid var(--gold-dark);border-radius:8px;box-shadow:inset 0 0 0 1px #000,0 2px 0 #000a}
 html body #navigation .travel-pad button:disabled{opacity:.3}
 html body #navigation .travel-pad button:hover:not(:disabled){border-color:var(--gold)}
-html body #navigation .travel-pad svg{width:16px;height:16px}
+html body #navigation .travel-pad svg{width:20px;height:20px}
 html body #navigation .travel-pad .travel-center:not(button){color:var(--gold-dark);font-size:16px}
 html.reading-adventure body .app{padding-bottom:calc(150px + env(safe-area-inset-bottom))}
 html body #navigation .game-tabs{grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
 html body #navigation .game-tabs button{height:46px;min-height:0;padding:3px 1px;gap:2px}
 html body #navigation .game-tabs button svg{width:18px;height:18px}
 html body #navigation .game-tabs .tab-label{font-size:11px;line-height:1.1;letter-spacing:-.3px}
-html body #navigation.with-travel .game-tabs{grid-template-columns:repeat(3,1fr);grid-auto-rows:30px;gap:2px}
-html body #navigation.with-travel .game-tabs button{height:30px;min-height:0;padding:1px 2px;gap:1px}
-html body #navigation.with-travel .game-tabs button svg{width:13px;height:13px}
+html body #navigation.with-travel .game-tabs{grid-template-columns:repeat(3,1fr);grid-auto-rows:38px;gap:3px}
+html body #navigation.with-travel .game-tabs button{height:38px;min-height:0;padding:2px;gap:1px}
+html body #navigation.with-travel .game-tabs button svg{width:16px;height:16px}
 html body #navigation.with-travel .game-tabs .tab-label{font-size:11px;line-height:1;letter-spacing:-.2px}
 /* ===== Paleta anime alegre (2026-10-09): menos vintage, más color ===== */
 :root{--night:#2b3fb8;--night-2:#3a52d6;--night-3:#5a74f0;--gold:#ffc83d;--gold-2:#ffe07a;--gold-dark:#f0a020;--parchment:#f6f9ff;--parchment-2:#e6eeff;--parchment-3:#ffffff;--ink:#1d2550;--ink-soft:#56638f;
