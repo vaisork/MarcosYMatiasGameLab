@@ -1142,7 +1142,8 @@
       "return": "La grieta lejana se esconde detrás de un bloque grande, como la otra vez.",
       "examine": {
         "franja": "Su oscuridad indica un corte del terreno, no una puerta vista desde lejos.",
-        "notas": "Una causa sin confirmar se mantiene separada de las cargas identificadas."
+        "notas": "Una causa sin confirmar se mantiene separada de las cargas identificadas.",
+        "doblez": "Una nota conserva un doblez gastado justo bajo el lugar reservado a la hora. La fecha sigue legible; la hora quedó en blanco. No falta media tablilla ni se ha borrado un nombre: alguien dejó de escribir antes de terminar."
       },
       "exits": {
         "oeste": "korven_cisterna_comun",
@@ -1151,7 +1152,26 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "korven_notas_comparar",
+          "label": "Comparar la pista: doblez",
+          "requires_flags": [
+            "korven_notas_pedido"
+          ],
+          "requires_examined": [
+            "doblez"
+          ],
+          "forbids_flags": [
+            "korven_notas_comparado"
+          ],
+          "set_flags": [
+            "korven_notas_comparado"
+          ],
+          "text": "Comparas el doblez con las notas del mirador. Las otras separan el momento de mirar del momento de oír. La nota de Oma conserva una observación, pero no permite colocarla antes o después de una carga.",
+          "journal": "Comparas el doblez con las notas del mirador. Las otras separan el momento de mirar del momento de oír. La nota de Oma conserva una observación, pero no permite colocarla antes o después de una carga."
+        }
+      ],
       "brief": "El mirador de las grietas.",
       "wildlife_pool": [
         {
@@ -1163,6 +1183,30 @@
           "creature": "salteador_desesperado",
           "text": "Una persona flaca, con un palo que le tiembla en las manos, te corta el paso. Mira tu mochila con hambre.",
           "persistent_trace": false
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "korven_notas_comparado"
+          ],
+          "forbids_flags": [
+            "korven_notas_comparacion",
+            "korven_notas_ejemplo"
+          ],
+          "text": "Comparas el doblez con las notas del mirador. Las otras separan el momento de mirar del momento de oír. La nota de Oma conserva una observación, pero no permite colocarla antes o después de una carga."
+        },
+        {
+          "requires_flags": [
+            "korven_notas_comparacion"
+          ],
+          "text": "Recuerdas lo que decidiste con Oma. La nota doblada ocupa su fecha entre las comparaciones. El hueco de la hora sigue visible. Oma la consulta sin esconder la esquina gastada."
+        },
+        {
+          "requires_flags": [
+            "korven_notas_ejemplo"
+          ],
+          "text": "Recuerdas lo que decidiste con Oma. La nota doblada espera en la mesa de entrada, separada de las comparaciones. Oma señala su casilla vacía al recibir avisos. La pregunta por la hora llega antes que la conclusión."
         }
       ]
     },
@@ -1267,7 +1311,14 @@
       "return": "El recipiente vacío descansa en su junta. Puedes mirar si se mueve como antes.",
       "examine": {
         "recipiente": "Puede vibrar por cargas o golpes próximos; no distingue especies.",
-        "junta": "Su apoyo es firme y repetible mientras no llegue agua a la superficie."
+        "junta": "Su apoyo es firme y repetible mientras no llegue agua a la superficie.",
+        "borde de nota": "En el borde de la nota hay dos pequeñas casillas: «pasó carga» y «no vi pasar». Ninguna está marcada. El recipiente por sí solo no puede rellenarlas.",
+        "broma pequeña": {
+          "requires_flags": [
+            "korven_notas_observado"
+          ],
+          "text": "Debajo del doblez hay un recipiente diminuto dibujado con patas. Una anotación dice: «Si se marcha solo, anotar dirección». Oma debió de reírse antes de volver a su trabajo."
+        }
       },
       "exits": {
         "oeste": "korven_cauce_observacion",
@@ -1292,6 +1343,50 @@
           "text": "Apoyas la palma en la piedra firme y luego en el borde. La vibración llega primero por un sitio y después por el otro. Para ti es tan claro como oír dos voces: la misma piedra no responde igual a cada golpe.",
           "journal": "Dos puntos de una misma plataforma responden distinto. Una vibración sola no dice qué la causó.",
           "scope": "player"
+        },
+        {
+          "id": "korven_notas_observar_day",
+          "label": "Detenerse a observar: borde de nota",
+          "requires_flags": [
+            "korven_notas_comparado"
+          ],
+          "requires_examined": [
+            "borde de nota"
+          ],
+          "requires_time": [
+            "amanecer",
+            "día"
+          ],
+          "forbids_flags": [
+            "korven_notas_observado"
+          ],
+          "set_flags": [
+            "korven_notas_observado"
+          ],
+          "text": "Una rueda suena por el camino mientras miras las casillas vacías. Esperas a que se aleje antes de escuchar de nuevo. Entiendes por qué Oma necesita una hora: dos ruidos cercanos pueden acabar dentro de una misma frase.",
+          "journal": "Una rueda suena por el camino mientras miras las casillas vacías. Esperas a que se aleje antes de escuchar de nuevo. Entiendes por qué Oma necesita una hora: dos ruidos cercanos pueden acabar dentro de una misma frase."
+        },
+        {
+          "id": "korven_notas_observar_night",
+          "label": "Detenerse a observar: borde de nota",
+          "requires_flags": [
+            "korven_notas_comparado"
+          ],
+          "requires_examined": [
+            "borde de nota"
+          ],
+          "requires_time": [
+            "atardecer",
+            "noche"
+          ],
+          "forbids_flags": [
+            "korven_notas_observado"
+          ],
+          "set_flags": [
+            "korven_notas_observado"
+          ],
+          "text": "En las pausas largas de la noche distingues un roce y después otro más lejano. Las casillas siguen vacías. Oír mejor ahora no te permite saber qué oyó Oma aquel día.",
+          "journal": "En las pausas largas de la noche distingues un roce y después otro más lejano. Las casillas siguen vacías. Oír mejor ahora no te permite saber qué oyó Oma aquel día."
         }
       ],
       "brief": "La plataforma de escucha y su recipiente que tiembla.",
@@ -1305,6 +1400,30 @@
           "creature": "cascapedernal",
           "text": "Un Cascapedernal asoma de debajo de una laja, con las placas cubiertas de polvo claro.",
           "persistent_trace": false
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "korven_notas_observado"
+          ],
+          "forbids_flags": [
+            "korven_notas_comparacion",
+            "korven_notas_ejemplo"
+          ],
+          "text": "En el borde de la nota hay dos pequeñas casillas: «pasó carga» y «no vi pasar». Ninguna está marcada. El recipiente por sí solo no puede rellenarlas."
+        },
+        {
+          "requires_flags": [
+            "korven_notas_comparacion"
+          ],
+          "text": "Recuerdas lo que decidiste con Oma. La nota doblada ocupa su fecha entre las comparaciones. El hueco de la hora sigue visible. Oma la consulta sin esconder la esquina gastada."
+        },
+        {
+          "requires_flags": [
+            "korven_notas_ejemplo"
+          ],
+          "text": "Recuerdas lo que decidiste con Oma. La nota doblada espera en la mesa de entrada, separada de las comparaciones. Oma señala su casilla vacía al recibir avisos. La pregunta por la hora llega antes que la conclusión."
         }
       ]
     },
@@ -1380,6 +1499,40 @@
           "text": "Miras por la abertura y alineas las notas de Oma con los bloques del cauce. Cada vibración coincide con un desprendimiento de polvo fresco: un Quebrarrocas ha estado excavando galerías bajo el suelo y empuja las losas hacia arriba para abrirse paso. Las piedras partidas en días distintos son el rastro del avance de la bestia acorazada bajo Brumak. Pero la grieta madre más honda, la fractura antigua que la bestia aprovechó para cavar, sigue oculta en el misterio de la roca vieja.",
           "journal": "¡Lo descubrí! Un Quebrarrocas empujó los bloques desde abajo en distintas fechas para excavar su galería, aunque la falla antigua de la roca madre sigue sin explicación.",
           "scope": "player"
+        },
+        {
+          "id": "korven_notas_comparacion",
+          "label": "Guardar la nota entre las comparaciones",
+          "requires_flags": [
+            "korven_notas_observado"
+          ],
+          "requires_npc": "korven_oma",
+          "forbids_flags": [
+            "korven_notas_comparacion",
+            "korven_notas_ejemplo"
+          ],
+          "set_flags": [
+            "korven_notas_comparacion"
+          ],
+          "text": "Le propones conservar la nota en su fecha, con la hora marcada como desconocida. Oma alisa el doblez y deja visible el hueco. «La escribí yo; me daba vergüenza que pareciera que no había escuchado bien». Al guardarla así, admite lo que recuerda sin rellenar lo que olvidó. «En Nhal también guardan relatos que necesitan otra voz; me gustaría escucharlos».",
+          "journal": "Le propones conservar la nota en su fecha, con la hora marcada como desconocida. Oma alisa el doblez y deja visible el hueco. «La escribí yo; me daba vergüenza que pareciera que no había escuchado bien». Al guardarla así, admite lo que recuerda sin rellenar lo que olvidó. «En Nhal también guardan relatos que necesitan otra voz; me gustaría escucharlos»."
+        },
+        {
+          "id": "korven_notas_ejemplo",
+          "label": "Dejar la nota como ejemplo para preguntar",
+          "requires_flags": [
+            "korven_notas_observado"
+          ],
+          "requires_npc": "korven_oma",
+          "forbids_flags": [
+            "korven_notas_comparacion",
+            "korven_notas_ejemplo"
+          ],
+          "set_flags": [
+            "korven_notas_ejemplo"
+          ],
+          "text": "Le propones dejar la nota junto a la mesa de entrada como ejemplo incompleto. Oma señala la casilla vacía antes de recibir otro aviso. «La escribí yo; creía que preguntar después iba a hacerme parecer distraída». Ahora empieza por pedir la hora, incluso cuando cree recordarla. «En Nhal saben dejar sitio a quien aún no ha hablado; quizá pueda aprender algo allí».",
+          "journal": "Le propones dejar la nota junto a la mesa de entrada como ejemplo incompleto. Oma señala la casilla vacía antes de recibir otro aviso. «La escribí yo; creía que preguntar después iba a hacerme parecer distraída». Ahora empieza por pedir la hora, incluso cuando cree recordarla. «En Nhal saben dejar sitio a quien aún no ha hablado; quizá pueda aprender algo allí»."
         }
       ],
       "memories": [
@@ -1394,6 +1547,37 @@
             "korven_misterio_cauce_resuelto"
           ],
           "text": "Por la abertura se ven los bloques del cauce: el registro confirma el paso del Quebrarrocas bajo tierra, mientras la fisura madre conserva su silencio."
+        },
+        {
+          "forbids_flags": [
+            "korven_notas_comparacion",
+            "korven_notas_ejemplo"
+          ],
+          "text": "Oma abre dos fundas y vuelve a cerrarlas sin guardar una nota doblada. Las esquinas ya están blandas de tanto sacarla. «Esta siempre vuelve a mi mesa; no sé dónde dejarla para que sirva».",
+          "requires_npc": "korven_oma"
+        },
+        {
+          "requires_flags": [
+            "korven_notas_pedido"
+          ],
+          "forbids_flags": [
+            "korven_notas_comparacion",
+            "korven_notas_ejemplo"
+          ],
+          "text": "Oma abre dos fundas y vuelve a cerrarlas sin guardar una nota doblada. Las esquinas ya están blandas de tanto sacarla. «Esta siempre vuelve a mi mesa; no sé dónde dejarla para que sirva».",
+          "requires_npc": "korven_oma"
+        },
+        {
+          "requires_flags": [
+            "korven_notas_comparacion"
+          ],
+          "text": "La nota doblada ocupa su fecha entre las comparaciones. El hueco de la hora sigue visible. Oma la consulta sin esconder la esquina gastada."
+        },
+        {
+          "requires_flags": [
+            "korven_notas_ejemplo"
+          ],
+          "text": "La nota doblada espera en la mesa de entrada, separada de las comparaciones. Oma señala su casilla vacía al recibir avisos. La pregunta por la hora llega antes que la conclusión."
         }
       ],
       "brief": "El registro del cauce, con sus tablillas en fundas."
@@ -2495,6 +2679,18 @@
             "pista_losa_abierta"
           ],
           "text": "Una losa partida no prueba nada. Una vibración tampoco. Pero si anotas dónde, cuándo y hacia qué lado se abren, un día las notas te dirán algo que una sola piedra no puede."
+        },
+        "la nota que siempre vuelve": {
+          "text": "Tengo una nota que dice «sonó otra vez», pero no dice a qué hora. La dejé aparte para completarla y ahora siempre la confundo con las nuevas. Mira las notas del Mirador de las grietas y después el borde de la nota junto al recipiente de la Plataforma de escucha. Vuelve y elegimos: conservarla entre las comparaciones o dejarla como ejemplo de lo que falta preguntar.",
+          "set_flags": [
+            "korven_notas_pedido"
+          ],
+          "forbids_flags": [
+            "korven_notas_pedido",
+            "korven_notas_comparacion",
+            "korven_notas_ejemplo"
+          ],
+          "journal": "Oma abre dos fundas y vuelve a cerrarlas sin guardar una nota doblada. Las esquinas ya están blandas de tanto sacarla. «Esta siempre vuelve a mi mesa; no sé dónde dejarla para que sirva»."
         }
       },
       "day": "Recibe observaciones y compara posiciones de bloques.",
@@ -2502,10 +2698,45 @@
       "memory": {
         "korven_cambio_atribuido": "Oma reconoce tu comparación y distingue el bloque observado de los que sólo se mojaron.",
         "korven_aviso_localizado": "Oma dejó una advertencia para la franja concreta, sin señalar como inseguro todo el cauce.",
-        "hallazgo:piedra_veteada": "Reconoce lo que llevas: «Piedra veteada. Es de por aquí; mira el suelo cuando vuelvas a pasar.»"
+        "hallazgo:piedra_veteada": "Reconoce lo que llevas: «Piedra veteada. Es de por aquí; mira el suelo cuando vuelvas a pasar.»",
+        "korven_notas_comparacion": "La nota doblada ocupa su fecha entre las comparaciones. El hueco de la hora sigue visible. Oma la consulta sin esconder la esquina gastada.",
+        "korven_notas_ejemplo": "La nota doblada espera en la mesa de entrada, separada de las comparaciones. Oma señala su casilla vacía al recibir avisos. La pregunta por la hora llega antes que la conclusión."
       },
       "schedule": [
         "día"
+      ],
+      "states": [
+        {
+          "forbids_flags": [
+            "korven_notas_comparacion",
+            "korven_notas_ejemplo"
+          ],
+          "overrides": {
+            "description": "Oma abre dos fundas y vuelve a cerrarlas sin guardar una nota doblada. Las esquinas ya están blandas de tanto sacarla. «Esta siempre vuelve a mi mesa; no sé dónde dejarla para que sirva»."
+          }
+        },
+        {
+          "requires_flags": [
+            "korven_notas_comparacion"
+          ],
+          "overrides": {
+            "description": "La nota doblada ocupa su fecha entre las comparaciones. El hueco de la hora sigue visible. Oma la consulta sin esconder la esquina gastada.",
+            "topics": {
+              "la nota que siempre vuelve": "Le propones conservar la nota en su fecha, con la hora marcada como desconocida. Oma alisa el doblez y deja visible el hueco. «La escribí yo; me daba vergüenza que pareciera que no había escuchado bien». Al guardarla así, admite lo que recuerda sin rellenar lo que olvidó. «En Nhal también guardan relatos que necesitan otra voz; me gustaría escucharlos»."
+            }
+          }
+        },
+        {
+          "requires_flags": [
+            "korven_notas_ejemplo"
+          ],
+          "overrides": {
+            "description": "La nota doblada espera en la mesa de entrada, separada de las comparaciones. Oma señala su casilla vacía al recibir avisos. La pregunta por la hora llega antes que la conclusión.",
+            "topics": {
+              "la nota que siempre vuelve": "Le propones dejar la nota junto a la mesa de entrada como ejemplo incompleto. Oma señala la casilla vacía antes de recibir otro aviso. «La escribí yo; creía que preguntar después iba a hacerme parecer distraída». Ahora empieza por pedir la hora, incluso cuando cree recordarla. «En Nhal saben dejar sitio a quien aún no ha hablado; quizá pueda aprender algo allí»."
+            }
+          }
+        }
       ]
     },
     "korven_taren": {
@@ -2764,6 +2995,34 @@
         "korven_placa_devuelta"
       ],
       "source": "Ampliación original autorizada"
+    },
+    "korven_notas": {
+      "id": "korven_notas",
+      "title": "La nota que siempre vuelve",
+      "premise": "Oma abre dos fundas y vuelve a cerrarlas sin guardar una nota doblada. Las esquinas ya están blandas de tanto sacarla. «Esta siempre vuelve a mi mesa; no sé dónde dejarla para que sirva».",
+      "steps": [
+        {
+          "flag": "korven_notas_pedido",
+          "text": "Tengo una nota que dice «sonó otra vez», pero no dice a qué hora. La dejé aparte para completarla y ahora siempre la confundo con las nuevas. Mira las notas del Mirador de las grietas y después el borde de la nota junto al recipiente de la Plataforma de escucha. Vuelve y elegimos: conservarla entre las comparaciones o dejarla como ejemplo de lo que falta preguntar."
+        },
+        {
+          "flag": "korven_notas_comparado",
+          "text": "Comparas el doblez con las notas del mirador. Las otras separan el momento de mirar del momento de oír. La nota de Oma conserva una observación, pero no permite colocarla antes o después de una carga."
+        },
+        {
+          "flag": "korven_notas_observado",
+          "text": "En el borde de la nota hay dos pequeñas casillas: «pasó carga» y «no vi pasar». Ninguna está marcada. El recipiente por sí solo no puede rellenarlas."
+        },
+        {
+          "flag": "korven_notas_comparacion",
+          "text": "Le propones conservar la nota en su fecha, con la hora marcada como desconocida. Oma alisa el doblez y deja visible el hueco. «La escribí yo; me daba vergüenza que pareciera que no había escuchado bien». Al guardarla así, admite lo que recuerda sin rellenar lo que olvidó. «En Nhal también guardan relatos que necesitan otra voz; me gustaría escucharlos»."
+        },
+        {
+          "flag": "korven_notas_ejemplo",
+          "text": "Le propones dejar la nota junto a la mesa de entrada como ejemplo incompleto. Oma señala la casilla vacía antes de recibir otro aviso. «La escribí yo; creía que preguntar después iba a hacerme parecer distraída». Ahora empieza por pedir la hora, incluso cuando cree recordarla. «En Nhal saben dejar sitio a quien aún no ha hablado; quizá pueda aprender algo allí»."
+        }
+      ],
+      "source": "Encargo explícito de Javier: arcos regionales de descubrimiento, 2026-10-13."
     }
   }
 }
