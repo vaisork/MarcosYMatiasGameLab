@@ -20,7 +20,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def create_app(config=None):
     app=Flask(__name__,static_folder=None)
     app.config.update(SECRET_KEY=os.environ.get('VT_NEW_SECRET_KEY'),DATA_DIR=str(ROOT/'runtime'),CONTENT_DIR=str(ROOT/'content'),
-                      DM_PASSWORD_HASH=os.environ.get('VT_NEW_DM_PASSWORD_HASH'),PUBLIC_ORIGIN=os.environ.get('VT_NEW_PUBLIC_ORIGIN'),SESSION_COOKIE_HTTPONLY=True,SESSION_COOKIE_SAMESITE='Lax',MAX_CONTENT_LENGTH=16384)
+                      DM_PASSWORD_HASH=os.environ.get('VT_NEW_DM_PASSWORD_HASH'),PUBLIC_ORIGIN=os.environ.get('VT_NEW_PUBLIC_ORIGIN'),TIMEZONE=os.environ.get('VT_NEW_TIMEZONE','America/Mexico_City'),SESSION_COOKIE_HTTPONLY=True,SESSION_COOKIE_SAMESITE='Lax',MAX_CONTENT_LENGTH=16384)
     if config:app.config.update(config)
     # Opt in only when a trusted local reverse proxy supplies the public scheme.
     if app.config.get('TRUST_PROXY_PROTO',os.environ.get('VT_NEW_TRUST_PROXY_PROTO')=='1'):
@@ -32,7 +32,7 @@ def create_app(config=None):
     app.extensions['store']=store
     def engine():
         moment=clock()
-        return Engine(Content(app.config['CONTENT_DIR']),lambda:moment,app.config.get('RNG'))
+        return Engine(Content(app.config['CONTENT_DIR']),lambda:moment,app.config.get('RNG'),app.config['TIMEZONE'])
     def csrf():
         if 'csrf' not in session:session['csrf']=secrets.token_urlsafe(32)
         return session['csrf']

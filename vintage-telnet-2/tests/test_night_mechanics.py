@@ -215,7 +215,7 @@ class HoningApiTests(unittest.TestCase):
   from collections import deque
   with tempfile.TemporaryDirectory() as directory:
    clock=fixtures.Clock();root=Path(__file__).resolve().parents[1]
-   app=create_app({'TESTING':True,'DATA_DIR':directory,'CONTENT_DIR':str(root/'content'),'CLOCK':clock,'RNG':ZeroRandom(),'DM_PASSWORD_HASH':generate_password_hash('private-master-test')})
+   app=create_app({'TESTING':True,'TIMEZONE':'UTC','DATA_DIR':directory,'CONTENT_DIR':str(root/'content'),'CLOCK':clock,'RNG':ZeroRandom(),'DM_PASSWORD_HASH':generate_password_hash('private-master-test')})
    self.client=app.test_client();self.master=app.test_client();self.sequence=0
    self.post=lambda client,path,payload:fixtures.JourneyTests.post(self,client,path,payload)
    fixtures.JourneyTests.create(self)

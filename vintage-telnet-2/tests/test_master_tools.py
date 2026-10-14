@@ -9,7 +9,7 @@ from server import mechanics
 class MasterToolsTests(unittest.TestCase):
  def setUp(self):
   self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
-  self.app=create_app({'TESTING':True,'DATA_DIR':self.tmp.name,'DM_PASSWORD_HASH':generate_password_hash('test-director'),'CLOCK':lambda:123456})
+  self.app=create_app({'TESTING':True,'TIMEZONE':'UTC','DATA_DIR':self.tmp.name,'DM_PASSWORD_HASH':generate_password_hash('test-director'),'CLOCK':lambda:123456})
   self.dm=self.app.test_client();self.player=self.app.test_client();self.store=self.app.extensions['store'];self.seq=0
   self.post(self.player,'/api/account/register',{'username':'tester','password':'testpass123'})
   r=self.post(self.player,'/api/character/create',{'name':'Tester','species':'humano','class_id':'juramentado'});self.cid=r.json['character']['id']

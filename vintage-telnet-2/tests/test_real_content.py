@@ -16,7 +16,7 @@ class RealContentTests(unittest.TestCase):
   self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
   self.clock=fixtures.Clock();self.sequence=0;self.root=Path(__file__).resolve().parents[1]
   self.content=Content(self.root/'content')
-  self.app=create_app({'TESTING':True,'DATA_DIR':self.temp.name,'CONTENT_DIR':str(self.root/'content'),'CLOCK':self.clock,'RNG':fixtures.FixedRandom(),'DM_PASSWORD_HASH':generate_password_hash('private-master-test')})
+  self.app=create_app({'TESTING':True,'TIMEZONE':'UTC','DATA_DIR':self.temp.name,'CONTENT_DIR':str(self.root/'content'),'CLOCK':self.clock,'RNG':fixtures.FixedRandom(),'DM_PASSWORD_HASH':generate_password_hash('private-master-test')})
   self.client=self.app.test_client();self.master=self.app.test_client()
  def walk(self,target):
   current=self.client.get('/api/state').json['room']['id']
