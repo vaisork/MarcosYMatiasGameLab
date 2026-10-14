@@ -88,3 +88,72 @@ viva examinable de la sala; mirar y las lecturas GET no enseñan datos. La entra
 persistente guarda los textos aprendidos, incluidos los de otras localidades;
 partidas anteriores exponen una lista vacía hasta aprender. Si no queda ningún
 dato local nuevo, el evento lo indica. Las personas no entran en el bestiario.
+
+## Contrato de combate por clases y acciones disponibles (Fase 1 Motor)
+
+El motor expone en `engine.actions()` (consumido por `/api/state` en el array `actions`) las acciones disponibles de combate para que el cliente pueda renderizar un botón por acción (Fase 2).
+
+### Formato de cada acción de combate en `actions`
+Cada elemento de acción expuesto en combate incluye:
+- `id`: identificador de la acción.
+  - Juramentado: `guardia_comprometida`, `paso_ruptura`.
+  - Arcano: `impulso_arcano`, `velo_contencion`, `destello_frio`.
+  - Sombra: `borrar_foco`, `golpe_apertura`, `distraccion`.
+  - Artífice: `tiro_interrupcion`, `traba_campo`, `balsamo_campo`.
+- `label`: etiqueta para el botón de la interfaz (ej. "Guardia Comprometida", "Velo de Contención").
+- `description`: descripción breve y funcional del efecto mecánico.
+- `disabled`: booleano (`true` si está en recarga o no cumple requisitos de arma/contexto; `false` si está disponible).
+- `reason`: texto explicativo de recarga (`"Recarga: N rondas"`), impedimento o descripción funcional.
+
+### Compatibilidad con `capacidad`
+Las peticiones o estados anteriores que envíen `id: 'capacidad'` son mapeados de forma transparente a la acción insignia equivalente de la clase (`guardia_comprometida`, `impulso_arcano`, `borrar_foco`, `tiro_interrupcion`).
+
+### Ajuste de canon del Arcano
+El Arcano **no activa mecanismos antiguos** ni manipula compuertas mecánicas; su interacción en exploración (`requires_classes: ["arcano"]`) se limita a revelar resonancias, marcas, inscripciones o pistas ocultas sin explicar quién las hizo.
+
+## Progresión de atributos y asignación de PA (Fase Motor y API)
+
+Al subir de nivel, el personaje recibe 2 Puntos de Atributo (`pa`). Los puntos acumulados se reflejan en `state.character.pa`.
+
+### Asignación vía API
+El cliente asigna puntos enviando una acción estándar a `POST /api/action`:
+- `id`: `"atributo"`
+- `target`: nombre del atributo a mejorar (`"fuerza"`, `"resistencia"`, `"agilidad"`, `"percepcion"`, `"intelecto"`, `"voluntad"`, `"destreza"`, `"presencia"`).
+- `confirmed`: `true` (requerido para confirmar el gasto irreversible de PA).
+- `request_id`: identificador único de la petición (8–120 caracteres).
+
+Escala de coste en PA según el valor actual del atributo:
+- Valor < 20: 1 PA por punto.
+- Valor 20–34: 2 PA por punto.
+- Valor 35–44: 3 PA por punto.
+- Valor 45–59: 4 PA por punto.
+- Valor >= 60: 5 PA por punto.
+
+### Efectos de atributos expuestos en `/api/state`
+`snapshot.character.attribute_effects` (y a nivel raíz `snapshot.attribute_effects`) expone un diccionario `{atributo: frase}` con la descripción funcional de cada atributo en una frase para la pantalla de personaje.
+
+### Guarda de contenido `requires_attribute`
+Las acciones de sala, temas de conversación de NPCs, exámenes y requisitos de acceso admiten la guarda `requires_attribute: {<atributo>: <mínimo>}` (o su variante plural `requires_attributes`). El motor la evalúa en `allowed()`. Opcionalmente, las acciones narrativas pueden definir `soft_check: {attribute, dc, fail_text, fail_fatigue, success_text}` como una tirada suave que aporta matices narrativos y leve coste de fatiga sin bloquear jamás el progreso principal.
+
+## Experiencia por descubrimiento (decisión de Javier, 2026-10-14)
+
+El motor concede una sola vez por personaje: sala nueva 4 XP (excepto hogar),
+secreto del catálogo 10, texto nuevo del diario 3, cierre 25, encargo 15 y dato
+nuevo de conducta 3. La tabla `EXPLORATION_XP` vive en `server/mechanics.py`.
+Los encargos dan XP al pasar a `ready`; cobrar y repetir el mismo ID no vuelven
+a concederla. El cierre se reconoce por el flag del último paso de `stories`,
+por flags `hilo`/`arco` terminados en `completado`, `concluido`, `cerrado` o
+`resuelto`, o por entradas de diario que comienzan con «Cierre»/«Conclusión».
+Las fuentes distintas pueden sumar premios; varias historias con el mismo flag
+final cuentan como un único cierre. Un diario de cierre y un flag final nuevos
+en la misma transición reciben un solo premio de cierre. Un flag mundial sólo cuenta con participación
+personal. La XP de combate y la curva de niveles se conservan.
+
+`state.exploration_xp` guarda los identificadores premiados en el JSON persistente.
+Se inicializa con los logros anteriores a la primera acción, sin XP retroactiva;
+la carga y las lecturas sin transiciones no conceden premios ni migran el estado.
+Cada premio muestra `+N experiencia: <motivo>` y usa la subida de nivel existente.
+La calibración aislada de todas las salas, diarios y secretos de origen más un cierre
+alcanza entre los niveles 3 y 4 para las cinco especies, sin combate.
+Es una prueba de balance del motor con transiciones sintéticas, no un recorrido
+humano ni una validación de producción; otras pistas y encargos suman XP.

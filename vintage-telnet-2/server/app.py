@@ -346,7 +346,7 @@ def create_app(config=None):
             if operation=='xp':
                 s['xp']+=amount
                 while s['level']<100 and s['xp']>=mechanics.xp_next(s['level']):
-                    old_max=mechanics.hp_max(s);s['xp']-=mechanics.xp_next(s['level']);s['level']+=1;s['pa']+=2
+                    old_max=mechanics.hp_max(s);s['xp']-=mechanics.xp_next(s['level']);s['level']+=1;s['pa']=s.get('pa',0)+2
                     s['hp']=min(mechanics.hp_max(s),s['hp']+mechanics.hp_max(s)-old_max)
                     if s['level']%5==0:s['pp']+=1
                 label=f'El director concede {amount} XP. Nivel actual: {s["level"]}.'

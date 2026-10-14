@@ -40,7 +40,7 @@ class VeyraVisibilityTests(unittest.TestCase):
   engine=Engine(content,lambda:dry*3600)
   before=(state['seals'],state['xp'],len(state['inventory']))
   engine.apply(char,world,{'id':'veyra_colocar_tabla_riego'})
-  self.assertEqual(before,(state['seals'],state['xp'],len(state['inventory'])))
+  self.assertEqual((before[0],before[1]+3,before[2]),(state['seals'],state['xp'],len(state['inventory'])))
   self.assertIn('veyra_tabla_riego_colocada',world['flags'])
   self.assertNotIn('veyra_colocar_tabla_riego',[a['id'] for a in engine.actions(char,world)])
   other=m.new_state('humano','juramentado','home:other',43200);other['location']='veyra_huerta_baja'

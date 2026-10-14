@@ -124,7 +124,31 @@
       },
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "lethra_avanzar_entre_tallos",
+          "label": "Avanzar entre los tallos altos",
+          "requires_attribute": {
+            "agilidad": 11
+          },
+          "forbids_flags": [
+            "lethra_senda_tallos_recorrida"
+          ],
+          "set_flags": [
+            "lethra_senda_tallos_recorrida"
+          ],
+          "scope": "player",
+          "text": "Te deslizas con sigilo y paso ligero entre las cañas sin doblar los tallos ni alertar a las criaturas de la ribera.",
+          "journal": "Cruzaste con ligereza la orilla alta entre los juncos de Lethra.",
+          "soft_check": {
+            "attribute": "agilidad",
+            "dc": 11,
+            "success_text": "Te deslizas con ligereza entre los juncos sin hacer ruido.",
+            "fail_text": "El lodo te atrapa la suela un instante, pero te zafas con rapidez y continúas adelante.",
+            "fail_fatigue": 3
+          }
+        }
+      ],
       "wildlife_pool": [
         {
           "creature": "cienfango",
@@ -260,7 +284,35 @@
           "text": "Una pinza desigual se levanta al borde del agua. El Pinzajunco arrastra una hoja hacia su agujero cuando los pasos siguen por tierra."
         }
       ],
-      "actions": [],
+      "actions": [
+        {
+          "id": "lethra_juncal_abierto_conversar",
+          "label": "Preguntar a la artesana por los tallos",
+          "text": "Desde el paso abierto preguntas a la artesana cómo elige los tallos. «Me llevo los secos y dejo juntos los verdes. Oye cómo crujen éstos al atarlos; no suenan como cuando los mueve el viento. Aparto las fibras al borde para que tú no tengas que pisarlas.»",
+          "set_flags": [
+            "lethra_juncal_abierto_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "lethra_juncal_abierto_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "lethra_juncal_abierto_conversar_revisita",
+          "label": "Preguntar a la artesana por los tallos",
+          "text": "La artesana te reconoce desde el borde del paso. «¿Has oído otra vez el crujido? Éstos son los secos que estoy atando. Los verdes se quedan juntos; me gusta volver y encontrar el juncal entero.»",
+          "requires_flags": [
+            "lethra_juncal_abierto_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        }
+      ],
       "brief": "El paso entre los juncos.",
       "echoes": [
         "Un Saltalodo salta de un junco a otro y el tallo se dobla bajo su peso.",
@@ -294,6 +346,14 @@
           "creature": "mordijunco",
           "text": "Un Mordijunco corta un junco de un mordisco y lo arrastra hacia su madriguera.",
           "persistent_trace": false
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "lethra_juncal_abierto_conversar_hecho"
+          ],
+          "text": "Recuerdas el crujido de los tallos secos que la artesana ata sin abrir huecos entre los verdes."
         }
       ]
     },
@@ -468,7 +528,35 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "lethra_ribera_firme_conversar",
+          "label": "Preguntar por las envolturas",
+          "text": "Preguntas desde el paso y la vecina señala la envoltura que está abriendo. «Ésta debe abrirse antes que las otras. La reconozco por fuera y así no tengo que destaparlo todo sobre el barro. Parece poca cosa, pero me ahorra un buen baile de recipientes.»",
+          "set_flags": [
+            "lethra_ribera_firme_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "lethra_ribera_firme_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "lethra_ribera_firme_conversar_revisita",
+          "label": "Preguntar por las envolturas",
+          "text": "La vecina te saluda junto a los apoyos. «¿Otra vez entre nuestras envolturas? Busco sitio seco antes de abrir ninguna. Bastante tenemos con pasar los recipientes sin bajarlos al barro.»",
+          "requires_flags": [
+            "lethra_ribera_firme_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        }
+      ],
       "wildlife_pool": [
         {
           "creature": "mordijunco",
@@ -513,7 +601,15 @@
           "persistent_trace": false
         }
       ],
-      "brief": "La ribera de las cargas, con sus recipientes en alto."
+      "brief": "La ribera de las cargas, con sus recipientes en alto.",
+      "memories": [
+        {
+          "requires_flags": [
+            "lethra_ribera_firme_conversar_hecho"
+          ],
+          "text": "Recuerdas a la vecina reconociendo por la envoltura qué recipiente abrir primero."
+        }
+      ]
     },
     "lethra_pasarela_curva": {
       "id": "lethra_pasarela_curva",
@@ -594,7 +690,35 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "lethra_embarcadero_camino_conversar",
+          "label": "Preguntar por las tiras de las barcas",
+          "text": "Esperas lejos del borde y la encargada te muestra las tiras del poste. «Sirven para reconocer las barcas que esperamos. El niño ha visto una que conoce y va a avisar por la senda alta. Yo llamo a quien espera la cesta; con el agua en medio, más vale saber quién está escuchando.»",
+          "set_flags": [
+            "lethra_embarcadero_camino_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "lethra_embarcadero_camino_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "lethra_embarcadero_camino_conversar_revisita",
+          "label": "Preguntar por las tiras de las barcas",
+          "text": "La encargada te reconoce desde el poste. «Ya sabes qué miramos en las tiras. Tú espera aquí, fuera del paso de las cestas. Si tengo que llamar, prometo no gritarte en la oreja.»",
+          "requires_flags": [
+            "lethra_embarcadero_camino_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        }
+      ],
       "brief": "El embarcadero del camino, bajo su techo.",
       "states": [
         {
@@ -670,6 +794,14 @@
             "noche",
             "atardecer"
           ]
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "lethra_embarcadero_camino_conversar_hecho"
+          ],
+          "text": "Las tiras del poste te recuerdan cómo la encargada reconoce las barcas esperadas."
         }
       ]
     },
@@ -840,7 +972,7 @@
             "lethra_hilo_paso1"
           ],
           "journal": "En la base de la boya hay grabado un símbolo de remero y una trenza de junco verde: pertenece al taller de reparación de barcas de Sola.",
-          "text": "Tiras del cordel de junco y levantas la boya goteante. En la parte inferior, protegida del agua con grasa de pescado, hay grabada una pala de remo cruzada con una espátula de calafatear. La cuerda de amarre tiene el trenzado apretado de tres cabos característico del patio de barcas.",
+          "text": "Tiras del cordel de junco y levantas la boya goteante. En la parte inferior, protegida del agua con grasa de pescado, hay grabada una pala de remo cruzada con una herramienta para sellar barcas. La cuerda de amarre tiene el trenzado apretado de tres cabos característico del patio de barcas.",
           "scope": "player"
         },
         {
@@ -851,6 +983,33 @@
           ],
           "text": "Te arrodillas en la pasarela y acercas la mirada al pilote en penumbra. Una de las luciérnagas alza el vuelo, gira dos veces alrededor de tu mano emitiendo destellos esmeralda y vuelve a posarse sobre la concha del caracol, que no se inmuta lo más mínimo.",
           "journal": "En Narevia observaste a dos luciérnagas de agua iluminar la concha de un caracol nocturno como si fuera un faro en miniatura.",
+          "scope": "player"
+        },
+        {
+          "id": "narevia_centro_conversar",
+          "label": "Acercarse a escuchar a la familia",
+          "text": "Te acercas al borde libre de la plataforma y quien cuenta la visita te hace sitio para escuchar. «Estaba diciendo de qué orilla venían. Con el martilleo se perdió justo esa parte, así que esperé para repetirla. Si no me entiendes, pregunta; prefiero contarlo otra vez a dejarte con media visita.»",
+          "set_flags": [
+            "narevia_centro_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "narevia_centro_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "narevia_centro_conversar_revisita",
+          "label": "Acercarse a escuchar a la familia",
+          "text": "La persona que contaba la visita te saluda desde la plataforma. «Has vuelto a escuchar un rato. Si suena el martillo, hacemos una pausa. Las historias no se estropean por esperar a que podamos oírnos.»",
+          "requires_flags": [
+            "narevia_centro_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
           "scope": "player"
         }
       ],
@@ -988,6 +1147,12 @@
         }
       ],
       "memories": [
+        {
+          "requires_flags": [
+            "narevia_centro_conversar_hecho"
+          ],
+          "text": "Recuerdas a la familia esperando una pausa del martilleo para entender de qué orilla venía la visita."
+        },
         {
           "requires_flags": [
             "lethra_hilo_completado"
@@ -1534,9 +1699,45 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "lethra_muelle_vecinal_conversar",
+          "label": "Preguntar por el asa remendada",
+          "text": "Te acercas sin ocupar el paso de las cargas y la vecina te muestra el asa. «Reconozco mi cesta por este remiendo. Antes de levantarla miro bien, que hay muchas parecidas. Con tantas idas y vueltas, prefiero llevarme la mía y dejar de paseo las demás.»",
+          "set_flags": [
+            "lethra_muelle_vecinal_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "lethra_muelle_vecinal_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "lethra_muelle_vecinal_conversar_revisita",
+          "label": "Preguntar por el asa remendada",
+          "text": "La vecina te reconoce junto a las cestas. «¿Buscas otra vez mi remiendo? Yo miro primero el asa. Es más fácil que llamar a todas las casas para preguntar de quién es cada cesta.»",
+          "requires_flags": [
+            "lethra_muelle_vecinal_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        }
+      ],
       "brief": "El muelle de las cestas.",
-      "max_layers": 4
+      "max_layers": 4,
+      "memories": [
+        {
+          "requires_flags": [
+            "lethra_muelle_vecinal_conversar_hecho"
+          ],
+          "text": "Recuerdas el asa remendada por la que la vecina reconoce su cesta en el muelle."
+        }
+      ]
     },
     "lethra_patio_ventanas": {
       "id": "lethra_patio_ventanas",
@@ -1686,7 +1887,7 @@
       "actions": [
         {
           "id": "lethra_hilo_tacto_marevyn",
-          "label": "Palpar las fibras sumergidas con membranas marevyn",
+          "label": "Palpar la madeja húmeda con membranas marevyn",
           "requires_species": [
             "marevyn"
           ],
@@ -1700,8 +1901,8 @@
             "lethra_hilo_paso2",
             "lethra_hilo_atajo_marevyn"
           ],
-          "journal": "Tus membranas marevyn distinguen al tacto bajo el agua el trenzado de fibra suave que solo Mira teje en el taller de fibras.",
-          "text": "Sumerges la mano en el agua junto al casco amarrado. Tus dedos con membranas marevyn reconocen de inmediato la elasticidad del nudo bajo la corriente: este tipo de cordel de junco fino y suave no se usa en barcas pesadas, sino que sale exclusivamente de los telares de mano de Mira en el taller de fibras.",
+          "journal": "Tus membranas marevyn distinguen al tacto de la madeja húmeda el trenzado de fibra suave que solo Mira teje en el taller de fibras.",
+          "text": "Acercas las manos a la banqueta y palpas la madeja de junco empapada. Tus dedos con membranas marevyn reconocen de inmediato la elasticidad del nudo y de las fibras húmedas: este tipo de cordel fino y suave no se usa en barcas pesadas, sino que sale exclusivamente de los telares de mano de Mira en el taller de fibras.",
           "scope": "player"
         },
         {
@@ -2604,8 +2805,8 @@
           "set_flags": [
             "lethra_hilo_completado"
           ],
-          "journal": "Nima sonrió al ver la flauta de caña: las tres hermanas la tocaban en las noches de lluvia sobre los canales. Hacia el este, el agua dulce se aleja hacia los llanos abiertos de Edran.",
-          "text": "Nima levanta el cucharón de madera y se limpia las manos en el delantal con una sonrisa ancha que le arruga los ojos. «Esa caña la cortamos en la orilla del canal cuando éramos unas renacuajas. Mira trenzó la funda, Sola le talló la embocadura y yo aprendí a tocar dos notas desafinadas mientras el caldo rompía a hervir en el fuego. Creí que se había perdido entre las mareas del estanque. En Narevia el río se lleva muchas cosas y el agua nunca es la misma dos veces, pero las canciones de familia siempre encuentran el camino de vuelta a la mesa.» Señala con la cuchara hacia las pasarelas que miran al este: más allá de los carrizales, el agua se vuelve arroyos mansos que riegan las tierras de cultivo de Edran."
+          "journal": "Nima sonrió al ver la flauta de caña: las tres hermanas la tocaban en las noches de lluvia sobre los canales. Hacia el oeste, el agua dulce se aleja hacia los llanos abiertos de Edran.",
+          "text": "Nima levanta el cucharón de madera y se limpia las manos en el delantal con una sonrisa ancha que le arruga los ojos. «Esa caña la cortamos en la orilla del canal cuando éramos unas renacuajas. Mira trenzó la funda, Sola le talló la embocadura y yo aprendí a tocar dos notas desafinadas mientras el caldo rompía a hervir en el fuego. Creí que se había perdido entre las mareas del estanque. En Narevia el río se lleva muchas cosas y el agua nunca es la misma dos veces, pero las canciones de familia siempre encuentran el camino de vuelta a la mesa.» Señala con la cuchara hacia las pasarelas que miran al oeste: más allá de los carrizales, el agua se vuelve arroyos mansos que riegan las tierras de cultivo de Edran."
         },
         "cancion_hermanas": {
           "label": "Preguntar por la flauta sobre el estante de la cocina",

@@ -1240,6 +1240,73 @@ export function placeArt(room){
  return art?{...art,...variant,thumbnail:variant?.thumbnail||art.thumbnail||art.illustration.replace('-anime-v1.webp','-thumb-v1.webp')}:null;
 }
 
+// Reference descriptions for Personaje; availability always comes from server actions.
+export const classActions={
+ "juramentado": [
+  {
+   "id": "guardia_comprometida",
+   "label": "Guardia Comprometida",
+   "description": "Reduce el 50% del daño del próximo golpe directo frontal y anula empujes."
+  },
+  {
+   "id": "paso_ruptura",
+   "label": "Paso de Ruptura",
+   "description": "Golpe de hombro y pomo que interrumpe la preparación rival y desestabiliza su guardia."
+  }
+ ],
+ "arcano": [
+  {
+   "id": "impulso_arcano",
+   "label": "Impulso Arcano",
+   "description": "Empuje de fuerza pura que cancela preparaciones y aleja al rival."
+  },
+  {
+   "id": "velo_contencion",
+   "label": "Velo de Contención",
+   "description": "Barrera traslúcida que absorbe el próximo golpe que recibas."
+  },
+  {
+   "id": "destello_frio",
+   "label": "Destello Frío",
+   "description": "Resplandor repentino que desorienta al rival reduciendo su precisión o facilita la huida."
+  }
+ ],
+ "sombra": [
+  {
+   "id": "borrar_foco",
+   "label": "Borrar el Foco",
+   "description": "Rompe la línea visual reduciendo la precisión del rival; si falla, abre tu siguiente ataque."
+  },
+  {
+   "id": "golpe_apertura",
+   "label": "Golpe a la Apertura",
+   "description": "Puñalada veloz en ángulo descubierto; demoledora si aprovechas una apertura previa."
+  },
+  {
+   "id": "distraccion",
+   "label": "Lanzar Distracción",
+   "description": "Ruido con piedras para girar al rival, cancelando cargas y mermando su ataque."
+  }
+ ],
+ "artifice": [
+  {
+   "id": "tiro_interrupcion",
+   "label": "Tiro de Interrupción",
+   "description": "Disparo certero a las articulaciones que corta la carga o reduce su precisión."
+  },
+  {
+   "id": "traba_campo",
+   "label": "Traba de Campo",
+   "description": "Tiende estacas y cuerdas que enredan y ralentizan al rival."
+  },
+  {
+   "id": "balsamo_campo",
+   "label": "Bálsamo de Campo",
+   "description": "Aplica un ungüento herbal rápido que restaura 15 de vida y alivia la fatiga."
+  }
+ ]
+};
+
 // Presentation only: preserve the resolved result and every combat number.
 export function combatReading(event){
  const text=event.text||'',kind=String(event.kind||'').toUpperCase();
@@ -1251,6 +1318,8 @@ export function combatReading(event){
  const miss=text.match(/^La respuesta de (.+) pasa sin alcanzarte\.$/);if(miss){const name=miss[1];return choose([`¡${name} falla! Su ataque no te alcanza.`,`${name} responde, pero no consigue alcanzarte.`,`El ataque de ${name} pasa de largo. Esta vez no te alcanza.`]);}
  if(text==='Tu ataque no encuentra un ángulo limpio.')return choose(['Buscas el hueco, pero el golpe no conecta. Tu ataque no encuentra un ángulo limpio.','Lanzas el ataque y no logras alcanzarlo. Tu ataque no encuentra un ángulo limpio.']);
  if(/^Vences a .+\. Ganas \d+ XP;/.test(text))return choose(['La tensión afloja: ese enfrentamiento termina. ','¡Lo conseguiste! Has vencido a este rival. ','El intercambio termina con tu victoria. '])+text;
+ const effects=[[/^Usas Velo de Contención\./,'Velo preparado'],[/^El velo azulado.*absorbe /,'Velo: golpe absorbido'],[/tienes una apertura clara|Tienes una apertura para/,'Apertura para tu siguiente ataque'],[/^Usas Traba de Campo\./,'Traba desplegada'],[/^Usas Bálsamo de Campo\./,'Curación y alivio']];
+ for(const [pattern,label] of effects)if(pattern.test(text))return label+' · '+text;
  const powers={'Guardia Comprometida':'Afirmas los pies y sostienes la guardia. ','Impulso Arcano':'Concentras el impulso y lo sueltas hacia tu rival. ','Borrar el Foco':'Cambias el ritmo y buscas salir de su foco. ','Tiro de Interrupción':'Apuntas, ajustas y sueltas el disparo. '};
  for(const [name,lead] of Object.entries(powers))if(text.startsWith('Usas '+name+'.'))return lead+text;
  return text;
@@ -1258,6 +1327,7 @@ export function combatReading(event){
 
 // Compact decision cues summarize the server's reason; they never decide eligibility.
 export function capabilityReadingHint(action){
+ if(Object.values(classActions).some(entries=>entries.some(entry=>entry.id===action.id)))return action.disabled?action.reason||'No disponible':action.description||action.reason||null;
  if(action.id!=='capacidad')return null;
  const reason=action.reason||'';
  if(action.disabled){
@@ -1299,3 +1369,16 @@ export function bestiaryThumbnail(creature){
  const source=creature?.illustration;
  return typeof source==='string'&&source.startsWith('/client/art/bestiary/')?bestiaryThumbnails[source]||source:null;
 }
+
+// Plain-language descriptions of effects implemented by mechanics.py and engine.py.
+// Attributes without an implemented effect remain explicitly pending.
+export const attributeDescriptions={
+ fuerza:'Ayuda a hacer más daño con tu arma.',
+ resistencia:'Te da más vitalidad y hace que te canses menos.',
+ agilidad:'Ayuda a esquivar golpes y a escapar del combate.',
+ percepcion:'Ayuda a acertar, esquivar y escapar del combate.',
+ destreza:'Ayuda a acertar, hacer daño y bloquear golpes.',
+ voluntad:'Aumenta un poco tu vitalidad máxima.',
+ intelecto:'Su efecto en el juego está pendiente de motor.',
+ presencia:'Su efecto en el juego está pendiente de motor.'
+};
