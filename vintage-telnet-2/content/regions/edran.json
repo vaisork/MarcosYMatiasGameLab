@@ -170,6 +170,33 @@
             "success_text": "Tu intelecto reconoce con claridad las marcas de las estaciones grabadas en la madera.",
             "fail_text": "Las líneas están gastadas por la lluvia; tras compararlas con paciencia, deduces que señalan los ciclos de siembra de Valdren."
           }
+        },
+        {
+          "id": "valdren_plaza_conversar",
+          "label": "Preguntar por las semillas",
+          "text": "Te acercas al cuenco y la abuela te señala las marcas. «Mira, dos pellizquitos del pico. Mi nieto busca un pájaro enorme, pero no hace falta ser grande para abrir una semilla. A mí también me costó aprender a mirar tan pequeño.»",
+          "set_flags": [
+            "valdren_plaza_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "valdren_plaza_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "valdren_plaza_conversar_revisita",
+          "label": "Preguntar por las semillas",
+          "text": "La abuela te reconoce junto al banco. «¿Otra mirada al cuenco? Ya sabes dónde buscar las marcas. Yo sigo mirando despacio, que los ojos también tienen sus prisas.»",
+          "requires_flags": [
+            "valdren_plaza_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
         }
       ],
       "return": "Ya sabes orientarte aquí: la calle que sube lleva al golpe de la fragua; el corredor de los huertos, al campo.",
@@ -179,6 +206,16 @@
       "dawn": "Un gallo llama detrás de las casas. La vecina sacude las migas del banco antes de extender el paño.",
       "dusk": "La última semilla vuelve al cuenco. El niño pregunta si mañana vendrá el mismo pájaro.",
       "states": [
+        {
+          "requires_flags": [
+            "edran_hilo_paso1"
+          ],
+          "overrides": {
+            "examine": {
+              "hendidura": "La hendidura entre las tablas del banco está ahora vacía: ya no asoma la cinta de lana roja ni la pequeña ficha de boj que estuvo allí guardada."
+            }
+          }
+        },
         {
           "requires_time": [
             "día"
@@ -309,6 +346,12 @@
         }
       ],
       "memories": [
+        {
+          "requires_flags": [
+            "valdren_plaza_conversar_hecho"
+          ],
+          "text": "Recuerdas las dos marcas de pico que la abuela te enseñó junto al banco."
+        },
         {
           "requires_flags": [
             "edran_hilo_completado"
@@ -532,10 +575,43 @@
           "text": "Te inclinas con gran cortesía ante el muñeco de paja. Una ráfaga de viento mueve su manga derecha como si te devolviera el saludo, y del bolsillo de su sayal cae una cáscara de nuez vacía con una carita sonriente dibujada con tizón.",
           "journal": "En los huertos de Valdren saludaste formalmente a un espantapájaros con pipa de zanahoria; el viento pareció responder a tu reverencia.",
           "scope": "player"
+        },
+        {
+          "id": "valdren_huertos_conversar",
+          "label": "Preguntar por las hojas del delantal",
+          "text": "Saludas a la familia desde la cerca y una persona levanta el borde del delantal. «Van a la cocina de aquí al lado. Si las aprieto mucho, llegan aplastadas, así que hago una bolsita con la tela. Parece que llevo una barriga de hojas, ¿verdad?»",
+          "set_flags": [
+            "valdren_huertos_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "valdren_huertos_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "valdren_huertos_conversar_revisita",
+          "label": "Preguntar por las hojas del delantal",
+          "text": "Te acercas otra vez a la cerca y te saludan desde el huerto. «Aquí va mi barriga de hojas. La cocina está tan cerca que apenas da tiempo a olerlas por el camino. Tú pasa con calma; dejamos sitio junto a la cerca.»",
+          "requires_flags": [
+            "valdren_huertos_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
         }
       ],
       "return": "Los postes desiguales te permiten localizar la plaza sin ver el banco. También reconoces la curva donde la canaleta debe recoger el agua de los dos lados.",
       "memories": [
+        {
+          "requires_flags": [
+            "valdren_huertos_conversar_hecho"
+          ],
+          "text": "La cerca te recuerda cómo la familia lleva las hojas a la cocina en el delantal."
+        },
         {
           "requires_flags": [
             "edran_acequia_abierta"
@@ -734,6 +810,33 @@
           "scope": "player",
           "text": "La raya es vieja: el agua del cubo la ha suavizado. Este Espinajo es más pequeño y más torpe que los otros. Quien lo hizo dibujaba Espinajos desde hace mucho.",
           "journal": "El Espinajo más antiguo de la L está rayado en el brocal del pozo."
+        },
+        {
+          "id": "valdren_pozo_conversar",
+          "label": "Preguntar por los recipientes pequeños",
+          "text": "Esperas en las piedras de la fila y preguntas a la vecina por sus recipientes. «Lleno los pequeños primero porque puedo apartarlos sin hacer esperar a nadie. Ahí, a la sombra, no estorban. El grande me pide las dos manos; hasta para beber hay que organizarse un poquito.»",
+          "set_flags": [
+            "valdren_pozo_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "valdren_pozo_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "valdren_pozo_conversar_revisita",
+          "label": "Preguntar por los recipientes pequeños",
+          "text": "La vecina te saluda desde la fila del pozo. «Ya conoces mi pequeña fila de recipientes. Espero mi turno aquí, lejos del borde. Cuando termino, dejo la cuerda lista para quien venga.»",
+          "requires_flags": [
+            "valdren_pozo_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
         }
       ],
       "return": "La cuerda de reserva cuelga de su clavija, y la línea de piedras marca dónde esperar turno.",
@@ -795,7 +898,15 @@
           }
         }
       ],
-      "max_layers": 4
+      "max_layers": 4,
+      "memories": [
+        {
+          "requires_flags": [
+            "valdren_pozo_conversar_hecho"
+          ],
+          "text": "Recuerdas por qué la vecina pone primero los recipientes pequeños a la sombra."
+        }
+      ]
     },
     "valdren_cobertizo": {
       "id": "valdren_cobertizo",
@@ -952,10 +1063,46 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "valdren_patio_carros_conversar",
+          "label": "Preguntar al ayudante por el carro",
+          "text": "Te detienes fuera del paso y el ayudante te contesta sin pedirte que sujetes nada. «Si alguien empuja, no puedo ver hacia dónde se inclina. Por eso miramos primero, con las manos quietas. Ya sé que cuesta: a mí también me dan ganas de agarrarlo enseguida.»",
+          "set_flags": [
+            "valdren_patio_carros_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "valdren_patio_carros_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "valdren_patio_carros_conversar_revisita",
+          "label": "Preguntar al ayudante por el carro",
+          "text": "El ayudante te reconoce y señala el espacio libre. «Desde ahí puedes mirar conmigo. ¿Te acuerdas de las manos quietas? El carro nos cuenta mejor lo que le pasa cuando nadie lo empuja.»",
+          "requires_flags": [
+            "valdren_patio_carros_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        }
+      ],
       "return": "Ahora ves la pendiente junto al pozo. El madero que frenó la rueda tiene una marca fresca debajo del borde.",
       "brief": "El patio inclinado de los carros, con el madero que frena las ruedas.",
-      "max_layers": 4
+      "max_layers": 4,
+      "memories": [
+        {
+          "requires_flags": [
+            "valdren_patio_carros_conversar_hecho"
+          ],
+          "text": "En el patio recuerdas al ayudante observando la inclinación del carro sin que nadie lo sujete."
+        }
+      ]
     },
     "valdren_graneros": {
       "id": "valdren_graneros",
@@ -995,10 +1142,43 @@
           "requires_time": [
             "día"
           ]
+        },
+        {
+          "id": "valdren_graneros_conversar",
+          "label": "Preguntar por los nudos de los sacos",
+          "text": "Esperas a que la almacenista termine de contar y preguntas por los nudos. «Los cuento sin abrir los sacos. Si pierdo la cuenta, vuelvo al principio; el grano no va a salir corriendo. El muchacho espera mi señal antes de apuntar, y así no escribimos dos cuentas distintas.»",
+          "set_flags": [
+            "valdren_graneros_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "valdren_graneros_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "valdren_graneros_conversar_revisita",
+          "label": "Preguntar por los nudos de los sacos",
+          "text": "La almacenista te saluda al terminar una cuenta. «Has esperado justo lo que necesitaba. Cuando hablo y cuento a la vez, acabo contando mis palabras. Mejor una cosa y luego la otra.»",
+          "requires_flags": [
+            "valdren_graneros_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
         }
       ],
       "return": "Otra vez la puerta baja del almacén: el agua se reúne delante y deja una línea de barro hasta la esquina tapada.",
       "memories": [
+        {
+          "requires_flags": [
+            "valdren_graneros_conversar_hecho"
+          ],
+          "text": "Los nudos de los sacos te recuerdan cómo cuenta la almacenista antes de dar su señal."
+        },
         {
           "requires_flags": [
             "edran_granero_despejado"
@@ -1083,7 +1263,7 @@
           "set_flags": [
             "edran_hilo_completado"
           ],
-          "journal": "En la cazuela de Elva estaba el dibujo de infancia de Iria y su hermano: dos niños despidiéndose junto al camino hacia Korven. La memoria de Valdren vive en estas pequeñas ternuras compartidas.",
+          "journal": "En la cazuela de Elva estaba el dibujo de infancia de Iria y su hermano: dos niños cruzando un puente con una carreta hacia Korven. La memoria de Valdren vive en estas pequeñas ternuras compartidas.",
           "text": "Sostienes la corteza bajo la luz tibia del comedor. Bajo el dibujo de los dos niños y la carreta hay dos frases escritas con carbón fino: 'Para Iria, si me demoro al cruzar hacia las piedras de Korven. Guarda la espiga en la plaza; yo traeré una piedra gris del camino'. Elva te ve sonreír y asiente en silencio: el hermano regresó sano de aquel viaje y las carretas de grano siguieron cruzando los llanos durante años. Hacia el este, más allá de los cultivos, las sendas de tierra firme se pierden en dirección a las colinas de Korven.",
           "scope": "player"
         }
@@ -1759,10 +1939,43 @@
           "text": "Debajo de la última marca de cada estaca hay otras dos, casi borradas. Reconoces la costumbre: en tu familia también se marcaba así cada arreglo de la misma cerca. No son dueños distintos; son años de volver a reparar lo mismo.",
           "journal": "Los campos guardan su historia en señales pequeñas. Esta cerca ha necesitado cuidados durante años.",
           "scope": "player"
+        },
+        {
+          "id": "edran_cobertizo_campo_conversar",
+          "label": "Preguntar por los números de las estacas",
+          "text": "Desde la entrada preguntas al muchacho por los números. «Miro éste antes de colgar la estaca. Así vuelve a su sitio y el hueco que queda dice cuál sigue fuera. Una vez casi la puse al revés; por suerte, los números no se leen igual de cabeza.»",
+          "set_flags": [
+            "edran_cobertizo_campo_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "edran_cobertizo_campo_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "edran_cobertizo_campo_conversar_revisita",
+          "label": "Preguntar por los números de las estacas",
+          "text": "El muchacho te reconoce junto al banco. «¿Vienes a mirar la fila? Yo sigo comprobando el número antes de colgar. Los huecos cuentan algo, aunque no hagan ruido.»",
+          "requires_flags": [
+            "edran_cobertizo_campo_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
         }
       ],
       "return": "Recuerdas la estaca numerada que faltaba en la pared. El hueco está entre dos herramientas con barro seco en el mango.",
       "memories": [
+        {
+          "requires_flags": [
+            "edran_cobertizo_campo_conversar_hecho"
+          ],
+          "text": "Recuerdas al muchacho comprobando el número de una estaca antes de devolverla a la pared."
+        },
         {
           "requires_flags": [
             "edran_caja_observada"

@@ -1369,3 +1369,16 @@ export function bestiaryThumbnail(creature){
  const source=creature?.illustration;
  return typeof source==='string'&&source.startsWith('/client/art/bestiary/')?bestiaryThumbnails[source]||source:null;
 }
+
+// Plain-language descriptions of effects implemented by mechanics.py and engine.py.
+// Attributes without an implemented effect remain explicitly pending.
+export const attributeDescriptions={
+ fuerza:'Ayuda a hacer más daño con tu arma.',
+ resistencia:'Te da más vitalidad y hace que te canses menos.',
+ agilidad:'Ayuda a esquivar golpes y a escapar del combate.',
+ percepcion:'Ayuda a acertar, esquivar y escapar del combate.',
+ destreza:'Ayuda a acertar, hacer daño y bloquear golpes.',
+ voluntad:'Aumenta un poco tu vitalidad máxima.',
+ intelecto:'Su efecto en el juego está pendiente de motor.',
+ presencia:'Su efecto en el juego está pendiente de motor.'
+};

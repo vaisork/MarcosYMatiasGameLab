@@ -635,6 +635,33 @@
           "text": "Te quedas muy quieto, con las orejas atentas. Bajo tus pies, una parte de la terraza da un golpecito corto que no suena como el resto. Cuando para la ráfaga de viento, desaparece.",
           "journal": "Una parte de la terraza responde al viento de otra manera.",
           "scope": "player"
+        },
+        {
+          "id": "hoshai_terraza_cargas_conversar",
+          "label": "Preguntar por el reparto de paquetes",
+          "text": "Te acercas al lado libre de la terraza y un comerciante señala los paquetes. «No basta con que todo quepa. Si pesa más de un lado, el cuerpo acaba torcido antes de salir. Mira cómo se endereza mi compañero cuando repartimos mejor; hasta su cara descansa.»",
+          "set_flags": [
+            "hoshai_terraza_cargas_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "hoshai_terraza_cargas_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "hoshai_terraza_cargas_conversar_revisita",
+          "label": "Preguntar por el reparto de paquetes",
+          "text": "El comerciante te reconoce sin apartar los paquetes del apoyo. «Ya sabes por qué miramos los dos lados. Una carga pequeña también puede tirar mal si va toda junta. Prefiero perder un momento aquí que ir torcido por el camino.»",
+          "requires_flags": [
+            "hoshai_terraza_cargas_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
         }
       ],
       "brief": "La terraza de las cargas, bajo el primer techo de Khariel.",
@@ -711,6 +738,14 @@
           "creature": "salteador_desesperado",
           "text": "Una persona flaca, con un palo que le tiembla en las manos, te corta el paso. Mira tu mochila con hambre.",
           "persistent_trace": false
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "hoshai_terraza_cargas_conversar_hecho"
+          ],
+          "text": "Los apoyos de la terraza te recuerdan al acompañante que se enderezó al repartir mejor el peso."
         }
       ]
     },
@@ -895,6 +930,33 @@
           "journal": "Retiraste la cera de la campanilla: debajo de la cinta verde hay tres nudos entrelazados de estilo Felaryn que indican un aviso dejado en el taller de apoyos.",
           "text": "Retiras con la uña la bolita de cera y la campanilla emite un tintineo claro y cantarín. Al desenrollar la cinta verde, descubres tres nudos pequeños entrelazados con pelo de cabra de montaña: es la marca tradicional con la que los aprendices de Khariel avisan al taller de un apoyo que necesita ajuste.",
           "scope": "player"
+        },
+        {
+          "id": "khariel_centro_conversar",
+          "label": "Preguntar a la vecina por la nuez",
+          "text": "Te acercas a la vecina cuando la nuez rueda hasta la rampa. «Salta muy bien, pero recogerla ya es otra historia. Yo la pongo cerca para que practiquen sin cargas. Si hoy no sale, nos reímos un poco y volvemos a mirar dónde apoyan los pies.»",
+          "set_flags": [
+            "khariel_centro_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "khariel_centro_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "khariel_centro_conversar_revisita",
+          "label": "Preguntar a la vecina por la nuez",
+          "text": "La vecina te reconoce junto a la rampa. «¿Has venido a ver nuestros intentos? Lo de saltar y lo de recoger no siempre salen juntos. Por la rampa también se llega, y sin perseguir nueces.»",
+          "requires_flags": [
+            "khariel_centro_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
         }
       ],
       "dawn": "La nuez rueda por un escalón vacío. Desde arriba baja el olor de una olla que apenas empieza a calentarse.",
@@ -904,6 +966,16 @@
         "nieve": "Las pisadas han abierto dos franjas en la nieve de los escalones. La rampa conserva hielo junto al muro en sombra; una vecina golpea sus suelas antes de entrar por una puerta lateral."
       },
       "states": [
+        {
+          "requires_flags": [
+            "hoshai_hilo_paso1"
+          ],
+          "overrides": {
+            "examine": {
+              "apoyo_alto": "En el saliente de piedra que domina la plaza, el lazo de cinta verde sostiene la pequeña campanilla de estaño. Ya sin la bolita de cera que trababa el badajo, vibra libremente con el viento del valle emitiendo un tintineo suave y limpio."
+            }
+          }
+        },
         {
           "requires_time": [
             "día"
@@ -1007,6 +1079,12 @@
         }
       ],
       "memories": [
+        {
+          "requires_flags": [
+            "khariel_centro_conversar_hecho"
+          ],
+          "text": "Recuerdas a la vecina y la nuez que rodó desde el escalón hasta la rampa."
+        },
         {
           "requires_flags": [
             "hoshai_hilo_completado"
@@ -1510,6 +1588,33 @@
           "text": "Acercas el dedo con una gota limpia de agua a la piedra. La salamandra alza su cabecita chata, toca la gota con su hocico frío y sacude la cola como si fuera un diminuto felaryn de roca antes de meterse bajo el musgo.",
           "journal": "En el lavadero de Khariel le ofreciste una gota de agua a una salamandra dormilona que sacudió la cola agradecida.",
           "scope": "player"
+        },
+        {
+          "id": "hoshai_lavadero_roca_conversar",
+          "label": "Preguntar por la manga",
+          "text": "Te acercas sin pisar la ropa y la vecina te muestra la manga doblada. «Mojada parece limpia, pero al secarse asoma la mancha. Por eso miro otra vez antes de guardarla. Es una mancha muy terca; casi tanto como yo.»",
+          "set_flags": [
+            "hoshai_lavadero_roca_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "hoshai_lavadero_roca_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "hoshai_lavadero_roca_conversar_revisita",
+          "label": "Preguntar por la manga",
+          "text": "La vecina levanta la vista de la piedra y te saluda. «Ya conoces mi pelea con las manchas. No me fío sólo de cómo queda la manga mojada. Primero la dejo secar y luego decido.»",
+          "requires_flags": [
+            "hoshai_lavadero_roca_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
         }
       ],
       "states": [
@@ -1552,6 +1657,14 @@
           "text": "Un tipo grande con un garrote al hombro se planta en medio del camino. «¡Alto ahí! ¡Este camino es mío!», grita.",
           "persistent_trace": false
         }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "hoshai_lavadero_roca_conversar_hecho"
+          ],
+          "text": "La piedra del lavadero te recuerda la mancha que la vecina busca cuando se seca la manga."
+        }
       ]
     },
     "hoshai_deposito_comun": {
@@ -1576,8 +1689,44 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
-      "brief": "El depósito de herramientas, con su tablilla de préstamos."
+      "actions": [
+        {
+          "id": "hoshai_deposito_comun_conversar",
+          "label": "Preguntar cómo se anotan las herramientas",
+          "text": "Esperas en la entrada y preguntas a la encargada por la tablilla. «Apunto quién lleva cada herramienta y dónde trabaja. Así no buscamos una pala por todo el valle cuando está en un huerto. Me gustan más los dibujos de huertos que las carreras detrás de una pala.»",
+          "set_flags": [
+            "hoshai_deposito_comun_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "hoshai_deposito_comun_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "hoshai_deposito_comun_conversar_revisita",
+          "label": "Preguntar cómo se anotan las herramientas",
+          "text": "La encargada te saluda desde los estantes. «¿Otra mirada a las notas? Nombre y lugar, ése es mi recordatorio. Mi cabeza sola no tiene tantos estantes como este depósito.»",
+          "requires_flags": [
+            "hoshai_deposito_comun_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        }
+      ],
+      "brief": "El depósito de herramientas, con su tablilla de préstamos.",
+      "memories": [
+        {
+          "requires_flags": [
+            "hoshai_deposito_comun_conversar_hecho"
+          ],
+          "text": "Recuerdas que la encargada anota quién lleva cada herramienta y dónde la usa."
+        }
+      ]
     },
     "hoshai_balcon_valle": {
       "id": "hoshai_balcon_valle",
@@ -1594,7 +1743,7 @@
         "cuaderno": "Una línea incompleta indica que se perdió de vista una carga, no que se perdió la carga.",
         "cornisa": "La cornisa es un camino estrecho pegado a la roca. Tiene apoyos para los pies y sitio para una persona con un bulto pequeño; un carro no cabe. Detrás de la roca el camino se pierde de vista un rato y vuelve a aparecer más abajo.",
         "caja_grieta": {
-          "text": "Entre dos lajas de pizarra del parapeto hay encajada una cajita plana de madera de sabina, cerrada con un cordel de lana trenzada.",
+          "text": "Entre dos piedras de la baranda hay encajada una cajita plana de madera de sabina, cerrada con un cordel de lana trenzada.",
           "flag": "hoshai_hilo_cajita_vista",
           "requires_flags": [
             "hoshai_hilo_paso2"
@@ -1610,7 +1759,7 @@
       "actions": [
         {
           "id": "hoshai_hilo_abrir_cajita",
-          "label": "Abrir la cajita entre las lajas del parapeto",
+          "label": "Abrir la cajita entre las piedras de la baranda",
           "requires_flags": [
             "hoshai_hilo_paso2",
             "hoshai_hilo_cajita_vista"
@@ -1624,8 +1773,8 @@
           "set_flags": [
             "hoshai_hilo_paso3"
           ],
-          "journal": "En la cajita del balcón había una cinta tejida con dos plumas de arrendajo y una nota: 'Para la tía Luma, que siempre me cuida los saltos'.",
-          "text": "Desatas el cordel y abres la pequeña tapa de sabina. Dentro descansa una cinta de lana azul tejida con esmero, con dos plumitas azules de arrendajo de montaña cosidas en el remate. Una tira de corteza reza: 'Para la tía Luma en el mercado, que siempre me recuerda dónde apoyar los pies'.",
+          "journal": "En la cajita del balcón había una cinta tejida con dos plumas de arrendajo y una nota: 'Para la tía Luma en el mercado, que siempre me cuida los saltos'.",
+          "text": "Desatas el cordel y abres la pequeña tapa de sabina. Dentro descansa una cinta de lana azul tejida con esmero, con dos plumitas azules de arrendajo de montaña cosidas en el remate. Una tira de corteza reza: 'Para la tía Luma en el mercado, que siempre me cuida los saltos'.",
           "scope": "player"
         },
         {
@@ -2669,7 +2818,7 @@
             "hoshai_hilo_completado"
           ],
           "journal": "Luma reconoció la cinta que su sobrina tejió de pequeña antes de partir como guía de caravanas hacia Veyra. Las terrazas de Khariel guardan el cariño en cada nudo.",
-          "text": "Luma toma la cinta azul y la aprieta suavemente contra su mejilla, cerrando los ojos mientras sus orejas felaryn se inclinan hacia delante. «Es el regalo que me prometió mi sobrina antes de su primer viaje por las alturas de la garganta. Decía que con estas plumas yo podría escuchar el viento antes de que bajara la niebla. Ahora guía caravanas entre las cumbres y los pasos abiertos que llevan a Veyra. En Khariel los caminos son estrechos y el abismo impone respeto, pero nunca caminamos solos mientras alguien recuerde nuestros pasos en el valle.» Hacia el nordeste, entre las brechas de la roca, la senda desciende en zigzag hacia los pasos amplios de Veyra."
+          "text": "Luma toma la cinta azul y la aprieta suavemente contra su mejilla, cerrando los ojos mientras sus orejas felaryn se inclinan hacia delante. «Es el regalo que me prometió mi sobrina antes de su primer viaje por las alturas de la garganta. Decía que con estas plumas yo podría escuchar el viento antes de que bajara la niebla. Ahora guía caravanas entre las cumbres y los pasos abiertos que llevan a Veyra. En Khariel los caminos son estrechos y el abismo impone respeto, pero nunca caminamos solos mientras alguien recuerde nuestros pasos en el valle.» Para marchar hacia Veyra hay que volver a la plaza y salir al sur, por donde la senda desciende hacia los pasos amplios del valle."
         },
         "recuerdo_sobrina": {
           "label": "Preguntar por la cinta en su puesto",

@@ -658,3 +658,24 @@ html body .reading .event[aria-label^="Velo"]{border-left:4px solid #8fd0ff;back
 html body .reading .event[aria-label^="Apertura"]{border-left:4px solid #ffe07a;background:#ffe07a18}
 html body .reading .event[aria-label^="Traba"]{border-left:4px solid #ffb37b;background:#ffb37b18}
 html body .reading .event[aria-label^="Curación"]{border-left:4px solid #82e8af;background:#82e8af18}
+
+/* Character sheet and persistent return path: readable at 390px. */
+html body .submenu-context{position:sticky;top:0;z-index:2;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 0;background:var(--paper,#fff);border-bottom:1px solid var(--line);margin-bottom:14px}
+html body .submenu-context button{min-height:44px;font-size:14px}
+html body .submenu-context>span{font-size:14px;overflow-wrap:anywhere}
+html body .character-progress{padding:14px 0;border-bottom:1px solid var(--line)}
+html body .character-progress h2{margin:0 0 10px}
+html body .character-progress label{display:block;font-size:16px;line-height:1.5}
+html body .character-progress progress{display:block;width:100%;height:18px;margin:8px 0;accent-color:var(--blue)}
+html body .character-progress .muted,html body .character-capabilities .muted{font-size:15px;line-height:1.5}
+html body .attribute-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+html body .attribute{min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px}
+html body .attribute small{font-size:15px;color:var(--night,#152b4a)}
+html body .attribute strong{font-size:21px;margin-left:auto}
+html body .attribute .attribute-description{flex-basis:100%;font-size:15px;line-height:1.5;margin:0;color:var(--night,#152b4a);overflow-wrap:anywhere}
+html body .class-action-list{padding-left:22px;display:grid;gap:12px}
+html body .class-action-list p{margin:4px 0}
+html body #navigation:not(.with-travel) .game-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}
+html body #navigation:not(.with-travel) .game-tabs button{min-height:48px;height:auto;padding:6px 2px}
+html body #navigation:not(.with-travel) .game-tabs .tab-label{font-size:12px;letter-spacing:normal}
+html body button:focus-visible,html body summary:focus-visible,html body #main:focus-visible{outline:3px solid var(--blue,#235fba);outline-offset:3px}

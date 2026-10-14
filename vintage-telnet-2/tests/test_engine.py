@@ -234,7 +234,7 @@ class JourneyTests(unittest.TestCase):
   self.create();self.action('mover','salir');self.action('mover','norte')
  def test_mordelinde_escapes_without_reward_and_returns_after_threat_leaves(self):
   self.wildlife_fixture('mordelinde');state=self.action('combatir','mordelinde')
-  self.assertIsNone(state['character']['combat']);self.assertEqual(state['character']['xp'],0);self.assertEqual(state['character']['hp'],100)
+  self.assertIsNone(state['character']['combat']);self.assertEqual(state['character']['xp'],2*mechanics.EXPLORATION_XP['room']);self.assertEqual(state['character']['hp'],100)
   self.assertFalse(any(a['id']=='combatir' for a in state['actions']))
   self.assertFalse(any('refugio' in l['text'] for l in state['scene'] if l['kind']=='danger'))
   self.action('mover','sur');returned=self.action('mover','norte')
@@ -249,9 +249,9 @@ class JourneyTests(unittest.TestCase):
   self.clock.now+=4;damaged=self.client.get('/api/state').json
   self.assertLess(damaged['character']['hp'],100);self.action('abrir_salida');self.clock.now+=4
   released=self.client.get('/api/state').json;self.assertIsNone(released['character']['combat'])
-  self.assertEqual(released['character']['xp'],0);self.assertEqual(released['character']['hp'],damaged['character']['hp'])
+  self.assertEqual(released['character']['xp'],2*mechanics.EXPLORATION_XP['room']);self.assertEqual(released['character']['hp'],damaged['character']['hp'])
   self.action('mover','sur');self.action('mover','norte');reapproach=self.action('combatir','mordelinde')
-  self.assertIsNone(reapproach['character']['combat']);self.assertEqual(reapproach['character']['xp'],0)
+  self.assertIsNone(reapproach['character']['combat']);self.assertEqual(reapproach['character']['xp'],2*mechanics.EXPLORATION_XP['room'])
  def test_cornalomo_warning_allows_safe_retreat_before_committed_encounter(self):
   self.wildlife_fixture('cornalomo');warning=self.action('acercarse','cornalomo')
   self.assertIsNone(warning['character']['combat']);self.assertEqual(warning['character']['hp'],100)
@@ -351,7 +351,7 @@ class JourneyTests(unittest.TestCase):
   shared=other.get('/api/state').json
   self.assertFalse(any(a['id']=='combatir' for a in shared['actions']))
   owner=self.client.get('/api/state').json;self.assertIsNone(owner['character']['combat']);self.assertGreater(owner['character']['xp'],0)
-  self.assertEqual(shared['character']['xp'],0)
+  self.assertEqual(shared['character']['xp'],2*mechanics.EXPLORATION_XP['room'])
 
  def test_concurrent_duplicate_action_records_one_transition(self):
   import concurrent.futures

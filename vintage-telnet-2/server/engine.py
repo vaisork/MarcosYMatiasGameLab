@@ -346,6 +346,13 @@ class Engine:
         if not quiet:state['events'].append(event('action',f"Ya conoces todos los datos de conducta disponibles aquí sobre {creature['name']}."))
 
     def tick_shared(self,participants,world):
+        before=[self.exploration_facts(p['state']) for p in participants]
+        result=self.tick_shared_action(participants,world)
+        for p,old in zip(participants,before):
+            if old!=self.exploration_facts(p['state']):self.reward_exploration(p['state'],old)
+        return result
+
+    def tick_shared_action(self,participants,world):
         if len(participants)==1:return self.tick(participants[0],world)
         now=self.clock();key=f"{participants[0]['state']['location']}:{participants[0]['state']['combat']['creature']}"
         animal=world.setdefault('creature_states',{}).setdefault(key,{})
@@ -405,6 +412,12 @@ class Engine:
         return changed
 
     def tick(self,character,world):
+        state=character['state'];before=self.exploration_facts(state)
+        result=self.tick_action(character,world)
+        if before!=self.exploration_facts(state):self.reward_exploration(state,before)
+        return result
+
+    def tick_action(self,character,world):
         state=character['state'];now=self.clock();combat=state['combat'];changed=False
         if not combat:
             elapsed=max(0,now-state['last_active']);previous_fatigue=state['fatigue'];state['fatigue']=max(0,state['fatigue']-math.floor(elapsed/10));state['last_active']+=math.floor(elapsed/10)*10
@@ -459,10 +472,7 @@ class Engine:
         else:
             if creature.get('defeat_text'):state['events'].append(event('world',creature['defeat_text']))
             state['events'].append(event('reward',f"Vences a {creature['name']}. Ganas {gain} XP; este enfrentamiento no entrega sellos."))
-        while state['level']<100 and state['xp']>=m.xp_next(state['level']):
-            old_max=m.hp_max(state);state['xp']-=m.xp_next(state['level']);state['level']+=1;state['pa']=state.get('pa',0)+2;state['hp']=min(m.hp_max(state),state['hp']+m.hp_max(state)-old_max)
-            if state['level']%5==0:state['pp']+=1
-            state['events'].append(event('reward',f"Alcanzas nivel {state['level']}. Dispones de puntos de atributo para decidir tu formación."))
+        self.advance_levels(state)
         deathkey=f"{state['location']}:{combat['creature']}";world['deaths'][deathkey]=self.clock()+300
         world.setdefault('creature_states',{}).pop(deathkey,None)
         local_victory=f"victoria:{state['location']}:{combat['creature']}"
@@ -614,7 +624,7 @@ class Engine:
         for attribute,value in (state.get('attributes') or {}).items():
             cost=1 if value<20 else 2 if value<35 else 3 if value<45 else 4 if value<60 else 5
             if state.get('pa',0)>=cost:actions.append({'id':'atributo','target':attribute,'label':f'Mejorar {attribute} · {cost} PA','confirmation':f'Aumentar {attribute} de {value} a {value+1} por {cost} PA. No podrás deshacerlo.'})
-        actions += [{'id':'examinar','target':key,'label':f'Examinar {key}'} for key,value in room.get('examine',{}).items() if not isinstance(value,dict) or self.allowed(value,state,world)]
+        actions += [{'id':'examinar','target':key,'label':f"Examinar {key.replace('_', ' ')}"} for key,value in room.get('examine',{}).items() if not isinstance(value,dict) or self.allowed(value,state,world)]
         actions += [{'id':'mirar_direccion','target':direction,'label':f'Mirar hacia el {direction}'} for direction in room.get('look',{}) if direction in room.get('exits',{})]
         for direction,destination in room.get('exits',{}).items():
             gate=room.get('exit_requirements',{}).get(direction,{})
@@ -732,7 +742,7 @@ class Engine:
         text=intent['text']
         if not isinstance(text,str) or not 1<=len(text.strip())<=300:raise RuleError('Escribe una acción breve del lugar.')
         def normalize(value):
-            value=''.join(c for c in unicodedata.normalize('NFKD',str(value)) if not unicodedata.combining(c)).casefold()
+            value=''.join(c for c in unicodedata.normalize('NFKD',str(value)) if not unicodedata.combining(c)).casefold().replace('_', ' ')
             return ' '.join(re.sub(r'[^\w\s]',' ',value).split())
         if text.strip().casefold().startswith('decir '):return {'id':'decir','text':text.strip()[6:]}
         typed=normalize(text);state=character['state'];room=self.room(character,world);matches=[]
@@ -791,8 +801,8 @@ class Engine:
                 matches.append({'id':authored['id']})
         if len(matches)!=1:
             local=[a for a in choices if not a.get('disabled') and (a['id'] in ('mover','examinar') or a['id'] in {item['id'] for item in room.get('actions',[])})]
-            suggestions=[a['label'] for a in local[:3]]
-            suggestions += [a['label'] for a in choices if not a.get('disabled') and a['label'] not in suggestions][:max(0,3-len(suggestions))]
+            suggestions=[a['label'].replace('_', ' ') for a in local[:3]]
+            suggestions += [a['label'].replace('_', ' ') for a in choices if not a.get('disabled') and a['label'].replace('_', ' ') not in suggestions][:max(0,3-len(suggestions))]
             raise RuleError('No entiendo esas palabras. Puedes probar: '+'; '.join(suggestions)+'.',409)
         choice=matches[0]
         if choice.get('disabled'):raise RuleError(choice.get('reason') or 'Esa decisión todavía no está disponible.',409)
@@ -800,7 +810,68 @@ class Engine:
         if intent.get('confirmed'):result['confirmed']=True
         return result
 
+    def advance_levels(self,state):
+        while state['level']<100 and state['xp']>=m.xp_next(state['level']):
+            old_max=m.hp_max(state);state['xp']-=m.xp_next(state['level']);state['level']+=1;state['pa']=state.get('pa',0)+2;state['hp']=min(m.hp_max(state),state['hp']+m.hp_max(state)-old_max)
+            if state['level']%5==0:state['pp']+=1
+            state['events'].append(event('reward',f"Alcanzas nivel {state['level']}. Dispones de puntos de atributo para decidir tu formación."))
+
+    def exploration_facts(self,state):
+        """Stable personal achievements; shared flags alone never confer credit."""
+        facts={}
+        def add(source,key,reason):facts[source+':'+key]=(source,reason)
+        flags=set(state.get('flags',[]))
+        personal=flags|{f.removeprefix('participated:') for f in flags if f.startswith('participated:')}
+        for rid in state.get('visited',[]):
+            if rid!=state.get('home'):add('room',rid,'nuevo lugar')
+        for sid,secret in getattr(self.content,'secrets',{}).items():
+            if secret.get('flag') in personal:add('secret',sid,'secreto encontrado')
+        for text in state.get('journal',[]):
+            add('clue',text,'pista en el diario')
+        # The final authored step is the generic story closure contract.
+        for sid,story in self.content.stories.items():
+            steps=story.get('steps',[])
+            if not steps:continue
+            last=steps[-1];flag=last.get('flag') if isinstance(last,dict) else last
+            if isinstance(flag,str):
+                if flag in personal:add('closure',flag,'hilo concluido')
+        for flag in personal:
+            if re.search(r'(?:hilo|arco).*_(?:completado|concluido|cerrado|resuelto)$',flag):
+                add('closure',flag,'hilo concluido')
+        for text in state.get('journal',[]):
+            if re.match(r'^(?:cierre|conclusión)\b',text,re.I):
+                add('closure','journal:'+text,'hilo concluido')
+        for qid,instance in state.get('quests',{}).items():
+            if instance.get('status') in ('ready','paid'):add('quest',qid,'encargo completado')
+        for line in state.get('ledger',[]):
+            if line.get('kind')=='errand' and line.get('quest'):add('quest',line['quest'],'encargo completado')
+        for cid,entry in state.get('bestiary',{}).items():
+            for text in entry.get('behavior',[]):add('behavior',cid+':'+text,'nueva conducta aprendida')
+        return facts
+
     def apply(self,character,world,intent):
+        state=character['state']
+        before=self.exploration_facts(state)
+        # Initialize at the first mutation, never on GET or load. Old achievements
+        # are receipts, not pending rewards; new achievements still earn XP now.
+        self.apply_action(character,world,intent)
+        self.reward_exploration(state,before)
+
+    def reward_exploration(self,state,before):
+        receipts=state.setdefault('exploration_xp',list(before))
+        facts=self.exploration_facts(state)
+        new_keys=set(facts)-set(before)-set(receipts)
+        flag_closure=any(key.startswith('closure:') and not key.startswith('closure:journal:') for key in new_keys)
+        for key,(source,reason) in facts.items():
+            if key not in new_keys:continue
+            receipts.append(key)
+            # A closing journal and its ending flag describe the same transition.
+            if flag_closure and key.startswith('closure:journal:'):continue
+            gain=m.EXPLORATION_XP[source];state['xp']+=gain
+            state['events'].append(event('reward',f'+{gain} experiencia: {reason}'))
+            self.advance_levels(state)
+
+    def apply_action(self,character,world,intent):
         state=character['state'];room=self.room(character,world);action=intent.get('id');target=intent.get('target')
         if action in ('ayuda','inventario'):
             text='Comandos básicos: mirar, observar, examinar <objeto>, ir <salida>, hablar con <nombre>, inventario.' if action=='ayuda' else 'Inventario: '+('; '.join(f"{item['name']} ({item.get('quantity',1)})" for item in state['inventory']) or 'vacío')+'.'

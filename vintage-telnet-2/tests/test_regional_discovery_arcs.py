@@ -61,7 +61,7 @@ class RegionalDiscoveryArcsTests(unittest.TestCase):
                         self.char = dict(id=1, name='Lectura', species='humano',
                                          class_id='juramentado', state=self.state)
                         self.engine.visit(self.state, rooms[0])
-                        before = copy.deepcopy({k: self.state[k] for k in ('inventory', 'seals', 'xp')})
+                        before = copy.deepcopy({k: self.state[k] for k in ('inventory', 'seals')})
                         start = self.engine.room(self.char, self.world)
                         self.assertTrue(any(key + '_pedido' in a.get('set_flags', [])
                                             for a in self.content.npcs[npc]['topics'].values()
