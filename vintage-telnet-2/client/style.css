@@ -154,9 +154,10 @@ h1,h2,h3{color:var(--ink)}
 .item-heading{display:flex;align-items:center;gap:12px}.item-heading h3{flex:1;min-width:0}.item-emblem{display:grid;place-items:center;flex-shrink:0;width:40px;height:40px;background:#e5ead9;border:1px solid #becbb0;border-radius:8px;color:#466744}.item-emblem .control-icon{width:24px;height:24px}
 .item-equipped{border-color:#9db088!important;background:#eef2e4}.inventory-item .pill{background:#fffdf6;font-size:11px}.inventory-item button{margin-right:6px}
 .creature-entry{border-color:#c2b38f!important}.bestiary-entry-heading{align-items:center;gap:12px}.bestiary-art-button{width:68px;height:68px;border-radius:9px}.bestiary-thumbnail{width:68px;height:68px}.creature-entry h3{font-size:17px}.creature-entry p{font-size:13px;line-height:1.65}.creature-entry p+p{padding-top:8px;border-top:1px solid #dce1d3}
+.bestiary-behavior{margin-top:9px;padding-top:8px;border-top:1px solid #dce1d3}.bestiary-behavior-title{font-size:13px;font-weight:700;letter-spacing:.2px;margin:0 0 5px;color:var(--ink)}.bestiary-behavior-list{margin:0;padding-left:18px}.bestiary-behavior-list li{font-size:13px;line-height:1.55;margin:3px 0;color:var(--ink)}.bestiary-behavior-empty{font-size:13px;line-height:1.55;margin:0}
 .bestiary-dialog{border-color:#a9b895;box-shadow:0 20px 60px #00000040}.bestiary-dialog-heading{padding:2px 2px 10px;border-bottom:1px solid var(--line)}
 .bestiary-dialog .visual-3d{padding:8px 0}.bestiary-dialog .bestiary-art{background:#edf0e4;border:1px solid #d3dbc6}
-@media(max-width:350px){.inventory-item,.creature-entry{padding:11px}.bestiary-art-button,.bestiary-thumbnail{width:58px;height:58px}.creature-entry h3{font-size:15px}.item-heading{gap:9px}}
+@media(max-width:350px){.inventory-item,.creature-entry{padding:11px}.bestiary-art-button,.bestiary-thumbnail{width:58px;height:58px}.creature-entry h3{font-size:15px}.item-heading{gap:9px}.bestiary-behavior-list{padding-left:15px}}
 
 .action-content{display:grid;grid-template-columns:22px minmax(0,1fr);align-items:center;gap:7px;text-align:left}.action-content .action-reason{grid-column:2}.action-symbol{display:grid;place-items:center;color:inherit}.action-symbol .control-icon{width:19px;height:19px}.action-label{min-width:0}
 .action-grid .action-content{display:flex;flex-direction:column;gap:4px;text-align:center;width:100%}.action-grid .action-symbol .control-icon{width:17px;height:17px}.action-grid .action-content .action-reason{width:100%}.action-grid button{padding:7px 5px;min-height:59px}.game-action.combat-choice{border-color:#bda17b;background:#f5ecdb;color:#634a2b}
@@ -642,3 +643,4 @@ html body .species-choice-card .species-info{display:flex;flex-direction:column;
 html body .species-choice-card .species-info strong{font-size:14px;color:var(--ink,#1d2550)}
 html body .species-choice-card .species-desc{font-size:12px;line-height:1.35;color:var(--ink-soft,#56638f)}
 html body .command-entry{margin-top:12px;padding-top:12px;border-top:1px solid #c3d2ff}
+html body .bestiary-behavior{border-top-color:#c3d2ff}
