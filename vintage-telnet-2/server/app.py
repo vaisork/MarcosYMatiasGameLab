@@ -22,6 +22,8 @@ def create_app(config=None):
     app.config.update(SECRET_KEY=os.environ.get('VT_NEW_SECRET_KEY'),DATA_DIR=str(ROOT/'runtime'),CONTENT_DIR=str(ROOT/'content'),
                       DM_PASSWORD_HASH=os.environ.get('VT_NEW_DM_PASSWORD_HASH'),PUBLIC_ORIGIN=os.environ.get('VT_NEW_PUBLIC_ORIGIN'),SESSION_COOKIE_HTTPONLY=True,SESSION_COOKIE_SAMESITE='Lax',MAX_CONTENT_LENGTH=16384)
     if config:app.config.update(config)
+    # Tests keep fixed UTC clocks; the deployed server plays on Mexico City time.
+    app.config.setdefault('TIMEZONE',os.environ.get('VT_NEW_TIMEZONE') or ('UTC' if app.config.get('TESTING') else 'America/Mexico_City'))
     # Opt in only when a trusted local reverse proxy supplies the public scheme.
     if app.config.get('TRUST_PROXY_PROTO',os.environ.get('VT_NEW_TRUST_PROXY_PROTO')=='1'):
         app.wsgi_app=ProxyFix(app.wsgi_app,x_for=0,x_proto=1,x_host=0,x_port=0,x_prefix=0)
@@ -32,7 +34,7 @@ def create_app(config=None):
     app.extensions['store']=store
     def engine():
         moment=clock()
-        return Engine(Content(app.config['CONTENT_DIR']),lambda:moment,app.config.get('RNG'))
+        return Engine(Content(app.config['CONTENT_DIR']),lambda:moment,app.config.get('RNG'),app.config['TIMEZONE'])
     def csrf():
         if 'csrf' not in session:session['csrf']=secrets.token_urlsafe(32)
         return session['csrf']

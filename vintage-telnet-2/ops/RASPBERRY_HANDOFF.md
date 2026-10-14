@@ -32,3 +32,5 @@ Si se usa exclusivamente Tailscale, el teléfono debe pertenecer a la misma red.
 El servicio instalado escucha sólo en127.0.0.1 y activa `VT_NEW_TRUST_PROXY_PROTO=1` para confiar en el esquema enviado por el proxy local. Esto permite comparar el Origin HTTPS público con el esquema correcto sin desactivar CSRF. No se confía en X-Forwarded-Host ni en direcciones de cliente. No activar esta opción en un servidor expuesto directamente a Internet con proxies no controlados.
 
 El Funnel instalado no suministra necesariamente X-Forwarded-Proto. En la Raspberry se configura además `VT_NEW_PUBLIC_ORIGIN=https://raspberrypi.tail3d212e.ts.net` en runtime/server.env, manteniendo comparación exacta del Origin público y CSRF. Para otro dominio, cambiar explícitamente este valor al origen HTTPS real (sin rutas); nunca usar comodines ni derivarlo de un encabezado del cliente.
+
+La hora del día del juego (Amanecer, Día, Atardecer, Noche) usa la zona `VT_NEW_TIMEZONE` (por defecto `America/Mexico_City`). Antes se calculaba en UTC y desde las 14:00 de México siempre era de noche.

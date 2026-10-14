@@ -6,6 +6,8 @@ import random
 import re
 import unicodedata
 import uuid
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from . import mechanics as m
 
 class RuleError(ValueError):
@@ -25,7 +27,7 @@ def allowed(item,state,world):
          and (not item.get('requires_classes') or state.get('class_id') in item['requires_classes']))
 
 class Engine:
-    def __init__(self,content,clock,rng=None):self.content=content;self.clock=clock;self.rng=rng or random.SystemRandom()
+    def __init__(self,content,clock,rng=None,timezone='UTC'):self.content=content;self.clock=clock;self.rng=rng or random.SystemRandom();self.timezone=ZoneInfo(timezone)
 
     def allowed(self,item,state,world):
         if not allowed(item,state,world):return False
@@ -165,7 +167,7 @@ class Engine:
             state['events']=[event('world',empty[min(int(fraction*len(empty)),len(empty)-1)])]
 
     def ambient(self,room,world):
-        now=self.clock();hour=int(now//3600)%24;phase='Noche' if hour<6 or hour>=20 else 'Amanecer' if hour<8 else 'Atardecer' if hour>=18 else 'Día'
+        now=self.clock();hour=datetime.fromtimestamp(now,self.timezone).hour;phase='Noche' if hour<6 or hour>=20 else 'Amanecer' if hour<8 else 'Atardecer' if hour>=18 else 'Día'
         region=self.content.regions[room['region']];weather=region.get('weather',['Despejado'])
         if isinstance(weather,dict):choices=list(weather)
         elif isinstance(weather,list):choices=[v.get('id',v.get('name','Despejado')) if isinstance(v,dict) else v for v in weather]
