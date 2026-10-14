@@ -78,3 +78,13 @@ criaturas descubiertas y sus ilustraciones completas. Ampliar usa el original.
 Ilustraciones anteriores sin mapping mantienen su archivo completo.
 
 Las acciones admiten `requires_examined:[objetivo]`: exige haber examinado esos objetivos en la sala actual. El motor conserva la observación personal en `state.examined` por ID de sala; mirar y observar no la conceden, ni se escribe durante consultas GET. Los alias por palabras clave sólo resuelven acciones locales y conservan todas sus guardas; las coincidencias ambiguas ofrecen sugerencias sin ejecutar acciones.
+
+El bestiario expone `behavior:[texto]` por criatura descubierta. Examinar una
+criatura viva aprende un solo texto todavía no registrado, en orden `warning`,
+`presagio`, `habitat`, usando la prosa local resuelta
+cuando existe. Conserva literalmente el contenido y descarta duplicados y la
+misma descripción de la ficha. Observar aprende un dato de la primera criatura
+viva examinable de la sala; mirar y las lecturas GET no enseñan datos. La entrada
+persistente guarda los textos aprendidos, incluidos los de otras localidades;
+partidas anteriores exponen una lista vacía hasta aprender. Si no queda ningún
+dato local nuevo, el evento lo indica. Las personas no entran en el bestiario.

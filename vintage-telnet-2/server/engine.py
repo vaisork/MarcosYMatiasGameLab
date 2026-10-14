@@ -300,6 +300,19 @@ class Engine:
             if creature and creature.get('combatant_kind')!='human':
                 state['bestiary'].setdefault(creature_id,{'id':creature_id,'name':creature['name'],'description':creature.get('description',signal['text']),'first_seen':self.clock(),'status':'avistado'})
 
+    def learn_creature_behavior(self,state,room,creature_id,quiet=False):
+        creature=self.creature_prose(room,creature_id)
+        if creature.get('combatant_kind')=='human':return
+        entry=state['bestiary'][creature_id]
+        learned=entry.setdefault('behavior',[])
+        for field in ('warning','presagio','habitat'):
+            text=creature.get(field)
+            if isinstance(text,str) and text.strip() and text!=entry.get('description') and text not in learned:
+                learned.append(text)
+                state['events'].append(event('discovery','Aprendes algo nuevo: '+text))
+                return
+        if not quiet:state['events'].append(event('action',f"Ya conoces todos los datos de conducta disponibles aquí sobre {creature['name']}."))
+
     def tick_shared(self,participants,world):
         if len(participants)==1:return self.tick(participants[0],world)
         now=self.clock();key=f"{participants[0]['state']['location']}:{participants[0]['state']['combat']['creature']}"
@@ -761,14 +774,19 @@ class Engine:
                 if target not in examined:examined.append(target)
                 self.remember_clue(state,room,room.get('examine',{}).get(target))
             state['events']=self.narrative(character,world,action,target)
-            if action=='observar':state['events'].append(event('action','Observas con atención.'))
+            if action=='observar':
+                state['events'].append(event('action','Observas con atención.'))
+                creature_id=next((a['target'] for a in candidates if a['id']=='examinar_criatura' and self.creature_prose(room,a['target']).get('combatant_kind')!='human'),None)
+                if creature_id:self.learn_creature_behavior(state,room,creature_id,quiet=True)
         elif action=='buscar':
             self.search(character,world)
         elif action=='examinar_criatura':
             self.observe(state,room,world)
             creature=self.creature_prose(room,target)
             state['events']=[event('world',creature['description'])]
-            if creature.get('combatant_kind')!='human':state['events'].append(event('discovery',f"{creature['name']} está en tu bestiario."))
+            if creature.get('combatant_kind')!='human':
+                state['events'].append(event('discovery',f"{creature['name']} está en tu bestiario."))
+                self.learn_creature_behavior(state,room,target)
         elif action=='mover':
             _,region=self.region_for(character['species']);destination=state['home'] if target=='hogar' else room.get('exits',{}).get(target)
             if target=='hogar' and state['location']!=region['settlement']:raise RuleError('Tu hogar no está conectado con este lugar.',409)
@@ -1033,4 +1051,4 @@ class Engine:
             'chat':[{k:v[k] for k in ('id','sender_id','sender','text','at')} for v in world.get('chat',[]) if v['room']==state['location'] and self.clock()-v['at']<600 and character['id'] in v['recipients']][-30:],
             'narrative':state['events'] or self.narrative(character,world),'scene':self.narrative(character,world),'actions':self.actions(character,world),
             'map':{'nodes':nodes,'edges':[p for p in state['routes'] if set(p).issubset(known)],'routes':routes,'frontiers':frontiers,**({'recovery':state['last_recovery']} if state.get('last_recovery') else {})},
-            'inventory':state['inventory'],'bestiary':[{**entry,**({'illustration':self.content.creatures[cid]['illustration']} if self.content.creatures.get(cid,{}).get('illustration') else {})} for cid,entry in state['bestiary'].items()],'journal':state['journal'],'secrets':{'found':sum(1 for secret in getattr(self.content,'secrets',{}).values() if secret.get('flag') in state['flags'] or 'participated:'+str(secret.get('flag')) in state['flags'])},'quests':quests,'ambient':ambient}
+            'inventory':state['inventory'],'bestiary':[{**entry,'behavior':list(entry.get('behavior',[])),**({'illustration':self.content.creatures[cid]['illustration']} if self.content.creatures.get(cid,{}).get('illustration') else {})} for cid,entry in state['bestiary'].items()],'journal':state['journal'],'secrets':{'found':sum(1 for secret in getattr(self.content,'secrets',{}).values() if secret.get('flag') in state['flags'] or 'participated:'+str(secret.get('flag')) in state['flags'])},'quests':quests,'ambient':ambient}
