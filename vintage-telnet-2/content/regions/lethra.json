@@ -801,8 +801,13 @@
       "clear": "",
       "return": "La pasarela de llegada queda entre taller y mercado. Desde la plataforma alta puedes situar la ribera occidental por el hueco entre las barcas.",
       "examine": {
-        "niveles": "Los apoyos altos reciben bancos cuando cambia el agua.",
-        "uniones": "Se mantienen libres para revisar tablas y trasladar cargas."
+        "niveles": "Los apoyos altos reciben bancos cuando cambia el agua. Por debajo, junto a los pilotes de la pasarela, el agua mece cuerdas y boyas amarradas.",
+        "uniones": "Se mantienen libres para revisar tablas y trasladar cargas.",
+        "boya_tallada": {
+          "text": "Atada a un pilote bajo la pasarela flota una pequeña boya de madera de sauce, redonda y pulida por la corriente. Tiene una concha de río incrustada en el centro que brilla con un tono anaranjado cuando el agua la mece.",
+          "flag": "lethra_hilo_boya_vista"
+        },
+        "pilote": "Bajo las tablas de la pasarela, el pilote de madera está cubierto de algas verdes resbaladizas y diminutos caracoles de río pegados a la corteza."
       },
       "exits": {
         "norte": "lethra_senda_elevada",
@@ -818,7 +823,37 @@
       },
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "lethra_hilo_levantar_boya",
+          "label": "Sacar la boya de sauce para examinar la concha",
+          "requires_flags": [
+            "lethra_hilo_boya_vista"
+          ],
+          "forbids_flags": [
+            "lethra_hilo_paso1"
+          ],
+          "requires_examined": [
+            "boya_tallada"
+          ],
+          "set_flags": [
+            "lethra_hilo_paso1"
+          ],
+          "journal": "En la base de la boya hay grabado un símbolo de remero y una trenza de junco verde: pertenece al taller de reparación de barcas de Sola.",
+          "text": "Tiras del cordel de junco y levantas la boya goteante. En la parte inferior, protegida del agua con grasa de pescado, hay grabada una pala de remo cruzada con una espátula de calafatear. La cuerda de amarre tiene el trenzado apretado de tres cabos característico del patio de barcas.",
+          "scope": "player"
+        },
+        {
+          "id": "lethra_easter_luciernagas",
+          "label": "Observar el baile de las luciérnagas sobre el pilote",
+          "requires_examined": [
+            "pilote"
+          ],
+          "text": "Te arrodillas en la pasarela y acercas la mirada al pilote en penumbra. Una de las luciérnagas alza el vuelo, gira dos veces alrededor de tu mano emitiendo destellos esmeralda y vuelve a posarse sobre la concha del caracol, que no se inmuta lo más mínimo.",
+          "journal": "En Narevia observaste a dos luciérnagas de agua iluminar la concha de un caracol nocturno como si fuera un faro en miniatura.",
+          "scope": "player"
+        }
+      ],
       "dawn": "Los primeros cuencos se llenan de comida caliente. Un niño mira cuánto tarda el vapor en desaparecer sobre el canal.",
       "dusk": "La familia comparte el último cuenco. Quien cuenta la visita deja el nombre de la otra orilla para cuando calle el taller.",
       "weather": {
@@ -905,6 +940,16 @@
           "overrides": {
             "day": "El niño ha terminado su cuenco. Una voz responde desde la orilla oculta y quien contaba la visita corrige con la cuchara el dibujo del amarre."
           }
+        },
+        {
+          "requires_time": [
+            "noche"
+          ],
+          "overrides": {
+            "examine": {
+              "pilote": "De noche, dos luciérnagas de agua se posan sobre el musgo del pilote y parpadean al compás del oleaje, como dos faritos diminutos que iluminan a un cangrejito ermitaño que camina de lado."
+            }
+          }
         }
       ],
       "focus": [
@@ -942,6 +987,14 @@
           ]
         }
       ],
+      "memories": [
+        {
+          "requires_flags": [
+            "lethra_hilo_completado"
+          ],
+          "text": "La boya con la concha anaranjada ya no es un cabo suelto en la corriente; ahora Narevia recuerda el lazo de infancia que une la madera de Sola, las fibras de Mira y la lumbre de Nima."
+        }
+      ],
       "max_layers": 4
     },
     "lethra_taller_fibras": {
@@ -957,7 +1010,14 @@
       "return": "Los haces húmedos quedan junto al canal y las trenzas terminadas sobre la repisa. El banco donde compararon las fibras sigue entre ambos.",
       "examine": {
         "haces": "La flexibilidad separa usos antes que el color.",
-        "mesa": "El borde permite recoger agua de trabajo sin devolverla a los haces secos."
+        "mesa": "El borde permite recoger agua de trabajo sin devolverla a los haces secos.",
+        "cesto_mimbre": {
+          "text": "En el rincón de secado hay un cesto cilíndrico de juncos trenzados con tapa redonda. Al levantarlo, notas que no contiene cuerda, sino algo envuelto en hojas secas.",
+          "flag": "lethra_hilo_cesto_visto",
+          "requires_flags": [
+            "lethra_hilo_paso2"
+          ]
+        }
       },
       "exits": {
         "oeste": "narevia_centro",
@@ -970,6 +1030,26 @@
       ],
       "signals": [],
       "actions": [
+        {
+          "id": "lethra_hilo_abrir_cesto",
+          "label": "Revisar la envoltura de hojas dentro del cesto de mimbre",
+          "requires_flags": [
+            "lethra_hilo_paso2",
+            "lethra_hilo_cesto_visto"
+          ],
+          "forbids_flags": [
+            "lethra_hilo_paso3"
+          ],
+          "requires_examined": [
+            "cesto_mimbre"
+          ],
+          "set_flags": [
+            "lethra_hilo_paso3"
+          ],
+          "journal": "Dentro del cesto de Mira había una flauta de caña de río con marcas de dedos pequeños y una nota que habla de la cocina comunal de Nima.",
+          "text": "Retiras las hojas secas de nenúfar con cuidado. Dentro duerme una pequeña flauta dulce hecha con una caña de río secada al sol, con seis agujeros quemados con hierro fino. Junto a la caña hay una tira de paño con un mensaje: 'Para cuando Nima encienda la lumbre grande en la cocina de reunión'.",
+          "scope": "player"
+        },
         {
           "id": "lethra_recordar_costura",
           "label": "Preguntar quién reparó el paño",
@@ -1586,7 +1666,14 @@
       "return": "El apoyo inclinado de la barca resulta reconocible desde la entrada. La unión que se revisa mira hacia el lado seco. A su alrededor quedan sitio para herramientas, otra embarcación y el paso que vuelve a las ventanas.",
       "examine": {
         "unión": "La revisión compara observación a flote con superficie seca.",
-        "piezas": "Una cuña tiene el borde oscurecido por el agua; otra conserva dos agujeros viejos y un corte más reciente."
+        "piezas": "Una cuña tiene el borde oscurecido por el agua; otra conserva dos agujeros viejos y un corte más reciente.",
+        "madeja_humeda": {
+          "text": "Sobre una banqueta hay una madeja de junco empapada con el mismo trenzado apretado que tenía la boya.",
+          "flag": "lethra_hilo_madeja_vista",
+          "requires_flags": [
+            "lethra_hilo_paso1"
+          ]
+        }
       },
       "exits": {
         "oeste": "lethra_patio_ventanas"
@@ -1597,6 +1684,26 @@
       ],
       "signals": [],
       "actions": [
+        {
+          "id": "lethra_hilo_tacto_marevyn",
+          "label": "Palpar las fibras sumergidas con membranas marevyn",
+          "requires_species": [
+            "marevyn"
+          ],
+          "requires_flags": [
+            "lethra_hilo_paso1"
+          ],
+          "forbids_flags": [
+            "lethra_hilo_paso2"
+          ],
+          "set_flags": [
+            "lethra_hilo_paso2",
+            "lethra_hilo_atajo_marevyn"
+          ],
+          "journal": "Tus membranas marevyn distinguen al tacto bajo el agua el trenzado de fibra suave que solo Mira teje en el taller de fibras.",
+          "text": "Sumerges la mano en el agua junto al casco amarrado. Tus dedos con membranas marevyn reconocen de inmediato la elasticidad del nudo bajo la corriente: este tipo de cordel de junco fino y suave no se usa en barcas pesadas, sino que sale exclusivamente de los telares de mano de Mira en el taller de fibras.",
+          "scope": "player"
+        },
         {
           "id": "lethra_llevar_invitacion",
           "label": "Llevar a Sola la invitación de Mira",
@@ -2370,6 +2477,13 @@
             "lethra_barquita_rescatada"
           ],
           "text": "Eso no es verdad. La hundió ella sola y luego me echó la culpa. Pregúntale por qué le rayó su nombre tan grande: era para que nadie más pudiera jugar con ella."
+        },
+        "recuerdo_flauta": {
+          "label": "Comentar la flauta devuelta a Nima",
+          "requires_flags": [
+            "lethra_hilo_completado"
+          ],
+          "text": "«Nima me mandó un recado riéndose: dice que esta noche hay sopa caliente y música desafinada. Hacía tiempo que las tres no nos reíamos tanto por una caña vieja. Tienes buen corazón, pequeña navegante.»"
         }
       },
       "day": "Trenza y separa fibras junto al canal.",
@@ -2377,7 +2491,8 @@
       "memory": {
         "lethra_invitacion_llevada": "Mira sabe que Sola recibió la invitación. Acerca un segundo cuenco al sitio que guardaba junto a la ventana.",
         "lethra_costura_recordada": "Mira muestra la costura de Sola y recuerda que preguntaste quién la hizo, no cuánto valía el paño.",
-        "hallazgo:fibra_junco": "Reconoce lo que llevas: «Fibra de junco. Es de por aquí; mira el suelo cuando vuelvas a pasar.»"
+        "hallazgo:fibra_junco": "Reconoce lo que llevas: «Fibra de junco. Es de por aquí; mira el suelo cuando vuelvas a pasar.»",
+        "lethra_hilo_completado": "Mira te guiña un ojo al pasar la lanzadera: «Esta noche cenamos con música sobre el canal.»"
       },
       "states": [
         {
@@ -2420,6 +2535,20 @@
             "sec_m_fibra"
           ],
           "text": "Lo viste desde abajo, ¿eh? Eso es lo que yo digo: lo de a flote y lo de en seco tienen que contarse juntos. Nadie cortó esa cuerda."
+        },
+        "boya_concha": {
+          "label": "Preguntar a Sola por la boya con la concha anaranjada",
+          "requires_flags": [
+            "lethra_hilo_madeja_vista"
+          ],
+          "forbids_flags": [
+            "lethra_hilo_paso2"
+          ],
+          "set_flags": [
+            "lethra_hilo_paso2"
+          ],
+          "journal": "Sola te explica que esa boya la fabricó ella para su hermana Mira, pero el cordel fino lo preparó Mira en el taller de fibras.",
+          "text": "Sola deja la resina a un lado y se seca las manos con una arpillera. «¡Vaya, la boya de Mira! Se la tallé hace dos veranos para que pudiera fondear su cesto de juncos sin perderlo en el remanso. Pero el cordel trenzado no es mío: ese hilo apretado solo sabe tejerlo ella en el taller de fibras.»"
         }
       },
       "day": "Revisa uniones de embarcaciones inclinadas.",
@@ -2463,6 +2592,27 @@
           "requires_flags": [
             "lethra_plan_elegido"
           ]
+        },
+        "flauta_cana": {
+          "label": "Mostrar a Nima la flauta de caña del cesto de juncos",
+          "requires_flags": [
+            "lethra_hilo_paso3"
+          ],
+          "forbids_flags": [
+            "lethra_hilo_completado"
+          ],
+          "set_flags": [
+            "lethra_hilo_completado"
+          ],
+          "journal": "Nima sonrió al ver la flauta de caña: las tres hermanas la tocaban en las noches de lluvia sobre los canales. Hacia el este, el agua dulce se aleja hacia los llanos abiertos de Edran.",
+          "text": "Nima levanta el cucharón de madera y se limpia las manos en el delantal con una sonrisa ancha que le arruga los ojos. «Esa caña la cortamos en la orilla del canal cuando éramos unas renacuajas. Mira trenzó la funda, Sola le talló la embocadura y yo aprendí a tocar dos notas desafinadas mientras el caldo rompía a hervir en el fuego. Creí que se había perdido entre las mareas del estanque. En Narevia el río se lleva muchas cosas y el agua nunca es la misma dos veces, pero las canciones de familia siempre encuentran el camino de vuelta a la mesa.» Señala con la cuchara hacia las pasarelas que miran al este: más allá de los carrizales, el agua se vuelve arroyos mansos que riegan las tierras de cultivo de Edran."
+        },
+        "cancion_hermanas": {
+          "label": "Preguntar por la flauta sobre el estante de la cocina",
+          "requires_flags": [
+            "lethra_hilo_completado"
+          ],
+          "text": "«La he colocado junto a los cuencos de barro. Esta noche, cuando Sola y Mira vengan a cenar, les pediré que toquen aquella melodía del barquero. Gracias por recordarnos que los mejores tesoros de Narevia no flotan lejos de casa.»"
         }
       },
       "world_memory": {
@@ -2485,7 +2635,8 @@
       "memory": {
         "hallazgo:fibra_junco": "Reconoce lo que llevas: «Fibra de junco. Es de por aquí; mira el suelo cuando vuelvas a pasar.»",
         "lethra_reunion_pano": "Nima espera que el paño esté seco antes de cubrir la mesa.",
-        "lethra_reunion_cubierta": "Nima mantiene los cuencos bajo la cubierta de la cocina."
+        "lethra_reunion_cubierta": "Nima mantiene los cuencos bajo la cubierta de la cocina.",
+        "lethra_hilo_completado": "Nima remueve la olla con una sonrisa serena: «Las canciones de Narevia siguen sonando mientras haya lumbre en esta cocina.»"
       }
     },
     "lethra_nera_mercado": {
@@ -2576,6 +2727,18 @@
         "lethra_caldo_servido"
       ],
       "source": "Historia original nueva autorizada"
+    },
+    "lethra_flauta_canas": {
+      "id": "lethra_flauta_canas",
+      "title": "La caña de las tres hermanas",
+      "premise": "Una boya con una concha anaranjada en Narevia guía hasta una flauta de caña que reunirá la música de tres hermanas sobre el agua.",
+      "steps": [
+        "lethra_hilo_paso1",
+        "lethra_hilo_paso2",
+        "lethra_hilo_paso3",
+        "lethra_hilo_completado"
+      ],
+      "source": "Historia personal de origen autorizada"
     }
   }
 }

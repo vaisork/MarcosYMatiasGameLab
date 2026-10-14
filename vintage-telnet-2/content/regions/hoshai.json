@@ -831,8 +831,12 @@
       "clear": "",
       "return": "La rampa que usaste llega a la terraza de las casas; los escalones bajan hacia las cargas. Puedes escoger el nivel antes de cruzar la plaza.",
       "examine": {
-        "bancos": "Sus respaldos dejan libre el espacio detrás del cuerpo. Los bancos para visitantes tienen apoyos diferentes.",
-        "rampa": "Una franja continua une ambas terrazas. Dos rodadas gastan su centro; los escalones quedan al lado."
+        "bancos": "Sus respaldos dejan libre el espacio detrás del cuerpo. Los bancos para visitantes tienen apoyos diferentes. Sobre la pared de piedra asoma un apoyo alto tallado en la roca.",
+        "rampa": "Una franja continua une ambas terrazas. Dos rodadas gastan su centro; los escalones quedan al lado.",
+        "apoyo_alto": {
+          "text": "En el saliente de piedra que domina la plaza hay un lazo de cinta verde atado a una pequeña campanilla de estaño. La campana no suena con el viento porque alguien le trabó el badajo con una bolita de cera de pino.",
+          "flag": "hoshai_hilo_campanilla_vista"
+        }
       },
       "exits": {
         "sur": "hoshai_escalones_sol",
@@ -848,7 +852,27 @@
       },
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "hoshai_hilo_revisar_campanilla",
+          "label": "Examinar la campanilla trabada con cera",
+          "requires_flags": [
+            "hoshai_hilo_campanilla_vista"
+          ],
+          "forbids_flags": [
+            "hoshai_hilo_paso1"
+          ],
+          "requires_examined": [
+            "apoyo_alto"
+          ],
+          "set_flags": [
+            "hoshai_hilo_paso1"
+          ],
+          "journal": "Retiraste la cera de la campanilla: debajo de la cinta verde hay tres nudos entrelazados de estilo Felaryn que indican un aviso dejado en el taller de apoyos.",
+          "text": "Retiras con la uña la bolita de cera y la campanilla emite un tintineo claro y cantarín. Al desenrollar la cinta verde, descubres tres nudos pequeños entrelazados con pelo de cabra de montaña: es la marca tradicional con la que los aprendices de Khariel avisan al taller de un apoyo que necesita ajuste.",
+          "scope": "player"
+        }
+      ],
       "dawn": "La nuez rueda por un escalón vacío. Desde arriba baja el olor de una olla que apenas empieza a calentarse.",
       "dusk": "Los jóvenes recogen la nuez y se separan hacia las viviendas. El silbato comienza con dos notas desde la terraza alta.",
       "weather": {
@@ -958,6 +982,14 @@
           ]
         }
       ],
+      "memories": [
+        {
+          "requires_flags": [
+            "hoshai_hilo_completado"
+          ],
+          "text": "El tintineo de la campanilla en el apoyo alto ya no es un enigma: ahora la plaza recuerda la agilidad y el afecto de quienes crecieron entre estas cornisas."
+        }
+      ],
       "max_layers": 4
     },
     "hoshai_taller_apoyos": {
@@ -973,7 +1005,14 @@
       "return": "El dibujo de los escalones permite situar la pieza que viste sobre el banco. La plantilla gastada sigue junto al borde limpio de trabajo.",
       "examine": {
         "dibujo": "La marca del canal señala dónde se reúne agua antes de llegar a los peldaños.",
-        "banco": "La parte baja tiene marcas de rodillas en el borde; la alta conserva cortes finos junto a dos agujeros de sujeción."
+        "banco": "La parte baja tiene marcas de rodillas en el borde; la alta conserva cortes finos junto a dos agujeros de sujeción.",
+        "raspones": {
+          "text": "En el lateral del banco de trabajo hay varios raspones diagonales y restos de resina de pino aún fresca.",
+          "flag": "hoshai_hilo_raspones_vistos",
+          "requires_flags": [
+            "hoshai_hilo_paso1"
+          ]
+        }
       },
       "exits": {
         "este": "khariel_centro"
@@ -984,6 +1023,26 @@
       ],
       "signals": [],
       "actions": [
+        {
+          "id": "hoshai_hilo_observar_viga_felaryn",
+          "label": "Notar el equilibrio felaryn en las marcas de la viga",
+          "requires_species": [
+            "felaryn"
+          ],
+          "requires_flags": [
+            "hoshai_hilo_paso1"
+          ],
+          "forbids_flags": [
+            "hoshai_hilo_paso2"
+          ],
+          "set_flags": [
+            "hoshai_hilo_paso2",
+            "hoshai_hilo_atajo_felaryn"
+          ],
+          "journal": "Gracias a tu instinto felaryn de salto y equilibrio, descubres marcas de garras jóvenes en el travesaño alto que apuntan al balcón del valle.",
+          "text": "Alzas la vista hacia la viga maestra del taller. Por tu agilidad felaryn sabes exactamente qué apoyo usaría un cachorro para trepar sin hacer ruido: en la arista de pino hay tres hendiduras ligeras de garras recogidas que saltaron hacia el corredor exterior que lleva al balcón del valle.",
+          "scope": "player"
+        },
         {
           "id": "hoshai_registrar_canal",
           "label": "Señalar dónde se acumula barro",
@@ -1407,7 +1466,8 @@
       "return": "La pila inferior tiene el borde gastado que viste al llegar. La escalera del depósito sigue por encima del agua que baja hacia las casas.",
       "examine": {
         "pila": "El agua continúa hacia abajo; las prendas no deben obstruir su paso.",
-        "apoyos": "La piedra superior recibe recipientes limpios, lejos del barro del camino."
+        "apoyos": "La piedra superior recibe recipientes limpios, lejos del barro del camino.",
+        "salamandra": "Bajo el caño del lavadero hay una ranura en la roca pulida por el agua. Dentro duerme una pequeña salamandra moteada, perfectamente enroscada como un ovillo oscuro que respira despacito."
       },
       "exits": {
         "oeste": "hoshai_patio_hogares",
@@ -1416,7 +1476,18 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "hoshai_easter_salamandra",
+          "label": "Ofrecer una gota de agua a la salamandra",
+          "requires_examined": [
+            "salamandra"
+          ],
+          "text": "Acercas el dedo con una gota limpia de agua a la piedra. La salamandra alza su cabecita chata, toca la gota con su hocico frío y sacude la cola como si fuera un diminuto felaryn de roca antes de meterse bajo el musgo.",
+          "journal": "En el lavadero de Khariel le ofreciste una gota de agua a una salamandra dormilona que sacudió la cola agradecida.",
+          "scope": "player"
+        }
+      ],
       "states": [
         {
           "requires_time": [
@@ -1427,6 +1498,16 @@
           ],
           "overrides": {
             "day": "La vecina rompe la película de hielo del borde con un palo. Enjuaga sólo la manga y vuelve a frotarse las manos; los niños recogen la hoja del agua abierta."
+          }
+        },
+        {
+          "requires_time": [
+            "noche"
+          ],
+          "overrides": {
+            "examine": {
+              "salamandra": "De noche, la salamandra de la ranura ha salido a beber sobre la piedra húmeda y te mira con ojos dorados redondos antes de dar dos saltitos torpes y esconderse tras un helecho."
+            }
           }
         }
       ],
@@ -1487,7 +1568,14 @@
       "return": "La cornisa sigue cortando parte de la vista, entre dos laderas de inclinación distinta. Reconoces el banco alejado del borde. Las cargas aparecen por trechos y vuelven a ocultarse antes de llegar a la terraza visible.",
       "examine": {
         "cuaderno": "Una línea incompleta indica que se perdió de vista una carga, no que se perdió la carga.",
-        "cornisa": "La cornisa es un camino estrecho pegado a la roca. Tiene apoyos para los pies y sitio para una persona con un bulto pequeño; un carro no cabe. Detrás de la roca el camino se pierde de vista un rato y vuelve a aparecer más abajo."
+        "cornisa": "La cornisa es un camino estrecho pegado a la roca. Tiene apoyos para los pies y sitio para una persona con un bulto pequeño; un carro no cabe. Detrás de la roca el camino se pierde de vista un rato y vuelve a aparecer más abajo.",
+        "caja_grieta": {
+          "text": "Entre dos lajas de pizarra del parapeto hay encajada una cajita plana de madera de sabina, cerrada con un cordel de lana trenzada.",
+          "flag": "hoshai_hilo_cajita_vista",
+          "requires_flags": [
+            "hoshai_hilo_paso2"
+          ]
+        }
       },
       "exits": {
         "este": "hoshai_deposito_comun"
@@ -1496,6 +1584,26 @@
       "npcs": [],
       "signals": [],
       "actions": [
+        {
+          "id": "hoshai_hilo_abrir_cajita",
+          "label": "Abrir la cajita entre las lajas del parapeto",
+          "requires_flags": [
+            "hoshai_hilo_paso2",
+            "hoshai_hilo_cajita_vista"
+          ],
+          "forbids_flags": [
+            "hoshai_hilo_paso3"
+          ],
+          "requires_examined": [
+            "caja_grieta"
+          ],
+          "set_flags": [
+            "hoshai_hilo_paso3"
+          ],
+          "journal": "En la cajita del balcón había una cinta tejida con dos plumas de arrendajo y una nota: 'Para la tía Luma, que siempre me cuida los saltos'.",
+          "text": "Desatas el cordel y abres la pequeña tapa de sabina. Dentro descansa una cinta de lana azul tejida con esmero, con dos plumitas azules de arrendajo de montaña cosidas en el remate. Una tira de corteza reza: 'Para la tía Luma en el mercado, que siempre me recuerda dónde apoyar los pies'.",
+          "scope": "player"
+        },
         {
           "id": "hoshai_marcar_cornisa",
           "label": "Recomendar la cornisa sólo para cargas pequeñas",
@@ -2433,7 +2541,28 @@
         "rampa": "Alguien dijo que no necesitábamos rampa porque aquí sabemos saltar. Pero ¿cómo saltas sujetando una caja o acompañando a quien tiene una pierna herida? Construir un paso para esas personas también nos ayuda a transportar cosas. No todos los viajes se hacen con las manos libres.",
         "canal": "Si el agua vuelve al centro del peldaño, otra reparación durará poco. Hay que mirar por dónde baja, no sólo poner una piedra nueva encima. El barro que queda después de la lluvia nos ayuda a seguir su camino. Una escalera cuidada empieza antes del primer escalón.",
         "khariel": "Vine a arreglar un apoyo y pensé quedarme unos días. Luego vi lo que cambiaba con el invierno: el agua, las cargas y las personas que necesitaban pasar. Sigo aquí porque cada estación nos deja otro trabajo. Ya no conozco sólo las piedras; también conozco a quienes las usan.",
-        "polea": "La polea que falta pertenece a este taller. Llegó al campamento de lona azul con unas cajas, y Seran dice que aún le deben el transporte. Desde la plaza baja dos tramos y toma el desvío occidental. Habla con él antes de tocar las cajas. Necesito recuperar la herramienta, pero también saber qué reclama; devolver una cosa no resuelve por sí solo la otra."
+        "polea": "La polea que falta pertenece a este taller. Llegó al campamento de lona azul con unas cajas, y Seran dice que aún le deben el transporte. Desde la plaza baja dos tramos y toma el desvío occidental. Habla con él antes de tocar las cajas. Necesito recuperar la herramienta, pero también saber qué reclama; devolver una cosa no resuelve por sí solo la otra.",
+        "marcas_taller": {
+          "label": "Preguntar a Daren por los raspones del banco y la campanilla",
+          "requires_flags": [
+            "hoshai_hilo_raspones_vistos"
+          ],
+          "forbids_flags": [
+            "hoshai_hilo_paso2"
+          ],
+          "set_flags": [
+            "hoshai_hilo_paso2"
+          ],
+          "journal": "Daren te explica que su sobrina solía subir por ese banco hasta la viga para mirar el atardecer en el balcón del valle.",
+          "text": "Daren suelta el formón y sacude las virutas de pino. «Esa campanilla verde la llevaba mi sobrina en la oreja cuando aprendía a caminar por las cornisas. Siempre se escapaba por esa viga hacia el balcón del valle para ver cómo caía la tarde sobre las terrazas.»"
+        },
+        "noticia_cinta": {
+          "label": "Comentar el reencuentro de la cinta con Luma",
+          "requires_flags": [
+            "hoshai_hilo_completado"
+          ],
+          "text": "«Luma vino a enseñarme la cinta con las plumas. Tenías razón: aquel salto desde la viga valió la pena. En Khariel la madera firme sostiene las casas, pero el cariño sostiene a las personas.»"
+        }
       },
       "day": "Repara piezas de apoyo para caminos y viviendas.",
       "night": "Prepara trabajos que puedan continuarse sin ruido al amanecer.",
@@ -2503,12 +2632,34 @@
             "hoshai_marca_repisa"
           ],
           "text": "¿Subiste a la repisa del paso? Mi marca es la tercera por abajo, la de la cola torcida. No la mires mucho: entonces era muy pequeña y muy orgullosa."
+        },
+        "cinta_azul_plumas": {
+          "label": "Entregar a Luma la cinta azul con plumas de arrendajo",
+          "requires_flags": [
+            "hoshai_hilo_paso3"
+          ],
+          "forbids_flags": [
+            "hoshai_hilo_completado"
+          ],
+          "set_flags": [
+            "hoshai_hilo_completado"
+          ],
+          "journal": "Luma reconoció la cinta que su sobrina tejió de pequeña antes de partir como guía de caravanas hacia Veyra. Las terrazas de Khariel guardan el cariño en cada nudo.",
+          "text": "Luma toma la cinta azul y la aprieta suavemente contra su mejilla, cerrando los ojos mientras sus orejas felaryn se inclinan hacia delante. «Es el regalo que me prometió mi sobrina antes de su primer viaje por las alturas de la garganta. Decía que con estas plumas yo podría escuchar el viento antes de que bajara la niebla. Ahora guía caravanas entre las cumbres y los pasos abiertos que llevan a Veyra. En Khariel los caminos son estrechos y el abismo impone respeto, pero nunca caminamos solos mientras alguien recuerde nuestros pasos en el valle.» Hacia el nordeste, entre las brechas de la roca, la senda desciende en zigzag hacia los pasos amplios de Veyra."
+        },
+        "recuerdo_sobrina": {
+          "label": "Preguntar por la cinta en su puesto",
+          "requires_flags": [
+            "hoshai_hilo_completado"
+          ],
+          "text": "«He atado la cinta azul a la barra principal del puesto. Cada vez que sopla el viento del valle y las plumas se mueven, sé que mi sobrina sigue firme en sus apoyos de camino a Veyra. Gracias por encontrarla, pequeña sombra.»"
         }
       },
       "memory": {
         "hoshai_cornisa_cargas_pequenas": "Luma recuerda que recomendaste la cornisa para cargas pequeñas, no para carros.",
         "hoshai_cornisa_revision": "Luma mantiene las entregas de esa cornisa pendientes de revisión.",
-        "encargo_pagado:khariel_cornisa": "Luma señala la nota que trajiste del balcón. «Las cargas grandes van por el camino principal.»"
+        "encargo_pagado:khariel_cornisa": "Luma señala la nota que trajiste del balcón. «Las cargas grandes van por el camino principal.»",
+        "hoshai_hilo_completado": "Luma acaricia las plumas de la cinta azul con orgullo: «Los pasos de Khariel nunca se olvidan, por lejos que se viaje.»"
       },
       "day": "Luma prueba una cinta sobre la barra antes de envolver una provisión. Cuando el viento llega por la plaza, sujeta el extremo libre con una piedra.",
       "night": "Luma acerca el farol a los nudos que debe revisar. El muro protege la llama; las piezas listas quedan separadas de las que aún necesitan una atadura.",
@@ -2655,6 +2806,18 @@
         "hoshai_yesa_lista"
       ],
       "source": "Historia original nueva autorizada"
+    },
+    "hoshai_campanilla_terrazas": {
+      "id": "hoshai_campanilla_terrazas",
+      "title": "La campanilla de las cornisas",
+      "premise": "Una campana enmudecida con cera en la plaza de Khariel revela la travesura y la promesa de una joven guía de montaña.",
+      "steps": [
+        "hoshai_hilo_paso1",
+        "hoshai_hilo_paso2",
+        "hoshai_hilo_paso3",
+        "hoshai_hilo_completado"
+      ],
+      "source": "Historia personal de origen autorizada"
     }
   }
 }
