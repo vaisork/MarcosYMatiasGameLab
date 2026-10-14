@@ -358,6 +358,28 @@
           ],
           "text": "Sigues una línea de principio a fin sin saltarte el borde. El recado distingue una espera de una llegada, pero la letra apretada esconde la diferencia. Arel necesita que se entienda la frase completa, no una voz más fuerte.",
           "journal": "Sigues una línea de principio a fin sin saltarte el borde. El recado distingue una espera de una llegada, pero la letra apretada esconde la diferencia. Arel necesita que se entienda la frase completa, no una voz más fuerte."
+        },
+        {
+          "id": "veyra_orientar_viajeros",
+          "label": "Tranquilizar y orientar a los viajeros recién llegados",
+          "requires_attribute": {
+            "presencia": 11
+          },
+          "forbids_flags": [
+            "veyra_viajeros_orientados"
+          ],
+          "set_flags": [
+            "veyra_viajeros_orientados"
+          ],
+          "scope": "player",
+          "text": "Con voz clara y presencia afable, saludas a una familia recién llegada abrumada por el bullicio y les indicas la entrada al patio de porte.",
+          "journal": "Tu presencia serena ayudó a orientar a unos viajeros aturdidos en la Plaza de las Cinco Rutas.",
+          "soft_check": {
+            "attribute": "presencia",
+            "dc": 11,
+            "success_text": "Tu porte sereno y firme inspira confianza inmediata en los viajeros, que agradecen tu ayuda aliviados.",
+            "fail_text": "El ruido de los carros casi tapa tus palabras, pero tu gesto cordial calma su confusión y logran entenderte."
+          }
         }
       ],
       "dawn": "Los mensajeros comparan destinos antes de que la plaza reciba carros. Quienes han dormido en los patios ajustan cubiertas mirando el cielo.",

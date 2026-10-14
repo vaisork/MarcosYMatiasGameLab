@@ -20,11 +20,19 @@ def signal_present(signal,room,world,now):
  return signal.get('persistent_trace',False) or (world['deaths'].get(key,0)<=now and world.get('creature_states',{}).get(key,{}).get('stage')!='sheltered')
 
 def flags_for(state,world):return set(state['flags'])|set(world['flags'])
+def check_attribute_requirement(item,state):
+    req=item.get('requires_attribute') or item.get('requires_attributes')
+    if not req or not isinstance(req,dict):return True
+    attrs=state.get('attributes') or {}
+    for attr,min_val in req.items():
+        if attrs.get(attr,10)<min_val:return False
+    return True
 def allowed(item,state,world):
  flags=flags_for(state,world)
  return (set(item.get('requires_flags',[])).issubset(flags) and not set(item.get('forbids_flags',[]))&flags
          and (not item.get('requires_species') or state.get('species') in item['requires_species'])
-         and (not item.get('requires_classes') or state.get('class_id') in item['requires_classes']))
+         and (not item.get('requires_classes') or state.get('class_id') in item['requires_classes'])
+         and check_attribute_requirement(item,state))
 
 class Engine:
     def __init__(self,content,clock,rng=None,timezone='UTC'):self.content=content;self.clock=clock;self.rng=rng or random.SystemRandom();self.timezone=ZoneInfo(timezone)
@@ -133,7 +141,8 @@ class Engine:
         state.setdefault('searches',{})[room['id']]=now
         searched='buscado:'+room['id']
         if searched not in state['flags']:state['flags'].append(searched)
-        # A place's own hidden things come first: unique ones once per player, the rest restock.
+        p_val=(state.get('attributes') or {}).get('percepcion',10)
+        p_bonus=max(0.0,min(0.25,0.025*(p_val-10)))
         for index,hidden in enumerate(room.get('hallazgos',[])):
             if hidden.get('item') not in self.content.items:continue
             key=f"hallazgo_sala:{room['id']}:{index}"
@@ -142,7 +151,7 @@ class Engine:
                 state['flags'].append(key)
             else:
                 stock=world.setdefault('search_stock',{})
-                if stock.get(key,0)>now or self.rng.random()>=hidden.get('chance',.5):continue
+                if stock.get(key,0)>now or self.rng.random()>=min(0.95,hidden.get('chance',.5)+p_bonus):continue
                 stock[key]=now+1800
             self.add_item(state,hidden['item'])
             memory=f"En {room['name']} encontraste {self.content.items[hidden['item']]['name']}."
@@ -152,7 +161,8 @@ class Engine:
         if not search:
             state['events']=[event('world','Revisas cada rincón, pero no queda nada más que llevarse.')];return
         roll=self.rng.random();finds=search['finds'];stock=world.setdefault('search_stock',{})
-        found=finds[min(int(roll/.5*len(finds)),len(finds)-1)] if roll<.5 else None
+        find_limit=.5+p_bonus
+        found=finds[min(int(roll/find_limit*len(finds)),len(finds)-1)] if roll<find_limit else None
         if found and stock.get(room['id']+':'+found['item'],0)<=now:
             self.add_item(state,found['item']);stock[room['id']+':'+found['item']]=now+1800
             flag='hallazgo:'+found['item']
@@ -162,6 +172,7 @@ class Engine:
             state['events']=[event('discovery',found['text']),event('action',f"Guardas {self.content.items[found['item']]['name']} en la mochila.")]
         elif roll<.75:
             traces=search['traces'];fraction=(roll-.5)/.25 if roll>=.5 else roll/.5
+            fraction=max(0.0,min(0.999,fraction))
             trace=traces[min(int(fraction*len(traces)),len(traces)-1)]
             # A clue may remember that it was seen, so the place that explains it can offer to follow it up.
             if isinstance(trace,dict):
@@ -170,6 +181,7 @@ class Engine:
             state['events']=[event('trace',trace)]
         else:
             empty=search['empty'];fraction=(roll-.75)/.25
+            fraction=max(0.0,min(0.999,fraction))
             state['events']=[event('world',empty[min(int(fraction*len(empty)),len(empty)-1)])]
 
     def ambient(self,room,world):
@@ -205,11 +217,31 @@ class Engine:
     def narrative(self,character,world,mode='navigation',target=None):
         state=character['state'];room=self.room(character,world);ambient=self.ambient(room,world);lines=[]
         if mode=='examinar':
-            detail=room.get('examine',{}).get(target)
-            if isinstance(detail,dict):
-                if not self.allowed(detail,state,world):detail=None
-                else:detail=detail.get('text')
-            return [event('world',detail or 'Buscas un detalle nuevo, pero aquí no encuentras una señal adicional.')]
+            raw_detail=room.get('examine',{}).get(target)
+            detail=raw_detail
+            if isinstance(raw_detail,dict):
+                if not self.allowed(raw_detail,state,world):detail=None
+                else:detail=raw_detail.get('text')
+            if not detail:
+                return [event('world','Buscas un detalle nuevo, pero aquí no encuentras una señal adicional.')]
+            lines=[event('world',detail)]
+            attrs=state.get('attributes') or {}
+            p_val=attrs.get('percepcion',10)
+            if isinstance(raw_detail,dict) and raw_detail.get('pista_percepcion') and p_val>=raw_detail.get('percepcion_min',11):
+                lines.append(event('discovery',raw_detail['pista_percepcion']))
+            elif isinstance(raw_detail,dict) and raw_detail.get('percepcion') and p_val>=11:
+                lines.append(event('discovery',raw_detail['percepcion']))
+            elif p_val>=12 and isinstance(raw_detail,dict) and raw_detail.get('pista'):
+                lines.append(event('discovery',raw_detail['pista']))
+            i_val=attrs.get('intelecto',10)
+            is_text=any(w in str(target).lower() for w in ('inscripcion','inscripciones','nota','notas','grabado','grabados','runa','runas','placa','signo','signos')) or any(w in detail.lower() for w in ('inscripción','inscripcion','grabado','runa','letras','signos'))
+            if isinstance(raw_detail,dict) and raw_detail.get('texto_intelecto') and i_val>=raw_detail.get('intelecto_min',11):
+                lines.append(event('discovery',raw_detail['texto_intelecto']))
+            elif isinstance(raw_detail,dict) and raw_detail.get('intelecto') and i_val>=11:
+                lines.append(event('discovery',raw_detail['intelecto']))
+            elif is_text and i_val>=11 and not any(l['kind']=='discovery' for l in lines):
+                lines.append(event('discovery','Tu intelecto te permite descifrar las marcas y comprender el sentido del texto.'))
+            return lines
         if mode=='observar':
             for signal in room.get('signals',[]):
                 if self.allowed(signal,state,world) and signal_present(signal,room,world,self.clock()):lines.append(event('danger' if m.PROFILES.get(signal['creature'],{}).get('category') not in (None,'favorable') else 'trace',signal['text']))
@@ -428,7 +460,7 @@ class Engine:
             if creature.get('defeat_text'):state['events'].append(event('world',creature['defeat_text']))
             state['events'].append(event('reward',f"Vences a {creature['name']}. Ganas {gain} XP; este enfrentamiento no entrega sellos."))
         while state['level']<100 and state['xp']>=m.xp_next(state['level']):
-            old_max=m.hp_max(state);state['xp']-=m.xp_next(state['level']);state['level']+=1;state['pa']+=2;state['hp']=min(m.hp_max(state),state['hp']+m.hp_max(state)-old_max)
+            old_max=m.hp_max(state);state['xp']-=m.xp_next(state['level']);state['level']+=1;state['pa']=state.get('pa',0)+2;state['hp']=min(m.hp_max(state),state['hp']+m.hp_max(state)-old_max)
             if state['level']%5==0:state['pp']+=1
             state['events'].append(event('reward',f"Alcanzas nivel {state['level']}. Dispones de puntos de atributo para decidir tu formación."))
         deathkey=f"{state['location']}:{combat['creature']}";world['deaths'][deathkey]=self.clock()+300
@@ -579,9 +611,9 @@ class Engine:
         if (self.content.regions[room['region']].get('search') and room['kind'] in ('road','wilderness','landmark') and not room.get('safe',False)) or room.get('hallazgos'):
             remaining=state.get('searches',{}).get(room['id'],-60)+60-self.clock()
             actions.append({'id':'buscar','label':'Buscar alrededor','disabled':remaining>0,'reason':f'Ya revisaste este lugar. Puedes buscar de nuevo en {int(remaining)+1} s.' if remaining>0 else 'Revisar suelo, refugios y objetos que hayan quedado en el camino.'})
-        for attribute,value in state['attributes'].items():
+        for attribute,value in (state.get('attributes') or {}).items():
             cost=1 if value<20 else 2 if value<35 else 3 if value<45 else 4 if value<60 else 5
-            if state['pa']>=cost:actions.append({'id':'atributo','target':attribute,'label':f'Mejorar {attribute} · {cost} PA','confirmation':f'Aumentar {attribute} de {value} a {value+1} por {cost} PA. No podrás deshacerlo.'})
+            if state.get('pa',0)>=cost:actions.append({'id':'atributo','target':attribute,'label':f'Mejorar {attribute} · {cost} PA','confirmation':f'Aumentar {attribute} de {value} a {value+1} por {cost} PA. No podrás deshacerlo.'})
         actions += [{'id':'examinar','target':key,'label':f'Examinar {key}'} for key,value in room.get('examine',{}).items() if not isinstance(value,dict) or self.allowed(value,state,world)]
         actions += [{'id':'mirar_direccion','target':direction,'label':f'Mirar hacia el {direction}'} for direction in room.get('look',{}) if direction in room.get('exits',{})]
         for direction,destination in room.get('exits',{}).items():
@@ -618,6 +650,7 @@ class Engine:
                 else:
                     actions.append({'id':'combatir','target':cid,'label':('Insistir en enfrentarte a ' if m.PROFILES[cid]['category'] in m.AVOIDABLE_CATEGORIES else 'Enfrentarte a ')+self.creature_prose(room,cid)['name']+(f" · nivel {m.scaled(m.PROFILES[cid],signal.get('level'))['level']}" if signal.get('level') else '')})
                 if m.PROFILES[cid]['category'] in m.AVOIDABLE_CATEGORIES and warned:actions.append({'id':'retirarse','target':cid,'label':'Retirarte antes del enfrentamiento'})
+                if (state.get('attributes') or {}).get('voluntad',10)>=11 and not state.get('combat'):actions.append({'id':'calmar','target':cid,'label':f"Calmar a {self.creature_prose(room,cid)['name']}"})
         for qid,q in self.content.quests.items():
             if q.get('accept_room')==state['location']:
                 instance=state['quests'].get(qid)
@@ -690,7 +723,7 @@ class Engine:
             if state['seals']<cost and not (choice['id']=='recuperacion' and choice.get('disabled')):
                 choice.update(disabled=True,reason=f"Te faltan {cost-state['seals']} sellos.")
         story_ids={item['id'] for item in room.get('actions',[])}
-        actions.sort(key=lambda action:0 if action['id'] in story_ids or action['id'] in ('cobrar','examinar_criatura','buscar','combatir','acercarse','retirarse') else 1)
+        actions.sort(key=lambda action:0 if action['id'] in story_ids or action['id'] in ('cobrar','examinar_criatura','buscar','combatir','acercarse','retirarse','calmar') else 1)
         return actions
 
     def parse_intent(self,character,world,intent):
@@ -731,9 +764,12 @@ class Engine:
             elif id in ('equipar','usar','comprar','vender','reparar','afinar'):
                 item=self.content.items.get(target) or next((i for i in state['inventory'] if i['id']==target),{})
                 aliases.add(normalize(id+' '+item.get('name',target)))
-            elif id in ('combatir','evaluar','acercarse','retirarse','examinar_criatura'):
+            elif id in ('combatir','evaluar','acercarse','retirarse','examinar_criatura','calmar'):
                 creature=self.creature_prose(room,target)
                 aliases.add(normalize(id+' '+creature.get('name',target)))
+                if id=='calmar':
+                    aliases.add(normalize('calmar'))
+                    aliases.add(normalize('tranquilizar '+creature.get('name',target)))
                 if id=='combatir':aliases.add(normalize('atacar '+creature.get('name',target)))
             if typed in aliases:matches.append(choice)
         if not matches and not state['combat']:
@@ -743,10 +779,15 @@ class Engine:
                 label=keywords(authored['label'])
                 water=typed=='nadar' and bool(label&{'nadar','agua','sumergirse'})
                 if not ((words and words.issubset(label) and normalize(typed).split()[0]==normalize(authored['label']).split()[0]) or water):continue
-                without_species={k:v for k,v in authored.items() if k!='requires_species'}
+                without_species={k:v for k,v in authored.items() if k not in ('requires_species','requires_attribute','requires_attributes')}
                 if not self.allowed(without_species,state,world):continue
                 if not self.allowed(authored,state,world):
-                    raise RuleError('Tu especie no puede realizar esa acción. Requiere: '+', '.join(authored['requires_species'])+'.',409)
+                    if authored.get('requires_species'):
+                        raise RuleError('Tu especie no puede realizar esa acción. Requiere: '+', '.join(authored['requires_species'])+'.',409)
+                    if authored.get('requires_attribute') or authored.get('requires_attributes'):
+                        req=authored.get('requires_attribute') or authored.get('requires_attributes')
+                        desc=', '.join(f"{k} {v}" for k,v in req.items())
+                        raise RuleError(f'Requiere mayor formación: {desc}.',409)
                 matches.append({'id':authored['id']})
         if len(matches)!=1:
             local=[a for a in choices if not a.get('disabled') and (a['id'] in ('mover','examinar') or a['id'] in {item['id'] for item in room.get('actions',[])})]
@@ -859,6 +900,13 @@ class Engine:
             state['events']=[event('danger',self.creature_prose(room,target).get('warning','El Cornalomo orienta el cuerpo hacia ti y marca su distancia. Todavía puedes apartarte sin entrar en combate.'))]
         elif action=='retirarse':
             self.clear_attention(character,world);state['events']=[event('action',m.peaceful_withdrawal(target))]
+        elif action=='calmar':
+            if (state.get('attributes') or {}).get('voluntad',10)<11:
+                raise RuleError('Necesitas al menos 11 de Voluntad para transmitir calma a una criatura.',409)
+            creature=self.creature_prose(room,target)
+            self.clear_attention(character,world)
+            self.withdraw_animal(character,world,target)
+            state['events']=[event('action',f"Mantienes la serenidad y respiras con calma. Tu voluntad templada sosiega a {creature['name']}, que relaja su postura y se aparta pacíficamente.")]
         elif action=='combatir':
             signal=next((i for i in room.get('signals',[]) if i['creature']==target),{})
             if target=='mordelinde' and f"{state['location']}:{target}" not in world.get('encounters',{}) and (world.get('creature_states',{}).get(f"{state['location']}:{target}",{}).get('escape_open') or not (signal.get('cornered') or room.get('combat_context',{}).get('creature_cornered'))):
@@ -872,8 +920,10 @@ class Engine:
             prepared=m.preparation(state['combat'])
             if prepared and prepared.get('tell'):state['events'].append(event('danger',prepared['tell']))
         elif action=='atributo':
+            if target not in (state.get('attributes') or {}):raise RuleError('Atributo no válido.',409)
             if not intent.get('confirmed'):raise RuleError('Confirma el atributo, el nuevo valor y el coste antes de gastar PA.',409)
             old_max=m.hp_max(state);value=state['attributes'][target];cost=1 if value<20 else 2 if value<35 else 3 if value<45 else 4 if value<60 else 5
+            if state.get('pa',0)<cost:raise RuleError('No dispones de suficientes puntos de atributo (PA).',409)
             state['pa']-=cost;state['attributes'][target]+=1;state['hp']=min(m.hp_max(state),state['hp']+max(0,m.hp_max(state)-old_max));state['events']=[event('reward',f'Tu formación mejora {target}.')]
         elif action=='equipar':
             item=next(i for i in state['inventory'] if i['id']==target)
@@ -961,7 +1011,20 @@ class Engine:
             if authored.get('next'):
                 if authored['next'] not in self.content.rooms:raise RuleError('La escena no tiene un destino válido.',409)
                 self.visit(state,authored['next']);self.encounter(character,world);self.observe(state,self.room(character,world),world)
-            state['events']=[event('action',authored['text'])]
+            text=authored['text']
+            check=authored.get('soft_check') or authored.get('check')
+            if check and isinstance(check,dict):
+                attr=check.get('attribute','fuerza')
+                dc=check.get('dc',11)
+                val=(state.get('attributes') or {}).get(attr,10)
+                roll=self.rng.randint(1,6)
+                if val+roll<dc:
+                    if check.get('fail_text'):text=check['fail_text']
+                    fatigue=check.get('fail_fatigue',4)
+                    if fatigue:state['fatigue']=min(100,state['fatigue']+m.fatigue_cost(state,fatigue))
+                else:
+                    if check.get('success_text'):text=check['success_text']
+            state['events']=[event('action',text)]
         for cid in state['bestiary']:
             if cid not in known_before and action!='examinar_criatura':
                 state['events'].append(event('discovery',f"Añades {state['bestiary'][cid]['name']} al bestiario."))
@@ -1055,8 +1118,10 @@ class Engine:
         char['gender']=state.get('gender')
         portrait=state.get('portrait')
         if isinstance(portrait,str) and re.fullmatch(r'/client/art/players/[a-z0-9-]+\.webp',portrait):char['portrait']=portrait
-        char.update({key:state[key] for key in ('location','level','xp','hp','fatigue','wound','seals','attributes','equipment','pa','pp')})
-        char.update(hp_max=m.hp_max(state),xp_next=m.xp_next(state['level']),combat=safe_combat)
+        char.update({key:state.get(key) for key in ('location','level','xp','hp','fatigue','wound','seals','attributes','equipment','pa','pp')})
+        if char.get('pa') is None:char['pa']=0
+        char['attribute_effects']=dict(m.ATTRIBUTE_EFFECTS)
+        char.update(hp_max=m.hp_max(state),xp_next=m.xp_next(state.get('level',1)),combat=safe_combat)
         quests=[]
         for qid,instance in state['quests'].items():
             quest=self.content.quests.get(qid)
@@ -1070,12 +1135,12 @@ class Engine:
                 if payments:entry['paid_amount']=payments[-1]['amount']
                 entry['summary']=quest.get('paid_text','Este encargo ya está completado.')
             quests.append(entry)
-        return {'version':world['version'],'character':char,'room':{'id':room['id'],'name':room['name'],'region':room['region'],'kind':room['kind'],'description':room['description'],
+        return {'version':world['version'],'character':char,'attribute_effects':dict(m.ATTRIBUTE_EFFECTS),'room':{'id':room['id'],'name':room['name'],'region':room['region'],'kind':room['kind'],'description':room['description'],
             **({'art_variant':room['art_variant']} if room.get('art_variant') else {}),
             'npcs':[{'id':n['id'],'name':n['name'],'role':n.get('role',''),'description':n.get('description',''),'topics':[t for t,v in n.get('topics',{}).items() if not isinstance(v,dict) or self.allowed(v,state,world)]} for n in people],
             'exits':[{'direction':d,'label':d.capitalize()} for d in room.get('exits',{})]},
             'presence':[{k:v[k] for k in ('id','name','species','class_id')} for v in world.get('presence',{}).values() if v['id']!=character['id'] and v['room']==state['location'] and self.clock()-v['at']<30],
             'chat':[{k:v[k] for k in ('id','sender_id','sender','text','at')} for v in world.get('chat',[]) if v['room']==state['location'] and self.clock()-v['at']<600 and character['id'] in v['recipients']][-30:],
-            'narrative':state['events'] or self.narrative(character,world),'scene':self.narrative(character,world),'actions':self.actions(character,world),
+            'narrative':state.get('events') or self.narrative(character,world),'scene':self.narrative(character,world),'actions':self.actions(character,world),
             'map':{'nodes':nodes,'edges':[p for p in state['routes'] if set(p).issubset(known)],'routes':routes,'frontiers':frontiers,**({'recovery':state['last_recovery']} if state.get('last_recovery') else {})},
             'inventory':state['inventory'],'bestiary':[{**entry,'behavior':list(entry.get('behavior',[])),**({'illustration':self.content.creatures[cid]['illustration']} if self.content.creatures.get(cid,{}).get('illustration') else {})} for cid,entry in state['bestiary'].items()],'journal':state['journal'],'secrets':{'found':sum(1 for secret in getattr(self.content,'secrets',{}).values() if secret.get('flag') in state['flags'] or 'participated:'+str(secret.get('flag')) in state['flags'])},'quests':quests,'ambient':ambient}

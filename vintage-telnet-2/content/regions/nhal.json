@@ -204,7 +204,30 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "nhal_rastrear_hojas",
+          "label": "Rastrear huellas entre la hojarasca",
+          "requires_attribute": {
+            "percepcion": 11
+          },
+          "forbids_flags": [
+            "nhal_huellas_hojarasca"
+          ],
+          "set_flags": [
+            "nhal_huellas_hojarasca"
+          ],
+          "scope": "player",
+          "text": "Tu aguda percepción distingue hojas quebradas y pequeñas pisadas que marcan el paso seguro de la fauna sin pisar ramas ruidosas.",
+          "journal": "Seguiste con atención el rastro sutil en la hojarasca de Nhal.",
+          "soft_check": {
+            "attribute": "percepcion",
+            "dc": 11,
+            "success_text": "Distingues de inmediato la hilera de huellas leves bajo la alfombra de hojas.",
+            "fail_text": "El crujido de las ramas secas confunde el rastro, pero con paciencia encuentras la senda marcada por los pequeños animales."
+          }
+        }
+      ],
       "wildlife_pool": [
         {
           "creature": "quebracascara",

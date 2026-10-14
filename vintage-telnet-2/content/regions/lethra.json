@@ -124,7 +124,31 @@
       },
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "lethra_avanzar_entre_tallos",
+          "label": "Avanzar entre los tallos altos",
+          "requires_attribute": {
+            "agilidad": 11
+          },
+          "forbids_flags": [
+            "lethra_senda_tallos_recorrida"
+          ],
+          "set_flags": [
+            "lethra_senda_tallos_recorrida"
+          ],
+          "scope": "player",
+          "text": "Te deslizas con sigilo y paso ligero entre las cañas sin doblar los tallos ni alertar a las criaturas de la ribera.",
+          "journal": "Cruzaste con ligereza la orilla alta entre los juncos de Lethra.",
+          "soft_check": {
+            "attribute": "agilidad",
+            "dc": 11,
+            "success_text": "Te deslizas con ligereza entre los juncos sin hacer ruido.",
+            "fail_text": "El lodo te atrapa la suela un instante, pero te zafas con rapidez y continúas adelante.",
+            "fail_fatigue": 3
+          }
+        }
+      ],
       "wildlife_pool": [
         {
           "creature": "cienfango",

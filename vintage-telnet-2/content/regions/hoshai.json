@@ -105,7 +105,31 @@
       },
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "hoshai_saltar_arroyo",
+          "label": "Saltar el arroyo por las piedras altas",
+          "requires_attribute": {
+            "agilidad": 11
+          },
+          "forbids_flags": [
+            "hoshai_arroyo_saltado"
+          ],
+          "set_flags": [
+            "hoshai_arroyo_saltado"
+          ],
+          "scope": "player",
+          "text": "Mides la distancia hacia las piedras secas del arroyo y cruzas de un salto elástico sin mojarte.",
+          "journal": "Cruzaste el arroyo de la primera subida con un salto ágil entre las rocas secas.",
+          "soft_check": {
+            "attribute": "agilidad",
+            "dc": 11,
+            "success_text": "Mides la distancia y apoyas la bota en la piedra seca con total ligereza.",
+            "fail_text": "Calculas el salto un poco justo y salpicas agua fría en las botas, pero alcanzas la otra orilla sin perder el equilibrio.",
+            "fail_fatigue": 3
+          }
+        }
+      ],
       "wildlife_pool": [
         {
           "creature": "saltacresta",

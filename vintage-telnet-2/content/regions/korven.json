@@ -108,7 +108,31 @@
       },
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "korven_apartar_derrumbes",
+          "label": "Apartar el bloque de cascajo",
+          "requires_attribute": {
+            "fuerza": 11
+          },
+          "forbids_flags": [
+            "korven_bloque_apartado"
+          ],
+          "set_flags": [
+            "korven_bloque_apartado"
+          ],
+          "scope": "player",
+          "text": "Afirmas las botas en el cascajo y empujas el bloque con hombro y brazos. La piedra rueda a un lado y deja un paso más ancho y despejado.",
+          "journal": "Apartaste un bloque de cascajo en la loma de Korven usando tu fuerza.",
+          "soft_check": {
+            "attribute": "fuerza",
+            "dc": 11,
+            "success_text": "Afirmas las botas en el cascajo y mueves el bloque con un empuje firme y limpio.",
+            "fail_text": "El bloque pesa más de lo esperado; haces palanca con esfuerzo y, aunque te cuesta el aliento, logras apartarlo del paso.",
+            "fail_fatigue": 4
+          }
+        }
+      ],
       "wildlife_pool": [
         {
           "creature": "cascapedernal",

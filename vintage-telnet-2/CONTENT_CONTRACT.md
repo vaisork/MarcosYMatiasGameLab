@@ -110,3 +110,27 @@ Las peticiones o estados anteriores que envíen `id: 'capacidad'` son mapeados d
 
 ### Ajuste de canon del Arcano
 El Arcano **no activa mecanismos antiguos** ni manipula compuertas mecánicas; su interacción en exploración (`requires_classes: ["arcano"]`) se limita a revelar resonancias, marcas, inscripciones o pistas ocultas sin explicar quién las hizo.
+
+## Progresión de atributos y asignación de PA (Fase Motor y API)
+
+Al subir de nivel, el personaje recibe 2 Puntos de Atributo (`pa`). Los puntos acumulados se reflejan en `state.character.pa`.
+
+### Asignación vía API
+El cliente asigna puntos enviando una acción estándar a `POST /api/action`:
+- `id`: `"atributo"`
+- `target`: nombre del atributo a mejorar (`"fuerza"`, `"resistencia"`, `"agilidad"`, `"percepcion"`, `"intelecto"`, `"voluntad"`, `"destreza"`, `"presencia"`).
+- `confirmed`: `true` (requerido para confirmar el gasto irreversible de PA).
+- `request_id`: identificador único de la petición (8–120 caracteres).
+
+Escala de coste en PA según el valor actual del atributo:
+- Valor < 20: 1 PA por punto.
+- Valor 20–34: 2 PA por punto.
+- Valor 35–44: 3 PA por punto.
+- Valor 45–59: 4 PA por punto.
+- Valor >= 60: 5 PA por punto.
+
+### Efectos de atributos expuestos en `/api/state`
+`snapshot.character.attribute_effects` (y a nivel raíz `snapshot.attribute_effects`) expone un diccionario `{atributo: frase}` con la descripción funcional de cada atributo en una frase para la pantalla de personaje.
+
+### Guarda de contenido `requires_attribute`
+Las acciones de sala, temas de conversación de NPCs, exámenes y requisitos de acceso admiten la guarda `requires_attribute: {<atributo>: <mínimo>}` (o su variante plural `requires_attributes`). El motor la evalúa en `allowed()`. Opcionalmente, las acciones narrativas pueden definir `soft_check: {attribute, dc, fail_text, fail_fatigue, success_text}` como una tirada suave que aporta matices narrativos y leve coste de fatiga sin bloquear jamás el progreso principal.

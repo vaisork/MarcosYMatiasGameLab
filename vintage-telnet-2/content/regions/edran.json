@@ -148,6 +148,28 @@
           "journal": "La ficha de boj tiene en el reverso una marca de tiza desvaída: 'Para quien riega antes del alba'. Huele a tierra húmeda y a huerta de Valdren.",
           "text": "Tiras con suavidad de la lana roja y la ficha sale sin romperse. En el reverso de la madera hay una inscripción casi borrada hecha con tiza blanca: 'Para quien riega antes del alba'. Alguien la dejó allí como un recado secreto entre vecinos de los huertos.",
           "scope": "player"
+        },
+        {
+          "id": "edran_descifrar_placa_plaza",
+          "label": "Interpretar las muescas del banco",
+          "requires_attribute": {
+            "intelecto": 11
+          },
+          "forbids_flags": [
+            "edran_muescas_descifradas"
+          ],
+          "set_flags": [
+            "edran_muescas_descifradas"
+          ],
+          "scope": "player",
+          "text": "Examinas las hendiduras con atención. Tu intelecto descubre que las muescas corresponden a un antiguo calendario de siembra usado por los campesinos.",
+          "journal": "Interpretaste el calendario de siembra grabado en las muescas del banco de Valdren.",
+          "soft_check": {
+            "attribute": "intelecto",
+            "dc": 11,
+            "success_text": "Tu intelecto reconoce con claridad las marcas de las estaciones grabadas en la madera.",
+            "fail_text": "Las líneas están gastadas por la lluvia; tras compararlas con paciencia, deduces que señalan los ciclos de siembra de Valdren."
+          }
         }
       ],
       "return": "Ya sabes orientarte aquí: la calle que sube lleva al golpe de la fragua; el corredor de los huertos, al campo.",

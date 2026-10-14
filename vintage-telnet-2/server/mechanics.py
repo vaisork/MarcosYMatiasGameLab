@@ -10,6 +10,16 @@ CLASS_ATTRIBUTES = {
  'sombra': {'fuerza':8,'resistencia':10,'agilidad':13,'percepcion':12,'intelecto':7,'voluntad':10,'destreza':11,'presencia':9},
  'artifice': {'fuerza':8,'resistencia':10,'agilidad':9,'percepcion':12,'intelecto':11,'voluntad':10,'destreza':13,'presencia':7},
 }
+ATTRIBUTE_EFFECTS = {
+ 'fuerza': 'Aumenta el daño físico en combate y permite forzar pasos bloqueados o mover obstáculos pesados.',
+ 'resistencia': 'Aumenta la vitalidad máxima, acelera la recuperación al descansar y reduce el gasto de fatiga.',
+ 'agilidad': 'Mejora la evasión y la huida en combate, y permite trepar, saltar obstáculos y usar atajos.',
+ 'percepcion': 'Aumenta la probabilidad de hallar objetos al buscar y revela pistas y marcas ocultas al examinar.',
+ 'intelecto': 'Potencia los impulsos y barreras arcanas y permite descifrar inscripciones, notas y textos antiguos.',
+ 'voluntad': 'Aumenta la barrera mágica y la vitalidad máxima, templa el ánimo contra la fatiga y ayuda a calmar criaturas.',
+ 'destreza': 'Mejora la precisión con armas y el bloqueo con escudo, además de facilitar tareas delicadas y cerrojos.',
+ 'presencia': 'Inspira respeto en la gente y abre temas y respuestas adicionales en las conversaciones con habitantes.',
+}
 CLASS_ACTIONS = {
  'juramentado': [
   {'id':'guardia_comprometida','name':'Guardia Comprometida','label':'Guardia Comprometida','description':'Reduce el 50% del daño del próximo golpe directo frontal y anula empujes.','cooldown':2,'cost':4,'signature':True},
@@ -136,11 +146,14 @@ def use_consumable(state,item):
  return f"Usas {item['name']}: "+(', '.join(parts) if parts else 'no notas cambios')+'.'
 
 def hp_max(state):
- a=state['attributes']; return 100+1.25*(state['level']-1)+2.5*(a['resistencia']-10)+.5*(a['voluntad']-10)+gear_bonus(state,'vida')
+ a=state.get('attributes') or {}; return 100+1.25*(state.get('level',1)-1)+2.5*(a.get('resistencia',10)-10)+.5*(a.get('voluntad',10)-10)+gear_bonus(state,'vida')
 def xp_next(level): return rounded(100+18*(level-1)+.25*(level-1)**2)
 def fatigue_cost(state, base):
- multiplier = (1.10 if state['wound']=='leve' else 1.20 if state['wound']=='moderada' else 1.35 if state['wound']=='grave' else 1)
- return base*max(.55,1-.007*(state['attributes']['resistencia']-10))*multiplier
+ multiplier = (1.10 if state.get('wound')=='leve' else 1.20 if state.get('wound')=='moderada' else 1.35 if state.get('wound')=='grave' else 1)
+ a = state.get('attributes') or {}
+ res_mod = .007*(a.get('resistencia',10)-10)
+ vol_mod = .003*(a.get('voluntad',10)-10)
+ return base*max(.50,1-res_mod-vol_mod)*multiplier
 
 def penalties(state):
  f=state['fatigue']; accuracy=10 if f>=90 else 5 if f>=70 else 0
@@ -158,13 +171,14 @@ def new_state(species,class_id,home,now):
 
 
 def rest(state):
- missing=hp_max(state)-state['hp']
- if missing>0 and state['rest_budget'] is None: state['rest_budget']=.3*missing
- cap=(.65 if state['wound']=='grave' else .85 if state['wound']=='moderada' else 1)*hp_max(state)
- healed=max(0,min(.1*hp_max(state),state['rest_budget'] or 0,cap-state['hp'],missing))
- state['hp']+=healed
- if state['rest_budget'] is not None: state['rest_budget']-=healed
- state['fatigue']=max(0,state['fatigue']-(25+.2*(state['attributes']['resistencia']-10)))
+ missing=hp_max(state)-state.get('hp',100)
+ if missing>0 and state.get('rest_budget') is None: state['rest_budget']=.3*missing
+ cap=(.65 if state.get('wound')=='grave' else .85 if state.get('wound')=='moderada' else 1)*hp_max(state)
+ healed=max(0,min(.1*hp_max(state),state.get('rest_budget') or 0,cap-state.get('hp',100),missing))
+ state['hp']=state.get('hp',100)+healed
+ if state.get('rest_budget') is not None: state['rest_budget']-=healed
+ a=state.get('attributes') or {}
+ state['fatigue']=max(0,state.get('fatigue',0)-(25+.2*(a.get('resistencia',10)-10)+.1*(a.get('voluntad',10)-10)))
  return healed
 
 
