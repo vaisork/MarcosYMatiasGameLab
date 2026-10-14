@@ -64,6 +64,10 @@ class MultiplayerTests(unittest.TestCase):
   self.create();expected=[(6,'Amanecer'),(12,'Día'),(18,'Atardecer'),(22,'Noche')]
   for hour,phase in expected:
    self.clock.now=hour*3600;self.assertEqual(self.client.get('/api/state').json['ambient']['time_of_day'],phase)
+  # Production default is Mexico City (UTC-6): 20:00 UTC is 14:00 local, still day.
+  self.app.config['TIMEZONE']='America/Mexico_City';self.clock.now=20*3600
+  self.assertEqual(self.client.get('/api/state').json['ambient']['time_of_day'],'Día')
+  self.app.config['TIMEZONE']='UTC'
   from server.engine import Engine
   from server.content import Content
   with self.app.extensions['store'].transaction() as db:
