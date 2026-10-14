@@ -849,17 +849,17 @@
       "id": "dragon_aguas_antiguas",
       "name": "Dragón de las Aguas Antiguas",
       "region": "veyra",
-      "description": "En el centro de la gran bóveda reposa una mole majestuosa de escamas tornasoladas como agua de manantial sobre piedra azul. Dos crestas delgadas bajan por su cuello hasta la cola pesada, y sus ojos dorados observan cada movimiento sin parpadear. El agua profunda de las cuencas fluye a su alrededor sin turbar su calma; el vapor frío que exhala huele a lluvia limpia y roca recién mojada.",
-      "presagio": "Un vapor denso y fresco emana de las hendiduras del suelo de sillar. El suelo vibra con un latido grave y constante, y el aire huele a agua profunda de montaña.",
-      "habitat": "Habita la gran bóveda de compuertas en lo más hondo del Bastión de las Aguas Antiguas, donde descansan las antiguas conducciones que regulaban los caudales entre las tres regiones.",
-      "warning": "El Dragón de las Aguas Antiguas eleva el cuello sobre el pedestal de las cuencas y despliega sus aletas laterales. Un bufido húmedo reverbera en la piedra abovedada. Todavía puedes retroceder hacia la galería antes de llamar su atención.",
-      "combat_intro": "Al entrar en su alcance, el Dragón de las Aguas Antiguas abre sus grandes alas membranosas y afirma sus garras en las losas mojadas. El agua de las acequias borbotea con fuerza: ahora debes responder a su ritmo antes de que descargue su poder.",
+      "description": "Su cuerpo ocupa gran parte del pedestal y la cola recorre el borde del manantial como un muro vivo. Las escamas gruesas reflejan azules, verdes y violetas distintos en cada respiración; una marca antigua, pálida, atraviesa una de sus crestas. Bajo las alas membranosas guarda el calor de una tormenta, y el vapor que exhala se arremolina sobre el agua fría. Sus ojos dorados no miran con crueldad: siguen las manos, los pies y cualquier movimiento cercano a la corriente que protege.",
+      "presagio": "Mucho antes de llegar a la bóveda, el agua tiembla a intervalos como si respirara. Una escama translúcida gira atrapada en una reja; más abajo la piedra está tibia aunque el aire sea frío. Hay surcos muy anchos en los sillares, y un vapor blanco escapa de grietas demasiado pequeñas para una persona. El rumor del fondo se parece cada vez menos a una compuerta y cada vez más al pecho de un animal enorme.",
+      "habitat": "Descansa sobre el manantial profundo que antes alimentaba la acequia de Veyra, en la gran bóveda bajo el Bastión de las Aguas Antiguas. Antiguo y territorial, protege el borde del agua y el paso al Sagrario. Una marca vieja en sus escamas y su respiración trabajosa sugieren que lleva mucho tiempo inquieto o lastimado; no se sabe por qué. No se conoce quién levantó la bóveda ni qué mantiene el agua en movimiento.",
+      "warning": "El dragón levanta la cabeza y despliega un ala que tapa parte de los reflejos del techo. Las gotas tiemblan en los doce arcos. No te mira con odio: te mira como a alguien que se ha acercado demasiado al agua que protege. Todavía puedes retroceder hacia las losas sonoras antes de entrar en su alcance.",
+      "combat_intro": "Das un paso hacia el pedestal. El dragón extiende las dos alas; una ráfaga tibia hace girar el vapor y el remolino se levanta alrededor de sus patas. Cuando ruge, las gotas de los arcos caen juntas sobre las losas. Se apoya con dificultad en una garra, pero no cede el paso: tendrás que leer cada movimiento de su cuerpo para salir de aquí.",
       "source": "Ampliación canónica autorizada: Mazmorra Final del Bastión de las Aguas Antiguas",
       "material": "escama_dragon",
       "loot": [
         {
           "item": "escama_dragon",
-          "chance": 1.0
+          "chance": 1
         },
         {
           "item": "colmillo_dragon",

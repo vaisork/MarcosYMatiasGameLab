@@ -2589,13 +2589,13 @@
       "name": "Cámara del Trinquete Central",
       "region": "veyra",
       "kind": "interior",
-      "description": "Una impresionante sala circular dominada por una gigantesca rueda dentada de bronce y granito. De ella parten ejes y engranajes hacia tres consolas de piedra: una palanca pesada en la bancada este, un cuadrante de manivelas en el saliente norte, y una válvula de esclusa en la canaleta oeste. Al oeste, una monumental reja de barras dobles de bronce impide el acceso a la galería de ecos.",
-      "day": "Un resplandor cobrizo tiñe los dientes del gran engranaje bajo las lámparas de aceite antiguo.",
-      "night": "El silencio de la sala hace que cualquier chasquido metálico resuene de pared a pared.",
-      "rain": "El agua de las conducciones lubrica los ejes de bronce con un murmullo continuo.",
+      "description": "La cámara es tan grande que tus pasos parecen pequeños. Una rueda dentada de granito y bronce ocupa el centro, rodeada de dientes más altos que tus hombros; entre ellos quedan hebras de musgo que se mecen sin viento. Tres ejes parten de la rueda hacia la palanca de la bancada este, las manivelas del saliente norte y la válvula de la canaleta oeste. Bajo las losas, algo golpea a intervalos largos. Tum. Después un silencio. Tum. Es el agua empujando el mecanismo desde lo profundo, como si el Bastión tuviera un corazón de piedra. Al oeste, una reja de barras dobles corta el camino: entre sus barrotes asoma una neblina blanca que se retira y vuelve con cada golpe.",
+      "day": "Por las ranuras altas se filtra una claridad débil. Un diente de bronce la recoge y la devuelve en un destello, pero el centro de la rueda sigue hundido en sombra.",
+      "night": "El borde de las consolas apenas destaca sobre el suelo. Entre un golpe y otro puedes oír cómo una gota recorre las estrías del engranaje antes de caer.",
+      "rain": "La lluvia de la superficie se vuelve un goteo más rápido dentro de los conductos; el golpeteo bajo las losas tarda menos en responder, sin revelar lo que lo produce.",
       "clear": "",
-      "return": "La monumental rueda dentada y sus tres consolas descansan en el centro del Bastión.",
-      "brief": "La cámara de engranajes del trinquete y sus tres consolas.",
+      "return": "Ya sabes distinguir el golpe profundo del trinquete del roce de sus engranajes. Cada consola tiene un sonido propio; al otro lado de las barras, sin embargo, todo parece guardar silencio.",
+      "brief": "La rueda gigantesca y sus tres consolas; bajo el suelo persiste un latido de piedra.",
       "exits": {
         "norte": "veyra_mazmorra_caudal",
         "este": "veyra_mazmorra_cornisa",
@@ -2610,11 +2610,14 @@
         }
       },
       "examine": {
-        "rueda": "Una rueda monumental de bronce con dientes tallados en piedra de granito. Conecta las tres consolas.",
-        "consolas": "Tres puestos de mando: la palanca de esfuerzo al este, las manivelas de precisión al norte y la válvula de paso al oeste.",
-        "reja": "Barras dobles de bronce con pasadores hidráulicos conectados al eje del trinquete."
+        "rueda": "Te acercas a los dientes de bronce y granito: hay ranuras en las que cabe tu mano entera. La piedra está fría, pero una vibración lenta te sube por los dedos. En una cara pulida descubres cuatro surcos anchos que atraviesan la costra verde; nada indica qué los hizo.",
+        "consolas": "Tres puestos separados obligan a rodear la rueda: al este espera una palanca que ofrece resistencia; al norte, tres manivelas pequeñas deben quedar alineadas; al oeste, la válvula descansa junto a un canal con agua oscura. Los engranajes se unen en el mismo eje, aunque cada puesto puede prepararse por separado.",
+        "reja": "Las barras dobles de bronce llegan hasta la bóveda. En los pasadores, unas gotas tiemblan al ritmo del golpe subterráneo. Del otro lado se ve un corredor sin movimiento; una corriente tibia atraviesa los barrotes y desaparece."
       },
-      "arrivals": {},
+      "arrivals": {
+        "veyra_mazmorra_caudal": "Dejas atrás el agua hasta las pantorrillas y asciendes por escalones gastados. El chapoteo queda a tu espalda. Al principio oyes un roce de metal; después, un golpe tan grave que lo sientes en el pecho antes que en los oídos. La escalera desemboca en una cámara donde el sonido parece venir del propio suelo.",
+        "veyra_mazmorra_cornisa": "Cruzas la trampilla de la cornisa y avanzas por un pasaje que desciende sin ventanas. El aire seco del vacío se mezcla con olor a metal mojado. Una vibración sacude el polvo de las juntas. Das otro paso, escuchas un golpe enorme y descubres que estás entrando por un costado de una sala circular."
+      },
       "npcs": [],
       "signals": [],
       "actions": [
@@ -2631,8 +2634,8 @@
             "bastion_trinquete_1"
           ],
           "scope": "world",
-          "text": "Afirmas las botas en el suelo y empujas la palanca de la bancada este con un esfuerzo constante. El engranaje menor encaja con un crujido sordo: la primera consola queda fijada.",
-          "journal": "Fijaste la palanca este del trinquete central."
+          "text": "Afirmas los pies junto a la bancada este. La palanca se resiste y el bronce emite un quejido largo. Empujas sin soltarla hasta que un diente cae en su ranura: ¡clac! El golpe que venía del suelo responde más cerca. La primera consola queda fija.",
+          "journal": "Sujetaste la palanca este hasta encajar su engranaje. La gran rueda respondió desde abajo."
         },
         {
           "id": "bastion_consola_2_agilidad",
@@ -2647,8 +2650,8 @@
             "bastion_trinquete_2"
           ],
           "scope": "world",
-          "text": "Giras con precisión el cuadrante de manivelas al norte ajustando los tres piñones de bronce. Los dientes se alinean sin rozar: la segunda consola queda armada.",
-          "journal": "Alineaste el cuadrante norte del trinquete central."
+          "text": "Pones los dedos en las tres manivelas del saliente norte. La primera raspa; la segunda gira libre; la tercera sólo se mueve cuando las anteriores coinciden. Ajustas cada una siguiendo las marcas gastadas. Los piñones se alinean con un tintineo claro. Ahora el gran golpe subterráneo lleva un pequeño eco metálico.",
+          "journal": "Alineaste las manivelas del norte. Al latido del trinquete se sumó un eco de bronce."
         },
         {
           "id": "bastion_consola_3_resistencia",
@@ -2663,8 +2666,8 @@
             "bastion_trinquete_3"
           ],
           "scope": "world",
-          "text": "Abres la válvula de la esclusa dejando entrar una corriente de agua constante que equilibra los contrapesos hidráulicos. La tercera consola queda preparada.",
-          "journal": "Abriste la válvula oeste del trinquete central."
+          "text": "Sujetas la válvula oeste con ambas manos y giras poco a poco. Primero sale aire húmedo de la canaleta; luego un hilo de agua transparente rodea el eje. Bajo tus botas los contrapesos se equilibran con un temblor continuo. El último giro deja lista la tercera consola.",
+          "journal": "Abriste la válvula oeste y oíste el agua tomar su lugar entre los contrapesos."
         },
         {
           "id": "bastion_acoplar_mecanismo",
@@ -2681,8 +2684,8 @@
             "bastion_mecanismo_activado"
           ],
           "scope": "world",
-          "text": "Con las tres consolas activadas, empujas el perno central. La gran rueda de bronce gira con un movimiento majestuoso y pesado; los contrapesos suben al unísono y la monumental reja de barras dobles se eleva hacia el techo, despejando el paso hacia la galería de ecos.",
-          "journal": "Acoplaste el trinquete central y levantaste la reja monumental del Bastión."
+          "text": "Las tres consolas están preparadas. Empujas el perno central. Durante un instante no pasa nada. Entonces el golpe subterráneo se convierte en un giro que te hace vibrar los pies: un diente de granito alcanza al siguiente, los ejes tiran de los contrapesos y la rueda enorme empieza a moverse. Las barras dobles de la reja suben despacio, arrastrando una cortina de gotas. Cuando el último barrote desaparece en el techo, al oeste te espera un pasillo tan silencioso que parece haberse tragado todo el ruido.",
+          "journal": "Acoplaste el trinquete central. La rueda despertó, levantó la reja y dejó abierto un corredor donde no se oye el agua."
         },
         {
           "id": "bastion_consola_1_contrapeso",
@@ -2694,8 +2697,8 @@
             "bastion_trinquete_1"
           ],
           "scope": "world",
-          "text": "Sigues las marcas del brazo de palanca y deslizas el contrapeso hasta equilibrarlo. Empujas la palanca ya aligerada y fijas la primera consola.",
-          "journal": "Fijaste la palanca este del trinquete central.",
+          "text": "Sigues con la vista las marcas del brazo de palanca y deslizas el contrapeso sobre su guía. La resistencia cambia poco a poco. Cuando el peso queda equilibrado empujas con el hombro; el engranaje encaja con un golpe seco que se pierde bajo el suelo. La primera consola queda fija.",
+          "journal": "Equilibraste el contrapeso del este y fijaste la primera consola sin forzarla.",
           "requires_attribute": {
             "intelecto": 10
           }
@@ -2707,13 +2710,13 @@
       "name": "Galería de las Losas Sonoras",
       "region": "veyra",
       "kind": "interior",
-      "description": "Un corredor largo abovedado con sillares de piedra pulida. El suelo está formado por baldosas anchas separadas por acanaladuras. En el dintel de entrada hay una talla antigua de dos líneas paralelas que enmarcan un círculo. A mitad del pasillo se distinguen losas basculantes conectadas a alambres sonoros que hacen caer un rastrillo al oeste si se pisan en falso.",
-      "day": "La luz de los reflectores dibuja con claridad las dos líneas del dintel y las losas firmes.",
-      "night": "El silencio es absoluto; cada roce de bota produce un eco cristalino que se pierde al fondo.",
-      "rain": "La humedad acentúa el tono oscuro de las baldosas trampa frente al brillo de las líneas guía.",
+      "description": "La galería se extiende bajo una bóveda tan larga que no alcanzas a ver bien su final. Aquí no cae agua. Tampoco se oye la rueda que acabas de dejar atrás. Cada pisada vuelve desde las paredes en un sonido claro, casi como una campanita, y luego se apaga. El suelo tiene losas anchas separadas por canales finos. En el dintel de entrada, dos líneas rectas enmarcan un círculo: las líneas continúan sobre las piedras firmes de los lados; las losas del centro parecen descansar torcidas, apenas un dedo. Entre sus juntas brillan alambres tensados hacia un rastrillo al oeste. Hay arañazos largos en uno de los muros y manchas de vapor donde la piedra debería estar seca. Una gota suspendida de un alambre tiembla. Nada la ha tocado. Muy al fondo, detrás del rastrillo, algo grande acaba de mover el aire.",
+      "day": "La claridad que logra pasar desde la cámara del trinquete marca las dos hileras seguras del piso. En medio, los bordes irregulares arrojan sombras delgadas.",
+      "night": "Sin reflejos que te ayuden, cada movimiento se vuelve sonido. Hasta el roce de tu ropa regresa por la bóveda, y un segundo después llega un eco más hondo desde el oeste.",
+      "rain": "La humedad oscurece las losas del centro mientras las dos franjas firmes conservan un brillo pálido. Una gota se forma en cada alambre y tiembla sin caer.",
       "clear": "",
-      "return": "Las losas del corredor y la talla de dos líneas en el dintel conservan su advertencia.",
-      "brief": "La galería de losas sonoras con dintel de dos líneas paralelas.",
+      "return": "Sabes que las dos líneas del dintel no son adorno. También reconoces la pausa incómoda entre tus pasos y el eco profundo que llega del otro lado del rastrillo.",
+      "brief": "Un pasillo sin agua: las dos líneas del dintel guían entre losas que resuenan.",
       "exits": {
         "este": "veyra_mazmorra_mecanismo",
         "oeste": "veyra_mazmorra_boveda_guardian"
@@ -2727,17 +2730,19 @@
         }
       },
       "examine": {
-        "dintel": "Una talla clara muestra dos líneas rectas paralelas que guían hacia adelante, mientras un círculo fuera de ellas representa las losas que basculan.",
-        "losas": "Las baldosas situadas sobre las dos líneas rectas descansan en pilares sólidos; las centrales oscilan al pisarlas.",
-        "alambres": "Alambres delgados de bronce tensados entre las juntas de las piedras que accionan el rastrillo del oeste."
+        "dintel": "Pasas la mano por la talla. Dos líneas paralelas avanzan rectas; un círculo se aparta de ellas justo donde empiezan las losas que basculan. Las líneas no nombran al autor del aviso, pero sí muestran por dónde caminar.",
+        "losas": "Las baldosas de las dos franjas laterales descansan sobre piedra maciza. Las del centro están montadas sobre un eje: una se mueve apenas con la presión de tu pie y una nota fina cruza el pasillo. Más allá, otra losa sigue oscilando sola, muy despacio.",
+        "alambres": "Hilos delgados de bronce cruzan las juntas y llegan al rastrillo oeste. Algunos están tensos, otros vibran por una corriente de aire que viene de adelante. Una gota recorre el alambre más alto y se detiene antes de caer."
       },
-      "arrivals": {},
+      "arrivals": {
+        "veyra_mazmorra_mecanismo": "Atraviesas el hueco de la reja. A tus espaldas, el trinquete aún retumba; delante, el corredor absorbe su estruendo hasta dejarlo en nada. El primer paso suena seco. El segundo, como si alguien lo repitiera lejos de ti. Te detienes. Tu último eco da una vuelta más por la bóveda antes de desaparecer."
+      },
       "npcs": [],
       "signals": [
         {
           "creature": "quebrarrocas",
           "level": 9,
-          "text": "Un enorme Quebrarrocas de lomo de granito bloquea el pasillo frente al dintel, afirmando su mole de piedra con un eco sordo.",
+          "text": "El Quebrarrocas ocupa casi todo el ancho del corredor, con las placas de granito erizadas y las patas hundidas entre las juntas. En vez de embestir, apoya la cabeza en el suelo y escucha. Una vibración llega desde el oeste; sus piedras chocan unas con otras como dientes temblorosos. Entonces te ve, retrocede hacia las losas firmes y se planta allí, demasiado asustado para dejarte acercar.",
           "persistent_trace": false
         }
       ],
@@ -2752,8 +2757,8 @@
             "bastion_paso_ecos_seguro"
           ],
           "scope": "world",
-          "text": "Recuerdas la enseñanza de la talla: avanzas pisando exclusivamente sobre las losas alineadas con las dos líneas rectas y dejas intactas las baldosas basculantes del centro. Cruzas el corredor sin rozar un solo alambre y el rastrillo del oeste queda alzado.",
-          "journal": "Descifraste la talla de la doble línea para cruzar la galería de ecos con seguridad."
+          "text": "Recuerdas la talla del dintel y eliges las piedras alineadas con las dos líneas paralelas. Das un paso. El eco es corto, firme. Das otro sin pisar el centro. Los alambres siguen quietos. Cuando alcanzas el rastrillo oeste, una ráfaga tibia sale de la oscuridad y te despeina; el paso queda despejado sin que suene ninguna trampa.",
+          "journal": "Seguiste las dos líneas del dintel sin hacer bascular las losas. Tras el rastrillo llegó una corriente de aire tibio."
         },
         {
           "id": "bastion_desactivar_alambres",
@@ -2768,8 +2773,8 @@
             "bastion_paso_ecos_seguro"
           ],
           "scope": "world",
-          "text": "Te agachas junto a las juntas de piedra y con una varilla desenganchas los contrapesos de los alambres de aviso. Las losas quedan trabadas y el paso es seguro para todos.",
-          "journal": "Desactivaste los alambres de las losas sonoras con cuidado."
+          "text": "Te arrodillas junto a una junta de piedra. Deslizas la varilla por debajo del primer alambre; el metal canta una nota aguda que se alarga por toda la galería. Aguantas hasta que calla. Uno a uno sueltas los contrapesos de aviso y aseguras las losas que giraban. Al levantarte, el corredor ya no responde a tus pies con aquel tintineo peligroso.",
+          "journal": "Soltaste los alambres del rastrillo y aseguraste las losas del centro; el camino quedó firme para quienes lleguen después."
         }
       ]
     },
@@ -2778,13 +2783,13 @@
       "name": "Bóveda de las Aguas Antiguas",
       "region": "veyra",
       "kind": "interior",
-      "description": "Una inmensa cámara circular abovedada sostenida por doce arcos de sillar labrado. En el centro, un pedestal de piedra emerge de una cuenca profunda donde el agua de las acequias gira en remolinos cristalinos. El vapor fresco llena el aire con un rumor de cataratas. En el extremo norte se alza el gran portal de piedra que conduce al Sagrario de los Recorridos.",
-      "day": "Reflejos azulados de agua pura ascienden hasta la cúspide de la cúpula, donde el aire huele a lluvia limpia.",
-      "night": "La bóveda vibra con el eco sordo del agua en las compuertas; las losas mojadas brillan con suavidad.",
-      "rain": "El rumor de las compuertas profundas se intensifica con un murmullo majestuoso y fresco.",
+      "description": "La bóveda es tan vasta que los doce arcos de piedra se pierden en una neblina azul antes de juntarse sobre tu cabeza. Abajo, una cuenca profunda da vueltas alrededor de un pedestal, y en el centro del remolino el agua se hunde hacia el manantial oculto. Entonces una montaña de escamas se mueve sobre la piedra. No es una montaña: un dragón enorme tiene las alas plegadas como velas mojadas y la cola rodeada por el agua. Cada escama cambia del azul al verde y al violeta cuando los reflejos de la cuenca la alcanzan. Una vieja marca clara cruza una de sus crestas; al respirar, el pecho se alza con dificultad y de las fosas de su hocico brotan nubes tibias que empañan el suelo frío. Sus garras abrazan el borde del pedestal como si no quisiera soltar aquello que duerme debajo. Abre los ojos dorados y en ellos caben la luz del agua, tu figura diminuta y una vigilancia que parece llevar mucho tiempo sin descansar. A tu espalda el último eco se apaga; al norte, tras el dragón y el remolino, espera el portal de piedra del Sagrario.",
+      "day": "Una claridad lejana baja por grietas muy altas y convierte la niebla sobre el manantial en una nube azul. En las escamas del dragón pasan destellos que parecen peces diminutos.",
+      "night": "Las grietas altas se vuelven oscuras. Sólo los reflejos del remolino dibujan las alas replegadas y los ojos abiertos del guardián; cada respiración mueve las sombras de la bóveda.",
+      "rain": "El agua de los conductos profundos llega con más fuerza y levanta una corona de espuma alrededor del pedestal. El dragón aprieta las garras contra la piedra y sigue con la vista cada corriente nueva.",
       "clear": "",
-      "return": "La gran bóveda de las aguas antiguas se abre hacia el norte.",
-      "brief": "La inmensa bóveda circular de las aguas y sus doce arcos.",
+      "return": "El portal norte sigue detrás del manantial. Reconoces la respiración profunda del dragón antes de distinguir su figura; sabes también que el agua que mantiene bajo sus garras no está quieta.",
+      "brief": "Doce arcos, un manantial arremolinado y el dragón inmenso que vigila el pedestal.",
       "exits": {
         "este": "veyra_mazmorra_galeria_ecos",
         "norte": "veyra_mazmorra_recorridos_fin"
@@ -2798,17 +2803,19 @@
         }
       },
       "examine": {
-        "pedestal": "El estrado circular de sillar antiguo donde reposan las aguas canalizadas.",
-        "arcos": "Doce arcos monumentales que sostienen la cúpula sobre las cuencas profundas.",
-        "portal": "Un portal solemne de piedra tallada que da acceso al Sagrario de los Recorridos."
+        "pedestal": "Te asomas al borde. El pedestal nace de la misma piedra que rodea al manantial y tiene las orillas pulidas por agua y roce. Las marcas que dejó el peso del guardián forman surcos poco profundos. Bajo la superficie, el remolino empuja hacia salidas que no alcanzas a seguir.",
+        "arcos": "Cuentas doce arcos que se alzan desde el borde de la cuenca. Cerca del arranque de uno hay marcas largas y paralelas, muy arriba de tu cabeza. En otro, las gotas se levantan con cada resuello y caen todas juntas cuando el dragón guarda silencio.",
+        "portal": "El portal norte está detrás del pedestal, donde una franja de piedra clara separa la bóveda del Sagrario de los Recorridos. Una bruma cálida cruza su umbral; el guardián vigila ese paso sin apartarse del manantial."
       },
-      "arrivals": {},
+      "arrivals": {
+        "veyra_mazmorra_galeria_ecos": "Dejas atrás las losas sonoras y avanzas hacia el oeste. El corredor desciende; por primera vez en mucho rato la piedra bajo tus pies está tibia. Delante sale vapor de una grieta, luego de otra. Oyes agua girando con fuerza, pero encima de ella hay un sonido más lento: una inspiración enorme. La última curva se abre, el piso vibra y el aire húmedo te envuelve antes de que puedas ver la bóveda entera."
+      },
       "npcs": [],
       "signals": [
         {
           "creature": "dragon_aguas_antiguas",
           "level": 10,
-          "text": "El Dragón de las Aguas Antiguas reposa majestuoso sobre el pedestal central, con sus escamas tornasoladas brillando bajo el agua de la cúpula.",
+          "text": "El Dragón de las Aguas Antiguas levanta lentamente la cabeza. Una gota resbala de una de sus crestas antiguas y tarda varios latidos en tocar el agua. La cola cierra un poco más su círculo alrededor del manantial; sus ojos te siguen sin odio, pero tampoco con permiso. Cuando despliega una de las alas, el viento mueve el vapor y deja al descubierto una marca pálida en sus escamas. Está cansado de vigilar. No piensa apartarse.",
           "forbids_flags": [
             "dragon_vencido"
           ],

@@ -279,10 +279,10 @@ class Engine:
                     d_hp=world.get('creature_states',{}).get(f"{room['id']}:dragon_aguas_antiguas",{}).get('hp',m.PROFILES['dragon_aguas_antiguas']['hp'])
                     max_hp=m.PROFILES['dragon_aguas_antiguas']['hp']
                     if d_hp<max_hp:
-                        if d_hp>max_hp*.75:hp_s="El dragón tiene algunos rasguños leves en las escamas y vigila con recelo."
-                        elif d_hp>max_hp*.50:hp_s="El dragón respira con esfuerzo; mantiene las alas bajas y se mueve más despacio."
-                        elif d_hp>max_hp*.25:hp_s="El dragón está muy cansado y se apoya con esfuerzo sobre las piedras mojadas."
-                        else:hp_s="El dragón está muy maltrecho y apenas sostiene el peso; necesita descansar."
+                        if d_hp>max_hp*.75:hp_s="Algunas escamas del dragón han perdido su brillo. Mantiene la cola rodeando el manantial y sigue cada movimiento con sus ojos dorados."
+                        elif d_hp>max_hp*.50:hp_s="La respiración del dragón sacude el vapor a tirones. Una de sus alas queda baja, pero todavía se interpone entre tú y el manantial."
+                        elif d_hp>max_hp*.25:hp_s="El guardián necesita apoyar una garra contra el pedestal para levantarse. El agua tiembla bajo su pecho fatigado y su rugido sale más ronco."
+                        else:hp_s="El dragón ya no logra sostener las alas abiertas. Baja la cabeza sobre la piedra tibia, respira hondo y protege con la cola el último borde del manantial."
                         sig_text=f"{sig_text} {hp_s}"
                 layers['danger']=event('danger' if m.PROFILES.get(signal['creature'],{}).get('category') not in (None,'favorable') else 'trace',sig_text);break
         visits=state['visits'].get(room['id'],0)

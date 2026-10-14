@@ -664,7 +664,7 @@ PROFILES['dragon_aguas_antiguas'] = {
   'accuracy': 70,
   'interruptible': False,
   'frontal': True,
-  'tell': 'El dragón hincha el pecho y apunta hacia el frente con un rugido sordo: va a descargar un torrente frontal. La fuerza del agua no se puede interrumpir; una guardia frontal puede mitigar el impacto, o puedes esquivar o huir.'
+  'tell': 'El dragón abre el pecho entre sus alas y toma aire; el remolino se levanta frente a su hocico y las gotas tiemblan en los arcos. Va a lanzar un torrente frontal imposible de interrumpir: una guardia frontal reduce el golpe; también puedes esquivar o huir.'
  },
  'preparations': [
   {
@@ -673,7 +673,7 @@ PROFILES['dragon_aguas_antiguas'] = {
    'accuracy': 70,
    'interruptible': False,
    'frontal': True,
-   'tell': 'El dragón hincha el pecho y apunta hacia el frente con un rugido sordo: va a descargar un torrente frontal. La fuerza del agua no se puede interrumpir; una guardia frontal puede mitigar el impacto, o puedes esquivar o huir.'
+   'tell': 'El dragón abre el pecho entre sus alas y toma aire; el remolino se levanta frente a su hocico y las gotas tiemblan en los arcos. Va a lanzar un torrente frontal imposible de interrumpir: una guardia frontal reduce el golpe; también puedes esquivar o huir.'
   },
   {
    'id': 'coletazo_giratorio',
@@ -681,7 +681,7 @@ PROFILES['dragon_aguas_antiguas'] = {
    'accuracy': 65,
    'interruptible': True,
    'frontal': False,
-   'tell': 'El dragón arquea la cola por el suelo y tensa las ancas para un giro amplio. Puedes interrumpir su impulso con un tiro o un empuje arcano antes de que barra la sala, o esquivar.'
+   'tell': 'La cola rodea el pedestal, golpea una losa y salpica hasta el techo. Las alas se tensan: viene un barrido amplio. Puedes interrumpir el giro con un tiro o un empuje arcano antes de que alcance el suelo, o esquivar.'
   },
   {
    'id': 'embate_ciego',
@@ -689,21 +689,21 @@ PROFILES['dragon_aguas_antiguas'] = {
    'accuracy': 75,
    'interruptible': False,
    'frontal': False,
-   'tell': 'El dragón se agazapa y lanza un zarpazo curvo sin ángulo fijo. No es un ataque frontal ni se puede interrumpir: Sombra puede borrar el foco para que falle y ganar apertura, o puedes esquivar o huir.'
+   'tell': 'El dragón baja el cuello. Un rugido corta el aire y hace caer gotas del techo; su garra se abre para barrer sin rumbo fijo. No es frontal ni se puede interrumpir: Sombra puede borrar el foco y abrir una oportunidad; también puedes esquivar o huir.'
   }
  ]
 }
 CREATURE_PROSE['dragon_aguas_antiguas'] = {
  'hit': [
-  '{n} descarga un torrente de agua cristalina que te empuja contra el sillar',
-  'El ala pesada de {n} bate el aire y te golpea con un estruendo húmedo',
-  '{n} barre el suelo con la cola y te derriba sobre las losas mojadas',
-  '{n} lanza un zarpazo certero antes de volver a replegar sus alas'
+  'El pecho de {n} se ilumina bajo las escamas; un torrente te alcanza y te empuja contra las losas mojadas',
+  'El ala de {n} barre el vapor y su ráfaga te golpea antes de que puedas afirmarte',
+  'La cola de {n} sacude la cuenca, levanta una ola y te derriba sobre la piedra',
+  '{n} deja caer una garra enorme; el golpe te alcanza entre lluvia de gotas'
  ],
  'miss': [
-  'El torrente de agua de {n} choca contra la pared de piedra levantando una nube de espuma.',
-  'La cola de {n} pasa silbando sobre tu cabeza y sólo levanta agua de las cuencas.',
-  '{n} descarga un zarpazo, pero te apartas a tiempo y sus garras arañan el sillar mojado.'
+  'El torrente de {n} pasa junto a ti, golpea un arco y lo cubre de espuma; las gotas caen como lluvia.',
+  'La cola de {n} pasa por encima de ti; te agachas y una ola se deshace contra el pedestal.',
+  '{n} abre la garra en abanico. Alcanzas a apartarte y sus uñas arrancan chispas de la piedra húmeda.'
  ]
 }
 THREAT_OBSERVATIONS['dragon_aguas_antiguas'] = 'Observa las corrientes de vapor y el movimiento de sus aletas antes de cada ataque para anticipar su preparación.'
