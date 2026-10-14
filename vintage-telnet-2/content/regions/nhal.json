@@ -1176,7 +1176,8 @@
       "return": "En el borde de la mesa queda la marca redonda de un cuenco. El asiento junto a la raíz está libre.",
       "examine": {
         "techo": "La abertura saca humo y se ajusta cuando entra agua.",
-        "mesas": "Separan tierra de alimentos y conservan sitio para recibir a quien llega."
+        "mesas": "Separan tierra de alimentos y conservan sitio para recibir a quien llega.",
+        "sitio libre": "En el extremo de la mesa hay sitio para apoyar los codos sin mover los recipientes. Desde allí se puede acompañar a quien come sin ocupar su lugar. Una miga quedó justo donde una mano habría descansado."
       },
       "exits": {
         "oeste": "nhal_mercado_setas",
@@ -1212,6 +1213,24 @@
           ],
           "scope": "player",
           "text": "La cocinera te saluda con una seña amable hacia el banco de corteza. Te muestra dos hojas recogidas bajo el dosel: una tiene el nervio pálido y perfumado, mientras la otra es oscura y deja los dedos pegajosos. Te guía para apartar las oscuras hacia el barreño antes de que toquen el caldero. «Ya tienes ojo fino para la cocina de Velmora», dice con voz satisfecha mientras atiza las brasas."
+        },
+        {
+          "id": "nhal_bancos_comparar",
+          "label": "Comparar la pista: sitio libre",
+          "requires_flags": [
+            "nhal_bancos_pedido"
+          ],
+          "requires_examined": [
+            "sitio libre"
+          ],
+          "forbids_flags": [
+            "nhal_bancos_comparado"
+          ],
+          "set_flags": [
+            "nhal_bancos_comparado"
+          ],
+          "text": "Te detienes ante el sitio libre sin tocar la comida. No hay una hoja de relato esperando ni un nombre que completar. Allí estar con alguien ya tiene un lugar, aunque nadie cuente nada.",
+          "journal": "Te detienes ante el sitio libre sin tocar la comida. No hay una hoja de relato esperando ni un nombre que completar. Allí estar con alguien ya tiene un lugar, aunque nadie cuente nada."
         }
       ],
       "memories": [
@@ -1220,6 +1239,28 @@
             "nhal_caldo_cocina_conocido"
           ],
           "text": "El aroma cálido del caldero llena el cuarto bajo las raíces. La cocinera asiente al verte entrar, segura de que conoces el valor de un plato caliente en Velmora."
+        },
+        {
+          "requires_flags": [
+            "nhal_bancos_comparado"
+          ],
+          "forbids_flags": [
+            "nhal_bancos_circulo",
+            "nhal_bancos_rincon"
+          ],
+          "text": "Te detienes ante el sitio libre sin tocar la comida. No hay una hoja de relato esperando ni un nombre que completar. Allí estar con alguien ya tiene un lugar, aunque nadie cuente nada."
+        },
+        {
+          "requires_flags": [
+            "nhal_bancos_circulo"
+          ],
+          "text": "Recuerdas lo que decidiste con Leris. El asiento cercano tiene la hoja apartada y sitio para las manos. Leris invita a escuchar sin pedir una historia a cambio. El círculo conserva una entrada para quien llega cansado."
+        },
+        {
+          "requires_flags": [
+            "nhal_bancos_rincon"
+          ],
+          "text": "Recuerdas lo que decidiste con Leris. El banco del borde sigue dentro del patio y fuera de las preguntas. Leris lo señala como sitio para escuchar. Ya no cuenta ese hueco como si alguien hubiera faltado."
         }
       ],
       "states": [
@@ -1328,6 +1369,40 @@
           "text": "Leris deja un silencio corto antes de seguir. Conoces esa pausa desde pequeño: es el hueco que se guarda para quien todavía no ha contado su parte.",
           "journal": "Una historia puede guardar sitio para otra persona sin dejar de ser verdadera.",
           "scope": "player"
+        },
+        {
+          "id": "nhal_bancos_circulo",
+          "label": "Ofrecer asiento dentro del círculo, sin pedir relato",
+          "requires_flags": [
+            "nhal_bancos_observado"
+          ],
+          "requires_npc": "nhal_leris",
+          "forbids_flags": [
+            "nhal_bancos_circulo",
+            "nhal_bancos_rincon"
+          ],
+          "set_flags": [
+            "nhal_bancos_circulo"
+          ],
+          "text": "Le propones ofrecer el asiento cercano aclarando que escuchar basta. Leris prueba la invitación en voz baja antes de decirla de nuevo. «A veces yo también vengo cansada y quisiera que otra persona empezara». Deja la hoja a un lado del asiento, sin nombre pendiente. «En Lethra comparten mesas sobre el agua; me pregunto cómo invitan allí a quedarse».",
+          "journal": "Le propones ofrecer el asiento cercano aclarando que escuchar basta. Leris prueba la invitación en voz baja antes de decirla de nuevo. «A veces yo también vengo cansada y quisiera que otra persona empezara». Deja la hoja a un lado del asiento, sin nombre pendiente. «En Lethra comparten mesas sobre el agua; me pregunto cómo invitan allí a quedarse»."
+        },
+        {
+          "id": "nhal_bancos_rincon",
+          "label": "Reservar el banco del borde para escuchar sin preguntas",
+          "requires_flags": [
+            "nhal_bancos_observado"
+          ],
+          "requires_npc": "nhal_leris",
+          "forbids_flags": [
+            "nhal_bancos_circulo",
+            "nhal_bancos_rincon"
+          ],
+          "set_flags": [
+            "nhal_bancos_rincon"
+          ],
+          "text": "Le propones conservar un banco al borde como lugar de escucha sin preguntas. Leris deja de contar ese hueco como una ausencia. «A veces me siento allí antes de leer; necesito un rato para encontrar mi propia voz». No aparta el banco del patio, sólo deja de esperar palabras de quien lo use. «En Lethra también habrá quien prefiera oír el agua antes de sumarse a la mesa».",
+          "journal": "Le propones conservar un banco al borde como lugar de escucha sin preguntas. Leris deja de contar ese hueco como una ausencia. «A veces me siento allí antes de leer; necesito un rato para encontrar mi propia voz». No aparta el banco del patio, sólo deja de esperar palabras de quien lo use. «En Lethra también habrá quien prefiera oír el agua antes de sumarse a la mesa»."
         }
       ],
       "memories": [
@@ -1342,6 +1417,37 @@
             "nhal_recipiente_devuelto"
           ],
           "text": "El recipiente remendado está disponible para la próxima reunión. Su regreso permite otro uso, en vez de dejarlo para siempre como objeto de una historia."
+        },
+        {
+          "forbids_flags": [
+            "nhal_bancos_circulo",
+            "nhal_bancos_rincon"
+          ],
+          "text": "Leris cuenta los bancos del borde y vuelve a contar las hojas. Hay sitio libre, pero mira esos asientos como si faltara algo. «No sé si los dejo demasiado lejos o si estoy pidiendo demasiado a quien se sienta».",
+          "requires_npc": "nhal_leris"
+        },
+        {
+          "requires_flags": [
+            "nhal_bancos_pedido"
+          ],
+          "forbids_flags": [
+            "nhal_bancos_circulo",
+            "nhal_bancos_rincon"
+          ],
+          "text": "Leris cuenta los bancos del borde y vuelve a contar las hojas. Hay sitio libre, pero mira esos asientos como si faltara algo. «No sé si los dejo demasiado lejos o si estoy pidiendo demasiado a quien se sienta».",
+          "requires_npc": "nhal_leris"
+        },
+        {
+          "requires_flags": [
+            "nhal_bancos_circulo"
+          ],
+          "text": "El asiento cercano tiene la hoja apartada y sitio para las manos. Leris invita a escuchar sin pedir una historia a cambio. El círculo conserva una entrada para quien llega cansado."
+        },
+        {
+          "requires_flags": [
+            "nhal_bancos_rincon"
+          ],
+          "text": "El banco del borde sigue dentro del patio y fuera de las preguntas. Leris lo señala como sitio para escuchar. Ya no cuenta ese hueco como si alguien hubiera faltado."
         }
       ],
       "states": [
@@ -1520,6 +1626,13 @@
             "atardecer"
           ],
           "text": "Sobre la piedra del claro está la figura de corteza, mirando la abertura del cielo. Tiene al lado una hoja doblada, como una manta."
+        },
+        "hoja doblada": "La hoja doblada cabe sobre la piedra sin tapar el asiento de raíz. No tiene letras; el pliegue mantiene juntas dos mitades desiguales. Quien pare aquí no necesita dejar una explicación.",
+        "broma pequeña": {
+          "requires_flags": [
+            "nhal_bancos_observado"
+          ],
+          "text": "En la hoja doblada hay un dibujo minúsculo de un banco con raíces en vez de patas. Debajo pone: «Éste sí que no se levanta durante el relato». La broma cabe entera bajo el pliegue."
         }
       },
       "exits": {
@@ -1564,6 +1677,50 @@
           "discover_rooms": [
             "nhal_raiz_marcada"
           ]
+        },
+        {
+          "id": "nhal_bancos_observar_day",
+          "label": "Detenerse a observar: hoja doblada",
+          "requires_flags": [
+            "nhal_bancos_comparado"
+          ],
+          "requires_examined": [
+            "hoja doblada"
+          ],
+          "requires_time": [
+            "amanecer",
+            "día"
+          ],
+          "forbids_flags": [
+            "nhal_bancos_observado"
+          ],
+          "set_flags": [
+            "nhal_bancos_observado"
+          ],
+          "text": "La luz cae sobre la piedra mientras el asiento de raíz queda a un lado. Puedes mirar el claro sin ponerte en su centro. Piensas en los bancos de Leris: acercarse no siempre significa querer hablar.",
+          "journal": "La luz cae sobre la piedra mientras el asiento de raíz queda a un lado. Puedes mirar el claro sin ponerte en su centro. Piensas en los bancos de Leris: acercarse no siempre significa querer hablar."
+        },
+        {
+          "id": "nhal_bancos_observar_night",
+          "label": "Detenerse a observar: hoja doblada",
+          "requires_flags": [
+            "nhal_bancos_comparado"
+          ],
+          "requires_examined": [
+            "hoja doblada"
+          ],
+          "requires_time": [
+            "atardecer",
+            "noche"
+          ],
+          "forbids_flags": [
+            "nhal_bancos_observado"
+          ],
+          "set_flags": [
+            "nhal_bancos_observado"
+          ],
+          "text": "La piedra apenas se distingue y las hojas caen fuera de la luz del pueblo. El asiento sigue siendo un sitio donde parar sin anunciarse. Piensas en Leris contando bancos: un hueco también puede servirle a alguien.",
+          "journal": "La piedra apenas se distingue y las hojas caen fuera de la luz del pueblo. El asiento sigue siendo un sitio donde parar sin anunciarse. Piensas en Leris contando bancos: un hueco también puede servirle a alguien."
         }
       ],
       "wildlife_pool": [
@@ -1634,6 +1791,30 @@
           "item": "setas_bosque",
           "text": "Junto a la raíz-asiento han brotado setas firmes.",
           "chance": 0.5
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "nhal_bancos_observado"
+          ],
+          "forbids_flags": [
+            "nhal_bancos_circulo",
+            "nhal_bancos_rincon"
+          ],
+          "text": "La hoja doblada cabe sobre la piedra sin tapar el asiento de raíz. No tiene letras; el pliegue mantiene juntas dos mitades desiguales. Quien pare aquí no necesita dejar una explicación."
+        },
+        {
+          "requires_flags": [
+            "nhal_bancos_circulo"
+          ],
+          "text": "Recuerdas lo que decidiste con Leris. El asiento cercano tiene la hoja apartada y sitio para las manos. Leris invita a escuchar sin pedir una historia a cambio. El círculo conserva una entrada para quien llega cansado."
+        },
+        {
+          "requires_flags": [
+            "nhal_bancos_rincon"
+          ],
+          "text": "Recuerdas lo que decidiste con Leris. El banco del borde sigue dentro del patio y fuera de las preguntas. Leris lo señala como sitio para escuchar. Ya no cuenta ese hueco como si alguien hubiera faltado."
         }
       ]
     },
@@ -2394,6 +2575,18 @@
             "sec_v_pausa"
           ],
           "text": "Reconociste la pausa. Entonces ya sabes que este relato no está cerrado. Cuando tengas tu parte, aquí habrá sitio para ella."
+        },
+        "un sitio sin tener que hablar": {
+          "text": "Me preocupa ver vacíos los bancos del borde. Quizá quien llega sólo quiere descansar y yo ya estoy esperando su historia. Mira el sitio libre de las mesas en la Cocina del bosque y la hoja doblada del Claro tranquilo. Después ayúdame a elegir: ofrecer un asiento dentro del círculo o reservar un rincón para escuchar sin preguntas.",
+          "set_flags": [
+            "nhal_bancos_pedido"
+          ],
+          "forbids_flags": [
+            "nhal_bancos_pedido",
+            "nhal_bancos_circulo",
+            "nhal_bancos_rincon"
+          ],
+          "journal": "Leris cuenta los bancos del borde y vuelve a contar las hojas. Hay sitio libre, pero mira esos asientos como si faltara algo. «No sé si los dejo demasiado lejos o si estoy pidiendo demasiado a quien se sienta»."
         }
       },
       "day": "Reúne voces y prepara hojas para una conversación.",
@@ -2401,9 +2594,20 @@
       "memory": {
         "nhal_voz_escuchada": "Leris sabe que escuchaste a Elin, pero espera que atribuyas la observación antes de escribirla.",
         "nhal_relato_ampliado": "Leris lee ahora el raspón como parte de una entrega de comida. El relato ganó una persona y un gesto, no una hazaña inventada.",
-        "hallazgo:rama_flexible": "«Las ramas flexibles sirven para dar forma a los aros. Si conservaste la que encontraste, no tendrás que buscar otra para un trabajo pequeño.»"
+        "hallazgo:rama_flexible": "«Las ramas flexibles sirven para dar forma a los aros. Si conservaste la que encontraste, no tendrás que buscar otra para un trabajo pequeño.»",
+        "nhal_bancos_circulo": "El asiento cercano tiene la hoja apartada y sitio para las manos. Leris invita a escuchar sin pedir una historia a cambio. El círculo conserva una entrada para quien llega cansado.",
+        "nhal_bancos_rincon": "El banco del borde sigue dentro del patio y fuera de las preguntas. Leris lo señala como sitio para escuchar. Ya no cuenta ese hueco como si alguien hubiera faltado."
       },
       "states": [
+        {
+          "forbids_flags": [
+            "nhal_bancos_circulo",
+            "nhal_bancos_rincon"
+          ],
+          "overrides": {
+            "description": "Leris cuenta los bancos del borde y vuelve a contar las hojas. Hay sitio libre, pero mira esos asientos como si faltara algo. «No sé si los dejo demasiado lejos o si estoy pidiendo demasiado a quien se sienta»."
+          }
+        },
         {
           "requires_flags": [
             "nhal_relato_ampliado"
@@ -2416,6 +2620,28 @@
             "memory": {
               "nhal_voz_escuchada": "Leris conserva la voz de Elin en la hoja, junto a la reparación. «La cena y la puerta ya tienen quien las cuente; no volveré a dejar fuera esa parte.»",
               "nhal_relato_ampliado": "Leris lee ahora el raspón como parte de una entrega de comida. El relato ganó una persona y un gesto, no una hazaña inventada."
+            }
+          }
+        },
+        {
+          "requires_flags": [
+            "nhal_bancos_circulo"
+          ],
+          "overrides": {
+            "description": "El asiento cercano tiene la hoja apartada y sitio para las manos. Leris invita a escuchar sin pedir una historia a cambio. El círculo conserva una entrada para quien llega cansado.",
+            "topics": {
+              "un sitio sin tener que hablar": "Le propones ofrecer el asiento cercano aclarando que escuchar basta. Leris prueba la invitación en voz baja antes de decirla de nuevo. «A veces yo también vengo cansada y quisiera que otra persona empezara». Deja la hoja a un lado del asiento, sin nombre pendiente. «En Lethra comparten mesas sobre el agua; me pregunto cómo invitan allí a quedarse»."
+            }
+          }
+        },
+        {
+          "requires_flags": [
+            "nhal_bancos_rincon"
+          ],
+          "overrides": {
+            "description": "El banco del borde sigue dentro del patio y fuera de las preguntas. Leris lo señala como sitio para escuchar. Ya no cuenta ese hueco como si alguien hubiera faltado.",
+            "topics": {
+              "un sitio sin tener que hablar": "Le propones conservar un banco al borde como lugar de escucha sin preguntas. Leris deja de contar ese hueco como una ausencia. «A veces me siento allí antes de leer; necesito un rato para encontrar mi propia voz». No aparta el banco del patio, sólo deja de esperar palabras de quien lo use. «En Lethra también habrá quien prefiera oír el agua antes de sumarse a la mesa»."
             }
           }
         }
@@ -2585,6 +2811,34 @@
         "nhal_figura_firme"
       ],
       "source": "Historia original nueva autorizada"
+    },
+    "nhal_bancos": {
+      "id": "nhal_bancos",
+      "title": "Un sitio sin tener que hablar",
+      "premise": "Leris cuenta los bancos del borde y vuelve a contar las hojas. Hay sitio libre, pero mira esos asientos como si faltara algo. «No sé si los dejo demasiado lejos o si estoy pidiendo demasiado a quien se sienta».",
+      "steps": [
+        {
+          "flag": "nhal_bancos_pedido",
+          "text": "Me preocupa ver vacíos los bancos del borde. Quizá quien llega sólo quiere descansar y yo ya estoy esperando su historia. Mira el sitio libre de las mesas en la Cocina del bosque y la hoja doblada del Claro tranquilo. Después ayúdame a elegir: ofrecer un asiento dentro del círculo o reservar un rincón para escuchar sin preguntas."
+        },
+        {
+          "flag": "nhal_bancos_comparado",
+          "text": "Te detienes ante el sitio libre sin tocar la comida. No hay una hoja de relato esperando ni un nombre que completar. Allí estar con alguien ya tiene un lugar, aunque nadie cuente nada."
+        },
+        {
+          "flag": "nhal_bancos_observado",
+          "text": "La hoja doblada cabe sobre la piedra sin tapar el asiento de raíz. No tiene letras; el pliegue mantiene juntas dos mitades desiguales. Quien pare aquí no necesita dejar una explicación."
+        },
+        {
+          "flag": "nhal_bancos_circulo",
+          "text": "Le propones ofrecer el asiento cercano aclarando que escuchar basta. Leris prueba la invitación en voz baja antes de decirla de nuevo. «A veces yo también vengo cansada y quisiera que otra persona empezara». Deja la hoja a un lado del asiento, sin nombre pendiente. «En Lethra comparten mesas sobre el agua; me pregunto cómo invitan allí a quedarse»."
+        },
+        {
+          "flag": "nhal_bancos_rincon",
+          "text": "Le propones conservar un banco al borde como lugar de escucha sin preguntas. Leris deja de contar ese hueco como una ausencia. «A veces me siento allí antes de leer; necesito un rato para encontrar mi propia voz». No aparta el banco del patio, sólo deja de esperar palabras de quien lo use. «En Lethra también habrá quien prefiera oír el agua antes de sumarse a la mesa»."
+        }
+      ],
+      "source": "Encargo explícito de Javier: arcos regionales de descubrimiento, 2026-10-13."
     }
   }
 }

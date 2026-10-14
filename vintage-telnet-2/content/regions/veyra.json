@@ -323,7 +323,8 @@
       "return": "Reconoces las sogas cortas de la gente de la piedra y las cubiertas anchas del campo. Junto al alero esperan los bultos pequeños de la sierra.",
       "examine": {
         "juntas": "Las reparaciones forman capas sucesivas. La plaza es posterior a las piedras del núcleo antiguo.",
-        "avisos": "Un aviso distingue carga detenida de carga perdida: no encontrar un envío al mediodía no prueba que alguien lo haya robado."
+        "avisos": "Un aviso distingue carga detenida de carga perdida: no encontrar un envío al mediodía no prueba que alguien lo haya robado.",
+        "letra apretada": "Las últimas palabras se amontonan contra el borde. Si tapas el principio con un dedo, el final parece otro recado. La tabla es corta; las palabras no se vuelven menos importantes por quedar abajo."
       },
       "exits": {
         "sur": "vaisgard_mercado",
@@ -339,7 +340,26 @@
       },
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "veyra_recados_comparar",
+          "label": "Comparar la pista: letra apretada",
+          "requires_flags": [
+            "veyra_recados_pedido"
+          ],
+          "requires_examined": [
+            "letra apretada"
+          ],
+          "forbids_flags": [
+            "veyra_recados_comparado"
+          ],
+          "set_flags": [
+            "veyra_recados_comparado"
+          ],
+          "text": "Sigues una línea de principio a fin sin saltarte el borde. El recado distingue una espera de una llegada, pero la letra apretada esconde la diferencia. Arel necesita que se entienda la frase completa, no una voz más fuerte.",
+          "journal": "Sigues una línea de principio a fin sin saltarte el borde. El recado distingue una espera de una llegada, pero la letra apretada esconde la diferencia. Arel necesita que se entienda la frase completa, no una voz más fuerte."
+        }
+      ],
       "dawn": "Los mensajeros comparan destinos antes de que la plaza reciba carros. Quienes han dormido en los patios ajustan cubiertas mirando el cielo.",
       "dusk": "Las cargas que llegan tarde buscan patio antes de preguntar por el mercado. Un mensajero lee su último papel junto al muro oriental.",
       "weather": {
@@ -450,7 +470,31 @@
           ]
         }
       ],
-      "max_layers": 4
+      "max_layers": 4,
+      "memories": [
+        {
+          "requires_flags": [
+            "veyra_recados_comparado"
+          ],
+          "forbids_flags": [
+            "veyra_recados_copia",
+            "veyra_recados_turnos"
+          ],
+          "text": "Sigues una línea de principio a fin sin saltarte el borde. El recado distingue una espera de una llegada, pero la letra apretada esconde la diferencia. Arel necesita que se entienda la frase completa, no una voz más fuerte."
+        },
+        {
+          "requires_flags": [
+            "veyra_recados_copia"
+          ],
+          "text": "Recuerdas lo que decidiste con Arel. Junto al original hay una copia de líneas espaciadas. Arel deja leer sin apresurar el último renglón y ofrece su voz a quien la necesita. Su garganta descansa entre preguntas."
+        },
+        {
+          "requires_flags": [
+            "veyra_recados_turnos"
+          ],
+          "text": "Recuerdas lo que decidiste con Arel. Arel espera a que termine una conversación antes de empezar su lectura. La tablilla sigue disponible junto al banco. El final del recado llega con la misma voz que el principio."
+        }
+      ]
     },
     "veyra_calle_toldos": {
       "id": "veyra_calle_toldos",
@@ -778,6 +822,40 @@
           "scope": "player",
           "text": "Buscas en el suelo una piedra pequeña y lisa y la dejas con las demás, al fondo del hueco. Al sacar la mano notas que la pared antigua está fría, aunque el patio esté al sol.",
           "journal": "Dejaste una piedrecita en el hueco de la pared antigua del patio de mensajes."
+        },
+        {
+          "id": "veyra_recados_copia",
+          "label": "Proponer una copia con líneas espaciadas",
+          "requires_flags": [
+            "veyra_recados_observado"
+          ],
+          "requires_npc": "veyra_arel",
+          "forbids_flags": [
+            "veyra_recados_copia",
+            "veyra_recados_turnos"
+          ],
+          "set_flags": [
+            "veyra_recados_copia"
+          ],
+          "text": "Le propones copiar el recado con espacio entre las líneas, sin abreviarlo. Arel prepara una hoja de sus recados ordinarios y deja el original al lado. «Me gustaba repetirlos porque así nadie tenía que decirme que le costaba leer». La copia permite detenerse sin perder el final; ella sigue disponible para quien necesite oírlo. «En Korven anotan hasta lo que falta saber; quisiera ver cómo les cabe».",
+          "journal": "Le propones copiar el recado con espacio entre las líneas, sin abreviarlo. Arel prepara una hoja de sus recados ordinarios y deja el original al lado. «Me gustaba repetirlos porque así nadie tenía que decirme que le costaba leer». La copia permite detenerse sin perder el final; ella sigue disponible para quien necesite oírlo. «En Korven anotan hasta lo que falta saber; quisiera ver cómo les cabe»."
+        },
+        {
+          "id": "veyra_recados_turnos",
+          "label": "Proponer lecturas por turnos sin gritar",
+          "requires_flags": [
+            "veyra_recados_observado"
+          ],
+          "requires_npc": "veyra_arel",
+          "forbids_flags": [
+            "veyra_recados_copia",
+            "veyra_recados_turnos"
+          ],
+          "set_flags": [
+            "veyra_recados_turnos"
+          ],
+          "text": "Le propones leer el recado entero por turnos, esperando a que se acerquen quienes quieran oírlo. Arel prueba una vez sin alzar la voz. «No me cansaba repetirlo; me cansaba ver marcharse a alguien antes del final». Conserva la tablilla para quien prefiera leer y reserva pausas entre lecturas. «En Korven distinguen lo que oyen de lo que suponen; me gustaría saber cómo lo escriben».",
+          "journal": "Le propones leer el recado entero por turnos, esperando a que se acerquen quienes quieran oírlo. Arel prueba una vez sin alzar la voz. «No me cansaba repetirlo; me cansaba ver marcharse a alguien antes del final». Conserva la tablilla para quien prefiera leer y reserva pausas entre lecturas. «En Korven distinguen lo que oyen de lo que suponen; me gustaría saber cómo lo escriben»."
         }
       ],
       "memories": [
@@ -786,6 +864,37 @@
             "veyra_mensaje_atribuido"
           ],
           "text": "La tablilla del agua queda atribuida al desagüe sureste. Las demás rutas no cargan ahora con el rumor de una condición que nadie observó allí."
+        },
+        {
+          "forbids_flags": [
+            "veyra_recados_copia",
+            "veyra_recados_turnos"
+          ],
+          "text": "Arel se frota la garganta después de repetir un recado. En una tablilla, las últimas palabras apenas caben. «No quiero que alguien se marche con media frase sólo porque yo ya estoy ronca».",
+          "requires_npc": "veyra_arel"
+        },
+        {
+          "requires_flags": [
+            "veyra_recados_pedido"
+          ],
+          "forbids_flags": [
+            "veyra_recados_copia",
+            "veyra_recados_turnos"
+          ],
+          "text": "Arel se frota la garganta después de repetir un recado. En una tablilla, las últimas palabras apenas caben. «No quiero que alguien se marche con media frase sólo porque yo ya estoy ronca».",
+          "requires_npc": "veyra_arel"
+        },
+        {
+          "requires_flags": [
+            "veyra_recados_copia"
+          ],
+          "text": "Junto al original hay una copia de líneas espaciadas. Arel deja leer sin apresurar el último renglón y ofrece su voz a quien la necesita. Su garganta descansa entre preguntas."
+        },
+        {
+          "requires_flags": [
+            "veyra_recados_turnos"
+          ],
+          "text": "Arel espera a que termine una conversación antes de empezar su lectura. La tablilla sigue disponible junto al banco. El final del recado llega con la misma voz que el principio."
         }
       ],
       "states": [
@@ -989,7 +1098,14 @@
       "return": "La tabla junto al bancal separa la tierra oscura del polvo seco.",
       "examine": {
         "tabla": "Puedes colocarla para llevar agua a la parcela o dejarla correr por el canal.",
-        "cesto": "Su fondo cedió por desgaste. La reparación requiere paciencia y una unión limpia."
+        "cesto": "Su fondo cedió por desgaste. La reparación requiere paciencia y una unión limpia.",
+        "reverso de tabla": "El reverso de la tabla tiene una franja limpia sin tierra. Cabe una línea separada de la siguiente. Se puede dejar espacio para leer sin añadir nada a lo que dice un mensaje.",
+        "broma pequeña": {
+          "requires_flags": [
+            "veyra_recados_observado"
+          ],
+          "text": "En una esquina del reverso hay un caracol dibujado junto a un aviso: «Llego cuando llegue». La flecha apunta al rastro de tierra, no a ninguna ruta. Por una vez, el remitente no promete una hora."
+        }
       },
       "exits": {
         "norte": "veyra_patio_agua",
@@ -1014,6 +1130,50 @@
           ],
           "scope": "world",
           "journal": "Dejé la tabla de la huerta de Vaisgard encajada para dirigir un hilo de agua al bancal."
+        },
+        {
+          "id": "veyra_recados_observar_day",
+          "label": "Detenerse a observar: reverso de tabla",
+          "requires_flags": [
+            "veyra_recados_comparado"
+          ],
+          "requires_examined": [
+            "reverso de tabla"
+          ],
+          "requires_time": [
+            "amanecer",
+            "día"
+          ],
+          "forbids_flags": [
+            "veyra_recados_observado"
+          ],
+          "set_flags": [
+            "veyra_recados_observado"
+          ],
+          "text": "Junto a la tabla oyes voces de trabajo que se pisan y luego dejan una pausa. Una frase corta cabe en ese hueco sin gritar. Llevarás a Arel dos posibilidades: separar líneas o esperar turnos.",
+          "journal": "Junto a la tabla oyes voces de trabajo que se pisan y luego dejan una pausa. Una frase corta cabe en ese hueco sin gritar. Llevarás a Arel dos posibilidades: separar líneas o esperar turnos."
+        },
+        {
+          "id": "veyra_recados_observar_night",
+          "label": "Detenerse a observar: reverso de tabla",
+          "requires_flags": [
+            "veyra_recados_comparado"
+          ],
+          "requires_examined": [
+            "reverso de tabla"
+          ],
+          "requires_time": [
+            "atardecer",
+            "noche"
+          ],
+          "forbids_flags": [
+            "veyra_recados_observado"
+          ],
+          "set_flags": [
+            "veyra_recados_observado"
+          ],
+          "text": "Los ruidos de la huerta llegan separados por pausas largas. Una voz no tendría que pelearse con todas a la vez. Llevarás a Arel dos posibilidades: separar líneas o esperar turnos.",
+          "journal": "Los ruidos de la huerta llegan separados por pausas largas. Una voz no tendría que pelearse con todas a la vez. Llevarás a Arel dos posibilidades: separar líneas o esperar turnos."
         }
       ],
       "wildlife_pool": [
@@ -1067,7 +1227,31 @@
       ],
       "dawn": "La vecina levanta una hoja mojada para revisar el envés. El niño llega con un cesto vacío y espera a que le señalen qué frutos puede coger.",
       "dusk": "El niño lleva el cesto bajo el brazo. La vecina deja las hojas revisadas en su sitio y recoge las herramientas junto al primer escalón.",
-      "brief": "La huerta bajo las escaleras, con sus bancales estrechos."
+      "brief": "La huerta bajo las escaleras, con sus bancales estrechos.",
+      "memories": [
+        {
+          "requires_flags": [
+            "veyra_recados_observado"
+          ],
+          "forbids_flags": [
+            "veyra_recados_copia",
+            "veyra_recados_turnos"
+          ],
+          "text": "El reverso de la tabla tiene una franja limpia sin tierra. Cabe una línea separada de la siguiente. Se puede dejar espacio para leer sin añadir nada a lo que dice un mensaje."
+        },
+        {
+          "requires_flags": [
+            "veyra_recados_copia"
+          ],
+          "text": "Recuerdas lo que decidiste con Arel. Junto al original hay una copia de líneas espaciadas. Arel deja leer sin apresurar el último renglón y ofrece su voz a quien la necesita. Su garganta descansa entre preguntas."
+        },
+        {
+          "requires_flags": [
+            "veyra_recados_turnos"
+          ],
+          "text": "Recuerdas lo que decidiste con Arel. Arel espera a que termine una conversación antes de empezar su lectura. La tablilla sigue disponible junto al banco. El final del recado llega con la misma voz que el principio."
+        }
+      ]
     },
     "veyra_colina_vista": {
       "id": "veyra_colina_vista",
@@ -2180,6 +2364,18 @@
             "pista_talla"
           ],
           "text": "Dos líneas y un círculo... Es una marca de camino de los Vesperi, muy vieja. Yo puedo copiarla, pero copiar una marca no significa saber quién la cuida ni cómo se usa. Eso hay que preguntarlo en Velmora."
+        },
+        "decirlo una sola vez": {
+          "text": "Hoy he repetido el mismo recado tantas veces que ya me raspa la garganta. No es urgente, pero nadie alcanza el final entre las voces. Mira la letra apretada de los avisos de la Plaza de las Cinco Rutas y el reverso de la tabla de la Huerta bajo las Escaleras. Luego elegimos: una copia espaciada para leer a solas o una lectura por turnos aquí, sin gritar.",
+          "set_flags": [
+            "veyra_recados_pedido"
+          ],
+          "forbids_flags": [
+            "veyra_recados_pedido",
+            "veyra_recados_copia",
+            "veyra_recados_turnos"
+          ],
+          "journal": "Arel se frota la garganta después de repetir un recado. En una tablilla, las últimas palabras apenas caben. «No quiero que alguien se marche con media frase sólo porque yo ya estoy ronca»."
         }
       },
       "day": "Recibe recados junto al armazón.",
@@ -2189,8 +2385,43 @@
         "hallazgo:cuerda_recuperada": "Reconoce lo que llevas: «Trozo de cuerda. Es de por aquí; mira el suelo cuando vuelvas a pasar.»",
         "encargo_veyra_aviso_preciso": "Arel conserva tu aviso con la fuente y la causa de la demora. «Así no enviamos un miedo distinto por cada camino.»",
         "encargo_veyra_aviso_comprobar": "Arel sabe que preferiste confirmar con Tov antes de alterar la lista de llegadas.",
-        "encargo_pagado:vaisgard_aviso_carga": "Arel muestra la copia del aviso que llevaste. «Tov, puerta de piedra, separador roto. Nera conserva la procedencia.»"
-      }
+        "encargo_pagado:vaisgard_aviso_carga": "Arel muestra la copia del aviso que llevaste. «Tov, puerta de piedra, separador roto. Nera conserva la procedencia.»",
+        "veyra_recados_copia": "Junto al original hay una copia de líneas espaciadas. Arel deja leer sin apresurar el último renglón y ofrece su voz a quien la necesita. Su garganta descansa entre preguntas.",
+        "veyra_recados_turnos": "Arel espera a que termine una conversación antes de empezar su lectura. La tablilla sigue disponible junto al banco. El final del recado llega con la misma voz que el principio."
+      },
+      "states": [
+        {
+          "forbids_flags": [
+            "veyra_recados_copia",
+            "veyra_recados_turnos"
+          ],
+          "overrides": {
+            "description": "Arel se frota la garganta después de repetir un recado. En una tablilla, las últimas palabras apenas caben. «No quiero que alguien se marche con media frase sólo porque yo ya estoy ronca»."
+          }
+        },
+        {
+          "requires_flags": [
+            "veyra_recados_copia"
+          ],
+          "overrides": {
+            "description": "Junto al original hay una copia de líneas espaciadas. Arel deja leer sin apresurar el último renglón y ofrece su voz a quien la necesita. Su garganta descansa entre preguntas.",
+            "topics": {
+              "decirlo una sola vez": "Le propones copiar el recado con espacio entre las líneas, sin abreviarlo. Arel prepara una hoja de sus recados ordinarios y deja el original al lado. «Me gustaba repetirlos porque así nadie tenía que decirme que le costaba leer». La copia permite detenerse sin perder el final; ella sigue disponible para quien necesite oírlo. «En Korven anotan hasta lo que falta saber; quisiera ver cómo les cabe»."
+            }
+          }
+        },
+        {
+          "requires_flags": [
+            "veyra_recados_turnos"
+          ],
+          "overrides": {
+            "description": "Arel espera a que termine una conversación antes de empezar su lectura. La tablilla sigue disponible junto al banco. El final del recado llega con la misma voz que el principio.",
+            "topics": {
+              "decirlo una sola vez": "Le propones leer el recado entero por turnos, esperando a que se acerquen quienes quieran oírlo. Arel prueba una vez sin alzar la voz. «No me cansaba repetirlo; me cansaba ver marcharse a alguien antes del final». Conserva la tablilla para quien prefiera leer y reserva pausas entre lecturas. «En Korven distinguen lo que oyen de lo que suponen; me gustaría saber cómo lo escriben»."
+            }
+          }
+        }
+      ]
     },
     "veyra_bela": {
       "id": "veyra_bela",
@@ -2241,6 +2472,34 @@
         }
       ],
       "source": "Ampliación autorizada: trabajo y memoria social de Vaisgard."
+    },
+    "veyra_recados": {
+      "id": "veyra_recados",
+      "title": "Decirlo una sola vez",
+      "premise": "Arel se frota la garganta después de repetir un recado. En una tablilla, las últimas palabras apenas caben. «No quiero que alguien se marche con media frase sólo porque yo ya estoy ronca».",
+      "steps": [
+        {
+          "flag": "veyra_recados_pedido",
+          "text": "Hoy he repetido el mismo recado tantas veces que ya me raspa la garganta. No es urgente, pero nadie alcanza el final entre las voces. Mira la letra apretada de los avisos de la Plaza de las Cinco Rutas y el reverso de la tabla de la Huerta bajo las Escaleras. Luego elegimos: una copia espaciada para leer a solas o una lectura por turnos aquí, sin gritar."
+        },
+        {
+          "flag": "veyra_recados_comparado",
+          "text": "Sigues una línea de principio a fin sin saltarte el borde. El recado distingue una espera de una llegada, pero la letra apretada esconde la diferencia. Arel necesita que se entienda la frase completa, no una voz más fuerte."
+        },
+        {
+          "flag": "veyra_recados_observado",
+          "text": "El reverso de la tabla tiene una franja limpia sin tierra. Cabe una línea separada de la siguiente. Se puede dejar espacio para leer sin añadir nada a lo que dice un mensaje."
+        },
+        {
+          "flag": "veyra_recados_copia",
+          "text": "Le propones copiar el recado con espacio entre las líneas, sin abreviarlo. Arel prepara una hoja de sus recados ordinarios y deja el original al lado. «Me gustaba repetirlos porque así nadie tenía que decirme que le costaba leer». La copia permite detenerse sin perder el final; ella sigue disponible para quien necesite oírlo. «En Korven anotan hasta lo que falta saber; quisiera ver cómo les cabe»."
+        },
+        {
+          "flag": "veyra_recados_turnos",
+          "text": "Le propones leer el recado entero por turnos, esperando a que se acerquen quienes quieran oírlo. Arel prueba una vez sin alzar la voz. «No me cansaba repetirlo; me cansaba ver marcharse a alguien antes del final». Conserva la tablilla para quien prefiera leer y reserva pausas entre lecturas. «En Korven distinguen lo que oyen de lo que suponen; me gustaría saber cómo lo escriben»."
+        }
+      ],
+      "source": "Encargo explícito de Javier: arcos regionales de descubrimiento, 2026-10-13."
     }
   }
 }
