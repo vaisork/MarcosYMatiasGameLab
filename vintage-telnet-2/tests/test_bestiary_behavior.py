@@ -52,7 +52,8 @@ class BestiaryBehaviorTests(unittest.TestCase):
   self.prepare();self.action('mirar');char=self.raw();world={'flags':[],'deaths':{}}
   room=self.engine.content.rooms['lethra_juncal_abierto']
   room['adversary_prose']={self.cid:{'warning':'Dato local de prueba.'}}
-  for expected in (['Dato local de prueba.'],['Dato local de prueba.']):
+  nxt=[self.engine.content.creatures[self.cid][f] for f in ('presagio','habitat') if self.engine.content.creatures[self.cid].get(f)][:1]
+  for expected in (['Dato local de prueba.'],['Dato local de prueba.']+nxt):
    self.engine.apply(char,world,{'id':'examinar_criatura','target':self.cid})
    self.assertEqual(char['state']['bestiary'][self.cid]['behavior'],expected)
   world['deaths']['lethra_juncal_abierto:pinzajunco']=self.clock.now+300
