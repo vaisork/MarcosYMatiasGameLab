@@ -32,6 +32,7 @@ def allowed(item,state,world):
  return (set(item.get('requires_flags',[])).issubset(flags) and not set(item.get('forbids_flags',[]))&flags
          and (not item.get('requires_species') or state.get('species') in item['requires_species'])
          and (not item.get('requires_classes') or state.get('class_id') in item['requires_classes'])
+         and (not item.get('requires_level') or state.get('level',1)>=item['requires_level'])
          and check_attribute_requirement(item,state))
 
 class Engine:
@@ -272,7 +273,18 @@ class Engine:
         present=self.people(room,state,world,ambient)
         people_lines=[event('world',npc.get(phase_key) or npc.get('night' if phase_key=='night' else 'day') or npc['name']+' está aquí.') for npc in present]
         for signal in room.get('signals',[]):
-            if self.allowed(signal,state,world) and signal_present(signal,room,world,self.clock()):layers['danger']=event('danger' if m.PROFILES.get(signal['creature'],{}).get('category') not in (None,'favorable') else 'trace',signal['text']);break
+            if self.allowed(signal,state,world) and signal_present(signal,room,world,self.clock()):
+                sig_text=signal['text']
+                if signal.get('creature')=='dragon_aguas_antiguas':
+                    d_hp=world.get('creature_states',{}).get(f"{room['id']}:dragon_aguas_antiguas",{}).get('hp',m.PROFILES['dragon_aguas_antiguas']['hp'])
+                    max_hp=m.PROFILES['dragon_aguas_antiguas']['hp']
+                    if d_hp<max_hp:
+                        if d_hp>max_hp*.75:hp_s="El dragón tiene algunos rasguños leves en las escamas y vigila con recelo."
+                        elif d_hp>max_hp*.50:hp_s="El dragón respira con esfuerzo; tiene heridas visibles en los costados."
+                        elif d_hp>max_hp*.25:hp_s="El dragón tiene heridas profundas y se apoya con esfuerzo sobre las piedras mojadas."
+                        else:hp_s="El dragón está muy maltrecho y apenas sostiene el peso; sus heridas son graves."
+                        sig_text=f"{sig_text} {hp_s}"
+                layers['danger']=event('danger' if m.PROFILES.get(signal['creature'],{}).get('category') not in (None,'favorable') else 'trace',sig_text);break
         visits=state['visits'].get(room['id'],0)
         recall=visits<=2 or visits%3==2
         priority=['danger']+(['memory','return'] if recall else [])+['arrival']
@@ -380,6 +392,9 @@ class Engine:
                 state['events']=lines;state['last_active']=now;changed=True
                 if outcome=='fled':self.flee(player,world);continue
                 combat['eligible']=combat.get('eligible',False) or contribution;animal['hp']=max(0,combat['hp']);prepared=combat.get('prepared',False)
+                if creature_id=='dragon_aguas_antiguas':
+                    if player['id'] not in world.setdefault('dragon_participants',[]):
+                        world['dragon_participants'].append(player['id'])
                 responses.append((player,combat.get('_response',{})));combat['next_round']=due+4
                 if animal['hp']<=0:
                     eligible=[p for p in active if p['state']['combat'] and p['state']['combat'].get('eligible')]
@@ -433,6 +448,9 @@ class Engine:
                 self.withdraw_animal(character,world,combat['creature']);changed=True;break
             lines,outcome=m.resolve_round(state,creature,self.rng);state.pop('_class',None);state['events']=lines;changed=True
             world.setdefault('creature_states',{}).setdefault(f"{state['location']}:{combat['creature']}",{}).update(hp=max(0,combat['hp']))
+            if combat['creature']=='dragon_aguas_antiguas':
+                if character['id'] not in world.setdefault('dragon_participants',[]):
+                    world['dragon_participants'].append(character['id'])
             if outcome=='victory':self.victory(character,world,combat,creature)
             elif outcome=='death':self.death(character,world)
             elif outcome=='fled':
@@ -475,6 +493,10 @@ class Engine:
         self.advance_levels(state)
         deathkey=f"{state['location']}:{combat['creature']}";world['deaths'][deathkey]=self.clock()+300
         world.setdefault('creature_states',{}).pop(deathkey,None)
+        if combat['creature']=='dragon_aguas_antiguas':
+            world.setdefault('flags',[])
+            if 'dragon_vencido' not in world['flags']:world['flags'].append('dragon_vencido')
+            if 'participated:dragon_vencido' not in state['flags']:state['flags'].append('participated:dragon_vencido')
         local_victory=f"victoria:{state['location']}:{combat['creature']}"
         if local_victory not in state['flags']:state['flags'].append(local_victory)
         for flag in creature.get('victory_flags',[]):
@@ -561,7 +583,16 @@ class Engine:
         multiplier=(1 if count<2 else .6 if count<4 else .3) if repeatable else 1
         return family,math.floor(quest['payout']*multiplier)
 
+    def sync_dragon_participation(self,character,world):
+        state=character.get('state') if isinstance(character,dict) else None
+        if not state:return
+        if 'dragon_vencido' in world.get('flags',[]):
+            if character.get('id') in world.get('dragon_participants',[]):
+                if 'participated:dragon_vencido' not in state.setdefault('flags',[]):
+                    state['flags'].append('participated:dragon_vencido')
+
     def actions(self,character,world):
+        self.sync_dragon_participation(character,world)
         state=character['state'];room=self.room(character,world);combat=state['combat'];actions=[]
         if combat:
             actions=[{'id':'atacar','label':'Mantener ataque básico'}, {'id':'huir','label':'Intentar huir'},
@@ -850,6 +881,7 @@ class Engine:
         return facts
 
     def apply(self,character,world,intent):
+        self.sync_dragon_participation(character,world)
         state=character['state']
         before=self.exploration_facts(state)
         # Initialize at the first mutation, never on GET or load. Old achievements
@@ -984,7 +1016,13 @@ class Engine:
                 self.withdraw_animal(character,world,target);return
             profile=m.scaled(m.PROFILES[target],signal.get('level'));creature=self.creature_prose(room,target)
             world.setdefault('encounters',{}).setdefault(f"{state['location']}:{target}",character['id'])
-            state['combat']={'creature':target,'profile':profile,'hp':world.get('creature_states',{}).get(f"{state['location']}:{target}",{}).get('hp',profile['hp']),'round':0,'next_round':self.clock()+4,'prepared':profile.get('prepared',False),'cooldown':0}
+            ckey=f"{state['location']}:{target}"
+            saved_hp=world.get('creature_states',{}).get(ckey,{}).get('hp')
+            start_hp=saved_hp if (saved_hp is not None and saved_hp>0) else profile['hp']
+            preps=profile.get('preparations')
+            prep_action=preps[0] if preps else profile.get('prepared_action')
+            state['combat']={'creature':target,'profile':profile,'hp':start_hp,'round':0,'next_round':self.clock()+4,'prepared':bool(prep_action),'prepared_action':prep_action,'cooldown':0}
+            world.setdefault('creature_states',{}).setdefault(ckey,{})['hp']=start_hp
             self.observe(state,room,world)
             if target in state['bestiary']:state['bestiary'][target]['status']='encontrado'
             state['events']=[event('danger',creature.get('combat_intro',creature.get('warning',f"{creature['name']} responde a tu acercamiento. Puedes intervenir antes de que actúe.")))]
@@ -1138,6 +1176,7 @@ class Engine:
                 instance['status']='ready';state['events'].append(event('discovery',quest.get('ready_text','El encargo ya puede entregarse.')))
 
     def snapshot(self,character,world):
+        self.sync_dragon_participation(character,world)
         state=character['state'];room=self.room(character,world);ambient=self.ambient(room,world)
         people=self.people(room,state,world,ambient)
         known=set(state['known']);nodes=[]

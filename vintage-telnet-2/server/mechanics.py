@@ -52,6 +52,10 @@ WEAPONS = {
  'varita_aprendiz': {'id':'varita_aprendiz','name':'Varita de aprendiz','kind':'weapon','damage':7,'focus':True,'activated':True},
  'punal_camino': {'id':'punal_camino','name':'Puñal de camino','kind':'weapon','damage':8,'activated':True},
  'arco_ruta': {'id':'arco_ruta','name':'Arco de ruta','kind':'weapon','damage':9,'ranged':True,'activated':True},
+ 'espada_bastion': {'id':'espada_bastion','name':'Espada del Bastión','kind':'weapon','damage':14,'block':True,'activated':True},
+ 'vara_caudales': {'id':'vara_caudales','name':'Vara de los Caudales','kind':'weapon','damage':11,'focus':True,'activated':True},
+ 'daga_aguas_profundas': {'id':'daga_aguas_profundas','name':'Daga de las Aguas Profundas','kind':'weapon','damage':12,'activated':True},
+ 'arco_esclusa': {'id':'arco_esclusa','name':'Arco de la Esclusa','kind':'weapon','damage':13,'ranged':True,'activated':True},
 }
 PROFILES = {
  'mordelinde': {'hp':28,'accuracy':45,'damage':5,'reduction':0,'evasion':15,'level':1,'category':'comparable','family':'mordelinde'},
@@ -193,7 +197,7 @@ def wound(state,damage):
 
 def preparation(combat):
  if not combat.get('prepared'):return None
- return combat['profile'].get('prepared_action',{'name':'Acción preparada','accuracy':60,'interruptible':True,'frontal':True})
+ return combat.get('prepared_action') or combat['profile'].get('prepared_action',{'name':'Acción preparada','accuracy':60,'interruptible':True,'frontal':True})
 
 def capability_hint(class_id, prepared=None):
  if class_id=='artifice' and prepared:
@@ -494,7 +498,15 @@ def resolve_round(state, creature, rng, respond=True):
   if (signature and cls=='sombra') or action=='borrar_foco':
    combat['opening']=True
    events.append({'kind':'combat','text':ACTION_PROSE['borrar_foco']['opening'].format(c=creature['name'])})
- combat['prepared']=False;combat['round']+=1;combat['cooldown']=max(0,combat.get('cooldown',0)-1)
+ combat['round']+=1;combat['cooldown']=max(0,combat.get('cooldown',0)-1)
+ preps=profile.get('preparations')
+ if preps and state['hp']>0 and combat['hp']>0:
+  combat['prepared']=True
+  next_prep=preps[combat['round']%len(preps)]
+  combat['prepared_action']=next_prep
+  if next_prep.get('tell'):events.append({'kind':'danger','text':next_prep['tell']})
+ else:
+  combat['prepared']=False
  if 'cooldowns' in combat:combat['cooldowns']={k:max(0,v-1) for k,v in combat['cooldowns'].items() if v>1}
  return events,'death' if state['hp']<=0 else 'ongoing'
 
@@ -636,3 +648,63 @@ for creature_id,spec in {**LIGHT_PREY,**BANDITS}.items():
  if 'intention' in spec:
   MINOR_INTENTIONS[creature_id]=spec['intention']
   PROFILES[creature_id].update(prepared=True,prepared_action=dict(spec['intention'],accuracy=PROFILES[creature_id]['accuracy']))
+
+PROFILES['dragon_aguas_antiguas'] = {
+ 'hp': 240,
+ 'accuracy': 68,
+ 'damage': 22,
+ 'reduction': .20,
+ 'level': 10,
+ 'category': 'abrumador',
+ 'family': 'dragon',
+ 'prepared': True,
+ 'prepared_action': {
+  'id': 'aliento_torrente',
+  'name': 'Torrente frontal de agua',
+  'accuracy': 70,
+  'interruptible': False,
+  'frontal': True,
+  'tell': 'El dragón hincha el pecho y apunta hacia el frente con un rugido sordo: va a descargar un torrente frontal. La fuerza del agua no se puede interrumpir; una guardia frontal puede mitigar el impacto, o puedes esquivar o huir.'
+ },
+ 'preparations': [
+  {
+   'id': 'aliento_torrente',
+   'name': 'Torrente frontal de agua',
+   'accuracy': 70,
+   'interruptible': False,
+   'frontal': True,
+   'tell': 'El dragón hincha el pecho y apunta hacia el frente con un rugido sordo: va a descargar un torrente frontal. La fuerza del agua no se puede interrumpir; una guardia frontal puede mitigar el impacto, o puedes esquivar o huir.'
+  },
+  {
+   'id': 'coletazo_giratorio',
+   'name': 'Barrido de cola',
+   'accuracy': 65,
+   'interruptible': True,
+   'frontal': False,
+   'tell': 'El dragón arquea la cola por el suelo y tensa las ancas para un giro amplio. Puedes interrumpir su impulso con un tiro o un empuje arcano antes de que barra la sala, o esquivar.'
+  },
+  {
+   'id': 'embate_ciego',
+   'name': 'Zarpazo en abanico',
+   'accuracy': 75,
+   'interruptible': False,
+   'frontal': False,
+   'tell': 'El dragón se agazapa y lanza un zarpazo curvo sin ángulo fijo. No es un ataque frontal ni se puede interrumpir: Sombra puede borrar el foco para que falle y ganar apertura, o puedes esquivar o huir.'
+  }
+ ]
+}
+CREATURE_PROSE['dragon_aguas_antiguas'] = {
+ 'hit': [
+  '{n} descarga un torrente de agua cristalina que te empuja contra el sillar',
+  'El ala pesada de {n} bate el aire y te golpea con un estruendo húmedo',
+  '{n} barre el suelo con la cola y te derriba sobre las losas mojadas',
+  '{n} lanza un zarpazo certero antes de volver a replegar sus alas'
+ ],
+ 'miss': [
+  'El torrente de agua de {n} choca contra la pared de piedra levantando una nube de espuma.',
+  'La cola de {n} pasa silbando sobre tu cabeza y sólo levanta agua de las cuencas.',
+  '{n} descarga un zarpazo, pero te apartas a tiempo y sus garras arañan el sillar mojado.'
+ ]
+}
+THREAT_OBSERVATIONS['dragon_aguas_antiguas'] = 'Observa las corrientes de vapor y el movimiento de sus aletas antes de cada ataque para anticipar su preparación.'
+PEACEFUL_WITHDRAWALS['dragon_aguas_antiguas'] = 'Retrocedes despacio hacia la entrada de la bóveda. El dragón repliega sus alas y vuelve a reposar sobre el pedestal de las aguas.'
