@@ -23,9 +23,9 @@ class VeyraVisibilityTests(unittest.TestCase):
     checked.add(('night',weather))
    elif phase=='Día':
     if weather=='Niebla':
-     self.assertIn('niebla lo cubre',room['description']);self.assertIn('no se puede seguir ninguna ruta',room['description']);self.assertIn('poste más cercano',room['day']);self.assertIn('impide comprobar',room['examine']['hitos']);self.assertNotIn('convergen',room['return'])
+     self.assertIn('niebla tapa',room['description']);self.assertIn('No se puede seguir ninguna ruta',room['description']);self.assertIn('poste más cercano',room['day']);self.assertIn('impide comprobar',room['examine']['hitos']);self.assertNotIn('convergen',room['return'])
     elif weather=='Lluvia':
-     self.assertIn('lluvia tapa',room['description']);self.assertIn('No distingues',room['examine']['hitos']);self.assertNotIn('convergen',room['return'])
+     self.assertIn('lluvia esconde',room['description']);self.assertIn('No distingues',room['examine']['hitos']);self.assertNotIn('convergen',room['return'])
     else:self.assertEqual(room['description'],content.rooms['veyra_colina_vista']['description'])
     checked.add(('day',weather))
    self.assertIn('huerta',room['description'])
