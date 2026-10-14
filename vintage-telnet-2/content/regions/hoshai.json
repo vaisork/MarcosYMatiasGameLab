@@ -611,6 +611,33 @@
           "text": "Te quedas muy quieto, con las orejas atentas. Bajo tus pies, una parte de la terraza da un golpecito corto que no suena como el resto. Cuando para la ráfaga de viento, desaparece.",
           "journal": "Una parte de la terraza responde al viento de otra manera.",
           "scope": "player"
+        },
+        {
+          "id": "hoshai_terraza_cargas_conversar",
+          "label": "Preguntar por el reparto de paquetes",
+          "text": "Te acercas al lado libre de la terraza y un comerciante señala los paquetes. «No basta con que todo quepa. Si pesa más de un lado, el cuerpo acaba torcido antes de salir. Mira cómo se endereza mi compañero cuando repartimos mejor; hasta su cara descansa.»",
+          "set_flags": [
+            "hoshai_terraza_cargas_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "hoshai_terraza_cargas_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "hoshai_terraza_cargas_conversar_revisita",
+          "label": "Preguntar por el reparto de paquetes",
+          "text": "El comerciante te reconoce sin apartar los paquetes del apoyo. «Ya sabes por qué miramos los dos lados. Una carga pequeña también puede tirar mal si va toda junta. Prefiero perder un momento aquí que ir torcido por el camino.»",
+          "requires_flags": [
+            "hoshai_terraza_cargas_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
         }
       ],
       "brief": "La terraza de las cargas, bajo el primer techo de Khariel.",
@@ -687,6 +714,14 @@
           "creature": "salteador_desesperado",
           "text": "Una persona flaca, con un palo que le tiembla en las manos, te corta el paso. Mira tu mochila con hambre.",
           "persistent_trace": false
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "hoshai_terraza_cargas_conversar_hecho"
+          ],
+          "text": "Los apoyos de la terraza te recuerdan al acompañante que se enderezó al repartir mejor el peso."
         }
       ]
     },
@@ -871,6 +906,33 @@
           "journal": "Retiraste la cera de la campanilla: debajo de la cinta verde hay tres nudos entrelazados de estilo Felaryn que indican un aviso dejado en el taller de apoyos.",
           "text": "Retiras con la uña la bolita de cera y la campanilla emite un tintineo claro y cantarín. Al desenrollar la cinta verde, descubres tres nudos pequeños entrelazados con pelo de cabra de montaña: es la marca tradicional con la que los aprendices de Khariel avisan al taller de un apoyo que necesita ajuste.",
           "scope": "player"
+        },
+        {
+          "id": "khariel_centro_conversar",
+          "label": "Preguntar a la vecina por la nuez",
+          "text": "Te acercas a la vecina cuando la nuez rueda hasta la rampa. «Salta muy bien, pero recogerla ya es otra historia. Yo la pongo cerca para que practiquen sin cargas. Si hoy no sale, nos reímos un poco y volvemos a mirar dónde apoyan los pies.»",
+          "set_flags": [
+            "khariel_centro_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "khariel_centro_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "khariel_centro_conversar_revisita",
+          "label": "Preguntar a la vecina por la nuez",
+          "text": "La vecina te reconoce junto a la rampa. «¿Has venido a ver nuestros intentos? Lo de saltar y lo de recoger no siempre salen juntos. Por la rampa también se llega, y sin perseguir nueces.»",
+          "requires_flags": [
+            "khariel_centro_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
         }
       ],
       "dawn": "La nuez rueda por un escalón vacío. Desde arriba baja el olor de una olla que apenas empieza a calentarse.",
@@ -983,6 +1045,12 @@
         }
       ],
       "memories": [
+        {
+          "requires_flags": [
+            "khariel_centro_conversar_hecho"
+          ],
+          "text": "Recuerdas a la vecina y la nuez que rodó desde el escalón hasta la rampa."
+        },
         {
           "requires_flags": [
             "hoshai_hilo_completado"
@@ -1486,6 +1554,33 @@
           "text": "Acercas el dedo con una gota limpia de agua a la piedra. La salamandra alza su cabecita chata, toca la gota con su hocico frío y sacude la cola como si fuera un diminuto felaryn de roca antes de meterse bajo el musgo.",
           "journal": "En el lavadero de Khariel le ofreciste una gota de agua a una salamandra dormilona que sacudió la cola agradecida.",
           "scope": "player"
+        },
+        {
+          "id": "hoshai_lavadero_roca_conversar",
+          "label": "Preguntar por la manga",
+          "text": "Te acercas sin pisar la ropa y la vecina te muestra la manga doblada. «Mojada parece limpia, pero al secarse asoma la mancha. Por eso miro otra vez antes de guardarla. Es una mancha muy terca; casi tanto como yo.»",
+          "set_flags": [
+            "hoshai_lavadero_roca_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "hoshai_lavadero_roca_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "hoshai_lavadero_roca_conversar_revisita",
+          "label": "Preguntar por la manga",
+          "text": "La vecina levanta la vista de la piedra y te saluda. «Ya conoces mi pelea con las manchas. No me fío sólo de cómo queda la manga mojada. Primero la dejo secar y luego decido.»",
+          "requires_flags": [
+            "hoshai_lavadero_roca_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
         }
       ],
       "states": [
@@ -1528,6 +1623,14 @@
           "text": "Un tipo grande con un garrote al hombro se planta en medio del camino. «¡Alto ahí! ¡Este camino es mío!», grita.",
           "persistent_trace": false
         }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "hoshai_lavadero_roca_conversar_hecho"
+          ],
+          "text": "La piedra del lavadero te recuerda la mancha que la vecina busca cuando se seca la manga."
+        }
       ]
     },
     "hoshai_deposito_comun": {
@@ -1552,8 +1655,44 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
-      "brief": "El depósito de herramientas, con su tablilla de préstamos."
+      "actions": [
+        {
+          "id": "hoshai_deposito_comun_conversar",
+          "label": "Preguntar cómo se anotan las herramientas",
+          "text": "Esperas en la entrada y preguntas a la encargada por la tablilla. «Apunto quién lleva cada herramienta y dónde trabaja. Así no buscamos una pala por todo el valle cuando está en un huerto. Me gustan más los dibujos de huertos que las carreras detrás de una pala.»",
+          "set_flags": [
+            "hoshai_deposito_comun_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "hoshai_deposito_comun_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "hoshai_deposito_comun_conversar_revisita",
+          "label": "Preguntar cómo se anotan las herramientas",
+          "text": "La encargada te saluda desde los estantes. «¿Otra mirada a las notas? Nombre y lugar, ése es mi recordatorio. Mi cabeza sola no tiene tantos estantes como este depósito.»",
+          "requires_flags": [
+            "hoshai_deposito_comun_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        }
+      ],
+      "brief": "El depósito de herramientas, con su tablilla de préstamos.",
+      "memories": [
+        {
+          "requires_flags": [
+            "hoshai_deposito_comun_conversar_hecho"
+          ],
+          "text": "Recuerdas que la encargada anota quién lleva cada herramienta y dónde la usa."
+        }
+      ]
     },
     "hoshai_balcon_valle": {
       "id": "hoshai_balcon_valle",

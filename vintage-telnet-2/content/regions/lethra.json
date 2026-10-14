@@ -260,7 +260,35 @@
           "text": "Una pinza desigual se levanta al borde del agua. El Pinzajunco arrastra una hoja hacia su agujero cuando los pasos siguen por tierra."
         }
       ],
-      "actions": [],
+      "actions": [
+        {
+          "id": "lethra_juncal_abierto_conversar",
+          "label": "Preguntar a la artesana por los tallos",
+          "text": "Desde el paso abierto preguntas a la artesana cómo elige los tallos. «Me llevo los secos y dejo juntos los verdes. Oye cómo crujen éstos al atarlos; no suenan como cuando los mueve el viento. Aparto las fibras al borde para que tú no tengas que pisarlas.»",
+          "set_flags": [
+            "lethra_juncal_abierto_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "lethra_juncal_abierto_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "lethra_juncal_abierto_conversar_revisita",
+          "label": "Preguntar a la artesana por los tallos",
+          "text": "La artesana te reconoce desde el borde del paso. «¿Has oído otra vez el crujido? Éstos son los secos que estoy atando. Los verdes se quedan juntos; me gusta volver y encontrar el juncal entero.»",
+          "requires_flags": [
+            "lethra_juncal_abierto_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        }
+      ],
       "brief": "El paso entre los juncos.",
       "echoes": [
         "Un Saltalodo salta de un junco a otro y el tallo se dobla bajo su peso.",
@@ -294,6 +322,14 @@
           "creature": "mordijunco",
           "text": "Un Mordijunco corta un junco de un mordisco y lo arrastra hacia su madriguera.",
           "persistent_trace": false
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "lethra_juncal_abierto_conversar_hecho"
+          ],
+          "text": "Recuerdas el crujido de los tallos secos que la artesana ata sin abrir huecos entre los verdes."
         }
       ]
     },
@@ -468,7 +504,35 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "lethra_ribera_firme_conversar",
+          "label": "Preguntar por las envolturas",
+          "text": "Preguntas desde el paso y la vecina señala la envoltura que está abriendo. «Ésta debe abrirse antes que las otras. La reconozco por fuera y así no tengo que destaparlo todo sobre el barro. Parece poca cosa, pero me ahorra un buen baile de recipientes.»",
+          "set_flags": [
+            "lethra_ribera_firme_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "lethra_ribera_firme_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "lethra_ribera_firme_conversar_revisita",
+          "label": "Preguntar por las envolturas",
+          "text": "La vecina te saluda junto a los apoyos. «¿Otra vez entre nuestras envolturas? Busco sitio seco antes de abrir ninguna. Bastante tenemos con pasar los recipientes sin bajarlos al barro.»",
+          "requires_flags": [
+            "lethra_ribera_firme_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        }
+      ],
       "wildlife_pool": [
         {
           "creature": "mordijunco",
@@ -513,7 +577,15 @@
           "persistent_trace": false
         }
       ],
-      "brief": "La ribera de las cargas, con sus recipientes en alto."
+      "brief": "La ribera de las cargas, con sus recipientes en alto.",
+      "memories": [
+        {
+          "requires_flags": [
+            "lethra_ribera_firme_conversar_hecho"
+          ],
+          "text": "Recuerdas a la vecina reconociendo por la envoltura qué recipiente abrir primero."
+        }
+      ]
     },
     "lethra_pasarela_curva": {
       "id": "lethra_pasarela_curva",
@@ -594,7 +666,35 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "lethra_embarcadero_camino_conversar",
+          "label": "Preguntar por las tiras de las barcas",
+          "text": "Esperas lejos del borde y la encargada te muestra las tiras del poste. «Sirven para reconocer las barcas que esperamos. El niño ha visto una que conoce y va a avisar por la senda alta. Yo llamo a quien espera la cesta; con el agua en medio, más vale saber quién está escuchando.»",
+          "set_flags": [
+            "lethra_embarcadero_camino_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "lethra_embarcadero_camino_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "lethra_embarcadero_camino_conversar_revisita",
+          "label": "Preguntar por las tiras de las barcas",
+          "text": "La encargada te reconoce desde el poste. «Ya sabes qué miramos en las tiras. Tú espera aquí, fuera del paso de las cestas. Si tengo que llamar, prometo no gritarte en la oreja.»",
+          "requires_flags": [
+            "lethra_embarcadero_camino_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        }
+      ],
       "brief": "El embarcadero del camino, bajo su techo.",
       "states": [
         {
@@ -670,6 +770,14 @@
             "noche",
             "atardecer"
           ]
+        }
+      ],
+      "memories": [
+        {
+          "requires_flags": [
+            "lethra_embarcadero_camino_conversar_hecho"
+          ],
+          "text": "Las tiras del poste te recuerdan cómo la encargada reconoce las barcas esperadas."
         }
       ]
     },
@@ -852,6 +960,33 @@
           "text": "Te arrodillas en la pasarela y acercas la mirada al pilote en penumbra. Una de las luciérnagas alza el vuelo, gira dos veces alrededor de tu mano emitiendo destellos esmeralda y vuelve a posarse sobre la concha del caracol, que no se inmuta lo más mínimo.",
           "journal": "En Narevia observaste a dos luciérnagas de agua iluminar la concha de un caracol nocturno como si fuera un faro en miniatura.",
           "scope": "player"
+        },
+        {
+          "id": "narevia_centro_conversar",
+          "label": "Acercarse a escuchar a la familia",
+          "text": "Te acercas al borde libre de la plataforma y quien cuenta la visita te hace sitio para escuchar. «Estaba diciendo de qué orilla venían. Con el martilleo se perdió justo esa parte, así que esperé para repetirla. Si no me entiendes, pregunta; prefiero contarlo otra vez a dejarte con media visita.»",
+          "set_flags": [
+            "narevia_centro_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "narevia_centro_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "narevia_centro_conversar_revisita",
+          "label": "Acercarse a escuchar a la familia",
+          "text": "La persona que contaba la visita te saluda desde la plataforma. «Has vuelto a escuchar un rato. Si suena el martillo, hacemos una pausa. Las historias no se estropean por esperar a que podamos oírnos.»",
+          "requires_flags": [
+            "narevia_centro_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
         }
       ],
       "dawn": "Los primeros cuencos se llenan de comida caliente. Un niño mira cuánto tarda el vapor en desaparecer sobre el canal.",
@@ -988,6 +1123,12 @@
         }
       ],
       "memories": [
+        {
+          "requires_flags": [
+            "narevia_centro_conversar_hecho"
+          ],
+          "text": "Recuerdas a la familia esperando una pausa del martilleo para entender de qué orilla venía la visita."
+        },
         {
           "requires_flags": [
             "lethra_hilo_completado"
@@ -1534,9 +1675,45 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "lethra_muelle_vecinal_conversar",
+          "label": "Preguntar por el asa remendada",
+          "text": "Te acercas sin ocupar el paso de las cargas y la vecina te muestra el asa. «Reconozco mi cesta por este remiendo. Antes de levantarla miro bien, que hay muchas parecidas. Con tantas idas y vueltas, prefiero llevarme la mía y dejar de paseo las demás.»",
+          "set_flags": [
+            "lethra_muelle_vecinal_conversar_hecho"
+          ],
+          "forbids_flags": [
+            "lethra_muelle_vecinal_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        },
+        {
+          "id": "lethra_muelle_vecinal_conversar_revisita",
+          "label": "Preguntar por el asa remendada",
+          "text": "La vecina te reconoce junto a las cestas. «¿Buscas otra vez mi remiendo? Yo miro primero el asa. Es más fácil que llamar a todas las casas para preguntar de quién es cada cesta.»",
+          "requires_flags": [
+            "lethra_muelle_vecinal_conversar_hecho"
+          ],
+          "requires_time": [
+            "día"
+          ],
+          "scope": "player"
+        }
+      ],
       "brief": "El muelle de las cestas.",
-      "max_layers": 4
+      "max_layers": 4,
+      "memories": [
+        {
+          "requires_flags": [
+            "lethra_muelle_vecinal_conversar_hecho"
+          ],
+          "text": "Recuerdas el asa remendada por la que la vecina reconoce su cesta en el muelle."
+        }
+      ]
     },
     "lethra_patio_ventanas": {
       "id": "lethra_patio_ventanas",
