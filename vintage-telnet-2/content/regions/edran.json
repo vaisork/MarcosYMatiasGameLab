@@ -185,6 +185,16 @@
       "dusk": "La última semilla vuelve al cuenco. El niño pregunta si mañana vendrá el mismo pájaro.",
       "states": [
         {
+          "requires_flags": [
+            "edran_hilo_paso1"
+          ],
+          "overrides": {
+            "examine": {
+              "hendidura": "La hendidura entre las tablas del banco está ahora vacía: ya no asoma la cinta de lana roja ni la pequeña ficha de boj que estuvo allí guardada."
+            }
+          }
+        },
+        {
           "requires_time": [
             "día"
           ],
@@ -1231,7 +1241,7 @@
           "set_flags": [
             "edran_hilo_completado"
           ],
-          "journal": "En la cazuela de Elva estaba el dibujo de infancia de Iria y su hermano: dos niños despidiéndose junto al camino hacia Korven. La memoria de Valdren vive en estas pequeñas ternuras compartidas.",
+          "journal": "En la cazuela de Elva estaba el dibujo de infancia de Iria y su hermano: dos niños cruzando un puente con una carreta hacia Korven. La memoria de Valdren vive en estas pequeñas ternuras compartidas.",
           "text": "Sostienes la corteza bajo la luz tibia del comedor. Bajo el dibujo de los dos niños y la carreta hay dos frases escritas con carbón fino: 'Para Iria, si me demoro al cruzar hacia las piedras de Korven. Guarda la espiga en la plaza; yo traeré una piedra gris del camino'. Elva te ve sonreír y asiente en silencio: el hermano regresó sano de aquel viaje y las carretas de grano siguieron cruzando los llanos durante años. Hacia el este, más allá de los cultivos, las sendas de tierra firme se pierden en dirección a las colinas de Korven.",
           "scope": "player"
         }

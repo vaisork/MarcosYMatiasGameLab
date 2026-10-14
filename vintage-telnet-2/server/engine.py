@@ -557,7 +557,7 @@ class Engine:
         for attribute,value in state['attributes'].items():
             cost=1 if value<20 else 2 if value<35 else 3 if value<45 else 4 if value<60 else 5
             if state['pa']>=cost:actions.append({'id':'atributo','target':attribute,'label':f'Mejorar {attribute} · {cost} PA','confirmation':f'Aumentar {attribute} de {value} a {value+1} por {cost} PA. No podrás deshacerlo.'})
-        actions += [{'id':'examinar','target':key,'label':f'Examinar {key}'} for key,value in room.get('examine',{}).items() if not isinstance(value,dict) or self.allowed(value,state,world)]
+        actions += [{'id':'examinar','target':key,'label':f"Examinar {key.replace('_', ' ')}"} for key,value in room.get('examine',{}).items() if not isinstance(value,dict) or self.allowed(value,state,world)]
         actions += [{'id':'mirar_direccion','target':direction,'label':f'Mirar hacia el {direction}'} for direction in room.get('look',{}) if direction in room.get('exits',{})]
         for direction,destination in room.get('exits',{}).items():
             gate=room.get('exit_requirements',{}).get(direction,{})
@@ -674,7 +674,7 @@ class Engine:
         text=intent['text']
         if not isinstance(text,str) or not 1<=len(text.strip())<=300:raise RuleError('Escribe una acción breve del lugar.')
         def normalize(value):
-            value=''.join(c for c in unicodedata.normalize('NFKD',str(value)) if not unicodedata.combining(c)).casefold()
+            value=''.join(c for c in unicodedata.normalize('NFKD',str(value)) if not unicodedata.combining(c)).casefold().replace('_', ' ')
             return ' '.join(re.sub(r'[^\w\s]',' ',value).split())
         if text.strip().casefold().startswith('decir '):return {'id':'decir','text':text.strip()[6:]}
         typed=normalize(text);state=character['state'];room=self.room(character,world);matches=[]
@@ -725,8 +725,8 @@ class Engine:
                 matches.append({'id':authored['id']})
         if len(matches)!=1:
             local=[a for a in choices if not a.get('disabled') and (a['id'] in ('mover','examinar') or a['id'] in {item['id'] for item in room.get('actions',[])})]
-            suggestions=[a['label'] for a in local[:3]]
-            suggestions += [a['label'] for a in choices if not a.get('disabled') and a['label'] not in suggestions][:max(0,3-len(suggestions))]
+            suggestions=[a['label'].replace('_', ' ') for a in local[:3]]
+            suggestions += [a['label'].replace('_', ' ') for a in choices if not a.get('disabled') and a['label'].replace('_', ' ') not in suggestions][:max(0,3-len(suggestions))]
             raise RuleError('No entiendo esas palabras. Puedes probar: '+'; '.join(suggestions)+'.',409)
         choice=matches[0]
         if choice.get('disabled'):raise RuleError(choice.get('reason') or 'Esa decisión todavía no está disponible.',409)

@@ -943,6 +943,16 @@
       },
       "states": [
         {
+          "requires_flags": [
+            "hoshai_hilo_paso1"
+          ],
+          "overrides": {
+            "examine": {
+              "apoyo_alto": "En el saliente de piedra que domina la plaza, el lazo de cinta verde sostiene la pequeña campanilla de estaño. Ya sin la bolita de cera que trababa el badajo, vibra libremente con el viento del valle emitiendo un tintineo suave y limpio."
+            }
+          }
+        },
+        {
           "requires_time": [
             "día"
           ],
@@ -1709,7 +1719,7 @@
         "cuaderno": "Una línea incompleta indica que se perdió de vista una carga, no que se perdió la carga.",
         "cornisa": "La cornisa es un camino estrecho pegado a la roca. Tiene apoyos para los pies y sitio para una persona con un bulto pequeño; un carro no cabe. Detrás de la roca el camino se pierde de vista un rato y vuelve a aparecer más abajo.",
         "caja_grieta": {
-          "text": "Entre dos lajas de pizarra del parapeto hay encajada una cajita plana de madera de sabina, cerrada con un cordel de lana trenzada.",
+          "text": "Entre dos piedras de la baranda hay encajada una cajita plana de madera de sabina, cerrada con un cordel de lana trenzada.",
           "flag": "hoshai_hilo_cajita_vista",
           "requires_flags": [
             "hoshai_hilo_paso2"
@@ -1725,7 +1735,7 @@
       "actions": [
         {
           "id": "hoshai_hilo_abrir_cajita",
-          "label": "Abrir la cajita entre las lajas del parapeto",
+          "label": "Abrir la cajita entre las piedras de la baranda",
           "requires_flags": [
             "hoshai_hilo_paso2",
             "hoshai_hilo_cajita_vista"
@@ -1739,8 +1749,8 @@
           "set_flags": [
             "hoshai_hilo_paso3"
           ],
-          "journal": "En la cajita del balcón había una cinta tejida con dos plumas de arrendajo y una nota: 'Para la tía Luma, que siempre me cuida los saltos'.",
-          "text": "Desatas el cordel y abres la pequeña tapa de sabina. Dentro descansa una cinta de lana azul tejida con esmero, con dos plumitas azules de arrendajo de montaña cosidas en el remate. Una tira de corteza reza: 'Para la tía Luma en el mercado, que siempre me recuerda dónde apoyar los pies'.",
+          "journal": "En la cajita del balcón había una cinta tejida con dos plumas de arrendajo y una nota: 'Para la tía Luma en el mercado, que siempre me cuida los saltos'.",
+          "text": "Desatas el cordel y abres la pequeña tapa de sabina. Dentro descansa una cinta de lana azul tejida con esmero, con dos plumitas azules de arrendajo de montaña cosidas en el remate. Una tira de corteza reza: 'Para la tía Luma en el mercado, que siempre me cuida los saltos'.",
           "scope": "player"
         },
         {
@@ -2784,7 +2794,7 @@
             "hoshai_hilo_completado"
           ],
           "journal": "Luma reconoció la cinta que su sobrina tejió de pequeña antes de partir como guía de caravanas hacia Veyra. Las terrazas de Khariel guardan el cariño en cada nudo.",
-          "text": "Luma toma la cinta azul y la aprieta suavemente contra su mejilla, cerrando los ojos mientras sus orejas felaryn se inclinan hacia delante. «Es el regalo que me prometió mi sobrina antes de su primer viaje por las alturas de la garganta. Decía que con estas plumas yo podría escuchar el viento antes de que bajara la niebla. Ahora guía caravanas entre las cumbres y los pasos abiertos que llevan a Veyra. En Khariel los caminos son estrechos y el abismo impone respeto, pero nunca caminamos solos mientras alguien recuerde nuestros pasos en el valle.» Hacia el nordeste, entre las brechas de la roca, la senda desciende en zigzag hacia los pasos amplios de Veyra."
+          "text": "Luma toma la cinta azul y la aprieta suavemente contra su mejilla, cerrando los ojos mientras sus orejas felaryn se inclinan hacia delante. «Es el regalo que me prometió mi sobrina antes de su primer viaje por las alturas de la garganta. Decía que con estas plumas yo podría escuchar el viento antes de que bajara la niebla. Ahora guía caravanas entre las cumbres y los pasos abiertos que llevan a Veyra. En Khariel los caminos son estrechos y el abismo impone respeto, pero nunca caminamos solos mientras alguien recuerde nuestros pasos en el valle.» Para marchar hacia Veyra hay que volver a la plaza y salir al sur, por donde la senda desciende hacia los pasos amplios del valle."
         },
         "recuerdo_sobrina": {
           "label": "Preguntar por la cinta en su puesto",

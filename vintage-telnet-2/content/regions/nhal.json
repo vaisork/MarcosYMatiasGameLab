@@ -1610,7 +1610,7 @@
       "region": "nhal",
       "kind": "wilderness",
       "description": "La luz baja directa entre las copas, por un agujero redondo, y cae sobre un claro pequeño. Una raíz hace de asiento, y a su lado hay una piedra lisa. En la tierra queda una hoja doblada. Del pueblo no llega nada: sólo el roce de las hojas al caer. Arriba se abre un cielo estrecho. Es un buen sitio para parar.",
-      "day": "Una semilla cae sobre una hoja ancha. El tallo cede, recupera su altura y deja la semilla en la tierra; no se oye otra cosa junto al claro.",
+      "day": "Una semilla cae sobre una hoja ancha. El tallo cede, recupera su altura y deja la semilla en la tierra.",
       "night": "Una gota toca la tierra entre las hojas. El claro vuelve a guardar silencio.",
       "rain": "En el claro, la lluvia cae directa, y la piedra ya no sirve para sentarse seco. Las hojas pequeñas giran hacia un hoyo del lado. A veces una pausa se acaba sólo porque llueve.",
       "clear": "",

@@ -948,7 +948,7 @@
             "lethra_hilo_paso1"
           ],
           "journal": "En la base de la boya hay grabado un símbolo de remero y una trenza de junco verde: pertenece al taller de reparación de barcas de Sola.",
-          "text": "Tiras del cordel de junco y levantas la boya goteante. En la parte inferior, protegida del agua con grasa de pescado, hay grabada una pala de remo cruzada con una espátula de calafatear. La cuerda de amarre tiene el trenzado apretado de tres cabos característico del patio de barcas.",
+          "text": "Tiras del cordel de junco y levantas la boya goteante. En la parte inferior, protegida del agua con grasa de pescado, hay grabada una pala de remo cruzada con una herramienta para sellar barcas. La cuerda de amarre tiene el trenzado apretado de tres cabos característico del patio de barcas.",
           "scope": "player"
         },
         {
@@ -1863,7 +1863,7 @@
       "actions": [
         {
           "id": "lethra_hilo_tacto_marevyn",
-          "label": "Palpar las fibras sumergidas con membranas marevyn",
+          "label": "Palpar la madeja húmeda con membranas marevyn",
           "requires_species": [
             "marevyn"
           ],
@@ -1877,8 +1877,8 @@
             "lethra_hilo_paso2",
             "lethra_hilo_atajo_marevyn"
           ],
-          "journal": "Tus membranas marevyn distinguen al tacto bajo el agua el trenzado de fibra suave que solo Mira teje en el taller de fibras.",
-          "text": "Sumerges la mano en el agua junto al casco amarrado. Tus dedos con membranas marevyn reconocen de inmediato la elasticidad del nudo bajo la corriente: este tipo de cordel de junco fino y suave no se usa en barcas pesadas, sino que sale exclusivamente de los telares de mano de Mira en el taller de fibras.",
+          "journal": "Tus membranas marevyn distinguen al tacto de la madeja húmeda el trenzado de fibra suave que solo Mira teje en el taller de fibras.",
+          "text": "Acercas las manos a la banqueta y palpas la madeja de junco empapada. Tus dedos con membranas marevyn reconocen de inmediato la elasticidad del nudo y de las fibras húmedas: este tipo de cordel fino y suave no se usa en barcas pesadas, sino que sale exclusivamente de los telares de mano de Mira en el taller de fibras.",
           "scope": "player"
         },
         {
@@ -2781,8 +2781,8 @@
           "set_flags": [
             "lethra_hilo_completado"
           ],
-          "journal": "Nima sonrió al ver la flauta de caña: las tres hermanas la tocaban en las noches de lluvia sobre los canales. Hacia el este, el agua dulce se aleja hacia los llanos abiertos de Edran.",
-          "text": "Nima levanta el cucharón de madera y se limpia las manos en el delantal con una sonrisa ancha que le arruga los ojos. «Esa caña la cortamos en la orilla del canal cuando éramos unas renacuajas. Mira trenzó la funda, Sola le talló la embocadura y yo aprendí a tocar dos notas desafinadas mientras el caldo rompía a hervir en el fuego. Creí que se había perdido entre las mareas del estanque. En Narevia el río se lleva muchas cosas y el agua nunca es la misma dos veces, pero las canciones de familia siempre encuentran el camino de vuelta a la mesa.» Señala con la cuchara hacia las pasarelas que miran al este: más allá de los carrizales, el agua se vuelve arroyos mansos que riegan las tierras de cultivo de Edran."
+          "journal": "Nima sonrió al ver la flauta de caña: las tres hermanas la tocaban en las noches de lluvia sobre los canales. Hacia el oeste, el agua dulce se aleja hacia los llanos abiertos de Edran.",
+          "text": "Nima levanta el cucharón de madera y se limpia las manos en el delantal con una sonrisa ancha que le arruga los ojos. «Esa caña la cortamos en la orilla del canal cuando éramos unas renacuajas. Mira trenzó la funda, Sola le talló la embocadura y yo aprendí a tocar dos notas desafinadas mientras el caldo rompía a hervir en el fuego. Creí que se había perdido entre las mareas del estanque. En Narevia el río se lleva muchas cosas y el agua nunca es la misma dos veces, pero las canciones de familia siempre encuentran el camino de vuelta a la mesa.» Señala con la cuchara hacia las pasarelas que miran al oeste: más allá de los carrizales, el agua se vuelve arroyos mansos que riegan las tierras de cultivo de Edran."
         },
         "cancion_hermanas": {
           "label": "Preguntar por la flauta sobre el estante de la cocina",

@@ -105,6 +105,8 @@ class HilosOrigenTests(unittest.TestCase):
         self.walk('valdren_plaza')
         state = self.client.get('/api/state').json
         self.assertTrue(any('promesa de infancia' in e['text'] for e in state['scene']))
+        exam_hendidura = self.action('examinar', 'hendidura')
+        self.assertTrue(any('vacía' in e['text'] for e in exam_hendidura['narrative']))
 
     def test_hilo_edran_otra_especie(self):
         """Senku (felaryn) completa el hilo de Edran por la ruta larga."""
@@ -181,6 +183,8 @@ class HilosOrigenTests(unittest.TestCase):
         self.walk('khariel_centro')
         state = self.client.get('/api/state').json
         self.assertTrue(any('campanilla' in e['text'] for e in state['scene']))
+        exam_apoyo = self.action('examinar', 'apoyo_alto')
+        self.assertTrue(any('sin la' in e['text'].lower() for e in exam_apoyo['narrative']))
 
     def test_hilo_hoshai_otra_especie(self):
         """Vaison (humano) completa el hilo de Hoshai por la ruta larga."""
