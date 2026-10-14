@@ -1921,6 +1921,22 @@
           "scope": "player"
         },
         {
+          "id": "conclusion_raices_dorsalodo",
+          "label": "Examinar el barro seco bajo las raíces altas",
+          "requires_flags": [
+            "lethra_movimiento_grande"
+          ],
+          "forbids_flags": [
+            "lethra_misterio_canal_resuelto"
+          ],
+          "set_flags": [
+            "lethra_misterio_canal_resuelto"
+          ],
+          "text": "Miras bajo la raíz y descubres marcas de placas rugosas y una costra de barro con la forma rugosa de un lomo, pegada a la madera blanda. La salpicadura violenta no fue una crecida: un Dorsalodo emergió aquí con fuerza para sacudirse el fango y girar en el canal estrecho. El rastro pesado y el barro alto tienen dueño y explicación en esta orilla de Narevia. Pero hacia qué simas oscuras conducen los fondos del canal profundo sigue siendo un secreto que el agua no revela.",
+          "journal": "¡Lo descubrí! Las marcas altas de barro las dejó un Dorsalodo al salir con fuerza del agua estrecha, aunque las simas profundas del canal siguen siendo un misterio.",
+          "scope": "player"
+        },
+        {
           "id": "pasaje_tablas_hundidas",
           "label": "Seguir las tablas hundidas",
           "requires_flags": [
@@ -1944,6 +1960,12 @@
             "lethra_canal_anotado"
           ],
           "text": "La nota que dejaste conserva lugar y condición del canal. Otra persona puede leerla desde el apoyo sin seguir los arrastres al agua."
+        },
+        {
+          "requires_flags": [
+            "lethra_misterio_canal_resuelto"
+          ],
+          "text": "La costra rugosa en la raíz confirma el paso violento del Dorsalodo, mientras la corriente oscura fluye en silencio hacia lo desconocido."
         }
       ],
       "brief": "Las raíces junto al agua, con su nota atada.",
