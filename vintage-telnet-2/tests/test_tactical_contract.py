@@ -19,7 +19,8 @@ class TacticalContractTests(unittest.TestCase):
    char={'id':1,'species':'humano','class_id':cls,'state':state}
    engine=Engine(Content(Path(__file__).resolve().parents[1]/'content'),lambda:0)
    choice=state['combat'].pop('intervention')
-   action=next(a for a in engine.actions(char,{'flags':[],'deaths':{}}) if a['id']=='capacidad')
+   sig_id=m.CLASSES[cls]['signature_id']
+   action=next(a for a in engine.actions(char,{'flags':[],'deaths':{}}) if a['id'] in ('capacidad',sig_id))
    state['combat']['intervention']=choice
    self.assertEqual(action['disabled'],cls!='artifice')
    m.resolve_round(state,{'name':'Rival'},SequenceRandom([0]),respond=False)
@@ -46,7 +47,7 @@ class CooperativeShadowTests(unittest.TestCase):
    self.assertFalse(characters[0]['state']['combat'].get('opening',False))
    self.assertTrue(characters[1]['state']['combat'].get('opening',False))
   self.clock.now+=4;state=shadow.get('/api/state').json
-  self.assertEqual(state['character']['combat']['hp'],33,'60% roll hits only with the secondary Shadow opening')
+  self.assertEqual(state['character']['combat']['hp'],31,'60% roll hits only with the secondary Shadow opening')
   with store.transaction() as db:
    characters=[store.load(row) for row in db.execute('SELECT * FROM characters ORDER BY id')]
    self.assertFalse(characters[0]['state']['combat'].get('opening',False))

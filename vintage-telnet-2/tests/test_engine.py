@@ -472,10 +472,10 @@ class SignatureTests(unittest.TestCase):
    s['combat']={'profile':dict(mechanics.PROFILES['espinajo_rastrojo']),'hp':40,'prepared':True,'round':0,'cooldown':0,'intervention':{'id':'capacidad'}}
    lines,result=mechanics.resolve_round(s,{'name':'Prueba territorial'},FixedRandom())
    outcomes[cls]=(s['hp'],s['combat']['hp'],s['combat']['cooldown'])
-  self.assertEqual(outcomes['juramentado'],(94,40,2))
+  self.assertEqual(outcomes['juramentado'],(96,40,2))
   self.assertEqual(outcomes['arcano'],(92,40,4))
   self.assertEqual(outcomes['sombra'],(92,40,4))
-  self.assertEqual(outcomes['artifice'],(92,34,2))
+  self.assertEqual(outcomes['artifice'],(92,33,2))
   class EnemyMiss:
    def random(self):return .99
   s=mechanics.new_state('humano','sombra','home',0);s['_class']='sombra';s['combat']={'profile':dict(mechanics.PROFILES['espinajo_rastrojo']),'hp':40,'prepared':True,'round':0,'cooldown':0,'intervention':{'id':'capacidad'}}

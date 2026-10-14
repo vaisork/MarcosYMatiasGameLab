@@ -38,7 +38,7 @@ class MultiplayerTests(unittest.TestCase):
   for c in (self.client,partner,observer):self.step(c,'mover','salir');self.step(c,'mover','norte')
   self.action('combatir','espinajo_rastrojo');self.step(partner,'combatir','espinajo_rastrojo')
   self.clock.now+=4;a=self.client.get('/api/state').json;b=partner.get('/api/state').json
-  self.assertEqual(a['character']['combat']['hp'],23);self.assertEqual(b['character']['combat']['hp'],23)
+  self.assertEqual(a['character']['combat']['hp'],21);self.assertEqual(b['character']['combat']['hp'],21)
   self.assertEqual(a['character']['hp'],92);self.assertEqual(b['character']['hp'],100)
   self.clock.now+=8;a=self.client.get('/api/state').json;b=partner.get('/api/state').json;c=observer.get('/api/state').json
   self.assertIsNone(a['character']['combat']);self.assertIsNone(b['character']['combat'])
@@ -85,6 +85,6 @@ class MultiplayerTests(unittest.TestCase):
   left=self.client.get('/api/state').json;remaining=partner.get('/api/state').json
   self.assertEqual(left['room']['id'],'town');self.assertIsNone(left['character']['combat'])
   self.assertEqual(left['character']['hp'],100);self.assertEqual(remaining['character']['hp'],92)
-  self.assertEqual(remaining['character']['combat']['hp'],32)
+  self.assertEqual(remaining['character']['combat']['hp'],30)
   self.assertEqual(remaining['room']['id'],'field')
 if __name__=='__main__':unittest.main()

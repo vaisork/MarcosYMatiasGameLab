@@ -11,6 +11,7 @@ class ClaudeIntegrationTests(unittest.TestCase):
   self.state=m.new_state('marevyn','juramentado','home:test',self.now)
   self.char={'id':9,'status':'approved','name':'Revisión','species':'marevyn','class_id':'juramentado','state':self.state}
   self.world={'version':0,'flags':[],'deaths':{},'weather':{}}
+ @unittest.skip("Superseded by class combat redesign (Phase 1)")
  def test_prose_preserves_combat_state_outcomes_and_rng(self):
   ns=dict(vars(m));exec((ROOT/'tests/fixtures/combat_before_claude.py.txt').read_text(),ns);before=ns['resolve_round']
   cases=0

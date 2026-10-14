@@ -88,3 +88,25 @@ viva examinable de la sala; mirar y las lecturas GET no enseñan datos. La entra
 persistente guarda los textos aprendidos, incluidos los de otras localidades;
 partidas anteriores exponen una lista vacía hasta aprender. Si no queda ningún
 dato local nuevo, el evento lo indica. Las personas no entran en el bestiario.
+
+## Contrato de combate por clases y acciones disponibles (Fase 1 Motor)
+
+El motor expone en `engine.actions()` (consumido por `/api/state` en el array `actions`) las acciones disponibles de combate para que el cliente pueda renderizar un botón por acción (Fase 2).
+
+### Formato de cada acción de combate en `actions`
+Cada elemento de acción expuesto en combate incluye:
+- `id`: identificador de la acción.
+  - Juramentado: `guardia_comprometida`, `paso_ruptura`.
+  - Arcano: `impulso_arcano`, `velo_contencion`, `destello_frio`.
+  - Sombra: `borrar_foco`, `golpe_apertura`, `distraccion`.
+  - Artífice: `tiro_interrupcion`, `traba_campo`, `balsamo_campo`.
+- `label`: etiqueta para el botón de la interfaz (ej. "Guardia Comprometida", "Velo de Contención").
+- `description`: descripción breve y funcional del efecto mecánico.
+- `disabled`: booleano (`true` si está en recarga o no cumple requisitos de arma/contexto; `false` si está disponible).
+- `reason`: texto explicativo de recarga (`"Recarga: N rondas"`), impedimento o descripción funcional.
+
+### Compatibilidad con `capacidad`
+Las peticiones o estados anteriores que envíen `id: 'capacidad'` son mapeados de forma transparente a la acción insignia equivalente de la clase (`guardia_comprometida`, `impulso_arcano`, `borrar_foco`, `tiro_interrupcion`).
+
+### Ajuste de canon del Arcano
+El Arcano **no activa mecanismos antiguos** ni manipula compuertas mecánicas; su interacción en exploración (`requires_classes: ["arcano"]`) se limita a revelar resonancias, marcas, inscripciones o pistas ocultas sin explicar quién las hizo.

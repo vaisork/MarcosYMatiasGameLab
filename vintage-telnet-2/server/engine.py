@@ -335,7 +335,8 @@ class Engine:
                     return True
                 chosen=combat.get('intervention',{}).get('id','atacar')
                 has_weapon=bool(state['equipment'].get('weapon'))
-                contribution=(chosen=='atacar' and has_weapon) or chosen=='capacidad' or (player is primary and chosen in ('defender','esquivar','bloquear','resistir'))
+                class_action_ids={a['id'] for a in m.CLASS_ACTIONS.get(player['class_id'],[])}
+                contribution=(chosen=='atacar' and has_weapon) or chosen=='capacidad' or chosen in class_action_ids or (player is primary and chosen in ('defender','esquivar','bloquear','resistir'))
                 state['_class']=player['class_id'];lines,outcome=m.resolve_round(state,creature,self.rng,respond=False);state.pop('_class',None)
                 state['events']=lines;state['last_active']=now;changed=True
                 if outcome=='fled':self.flee(player,world);continue
@@ -363,7 +364,7 @@ class Engine:
             else:
                 state['events'].append(event('combat',m.creature_prose(creature,'miss',0,combat['round'])))
                 for player,response in responses:
-                    if player['class_id']=='sombra' and response.get('signature') and player['state']['combat']:
+                    if player['class_id']=='sombra' and (response.get('signature') or response.get('action')=='borrar_foco') and player['state']['combat']:
                         player['state']['combat']['opening']=True
                         player['state']['events'].append(event('combat','Su respuesta falla. Tienes una apertura para tu siguiente ataque básico.'))
             for player in remaining:
@@ -538,12 +539,36 @@ class Engine:
             for defense in actions:
                 if defense['id']=='defender':defense['reason']=reasons[defense['target']]
             cls=character['class_id'];context=room.get('combat_context',{})
-            valid=bool(weapon.get('block') or block) if cls=='juramentado' else bool(weapon.get('focus')) if cls=='arcano' else bool(weapon.get('ranged')) and context.get('line_of_fire',True) if cls=='artifice' else context.get('focus_break_possible',True)
-            prepared=m.preparation(combat);invalid_reason='Tu equipo o posición no permite esa respuesta.'
-            if cls=='juramentado' and prepared and not prepared.get('frontal',False):valid=False;invalid_reason='Esta acción preparada no es frontal; la guardia no puede responderla.'
-            if cls=='arcano' and prepared and not prepared.get('interruptible',False):valid=False;invalid_reason='Esta acción preparada no puede interrumpirse.'
-            actions.append({'id':'capacidad','label':m.CLASSES[cls]['signature'],'disabled':bool(combat.get('cooldown')) or not valid,'reason':f"Recarga: {combat.get('cooldown',0)} rondas" if combat.get('cooldown') else invalid_reason if not valid else m.capability_hint(cls,prepared)})
-            signature=actions.pop();actions.insert(1,signature)
+            prepared=m.preparation(combat)
+            class_acts=[]
+            for act in m.CLASSES.get(cls,{}).get('actions',[]):
+                aid=act['id']
+                cd=combat.get('cooldowns',{}).get(aid,0)
+                if act.get('signature') and combat.get('cooldown',0)>cd:cd=combat['cooldown']
+                valid=True;invalid_reason=''
+                if aid=='guardia_comprometida':
+                    if not (weapon.get('block') or block):valid=False;invalid_reason='Tu equipo no permite esa respuesta: necesitas arma con guardia o escudo.'
+                    elif prepared and not prepared.get('frontal',False):valid=False;invalid_reason='Esta acción preparada no es frontal; la guardia no puede responderla.'
+                elif aid=='paso_ruptura':
+                    if not weapon:valid=False;invalid_reason='Sin un arma activa no puedes ejecutar el paso de ruptura.'
+                elif aid=='impulso_arcano':
+                    if not weapon.get('focus'):valid=False;invalid_reason='Necesitas un foco arcano para canalizar el impulso.'
+                    elif prepared and not prepared.get('interruptible',False):valid=False;invalid_reason='Esta acción preparada no puede interrumpirse.'
+                elif aid in ('velo_contencion','destello_frio'):
+                    if not weapon.get('focus'):valid=False;invalid_reason='Necesitas un foco arcano para esta capacidad.'
+                elif aid=='borrar_foco':
+                    if not context.get('focus_break_possible',True):valid=False;invalid_reason='El entorno no permite romper la línea visual.'
+                elif aid=='golpe_apertura':
+                    if not weapon:valid=False;invalid_reason='Sin un arma activa no puedes ejecutar el golpe.'
+                elif aid=='tiro_interrupcion':
+                    if not weapon.get('ranged'):valid=False;invalid_reason='Necesitas un arma a distancia para el tiro.'
+                    elif not context.get('line_of_fire',True):valid=False;invalid_reason='No tienes línea de tiro despejada.'
+                elif aid=='balsamo_campo':
+                    if state['hp']>=m.hp_max(state) and state['fatigue']<=0:valid=False;invalid_reason='No tienes heridas ni fatiga que aliviar.'
+                disabled=bool(cd) or (not valid)
+                reason=f"Recarga: {cd} rondas" if cd else (invalid_reason if not valid else act['description'])
+                class_acts.append({'id':aid,'label':act['label'],'description':act['description'],'disabled':disabled,'reason':reason})
+            actions=[actions[0]]+class_acts+actions[1:]
             if combat['creature']=='mordelinde' and room.get('combat_context',{}).get('escape_can_be_opened'):
                 actions.insert(0,{'id':'abrir_salida','label':'Dejar libre la salida del Mordelinde'})
             if combat.get('intervention'):
@@ -755,6 +780,8 @@ class Engine:
             message={'id':world.get('chat_sequence',0)+1,'sender_id':character['id'],'sender':character['name'],'text':text.strip(),'at':now,'room':state['location'],'recipients':recipients}
             world['chat_sequence']=message['id'];world.setdefault('chat',[]).append(message)
             state['events']=[event('chat','Envías tu mensaje a quienes están aquí.')];return
+        if state['combat'] and action=='capacidad':
+            action=m.CLASSES[character['class_id']]['signature_id']
         candidate=next((a for a in candidates if a['id']==action and a.get('target')==target and (a.get('topic') is None or a.get('topic')==intent.get('topic'))),None)
         if not candidate or candidate.get('disabled'):raise RuleError((candidate or {}).get('reason') or 'Esa acción no está disponible en tu situación actual.',409)
         state['events']=[]
