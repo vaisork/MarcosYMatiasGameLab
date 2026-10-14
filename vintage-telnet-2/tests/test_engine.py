@@ -211,7 +211,7 @@ class JourneyTests(unittest.TestCase):
    'secret':{'id':'secret','name':'SECRET HIDDEN','region':'humano','kind':'interior','description':'Hidden fixture','exits':{}}}
   content={'regions':regions,'rooms':rooms,'npcs':{'worker':{'name':'La trabajadora','home_room':'town','description':'Sostiene una tabla sobre el banco.','topics':{'trabajo':'El campo necesita un tablón firme.','secreto':{'requires_flags':['bridge_saved'],'text':'Ahora el paso está seguro.'}}}},'creatures':{'espinajo_rastrojo':{'name':'Espinajo de prueba','description':'Su postura muestra que defiende la zanja.','warning':'Se prepara para cargar: tienes una intervención antes del contacto.'}},'items':{'food':{'name':'Provisión de prueba','kind':'consumable','effect':'basic_provision','price':8}},'quests':{'valdren_recado_forja':{'name':'Revisar el paso','accept_room':'town','required_rooms':['field'],'required_flags':['bridge_saved'],'payout':6}}}
   (root/'content/world.json').write_text(json.dumps(content))
-  self.app=create_app({'TESTING':True,'TIMEZONE':'UTC','DATA_DIR':str(root/'data'),'CONTENT_DIR':str(root/'content'),'CLOCK':self.clock,'RNG':FixedRandom(),'DM_PASSWORD_HASH':generate_password_hash('private-master-test')})
+  self.app=create_app({'TESTING':True,'DATA_DIR':str(root/'data'),'CONTENT_DIR':str(root/'content'),'CLOCK':self.clock,'RNG':FixedRandom(),'DM_PASSWORD_HASH':generate_password_hash('private-master-test')})
   self.client=self.app.test_client();self.master=self.app.test_client();self.sequence=0
  def post(self,client,path,data):
   csrf=client.get('/api/state').json['csrf_token'];return client.post(path,json=dict(data,csrf_token=csrf))
