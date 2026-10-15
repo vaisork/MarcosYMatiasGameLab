@@ -31,14 +31,17 @@ No es una lista obligatoria de visitas: elegir **uno o dos espacios** para gener
 
 **Motor dramático:** concretar el **precio de la permanencia**. Lera deberá decidir entre dos necesidades legítimas que no puede satisfacer igualmente: alimento, descanso/abrigo, conservar sus escasos sellos o seguir explorando mientras cumple su primera cita. Evitar inventar un precio oficial de hospedaje o negocio inexistente. Si alguien ayuda, debe tener motivo y límites, aceptar/consentir la escena y no transformarse en NPC canónico sin aval. Variar humor y acción frente a la meditación de C009. **La escena debe producir una pérdida, compromiso, descubrimiento sobre sí misma o vínculo humano con consecuencia**, además de avance temporal.
 
-**Tiempo:**
-- C010 debe mostrar de forma inteligible el transcurso de la noche y el **primer día de espera**; recomendable llegar al **primer atardecer prometido**, o justificar claramente un cierre anterior con objetivo decisivo, sin desentenderse del compromiso.
-- No dar por cumplido automáticamente el **segundo** atardecer (día posterior). No hacer aparecer respuesta de Dalia por magia ni acelerar una reunión casual por obligación de un final feliz.
-- Evitar dos capítulos consecutivos en los que solo se aguarda inmóvil; el eventual C011 debe tener nueva acción y contrapartida, no otro atardecer idéntico.
+**Tiempo y cierre: criterio literario prioritario de la dirección (ajuste del propietario, 15/10/2026):**
+- **NO existe una obligación de terminar C010 en el primer atardecer, la noche ni otra marca fija**, tampoco de agotar las ~2.000–2.700 palabras orientativas. La marca de dos atardeceres es un **compromiso de Lera en el mundo narrativo**, no una orden de paginación ni un cronómetro de capítulos.
+- Elige **el final orgánico** donde el conflicto propio del C010 alcance un pequeño punto de resolución, una decisión irreversible o una consecuencia potente que lleve naturalmente al C011. Si eso ocurre **antes** del primer atardecer, termina allí, dejando claro el paso del tiempo y la promesa aún pendiente. Si la escena exige **cruzarlo o narrar más tiempo**, adelante, con causalidad y ritmo; no recortes por acatar esta ficha.
+- **No alargar artificialmente** para llegar a un sitio, cumplir cierto número de días/palabras o fabricar un cliffhanger; evitar paseos, esperas repetidas, diálogos explicativos y reflexiones redundantes. **Tampoco cortar una escena en mitad de su desenlace solo para reservarlo al capítulo siguiente.**
+- La promesa de **dos atardeceres** debe respetarse en la continuidad del libro: registrar cuál/es ya se cumplieron, cuándo y a qué costo; no saltar ni contar el segundo como cumplido sin narrar o dar una elipsis inteligible con consecuencias.
+- Idealmente C010 dramatiza la noche y/o el primer compromiso, **solo si es lo que la historia necesita**. No hacer aparecer respuesta de Dalia por magia ni acelerar una reunión casual para producir final feliz.
+- El revisor evaluará **ritmo, causalidad, consecuencia y satisfacción de cierre**, no obediencia literal al punto de corte en una ficha.
 
 **Inventario al iniciar:** carta original para Dalia doblada/seca/no enviada; recorte de nombre de Lera con **Nara** (carta y recorte distintos); Arel **no** custodia papeles de Lera. Carboncillo, taza asa torcida, cantimplora con algo de agua, palma con raspadura leve, hombro sensible y bota/media aún algo húmedas. Sellos **finitos y no cuantificados**; no fijar cifra retrospectiva sin nuevo acuerdo.
 
-**Final C010:** una acción/compromiso con coste, y la primera espera reconocible o una consecuencia que haga inevitable cumplirla. Dalia conserva autonomía: puede ignorar carta si aparece; no atribuir intención/domicilio ni asegurar envío de su eventual carta. Accesible a 10–14 años y adultos: novela, no manual de supervivencia ni sistema de economía del juego.
+**Final C010:** una acción o decisión con coste y un cierre **orgánico y satisfactorio del conflicto del capítulo**. Puede o no coincidir con la primera espera; la historia marca el momento, no esta ficha. Dalia conserva autonomía: puede ignorar carta si aparece; no atribuir intención/domicilio ni asegurar envío de su eventual carta. Accesible a 10–14 años y adultos: novela, no manual de supervivencia ni sistema de economía del juego.
 
 ## 3. Coordinación de agentes
 
