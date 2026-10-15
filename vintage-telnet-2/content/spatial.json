@@ -733,6 +733,38 @@
     "veyra_vega_abierta": [
       16,
       21
+    ],
+    "veyra_mazmorra_umbral": [
+      17,
+      22
+    ],
+    "veyra_mazmorra_cuencas": [
+      16,
+      22
+    ],
+    "veyra_mazmorra_caudal": [
+      15,
+      22
+    ],
+    "veyra_mazmorra_cornisa": [
+      16,
+      23
+    ],
+    "veyra_mazmorra_mecanismo": [
+      15,
+      23
+    ],
+    "veyra_mazmorra_galeria_ecos": [
+      14,
+      23
+    ],
+    "veyra_mazmorra_boveda_guardian": [
+      13,
+      23
+    ],
+    "veyra_mazmorra_recorridos_fin": [
+      13,
+      22
     ]
   },
   "homes": {
@@ -797,6 +829,12 @@
       "direction": "sur",
       "to": "korven_almacen_fondo",
       "reverse": "este"
+    },
+    {
+      "from": "veyra_mazmorra_recorridos_fin",
+      "direction": "este",
+      "to": "veyra_acequia_exterior",
+      "reverse": "oeste"
     }
   ],
   "roads": [
@@ -11701,6 +11739,278 @@
         [
           52,
           64
+        ]
+      ]
+    },
+    {
+      "from": "veyra_acequia_exterior",
+      "to": "veyra_mazmorra_umbral",
+      "direction": "sur",
+      "reverse": "norte",
+      "points": [
+        [
+          68,
+          84
+        ],
+        [
+          68,
+          85
+        ],
+        [
+          68,
+          86
+        ],
+        [
+          68,
+          87
+        ],
+        [
+          68,
+          88
+        ]
+      ]
+    },
+    {
+      "from": "veyra_mazmorra_cuencas",
+      "to": "veyra_mazmorra_umbral",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          88
+        ],
+        [
+          65,
+          88
+        ],
+        [
+          66,
+          88
+        ],
+        [
+          67,
+          88
+        ],
+        [
+          68,
+          88
+        ]
+      ]
+    },
+    {
+      "from": "veyra_mazmorra_caudal",
+      "to": "veyra_mazmorra_cuencas",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          88
+        ],
+        [
+          61,
+          88
+        ],
+        [
+          62,
+          88
+        ],
+        [
+          63,
+          88
+        ],
+        [
+          64,
+          88
+        ]
+      ]
+    },
+    {
+      "from": "veyra_mazmorra_cornisa",
+      "to": "veyra_mazmorra_cuencas",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          92
+        ],
+        [
+          64,
+          91
+        ],
+        [
+          64,
+          90
+        ],
+        [
+          64,
+          89
+        ],
+        [
+          64,
+          88
+        ]
+      ]
+    },
+    {
+      "from": "veyra_mazmorra_cornisa",
+      "to": "veyra_mazmorra_mecanismo",
+      "direction": "oeste",
+      "reverse": "este",
+      "points": [
+        [
+          64,
+          92
+        ],
+        [
+          63,
+          92
+        ],
+        [
+          62,
+          92
+        ],
+        [
+          61,
+          92
+        ],
+        [
+          60,
+          92
+        ]
+      ]
+    },
+    {
+      "from": "veyra_mazmorra_caudal",
+      "to": "veyra_mazmorra_mecanismo",
+      "direction": "sur",
+      "reverse": "norte",
+      "points": [
+        [
+          60,
+          88
+        ],
+        [
+          60,
+          89
+        ],
+        [
+          60,
+          90
+        ],
+        [
+          60,
+          91
+        ],
+        [
+          60,
+          92
+        ]
+      ]
+    },
+    {
+      "from": "veyra_mazmorra_galeria_ecos",
+      "to": "veyra_mazmorra_mecanismo",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          56,
+          92
+        ],
+        [
+          57,
+          92
+        ],
+        [
+          58,
+          92
+        ],
+        [
+          59,
+          92
+        ],
+        [
+          60,
+          92
+        ]
+      ]
+    },
+    {
+      "from": "veyra_mazmorra_boveda_guardian",
+      "to": "veyra_mazmorra_galeria_ecos",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          52,
+          92
+        ],
+        [
+          53,
+          92
+        ],
+        [
+          54,
+          92
+        ],
+        [
+          55,
+          92
+        ],
+        [
+          56,
+          92
+        ]
+      ]
+    },
+    {
+      "from": "veyra_mazmorra_boveda_guardian",
+      "to": "veyra_mazmorra_recorridos_fin",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          52,
+          92
+        ],
+        [
+          52,
+          91
+        ],
+        [
+          52,
+          90
+        ],
+        [
+          52,
+          89
+        ],
+        [
+          52,
+          88
+        ]
+      ]
+    },
+    {
+      "from": "veyra_mazmorra_recorridos_fin",
+      "to": "veyra_acequia_exterior",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          52,
+          88
+        ],
+        [
+          68,
+          88
+        ],
+        [
+          68,
+          84
         ]
       ]
     }

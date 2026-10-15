@@ -2147,25 +2147,46 @@
       "name": "Camino sobre la acequia",
       "region": "veyra",
       "kind": "road",
-      "description": "Tablas cubren los desagües pequeños junto al camino elevado de la acequia. El agua rápida y clara suena todo el tiempo, refrescando el aire. Las tablas gastadas mantienen el paso por fuera de la ciudad. El canal profundo queda a un lado y no hace falta cruzarlo. Entre la vega y el cruce que baja hacia Lethra se puede mirar la rejilla desde el camino.",
-      "day": "Una trabajadora levanta hojas de la rejilla y las deja en una cesta. El agua vuelve a correr por el hueco; espera a que pase un carro antes de apoyarlo todo junto al camino.",
-      "night": "La corriente se oye debajo del borde. Dos reflectores claros marcan las tablas del desagüe; el camino continúa sobre tierra firme.",
-      "rain": "El desagüe suena más fuerte. El borde alto sigue fuera del agua; las hojas se juntan contra la rejilla y la trabajadora las retira desde arriba.",
-      "return": "El pequeño paso de tablas vuelve a señalar dónde el agua baja del campo hacia los canales. El camino exterior sigue a ambos lados.",
+      "description": "El camino elevado sigue la acequia por fuera de Vaisgard, pero hoy falta el sonido que siempre la acompañaba. Entre las tablas y la rejilla sólo quedan piedras pálidas, cercos blancos de sal y unas hebras de junco vencidas sobre el fondo seco. El aire todavía huele a agua, aunque no corre ninguna. Si te quedas quieto, debajo del camino llega un rumor grave y espaciado. No es un golpe. Tampoco parece una corriente libre. Sube desde la piedra como una respiración que tuviera que atravesar mucha tierra para alcanzarte.",
+      "day": "Una trabajadora levanta la rejilla y mira el cauce vacío con las manos en la cintura. Raspa con la punta de una herramienta una costra blanca del fondo, escucha unos segundos y vuelve a colocarla sin decir nada.",
+      "night": "Sin el agua, el camino suena distinto. Tus pasos pasan de tabla en tabla y, entre uno y otro, el rumor bajo tierra se oye mejor: largo, apagado, seguido por un silencio demasiado completo.",
+      "rain": "La lluvia moja las piedras blancas y forma hilos breves que desaparecen entre las juntas. Ni siquiera entonces la acequia recupera su corriente; el rumor de abajo continúa a otro ritmo.",
+      "return": "Ya reconoces el tramo por lo que falta: no corre agua. Las piedras claras siguen expuestas bajo la rejilla, y el murmullo profundo vuelve a aparecer cuando el camino queda en silencio.",
       "clear": "",
       "exits": {
         "oeste": "veyra_vega_abierta",
-        "este": "veyra_hondonada_canales"
+        "este": "veyra_hondonada_canales",
+        "sur": "veyra_mazmorra_umbral"
+      },
+      "exit_requirements": {
+        "sur": {
+          "requires_level": 3,
+          "text": "La rampa que desciende al Bastión de las Aguas Antiguas bajo la acequia seca requiere templar tu experiencia de camino (nivel 3)."
+        }
       },
       "examine": {
-        "rejilla": "Las hojas quedan arriba; el agua atraviesa las barras hacia el canal.",
-        "tablas": "Cubren un desagüe estrecho. El canal largo corre al lado del camino, no debajo de todo el tramo."
+        "rejilla": "Apartas hojas secas y miras entre las barras. Bajo el cauce vacío aparece una rampa de losas antiguas, más oscuras que la piedra del camino. Desciende fuera del alcance de la luz. En el borde de una junta hay musgo húmedo, aunque arriba todo está seco.",
+        "tablas": "Las tablas cubren un desagüe estrecho. Al apoyar la mano notas una vibración muy leve que no coincide con tus pasos ni con el viento."
       },
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": [],
-      "brief": "El camino sobre la acequia, con sus tablas en los desagües.",
+      "actions": [
+        {
+          "id": "veyra_examinar_rejilla_antigua",
+          "label": "Examinar la conducción antigua bajo la rejilla",
+          "requires_level": 3,
+          "text": "Apartas las hojas y retiras la rejilla lo suficiente para mirar debajo. La rampa no es un simple desagüe: las losas están cortadas con cuidado y llevan estrías para los pies. En una pared, casi borrada por humedad y costra mineral, una inscripción conserva unas palabras: «Bastión de las Aguas Antiguas: regulador de los tres caudales». Mucho más abajo espera un umbral con una ranura circular. Desde allí sube una bocanada de aire frío.",
+          "set_flags": [
+            "acceso_bastion_descubierto"
+          ],
+          "forbids_flags": [
+            "acceso_bastion_descubierto"
+          ],
+          "journal": "Bajo la acequia seca encontraste una rampa antigua. El agua falta arriba, pero algo sigue moviéndose en las profundidades."
+        }
+      ],
+      "brief": "La acequia seca: sal blanca en la piedra y un rumor profundo bajo el camino.",
       "wildlife_pool": [
         {
           "creature": "salteadora_negociante",
@@ -2176,6 +2197,827 @@
           "creature": "espinajo_rastrojo",
           "text": "Un Espinajo de rastrojo rasca la tierra con una pata delantera. Está marcando su sitio.",
           "persistent_trace": false
+        }
+      ],
+      "states": [
+        {
+          "requires_flags": [
+            "dragon_vencido"
+          ],
+          "overrides": {
+            "description": "Te recibe un ruido que antes no estaba: agua clara corriendo bajo las tablas del camino. La acequia de Veyra vuelve a moverse. Donde antes había costras blancas, el fondo oscuro deja pasar una corriente que dobla los juncos y arrastra despacio las hojas secas. La sal permanece en las piedras más altas, pero ya no ocupa todo el cauce. Sobre la rejilla, unas gotas frescas te salpican los dedos. Los pasos de la gente se mezclan con el chapoteo y, por primera vez desde que llegaste, el camino parece tener dos voces: la de arriba, ocupada con sus tareas, y la del agua que volvió a encontrar la salida.",
+            "brief": "La acequia vuelve a correr bajo las tablas; las piedras blancas aún recuerdan los días sin agua.",
+            "day": "Una vecina se asoma sobre la rejilla y llama a otra para que escuche. No hacen falta palabras: el agua corre otra vez, y alguien acerca un pequeño recipiente para llenarlo.",
+            "night": "El agua oscura lleva reflejos de las luces del camino. Ya no puedes oír el antiguo rumor subterráneo: lo cubre el sonido continuo de la corriente libre.",
+            "rain": "Las gotas de lluvia se confunden con la superficie de la acequia. La corriente sigue su rumbo entre las piedras en lugar de desaparecer bajo ellas.",
+            "return": "Reconoces la rejilla y los cercos de sal en las orillas, pero ahora escuchas agua bajo tus pies. Aunque no hayas presenciado lo ocurrido en el fondo, el cambio pertenece al camino entero.",
+            "examine": {
+              "rejilla": "Entre las barras ves el cauce de nuevo lleno. El agua pasa por encima de las estrías antiguas y deja a la vista la entrada de la rampa junto a una orilla. La bajada al Bastión sigue allí; ahora huele a musgo fresco y piedra lavada.",
+              "tablas": "Apoyas la palma sobre una tabla. Su vibración ya no llega en golpes separados: un pequeño rumor constante corre por debajo. El agua roza la madera y se aleja hacia Veyra."
+            }
+          }
+        }
+      ]
+    },
+    "veyra_mazmorra_umbral": {
+      "id": "veyra_mazmorra_umbral",
+      "name": "Umbral del Bastión de las Aguas",
+      "region": "veyra",
+      "kind": "interior",
+      "description": "La rampa termina en una cámara baja, excavada entre sillares oscuros que conservan humedad en las juntas. Frente a ti se levanta un pedestal circular de piedra clara, tan liso que parece fuera de lugar entre los muros gastados. Tres muescas rodean una ranura redonda. Un hilo de agua, delgado como un cordón, avanza por una canaladura y desaparece bajo una compuerta de sillar al oeste. Cerca del suelo crece musgo pálido. Cada gota que cae desde el techo tarda un instante en devolver su eco, como si detrás de la compuerta hubiera mucho más espacio.",
+      "day": "Desde lo alto de la rampa llega una franja de luz. No alcanza la compuerta: se queda sobre el pedestal y hace brillar el polvo húmedo alrededor de la ranura.",
+      "night": "La entrada queda reducida a una mancha gris detrás de ti. El hilo de agua y las estrías bajo tus botas son las referencias más claras; cada movimiento de ropa parece demasiado fuerte.",
+      "rain": "El agua filtrada encuentra nuevas juntas en el techo. Algunas gotas golpean el pedestal; otras caen en la canaladura y corren hacia la compuerta como si el Bastión recogiera la lluvia desde arriba.",
+      "clear": "",
+      "return": "Reconoces primero el hilo de agua y después el pedestal. Ahora sabes que la compuerta puede moverse; aun cerrada, ya no parece una pared, sino una puerta que guarda el resto del descenso.",
+      "brief": "El pedestal claro frente a una compuerta de sillar, bajo el último rectángulo de luz exterior.",
+      "exits": {
+        "norte": "veyra_acequia_exterior",
+        "oeste": "veyra_mazmorra_cuencas"
+      },
+      "exit_requirements": {
+        "oeste": {
+          "requires_flags": [
+            "bastion_umbral_abierto"
+          ],
+          "text": "Una compuerta pesada de sillar bloquea el paso hacia las cuencas; en el pedestal hay una ranura circular con tres marcas de balanza."
+        }
+      },
+      "examine": {
+        "pedestal": "La piedra clara está fría y casi sin grietas. Las tres muescas tienen el mismo desgaste, como si algo redondo hubiera sido colocado aquí muchas veces. En el borde inferior hay una línea de cal dejada por agua antigua.",
+        "rampa": "Las estrías de los escalones continúan hasta el último peldaño. Algunas están redondeadas por pasos viejos; otras conservan bordes demasiado nítidos para saber cuándo se hicieron.",
+        "ranura": "La hendidura circular tiene tres apoyos internos. En el fondo hay humedad limpia y una película verdosa muy fina: todavía llega agua al mecanismo."
+      },
+      "arrivals": {
+        "veyra_acequia_exterior": "Te agachas bajo la rejilla y empiezas a bajar. Tras los primeros escalones todavía alcanzas a oír ruedas y voces de Vaisgard. Diez pasos después sólo queda un eco borroso. La luz de afuera se reduce a un rectángulo pálido sobre tu espalda. El aire se enfría; huele a piedra mojada. Cuando apoyas el pie en la última losa, el sonido cambia: ya no pisas un desagüe bajo la ciudad. Has entrado en una construcción que continúa más allá de lo que alcanza la luz."
+      },
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "bastion_encajar_disco",
+          "label": "Encajar el disco de metal antiguo en el pedestal",
+          "requires_items": {
+            "disco_metal_antiguo": 1
+          },
+          "consume_items": {
+            "disco_metal_antiguo": 1
+          },
+          "set_flags": [
+            "bastion_umbral_abierto"
+          ],
+          "forbids_flags": [
+            "bastion_umbral_abierto"
+          ],
+          "scope": "world",
+          "text": "Alineas las tres marcas del disco con las muescas y empujas. Primero no ocurre nada. Luego el agua de la canaladura cambia de rumbo y entra por la ranura. Algo pesado responde dentro del muro. La piedra vibra bajo tus dedos; polvo viejo cae de una junta. Con un sonido grave, el contrapeso desciende y la compuerta de sillar empieza a hundirse lentamente. Del otro lado llega aire más frío y el rumor de mucha más agua.",
+          "journal": "Abriste el Umbral del Bastión. Detrás de la primera compuerta oíste agua corriendo en una oscuridad mucho mayor."
+        },
+        {
+          "id": "bastion_forzar_umbral_destreza",
+          "label": "Alinear los pernos del pedestal con una ganzúa (Destreza)",
+          "requires_attribute": {
+            "destreza": 10
+          },
+          "set_flags": [
+            "bastion_umbral_abierto"
+          ],
+          "forbids_flags": [
+            "bastion_umbral_abierto"
+          ],
+          "scope": "world",
+          "text": "Introduces una varilla fina y buscas los tres resortes siguiendo las muescas. Uno cede, luego otro. Al liberar el tercero, el agua se desvía hacia el interior del pedestal. Un contrapeso despierta dentro del muro con un golpe profundo. La compuerta desciende, arrastrando polvo antiguo, y una corriente de aire frío te toca la cara.",
+          "journal": "Abriste el Umbral del Bastión. Detrás de la primera compuerta oíste agua corriendo en una oscuridad mucho mayor."
+        },
+        {
+          "id": "bastion_forzar_umbral_intelecto",
+          "label": "Descifrar el contrapeso y presionar la clave de piedra (Intelecto)",
+          "requires_attribute": {
+            "intelecto": 10
+          },
+          "set_flags": [
+            "bastion_umbral_abierto"
+          ],
+          "forbids_flags": [
+            "bastion_umbral_abierto"
+          ],
+          "scope": "world",
+          "text": "Sigues con la vista la canaladura hasta comprender dónde necesita peso el mecanismo. Presionas la losa correcta y el hilo de agua cambia de curso. Se llena una cámara oculta. Algo enorme se mueve dentro del muro; la piedra tiembla bajo tus botas y la compuerta desciende con lentitud. Del paso abierto llega aire frío y olor a agua profunda.",
+          "journal": "Abriste el Umbral del Bastión. Detrás de la primera compuerta oíste agua corriendo en una oscuridad mucho mayor."
+        }
+      ]
+    },
+    "veyra_mazmorra_cuencas": {
+      "id": "veyra_mazmorra_cuencas",
+      "name": "Distribuidor de las Tres Cuencas",
+      "region": "veyra",
+      "kind": "interior",
+      "description": "Tres cuencas circulares ocupan la cámara como escalones llenos de vidrio oscuro. El agua pasa de una a otra por labios de piedra pulidos y, al caer, proyecta reflejos móviles sobre pilares enormes. Hay belleza aquí, pero no descanso. En la cuenca baja el barro está revuelto y junto a una pasarela quedan huesos pequeños, limpios y viejos, atrapados entre dos piedras. En un sillar cercano, tres arañazos largos cruzan una costra mineral. Son demasiado anchos para una herramienta fina. Desde algún lugar más abajo llega un rumor grave; la superficie del estanque tiembla una vez y vuelve a quedar lisa.",
+      "day": "La luz que consigue bajar desde el Umbral alcanza apenas la cuenca superior. Las otras dos reciben sólo reflejos, como si el agua guardara la claridad y la llevara más hondo.",
+      "night": "Las cuencas casi desaparecen, pero el agua dibuja sus bordes por el sonido: caída corta, corriente lenta, caída profunda. De vez en cuando algo chapotea en la cuenca baja y se esconde.",
+      "rain": "El caudal crece poco a poco. Los labios de piedra rebosan con más fuerza y las bóvedas responden con ecos superpuestos que hacen difícil saber dónde termina la cámara.",
+      "clear": "",
+      "return": "Ya puedes reconocer cada cuenca por su sonido. También sabes dónde se agazapa el barro de la inferior y dónde quedaron los arañazos en el sillar. El rumor más profundo sigue llegando desde el oeste y el sur.",
+      "brief": "Tres cuencas escalonadas bajo una bóveda enorme; el agua tiembla a veces sin que nada la toque.",
+      "exits": {
+        "este": "veyra_mazmorra_umbral",
+        "oeste": "veyra_mazmorra_caudal",
+        "sur": "veyra_mazmorra_cornisa"
+      },
+      "exit_requirements": {
+        "sur": {
+          "requires_flags": [
+            "bastion_cuencas_alineadas"
+          ],
+          "text": "El paso hacia la cornisa sur está cerrado por una compuerta hidráulica; el aliviadero de las cuencas debe nivelarse en el orden correcto."
+        }
+      },
+      "examine": {
+        "cuencas": "El agua es sorprendentemente clara. En el fondo de la segunda cuenca hay piedritas blancas colocadas en un pequeño montón, demasiado ordenadas para haber llegado con la corriente. Nadie dejó una explicación.",
+        "aliviadero": "Dos palancas de piedra controlan el paso. La inferior tiene marcas de agua antigua y la lateral conserva una franja pulida por manos. Recuerdas la regla de Nela: aliviar primero el desagüe inferior para que la presión no castigue la esclusa.",
+        "pilares": "Los pilares suben hasta perderse en sombra. En uno, cerca de la base, hay una zona tibia al tacto. El resto de la piedra está fría."
+      },
+      "arrivals": {
+        "veyra_mazmorra_umbral": "Cruzas donde estaba la compuerta y el techo se aleja de pronto. Tus pasos dejan de regresar como un eco corto: suben, se pierden y vuelven desde algún punto alto. El pasillo se abre sobre una cámara de agua. Primero ves un reflejo temblando en la bóveda; después distingues las tres cuencas, una debajo de otra. El sonido de la ciudad ha desaparecido por completo."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "cienfango",
+          "level": 5,
+          "text": "El Cienfango no descansa en el centro de su charca. Está pegado al borde más alto, con el cuerpo tenso y las mandíbulas húmedas orientadas hacia la oscuridad de abajo. Cuando el agua vibra, retrocede un paso antes de fijarse en ti.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": [
+        {
+          "id": "bastion_orden_aliviadero",
+          "label": "Abrir primero el desagüe inferior y luego el freno lateral",
+          "set_flags": [
+            "bastion_cuencas_alineadas"
+          ],
+          "forbids_flags": [
+            "bastion_cuencas_alineadas"
+          ],
+          "scope": "world",
+          "text": "Abres primero el desagüe inferior. La presión cae con un suspiro largo entre las piedras. Después liberas el freno lateral. El agua cambia de nivel sin golpearse contra las compuertas: llena la primera cuenca, rebosa hacia la segunda y alcanza la tercera en una secuencia limpia. Dentro de los muros suben contrapesos que no puedes ver. La compuerta sur se eleva y deja escapar una bocanada de aire más frío.",
+          "journal": "Ordenaste el aliviadero y las tres cuencas encontraron su nivel. El Bastión respondió con agua, peso y piedra."
+        },
+        {
+          "id": "bastion_aliviadero_erroneo",
+          "label": "Tirar con fuerza del freno lateral antes del desagüe",
+          "forbids_flags": [
+            "bastion_cuencas_alineadas"
+          ],
+          "text": "Tiras primero del freno lateral. La presión responde de inmediato: el pasador cruje, una sacudida recorre la palanca y un chorro de agua helada te salpica hasta las rodillas. La compuerta no se mueve. Cuando el ruido cesa, queda claro que el agua necesita una salida antes de liberar el freno."
+        }
+      ]
+    },
+    "veyra_mazmorra_caudal": {
+      "id": "veyra_mazmorra_caudal",
+      "name": "Galería del Caudal Sumergido",
+      "region": "veyra",
+      "kind": "interior",
+      "description": "La galería es larga, estrecha y medio sumergida. El agua cristalina cubre el suelo hasta las pantorrillas y corre sobre sillares tan lisos que parecen pulidos por siglos de paso. Más adelante, una compuerta de roble negro y bronce detiene parte del caudal. La cadena que la gobierna sube hacia una argolla seca. En la pared opuesta hay marcas antiguas de nivel, algunas mucho más altas que el agua actual. Entre dos barras de la reja quedó atrapada una escama translúcida, grande como la palma de tu mano. No se parece a las de la Aguaculebra. La corriente vibra alrededor de ella y sigue adelante.",
+      "day": "Los pocos reflejos que llegan desde las cuencas viajan sobre el agua como líneas quebradas y se apagan antes de alcanzar la compuerta.",
+      "night": "No ves el fondo, pero lo sientes bajo cada paso. La corriente empuja siempre en la misma dirección. Cuando se calma por un segundo, oyes un golpe remoto, profundo, y después vuelve el agua.",
+      "rain": "El nivel sube unos dedos. El agua golpea las barras con más fuerza y hace temblar la cadena contra la pared, eslabón por eslabón.",
+      "clear": "",
+      "return": "El frío de la galería te resulta familiar antes de verla. Reconoces la cadena por su golpeteo y la compuerta por el remolino que se forma frente a sus barras.",
+      "brief": "Agua helada hasta las piernas, una compuerta oscura y una escama extraña atrapada en la reja.",
+      "exits": {
+        "este": "veyra_mazmorra_cuencas",
+        "sur": "veyra_mazmorra_mecanismo"
+      },
+      "exit_requirements": {
+        "sur": {
+          "requires_flags": [
+            "bastion_vado_superado"
+          ],
+          "text": "La compuerta del caudal está trabada bajo el agua; el pasador subacuático y la cadena deben accionarse."
+        }
+      },
+      "examine": {
+        "compuerta": "El roble está ennegrecido por humedad y edad, pero sigue entero. Cerca del borde inferior hay cuatro surcos curvos en el metal, como si algo duro hubiera rozado varias veces desde el otro lado.",
+        "pasador": "El cerrojo de bronce está bajo el agua. La corriente empuja contra él de manera constante; cualquier intento de moverlo exige encontrar primero un apoyo firme.",
+        "cadena": "Los eslabones están fríos y pulidos donde muchas manos pudieron sujetarlos. Más arriba, uno conserva una mancha opaca de mineral azul que no aparece en el resto de la pared."
+      },
+      "arrivals": {
+        "veyra_mazmorra_cuencas": "El corredor occidental desciende unos pasos y el agua te alcanza los tobillos. Luego las pantorrillas. El frío atraviesa las botas. Aquí el Bastión deja de sonar como una sala y empieza a sonar como una corriente: el agua corre junto a ti, debajo de ti y, por momentos, detrás de los muros. La luz de las cuencas desaparece en la primera curva."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "aguaculebra",
+          "level": 6,
+          "text": "La Aguaculebra no patrulla todo el canal. Da vueltas cortas cerca de la reja y, cada vez que el agua tiembla desde el otro lado, se esconde bajo una repisa antes de volver. Cuando te acercas, defiende el único rincón que parece haber elegido.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": [
+        {
+          "id": "bastion_vado_marevyn",
+          "label": "Bucear con soltura y liberar el pasador subacuático (Marevyn)",
+          "requires_species": [
+            "marevyn"
+          ],
+          "set_flags": [
+            "bastion_vado_superado"
+          ],
+          "forbids_flags": [
+            "bastion_vado_superado"
+          ],
+          "scope": "world",
+          "text": "Te hundes en el agua fría y el ruido del mundo cambia de golpe. Bajo la superficie ves el pasador cubierto de verdín y las marcas de la corriente alrededor. Lo giras hasta sentir que libera el peso. Arriba, la cadena se tensa. La compuerta asciende con un rugido apagado y el caudal tira de ti hacia el paso recién abierto.",
+          "journal": "Cruzaste el caudal sumergido y liberaste su compuerta. Más abajo encontraste una escama que no pertenece a ninguna criatura que hayas visto aquí."
+        },
+        {
+          "id": "bastion_vado_arcano",
+          "label": "Revelar las marcas del paso y tirar de la cadena (Arcano)",
+          "requires_classes": [
+            "arcano"
+          ],
+          "set_flags": [
+            "bastion_vado_superado"
+          ],
+          "forbids_flags": [
+            "bastion_vado_superado"
+          ],
+          "scope": "world",
+          "text": "La resonancia hace visibles unas marcas apenas perceptibles bajo el agua. No mueven nada por sí solas: te muestran el recorrido del mecanismo. Sigues la línea hasta la cadena seca y tiras con ambas manos. El pasador cede bajo la corriente. La compuerta asciende y el agua se apresura hacia la abertura.",
+          "journal": "Cruzaste el caudal sumergido y liberaste su compuerta. Más abajo encontraste una escama que no pertenece a ninguna criatura que hayas visto aquí."
+        },
+        {
+          "id": "bastion_vado_artifice",
+          "label": "Enganchar la cadena con un aparejo de ruta y tensar (Artífice)",
+          "requires_classes": [
+            "artifice"
+          ],
+          "set_flags": [
+            "bastion_vado_superado"
+          ],
+          "forbids_flags": [
+            "bastion_vado_superado"
+          ],
+          "scope": "world",
+          "text": "Fijas el aparejo en una zona seca, pasas el gancho por la cadena y tensas poco a poco. El metal protesta bajo el agua. Un último tirón desencaja el pasador. La compuerta sube mientras la polea vibra y el caudal se estira hacia el paso abierto.",
+          "journal": "Cruzaste el caudal sumergido y liberaste su compuerta. Más abajo encontraste una escama que no pertenece a ninguna criatura que hayas visto aquí."
+        },
+        {
+          "id": "bastion_vado_atributo",
+          "label": "Sumergirse y forzar el pasador con esfuerzo firme (Resistencia/Fuerza)",
+          "requires_attribute": {
+            "resistencia": 10
+          },
+          "set_flags": [
+            "bastion_vado_superado"
+          ],
+          "forbids_flags": [
+            "bastion_vado_superado"
+          ],
+          "scope": "world",
+          "text": "Tomas aire y te sumerges. El frío aprieta el pecho. Afirmas los pies entre dos sillares, encuentras el pasador a tientas y empujas hasta que el metal cede con un golpe que sientes en los brazos. Cuando sales a respirar, la compuerta ya está subiendo y la corriente corre hacia la oscuridad.",
+          "journal": "Cruzaste el caudal sumergido y liberaste su compuerta. Más abajo encontraste una escama que no pertenece a ninguna criatura que hayas visto aquí."
+        }
+      ]
+    },
+    "veyra_mazmorra_cornisa": {
+      "id": "veyra_mazmorra_cornisa",
+      "name": "Fractura de la Cornisa Alta",
+      "region": "veyra",
+      "kind": "interior",
+      "description": "La cámara sube como una herida vertical en la roca. Vigas de madera petrificada cruzan el vacío a distintas alturas y desaparecen en contrafuertes antiguos. Abajo, entre cascotes, se adivina una lámina de agua oscura que refleja sólo fragmentos del techo. El contrapeso de piedra cuelga junto al muro oeste sobre una trampilla cerrada. Cerca de la primera viga hay arañazos profundos, demasiado separados para una mano. Más arriba, algo ha dejado pequeñas manchas de barro en lugares donde un animal común no tendría por qué subir. Cuando el agua del fondo tiembla, las gotas de las paredes se desprenden casi al mismo tiempo.",
+      "day": "Un rayo estrecho entra por la abertura superior. Toca una viga, cruza el polvo y termina mucho antes del agua del fondo. El resto de la cámara permanece azul y gris.",
+      "night": "Las vigas forman líneas negras sobre un vacío todavía más oscuro. No ves el agua, pero escuchas su distancia. Cada roce de cuerda y cada piedra que mueves tarda demasiado en dejar de sonar.",
+      "rain": "Las gotas atraviesan la fractura desde arriba y golpean vigas, roca y agua a distintas alturas. Por unos momentos puedes medir la profundidad de la cámara sólo por el tiempo que tarda cada sonido.",
+      "clear": "",
+      "return": "Reconoces la cornisa por el aire frío que sube desde el vacío. Ya sabes qué vigas soportan peso y dónde cuelga el contrapeso; aun así, mirar hacia abajo sigue haciendo que la cámara parezca más honda.",
+      "brief": "Vigas petrificadas sobre un vacío húmedo; muy abajo, el agua tiembla antes de que llegue el eco.",
+      "exits": {
+        "norte": "veyra_mazmorra_cuencas",
+        "oeste": "veyra_mazmorra_mecanismo"
+      },
+      "exit_requirements": {
+        "oeste": {
+          "requires_flags": [
+            "bastion_cornisa_superada"
+          ],
+          "text": "La trampilla oeste está bloqueada por el contrapeso alto que pende de las vigas."
+        }
+      },
+      "examine": {
+        "vigas": "La madera tiene veta, pero al tocarla está dura y fría como piedra. En una de las vigas hay cuatro hendiduras curvas y paralelas. No parecen cortes de herramienta.",
+        "contrapeso": "El bloque está unido a la trampilla por un sistema de traba y peso. Su cara inferior conserva una franja limpia, como si el aire húmedo o algo que pasa cerca impidiera que se acumule polvo.",
+        "cascotes": "Entre las piedras hay un pequeño montón de huesos de ave y roedor, secos y antiguos. No están rotos ni manchados. Algo los llevó hasta un rincón protegido.",
+        "anclajes": "Los anclajes de piedra sostienen una cuerda de apoyo enrollada. La fibra está seca y todavía firme. Desde aquí puede asegurarse el primer tramo sin necesidad de saltar al vacío."
+      },
+      "arrivals": {
+        "veyra_mazmorra_cuencas": "El paso del sur abandona las cuencas y sube entre dos paredes cada vez más juntas. Después la roca se abre sin aviso. Frente a ti ya no hay suelo continuo, sino una fractura alta atravesada por vigas. El aire es más seco y más frío. Muy abajo corre agua que no puedes ver completa. Una gota cae desde algún punto del techo; pasan varios segundos antes de que oigas dónde golpea."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "mordesombra",
+          "level": 7,
+          "text": "El Mordesombra permanece encogido en una viga alta, pero no mira hacia ti al principio. Sus seis patas aprietan la madera mientras observa la oscuridad del fondo. Sólo cuando te mueves demasiado cerca gira la cabeza. Un instante después, desde abajo llega una vibración grave y la criatura se aplasta todavía más contra la viga.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": [
+        {
+          "id": "bastion_cornisa_felaryn",
+          "label": "Saltar con agilidad felaryn hacia las vigas altas (Felaryn)",
+          "requires_species": [
+            "felaryn"
+          ],
+          "set_flags": [
+            "bastion_cornisa_superada"
+          ],
+          "forbids_flags": [
+            "bastion_cornisa_superada"
+          ],
+          "scope": "world",
+          "text": "Mides la distancia, flexionas las piernas y saltas. El primer apoyo llega rápido; el segundo queda sobre el vacío. La viga no cede cuando aterrizas. Desde arriba alcanzas la traba del contrapeso y la liberas. El bloque desciende despacio, la cuerda se tensa y la trampilla oeste se abre con un golpe grave que viaja por toda la fractura.",
+          "journal": "Alcanzaste la cornisa alta y abriste la trampilla del eje central. Desde el vacío sentiste una vibración que hizo callar hasta al Mordesombra."
+        },
+        {
+          "id": "bastion_cornisa_sombra",
+          "label": "Lanzar una cuerda y desarmar la traba con ganzúa (Sombra)",
+          "requires_classes": [
+            "sombra"
+          ],
+          "set_flags": [
+            "bastion_cornisa_superada"
+          ],
+          "forbids_flags": [
+            "bastion_cornisa_superada"
+          ],
+          "scope": "world",
+          "text": "El garfio muerde la viga y pruebas dos veces el anclaje antes de cargar tu peso. Subes pegado a la pared, donde el vacío queda a un costado. Arriba, la traba tiene una abertura estrecha. La ganzúa entra, gira y libera el contrapeso. La trampilla se abre con un sonido que baja por la cámara mucho más lejos de lo que esperabas.",
+          "journal": "Alcanzaste la cornisa alta y abriste la trampilla del eje central. Desde el vacío sentiste una vibración que hizo callar hasta al Mordesombra."
+        },
+        {
+          "id": "bastion_cornisa_juramentado",
+          "label": "Afianzar un puntal de piedra y forzar el balancín (Juramentado)",
+          "requires_classes": [
+            "juramentado"
+          ],
+          "set_flags": [
+            "bastion_cornisa_superada"
+          ],
+          "forbids_flags": [
+            "bastion_cornisa_superada"
+          ],
+          "scope": "world",
+          "text": "Aseguras la cuerda alrededor del anclaje, pruebas el nudo y avanzas usando roca y viga como apoyos. El vacío queda debajo, pero la cuerda mantiene cada movimiento corto. Al llegar al contrapeso retiras la cuña. El bloque baja con lentitud y la trampilla oeste se abre.",
+          "journal": "Alcanzaste la cornisa alta y abriste la trampilla del eje central. Desde el vacío sentiste una vibración que hizo callar hasta al Mordesombra."
+        },
+        {
+          "id": "bastion_cornisa_atributo",
+          "label": "Escalar los salientes de la pared agrietada (Agilidad/Fuerza)",
+          "requires_attribute": {
+            "agilidad": 10
+          },
+          "set_flags": [
+            "bastion_cornisa_superada"
+          ],
+          "forbids_flags": [
+            "bastion_cornisa_superada"
+          ],
+          "scope": "world",
+          "text": "Aseguras la cuerda a los anclajes y avanzas paso a paso por la cornisa. Cada apoyo cruje o raspa antes de aceptar tu peso. Al alcanzar el contrapeso retiras la cuña que lo inmoviliza. El bloque desciende, la cuerda se estira y la trampilla queda abierta hacia el eje central.",
+          "journal": "Alcanzaste la cornisa alta y abriste la trampilla del eje central. Desde el vacío sentiste una vibración que hizo callar hasta al Mordesombra."
+        },
+        {
+          "id": "bastion_cornisa_cuerda",
+          "label": "Asegurar la cuerda por los anclajes de la cornisa",
+          "set_flags": [
+            "bastion_cornisa_superada"
+          ],
+          "forbids_flags": [
+            "bastion_cornisa_superada"
+          ],
+          "scope": "world",
+          "text": "Desenrollas la cuerda de apoyo de los anclajes de piedra y la aseguras a lo largo de la cornisa. Avanzas despacio hasta el contrapeso y retiras su cuña; el paso queda abierto.",
+          "journal": "Aseguraste la cuerda de la cornisa y retiraste la cuña del contrapeso."
+        }
+      ]
+    },
+    "veyra_mazmorra_mecanismo": {
+      "id": "veyra_mazmorra_mecanismo",
+      "name": "Cámara del Trinquete Central",
+      "region": "veyra",
+      "kind": "interior",
+      "description": "La cámara es tan grande que tus pasos parecen pequeños. Una rueda dentada de granito y bronce ocupa el centro, rodeada de dientes más altos que tus hombros; entre ellos quedan hebras de musgo que se mecen sin viento. Tres ejes parten de la rueda hacia la palanca de la bancada este, las manivelas del saliente norte y la válvula de la canaleta oeste. Bajo las losas, algo golpea a intervalos largos. Tum. Después un silencio. Tum. Es el agua empujando el mecanismo desde lo profundo, como si el Bastión tuviera un corazón de piedra. Al oeste, una reja de barras dobles corta el camino: entre sus barrotes asoma una neblina blanca que se retira y vuelve con cada golpe.",
+      "day": "Por las ranuras altas se filtra una claridad débil. Un diente de bronce la recoge y la devuelve en un destello, pero el centro de la rueda sigue hundido en sombra.",
+      "night": "El borde de las consolas apenas destaca sobre el suelo. Entre un golpe y otro puedes oír cómo una gota recorre las estrías del engranaje antes de caer.",
+      "rain": "La lluvia de la superficie se vuelve un goteo más rápido dentro de los conductos; el golpeteo bajo las losas tarda menos en responder, sin revelar lo que lo produce.",
+      "clear": "",
+      "return": "Ya sabes distinguir el golpe profundo del trinquete del roce de sus engranajes. Cada consola tiene un sonido propio; al otro lado de las barras, sin embargo, todo parece guardar silencio.",
+      "brief": "La rueda gigantesca y sus tres consolas; bajo el suelo persiste un latido de piedra.",
+      "exits": {
+        "norte": "veyra_mazmorra_caudal",
+        "este": "veyra_mazmorra_cornisa",
+        "oeste": "veyra_mazmorra_galeria_ecos"
+      },
+      "exit_requirements": {
+        "oeste": {
+          "requires_flags": [
+            "bastion_mecanismo_activado"
+          ],
+          "text": "La reja monumental de barras dobles está bajada; las tres consolas del trinquete deben activarse para acoplar el eje central."
+        }
+      },
+      "examine": {
+        "rueda": "Te acercas a los dientes de bronce y granito: hay ranuras en las que cabe tu mano entera. La piedra está fría, pero una vibración lenta te sube por los dedos. En una cara pulida descubres cuatro surcos anchos que atraviesan la costra verde; nada indica qué los hizo.",
+        "consolas": "Tres puestos separados obligan a rodear la rueda: al este espera una palanca que ofrece resistencia; al norte, tres manivelas pequeñas deben quedar alineadas; al oeste, la válvula descansa junto a un canal con agua oscura. Los engranajes se unen en el mismo eje, aunque cada puesto puede prepararse por separado.",
+        "reja": "Las barras dobles de bronce llegan hasta la bóveda. En los pasadores, unas gotas tiemblan al ritmo del golpe subterráneo. Del otro lado se ve un corredor sin movimiento; una corriente tibia atraviesa los barrotes y desaparece."
+      },
+      "arrivals": {
+        "veyra_mazmorra_caudal": "Dejas atrás el agua hasta las pantorrillas y asciendes por escalones gastados. El chapoteo queda a tu espalda. Al principio oyes un roce de metal; después, un golpe tan grave que lo sientes en el pecho antes que en los oídos. La escalera desemboca en una cámara donde el sonido parece venir del propio suelo.",
+        "veyra_mazmorra_cornisa": "Cruzas la trampilla de la cornisa y avanzas por un pasaje que desciende sin ventanas. El aire seco del vacío se mezcla con olor a metal mojado. Una vibración sacude el polvo de las juntas. Das otro paso, escuchas un golpe enorme y descubres que estás entrando por un costado de una sala circular."
+      },
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "bastion_consola_1_fuerza",
+          "label": "Empujar la palanca pesada de la bancada este (Fuerza)",
+          "requires_attribute": {
+            "fuerza": 10
+          },
+          "set_flags": [
+            "bastion_trinquete_1"
+          ],
+          "forbids_flags": [
+            "bastion_trinquete_1"
+          ],
+          "scope": "world",
+          "text": "Afirmas los pies junto a la bancada este. La palanca se resiste y el bronce emite un quejido largo. Empujas sin soltarla hasta que un diente cae en su ranura: ¡clac! El golpe que venía del suelo responde más cerca. La primera consola queda fija.",
+          "journal": "Sujetaste la palanca este hasta encajar su engranaje. La gran rueda respondió desde abajo."
+        },
+        {
+          "id": "bastion_consola_2_agilidad",
+          "label": "Accionar el cuadrante de manivelas del saliente norte (Destreza)",
+          "requires_attribute": {
+            "destreza": 10
+          },
+          "set_flags": [
+            "bastion_trinquete_2"
+          ],
+          "forbids_flags": [
+            "bastion_trinquete_2"
+          ],
+          "scope": "world",
+          "text": "Pones los dedos en las tres manivelas del saliente norte. La primera raspa; la segunda gira libre; la tercera sólo se mueve cuando las anteriores coinciden. Ajustas cada una siguiendo las marcas gastadas. Los piñones se alinean con un tintineo claro. Ahora el gran golpe subterráneo lleva un pequeño eco metálico.",
+          "journal": "Alineaste las manivelas del norte. Al latido del trinquete se sumó un eco de bronce."
+        },
+        {
+          "id": "bastion_consola_3_resistencia",
+          "label": "Girar la válvula de esclusa de la canaleta oeste (Resistencia)",
+          "requires_attribute": {
+            "resistencia": 10
+          },
+          "set_flags": [
+            "bastion_trinquete_3"
+          ],
+          "forbids_flags": [
+            "bastion_trinquete_3"
+          ],
+          "scope": "world",
+          "text": "Sujetas la válvula oeste con ambas manos y giras poco a poco. Primero sale aire húmedo de la canaleta; luego un hilo de agua transparente rodea el eje. Bajo tus botas los contrapesos se equilibran con un temblor continuo. El último giro deja lista la tercera consola.",
+          "journal": "Abriste la válvula oeste y oíste el agua tomar su lugar entre los contrapesos."
+        },
+        {
+          "id": "bastion_acoplar_mecanismo",
+          "label": "Acoplar el eje central del trinquete",
+          "requires_flags": [
+            "bastion_trinquete_1",
+            "bastion_trinquete_2",
+            "bastion_trinquete_3"
+          ],
+          "set_flags": [
+            "bastion_mecanismo_activado"
+          ],
+          "forbids_flags": [
+            "bastion_mecanismo_activado"
+          ],
+          "scope": "world",
+          "text": "Las tres consolas están preparadas. Empujas el perno central. Durante un instante no pasa nada. Entonces el golpe subterráneo se convierte en un giro que te hace vibrar los pies: un diente de granito alcanza al siguiente, los ejes tiran de los contrapesos y la rueda enorme empieza a moverse. Las barras dobles de la reja suben despacio, arrastrando una cortina de gotas. Cuando el último barrote desaparece en el techo, al oeste te espera un pasillo tan silencioso que parece haberse tragado todo el ruido.",
+          "journal": "Acoplaste el trinquete central. La rueda despertó, levantó la reja y dejó abierto un corredor donde no se oye el agua."
+        },
+        {
+          "id": "bastion_consola_1_contrapeso",
+          "label": "Equilibrar la palanca con el contrapeso (Intelecto)",
+          "set_flags": [
+            "bastion_trinquete_1"
+          ],
+          "forbids_flags": [
+            "bastion_trinquete_1"
+          ],
+          "scope": "world",
+          "text": "Sigues con la vista las marcas del brazo de palanca y deslizas el contrapeso sobre su guía. La resistencia cambia poco a poco. Cuando el peso queda equilibrado empujas con el hombro; el engranaje encaja con un golpe seco que se pierde bajo el suelo. La primera consola queda fija.",
+          "journal": "Equilibraste el contrapeso del este y fijaste la primera consola sin forzarla.",
+          "requires_attribute": {
+            "intelecto": 10
+          }
+        }
+      ]
+    },
+    "veyra_mazmorra_galeria_ecos": {
+      "id": "veyra_mazmorra_galeria_ecos",
+      "name": "Galería de las Losas Sonoras",
+      "region": "veyra",
+      "kind": "interior",
+      "description": "La galería se extiende bajo una bóveda tan larga que no alcanzas a ver bien su final. Aquí no cae agua. Tampoco se oye la rueda que acabas de dejar atrás. Cada pisada vuelve desde las paredes en un sonido claro, casi como una campanita, y luego se apaga. El suelo tiene losas anchas separadas por canales finos. En el dintel de entrada, dos líneas rectas enmarcan un círculo: las líneas continúan sobre las piedras firmes de los lados; las losas del centro parecen descansar torcidas, apenas un dedo. Entre sus juntas brillan alambres tensados hacia un rastrillo al oeste. Hay arañazos largos en uno de los muros y manchas de vapor donde la piedra debería estar seca. Una gota suspendida de un alambre tiembla. Nada la ha tocado. Muy al fondo, detrás del rastrillo, algo grande acaba de mover el aire.",
+      "day": "La claridad que logra pasar desde la cámara del trinquete marca las dos hileras seguras del piso. En medio, los bordes irregulares arrojan sombras delgadas.",
+      "night": "Sin reflejos que te ayuden, cada movimiento se vuelve sonido. Hasta el roce de tu ropa regresa por la bóveda, y un segundo después llega un eco más hondo desde el oeste.",
+      "rain": "La humedad oscurece las losas del centro mientras las dos franjas firmes conservan un brillo pálido. Una gota se forma en cada alambre y tiembla sin caer.",
+      "clear": "",
+      "return": "Sabes que las dos líneas del dintel no son adorno. También reconoces la pausa incómoda entre tus pasos y el eco profundo que llega del otro lado del rastrillo.",
+      "brief": "Un pasillo sin agua: las dos líneas del dintel guían entre losas que resuenan.",
+      "exits": {
+        "este": "veyra_mazmorra_mecanismo",
+        "oeste": "veyra_mazmorra_boveda_guardian"
+      },
+      "exit_requirements": {
+        "oeste": {
+          "requires_flags": [
+            "bastion_paso_ecos_seguro"
+          ],
+          "text": "Las losas basculantes de la galería hacen sonar alambres trampa que cierran el rastrillo del oeste."
+        }
+      },
+      "examine": {
+        "dintel": "Pasas la mano por la talla. Dos líneas paralelas avanzan rectas; un círculo se aparta de ellas justo donde empiezan las losas que basculan. Las líneas no nombran al autor del aviso, pero sí muestran por dónde caminar.",
+        "losas": "Las baldosas de las dos franjas laterales descansan sobre piedra maciza. Las del centro están montadas sobre un eje: una se mueve apenas con la presión de tu pie y una nota fina cruza el pasillo. Más allá, otra losa sigue oscilando sola, muy despacio.",
+        "alambres": "Hilos delgados de bronce cruzan las juntas y llegan al rastrillo oeste. Algunos están tensos, otros vibran por una corriente de aire que viene de adelante. Una gota recorre el alambre más alto y se detiene antes de caer."
+      },
+      "arrivals": {
+        "veyra_mazmorra_mecanismo": "Atraviesas el hueco de la reja. A tus espaldas, el trinquete aún retumba; delante, el corredor absorbe su estruendo hasta dejarlo en nada. El primer paso suena seco. El segundo, como si alguien lo repitiera lejos de ti. Te detienes. Tu último eco da una vuelta más por la bóveda antes de desaparecer."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "quebrarrocas",
+          "level": 9,
+          "text": "El Quebrarrocas ocupa casi todo el ancho del corredor, con las placas de granito erizadas y las patas hundidas entre las juntas. En vez de embestir, apoya la cabeza en el suelo y escucha. Una vibración llega desde el oeste; sus piedras chocan unas con otras como dientes temblorosos. Entonces te ve, retrocede hacia las losas firmes y se planta allí, demasiado asustado para dejarte acercar.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": [
+        {
+          "id": "bastion_seguir_doble_linea",
+          "label": "Pisar únicamente sobre las dos líneas paralelas del dintel",
+          "set_flags": [
+            "bastion_paso_ecos_seguro"
+          ],
+          "forbids_flags": [
+            "bastion_paso_ecos_seguro"
+          ],
+          "scope": "world",
+          "text": "Recuerdas la talla del dintel y eliges las piedras alineadas con las dos líneas paralelas. Das un paso. El eco es corto, firme. Das otro sin pisar el centro. Los alambres siguen quietos. Cuando alcanzas el rastrillo oeste, una ráfaga tibia sale de la oscuridad y te despeina; el paso queda despejado sin que suene ninguna trampa.",
+          "journal": "Seguiste las dos líneas del dintel sin hacer bascular las losas. Tras el rastrillo llegó una corriente de aire tibio."
+        },
+        {
+          "id": "bastion_desactivar_alambres",
+          "label": "Desarmar los alambres trampa con varillas (Destreza/Percepción)",
+          "requires_attribute": {
+            "destreza": 10
+          },
+          "set_flags": [
+            "bastion_paso_ecos_seguro"
+          ],
+          "forbids_flags": [
+            "bastion_paso_ecos_seguro"
+          ],
+          "scope": "world",
+          "text": "Te arrodillas junto a una junta de piedra. Deslizas la varilla por debajo del primer alambre; el metal canta una nota aguda que se alarga por toda la galería. Aguantas hasta que calla. Uno a uno sueltas los contrapesos de aviso y aseguras las losas que giraban. Al levantarte, el corredor ya no responde a tus pies con aquel tintineo peligroso.",
+          "journal": "Soltaste los alambres del rastrillo y aseguraste las losas del centro; el camino quedó firme para quienes lleguen después."
+        }
+      ]
+    },
+    "veyra_mazmorra_boveda_guardian": {
+      "id": "veyra_mazmorra_boveda_guardian",
+      "name": "Bóveda de las Aguas Antiguas",
+      "region": "veyra",
+      "kind": "interior",
+      "description": "La bóveda es tan vasta que los doce arcos de piedra se pierden en una neblina azul antes de juntarse sobre tu cabeza. Abajo, una cuenca profunda da vueltas alrededor de un pedestal, y en el centro del remolino el agua se hunde hacia el manantial oculto. Entonces una montaña de escamas se mueve sobre la piedra. No es una montaña: un dragón enorme tiene las alas plegadas como velas mojadas y la cola rodeada por el agua. Cada escama cambia del azul al verde y al violeta cuando los reflejos de la cuenca la alcanzan. Una vieja marca clara cruza una de sus crestas; al respirar, el pecho se alza con dificultad y de las fosas de su hocico brotan nubes tibias que empañan el suelo frío. Sus garras abrazan el borde del pedestal como si no quisiera soltar aquello que duerme debajo. Abre los ojos dorados y en ellos caben la luz del agua, tu figura diminuta y una vigilancia que parece llevar mucho tiempo sin descansar. A tu espalda el último eco se apaga; al norte, tras el dragón y el remolino, espera el portal de piedra del Sagrario.",
+      "day": "Una claridad lejana baja por grietas muy altas y convierte la niebla sobre el manantial en una nube azul. En las escamas del dragón pasan destellos que parecen peces diminutos.",
+      "night": "Las grietas altas se vuelven oscuras. Sólo los reflejos del remolino dibujan las alas replegadas y los ojos abiertos del guardián; cada respiración mueve las sombras de la bóveda.",
+      "rain": "El agua de los conductos profundos llega con más fuerza y levanta una corona de espuma alrededor del pedestal. El dragón aprieta las garras contra la piedra y sigue con la vista cada corriente nueva.",
+      "clear": "",
+      "return": "El portal norte sigue detrás del manantial. Reconoces la respiración profunda del dragón antes de distinguir su figura; sabes también que el agua que mantiene bajo sus garras no está quieta.",
+      "brief": "Doce arcos, un manantial arremolinado y el dragón inmenso que vigila el pedestal.",
+      "exits": {
+        "este": "veyra_mazmorra_galeria_ecos",
+        "norte": "veyra_mazmorra_recorridos_fin"
+      },
+      "exit_requirements": {
+        "norte": {
+          "requires_flags": [
+            "dragon_vencido"
+          ],
+          "text": "El gran portal del Sagrario permanece custodiado por el Dragón de las Aguas Antiguas."
+        }
+      },
+      "examine": {
+        "pedestal": "Te asomas al borde. El pedestal nace de la misma piedra que rodea al manantial y tiene las orillas pulidas por agua y roce. Las marcas que dejó el peso del guardián forman surcos poco profundos. Bajo la superficie, el remolino empuja hacia salidas que no alcanzas a seguir.",
+        "arcos": "Cuentas doce arcos que se alzan desde el borde de la cuenca. Cerca del arranque de uno hay marcas largas y paralelas, muy arriba de tu cabeza. En otro, las gotas se levantan con cada resuello y caen todas juntas cuando el dragón guarda silencio.",
+        "portal": "El portal norte está detrás del pedestal, donde una franja de piedra clara separa la bóveda del Sagrario de los Recorridos. Una bruma cálida cruza su umbral; el guardián vigila ese paso sin apartarse del manantial."
+      },
+      "arrivals": {
+        "veyra_mazmorra_galeria_ecos": "Dejas atrás las losas sonoras y avanzas hacia el oeste. El corredor desciende; por primera vez en mucho rato la piedra bajo tus pies está tibia. Delante sale vapor de una grieta, luego de otra. Oyes agua girando con fuerza, pero encima de ella hay un sonido más lento: una inspiración enorme. La última curva se abre, el piso vibra y el aire húmedo te envuelve antes de que puedas ver la bóveda entera."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "dragon_aguas_antiguas",
+          "level": 10,
+          "text": "El Dragón de las Aguas Antiguas levanta lentamente la cabeza. Una gota resbala de una de sus crestas antiguas y tarda varios latidos en tocar el agua. La cola cierra un poco más su círculo alrededor del manantial; sus ojos te siguen sin odio, pero tampoco con permiso. Cuando despliega una de las alas, el viento mueve el vapor y deja al descubierto una marca pálida en sus escamas. Está cansado de vigilar. No piensa apartarse.",
+          "forbids_flags": [
+            "dragon_vencido"
+          ],
+          "persistent_trace": false
+        }
+      ],
+      "states": [
+        {
+          "requires_flags": [
+            "dragon_vencido"
+          ],
+          "overrides": {
+            "description": "Los doce arcos siguen levantándose sobre el manantial, pero la bóveda ya no tiembla como antes. En el centro, el remolino se ha abierto en un cauce claro que deja ver las piedras lisas del fondo. El dragón descansa ahora en una repisa de roca junto al pedestal, con las alas recogidas y el pecho subiendo despacio. Una de sus crestas conserva aquella marca antigua. Cuando abre un ojo dorado para seguir la corriente, no se incorpora ni cierra el paso. El agua pasa libre entre sus garras y entra en los conductos que vuelven hacia Veyra. Al norte, el portal del Sagrario queda descubierto; una línea de luz temblorosa cruza el umbral.",
+            "brief": "El manantial fluye limpio y el dragón descansa junto al pedestal; el portal norte está libre.",
+            "day": "La luz que baja por las grietas encuentra el fondo transparente de la cuenca. Los reflejos viajan por los arcos sin agitarse sobre las alas del guardián dormido.",
+            "night": "Sobre la piedra se oye una respiración lenta, sin rugidos. La corriente traza hilos de luz hacia los conductos y deja la bóveda en una oscuridad tranquila.",
+            "rain": "Los canales reciben el agua de la lluvia sin sacudir el pedestal. La corriente se ensancha, rodea con suavidad la repisa del dragón y continúa hacia la salida.",
+            "return": "El guardián sigue descansando fuera del paso. Donde antes rugía un remolino atrapado, ahora oyes agua que no se detiene.",
+            "examine": {
+              "pedestal": "El estrado sigue marcado por las garras antiguas, pero ya no sostiene el peso del dragón. El agua limpia recorre los surcos, da una vuelta corta y toma su cauce hacia las conducciones.",
+              "arcos": "Los doce arcos brillan con gotas que caen a su propio ritmo. Ningún resuello las arranca del techo. La piedra conserva grandes arañazos, huellas de una vigilancia que por fin se ha aquietado.",
+              "portal": "El portal norte está abierto y la piedra de su umbral permanece húmeda. Puedes ver una escalinata baja, un resplandor que viene de arriba y la entrada al Sagrario de los Recorridos."
+            }
+          }
+        }
+      ],
+      "actions": []
+    },
+    "veyra_mazmorra_recorridos_fin": {
+      "id": "veyra_mazmorra_recorridos_fin",
+      "name": "Sagrario de los Recorridos",
+      "region": "veyra",
+      "kind": "interior",
+      "description": "Después de la profundidad del Bastión, llegas a una sala pequeña y alta, abierta por una claraboya natural. La claridad entra en diagonal y alcanza tres arquetas de piedra, cada una con huecos de distintas formas. No hay nombres grabados ni una explicación de quién las dejó aquí. Sobre el borde de una arqueta descansan gotas transparentes; más allá se distinguen armas antiguas, joyas y piezas pulidas que recuerdan las escamas del guardián. El aire viene de la vega abierta. Al este, una escalinata sube hacia la acequia; al sur queda el camino por el que llegaste. Estás tan lejos del ruido del combate que alcanzas a oír cómo una gota cae desde la claraboya y golpea una piedra lisa.",
+      "day": "La luz cae sobre las arquetas en franjas estrechas. Cada filo y cada gema devuelve un destello distinto.",
+      "night": "Por la claraboya asoma un pedazo de cielo. La piedra conserva el frío del día y las arquetas esperan en silencio.",
+      "rain": "La lluvia baja en gotas sueltas por el borde de la claraboya. Huele a tierra mojada y a hierba de la vega.",
+      "clear": "",
+      "return": "La sala sigue abierta al cielo. Las arquetas permanecen sobre sus bases y la escalinata este conduce a la acequia.",
+      "brief": "Tres arquetas bajo una claraboya natural y una escalera que lleva de vuelta a la acequia.",
+      "exits": {
+        "sur": "veyra_mazmorra_boveda_guardian",
+        "este": "veyra_acequia_exterior"
+      },
+      "examine": {
+        "arquetas": "Tres arquetas de piedra conservan huecos preparados para armas y pequeñas piezas. Ves joyas cristalinas, una escama tornasolada y un colmillo suavemente curvado entre otros objetos. Ninguna inscripción dice quién preparó el lugar ni por qué.",
+        "claraboya": "La abertura es irregular y natural. Por ella se ven el cielo y algunas hierbas que crecen entre las piedras altas. Aquí el aire se mueve libre, distinto del vapor encerrado en la bóveda.",
+        "escalinata": "Los peldaños son anchos, de piedra áspera en los bordes. Hacia arriba llega el olor de los juncos y una claridad que no necesita antorchas."
+      },
+      "arrivals": {
+        "veyra_mazmorra_boveda_guardian": "Cruzas el portal norte con cuidado. A tus espaldas queda el ruido amplio del manantial; un tramo de escalones lo vuelve lejano. Después notas una corriente de aire diferente, fresca y con olor a hierba. La oscuridad se adelgaza hasta que un rectángulo de cielo aparece sobre ti. Por primera vez desde el descenso puedes levantar la vista y ver nubes."
+      },
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "reclamar_premio_juramentado",
+          "label": "Recoger las recompensas del Bastión (Juramentado)",
+          "requires_classes": [
+            "juramentado"
+          ],
+          "requires_flags": [
+            "dragon_vencido",
+            "participated:dragon_vencido"
+          ],
+          "forbids_flags": [
+            "gran_premio_recibido"
+          ],
+          "set_flags": [
+            "gran_premio_recibido"
+          ],
+          "give_items": {
+            "espada_bastion": 1,
+            "joyas_bastion": 1,
+            "escama_dragon": 1
+          },
+          "text": "Te acercas al hueco destinado al Juramentado. La Espada del Bastión descansa sobre dos apoyos de piedra; su hoja azulada recoge la luz de la claraboya y la extiende hasta la pared. Al tomar la empuñadura sientes un peso firme, hecho para sostener la guardia sin retroceder. Junto a ella recoges las Joyas del Bastión y una gran escama tornasolada que parece guardar el color del manantial. Recuerdas las cuencas oscuras, el golpe del trinquete y los ojos del dragón. La victoria no es sólo haber llegado: el agua vuelve a correr y tú sales de aquí con una historia que puedes contar.",
+          "journal": "Tras liberar el paso del manantial y participar en la victoria sobre el guardián, recibiste la Espada del Bastión, las Joyas del Bastión y una gran escama de dragón. La acequia de Veyra volvió a correr."
+        },
+        {
+          "id": "reclamar_premio_arcano",
+          "label": "Recoger las recompensas del Bastión (Arcano)",
+          "requires_classes": [
+            "arcano"
+          ],
+          "requires_flags": [
+            "dragon_vencido",
+            "participated:dragon_vencido"
+          ],
+          "forbids_flags": [
+            "gran_premio_recibido"
+          ],
+          "set_flags": [
+            "gran_premio_recibido"
+          ],
+          "give_items": {
+            "vara_caudales": 1,
+            "joyas_bastion": 1,
+            "escama_dragon": 1
+          },
+          "text": "En la arqueta del Arcano descubres la Vara de los Caudales apoyada sobre un canalito seco. La madera petrificada pesa menos de lo que imaginabas; en su punta, el cristal deja pasar una línea azul de luz cuando lo alzas. Su vibración es suave, como el agua que corre detrás del muro. Recoges también las Joyas del Bastión y una gran escama tornasolada. Las pruebas del descenso no desaparecen de tu memoria: aprendiste a escuchar la piedra, seguir el agua y mirar de frente a su guardián. Ahora llevas contigo algo que te recordará ese recorrido.",
+          "journal": "Tras liberar el paso del manantial y participar en la victoria sobre el guardián, recibiste la Vara de los Caudales, las Joyas del Bastión y una gran escama de dragón. La acequia de Veyra volvió a correr."
+        },
+        {
+          "id": "reclamar_premio_sombra",
+          "label": "Recoger las recompensas del Bastión (Sombra)",
+          "requires_classes": [
+            "sombra"
+          ],
+          "requires_flags": [
+            "dragon_vencido",
+            "participated:dragon_vencido"
+          ],
+          "forbids_flags": [
+            "gran_premio_recibido"
+          ],
+          "set_flags": [
+            "gran_premio_recibido"
+          ],
+          "give_items": {
+            "daga_aguas_profundas": 1,
+            "joyas_bastion": 1,
+            "colmillo_dragon": 1
+          },
+          "text": "La arqueta de la Sombra apenas refleja la luz. Allí descansa la Daga de las Aguas Profundas: una hoja curva y oscura cuyo contorno sólo descubres al moverla. El mango se acomoda a tu mano sin hacer ruido contra la piedra. Junto a ella encuentras las Joyas del Bastión y un colmillo de dragón ya pulido, liso como porcelana antigua. Guardas cada pieza y vuelves a oír en tu recuerdo el silencio de las losas, el roce de los alambres y la respiración enorme al final del camino. Con paciencia y valor encontraste una salida donde parecía no haberla.",
+          "journal": "Tras liberar el paso del manantial y participar en la victoria sobre el guardián, recibiste la Daga de las Aguas Profundas, las Joyas del Bastión y un colmillo pulido de dragón. La acequia de Veyra volvió a correr."
+        },
+        {
+          "id": "reclamar_premio_artifice",
+          "label": "Recoger las recompensas del Bastión (Artífice)",
+          "requires_classes": [
+            "artifice"
+          ],
+          "requires_flags": [
+            "dragon_vencido",
+            "participated:dragon_vencido"
+          ],
+          "forbids_flags": [
+            "gran_premio_recibido"
+          ],
+          "set_flags": [
+            "gran_premio_recibido"
+          ],
+          "give_items": {
+            "arco_esclusa": 1,
+            "joyas_bastion": 1,
+            "colmillo_dragon": 1
+          },
+          "text": "Te detienes frente a la arqueta del Artífice. El Arco de la Esclusa tiene placas de bronce fijadas a sus brazos y una cuerda trenzada que permanece firme en el aire húmedo. Lo levantas con cuidado: el arco responde con una tensión pareja, como las compuertas cuando encontraron su equilibrio. Recoges las Joyas del Bastión y un colmillo de dragón pulido que descansa en una pequeña cavidad. Entre tus manos llevas una recompensa, pero también el recuerdo de lo que lograste entender y poner en movimiento. Desde el muro llega el rumor del agua que ya no está atrapada.",
+          "journal": "Tras liberar el paso del manantial y participar en la victoria sobre el guardián, recibiste el Arco de la Esclusa, las Joyas del Bastión y un colmillo pulido de dragón. La acequia de Veyra volvió a correr."
+        }
+      ],
+      "states": [
+        {
+          "requires_flags": [
+            "dragon_vencido"
+          ],
+          "overrides": {
+            "description": "La luz de la claraboya cae sobre tres arquetas de piedra y el agua recién liberada canta muy abajo, detrás de los muros. Una canaleta delgada recorre el borde del Sagrario sin mojar el suelo; en ella flotan destellos que se mueven como estrellas pequeñas. En las arquetas reposan armas de distintas formas, joyas cristalinas y piezas pulidas del dragón. No sabes quién preparó esos huecos, pero ahora comprendes por qué esta sala se encuentra al final del camino: aquí puedes detenerte, recordar lo que atravesaste y elegir el premio que corresponde a tu recorrido. La escalera este asciende hacia el aire libre de Veyra.",
+            "brief": "La luz y el agua recorren el Sagrario; las arquetas esperan a quienes ganaron su premio.",
+            "day": "Un rayo de sol atraviesa la claraboya y llega a la canaleta. La luz salta del agua a una hoja de metal, luego a una gema, sin quedarse quieta.",
+            "night": "Las estrellas asoman entre las piedras de la claraboya. La canaleta las refleja como pequeños puntos de luz que viajan despacio junto a las arquetas.",
+            "rain": "El olor a tierra mojada baja desde la vega. Las gotas de lluvia resuenan sobre la claraboya, pero la canaleta del Sagrario conserva un flujo parejo.",
+            "return": "Reconoces la claridad de la salida y el murmullo que llega desde la bóveda. Las arquetas siguen aquí para los demás viajeros; cada recorrido tiene su propio premio.",
+            "examine": {
+              "arquetas": "La piedra presenta huecos para armas de formas distintas y pequeñas cavidades para joyas y reliquias. No puedes leer su procedencia: no hay nombres ni fechas. Puedes acercarte a la recompensa de tu vocación si participaste en la victoria y todavía no la has reclamado.",
+              "claraboya": "Por la abertura ves cielo abierto. Unas gotas se reúnen sobre una raíz y caen hasta la canaleta, que las recibe antes de continuar hacia la bóveda.",
+              "escalinata": "La escalera oriental sube hacia una luz cada vez más cálida. Desde aquí ya se escucha, muy distante, el curso de agua que vuelve a la acequia."
+            }
+          }
+        },
+        {
+          "requires_flags": [
+            "gran_premio_recibido"
+          ],
+          "overrides": {
+            "description": "El Sagrario conserva la luz que cae por la claraboya y el hilo de agua que recorre la canaleta entre las arquetas. Una de ellas guarda un espacio libre: ahí descansaba el premio que ya recogiste. Los demás huecos siguen preparados para otros viajeros; el agua no se detiene por tu partida. Desde el este llega olor a juncos y a tierra abierta. Abajo, detrás del muro sur, el manantial continúa su camino.",
+            "brief": "Tu espacio en las arquetas ya está vacío; el Sagrario conserva premios para otros viajeros.",
+            "return": "Vuelves a encontrar vacío el hueco de tu recompensa. No se ha llevado las demás: otros caminos aún terminarán en esta sala.",
+            "examine": {
+              "arquetas": "Reconoces el hueco del premio que ya recibiste. Las otras cavidades conservan sus piezas para otros viajeros. Un hilo de agua dibuja luces sobre sus bordes sin tocar los objetos."
+            }
+          }
         }
       ]
     }
@@ -2191,7 +3033,19 @@
       "topics": {
         "cargas": "En esta lista apunto lo que espera llegar. Si un carro tarda, necesito saber quién lo lleva y qué le ocurrió. Escribir «perdido» demasiado pronto haría que alguien dejara de esperar su pedido. Prefiero una noticia incompleta pero cierta a una explicación que nadie ha comprobado.",
         "ciudad": "Guardamos las listas de ahora en estos estantes. Sobre quienes levantaron las piedras antiguas sabemos mucho menos. No te voy a dar un nombre sólo porque encaje con una historia bonita.",
-        "rutas": "Desde aquí salen recados hacia cinco caminos. Si copio una noticia sin saber de dónde viene, puedo asustar a personas que ni siquiera pasan por ese lugar. Siempre pregunto quién vio el problema y dónde.",
+        "disco_antiguo": {
+          "text": "Nera busca en un arcón de metal bajo la mesa y saca una pieza redonda y pesada. «Lo sacaron del fondo de la acequia exterior cuando limpiaron los aliviaderos. Tiene tres marcas como las balanzas de Brumak, pero no es peso ni moneda; es una llave de paso antigua. Si vas a revisar las galerías bajo la acequia seca, llévatelo antes de que alguien lo use de pisapapeles.»",
+          "requires_level": 3,
+          "give_items": {
+            "disco_metal_antiguo": 1
+          },
+          "set_flags": [
+            "disco_antiguo_obtenido"
+          ],
+          "forbids_flags": [
+            "disco_antiguo_obtenido"
+          ]
+        },
         "aviso_preciso": {
           "requires_flags": [
             "encargo_veyra_demora_conocida"
@@ -2330,7 +3184,8 @@
         "toldos": "Este toldo une dos fachadas. Cuando su borde se dobla, el agua cae hacia el taller de abajo. Podemos enderezarlo entre dos personas, pero una de ellas necesita que alguien sostenga la pértiga mientras trabaja.",
         "vecinos": "Quien trabaja abajo no puede dejar sus herramientas bajo la lluvia. No quiero que cierre el taller por este borde suelto. Si nos ponemos de acuerdo sobre dónde dejar salir el agua, el arreglo le sirve a ella y también a quienes pasan.",
         "narevia": "En casa aprendí a dejar pasar el agua antes de pensar en detenerla.",
-        "reparación": "Mira primero la costura vieja para encontrar el desgarro. Puedes sujetarlo con junco sin tapar la salida del agua. Bela presta un haz en el mercado, un paso al oeste. Si prefieres no gastar fibra, ayúdame a preparar las perchas y marcar dónde debo coser; yo terminaré la sujeción."
+        "reparación": "Mira primero la costura vieja para encontrar el desgarro. Puedes sujetarlo con junco sin tapar la salida del agua. Bela presta un haz en el mercado, un paso al oeste. Si prefieres no gastar fibra, ayúdame a preparar las perchas y marcar dónde debo coser; yo terminaré la sujeción.",
+        "acequia": "Hoy el agua no está llegando como siempre. En los toldos se nota antes de que alguien lo diga: la canaleta de esta calle casi no trae nada. Fui hasta la acequia exterior y estaba seca, con una costra blanca sobre las piedras. Lo raro fue quedarme allí en silencio. Debajo del camino sonó algo lento, como agua empujando una puerta muy grande. Yo no bajaría sin mirar bien por dónde vuelves."
       },
       "day": "Ajusta costuras compartidas.",
       "night": "Guarda hilo seco y revisa los apoyos desde las puertas.",
@@ -2359,6 +3214,22 @@
           "overrides": {
             "topics": {
               "reparación": "La atadura que hiciste sujeta el desgarro sin tapar el desagüe. Cuando pase agua, revisaré ese borde."
+            }
+          }
+        },
+        {
+          "requires_flags": [
+            "dragon_vencido"
+          ],
+          "overrides": {
+            "topics": {
+              "acequia": "¡Ya escuchaste la acequia! Esta mañana volvió a correr bajo las tablas. Primero salió un hilo, luego se llenó el cauce y alguien empezó a llamar a los vecinos para que fueran a verlo. Ya no oigo aquel golpeteo profundo; ahora oigo agua de verdad. No sé qué pasó allá abajo, pero vaya que cambió las cosas. Los juncos volverán a levantarse cuando tengan tiempo.",
+              "toldos": "El agua regresó a las canaletas y ya puedo ver cómo cae desde el toldo. Sigue faltando revisar algunas costuras, pero al menos puedo comprobar el camino del agua otra vez. Eso sí: primero hay que dejarle una salida."
+            },
+            "day": "Seli levanta la vista de su costura para seguir el agua que vuelve a la canaleta. Le muestra el hilo de corriente a un vecino antes de volver al trabajo.",
+            "night": "Seli guarda el hilo seco mientras escucha el sonido constante de la canaleta. Sonríe al reconocerlo; no había sonado así en días.",
+            "world_memory": {
+              "dragon_vencido": "Seli señala la canaleta llena: «No sé quién logró que el agua regresara, pero hoy medio barrio se acercó a verla. Escucha: hasta las calles suenan distintas»."
             }
           }
         }

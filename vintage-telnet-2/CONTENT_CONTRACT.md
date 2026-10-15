@@ -157,3 +157,16 @@ La calibración aislada de todas las salas, diarios y secretos de origen más un
 alcanza entre los niveles 3 y 4 para las cinco especies, sin combate.
 Es una prueba de balance del motor con transiciones sintéticas, no un recorrido
 humano ni una validación de producción; otras pistas y encargos suman XP.
+
+## Revisión del Bastión — 2026-10-14
+
+Acceso desde nivel 3, incluido el disco de Brumak. La cornisa admite asegurar
+la cuerda sin requisito de clase y la primera consola admite equilibrar su
+contrapeso con Intelecto 10. El Arcano revela las marcas del caudal; la cadena
+se acciona a mano, sin activar mecanismos mediante magia.
+La salud del dragón se conserva en `world.creature_states` tras retiradas y
+recargas; al vencer queda en cero y `dragon_vencido` impide otro encuentro.
+Cada participante cobra una vez su arma de clase, joyas y escama o colmillo.
+Las pruebas recorren todas las salas y cinco combates con arcanos de nivel 3
+(humano, felaryn y pareja), usando tiradas favorables deterministas: demuestran
+accesibilidad y resolución, sin estimar probabilidad de victoria ni certificar producción.

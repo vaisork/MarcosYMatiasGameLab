@@ -844,6 +844,29 @@
           "chance": 0.3
         }
       ]
+    },
+    "dragon_aguas_antiguas": {
+      "id": "dragon_aguas_antiguas",
+      "name": "Dragón de las Aguas Antiguas",
+      "region": "veyra",
+      "description": "Su cuerpo ocupa gran parte del pedestal y la cola recorre el borde del manantial como un muro vivo. Las escamas gruesas reflejan azules, verdes y violetas distintos en cada respiración; una marca antigua, pálida, atraviesa una de sus crestas. Bajo las alas membranosas guarda el calor de una tormenta, y el vapor que exhala se arremolina sobre el agua fría. Sus ojos dorados no miran con crueldad: siguen las manos, los pies y cualquier movimiento cercano a la corriente que protege.",
+      "presagio": "Mucho antes de llegar a la bóveda, el agua tiembla a intervalos como si respirara. Una escama translúcida gira atrapada en una reja; más abajo la piedra está tibia aunque el aire sea frío. Hay surcos muy anchos en los sillares, y un vapor blanco escapa de grietas demasiado pequeñas para una persona. El rumor del fondo se parece cada vez menos a una compuerta y cada vez más al pecho de un animal enorme.",
+      "habitat": "Descansa sobre el manantial profundo que antes alimentaba la acequia de Veyra, en la gran bóveda bajo el Bastión de las Aguas Antiguas. Antiguo y territorial, protege el borde del agua y el paso al Sagrario. Una marca vieja en sus escamas y su respiración trabajosa sugieren que lleva mucho tiempo inquieto o lastimado; no se sabe por qué. No se conoce quién levantó la bóveda ni qué mantiene el agua en movimiento.",
+      "warning": "El dragón levanta la cabeza y despliega un ala que tapa parte de los reflejos del techo. Las gotas tiemblan en los doce arcos. No te mira con odio: te mira como a alguien que se ha acercado demasiado al agua que protege. Todavía puedes retroceder hacia las losas sonoras antes de entrar en su alcance.",
+      "combat_intro": "Das un paso hacia el pedestal. El dragón extiende las dos alas; una ráfaga tibia hace girar el vapor y el remolino se levanta alrededor de sus patas. Cuando ruge, las gotas de los arcos caen juntas sobre las losas. Se apoya con dificultad en una garra, pero no cede el paso: tendrás que leer cada movimiento de su cuerpo para salir de aquí.",
+      "source": "Ampliación canónica autorizada: Mazmorra Final del Bastión de las Aguas Antiguas",
+      "material": "escama_dragon",
+      "loot": [
+        {
+          "item": "escama_dragon",
+          "chance": 1
+        },
+        {
+          "item": "colmillo_dragon",
+          "chance": 0.8
+        }
+      ],
+      "defeat_text": "El dragón intenta alzar otra vez las alas. No puede. En lugar de rugir, deja escapar un resuello largo que mueve el vapor por última vez. Sus ojos dorados te miran y la cola afloja el círculo que formaba alrededor del manantial. Con cuidado, el guardián se desliza hacia una repisa de piedra junto al agua y recoge las alas para descansar. El remolino, libre de su peso, se abre poco a poco. Un hilo transparente encuentra un canal; luego otro lo sigue. Pronto la cuenca entera canta contra los conductos y la corriente se dirige hacia Veyra. El dragón cierra los ojos. Su pecho sigue subiendo y bajando, tranquilo. Has vencido sin apagar la vida que cuidaba este lugar."
     }
   },
   "items": {
@@ -967,6 +990,76 @@
       "name": "Placa de balanza",
       "kind": "quest",
       "description": "Placa de tres muescas del almacén de Ruma."
+    },
+    "disco_metal_antiguo": {
+      "id": "disco_metal_antiguo",
+      "name": "Disco de metal antiguo",
+      "kind": "quest",
+      "description": "Un disco de metal pulido y pesado con tres marcas que recuerdan una balanza antigua. Parece encajar en una ranura mecánica."
+    },
+    "espada_bastion": {
+      "id": "espada_bastion",
+      "name": "Espada del Bastión",
+      "kind": "weapon",
+      "damage": 14,
+      "block": true,
+      "activated": true,
+      "price": 150,
+      "sell_price": 55,
+      "description": "Una espada ancha de aleación azulada que resiste el agua. En el pomo lleva un grabado antiguo cuyo significado se desconoce; su peso transmite firmeza a la guardia."
+    },
+    "vara_caudales": {
+      "id": "vara_caudales",
+      "name": "Vara de los Caudales",
+      "kind": "weapon",
+      "damage": 11,
+      "focus": true,
+      "activated": true,
+      "price": 140,
+      "sell_price": 50,
+      "description": "Una vara tallada en madera petrificada con un cristal translúcido en la punta que vibra suavemente con el rumor del agua profunda."
+    },
+    "daga_aguas_profundas": {
+      "id": "daga_aguas_profundas",
+      "name": "Daga de las Aguas Profundas",
+      "kind": "weapon",
+      "damage": 12,
+      "activated": true,
+      "price": 145,
+      "sell_price": 52,
+      "description": "Una hoja delgada y curvada de acero oscuro que no refleja la luz. Su filo entra limpio como una gota en aguas calmas."
+    },
+    "arco_esclusa": {
+      "id": "arco_esclusa",
+      "name": "Arco de la Esclusa",
+      "kind": "weapon",
+      "damage": 13,
+      "ranged": true,
+      "activated": true,
+      "price": 150,
+      "sell_price": 55,
+      "description": "Un arco compuesto reforzado con placas de bronce y cuerda trenzada impermeable. Su tensado es firme y dispara con gran precisión a distancia."
+    },
+    "joyas_bastion": {
+      "id": "joyas_bastion",
+      "name": "Joyas del Bastión",
+      "kind": "material",
+      "sell_price": 60,
+      "description": "Un conjunto de gemas cristalinas engarzadas en aros de metal antiguo. Los mercaderes y orfebres reconocen su valor histórico y su brillo inalterable."
+    },
+    "escama_dragon": {
+      "id": "escama_dragon",
+      "name": "Gran escama de dragón",
+      "kind": "material",
+      "sell_price": 40,
+      "description": "Una escama grande y curvada de color azul tornasolado, tan dura como el sillar y fría al tacto."
+    },
+    "colmillo_dragon": {
+      "id": "colmillo_dragon",
+      "name": "Colmillo pulido de dragón",
+      "kind": "material",
+      "sell_price": 45,
+      "description": "Un colmillo largo y suavemente curvado, brillante como porcelana antigua. Representa la superación del reto más hondo del Bastión."
     },
     "polea_daren": {
       "id": "polea_daren",

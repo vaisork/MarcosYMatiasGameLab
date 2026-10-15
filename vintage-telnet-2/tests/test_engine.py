@@ -458,7 +458,7 @@ class FormulaTests(unittest.TestCase):
  def test_closed_formulas_weapon_profiles_and_class_separation(self):
   s=mechanics.new_state('humano','juramentado','home',0)
   self.assertEqual(mechanics.hp_max(s),100);self.assertEqual(mechanics.xp_next(1),100);self.assertEqual(mechanics.xp_next(5),176)
-  self.assertEqual({v['damage'] for v in mechanics.WEAPONS.values()},{7,8,9,10})
+  self.assertEqual({v['damage'] for v in mechanics.WEAPONS.values()},{7,8,9,10,11,12,13,14})
   self.assertEqual([mechanics.CLASSES[k]['cooldown'] for k in ('juramentado','arcano','sombra','artifice')],[2,4,4,2])
   s['hp']=60;self.assertEqual(mechanics.rest(s),10);self.assertEqual(mechanics.rest(s),2);self.assertEqual(mechanics.rest(s),0)
 
