@@ -3,8 +3,8 @@
 **Texto:** [008 — La plaza de las cinco rutas](008-la-plaza-de-las-cinco-rutas.md).  
 **Responsable:** `escritor-aventuras-vaisgard-01`, [PR #705](https://github.com/vaisork/MatiasGameLab/pull/705).  
 **Estado:** **BORRADOR ENTREGADO PARA DICTAMEN**, sin aprobación del Capítulo 8 todavía. **WIP=1: C009 NO iniciado ni autorizado**.  
-**Longitud:** **2,649 palabras** incluido título.  
-**Blob de manuscrito:** `a2b9265935341c55638946d963d832937bd2e865`.  
+**Longitud:** aprox. **2,659 palabras** incluido título (conteo por espacios tras revisión puntual).  
+**Blob de manuscrito:** `e3ee67a0399b3737a4b1992abdd1089b9d46bbee` (edición puntual del Editor 03; versión inicial `a2b9265935341c55638946d963d832937bd2e865`).  
 **Autorización expresa:** `../plan/DECISION_C007_PRIORIDAD_MAQUETA_Y_ARRANQUE_C008_2026-10-15.md` (Arquitectura Editorial).  
 **Texto previo:** C007 `6aca35d8ca12704ce189e70349d8740c6c4b3f61`, **aprobado literariamente por Arquitectura Editorial** con observación L01 resuelta; matriz anterior `739f58bef51ea28a843c9154afdc7eac00100fc3`.
 
@@ -58,3 +58,13 @@
 **Próximo capítulo:** **C009 NO autorizado.** Punto de arranque exacto: Lera desde `veyra_plaza_rutas`, aproximándose al alero este; sin entrada a archivos ni conocimiento de Dalia. Decisión de avanzar sólo con ficha de Arquitectura Editorial.
 
 No se modifican `vintage-telnet-2/`, estados del juego, assets, otros repositorios ni texto de otros agentes. Esta PR permanece DRAFT.
+
+## 6. Edición menor directa por Revisor Integral 03 — 15/10/2026
+
+**Autorización:** el propietario delegó en el Editor Integral la aplicación directa de correcciones menores de continuidad y estilo a partir de C008, sin reenviar estas pequeñas modificaciones al Escritor. **No se cambian personajes, hechos de canon ni estructura narrativa.**
+
+- **L01, reserva de agua — RESUELTA.** «La cantimplora seguía a medio llenar» se sustituyó por «La cantimplora aún guardaba un poco de agua». C005 solo describía una reposición limitada («un poco más de agua») y C006–C007 una cantimplora parcialmente repuesta; no hay base para afirmar medio recipiente.
+- **L02, edición previa de la carta — RESUELTA.** «... pero nunca había conseguido hacerlo» se sustituye por «... pero desde que salió de Valdren no había vuelto a escribir en ella». C001 y C002 narran cambios **ya hechos** con carboncillo en la carta de Dalia; la nueva frase conserva la idea de que no la volvió a tocar durante el viaje.
+- **Manuscrito actual:** blob `e3ee67a0399b3737a4b1992abdd1089b9d46bbee`. **Ambas intervenciones editoriales afectan una frase cada una; no alteran** el mensaje confiado a Nara, los testimonios de Iven/Nara, itinerario, carta sin entregar, ni riesgo personal de Lera.
+- **C009 sigue sin autorización**; la distinción novela exclusiva / canon de VT2 y la co-decisión Arquitecto Editorial + VT2 no cambian por estas microediciones. 
+
