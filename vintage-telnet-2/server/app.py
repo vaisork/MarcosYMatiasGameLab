@@ -6,6 +6,7 @@ from pathlib import Path
 import secrets
 import sqlite3
 import time
+from urllib.parse import urlsplit
 import uuid
 from flask import Flask, jsonify, request, session, send_from_directory
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -95,8 +96,12 @@ def create_app(config=None):
             if not supplied or not hmac.compare_digest(str(supplied),csrf()):raise RuleError('La sesión cambió. Recarga antes de enviar la acción.',403)
             origin=request.headers.get('Origin')
             allowed_origins={request.host_url.rstrip('/')}
-            if app.config.get('PUBLIC_ORIGIN'):allowed_origins.add(app.config['PUBLIC_ORIGIN'].rstrip('/'))
-            if origin and origin.rstrip('/') not in allowed_origins:raise RuleError('Origen de petición no autorizado.',403)
+            pub=app.config.get('PUBLIC_ORIGIN')
+            if pub:allowed_origins.add(pub.rstrip('/'))
+            if origin and origin.rstrip('/') not in allowed_origins:
+                o,p=urlsplit(origin.rstrip('/')),urlsplit(pub or '')
+                if not (pub and o.scheme and o.hostname and o.scheme==p.scheme and o.hostname==p.hostname):
+                    raise RuleError('Origen de petición no autorizado.',403)
 
     @app.after_request
     def security(response):
