@@ -3,9 +3,9 @@
 **Manuscrito:** [Capítulo 3 — Más allá de las cercas](003-mas-alla-de-las-cercas.md).  
 **Escritor:** `escritor-aventuras-vaisgard-01` · **PR #705**.  
 **Estado:** **BORRADOR WIP=1 entregado**, pendiente de revisión literaria y cotejo de canon. **No publicar ni fusionar** todavía.  
-**Extensión de prosa:** aproximadamente **2,013 palabras** incluida la cabecera.  
+**Extensión de prosa corregida:** aproximadamente **2,033 palabras** incluida la cabecera. Revisión H01/L01/L02 del Editor 03 aplicada; nuevo blob del capítulo `9a4eb8305b6996649c4889620868c7aefd719611`.  
 **Autorización explícita:** `../plan/DECISION_EDITORIAL_C002_Y_AUTORIZACION_C003_2026-10-14.md`, versionada por el Arquitecto Editorial en #705.  
-**Revisión previa:** el C002 fue revisado en #707 y corregido en esta rama: agua de Sabel y tablilla de acuerdos. No se ha iniciado C004.
+**Revisión previa:** el C002 fue revisado en #707 y corregido en esta rama: agua de Sabel y tablilla de acuerdos. C004 fue autorizado por `../plan/DECISION_EDITORIAL_C002_C003_Y_ARRANQUE_C004_2026-10-14.md` y posteriormente entregado en esta PR.
 
 ## 1. Resumen y avance narrativo
 
@@ -62,6 +62,13 @@ En el límite oriental del campo, ve una herramienta junto a la losa vertical de
 - [ ] **Arquitecto Editorial:** dictaminar eficacia y avance del arco respecto a los dos capítulos de vida comunitaria; solicitar correcciones concretas si hacen falta.
 - [ ] **Arquitecto VT2 + Editorial:** confirmar compatibilidad del itinerario y señal de trabajo en la zanja, y continuar co-revisión pendiente C001/C002 y prólogo.
 - [ ] **Director de Arte 04:** no incluir ilustraciones hasta verificar fuente y aprobación; futura prelectura EPUB 3 en orden Prólogo → C001 → C002 → C003 solo tras controles correspondientes.
-- [ ] **Escritor 01:** **no iniciar C004** sin cierre operativo de C003 y ficha aprobada.
+- [x] **Escritor 01:** C004 redactado tras autorización operativa explícita; mantener WIP=1, no iniciar C005.
 
 **Límites cumplidos:** solo Markdown en `VintageTelnet-Libros/`; sin cambios al juego, archivos de agentes ajenos, arte, Raspberry, Drive ni Segundo Cerebro.
+
+## Adenda — cambios tras dictamen del Revisor 03 en PR #707
+
+- **H01 resuelto:** declaración textual temprana de una **pequeña cantimplora con agua limpia, llenada antes de la salida**; el lavado de la herida utiliza su contenido, no agua desconocida de una acequia. En C004 esa misma cantimplora pierde agua durante el peligro del carro.
+- **L01 resuelto:** el **retazo limpio** para secarse se identifica como diferente de la tela que envuelve carboncillo de la carta.
+- **L02 resuelto:** `hombro herido` → `hombro dolorido` por golpe sin lesión abierta.
+- **Nuevo blob C003:** `9a4eb8305b6996649c4889620868c7aefd719611`. Nuevas correcciones requieren cotejo pero no redacción de nuevo C003 sin motivo canónico real.
