@@ -4,7 +4,7 @@
 **PR:** [#705](https://github.com/vaisork/MatiasGameLab/pull/705)  
 **Responsable:** Escritor de Aventuras 01, `escritor-aventuras-vaisgard-01`.  
 **Estado:** **BORRADOR C002 ENTREGADO**, sin aprobación para fusión/publicación. WIP de redacción: solo este capítulo.  
-**Extensión:** aproximadamente **2,626 palabras**, incluida cabecera Markdown.  
+**Extensión revisada:** aproximadamente **2,726 palabras**, incluida cabecera Markdown, tras correcciones M01/M02 del Revisor 03 en #707.  
 **Autorización formal:** `../plan/DECISION_CIERRE_LITERARIO_C001_Y_ARRANQUE_C002_2026-10-14.md`.  
 **Antecedentes:** Capítulo 001 corregido y aprobado **literariamente**, [PR #707](https://github.com/vaisork/MatiasGameLab/pull/707); Historiador de Edran, [PR #706](https://github.com/vaisork/MatiasGameLab/pull/706).
 
@@ -12,9 +12,9 @@
 
 El C001 termina con Lera en la plaza tras corregir **solo el comienzo** de una carta a Dalia. Mara ha aceptado abrir el riego al día siguiente, **sin cubrir el resto de una ausencia de duración desconocida**. La reparación de la canaleta quedó temporal.
 
-En C002, Lera **termina la carta**, reconoce que una promesa sin fecha no cubre trabajos reales y negocia el relevo con **Sabel**, vecina **original y exclusiva de esta novela**. La conversación pasa por el **Pozo de las Dos Cuerdas**, un sitio existente al sur de la plaza, y el corredor de los huertos al este de la plaza. Sabel solo acepta asumir el turno tras recibir explicación de la avería, una demostración práctica de qué puede hacer sin forzar la tabla y un arreglo consentido con las personas que deberán recoger temporalmente hojas destinadas a una cocina. Una segunda vecina, sin nombre ni función institucional canónica, acepta **acompañar a Sabel si puede**, sin garantizar disponibilidad inmediata.
+En C002, Lera **termina la carta**, reconoce que una promesa sin fecha no cubre trabajos reales y negocia el relevo con **Sabel**, vecina **original y exclusiva de esta novela**. La conversación pasa por el **Pozo de las Dos Cuerdas**, un sitio existente al sur de la plaza, y el corredor de los huertos al este de la plaza. Sabel solo acepta asumir el turno tras recibir explicación de la avería, una demostración práctica de qué puede hacer sin forzar la tabla y un arreglo consentido con las personas que deberán recoger temporalmente hojas destinadas a una cocina. Una segunda vecina, sin nombre ni función institucional canónica, acepta **acompañar a Sabel si puede**, sin garantizar disponibilidad inmediata. **Las hojas** se recogen mediante relevo consentido, mientras Sabel **sigue recogiendo el agua de su propia parcela**; no queda una tarea de llevar agua a cocina sin responsable.
 
-Lera anota **acuerdos privados** en una tablilla sobrante, no en un registro oficial. Se pospone su partida **hasta la mañana siguiente** para verificar con Mara el primer turno y comprobar el agua al final del día. Mara sigue enfadada; ayuda y amistad no significan que la fricción haya desaparecido.
+Lera anota **acuerdos privados** en una tablilla sobrante, no en un registro oficial. Al final del día **la entrega a Sabel**, que queda encargada de compartir su contenido con Mara y las personas involucradas al día siguiente; Lera no se lleva el único registro. Se pospone su partida **hasta la mañana siguiente** para verificar con Mara el primer turno y comprobar el agua al final del día. Mara sigue enfadada; ayuda y amistad no significan que la fricción haya desaparecido.
 
 **Estado al terminar C002:** Lera permanece en Valdren, aún **no ha salido por `edran_salida_huertos`**; carta a Dalia **terminada, sin enviar ni respuesta**; equipaje previamente reducido se conserva sin nuevo inventario; existe acuerdo local de relevo **aceptado pero no irrevocable** y un límite claro sobre quién atiende la avería temporal. Lera prevé partir tras comprobar el turno siguiente; C003 puede abrir la primera salida real.
 
@@ -40,7 +40,7 @@ Lera anota **acuerdos privados** en una tablilla sobrante, no en un registro ofi
 | **Lera, Mara y Dalia** (continúan C001), **Sabel** (nueva) y vecinos sin nombre | COMPATIBLE / PERSONAJES ORIGINALES DE NOVELA. No nuevos registros `npcs`, roles jugables, parentescos canónicos ni eventos de partidas. Dalia no aparece ni recibe mensaje. |
 | Turnos particulares de riego, tareas de llevar hojas y reparto temporal acordado | COMPATIBLE / SOLO NOVELA: situación privada y negociada, **no sistema comunitario obligatorio ni configuración de producción de VT2**. |
 | Tabla/cuña temporalmente mal asentada, gota persistente, revisión por varias personas | COMPATIBLE / SOLO NOVELA: la trama continúa el hecho local introducido en C001 sin declararlo estado persistente de la sala ni reparar el juego. **Pendiente de co-revisión Arquitecto VT2/Editorial**. |
-| Tablilla de desecho con lista de acuerdos de Lera | COMPATIBLE / OBJETO PRIVADO DE NOVELA: no registro oficial ni objeto coleccionable en contenido del juego. |
+| Tablilla de desecho con lista de acuerdos de Lera, entregada a Sabel | COMPATIBLE / OBJETO PRIVADO DE NOVELA: no registro oficial ni objeto coleccionable en contenido del juego. |
 | Retraso de partida de Lera hasta el amanecer siguiente | COMPATIBLE / CRONOLOGÍA INTERNA DEL LIBRO: el relato no presupone cuánto tarda llegar de Edran a Veyra. |
 | Carta de disculpa a Dalia terminada y guardada | COMPATIBLE / RELACIÓN PRIVADA DEL LIBRO: no quest, recompensa o secreto del juego. |
 
@@ -54,7 +54,7 @@ Lera anota **acuerdos privados** en una tablilla sobrante, no en un registro ofi
 - **Vecinos del corredor y pozo:** personas ambientales originales sin nombre e historia canónica asignada. Solo asumen tareas si se cuenta su aceptación, y dentro de su propia disponibilidad. **Ningún NPC con nombre del juego participa.**
 - **Estado de agua:** corre dentro del cauce; gota de fuga sigue existiendo; nadie pretende que la tabla haya quedado arreglada para siempre.
 - **Cronología:** mañana de C001 al regresar a plaza → mediodía y tarde de C002 → comprobación al atardecer → partida prevista para siguiente mañana. **C003 no ha sido escrito.**
-- **Objetos:** mochila reducida en C001, taza en bolsillo exterior, carta terminada, carboncillo envuelto en tela prestada por Mara y tablilla privada de acuerdos. No se ha intercambiado dinero ni asumido una economía no cotejada.
+- **Objetos:** mochila reducida en C001, taza en bolsillo exterior, carta terminada y carboncillo envuelto en tela prestada por Mara. La tablilla privada **queda con Sabel** para consulta de Mara y las personas involucradas. No se ha intercambiado dinero ni asumido una economía no cotejada.
 
 ## 5. Oportunidades de ilustración; no insertar hasta validación del Director de Arte
 
@@ -70,6 +70,13 @@ El Director de Arte 04 (PR #708) valida asociación, derechos, estado de aprobac
 - [ ] **Arquitecto VT2 + Arquitecto Editorial (en PR #705):** documentar **propuesta → fuente → tensión → decisión → alcance** de la vida de agua, tareas, personajes originales y tabla temporal. **Contradicción canónica sin resolver = bloqueo de fusión**.
 - [ ] **Historiador 02 — PR #706 (solo si hace falta):** responder cuestión concreta de prácticas de huertos/pozo, no abrir expediente masivo.
 - [ ] **Director de Arte 04:** posponer publicación EPUB definitiva hasta aprobación de manuscrito y canon.
-- [ ] **Escritor 01:** esperar dictamen y correcciones de C002; **no iniciar C003**.
+- [x] **Escritor 01:** aplicadas correcciones M01 (agua vs hojas) y M02 (tablilla entregada a Sabel) del dictamen de Revisor 03; C003 autorizado después por `../plan/DECISION_EDITORIAL_C002_Y_AUTORIZACION_C003_2026-10-14.md` sin suponer fusión de C002.
 
 **No se modificó `vintage-telnet-2/`, arte original, Raspberry, otros repositorios ni el Segundo Cerebro.** El prólogo histórico del libro está bajo revisión editorial/canon distinta y **no cambia esta entrega literaria**.
+
+## Adenda de corrección 2026-10-14 — DICTAMEN_03 C002 (PR #707)
+
+- **M01 (media) resuelta:** Sabel únicamente llevaba **hojas** a cocina; recoge por su cuenta el **agua de su propia parcela**. El relevo que Lera negocia está limitado a recoger las hojas. Se añadió el llenado de dos recipientes en el pozo antes de la salida, reparando también L01 opcional.
+- **M02 (media) resuelta:** Lera entrega materialmente la **tablilla privada a Sabel** antes de terminar el día, con instrucción de revisarla junto a Mara y quienes aceptaron ayudar. No se la lleva a Vaisgard.
+- **L02 de estilo:** mantiene breve contraste entre promesa abstracta y acuerdo concreto porque organiza la motivación; la nueva lectura podrá proponer recorte si lo estima necesario.
+- **Revisión solicitada:** Arquitectura Editorial y Revisor 03 cotejar nuevo blob de C002; Arquitectura VT2 confirma compatibilidad de estos detalles privados y de las figuras originales, sin convertirlos en hechos del juego.
