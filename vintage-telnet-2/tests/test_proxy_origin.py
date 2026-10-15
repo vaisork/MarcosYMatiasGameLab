@@ -43,3 +43,10 @@ class ProxyOriginTests(unittest.TestCase):
    if status==403:self.assertEqual(r.json.get('message'),'Origen de petición no autorizado.')
   bad=c.post('/api/master/login',base_url='http://127.0.0.1:8083',json={'csrf_token':'bad','password':'test-only-director-password'},headers={'Origin':'https://ejemplo.test:8443'})
   self.assertEqual(bad.status_code,403)
+
+ def test_trusted_proxy_allows_same_host_on_funnel_port_8443(self):
+  c=self.app(True).test_client()
+  for origin,status in [('https://game.example:8443',200),('https://evil.example:8443',403)]:
+   token=c.get('/api/master/state',base_url='http://game.example').json['csrf_token']
+   r=c.post('/api/master/login',base_url='http://game.example',json={'csrf_token':token,'password':'test-only-director-password'},headers={'Origin':origin,'X-Forwarded-Proto':'https'})
+   self.assertEqual(r.status_code,status)

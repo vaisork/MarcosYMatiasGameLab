@@ -99,8 +99,9 @@ def create_app(config=None):
             pub=app.config.get('PUBLIC_ORIGIN')
             if pub:allowed_origins.add(pub.rstrip('/'))
             if origin and origin.rstrip('/') not in allowed_origins:
-                o,p=urlsplit(origin.rstrip('/')),urlsplit(pub or '')
-                if not (pub and o.scheme and o.hostname and o.scheme==p.scheme and o.hostname==p.hostname):
+                # Mismo esquema y host con otro puerto (Funnel publica también :8443 para la app del DM).
+                o=urlsplit(origin.rstrip('/'))
+                if not (o.hostname and any((o.scheme,o.hostname)==(a.scheme,a.hostname) for a in map(urlsplit,allowed_origins))):
                     raise RuleError('Origen de petición no autorizado.',403)
 
     @app.after_request
