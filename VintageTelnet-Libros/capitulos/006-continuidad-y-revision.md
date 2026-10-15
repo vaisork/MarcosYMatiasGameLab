@@ -4,8 +4,8 @@
 **PR de autoría:** [#705](https://github.com/vaisork/MatiasGameLab/pull/705).  
 **Agente:** `escritor-aventuras-vaisgard-01`.  
 **Estado:** **BORRADOR C006 ENTREGADO**, sujeto a dictamen; no autorizado para publicación/fusión. **WIP=1: C007 no iniciado**.  
-**Longitud:** **2,366 palabras** incluida cabecera.  
-**Blob de manuscrito:** `4e5efd10a357ef2ca868b279dae619922cb14444`.  
+**Longitud revisada:** **2,370 palabras** incluida cabecera.  
+**Blob de manuscrito actualizado:** `27365396a724f92556a8bf2050208bd209f2e6fa` (versión previa `4e5efd10a357ef2ca868b279dae619922cb14444`).  
 **Permiso formal:** `../plan/DECISION_CIERRE_C005_Y_ARRANQUE_C006_2026-10-15.md` (Arquitecto Editorial).  
 **Continuidad previa:** C005 blob `4a4cbd654e6d9032734a218f74ee458f6b7e2100`, **aprobado literariamente por Arquitectura Editorial**, pendiente confirmación puntual de Revisor 03; la novela aún tiene pendientes de co-decisión Arquitecto VT2 + Editorial.
 
@@ -63,10 +63,22 @@ Tras cruzar el arroyo toma la conexión **`edran_hito_campos → veyra_puerta_ca
 
 ## 6. Revisión pendiente
 
-- [ ] **Revisor Integral 03 — PR #707:** dictaminar prosa **real de C006**, geografía y orden de visibilidad, tiempo y lluvia, seguridad infantil, naturalidad de bota mojada y cierre urbano sin duplicar aprendizajes.
+- [x] **Revisor Integral 03 — PR #707:** C006 dictaminado **APROBADO LITERARIAMENTE CON L01 BAJA NO BLOQUEANTE** sobre blob anterior; L01 ya aplicada. **Pendiente cotejo puntual sobre el nuevo blob** antes de cerrar adenda.
 - [ ] **Arquitecto Editorial:** evaluar ritmo de llegada a Vaisgard, nuevo destino de C007–C015 y aprobación literaria. Mantener C007 bloqueado hasta decisión formal.
 - [ ] **Historiador 02 — PR #706:** cotejo puntual de ruta y escenas públicas de Veyra; no declarar aprobada ninguna propuesta de cambio de índice antes de decisión editorial.
 - [ ] **Arquitecto VT2 + Editorial:** co-decisión documentada sobre hechos privados, escena climática y puerta, junto con pendiente prólogo VT1→VT2, personajes, economía y Saltalodo. Ninguna contradicción sin resolver puede fusionarse.
 - [ ] **Director de Arte 04:** EPUB de prelectura provisional, sólo después de verificación de fuente/texto y sin publicación definitiva.
 
 **Límites de edición respetados:** solo archivos Markdown en `VintageTelnet-Libros/`; ningún cambio a `vintage-telnet-2/`, arte, NPC, comandos, flags, Raspberry, Drive u otros proyectos.
+
+## 7. Adenda — Dictamen 07 C006 y corrección L01 (15/10/2026)
+
+Revisor Integral 03 emitió el [Dictamen 07 de C006](https://github.com/vaisork/MatiasGameLab/blob/editorial/revisor-canon-vaisgard-01-dictamen-705/VintageTelnet-Libros/agentes/revisor-canon-vaisgard-01/DICTAMEN_07_CAPITULO_006_EL_CAMINO_NO_ESPERA.md), leyendo la versión original `4e5efd10a357ef2ca868b279dae619922cb14444`. Veredicto: **APROBADO LITERARIAMENTE CON UNA PRECISIÓN MENOR NO BLOQUEANTE**, sin contradicción geográfica detectada.
+
+- **L01 (BAJA) — RESUELTA EN TEXTO:** `Los dedos encontraron el extremo seco de la tercera piedra` → `Los dedos encontraron la parte alta de la tercera piedra, por encima del agua`. El agua de lluvia moja los cantos; el centro de las tres piedras permanece fuera de la corriente conforme a `content/regions/edran.json > rooms.edran_hito_campos.rain`. La frase deja de prometer una superficie seca bajo la lluvia.
+- **Nuevo blob C006:** `27365396a724f92556a8bf2050208bd209f2e6fa`, **2,370 palabras**. Sin cambios de estructura, mapa, clima temporal, heridas, equipaje, encuentro en puerta ni conocimiento de Dalia.
+- **C005** sigue cerrado literariamente por Arquitectura Editorial y Revisor 03 sobre `4a4cbd654e6d9032734a218f74ee458f6b7e2100`.
+- **C007 NO autorizado** al momento de registrar esta adenda. El esquema y duración total del libro deberán decidirlos Arquitectura Editorial con apoyo Histórico #706; no extender artificialmente la ruta ni modificar índice desde Escritura 01.
+- **Co-decisión de canon VT2 + Editorial permanece pendiente:** dictamen de prosa no habilita merge, publicación definitiva o transferencia al juego.
+
+**Siguiente acción:** Revisor 03 verificar únicamente el pasaje L01 y Arquitectura Editorial cerrar C006 y, si lo considera, emitir autorización/ficha de C007.
