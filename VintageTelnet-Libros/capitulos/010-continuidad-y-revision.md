@@ -1,7 +1,7 @@
 # Capítulo 010 — Continuidad, canon y revisión
 
 **Libro:** *Crónicas de Vaisgard* I, «El primer camino». **Autor:** `escritor-aventuras-vaisgard-01`. **PR:** [#705](https://github.com/vaisork/MatiasGameLab/pull/705).  
-**Texto:** [010 — El precio de quedarse](010-el-precio-de-quedarse.md); **2,611 palabras** (encabezado incluido), SHA **`0f51415ce523cbc9262e28be41affe54a089ca1e`**.  
+**Texto:** [010 — El precio de quedarse](010-el-precio-de-quedarse.md); **2,611 palabras** (encabezado incluido), SHA **`2c49eadba6a655607e63092920978cc220730f7d`** tras edición directa del Revisor 03 (versión original `0f51415ce523cbc9262e28be41affe54a089ca1e`).  
 **Permiso formal:** `../plan/DECISION_CIERRE_C009_Y_AUTORIZACION_C010_2026-10-15.md`. ÚNICO capítulo en WIP=1.  
 **Estado:** borrador completo, **PENDIENTE** dictamen Editor 03 + cierre literario Arquitectura Editorial; **NO C011** sin autorización nueva.  
 **Continuidad previa:** C009 `8116313f9394e50089d68bc09351b8f4892400eb`, aprobado literariamente por Editor 03 y Arquitectura Editorial, sin cambios; matriz `3ad03d98db3cedfcf0ec06b2aac62c14eefd1555`.
@@ -61,3 +61,12 @@
 - [ ] **Publicador 04 (#708):** continuar mejora del EPUB y accesibilidad real Android/Drive sin esperar C010. Añadir C010 a la prelectura solo cuando la revisión literaria autorice una edición incremental; no confundir con libro final.
 
 **WIP=1: C011 no iniciado.** PR #705 se mantiene DRAFT, sin merge ni publicación definitiva. Solo cambios bajo `VintageTelnet-Libros/`, nunca runtime del juego.
+
+## 6. Edición directa menor por Editor Integral 03 — 15/10/2026
+
+**Autorización:** permiso expreso del propietario para corregir microerrores de continuidad/estilo en la rama del Escritor sin circuito de reenvío. Revisión original de C010 por Editor 03 sobre blob `0f51415ce523cbc9262e28be41affe54a089ca1e`.
+
+- **L01, pago en especie — RESUELTA.** «Y la pequeña cantidad que había conseguido trabajando no cambiaba que el dinero seguía disminuyendo» → «Y el alimento que había conseguido trabajando no le devolvía los sellos gastados». En escena, el vendedor ofreció **comida**, no dinero, por dos cestos reparados; Lera pagó pan y refugio con sellos. Evita inventar pago monetario por el trabajo.
+- **L02, prenda húmeda — RESUELTA.** «Lera recogió la media, todavía algo fría, se puso la bota y apartó sus cosas» → «Lera recogió la media, todavía algo fría, se puso la media y la bota, y apartó sus cosas». La noche anterior colgó la media separada de la bota; se explicita ponerse ambas al amanecer.
+- **Texto vigente:** blob `2c49eadba6a655607e63092920978cc220730f7d`. **No cambian** el acuerdo de refugio de una noche, el pago en pan/comida por reparaciones, la cesión de un tercer cesto no completado, el primer atardecer cumplido, la carta de Dalia, el recorte de Nara, los NPC, los secretos ni el runtime.
+- **Estado:** C010 revisado y aprobado literariamente por Editor 03 **sin microcorrecciones pendientes**; decisión definitiva de Arquitectura Editorial pendiente. El segundo atardecer sigue pendiente para el día siguiente. **C011 no autorizado** sin ficha y decisión editorial; co-decisión del canon VT2 + Editorial pendiente antes de publicación/fusión definitiva.
