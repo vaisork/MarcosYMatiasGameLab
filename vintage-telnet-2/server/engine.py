@@ -255,6 +255,10 @@ class Engine:
             if details:
                 index=max(0,state.get('observations',{}).get(room['id'],1)-1)%len(details)
                 if details[index]:lines.append(event('trace',details[index]))
+            active_numen=m.get_active_numen(state)
+            if active_numen:
+                cue=m.exploration_cue(active_numen,room)
+                if cue and not any(l['text']==cue for l in lines):lines.append(event('discovery',cue))
             return lines or [event('world',room.get('description',''))]
         # Space stays explicit; secondary layers compete for attention rather than accumulate.
         layers={};priority=[]
@@ -330,6 +334,10 @@ class Engine:
         if mode=='navigation' and echoes and stayed>=60 and 'danger' not in layers and not state.get('combat'):
             window=int((stayed-60)//75)
             if window<len(echoes):lines.append(event('world',echoes[(window+visits)%len(echoes)]))
+        mod=next((v for v in m.NUMENES_MODELS.values() if v['room']==room['id']),None)
+        if mod and not any(b.get('model')==mod['id'] for b in state.get('numenes',{}).get('bonded',[])):
+            if not any(l.get('text')==mod['cue'] for l in lines):
+                lines.append(event('world',mod['cue']))
         return lines
 
     @staticmethod
@@ -541,6 +549,9 @@ class Engine:
         state['combat']=None;state['hp']=.6*m.hp_max(state);state['fatigue']=40;state['rest_budget']=None
         state['wound']={'grave':'moderada','moderada':'leve','leve':None,None:None}[state['wound']]
         self.visit(state,destination,mark_route=False);state['events'].append(event('danger',f"Caes en {room['name']}. Recuperas el conocimiento en {recovery['to_name']}, el pueblo más cercano, a {distance} tramos del lugar de la derrota. Es un traslado de recuperación; conservas tu progreso."))
+        active_numen=m.get_active_numen(state)
+        if active_numen:
+            state['events'].append(event('info',f"Tu compañero {active_numen['name']} se refugió a tiempo del peligro y permanece a salvo a tu lado."))
 
     def clear_attention(self,character,world):
         state=character['state'];key=state.pop('wildlife_target',None)
@@ -650,6 +661,11 @@ class Engine:
                 reason=f"Recarga: {cd} rondas" if cd else (invalid_reason if not valid else act['description'])
                 class_acts.append({'id':aid,'label':act['label'],'description':act['description'],'disabled':disabled,'reason':reason})
             actions=[actions[0]]+class_acts+actions[1:]
+            active_numen=m.get_active_numen(state)
+            if active_numen:
+                numen_cd=combat.get('cooldowns',{}).get('apoyo_numen',0)
+                numen_mod=m.NUMENES_MODELS.get(active_numen['model'],{})
+                actions.append({'id':'apoyo_numen','label':f"Apoyo de {active_numen['name']} ({numen_mod.get('power_name','Apoyo')})",'description':numen_mod.get('power_desc','Apoyo de tu compañero Númen.'),'disabled':bool(numen_cd),'reason':f"Recarga: {numen_cd} rondas" if numen_cd else numen_mod.get('power_desc','')})
             if combat['creature']=='mordelinde' and room.get('combat_context',{}).get('escape_can_be_opened'):
                 actions.insert(0,{'id':'abrir_salida','label':'Dejar libre la salida del Mordelinde'})
             if combat.get('intervention'):
@@ -796,8 +812,43 @@ class Engine:
             choice['cost']=cost
             if state['seals']<cost and not (choice['id']=='recuperacion' and choice.get('disabled')):
                 choice.update(disabled=True,reason=f"Te faltan {cost-state['seals']} sellos.")
+        active_numen=m.get_active_numen(state)
+        if active_numen:
+            actions.append({'id':'cuidar_numen','target':active_numen['id'],'label':f"Atender a {active_numen['name']}",'reason':f"Comprobar el estado de {active_numen['name']} y ofrecerle afecto."})
+            actions.append({'id':'alimentar_numen','target':active_numen['id'],'label':f"Compartir comida con {active_numen['name']}",'reason':f"Ofrecer alimento a {active_numen['name']} para cuidar su bienestar."})
+        if room.get('kind')=='home':
+            numenes_data=state.get('numenes',{})
+            for b in numenes_data.get('bonded',[]):
+                if b['id']!=numenes_data.get('active'):
+                    actions.append({'id':'activar_numen','target':b['id'],'label':f"Viajar con {b['name']}",'reason':f"Elegir a {b['name']} ({m.NUMENES_MODELS.get(b['model'],{}).get('species_name','Númen')}) como tu acompañante de viaje."})
+                else:
+                    actions.append({'id':'descansar_numen','target':b['id'],'label':f"Dejar a {b['name']} descansando en casa",'reason':'Dejar a tu compañero descansando al abrigo de tu hogar.'})
+        mod=next((v for v in m.NUMENES_MODELS.values() if v['room']==room['id']),None)
+        if mod:
+            already_bonded=any(b.get('model')==mod['id'] for b in state.get('numenes',{}).get('bonded',[]))
+            if not already_bonded:
+                encs=state.setdefault('numenes',{}).setdefault('encounters',{})
+                enc=encs.setdefault(mod['id'],{'stage':0,'rejected':False})
+                stage=enc.get('stage',0)
+                rejected=enc.get('rejected',False)
+                if rejected:
+                    actions.append({'id':'calmar_numen','target':mod['id'],'label':'Aguardar con respeto a que el animal recupere la calma','reason':'Esperar en silencio a que la criatura pierda la tensión.'})
+                elif stage==0:
+                    actions.append({'id':'observar_numen','target':mod['id'],'label':f"Observar con calma al animal ({mod['base']})",'reason':'Guardar distancia y observar con atención sus movimientos.'})
+                elif stage==1:
+                    actions.append({'id':'aproximar_numen','target':mod['id'],'label':mod['step1']['label'],'reason':'Demostrar paciencia y comprensión de su espacio.'})
+                    actions.append({'id':'forzar_numen','target':mod['id'],'label':mod['unfavorable']['label'],'reason':'Intentar un acercamiento brusco.'})
+                elif stage==2:
+                    actions.append({'id':'confiar_numen','target':mod['id'],'label':mod['step2']['label'],'reason':'Consolidar la cercanía respetando su ritmo.'})
+                    actions.append({'id':'forzar_numen','target':mod['id'],'label':mod['unfavorable']['label'],'reason':'Intentar forzar la situación.'})
+                elif stage>=3:
+                    bonded_count=len(state.get('numenes',{}).get('bonded',[]))
+                    disabled=bonded_count>=3
+                    reason='Ya has alcanzado el límite de 3 Númenes vinculados (R06).' if disabled else 'El animal ha aceptado tu compañía por voluntad propia.'
+                    actions.append({'id':'vincular_numen','target':mod['id'],'label':'Aceptar el vínculo y darle nombre','disabled':disabled,'reason':reason})
         story_ids={item['id'] for item in room.get('actions',[])}
-        actions.sort(key=lambda action:0 if action['id'] in story_ids or action['id'] in ('cobrar','examinar_criatura','buscar','combatir','acercarse','retirarse','calmar') else 1)
+        numen_prio={'observar_numen','aproximar_numen','confiar_numen','calmar_numen','vincular_numen','cuidar_numen','alimentar_numen','activar_numen','descansar_numen','apoyo_numen'}
+        actions.sort(key=lambda action:0 if action['id'] in story_ids or action['id'] in ('cobrar','examinar_criatura','buscar','combatir','acercarse','retirarse','calmar') or action['id'] in numen_prio else 1)
         return actions
 
     def parse_intent(self,character,world,intent):
@@ -849,6 +900,12 @@ class Engine:
                     aliases.add(normalize('calmar'))
                     aliases.add(normalize('tranquilizar '+creature.get('name',target)))
                 if id=='combatir':aliases.add(normalize('atacar '+creature.get('name',target)))
+            elif id in ('cuidar_numen','alimentar_numen','activar_numen','descansar_numen','observar_numen','aproximar_numen','confiar_numen','forzar_numen','calmar_numen','vincular_numen','apoyo_numen'):
+                aliases.add(normalize(id))
+                if id=='cuidar_numen':aliases.update(('cuidar','atender','acariciar','cuidar numen'))
+                elif id=='alimentar_numen':aliases.update(('alimentar','dar comida','comida numen','alimentar numen'))
+                elif id=='apoyo_numen':aliases.update(('apoyo','apoyo numen','companero'))
+                elif id=='vincular_numen':aliases.update(('vincular','vincular numen','adoptar'))
             if typed in aliases:matches.append(choice)
         if not matches and not state['combat']:
             def keywords(value):return set(normalize(value).split())-{'a','al','la','las','el','los','de','del','en','con','y','un','una'}
@@ -878,6 +935,7 @@ class Engine:
         if choice.get('disabled'):raise RuleError(choice.get('reason') or 'Esa decisión todavía no está disponible.',409)
         result={key:choice[key] for key in ('id','target','topic') if key in choice}
         if intent.get('confirmed'):result['confirmed']=True
+        if intent.get('name'):result['name']=intent['name']
         return result
 
     def advance_levels(self,state):
@@ -1014,8 +1072,15 @@ class Engine:
             self.clear_attention(character,world);self.visit(state,destination);self.encounter(character,world);self.observe(state,self.room(character,world),world);state['events']=self.narrative(character,world)
         elif action=='descansar':
             before=state['fatigue'];healed=m.rest(state);relief=before-state['fatigue']
+            active=m.get_active_numen(state)
+            if active:
+                active.setdefault('care',{})['last_rested']=self.clock()
+                if active.get('model')=='f':
+                    extra=2;state['fatigue']=max(0,state['fatigue']-extra);relief+=extra
             changes=([f'recuperas {healed:g} de vida'] if healed>0 else [])+([f'reduces {relief:g} de fatiga'] if relief>0 else [])
             state['events']=[event('action','Descansas: '+' y '.join(changes)+'.')]
+            if active:
+                state['events'].append(event('info',f"{active['name']} descansa tranquilamente a tu lado."))
             if state['hp']<m.hp_max(state) and state['rest_budget'] is not None and state['rest_budget']<=0:state['events'].append(event('info','El descanso ya no recupera más vida. Para recuperarte más puedes usar una provisión o buscar cuidados.'))
         elif action=='hablar':
             npc=next(n for n in self.people(room,state,world,self.ambient(room,world)) if n['id']==target)
@@ -1235,6 +1300,72 @@ class Engine:
             text=m.use_consumable(state,item);item['quantity']-=1
             if not item['quantity']:state['inventory'].remove(item)
             state['events']=[event('action',text)]
+        elif action=='observar_numen':
+            mod=m.NUMENES_MODELS.get(target)
+            if not mod:raise RuleError('Númen no encontrado.',404)
+            enc=state.setdefault('numenes',{}).setdefault('encounters',{}).setdefault(target,{})
+            enc['stage']=1;enc['rejected']=False
+            state['events']=[event('world',f"Observas al animal con calma desde una distancia prudente. Notas su anomalía: {mod['anomaly']}"),
+                             event('discovery',f"Has comprendido el comportamiento de este {mod['species_name']}.")]
+        elif action=='aproximar_numen':
+            mod=m.NUMENES_MODELS.get(target)
+            if not mod:raise RuleError('Númen no encontrado.',404)
+            enc=state.setdefault('numenes',{}).setdefault('encounters',{}).setdefault(target,{})
+            enc['stage']=2;enc['rejected']=False
+            state['events']=[event('action',mod['step1']['text'])]
+        elif action=='confiar_numen':
+            mod=m.NUMENES_MODELS.get(target)
+            if not mod:raise RuleError('Númen no encontrado.',404)
+            enc=state.setdefault('numenes',{}).setdefault('encounters',{}).setdefault(target,{})
+            enc['stage']=3;enc['rejected']=False
+            state['events']=[event('action',mod['step2']['text']),
+                             event('discovery',f"El {mod['species_name']} da un paso hacia ti. Parece dispuesto a aceptar tu compañía si decides vincularlo.")]
+        elif action=='forzar_numen':
+            mod=m.NUMENES_MODELS.get(target)
+            if not mod:raise RuleError('Númen no encontrado.',404)
+            enc=state.setdefault('numenes',{}).setdefault('encounters',{}).setdefault(target,{})
+            enc['rejected']=True
+            state['events']=[event('danger',mod['unfavorable']['text'])]
+        elif action=='calmar_numen':
+            mod=m.NUMENES_MODELS.get(target)
+            if not mod:raise RuleError('Númen no encontrado.',404)
+            enc=state.setdefault('numenes',{}).setdefault('encounters',{}).setdefault(target,{})
+            enc['rejected']=False;enc['stage']=1
+            state['events']=[event('action','Esperas en silencio sin movimientos bruscos. El animal se relaja y vuelve a tolerar tu presencia.')]
+        elif action=='vincular_numen':
+            mod=m.NUMENES_MODELS.get(target)
+            if not mod:raise RuleError('Númen no encontrado.',404)
+            name=intent.get('name') or intent.get('text') or 'Compañero'
+            try:
+                numen=m.bond_numen(state,target,name,self.clock())
+            except ValueError as err:
+                raise RuleError(str(err),409)
+            state['events']=[event('reward',f"¡{numen['name']} ha aceptado tu compañía voluntariamente! Ahora es tu compañero Númen."),
+                             event('discovery',f"Has formalizado el vínculo con {numen['name']} ({numen['species_name']}).")]
+            state.setdefault('journal',[]).append(f"Vinculaste a {numen['name']} ({mod['species_name']}) tras ganarte su confianza con respeto.")
+        elif action=='cuidar_numen':
+            try:
+                msg=m.care_numen(state,'cuidar',self.clock())
+                state['events']=[event('action',msg)]
+            except ValueError as err:
+                raise RuleError(str(err),409)
+        elif action=='alimentar_numen':
+            try:
+                msg=m.care_numen(state,'alimentar',self.clock())
+                state['events']=[event('action',msg)]
+            except ValueError as err:
+                raise RuleError(str(err),409)
+        elif action=='activar_numen':
+            try:
+                target_numen=m.activate_numen(state,target)
+                state['events']=[event('action',f"{target_numen['name']} se prepara para acompañarte en tu viaje.")]
+            except ValueError as err:
+                raise RuleError(str(err),409)
+        elif action=='descansar_numen':
+            active=m.get_active_numen(state)
+            numen_name=active['name'] if active else 'Tu compañero'
+            m.send_numen_home(state,target)
+            state['events']=[event('action',f"{numen_name} descansa tranquilamente en tu hogar.")]
         else:
             authored=next(a for a in room.get('actions',[]) if a['id']==action)
             self.effects(state,world,authored)
@@ -1351,6 +1482,7 @@ class Engine:
         if isinstance(portrait,str) and re.fullmatch(r'/client/art/players/[a-z0-9-]+\.webp',portrait):char['portrait']=portrait
         char.update({key:state.get(key) for key in ('location','level','xp','hp','fatigue','wound','seals','attributes','equipment','pa','pp')})
         if char.get('pa') is None:char['pa']=0
+        char['numenes']=state.get('numenes',{'active':None,'bonded':[],'encounters':{}})
         char['attribute_effects']=dict(m.ATTRIBUTE_EFFECTS)
         char.update(hp_max=m.hp_max(state),xp_next=m.xp_next(state.get('level',1)),combat=safe_combat)
         quests=[]
@@ -1366,7 +1498,7 @@ class Engine:
                 if payments:entry['paid_amount']=payments[-1]['amount']
                 entry['summary']=quest.get('paid_text','Este encargo ya está completado.')
             quests.append(entry)
-        return {'version':world['version'],'character':char,'attribute_effects':dict(m.ATTRIBUTE_EFFECTS),'room':{'id':room['id'],'name':room['name'],'region':room['region'],'kind':room['kind'],'description':room['description'],
+        return {'version':world['version'],'character':char,'attribute_effects':dict(m.ATTRIBUTE_EFFECTS),'numenes':state.get('numenes',{'active':None,'bonded':[],'encounters':{}}),'room':{'id':room['id'],'name':room['name'],'region':room['region'],'kind':room['kind'],'description':room['description'],
             **({'art_variant':room['art_variant']} if room.get('art_variant') else {}),
             'npcs':[{'id':n['id'],'name':n['name'],'role':n.get('role',''),'description':n.get('description',''),'topics':[t for t,v in n.get('topics',{}).items() if not isinstance(v,dict) or self.allowed(v,state,world)]} for n in people],
             'exits':[{'direction':d,'label':d.capitalize()} for d in room.get('exits',{})]},

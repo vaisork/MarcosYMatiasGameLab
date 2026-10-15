@@ -188,13 +188,247 @@ def penalties(state):
  power=(.8 if f>=90 else .9 if f>=70 else 1)*(.9 if state['wound']=='grave' else 1)
  return accuracy,power
 
+NUMENES_MODELS = {
+ 'a': {
+  'id': 'a',
+  'species_name': 'Perro de cuatro orejas',
+  'base': 'perro',
+  'room': 'edran_camino_carros',
+  'anomaly': 'Dos orejas normales y dos más pequeñas detrás con movimiento independiente.',
+  'power_id': 'oido_ruta',
+  'power_name': 'Oído de Ruta',
+  'power_desc': 'Advierte el movimiento del rival antes del golpe, aumentando tu evasión.',
+  'cooldown': 3,
+  'step1': {'id': 'esperar_carro', 'label': 'Esperar a que pase el carro sin invadir su espacio', 'text': 'Baja una de las orejas pequeñas. Deja de seguir tus manos y tolera tu presencia.'},
+  'step2': {'id': 'caminar_borde', 'label': 'Caminar despacio por el borde sin bloquear su vista', 'text': 'Camina a unos pasos de ti; cada tanto se detiene para confirmar que puede volver a la piedra. La confianza se afianza.'},
+  'unfavorable': {'id': 'forzar_acercamiento', 'label': 'Intentar agarrarlo de golpe', 'text': 'Las cuatro orejas se pliegan; el perro retrocede detrás de la piedra y guarda distancia sin atacarte.'},
+  'cue': 'Un perro de cuatro orejas descansa junto a una piedra, atento a los ruidos del camino.'
+ },
+ 'b': {
+  'id': 'b',
+  'species_name': 'Gato de ojos profundos',
+  'base': 'gato',
+  'room': 'lethra_orilla_silente',
+  'anomaly': 'Ojos azules cuya profundidad visual parece continuar sin fondo.',
+  'power_id': 'mirada_profunda',
+  'power_name': 'Mirada Profunda',
+  'power_desc': 'Fija la mirada en el rival, señalando un ángulo descubierto para tu ataque (+precisión).',
+  'cooldown': 3,
+  'step1': {'id': 'sentarse_distancia', 'label': 'Sentarte sin ocupar la tabla del canal', 'text': 'El gato deja de golpear el suelo con la cola y vuelve la mirada a la corriente, tolerando tu cercanía.'},
+  'step2': {'id': 'mirar_canal', 'label': 'Mirar la corriente y dejar que elija la distancia', 'text': 'Estira las patas delanteras y se acomoda cerca de tu sombra, compartiendo el silencio.'},
+  'unfavorable': {'id': 'forzar_acercamiento', 'label': 'Alzarlo sin invitación', 'text': 'Su cuerpo se vuelve rígido. Salta al borde más lejano del canal, evitando tu mirada.'},
+  'cue': 'Un gato de ojos azules profundos observa la corriente desde una tabla seca.'
+ },
+ 'c': {
+  'id': 'c',
+  'species_name': 'Conejo de cuatro orejas',
+  'base': 'conejo',
+  'room': 'hoshai_terraza_cargas',
+  'anomaly': 'Dos pares de orejas finas e independientes que captan vientos y pisadas.',
+  'power_id': 'apoyo_terreno',
+  'power_name': 'Apoyo de Terreno',
+  'power_desc': 'Señala un apoyo firme en el suelo rocoso, ahorrándote fatiga (-fatiga).',
+  'cooldown': 3,
+  'step1': {'id': 'retroceder_paso', 'label': 'Retroceder del paso entre rocas', 'text': 'Las patas dejan de presionar la piedra. El conejo vuelve a masticar briznas y te observa de lado.'},
+  'step2': {'id': 'quedarse_quieto', 'label': 'Quedarte inmóvil mientras cambia el viento', 'text': 'Se adelanta una longitud de cuerpo. Sus cuatro orejas quedan abiertas pero ya no busca refugio.'},
+  'unfavorable': {'id': 'forzar_acercamiento', 'label': 'Cerrar la salida para acorralarlo', 'text': 'Las orejas desaparecen entre las piedras en un parpadeo, buscando una grieta segura.'},
+  'cue': 'Un conejo con dos pares de orejas finas mastica hierba entre las cargas.'
+ },
+ 'd': {
+  'id': 'd',
+  'species_name': 'Ratón de bigotes luminosos',
+  'base': 'raton',
+  'room': 'korven_almacen_grano',
+  'anomaly': 'Bigotes delgados que emiten una tenue hebra de luz fría en la penumbra.',
+  'power_id': 'hilo_penumbra',
+  'power_name': 'Hilo de Penumbra',
+  'power_desc': 'Emite un destello sutil con sus bigotes que desorienta al rival (-precisión rival).',
+  'cooldown': 3,
+  'step1': {'id': 'despejar_grieta', 'label': 'Mover el pie que cubre la grieta', 'text': 'El ratón asoma el hocico, comprueba la salida y vuelve por el grano; la luz de sus bigotes tiembla junto a la tabla.'},
+  'step2': {'id': 'esperar_recorrido', 'label': 'Esperar en silencio a que traslade el grano', 'text': 'Deja el grano junto a la pared y avanza hacia tu bota con curiosidad tranquila antes de apartarse.'},
+  'unfavorable': {'id': 'forzar_acercamiento', 'label': 'Intentar atraparlo en un cuenco', 'text': 'La rendija queda vacía al instante. La tenue hebra de luz se oculta tras el zócalo.'},
+  'cue': 'Un ratón menudo cuyos bigotes emiten una tenue luz fría cruza junto a los sacos de grano.'
+ },
+ 'e': {
+  'id': 'e',
+  'species_name': 'Ave de sombra doble',
+  'base': 'ave',
+  'room': 'veyra_huerta_baja',
+  'anomaly': 'Ave pequeña que proyecta dos sombras sobre el suelo bajo una única fuente de luz.',
+  'power_id': 'doble_sombra',
+  'power_name': 'Doble Sombra',
+  'power_desc': 'Proyecta dos sombras que confunden el ataque rival, reduciendo el daño recibido.',
+  'cooldown': 3,
+  'step1': {'id': 'guardar_distancia', 'label': 'Guardar distancia y observar la zona soleada', 'text': 'El ave picotea una semilla sin dejar de mirarte. No necesita elevarse para alejarse.'},
+  'step2': {'id': 'despejar_vuelo', 'label': 'Apartarte de donde podría abrir las alas', 'text': 'Se posa en la piedra cerca de ti, con un movimiento elegido en vez de forzado.'},
+  'unfavorable': {'id': 'forzar_acercamiento', 'label': 'Lanzar un objeto para obligarla a volar', 'text': 'Bate las alas y remonta hacia una cornisa lejana, perdiendo la cercanía ganada.'},
+  'cue': 'Un ave pequeña brinca en la huerta proyectando dos sombras nítidas sobre la piedra.'
+ },
+ 'f': {
+  'id': 'f',
+  'species_name': 'Cachorro de aire ondulante',
+  'base': 'cachorro',
+  'room': 'edran_reparo',
+  'anomaly': 'El aire alrededor de su lomo vibra suavemente con una refracción tibia.',
+  'power_id': 'calma_cercana',
+  'power_name': 'Calma Cercana',
+  'power_desc': 'Transmite una tibia calma que templa el ánimo y alivia la fatiga (-fatiga).',
+  'cooldown': 3,
+  'step1': {'id': 'esperar_despierte', 'label': 'Sentarte a distancia y esperar a que despierte', 'text': 'Al rato se estira solo, bosteza y se acerca a oler el suelo a un paso de ti.'},
+  'step2': {'id': 'dejar_oler', 'label': 'Dejar la mano quieta y permitir que se acerque', 'text': 'Se sienta cerca, con la cola golpeando suavemente la tabla y el aire ondulando con suavidad.'},
+  'unfavorable': {'id': 'forzar_acercamiento', 'label': 'Alzarlo bruscamente mientras descansa', 'text': 'Se encoge, esconde el hocico y busca el rincón más apartado del refugio.'},
+  'cue': 'Un cachorro mestizo duerme en el refugio; el contorno de su pelo hace ondular levemente la pared de fondo.'
+ },
+ 'g': {
+  'id': 'g',
+  'species_name': 'Gato de dos colas',
+  'base': 'gato',
+  'room': 'veyra_patio_porte',
+  'anomaly': 'Dos colas independientes que se mueven en ritmos opuestos.',
+  'power_id': 'paso_jugueton',
+  'power_name': 'Paso Juguetón',
+  'power_desc': 'Agita sus dos colas con ritmos opuestos distrayendo al rival (-precisión rival).',
+  'cooldown': 3,
+  'step1': {'id': 'observar_juego', 'label': 'Seguir el juego con la mirada sin extender las manos', 'text': 'Una cola queda inmóvil mientras la otra sigue moviéndose. El gato no abandona la piedra.'},
+  'step2': {'id': 'esperar_baje', 'label': 'Aceptar el ritmo de espera sin perseguirlo', 'text': 'Baja al suelo, vuelve a subir y se queda más cerca, observando qué harás tú.'},
+  'unfavorable': {'id': 'forzar_acercamiento', 'label': 'Intentar sujetarlo por una de sus colas', 'text': 'Sube a lo alto de un fardo fuera de tu alcance y desvía la mirada con disgusto.'},
+  'cue': 'Un gato ágil descansa sobre una piedra del patio; dos colas salen de su espalda moviéndose a ritmos distintos.'
+ },
+ 'h': {
+  'id': 'h',
+  'species_name': 'Conejo silencioso',
+  'base': 'conejo',
+  'room': 'nhal_suelo_hojas',
+  'anomaly': 'Sus saltos sobre hojas secas, ramas o grava no emiten el menor chasquido.',
+  'power_id': 'pausa_silenciosa',
+  'power_name': 'Pausa Silenciosa',
+  'power_desc': 'Enseña a moverse en el silencio del bosque, reforzando la postura defensiva (+defensa).',
+  'cooldown': 3,
+  'step1': {'id': 'detener_pasos', 'label': 'Detener tus pasos para no tapar el silencio', 'text': 'En el silencio que dejas, una hoja se levanta sin sonido bajo su pata. El conejo nota que te has parado.'},
+  'step2': {'id': 'despejar_tronco', 'label': 'Retroceder un paso dejando libre el tronco', 'text': 'El conejo cruza el sendero con tres saltos mudos y se queda cerca, sin huir a la espesura.'},
+  'unfavorable': {'id': 'forzar_acercamiento', 'label': 'Lanzar una piedra para ver si hace ruido al huir', 'text': 'El animal desaparece entre los helechos sin emitir un sonido. Su confianza se ha quebrado por hoy.'},
+  'cue': 'Un conejo salta sobre una alfombra de hojas secas sin producir el menor ruido.'
+ }
+}
+
+TRUST_STAGES = {
+ 1: 'cauteloso',
+ 2: 'cercano',
+ 3: 'confiado',
+ 4: 'fiel',
+ 5: 'inseparable'
+}
+
+def get_active_numen(state):
+ numenes = state.get('numenes') or {}
+ active_id = numenes.get('active')
+ if not active_id: return None
+ return next((n for n in numenes.get('bonded', []) if n.get('id') == active_id), None)
+
+def bond_numen(state, model_id, name, now):
+ numenes = state.setdefault('numenes', {'active': None, 'bonded': [], 'encounters': {}})
+ bonded = numenes.setdefault('bonded', [])
+ if len(bonded) >= 3:
+  raise ValueError('Límite alcanzado: máximo tres Númenes vinculados.')
+ clean_name = str(name).strip()
+ if not (2 <= len(clean_name) <= 24):
+  raise ValueError('El nombre del Númen debe tener entre 2 y 24 caracteres.')
+ if model_id not in NUMENES_MODELS:
+  raise ValueError('Modelo de Númen desconocido.')
+ if any(n.get('model') == model_id for n in bonded):
+  raise ValueError('Ya tienes un vínculo con un ejemplar de este modelo.')
+ numen_id = f"numen_{model_id}_{len(bonded)+1}"
+ numen = {
+  'id': numen_id,
+  'model': model_id,
+  'species_name': NUMENES_MODELS[model_id]['species_name'],
+  'name': clean_name,
+  'trust': 1,
+  'trust_stage': TRUST_STAGES[1],
+  'care': {
+   'last_fed': now,
+   'last_rested': now,
+   'well_cared': True,
+   'fed_today': True
+  },
+  'power': NUMENES_MODELS[model_id]['power_id'],
+  'power_name': NUMENES_MODELS[model_id]['power_name'],
+  'bonded_at': now,
+  'location': 'travel' if numenes.get('active') is None else 'home'
+ }
+ bonded.append(numen)
+ if numenes.get('active') is None:
+  numenes['active'] = numen_id
+ return numen
+
+def activate_numen(state, numen_id):
+ numenes = state.setdefault('numenes', {'active': None, 'bonded': [], 'encounters': {}})
+ bonded = numenes.setdefault('bonded', [])
+ target = next((n for n in bonded if n['id'] == numen_id), None)
+ if not target:
+  raise ValueError('No se encontró ese Númen entre tus compañeros vinculados.')
+ numenes['active'] = target['id']
+ for n in bonded:
+  n['location'] = 'travel' if n['id'] == target['id'] else 'home'
+ return target
+
+def send_numen_home(state, numen_id=None):
+ numenes = state.setdefault('numenes', {'active': None, 'bonded': [], 'encounters': {}})
+ bonded = numenes.setdefault('bonded', [])
+ numenes['active'] = None
+ for n in bonded:
+  n['location'] = 'home'
+
+def care_numen(state, action, now):
+ active = get_active_numen(state)
+ if not active:
+  raise ValueError('No tienes un compañero Númen activo a tu lado.')
+ care = active.setdefault('care', {})
+ if action == 'alimentar':
+  care['last_fed'] = now
+  care['well_cared'] = True
+  care['fed_today'] = True
+  if active.get('trust', 1) < 5:
+   active['trust'] = active.get('trust', 1) + 1
+   active['trust_stage'] = TRUST_STAGES[active['trust']]
+   return f"Compartes comida con {active['name']}. Come con tranquilidad y su confianza aumenta a {active['trust_stage']}."
+  return f"Compartes comida con {active['name']}. Come contento a tu lado con total confianza."
+ elif action == 'cuidar':
+  return f"Acaricias a {active['name']} con calma. Su compañía te reconforta en el camino."
+ return 'Cuidas a tu compañero.'
+
+def exploration_cue(numen, room):
+ m_id = numen.get('model')
+ name = numen.get('name', 'Tu compañero')
+ if m_id == 'a':
+  if room.get('signals'):
+   return f"{name} orienta dos de sus cuatro orejas hacia la distancia, captando un sonido que tú no habías advertido."
+ elif m_id == 'b':
+  if room.get('examine'):
+   return f"{name} fija sus ojos azules profundos en un detalle cercano, invitándote a examinar con pausa."
+ elif m_id == 'c':
+  return f"{name} adelanta con cautela una pata y orienta sus cuatro orejas antes de que cruces el paso."
+ elif m_id == 'd':
+  if room.get('kind') == 'interior':
+   return f"Los bigotes de {name} emiten una hebra sutil de luz fría que alivia la penumbra del suelo."
+ elif m_id == 'e':
+  return f"{name} se posa sobre la piedra; sus dos sombras nítidas te recuerdan estar atento a la luz del lugar."
+ elif m_id == 'f':
+  return f"La respiración tibia de {name} y la suave ondulación de su lomo transmiten calma al ambiente."
+ elif m_id == 'g':
+  return f"{name} menea sus dos colas con compases opuestos y te observa con curiosidad juguetona."
+ elif m_id == 'h':
+  return f"{name} cruza junto a ti sin quebrar el silencio ni hacer crujir una sola brizna."
+ return None
+
 def new_state(species,class_id,home,now):
  weapon=dict(WEAPONS[CLASSES[class_id]['weapon']],quantity=1)
  attrs=dict(CLASS_ATTRIBUTES.get(class_id, dict.fromkeys(ATTRIBUTES,10)))
  return {'species':species,'class_id':class_id,'location':home,'home':home,'level':1,'xp':0,'pa':0,'pp':0,'attributes':attrs,
  'hp':100,'fatigue':0,'wound':None,'seals':20,'inventory':[weapon],'equipment':{'weapon':weapon['id'],'armor':None,'block':None},
  'flags':[],'visited':[home],'known':[home],'routes':[],'bestiary':{},'journal':[],'visits':{home:1},'last_room':None,
- 'combat':None,'victories':[],'rest_budget':None,'quests':{},'ledger':[],'last_active':now,'events':[], 'arrival':True}
+ 'combat':None,'victories':[],'rest_budget':None,'quests':{},'ledger':[],'last_active':now,'events':[], 'arrival':True,
+ 'numenes':{'active':None,'bonded':[],'encounters':{}}}
 
 
 def rest(state):
@@ -368,7 +602,8 @@ def resolve_round(state, creature, rng, respond=True):
         'guardia_comprometida':4,'paso_ruptura':6,
         'impulso_arcano':4,'velo_contencion':5,'destello_frio':4,
         'borrar_foco':5,'golpe_apertura':5,'distraccion':4,
-        'tiro_interrupcion':5,'traba_campo':5,'balsamo_campo':2}
+        'tiro_interrupcion':5,'traba_campo':5,'balsamo_campo':2,
+        'apoyo_numen':0}
  if action=='defender':action=target
  if action=='usar':
   item=next((i for i in state['inventory'] if i['id']==target),None)
@@ -475,6 +710,30 @@ def resolve_round(state, creature, rng, respond=True):
   before_hp=state['hp'];state['hp']=min(hp_max(state),state['hp']+15);healed=rounded(state['hp']-before_hp)
   state['fatigue']=max(0,state['fatigue']-20)
   events.append({'kind':'action','text':ACTION_PROSE['balsamo_campo']['cast'].format(h=healed)})
+ elif action=='apoyo_numen':
+  active=get_active_numen(state)
+  if active:
+   cd=2 if active.get('trust',1)>=4 else 3
+   combat.setdefault('cooldowns',{})['apoyo_numen']=cd+1
+   name=active['name'];m_id=active['model']
+   if m_id=='a':
+    enemy_accuracy-=15;events.append({'kind':'action','text':f"{name} orienta sus cuatro orejas y te advierte a tiempo el movimiento rival (+evasión)."})
+   elif m_id=='b':
+    combat['opening']=True;events.append({'kind':'action','text':f"{name} clava sus ojos profundos en el rival, señalando una apertura inmediata (+precisión)."})
+   elif m_id=='c':
+    state['fatigue']=max(0,state['fatigue']-8);events.append({'kind':'action','text':f"{name} marca un apoyo firme en el suelo rocoso, ahorrándote esfuerzo (-fatiga)."})
+   elif m_id=='d':
+    enemy_accuracy-=15;events.append({'kind':'action','text':f"{name} ilumina levemente con sus bigotes la penumbra, desconcertando al rival."})
+   elif m_id=='e':
+    reduction+=.25;events.append({'kind':'action','text':f"{name} despliega sus dos sombras desconcertantes, mitigando el impacto rival (-daño)."})
+   elif m_id=='f':
+    state['fatigue']=max(0,state['fatigue']-12);events.append({'kind':'action','text':f"{name} emite una tibia calma a tu lado que disipa la fatiga acumulada (-fatiga)."})
+   elif m_id=='g':
+    enemy_accuracy-=20;events.append({'kind':'action','text':f"{name} agita sus dos colas en compases opuestos, distrayendo al rival."})
+   elif m_id=='h':
+    guard=max(guard,.25);events.append({'kind':'action','text':f"{name} se desliza en completo silencio, permitiéndote acomodar tu guardia (-daño)."})
+  else:
+   events.append({'kind':'action','text':'No tienes un compañero Númen activo a tu lado.'})
 
  attack=action=='atacar' or (signature and cls=='artifice')
  if attack and not weapon:
