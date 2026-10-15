@@ -1,5 +1,13 @@
 # Decisiones operativas vigentes — 2026-10-08
 
+## Organización de programación vigente — actualización 2026-10-14
+
+Por decisión explícita de Javier, la programación activa de VT2 se realiza desde Raspberry bajo una estructura **Claude → Codex + Antigravity**. Claude actúa como Arquitecto de Programación, reparte y revisa trabajo; Codex y Antigravity son los ejecutores técnicos principales. Los antiguos programadores web genéricos de ChatGPT y agentes Junior dejan de considerarse parte del pipeline activo.
+
+Claude debe mantener un relevo técnico vivo en `docs/PROGRAMMING_STATUS.md` para que Arquitectura VT2 pueda comprobar el estado real de `main`, producción, PRs integradas, trabajo de ambos ejecutores, bloqueos y siguiente lote. No debe asumirse que una conversación anterior refleja el estado actual si la repo ha avanzado.
+
+Las entregas del Historiador **#702 (Númenes)** y **#703 (fusión de objetos duplicados)** deben aparecer en el siguiente reporte técnico con su estado de consumo; no se implementan automáticamente sin contrato de Arquitectura/Jugabilidad cuando corresponda.
+
 ## Clases definitivas de VT2
 
 Por decisión explícita de Javier del 8 de octubre de 2026, **Vintage Telnet 2 queda con cuatro clases activas y previstas: Juramentado, Arcano, Sombra y Artífice**. **Vigía e Invocador quedan descartados del alcance de VT2**: no son trabajo pendiente, no deben abrirse issues para implementarlos y ninguna referencia histórica del Prompt Maestro o de investigación MUD los reactiva. Cualquier expansión futura del roster requerirá una nueva decisión explícita de producto.
