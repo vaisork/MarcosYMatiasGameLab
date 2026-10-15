@@ -132,7 +132,7 @@ def gear_bonus(state,key):
  return sum(i.get('bonus',{}).get(key,0) for i in gear(state))
 
 def armor_total(state):
- return min(ARMOR_CAP,sum(i.get('armor_reduction',0) for i in gear(state) if i.get('kind')=='armor'))
+ return min(ARMOR_CAP,sum((i.get('armor_reduction',0)+i.get('fusion',0)*.02) for i in gear(state) if i.get('kind') in ('armor','block')))
 
 def use_consumable(state,item):
  """Apply a potion or provision; returns the narrated result."""
@@ -339,7 +339,7 @@ def resolve_round(state, creature, rng, respond=True):
  elif cls=='sombra':stat_bonus=.48*(a['agilidad']-10)+.12*(a['percepcion']-10)
  elif cls=='artifice':stat_bonus=.48*(a['destreza']-10)+.12*(a['percepcion']-10)
  else:stat_bonus=.48*(a['fuerza']-10)+.12*(a['destreza']-10)
- raw=(weapon['damage'] if weapon else 0)+stat_bonus+.25*cg(state)+gear_bonus(state,'dano')
+ raw=(weapon['damage'] if weapon else 0)+stat_bonus+.25*cg(state)+gear_bonus(state,'dano')+(weapon.get('fusion',0)*2 if weapon else 0)
  prepared=preparation(combat)
  enemy_accuracy=prepared.get('accuracy',60) if prepared else profile['accuracy']
  reduction=0; guard=0; barrier=0; events=[]; signature=action in (CLASSES[cls].get('signature_id'),'capacidad')
@@ -473,7 +473,10 @@ def resolve_round(state, creature, rng, respond=True):
  if combat['hp']<=0:return events,'victory'
  if action in DEFENSE_PROSE:events.append({'kind':'action','text':defense_prose(action,creature['name'],combat['round'])})
  if action=='esquivar':enemy_accuracy-=.48*(a['agilidad']-10)+.12*(a['percepcion']-10)-penalty
- elif action=='bloquear':reduction=max(0,min(.32,.10+.0035*(a['destreza']-10))-penalty/100)
+ elif action=='bloquear':
+  _block_item=next((i for i in state['inventory'] if i['id']==state['equipment'].get('block')),None) or (weapon if weapon and weapon.get('block') else None)
+  _block_bonus=(_block_item.get('fusion',0)*.02) if _block_item else 0
+  reduction=max(0,min(.32+_block_bonus,.10+.0035*(a['destreza']-10)+_block_bonus)-penalty/100)
  elif action=='resistir':reduction=max(0,min(.38,.0055*(a['resistencia']-10))-penalty/100)
  enemy_accuracy-=gear_bonus(state,'esquiva')
  combat['_response']={'accuracy':enemy_accuracy,'reduction':reduction,'guard':guard,'signature':signature,'action':action}

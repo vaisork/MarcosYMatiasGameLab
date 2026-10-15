@@ -720,6 +720,11 @@ class Engine:
             catalog=self.content.items.get(item.get('catalog_id',item['id']),{})
             if forge and catalog.get('kind')=='weapon' and item['id'] not in state['equipment'].values() and item.get('condition','intact')=='intact' and sum(i.get('quantity',1) for i in state['inventory'] if i.get('kind')=='weapon' and i.get('activated',True) and i.get('condition','intact')=='intact')>1:
                 actions.append({'id':'vender','target':item['id'],'label':f"Vender {item['name']} · {catalog['sell_price']} sellos",'confirmation':f"¿Vender {item['name']} por {catalog['sell_price']} sellos?"})
+            fusion_cat=item.get('catalog_id') or item['id'].split(':')[0]
+            fusion_copies=sum(i.get('quantity',1) for i in state['inventory'] if (i.get('catalog_id') or i['id'].split(':')[0])==fusion_cat)
+            if item.get('kind') in ('weapon','armor','block') and fusion_copies>=2 and item.get('fusion',0)<3:
+                base_name=re.sub(r'\s*\+\d+$','',item['name'])
+                actions.append({'id':'fusionar','target':item['id'],'label':f"Fusionar {item['name']}",'confirmation':f"¿Fusionar dos ejemplares para obtener {base_name} +{item.get('fusion',0)+1}? Uno de ellos se consumirá.",'disabled':item.get('condition','intact')!='intact' or not item.get('activated',True),'reason':'La pieza necesita reparación.' if item.get('condition','intact')!='intact' else 'La pieza requiere validación de Forja.' if not item.get('activated',True) else ''})
             if item.get('kind') in ('weapon','armor','block','accessory'):actions.append({'id':'equipar','target':item['id'],'label':'Equipar '+item['name'],'disabled':item.get('condition','intact')!='intact' or not item.get('activated',True),'reason':'La pieza necesita reparación.' if item.get('condition','intact')!='intact' else 'La pieza requiere validación de Forja.' if not item.get('activated',True) else ''})
             if item.get('kind')=='consumable':actions.append({'id':'usar','target':item['id'],'label':'Usar '+item['name']})
             if item.get('kind') in ('armor','accessory','consumable') and room.get('buys_gear') and item['id'] not in state['equipment'].values() and isinstance(item.get('sell_price'),int) and any(n['id']==room.get('buyer') for n in self.people(room,state,world,self.ambient(room,world))):actions.append({'id':'vender','target':item['id'],'label':f"Vender {item['name']} · {item['sell_price']} sellos"})
@@ -810,9 +815,13 @@ class Engine:
                 aliases.add(normalize('hablar con '+creature['name']+' '+choice['topic']))
                 aliases.add(normalize('hablar '+creature['name']+' '+choice['topic']))
             elif id=='defender':aliases.add(normalize(target))
-            elif id in ('equipar','usar','comprar','vender','reparar','afinar'):
+            elif id in ('equipar','usar','comprar','vender','reparar','afinar','fusionar'):
                 item=self.content.items.get(target) or next((i for i in state['inventory'] if i['id']==target),{})
                 aliases.add(normalize(id+' '+item.get('name',target)))
+                base_name=re.sub(r'\s*\+\d+$','',item.get('name',target))
+                if base_name!=item.get('name',target):aliases.add(normalize(id+' '+base_name))
+                cat=item.get('catalog_id') or str(item.get('id',target)).split(':')[0]
+                aliases.add(normalize(id+' '+cat))
             elif id in ('combatir','evaluar','acercarse','retirarse','examinar_criatura','calmar'):
                 creature=self.creature_prose(room,target)
                 aliases.add(normalize(id+' '+creature.get('name',target)))
@@ -838,6 +847,8 @@ class Engine:
                         desc=', '.join(f"{k} {v}" for k,v in req.items())
                         raise RuleError(f'Requiere mayor formación: {desc}.',409)
                 matches.append({'id':authored['id']})
+        if len(matches)>1 and len({(m['id'],str(m.get('target','')).split(':')[0]) for m in matches})==1 and matches[0]['id'] in ('vender','fusionar'):
+            matches=[matches[0]]
         if len(matches)!=1:
             local=[a for a in choices if not a.get('disabled') and (a['id'] in ('mover','examinar') or a['id'] in {item['id'] for item in room.get('actions',[])})]
             suggestions=[a['label'].replace('_', ' ') for a in local[:3]]
@@ -934,6 +945,14 @@ class Engine:
             state['events']=[event('chat','Envías tu mensaje a quienes están aquí.')];return
         if state['combat'] and action=='capacidad':
             action=m.CLASSES[character['class_id']]['signature_id']
+        if action=='fusionar':
+            item=next((i for i in state['inventory'] if i['id']==target),None)
+            if not item:raise RuleError('No encuentras ese objeto en tu inventario.',404)
+            if item.get('kind') not in ('weapon','armor','block'):raise RuleError('Solo se pueden fusionar armas, armaduras o escudos.',409)
+            if item.get('fusion',0)>=3:raise RuleError('Esta pieza ya ha alcanzado el nivel máximo de fusión (+3).',409)
+            cat=item.get('catalog_id') or item['id'].split(':')[0]
+            copies=sum(i.get('quantity',1) for i in state['inventory'] if (i.get('catalog_id') or i['id'].split(':')[0])==cat)
+            if copies<2:raise RuleError('Necesitas dos objetos iguales para poder fusionarlos.',409)
         candidate=next((a for a in candidates if a['id']==action and a.get('target')==target and (a.get('topic') is None or a.get('topic')==intent.get('topic'))),None)
         if not candidate or candidate.get('disabled'):raise RuleError((candidate or {}).get('reason') or 'Esa acción no está disponible en tu situación actual.',409)
         state['events']=[]
@@ -1114,6 +1133,56 @@ class Engine:
             state['seals']+=price;state['ledger'].append({'kind':'sale','item':target,'amount':price,'at':self.clock()});buyer_id=room.get('forge_service') if item.get('kind')=='weapon' else room.get('buyer')
             buyer=next((npc for npc in self.people(room,state,world,self.ambient(room,world)) if npc['id']==buyer_id),None)
             state['events']=[event('reward',f"Entregas una unidad de {item['name']}"+(f" a {buyer['name']}" if buyer else '')+f" y recibes {price} sellos. Te quedan {state['seals']} sellos.")]
+        elif action=='fusionar':
+            item=next((i for i in state['inventory'] if i['id']==target),None)
+            if not item:raise RuleError('No encuentras ese objeto en tu inventario.',404)
+            if item.get('kind') not in ('weapon','armor','block'):raise RuleError('Solo se pueden fusionar armas, armaduras o escudos.',409)
+            if item.get('condition','intact')!='intact':raise RuleError('La pieza necesita reparación antes de poder fusionarse.',409)
+            if not item.get('activated',True):raise RuleError('La pieza requiere validación de Forja.',409)
+            if item.get('fusion',0)>=3:raise RuleError('Esta pieza ya ha alcanzado el nivel máximo de fusión (+3).',409)
+            if not intent.get('confirmed'):raise RuleError('Confirma la fusión antes de continuar.',409)
+            cat=item.get('catalog_id') or item['id'].split(':')[0]
+            consumed_id=None
+            if item.get('quantity',1)>=2:
+                if item['quantity']==2:
+                    item['quantity']=1
+                    item['fusion']=item.get('fusion',0)+1
+                    base_name=re.sub(r'\s*\+\d+$','',item['name'])
+                    item['name']=f"{base_name} +{item['fusion']}"
+                else:
+                    item['quantity']-=2
+                    base_name=re.sub(r'\s*\+\d+$','',item['name'])
+                    new_item=dict(item,id=cat+':'+uuid.uuid4().hex,quantity=1,fusion=item.get('fusion',0)+1,name=f"{base_name} +{item.get('fusion',0)+1}")
+                    state['inventory'].append(new_item)
+                    for slot,eq_id in list(state['equipment'].items()):
+                        if eq_id==item['id']:state['equipment'][slot]=new_item['id']
+                    item=new_item
+            else:
+                others=[i for i in state['inventory'] if i is not item and (i.get('catalog_id') or i['id'].split(':')[0])==cat and i.get('quantity',1)>0]
+                if not others:raise RuleError('Necesitas dos objetos iguales para poder fusionarlos.',409)
+                others.sort(key=lambda o:(1 if o['id'] in state['equipment'].values() else 0,o.get('fusion',0)))
+                consumed=others[0];consumed_id=consumed['id']
+                consumed['quantity']=consumed.get('quantity',1)-1
+                if consumed['quantity']<=0:state['inventory'].remove(consumed)
+                item['fusion']=item.get('fusion',0)+1
+                base_name=re.sub(r'\s*\+\d+$','',item['name'])
+                item['name']=f"{base_name} +{item['fusion']}"
+                if consumed_id:
+                    for slot,eq_id in list(state['equipment'].items()):
+                        if eq_id==consumed_id:state['equipment'][slot]=item['id']
+            state['armor_reduction']=m.armor_total(state);state['hp']=min(state['hp'],m.hp_max(state))
+            state['ledger'].append({'kind':'fusion','item':item['id'],'catalog_id':cat,'at':self.clock()})
+            smith=None
+            if room.get('forge_service') and any(n['id']==room['forge_service'] for n in self.people(room,state,world,self.ambient(room,world))):
+                smith=self.content.npcs.get(room['forge_service'],{}).get('name','Daro')
+            kind=item.get('kind')
+            if kind=='weapon':
+                msg=f"{smith} funde las dos hojas en una sola, más firme." if smith else "Fundes las dos hojas en una sola, más firme."
+            elif kind=='armor':
+                msg=f"{smith} refuerza las dos piezas en una sola, más resistente." if smith else "Refuerzas las dos piezas en una sola, más resistente."
+            else:
+                msg=f"{smith} funde las dos defensas en un solo escudo, más sólido." if smith else "Fundes las dos defensas en una sola, más sólida."
+            state['events']=[event('action',msg)]
         elif action=='usar':
             item=next(i for i in state['inventory'] if i['id']==target)
             # Recovery quantities must be explicitly source-backed by authored mechanical contract.
