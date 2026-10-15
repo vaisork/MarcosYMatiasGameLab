@@ -13,6 +13,41 @@ El roster vigente de VT2 es **Juramentado, Arcano, Sombra y Artífice**. **No im
 
 Encargo vigente del 8 de octubre de 2026: integrar las entregas actuales de arte y Claude, publicar en main y dejar relevo al arquitecto/programador. Leer `../docs/VT2_RELEVO_20261008.md`. La reorganización #649 y las pausas previas no bloquean este encargo acotado; no reactivar otras colas históricas por inercia. Producción se desplegó expresamente a d5ee227; versiones posteriores requieren su propia autorización de despliegue.
 
+## Organización técnica vigente
+
+La programación activa de VT2 se coordina actualmente desde Raspberry con este flujo:
+
+- **Claude** — Arquitecto de Programación y orquestador técnico. Recibe contratos aprobados, descompone trabajo, mantiene ocupados de forma continua a Codex y Antigravity, revisa sus entregas y reconcilia la integración.
+- **Codex** — ejecutor técnico principal para implementación, revisión, pruebas y reparación según la asignación de Claude.
+- **Antigravity** — ejecutor técnico principal para implementación y tareas paralelas según la asignación de Claude.
+- Los antiguos programadores web genéricos de ChatGPT y agentes Junior 1/2 **ya no forman parte del pipeline activo de programación de VT2**.
+
+El Arquitecto VT2 de producto/canon no compite con Claude por la arquitectura del código. Arquitectura VT2 define alcance, coherencia, dependencias y contratos de juego; Claude decide la descomposición e implementación técnica con Codex y Antigravity.
+
+### Obligación de continuidad hacia Arquitectura VT2
+
+Claude debe mantener actualizado `docs/PROGRAMMING_STATUS.md` como relevo técnico vivo. En cada lote significativo de integración o antes de pedir una nueva decisión de producto debe registrar, como mínimo:
+
+1. SHA de `main` utilizado como base;
+2. SHA productivo conocido o indicar explícitamente que no fue verificado;
+3. PRs integradas desde el último reporte;
+4. trabajo actual de Codex;
+5. trabajo actual de Antigravity;
+6. bloqueos o decisiones que requieran Arquitectura, Historia, Narrativa o Jugabilidad;
+7. cambios de arquitectura o datos que alteren contratos existentes;
+8. siguiente lote técnico previsto.
+
+Ese archivo es el punto de sincronización para que el Arquitecto VT2 pueda releer la repo y mantenerse al día sin depender de memoria de chat.
+
+### Consumo de entregas del Historiador
+
+Las PR documentales del Historiador no autorizan implementación automática. En particular, Claude debe registrar en el siguiente lote técnico el tratamiento de:
+
+- **PR #702** — preparación documental de los ocho Númenes;
+- **PR #703** — idea preservada de fusión de objetos duplicados.
+
+Para cada una debe indicar: recibido, pendiente de contrato, aprobado para piloto, diferido o descartado, con motivo y dependencia. Si requiere Jugabilidad o Arquitectura, no convertirlo en código antes de esa aprobación.
+
 ## Fronteras
 
 | Función | Producto y límite |
