@@ -120,6 +120,8 @@ Hasta entonces había pensado que Mara sería quien explicara las cosas, quien e
 
 —De acuerdo —respondió Lera—. Vamos a verlo.
 
+Sabel esperó su turno, llenó los dos recipientes y los llevó a su parcela antes de acompañarlas.
+
 ***
 
 El corredor de los huertos olía a hojas machacadas. Por encima de las cercas, algunas personas conversaban mientras trabajaban; otras ni siquiera levantaban la cabeza cuando alguien pasaba. Bajo el árbol de ramas anchas, la canaleta seguía llevando agua entre las parcelas.
@@ -180,7 +182,7 @@ No lo hizo.
 
 Sabel se limpió las palmas contra el pantalón.
 
-—Mis primeras tareas de cocina. Suelo llevar agua y hojas cortadas antes de que los demás regresen de los campos. Si vengo a comprobar este tramo, llegaré tarde.
+—Mis primeras tareas de cocina. Suelo llevar hojas cortadas antes de que los demás regresen de los campos. El agua de mi parcela la recojo por mi cuenta; no te estoy pidiendo que otros cubran también eso. Si vengo a comprobar este tramo, llegaré tarde.
 
 —Puedo hacerlo hoy por ti.
 
@@ -366,9 +368,17 @@ Mara avanzó unos pasos y se volvió.
 
 Lera asintió.
 
-Se quedó un rato sentada. Guardó el carboncillo en la tela, la carta en un lugar seco de la chaqueta y la tablilla donde pudiera encontrarla de nuevo. No faltaba nada imprescindible en su bolsa; sin embargo, la parte importante de lo que dejaba atrás no podía meterse allí.
+Se quedó un rato sentada. Guardó el carboncillo en la tela y la carta en un lugar seco de la chaqueta. La tablilla quedó bajo su brazo: antes de partir debía entregársela a quienes habían aceptado el relevo. No faltaba nada imprescindible en su bolsa; sin embargo, la parte importante de lo que dejaba atrás no podía meterse allí.
 
 Al caer la tarde regresó al corredor de los huertos. La tabla seguía asentada, con una gota lenta en el extremo. Sabel apareció al otro lado de la cerca y las dos comprobaron que el agua avanzaba hacia las parcelas sin salirse del cauce principal.
+
+Lera le entregó la tablilla.
+
+—Quédatela tú. Mañana léela con Mara y con quienes van a recoger las hojas. Si escribí algo mal, aún podrán corregirlo entre ustedes.
+
+Sabel pasó el dedo por las líneas.
+
+—La guardaré en casa, donde podamos verla. No quiero que una palabra mal anotada se convierta en un turno de más.
 
 —Mañana te toca escucharme a mí —dijo Sabel.
 
