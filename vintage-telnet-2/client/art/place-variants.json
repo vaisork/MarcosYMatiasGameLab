@@ -73,5 +73,80 @@
         ]
       }
     ]
+  },
+  {
+    "room": "veyra_mazmorra_boveda_guardian",
+    "flag": "dragon_vencido",
+    "variant": "agua-libre",
+    "files": [
+      {
+        "path": "client/art/places/veyra_mazmorra_boveda_guardian-anime-v1-agua-libre.webp",
+        "sha256": "6bafdf153f9732f24a66cea6e8c831429a56bfeac95dfaf14150f6920b0fcce5",
+        "bytes": 278578,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_mazmorra_boveda_guardian-anime-v1-agua-libre-thumb.webp",
+        "sha256": "2320b81999ccaa36e4fe4b00255fef9dd4ce7c16def26ce71bdeb1ec61366339",
+        "bytes": 19764,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "room": "veyra_mazmorra_recorridos_fin",
+    "flag": "dragon_vencido",
+    "variant": "agua-libre",
+    "files": [
+      {
+        "path": "client/art/places/veyra_mazmorra_recorridos_fin-anime-v1-agua-libre.webp",
+        "sha256": "63e6e69bf2016a8fe9d7eee846c1d5985cdddb6241a4079938fd4d379ba4dd55",
+        "bytes": 238272,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_mazmorra_recorridos_fin-anime-v1-agua-libre-thumb.webp",
+        "sha256": "bcb977fc6a5f766b3e87f2a1948a958514b9b0b90aa2e9a819eacbe894a0bbd2",
+        "bytes": 18078,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "room": "veyra_acequia_exterior",
+    "flag": "dragon_vencido",
+    "variant": "agua-libre",
+    "files": [
+      {
+        "path": "client/art/places/veyra_acequia_exterior-anime-v1-agua-libre.webp",
+        "sha256": "c655372c71acd28050b5ad82323c6c90daf395643a1cf4300a7e8693a8f0278b",
+        "bytes": 293070,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_acequia_exterior-anime-v1-agua-libre-thumb.webp",
+        "sha256": "8b81af38f5aa48a098a2b5258620259ef99943ec3d5ddb3fe40e141bf1f7176d",
+        "bytes": 21106,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
   }
 ]

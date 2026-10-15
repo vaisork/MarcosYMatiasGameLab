@@ -2214,7 +2214,8 @@
             "examine": {
               "rejilla": "Entre las barras ves el cauce de nuevo lleno. El agua pasa por encima de las estrías antiguas y deja a la vista la entrada de la rampa junto a una orilla. La bajada al Bastión sigue allí; ahora huele a musgo fresco y piedra lavada.",
               "tablas": "Apoyas la palma sobre una tabla. Su vibración ya no llega en golpes separados: un pequeño rumor constante corre por debajo. El agua roza la madera y se aleja hacia Veyra."
-            }
+            },
+            "art_variant": "agua-libre"
           }
         }
       ]
@@ -2857,7 +2858,8 @@
               "pedestal": "El estrado sigue marcado por las garras antiguas, pero ya no sostiene el peso del dragón. El agua limpia recorre los surcos, da una vuelta corta y toma su cauce hacia las conducciones.",
               "arcos": "Los doce arcos brillan con gotas que caen a su propio ritmo. Ningún resuello las arranca del techo. La piedra conserva grandes arañazos, huellas de una vigilancia que por fin se ha aquietado.",
               "portal": "El portal norte está abierto y la piedra de su umbral permanece húmeda. Puedes ver una escalinata baja, un resplandor que viene de arriba y la entrada al Sagrario de los Recorridos."
-            }
+            },
+            "art_variant": "agua-libre"
           }
         }
       ],
@@ -3003,7 +3005,8 @@
               "arquetas": "La piedra presenta huecos para armas de formas distintas y pequeñas cavidades para joyas y reliquias. No puedes leer su procedencia: no hay nombres ni fechas. Puedes acercarte a la recompensa de tu vocación si participaste en la victoria y todavía no la has reclamado.",
               "claraboya": "Por la abertura ves cielo abierto. Unas gotas se reúnen sobre una raíz y caen hasta la canaleta, que las recibe antes de continuar hacia la bóveda.",
               "escalinata": "La escalera oriental sube hacia una luz cada vez más cálida. Desde aquí ya se escucha, muy distante, el curso de agua que vuelve a la acequia."
-            }
+            },
+            "art_variant": "agua-libre"
           }
         },
         {

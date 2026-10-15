@@ -866,7 +866,8 @@
           "chance": 0.8
         }
       ],
-      "defeat_text": "El dragón intenta alzar otra vez las alas. No puede. En lugar de rugir, deja escapar un resuello largo que mueve el vapor por última vez. Sus ojos dorados te miran y la cola afloja el círculo que formaba alrededor del manantial. Con cuidado, el guardián se desliza hacia una repisa de piedra junto al agua y recoge las alas para descansar. El remolino, libre de su peso, se abre poco a poco. Un hilo transparente encuentra un canal; luego otro lo sigue. Pronto la cuenca entera canta contra los conductos y la corriente se dirige hacia Veyra. El dragón cierra los ojos. Su pecho sigue subiendo y bajando, tranquilo. Has vencido sin apagar la vida que cuidaba este lugar."
+      "defeat_text": "El dragón intenta alzar otra vez las alas. No puede. En lugar de rugir, deja escapar un resuello largo que mueve el vapor por última vez. Sus ojos dorados te miran y la cola afloja el círculo que formaba alrededor del manantial. Con cuidado, el guardián se desliza hacia una repisa de piedra junto al agua y recoge las alas para descansar. El remolino, libre de su peso, se abre poco a poco. Un hilo transparente encuentra un canal; luego otro lo sigue. Pronto la cuenca entera canta contra los conductos y la corriente se dirige hacia Veyra. El dragón cierra los ojos. Su pecho sigue subiendo y bajando, tranquilo. Has vencido sin apagar la vida que cuidaba este lugar.",
+      "illustration": "/client/art/bestiary/dragon_aguas_antiguas-anime-v1.webp"
     }
   },
   "items": {
