@@ -3,8 +3,8 @@
 **Texto:** [008 — La plaza de las cinco rutas](008-la-plaza-de-las-cinco-rutas.md).  
 **Responsable:** `escritor-aventuras-vaisgard-01`, [PR #705](https://github.com/vaisork/MatiasGameLab/pull/705).  
 **Estado:** **BORRADOR ENTREGADO PARA DICTAMEN**, sin aprobación del Capítulo 8 todavía. **WIP=1: C009 NO iniciado ni autorizado**.  
-**Longitud:** **2,643 palabras** incluido título.  
-**Blob de manuscrito:** `cbdf7abbc0311ce383588c8050958e5f9f871b1e`.  
+**Longitud:** **2,649 palabras** incluido título.  
+**Blob de manuscrito:** `a2b9265935341c55638946d963d832937bd2e865`.  
 **Autorización expresa:** `../plan/DECISION_C007_PRIORIDAD_MAQUETA_Y_ARRANQUE_C008_2026-10-15.md` (Arquitectura Editorial).  
 **Texto previo:** C007 `6aca35d8ca12704ce189e70349d8740c6c4b3f61`, **aprobado literariamente por Arquitectura Editorial** con observación L01 resuelta; matriz anterior `739f58bef51ea28a843c9154afdc7eac00100fc3`.
 
@@ -20,7 +20,7 @@
 
 **Regreso:** Nara se ocupa de sus asuntos. Lera retorna **al este** por `veyra_patio_porte → veyra_plaza_rutas`, reflexiona brevemente sobre el riesgo asumido y se dirige hacia el alero **oriental**, cerca de `veyra_patio_senales`; **NO entra en el archivo ni usa servicios, flags o quest**. Al cierre **no se afirma ingreso consumado al Patio de Señales**: queda acercándose desde la Plaza; C009 deberá decidir ruta e interacción. La carta original continúa privada y sin enviar. Nadie localiza a Dalia.
 
-**Estado físico/objetos al cierre:** bota y media siguen algo húmedas (bota temporalmente retirada para airearse), pequeña raspadura palma, hombro sensible, cantimplora parcialmente llena sin consumo narrado, taza de madera con asa torcida en bolsa, carta seca en chaqueta, carboncillo disponible; **recorte con nombre en poder de Nara**. No se cura mágicamente, no obtiene nueva provisión ni paga sellos. La lluvia del trayecto ya pasó.
+**Estado físico/objetos al cierre:** bota y media siguen algo húmedas (bota temporalmente retirada para airearse), pequeña raspadura palma, hombro sensible, cantimplora parcialmente llena sin consumo narrado, taza de madera con asa torcida en bolsillo exterior de la bolsa, carta seca en chaqueta, carboncillo disponible; **recorte con nombre en poder de Nara**. No se cura mágicamente, no obtiene nueva provisión ni paga sellos. La lluvia del trayecto ya pasó.
 
 ## 2. Matriz de canon ABIERTO / CONFIRMADO del videojuego
 
