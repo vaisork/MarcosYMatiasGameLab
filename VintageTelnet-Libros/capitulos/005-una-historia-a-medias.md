@@ -79,3 +79,110 @@ La mujer miró la cantimplora.
 —Habrá que llenar recipientes después de atender lo que está al fuego. Siéntate donde no estorbes. No tengo otra mano libre ahora.
 
 Lera se sentó en el extremo de un banco, con la cantimplora casi vacía entre las rodillas. Había venido a buscar agua y manos para una carga. Alrededor había calor, comida y personas ocupadas, pero ninguna de esas cosas se había convertido aún en una solución.
+
+
+Al otro lado de la mesa, un hombre con una capa polvorienta contaba algo a dos viajeros.
+
+—No ha llegado —decía—. La carga no ha pasado por la calzada. Mi compañero oyó que tuvieron que detenerla, y desde entonces nada.
+
+—¿La asaltaron? —preguntó uno.
+
+—Eso andan diciendo.
+
+Lera levantó la cabeza. La palabra *asaltaron* había sido pronunciada como pregunta, pero el segundo viajero ya empezaba a repetirla, con la seguridad de quien había presenciado un hecho.
+
+—Yo vi un carro detenido en la subida —intervino Lera.
+
+Las tres personas se volvieron hacia ella.
+
+—¿Lo ves? —dijo el hombre de la capa—. Un carro detenido.
+
+—Pero no estaba asaltado —aclaró Lera—. Esperaba a que pudiera apartarme del paso. Bajó después.
+
+La mujer que servía la sopa dejó un cuenco en la mesa.
+
+—¿Están hablando del carro que se detuvo por la rueda o del que acaba de bajar de la cuesta?
+
+Nadie respondió.
+
+El hombre de los papeles levantó los ojos hacia el grupo. Tenía una nota entre dos dedos, con una pequeña mancha oscura en el borde.
+
+—Si cuentan una noticia, digan dónde la oyeron —dijo—. Y cuándo.
+
+El de la capa frunció el ceño.
+
+—Aren, todo el mundo sabe que falta una carga.
+
+Aren no cambió la posición de la nota.
+
+—Lo que tengo escrito aquí dice que se detuvo para reparar una rueda. Eso no me dice dónde está ahora, pero tampoco que haya desaparecido.
+
+Lera reconoció el mismo cuidado con que el hombre había dejado espacio entre dos mensajes: parecía negarse a que dos versiones se pegaran hasta convertirse en una sola.
+
+Uno de los viajeros tomó su bolsa.
+
+—Yo pensaba salir ya. Si no se puede pasar, tendré que buscar otro camino.
+
+—No sé si el carro de esa nota es el que yo vi —admitió Lera—. El mío estaba bajando, no detenido por una rueda.
+
+El hombre de la capa la miró con irritación.
+
+—Entonces, ¿para qué dijiste que viste un carro parado?
+
+Lera recordó su propia voz, unos instantes antes, ofreciendo una pieza que todos habían colocado en una historia distinta.
+
+—Porque lo vi —contestó—. Pero olvidé decir por qué estaba parado.
+
+Aren tendió la nota para que los más cercanos pudieran examinarla sin llevársela.
+
+—Aquí habla de una reparación. Ni siquiera afirma que la carga siga detenida a esta hora.
+
+—A mí me dijeron que no había llegado —insistió el hombre.
+
+—Puede ser verdad —respondió Aren—. Pero dime quién lo vio y desde qué lado del camino. No hay que inventar el resto.
+
+Lera se levantó. El viajero que preparaba la bolsa ya avanzaba hacia la puerta.
+
+—Espera —le dijo.
+
+Él se volvió, molesto.
+
+—¿Ahora qué?
+
+—No sé que el camino esté cerrado. Yo pude subir por él. Hubo un carro, y tuve que apartarme, pero pasó. Si cambias tu ruta por lo que acabo de contar, estarías haciéndolo por una historia incompleta.
+
+El viajero miró hacia la calle que empezaba al otro lado de la casa.
+
+—De todos modos, alguien debió contar bien lo que sucedió.
+
+—Sí —dijo Lera—. Y yo no lo hice.
+
+Aren guardó la nota junto a otras, sin escribir una corrección que nadie había comprobado. Lera agradeció que no fingiera tener resuelto el asunto.
+
+La mujer de la sopa regresó al fuego. Cuando volvió a hablar, ya no fue sobre la carga.
+
+—¿El saco del terraplén sigue allí?
+
+Lera dio un respingo.
+
+Había pasado de una petición urgente a otra historia, y mientras tanto el porteador seguía esperando junto a su propia carga.
+
+—Sí. Y prometí volver a decirle qué encontramos.
+
+La mujer se sacudió harina seca de los dedos.
+
+—Hay alguien que bajará por el terraplén después de comer. Puedo preguntarle si quiere ayudar, pero no pienso enviarlo como si fuera una orden.
+
+—Eso basta —dijo Lera.
+
+La mujer la miró un instante.
+
+—No. Todavía no basta. Hasta que esa persona acepte, no tienes ayuda.
+
+A Lera se le encendieron las mejillas. Había oído una frase parecida demasiadas veces últimamente, pero en aquella casa nadie conocía sus conversaciones con Mara.
+
+La mujer no insistió. Le señaló un recipiente de barro junto al banco.
+
+—Puedes dejar la cantimplora ahí para que la llenemos cuando tengamos agua disponible. No antes.
+
+Lera la depositó con cuidado. Todavía tenía las manos secas, los labios partidos por el polvo y un viaje entero por delante.
