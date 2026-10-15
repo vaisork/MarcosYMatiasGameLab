@@ -238,5 +238,20 @@
     "sha256": "ae649f501e6a5bbe468f60d7e90cd2a56575d032ade993e5d94676ae3c10f463",
     "parent_sha256": "b1bf1886185ab557c5365fe5fafdfac92005b5cda00e9d0c9ae6f33f57042ea9",
     "parent_bytes": 267756
+  },
+  {
+    "target": "client/art/bestiary/dragon_aguas_antiguas-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/dragon_aguas_antiguas-anime-v1.webp",
+    "creatures": [
+      "dragon_aguas_antiguas"
+    ],
+    "bytes": 29356,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "67d1312e9849daefd6d1f8a474d0033b8d7d875f0e72c48a3ba32fe053e7fa5a",
+    "parent_sha256": "8872672c27ded8b49059a27ac2da0945ade42d5760ca6d007a3b531bbffe410b",
+    "parent_bytes": 400090
   }
 ]

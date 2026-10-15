@@ -1211,7 +1211,75 @@ Object.assign(placeIllustrations,{
     "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
   }
 });
+Object.assign(placeIllustrations,{
+  "veyra_mazmorra_umbral": {
+    "name": "Umbral del Bastión de las Aguas",
+    "illustration": "/client/art/places/veyra_mazmorra_umbral-anime-v1.webp",
+    "thumbnail": "/client/art/places/veyra_mazmorra_umbral-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "veyra_mazmorra_cuencas": {
+    "name": "Distribuidor de las Tres Cuencas",
+    "illustration": "/client/art/places/veyra_mazmorra_cuencas-anime-v1.webp",
+    "thumbnail": "/client/art/places/veyra_mazmorra_cuencas-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "veyra_mazmorra_caudal": {
+    "name": "Galería del Caudal Sumergido",
+    "illustration": "/client/art/places/veyra_mazmorra_caudal-anime-v1.webp",
+    "thumbnail": "/client/art/places/veyra_mazmorra_caudal-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "veyra_mazmorra_cornisa": {
+    "name": "Fractura de la Cornisa Alta",
+    "illustration": "/client/art/places/veyra_mazmorra_cornisa-anime-v1.webp",
+    "thumbnail": "/client/art/places/veyra_mazmorra_cornisa-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "veyra_mazmorra_mecanismo": {
+    "name": "Cámara del Trinquete Central",
+    "illustration": "/client/art/places/veyra_mazmorra_mecanismo-anime-v1.webp",
+    "thumbnail": "/client/art/places/veyra_mazmorra_mecanismo-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "veyra_mazmorra_galeria_ecos": {
+    "name": "Galería de las Losas Sonoras",
+    "illustration": "/client/art/places/veyra_mazmorra_galeria_ecos-anime-v1.webp",
+    "thumbnail": "/client/art/places/veyra_mazmorra_galeria_ecos-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "veyra_mazmorra_boveda_guardian": {
+    "name": "Bóveda de las Aguas Antiguas",
+    "illustration": "/client/art/places/veyra_mazmorra_boveda_guardian-anime-v1.webp",
+    "thumbnail": "/client/art/places/veyra_mazmorra_boveda_guardian-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "veyra_mazmorra_recorridos_fin": {
+    "name": "Sagrario de los Recorridos",
+    "illustration": "/client/art/places/veyra_mazmorra_recorridos_fin-anime-v1.webp",
+    "thumbnail": "/client/art/places/veyra_mazmorra_recorridos_fin-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  }
+});
 const placeVariants=Object.freeze({
+  "veyra_mazmorra_boveda_guardian": {
+    "agua-libre": {
+      "illustration": "/client/art/places/veyra_mazmorra_boveda_guardian-anime-v1-agua-libre.webp",
+      "thumbnail": "/client/art/places/veyra_mazmorra_boveda_guardian-anime-v1-agua-libre-thumb.webp"
+    }
+  },
+  "veyra_mazmorra_recorridos_fin": {
+    "agua-libre": {
+      "illustration": "/client/art/places/veyra_mazmorra_recorridos_fin-anime-v1-agua-libre.webp",
+      "thumbnail": "/client/art/places/veyra_mazmorra_recorridos_fin-anime-v1-agua-libre-thumb.webp"
+    }
+  },
+  "veyra_acequia_exterior": {
+    "agua-libre": {
+      "illustration": "/client/art/places/veyra_acequia_exterior-anime-v1-agua-libre.webp",
+      "thumbnail": "/client/art/places/veyra_acequia_exterior-anime-v1-agua-libre-thumb.webp"
+    }
+  },
   "hoshai_cajas_camino": {
     "sin-polea": {
       "illustration": "/client/art/places/hoshai_cajas_camino-anime-v1-sin-polea.webp",
@@ -1348,6 +1416,7 @@ export function capabilityReadingHint(action){
 
 // Lightweight views of illustrations already used by the authored bestiary.
 const bestiaryThumbnails=Object.freeze({
+  "/client/art/bestiary/dragon_aguas_antiguas-anime-v1.webp": "/client/art/bestiary/dragon_aguas_antiguas-anime-v1-thumb.webp",
   "/client/art/bestiary/aguaculebra-anime-v1.webp": "/client/art/bestiary/aguaculebra-anime-v1-thumb.webp",
   "/client/art/bestiary/cienfango-anime-v1.webp": "/client/art/bestiary/cienfango-anime-v1-thumb.webp",
   "/client/art/bestiary/clavaespina-anime-v1.webp": "/client/art/bestiary/clavaespina-anime-v1-thumb.webp",

@@ -1,0 +1,301 @@
+[
+  {
+    "asset_id": "veyra_mazmorra_umbral",
+    "files": [
+      {
+        "path": "client/art/places/veyra_mazmorra_umbral-anime-v1.webp",
+        "sha256": "394a2f7c4b54f7e6a407a4c958e920074aa0e918dcf46fe54524564e28536e8b",
+        "bytes": 185982,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_mazmorra_umbral-anime-v1-thumb.webp",
+        "sha256": "742995d1b1b9a6c75d2783a9cb6e2588a2caebdacb0a73c557ded5abc615b4b6",
+        "bytes": 11704,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "asset_id": "veyra_mazmorra_cuencas",
+    "files": [
+      {
+        "path": "client/art/places/veyra_mazmorra_cuencas-anime-v1.webp",
+        "sha256": "caa60c68a3932460cbe26fb9d6668033467ff9b4b6464d965b4eaa23d15ff71f",
+        "bytes": 248496,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_mazmorra_cuencas-anime-v1-thumb.webp",
+        "sha256": "e3ef62a3804950716f5a3c8d35e8650b4ae94de88c28126fc66ec02afa8208c2",
+        "bytes": 14154,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "asset_id": "veyra_mazmorra_caudal",
+    "files": [
+      {
+        "path": "client/art/places/veyra_mazmorra_caudal-anime-v1.webp",
+        "sha256": "b90a522dc5d8dee18c916ca296f832508e92a08f444bf693c8241d7d9bed19cf",
+        "bytes": 246922,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_mazmorra_caudal-anime-v1-thumb.webp",
+        "sha256": "c41324dc6b2647ea5c27b860e9b0cfc80b69635939f2e9357f6abe9ae7db02f7",
+        "bytes": 17004,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "asset_id": "veyra_mazmorra_cornisa",
+    "files": [
+      {
+        "path": "client/art/places/veyra_mazmorra_cornisa-anime-v1.webp",
+        "sha256": "bc070d27ee1b2da7d6e867b65f09018ded67cf5151129f5d397e45bcfdc5a91b",
+        "bytes": 219154,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_mazmorra_cornisa-anime-v1-thumb.webp",
+        "sha256": "d74a79cc43826dfacd31cf097c0f54d13480222d007c7250053a1c0df62aa56d",
+        "bytes": 13910,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "asset_id": "veyra_mazmorra_mecanismo",
+    "files": [
+      {
+        "path": "client/art/places/veyra_mazmorra_mecanismo-anime-v1.webp",
+        "sha256": "c172be981ca11bd6d1d9d4cf61358c21d67932dcccacbf8f2949e4ec5bebb513",
+        "bytes": 263518,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_mazmorra_mecanismo-anime-v1-thumb.webp",
+        "sha256": "6b30732c5bac1bb42cfea2a18894de145458cb417221b21aea4ec2b52d3c96c2",
+        "bytes": 15934,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "asset_id": "veyra_mazmorra_galeria_ecos",
+    "files": [
+      {
+        "path": "client/art/places/veyra_mazmorra_galeria_ecos-anime-v1.webp",
+        "sha256": "e024c718280e1b2d6fc59efb6d85b2236ab6cc86d5b51fe7f4202e989f3618dd",
+        "bytes": 246264,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_mazmorra_galeria_ecos-anime-v1-thumb.webp",
+        "sha256": "756afd6f751d482d62e52c392cb1e593d9064094f75845090c6105cd8d8d1f11",
+        "bytes": 15194,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "asset_id": "veyra_mazmorra_boveda_guardian",
+    "files": [
+      {
+        "path": "client/art/places/veyra_mazmorra_boveda_guardian-anime-v1.webp",
+        "sha256": "50ba2d786ae501ad139e7ce9433991ad4cafbfe732888402f9d65ec7010d66c8",
+        "bytes": 279846,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_mazmorra_boveda_guardian-anime-v1-thumb.webp",
+        "sha256": "816bad772094176de32a55c4d8e0110bca7ca5062d757debd90f1ab6517cc878",
+        "bytes": 18032,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "asset_id": "veyra_mazmorra_recorridos_fin",
+    "files": [
+      {
+        "path": "client/art/places/veyra_mazmorra_recorridos_fin-anime-v1.webp",
+        "sha256": "9033021d760714f0b8896afc4b1eec0d22baddb2e30f6db574a227d881c7a43d",
+        "bytes": 239582,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_mazmorra_recorridos_fin-anime-v1-thumb.webp",
+        "sha256": "b47914535e169fc3d525d69740ce65887376c881e05bdbbb8943883704af80e2",
+        "bytes": 17204,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "asset_id": "veyra_mazmorra_boveda_guardian-agua-libre",
+    "files": [
+      {
+        "path": "client/art/places/veyra_mazmorra_boveda_guardian-anime-v1-agua-libre.webp",
+        "sha256": "6bafdf153f9732f24a66cea6e8c831429a56bfeac95dfaf14150f6920b0fcce5",
+        "bytes": 278578,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_mazmorra_boveda_guardian-anime-v1-agua-libre-thumb.webp",
+        "sha256": "2320b81999ccaa36e4fe4b00255fef9dd4ce7c16def26ce71bdeb1ec61366339",
+        "bytes": 19764,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "asset_id": "veyra_mazmorra_recorridos_fin-agua-libre",
+    "files": [
+      {
+        "path": "client/art/places/veyra_mazmorra_recorridos_fin-anime-v1-agua-libre.webp",
+        "sha256": "63e6e69bf2016a8fe9d7eee846c1d5985cdddb6241a4079938fd4d379ba4dd55",
+        "bytes": 238272,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_mazmorra_recorridos_fin-anime-v1-agua-libre-thumb.webp",
+        "sha256": "bcb977fc6a5f766b3e87f2a1948a958514b9b0b90aa2e9a819eacbe894a0bbd2",
+        "bytes": 18078,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "asset_id": "veyra_acequia_exterior-seca",
+    "files": [
+      {
+        "path": "client/art/places/veyra_acequia_exterior-anime-v1.webp",
+        "sha256": "c25fa13f451162382adf8f172dc2ea175b16127767119444f75e40f86b1369cf",
+        "bytes": 295844,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_acequia_exterior-anime-v1-thumb.webp",
+        "sha256": "78652c4c7e11e80ac0bb44c5715cd1529fd4c139b9826c5dbdef6fc9b26d4b84",
+        "bytes": 20628,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "asset_id": "veyra_acequia_exterior-agua-libre",
+    "files": [
+      {
+        "path": "client/art/places/veyra_acequia_exterior-anime-v1-agua-libre.webp",
+        "sha256": "c655372c71acd28050b5ad82323c6c90daf395643a1cf4300a7e8693a8f0278b",
+        "bytes": 293070,
+        "dimensions": [
+          1200,
+          800
+        ]
+      },
+      {
+        "path": "client/art/places/veyra_acequia_exterior-anime-v1-agua-libre-thumb.webp",
+        "sha256": "8b81af38f5aa48a098a2b5258620259ef99943ec3d5ddb3fe40e141bf1f7176d",
+        "bytes": 21106,
+        "dimensions": [
+          300,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "asset_id": "dragon_aguas_antiguas",
+    "files": [
+      {
+        "path": "client/art/bestiary/dragon_aguas_antiguas-anime-v1.webp",
+        "sha256": "8872672c27ded8b49059a27ac2da0945ade42d5760ca6d007a3b531bbffe410b",
+        "bytes": 400090,
+        "dimensions": [
+          1536,
+          1024
+        ]
+      },
+      {
+        "path": "client/art/bestiary/dragon_aguas_antiguas-anime-v1-thumb.webp",
+        "sha256": "67d1312e9849daefd6d1f8a474d0033b8d7d875f0e72c48a3ba32fe053e7fa5a",
+        "bytes": 29356,
+        "dimensions": [
+          384,
+          256
+        ]
+      }
+    ]
+  }
+]
