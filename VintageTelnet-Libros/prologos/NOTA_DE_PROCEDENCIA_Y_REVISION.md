@@ -48,7 +48,7 @@ Se **elimina o reconduce**:
 
 ## Encargos de revisión y publicación
 
-1. **Historiador 02 / PR #706:** cotejar afirmaciones históricas y regiones del epílogo con `MatiasGameLab/main`, sin restaurar automáticamente el antiguo canon VT1; registrar cada tensión en #706 y referirla en #705.
+1. **Historiador 02 / PR #706:** cotejar afirmaciones históricas y regiones del prólogo con `MatiasGameLab/main`, sin restaurar automáticamente el antiguo canon VT1; registrar cada tensión en #706 y referirla en #705.
 2. **Editor Integral 03 / PR #707:** juzgar si funciona como **prólogo anterior al Capítulo 1** y si preserva la voz del Historian sin redundancia enciclopédica; sugerir recortes sólo por ritmo, no por obligación de abreviar.
 3. **Arquitecto VT2 + Arquitecto Editorial / PR #705:** validar historia, especies, lugares, secretos, usos de piedras y fronteras de canon **en la misma PR**. Contradicción no resuelta bloquea fusión.
 4. **Director de Arte 04 / PR #708:** prever sección inicial autónoma «Prólogo», ubicada antes del capítulo 001 en el índice del EPUB 3; integrar sólo después de revisión del canon y no agregar arte no aprobado.
