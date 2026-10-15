@@ -276,12 +276,16 @@ El porteador miró la carga y luego la curva.
 
 Lera pudo haber dicho lo mismo sobre sí misma.
 
-Miró hacia el tejado que asomaba más arriba. Una cosa era llegar a la casa; otra, lograr que aquel desconocido pudiera descender sin caerse. El hombre estaba atando el saco en dos bultos más pequeños para repartir el peso, pero no tenía con qué hacer un segundo nudo.
+Miró hacia el tejado que asomaba más arriba. Una cosa era llegar a la casa; otra, lograr que aquel desconocido pudiera descender sin caerse. El hombre trató de dividir la carga en dos bultos, pero el cabo de cuerda que le quedaba no alcanzaba para el segundo. Lera pensó en su hilo de coser: era demasiado fino para sostener aquel peso.
 
-Lera tocó su bolsa. Recordó el hilo, el poco agua y la carta que todavía llevaba.
+La persona sentada junto a la pared volvió la cabeza.
 
-Había salido buscando a una persona que quizás no quisiera escucharla.
+—¿Les queda un poco de agua?
 
-Ahora, a mitad de una cuesta, alguien necesitaba ayuda antes de que ella pudiera seguir.
+Lera tocó la cantimplora. Dentro había apenas lo suficiente para que sonara al moverla. No sabía si encontraría más en la casa del camino.
 
-Y aquella vez no bastaba con reconocer una huella.
+Había salido buscando a una persona que quizá no quisiera escucharla. Ahora alguien esperaba una respuesta a mitad de una cuesta, y el agua que se le había derramado ya no podía recuperarla.
+
+Miró la cantimplora. Después miró a la persona que respiraba con dificultad.
+
+Esta vez las huellas no podían decirle qué elegir.
