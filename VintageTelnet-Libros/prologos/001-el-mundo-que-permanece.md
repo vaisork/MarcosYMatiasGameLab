@@ -13,7 +13,7 @@ Los mercaderes conocen los días que se tarda en reunir una carga. Los artesanos
 
 Unos recuerdan lo que les contaron sus mayores. Otros señalan marcas en la piedra y ofrecen una conjetura. Hay quienes prefieren encogerse de hombros, porque ninguna conjetura ha conseguido convertirse en prueba.
 
-Lo que se sabe es más sencillo, y quizá por eso mismo más asombroso: cuando comienzan los recuerdos que las comunidades actuales pueden contar con alguna seguridad, la ciudad ya formaba parte del paisaje.
+Los relatos más antiguos que suelen contarse comienzan con una ciudad de piedra a la que nadie sabe ponerle fecha. No son una historia completa de su origen. Apenas son las primeras páginas que todavía pueden leerse.
 
 No estaba vacía de posibilidades. Había patios donde reunirse y muros que ofrecían resguardo. El agua encontraba sitio entre las construcciones. Muchas manos, a lo largo de mucho tiempo, repararon, adaptaron y añadieron lo que necesitaban para vivir. Una piedra nueva se apoyó en otra vieja. Una puerta cambió de uso. Un espacio construido para una tarea terminó sirviendo a otra.
 
@@ -21,23 +21,23 @@ Así se aprende a habitar un lugar que no se comprende del todo: sin dejar de ha
 
 ## Cinco maneras de mirar la misma tierra
 
-No todos los habitantes de la región conocida están hechos para escuchar el mundo de la misma forma.
+En una mañana de mercado, Vaisgard reúne cuerpos y costumbres que no podrían confundirse. Un bulto cruza la plaza sobre dos hombros; alguien revisa una cuerda bajo un toldo; más allá, una conversación se detiene para dejar pasar un carro. Basta mirar a quienes trabajan y viajan para reconocer cinco formas distintas de habitar la tierra.
 
-Los **humanos** no destacan por una adaptación extraordinaria de su cuerpo. Aprenden a resolver diferencias de suelo, clima y distancia con práctica, instrumentos, conversaciones y trabajo compartido. Allí donde una herramienta se rompe, suelen preguntar cómo repararla antes de decidir que el problema no tiene remedio.
+Una **humana** prueba dos veces la correa de una carga. Su cuerpo no posee una adaptación extraordinaria para las alturas, el agua o la penumbra; así que observa el peso, cambia el nudo y pide una mano para levantarlo. No todos lo harían del mismo modo. Aquella mañana, ella ha preferido no perder la mercancía por orgullo.
 
-Los **Felaryn** poseen una agilidad que se reconoce en el equilibrio, la forma de caminar y la atención a las alturas. Su cola y sus pies digitígrados les ayudan a moverse por senderos y terrazas que obligan a otros viajeros a detenerse para observar el siguiente apoyo. Eso no significa que nunca tropiecen ni que todas sus decisiones sean prudentes: cada cuerpo tiene ventajas, y cada persona sigue siendo responsable de lo que hace con ellas.
+Cerca de la escalera, un **Felaryn** se aparta del paso con un giro preciso. Su cola ayuda a mantener el equilibrio y sus pies digitígrados encuentran apoyo donde otros deben tantear. En los senderos altos esa anatomía importa; en el mercado, al cruzarse con un cargador que no lo ha visto, también le conviene mirar antes de avanzar.
 
-Los **Dravak**, más bajos y compactos, llevan pequeñas placas de aspecto pétreo en algunas zonas del cuerpo. Conocen de cerca la resistencia de los materiales y los detalles de las superficies firmes. No son una variedad de dragón ni un pueblo escondido bajo tierra: viven, trabajan, discuten y viajan en la superficie como los demás, aunque su cuerpo les permita relacionarse con la roca de otra manera.
+Un **Dravak**, bajo y compacto, se agacha junto a una caja mal calzada. Lleva pequeñas placas de aspecto pétreo en algunas zonas de la piel. A través del suelo firme percibe vibraciones que a otros pueden pasarles inadvertidas; aun así, comprueba la madera con la mano antes de afirmar que el apoyo resistirá. No todo lo que parece piedra permanece quieto.
 
-Los **Marevyn**, altos y de manos con membranas entre los dedos, habitan con naturalidad las orillas y los pasos de agua. Respiran aire. Conocen el valor de una embarcación cuidada y de una plataforma bien asentada, y saben que el agua no se vuelve obediente porque alguien se empeñe en darle órdenes.
+Ante un puesto de tejidos, una viajera **Marevyn** desata una tela húmeda para dejarla secar. Es alta, y entre sus dedos se distinguen membranas propias de una vida cercana a riberas y canales. Respira el mismo aire que quienes negocian con ella. Ha traído el olor de los embarcaderos de Lethra, donde una plataforma segura vale más que cualquier promesa de que el agua se quedará inmóvil.
 
-Los **Vesperi** observan con grandes ojos acostumbrados a la luz escasa. Su oído atento puede percibir detalles que una conversación ruidosa deja escapar. No tienen alas ni necesitan vivir a oscuras. En sus comunidades, la iluminación se organiza para servir a quienes trabajan, cuentan historias o vuelven a casa al caer la tarde.
+Bajo la sombra de un toldo, una persona **Vesperi** escucha al comerciante repetir una cifra que no coincide con la anterior. Sus grandes ojos se adaptan a la luz escasa y su oído sensible distingue sonidos suaves sin convertirlos en certezas. En Velmora, su pueblo, las lámparas se colocan para trabajar y regresar a casa, no para espantar una oscuridad sobrenatural.
 
-Estas son diferencias visibles. Ninguna explica por sí sola la bondad de una persona, su oficio, su valor o sus temores. Una especie no es un destino. Ningún pueblo está hecho de habitantes idénticos.
+En pocos pasos, el mercado ha mostrado cinco cuerpos distintos y cinco preocupaciones cotidianas. Sus aptitudes no dicen quién será generoso, quién mentirá ni quién tendrá miedo de despedirse.
 
 ## Los hogares más allá de Vaisgard
 
-Desde la **Cuenca de Veyra**, donde se encuentra Vaisgard, los caminos atraviesan paisajes muy distintos.
+La mercancía y las noticias del mercado proceden de caminos que cruzan paisajes muy distintos. Vaisgard está en la **Cuenca de Veyra**, pero ninguna vista desde sus puertas basta para imaginar todos los hogares que se encuentran más allá.
 
 En los **Llanos de Edran** está **Valdren**, donde las parcelas exigen manos pacientes, el agua pasa entre cercas y las cargas esperan a quienes deben llevarlas a otro lugar. Es fácil comprender un pueblo mirando su plaza: una rueda que necesita espacio para girar, un banco reparado alrededor de una piedra vieja, el olor del pan y el sonido del trabajo que empieza antes de que todos despierten. Allí una tarea pequeña puede sostener la jornada de varias familias.
 
@@ -49,11 +49,11 @@ En las **Aguas de Lethra**, **Narevia** vive junto a canales, riberas y pasarela
 
 Al este, el **Bosque de Nhal** guarda **Velmora** entre raíces, madera y luz contenida. Quien llega sin prestar atención puede pasar por alto un punto de reunión o una señal en el sendero. Para los Vesperi, recordar cómo se llegó a un lugar es parte de saber regresar; los objetos reparados y los relatos compartidos conservan la huella de quienes trabajaron antes.
 
-No existe un único modo de levantar un hogar. Lo que en una región se construye en piedra, en otra necesita madera, cuerda o un paso sobre el agua. Y lo que en todas ellas permanece es la necesidad de confiar en alguien: quien cuida una ruta, quien comparte una noticia, quien vuelve a comprobar una unión después de que los demás se han marchado.
+En el mercado se reconoce la procedencia de las cosas por sus materiales: piedra trabajada, madera de paso, cuerda húmeda, grano protegido del polvo. Todos esos objetos han necesitado, al menos una vez, que alguien confiara en otro para hacerlos llegar.
 
 ## Las rutas que se abren
 
-Las gentes de los cinco pueblos no tienen por qué sentirse iguales para reconocerse como vecinas de una misma región.
+Las gentes de los cinco pueblos no tienen por qué sentirse iguales para reconocer que sus tierras están unidas por caminos.
 
 Los caminos llevan herramientas, alimentos, noticias, encargos, discusiones y cartas que alguien ha tardado demasiado en escribir. Hay personas que viajan por oficio y otras que parten porque quedarse se ha vuelto más difícil que ponerse en marcha. Unas regresan con lo que fueron a buscar. Otras vuelven con una pregunta distinta.
 
@@ -65,7 +65,7 @@ Pero conocer esa vida cotidiana tampoco resuelve los misterios que la piedra con
 
 Quizá algún día aparezca un testimonio que cambie lo que se cree saber de Vaisgard. Quizá una señal resulte distinta de lo que alguien pensó al verla por primera vez. Hasta entonces, habrá que distinguir entre lo que se ha observado, lo que se cuenta y lo que nadie puede demostrar.
 
-Esa cautela no hace más pequeño al mundo. Lo vuelve más grande.
+No conocer todas las respuestas deja todavía muchos caminos por recorrer.
 
 Porque las Cinco Rutas no terminan cuando un viajero reconoce el nombre de los pueblos. Continúan en cada conversación que empieza tarde, en cada promesa que exige regresar y en cada camino que alguien emprende sin saber todavía en quién tendrá que confiar.
 
