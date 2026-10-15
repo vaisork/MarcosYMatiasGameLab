@@ -18,6 +18,8 @@ class Content:
                     if key in self.data[table] and self.data[table][key] != value:
                         raise ValueError(f'Duplicate conflicting {table}:{key} in {filename.name}')
                     self.data[table][key] = value
+        numenes_file = self.root/'numenes.json'
+        self.numenes = json.loads(numenes_file.read_text(encoding='utf-8')).get('numenes',{}) if numenes_file.is_file() else {}
         for key, room in self.rooms.items():
             if room.get('id',key) != key or room.get('region') not in self.regions:
                 raise ValueError(f'Invalid room identity/region: {key}')

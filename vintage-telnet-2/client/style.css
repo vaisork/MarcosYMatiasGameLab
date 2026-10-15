@@ -687,3 +687,32 @@ html body #navigation .game-tabs button{position:relative}
 html body #navigation .pa-badge{position:absolute;top:0;right:5px;color:#ffe07a;font-size:20px;line-height:1}
 html body #navigation button[aria-current=page] .pa-badge{color:#3a2300}
 @media(max-width:440px){html body .attribute-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Ficha del Númen (Piloto) */
+html body .numen-roster-section{margin:16px 0}
+html body .numen-card{background:linear-gradient(180deg,#ffffff,#f3f7fc);border:2px solid #b6cced;border-radius:12px;padding:12px;margin:8px 0;color:var(--ink)}
+html body .numen-card.numen-active{border-color:#5a74f0;box-shadow:0 0 0 1px #5a74f0,0 3px 10px rgba(90,116,240,0.15)}
+html body .numen-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+html body .numen-emblem{display:grid;place-items:center;width:38px;height:38px;min-width:38px;background:linear-gradient(160deg,#5a74f0,#3a2fb0);color:#fff;border-radius:10px;border:1px solid #9fb6ff}
+html body .numen-emblem svg,html body .numen-emblem .control-icon{width:20px;height:20px}
+html body .numen-title-group{flex:1 1 180px;min-width:0}
+html body .numen-title-group h3{margin:0;font-size:1.1rem;line-height:1.2;color:var(--ink)}
+html body .numen-title-group p{margin:2px 0 0;font-size:0.85rem}
+html body .numen-pill-active{background:#235447!important;color:#fff!important;border-color:#173f34!important;font-weight:600}
+html body .numen-details{display:grid;gap:6px;margin:10px 0 6px;font-size:0.9rem}
+html body .numen-row{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+html body .numen-stars{color:#d4a017;font-size:1.05rem;letter-spacing:2px}
+html body .numen-care-status .pill{margin:0 2px}
+html body .numen-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:8px;border-top:1px dashed #b6cced}
+html body .numen-actions-title{width:100%;margin:0 0 4px;font-size:0.85rem;color:var(--muted);font-weight:600}
+html body .numen-care-hint{margin:8px 0 0;font-size:0.82rem;font-style:italic}
+html body .numen-shelter-heading{margin:16px 0 6px;font-size:1rem;color:var(--night-2)}
+@media(max-width:390px){
+ html body .numen-card{padding:10px 8px}
+ html body .numen-heading{gap:6px}
+ html body .numen-emblem{width:32px;height:32px;min-width:32px}
+ html body .numen-title-group h3{font-size:1rem}
+ html body .numen-title-group p{font-size:0.8rem}
+ html body .numen-details{font-size:0.85rem;gap:5px}
+ html body .numen-actions button{min-height:44px}
+}
