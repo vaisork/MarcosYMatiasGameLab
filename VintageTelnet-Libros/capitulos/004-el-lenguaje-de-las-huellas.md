@@ -159,3 +159,50 @@ El carro avanzó con un ruido de madera tensándose. Pasó tan cerca que Lera pu
 Solo cuando el conductor alcanzó el tramo inferior volvió la cabeza y alzó la mano. Lera le devolvió el gesto.
 
 Se dio cuenta de que todavía le temblaban los dedos.
+
+
+***
+
+El porteador esperó a que Lera respirara con calma. Su chaqueta estaba gastada en el hombro que soportaba una carga amarrada con cuerda. No parecía tener prisa por levantarla de nuevo.
+
+—¿Te queda agua? —preguntó.
+
+Lera miró su cantimplora.
+
+Muy poca.
+
+—Algo.
+
+—Guárdala, entonces. Queda subida.
+
+Lera se sentó en el borde firme del ensanche. Había recogido el tapón entre las raíces y lo colocó otra vez en la boca del recipiente. La palma raspada le escocía. La carta, al menos, seguía seca bajo la chaqueta.
+
+—Pensé que habría lugar para cruzarse con un carro —admitió.
+
+El hombre dio una palmada en la tierra a su lado.
+
+—Lo hay. Aquí mismo.
+
+Lera soltó una risa nerviosa.
+
+El porteador comprobó un nudo. Al apretarlo, uno de los extremos de la carga se torció.
+
+—¿Me sujetas esta esquina un instante?
+
+Ella iba a mencionar su mano lastimada, pero el hombre le señaló una parte de tela que podía sostener con la otra. Lera la sujetó hasta que la cuerda quedó firme. Entonces él levantó el bulto y se lo acomodó sobre la espalda.
+
+—¿Vas a la casa del camino? —preguntó.
+
+—A Vaisgard.
+
+—Primero tendrás que terminar esta cuesta.
+
+Lera miró el tramo que seguía oculto tras la curva.
+
+—¿Hay agua en esa casa?
+
+—No sé qué tendrán hoy. Habrá que preguntar.
+
+El hombre empezó a caminar y ella lo siguió a distancia prudente. Donde las paredes comenzaban a apartarse, el viento regresaba en pequeñas ráfagas y el polvo levantado por el carro se acumulaba en los bordes.
+
+Lera miró las rodadas bajo sus pies. Sabía cuánto pesaba lo que había pasado por allí. No podía leer en ellas cuánto faltaba para llegar a un lugar seguro.
