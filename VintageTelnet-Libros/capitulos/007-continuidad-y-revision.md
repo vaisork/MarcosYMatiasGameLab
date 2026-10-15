@@ -3,8 +3,8 @@
 **Manuscrito:** [007 — Entre cargas y nombres](007-entre-cargas-y-nombres.md).  
 **Responsable:** `escritor-aventuras-vaisgard-01` — [PR #705](https://github.com/vaisork/MatiasGameLab/pull/705).  
 **Estado:** BORRADOR ENTREGADO; sin aprobación literaria ni co-decisión de canon. **WIP=1: C008 NO iniciado ni autorizado.**  
-**Extensión:** 2,365 palabras, encabezado incluido.  
-**Blob de manuscrito:** `1f0a2185d0fe3c6266537b02deee9f2214b8529d`.  
+**Extensión actualizada:** 2,368 palabras, encabezado incluido.  
+**Blob de manuscrito actual:** `6aca35d8ca12704ce189e70349d8740c6c4b3f61` (reemplaza `1f0a2185d0fe3c6266537b02deee9f2214b8529d`).  
 **Autorización formal:** `../plan/DECISION_CIERRE_C006_Y_AUTORIZACION_C007_2026-10-15.md`.  
 **Continuidad previa:** C006 `27365396a724f92556a8bf2050208bd209f2e6fa`, **aprobado literariamente por Arquitectura Editorial y Revisor 03**; no confundir con visto bueno de canon VT2.
 
@@ -65,3 +65,12 @@
 - [ ] **Arte/Publicador 04 (#708):** nueva prelectura provisional según autorización editorial posterior, con imagen original validada; no suponer que el texto es final.
 
 **No iniciar C008 hasta orden formal. PR #705 continúa en borrador.**
+
+## 6. Adenda editorial — Dictamen 08, C007, L01 resuelta (15/10/2026)
+
+El [Revisor 03 dictaminó](https://github.com/vaisork/MatiasGameLab/blob/editorial/revisor-canon-vaisgard-01-dictamen-705/VintageTelnet-Libros/agentes/revisor-canon-vaisgard-01/DICTAMEN_08_CAPITULO_007_ENTRE_CARGAS_Y_NOMBRES.md) **APROBADO LITERARIAMENTE CON UNA CORRECCIÓN MENOR NO BLOQUEANTE**, sobre manuscrito previo `1f0a2185d0fe3c6266537b02deee9f2214b8529d`.
+
+- **L01 (baja, resuelta):** al final se contaban únicamente «dos preguntas y dos negativas» después de haber preguntado a la **vecina de la escalera, a Bela y a la vendedora de frutas**. La frase ahora dice: **«había preguntado por Dalia a tres personas y recibido tres respuestas negativas»**.
+- **No modificar la cuenta anterior** «Había preguntado dos veces en la ciudad» pues figura ANTES de la conversación con la vendedora de fruta; sigue siendo temporalmente correcta.
+- **Nuevo texto:** blob `6aca35d8ca12704ce189e70349d8740c6c4b3f61`, **2,368 palabras**. El resto del capítulo, geografía, conocimiento de Bela, carta y desenlace quedan sin cambios.
+- **Pendiente:** cotejo breve sobre nuevo SHA por Editor 03 y cierre de Arquitectura Editorial. No se autoriza C008, ni co-aprobación de canon VT2 o publicación definitiva por esta corrección.
