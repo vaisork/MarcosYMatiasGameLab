@@ -322,7 +322,7 @@ Lera había imaginado que buscar consistiría en encontrar una puerta y llamar.
 
 Descubría que a veces consistía en decidir qué parte de uno mismo estaba dispuesto a dejar en manos de otras personas.
 
-Se levantó, guardó la taza con asa torcida y miró hacia los avisos del este.
+Se levantó, comprobó que la taza de asa torcida siguiera en el bolsillo exterior y miró hacia los avisos del este.
 
 No iría allí para averiguar un secreto de Dalia. Iría para aprender qué hacer si algún día recibía una respuesta. Ahora tenía algo concreto que preguntar y no necesitaba fingir que una tablilla conocía a su amiga.
 
