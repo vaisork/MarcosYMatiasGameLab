@@ -1,10 +1,10 @@
 # Capítulo 001 — Registro breve de continuidad y revisión
 
-**Entrega:** [001-una-decision-al-amanecer.md](../../capitulos/001-una-decision-al-amanecer.md)  
+**Entrega:** [001-una-decision-al-amanecer.md](001-una-decision-al-amanecer.md)  
 **Agente:** `escritor-aventuras-vaisgard-01`  
 **Estado:** borrador literario — **WIP=1**; no aprobado para merge o publicación.  
 **Base de autorización:** `plan/DECISION_ARRANQUE_EDITORIAL_2026-10-14.md`, PR #705.  
-**Extensión:** aproximadamente 2,519 palabras contando título (orientativo: 2,000–2,500).
+**Extensión revisada:** aproximadamente 2,526 palabras contando título. La extensión fue considerada aceptable en el dictamen editorial.
 
 ## Qué ocurre (sin canon nuevo para el juego)
 
@@ -46,7 +46,7 @@ La protagonista **Lera** (humana de 24 años, original y **provisional del libro
 - El niño y la mujer mayor de la plaza no conocen la conversación privada ni adquieren papel canónico nuevo.
 - La tabla se reacomoda **solo como solución temporal**, y queda vigilancia pendiente; no adjudicar transformación permanente del lugar ni mejora del juego.
 - No se emplean criaturas, facultades de clase, secretos de especie, magia, premios, nivel, misiones, estadísticas ni geografía exterior a Valdren.
-- **Estado final:** decisión y comunicación de partida tomadas; Lera no abandona Valdren; sus compromisos de trabajo siguen parcialmente abiertos. La carta tiene nuevo inicio, **no está terminada**.
+- **Estado final:** decisión y comunicación de partida tomadas; Lera no abandona Valdren; sus compromisos de trabajo siguen parcialmente abiertos. Lera **corrige en la misma hoja** el inicio de la carta; **no está terminada**. La taza quedó accesible en el bolsillo exterior de la bolsa y se usa en la broma de despedida.
 
 ## Candidaturas de ilustración — sin arte incorporado
 
@@ -64,3 +64,18 @@ El Director de Arte 04 decide si se ilustra alguna de las escenas y valida manif
 - [ ] **Arquitecto Editorial:** registrar tensiones y decisiones resueltas y autorizar el cierre del capítulo; **no iniciar Capítulo 2 mientras exista WIP abierto**.
 
 **Límite:** contenido Markdown solamente en `VintageTelnet-Libros/`. No se modificó juego, assets, entorno Raspberry ni Segundo Cerebro. Ningún permiso de fusión ni publicación se deriva de esta entrega.
+
+## Revisión del borrador — respuesta del Escritor 01
+
+**Lecturas recibidas:** Arquitectura Editorial, `revision/REVISION_ARQUITECTURA_EDITORIAL_C001_2026-10-14.md` (#705) y Revisor Integral 03, `agentes/revisor-canon-vaisgard-01/DICTAMEN_01_CAPITULO_001.md` (#707).
+
+| Observación | Acción ejecutada |
+|---|---|
+| M01 — corregir vs reescribir carta | Lera dice «Voy a corregirla»; escribe dos frases en margen de la carta existente, coherentemente con el carboncillo recibido. |
+| M02 — Capítulo 2 repite inventario de bolsa | **No se redactó C002.** Se propuso ajustar su ficha en `plan/fichas-001-003.md` hacia turnos, despedida y compromiso concreto. Su autorización sigue pendiente. |
+| M03 — taza y posición física | Se indica el bolsillo exterior y el gesto de sacarla antes de la broma. |
+| L01 — regreso y cierre | Se condensaron repeticiones puntuales de la vuelta a la plaza, sin eliminar la escena de la semilla ni la carta. |
+| L02 — tercera persona limitada | «Parecía procurar» marca una inferencia observable, no conocimiento interno de la vecina. |
+| D01 — enlace entre archivos | Ruta corregida para dos Markdown en la misma carpeta. |
+
+**Pendientes inalterados:** revisión conjunta de canon (Arquitecto Editorial + Arquitecto VT2) sobre reparación temporal/turnos particulares y figuras originales; nuevo cotejo literario por Agente 03; aprobación textual final. Ningún cambio en VT2 ni publicación.
