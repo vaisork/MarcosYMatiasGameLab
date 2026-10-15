@@ -21,9 +21,13 @@ Este directorio centraliza el trabajo **editorial** sobre novelas ambientadas en
 | Entrega | Archivo | Estado |
 |---|---|---|
 | Agente 01 — propuesta de voz narrativa | [Propuesta de voz y continuidad](agentes/escritor-aventuras-vaisgard-01/PROPUESTA_VOZ_NARRATIVA.md) | Pendiente de aprobación editorial |
-| Biblia Editorial | Pendiente de incorporar ubicación aprobada | Bloqueante para Capítulo 1 |
-| Arco del Libro I | Pendiente de incorporar ubicación aprobada | Bloqueante para Capítulo 1 |
-| Ficha de Capítulo 1 | Pendiente de emitir y aprobar | Bloqueante para redacción |
+| [Reglas de los agentes](AGENTS.md) | `AGENTS.md` | Propuesta editorial, pendiente de revisión |
+| [Biblia Editorial](BIBLIA_EDITORIAL.md) | `BIBLIA_EDITORIAL.md` | Borrador localizado; **no aprobado** |
+| [Referencias del canon](CANON_REFERENCE.md) | `CANON_REFERENCE.md` | Fuente de verificación |
+| [Política de secretos](POLITICA_DE_SECRETOS.md) | `POLITICA_DE_SECRETOS.md` | Pendiente de revisión conjunta |
+| [Protagonistas propuestos](plan/personajes.md) | `plan/personajes.md` | Propuestas, no aprobadas |
+| [Arco e índice del Libro I](plan/libro-01.md) | `plan/libro-01.md` | 15 capítulos propuestos; no aprobados |
+| [Fichas de capítulos 1–3](plan/fichas-001-003.md) | `plan/fichas-001-003.md` | Fichas preparadas, no autorizadas para redacción |
 
 ## Contratos de coordinación
 
@@ -51,3 +55,6 @@ Este directorio centraliza el trabajo **editorial** sobre novelas ambientadas en
 ## Regla de lectura
 
 Se escribe una **novela**, no una enciclopedia, manual de juego ni narración de partidas reales. Público inicial: 10–14 años, con lectura agradable también para adultos.
+
+
+**Organización confirmada:** el libro NO dispone de un repositorio independiente: su raíz editorial es esta carpeta en `vaisork/MatiasGameLab`. El proyecto mantiene separación por carpetas y flujo editorial, con revisión conjunta de canon. El Segundo Cerebro sigue en `vaisork/Conocimiento` y sólo el Arquitecto Editorial traslada allí aprendizajes y decisiones.
