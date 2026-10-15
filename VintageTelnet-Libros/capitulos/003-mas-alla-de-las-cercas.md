@@ -58,7 +58,7 @@ Lera miró hacia atrás.
 
 Los postes aún se distinguían, pero las voces de Valdren habían quedado lejos. El martillo de la fragua sonaba ahora como un golpe dado en otra habitación.
 
-Pensó en regresar antes de que alguien advirtiera cuánto había avanzado. No porque hubiera olvidado algo: llevaba la carta guardada, la taza al alcance de la mano y el resto de sus pocas cosas bien sujeto. Quería volver solo para escuchar una vez más una voz conocida.
+Pensó en regresar antes de que alguien advirtiera cuánto había avanzado. No porque hubiera olvidado algo: llevaba la carta guardada, la taza al alcance de la mano y una pequeña cantimplora con agua limpia que había llenado antes de salir. El resto de sus pocas cosas seguía bien sujeto. Quería volver solo para escuchar una vez más una voz conocida.
 
 Se enfadó consigo misma por desearlo.
 
@@ -192,7 +192,7 @@ No había nadie a quien pedir esas cosas.
 
 Eso no significaba que tuviera que inventar una solución brillante.
 
-Se sentó sobre un borde firme, dejó que el agua se llevara la tierra suelta y esperó a que desapareciera el escozor más intenso. Después se secó con una parte limpia de la tela que llevaba.
+Se sentó sobre un borde firme, dejó que el agua se llevara la tierra suelta y esperó a que desapareciera el escozor más intenso. Después se secó con un retazo limpio que llevaba separado del paño donde Mara le había envuelto el carboncillo.
 
 Cuando volvió a ponerse en pie, observó el campo.
 
@@ -232,7 +232,7 @@ No hubo un tercer golpe.
 
 Si alguien trabajaba allí, quizá pudiera indicarle qué paso era seguro. Si no había nadie, tendría que decidirlo ella sin fingir que conocía el terreno.
 
-Lera ajustó la correa que le rozaba el hombro herido. Se acercó unos pasos por la parte firme del sendero y observó otra vez los bordes de tierra.
+Lera ajustó la correa que le rozaba el hombro dolorido. Se acercó unos pasos por la parte firme del sendero y observó otra vez los bordes de tierra.
 
 La zanja seguía oculta en su tramo más profundo.
 
