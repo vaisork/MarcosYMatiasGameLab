@@ -3,9 +3,9 @@
 **Manuscrito:** [005 — Una historia a medias](005-una-historia-a-medias.md)  
 **Autor:** `escritor-aventuras-vaisgard-01` — [PR #705](https://github.com/vaisork/MatiasGameLab/pull/705).  
 **Estado:** **BORRADOR C005 COMPLETO PARA REVISIÓN**, sin autorización de fusión/publicación ni de C006.  
-**Extensión:** ~**2,533 palabras** contando encabezado.  
+**Extensión:** ~**2,535 palabras** contando encabezado.  
 **Permiso formal:** `../plan/DECISION_CIERRE_C004_Y_ARRANQUE_C005_2026-10-15.md` (Arquitectura Editorial; WIP=1).  
-**Versión de prosa:** blob `a88173431852967cc0675da389bde9abd87574c1`.  
+**Versión de prosa:** blob `16d6f5d34d9becb07c08720b60a3eaf7d50765ce`.  
 **Continuidad anterior:** C004 blob `fe2ef09ca3c363e324ebf2228ad896a4f349b27c`, aprobado literariamente; dictamen final #707.
 
 ## 1. Trama y continuidad objetiva
