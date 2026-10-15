@@ -218,7 +218,7 @@ No se avergonzaba tanto de haber interpretado mal las señales como de la rapide
 
 Más arriba apareció un tejado.
 
-La casa del camino se recortó contra el cielo cuando alcanzaron la parte media de la cuesta. Hasta entonces el propio terraplén la había ocultado.
+La casa del camino se recortó contra el cielo cuando dejaron atrás la mitad de la cuesta. Hasta entonces el propio terraplén la había ocultado.
 
 Lera se sintió aliviada, aunque todavía no sabía si podría encontrar agua allí.
 
@@ -276,7 +276,7 @@ El porteador miró la carga y luego la curva.
 
 Lera pudo haber dicho lo mismo sobre sí misma.
 
-Miró hacia el tejado que asomaba más arriba. Una cosa era llegar a la casa; otra, lograr que aquel desconocido pudiera descender sin caerse. El hombre trató de dividir la carga en dos bultos, pero el cabo de cuerda que le quedaba no alcanzaba para el segundo. Lera pensó en su hilo de coser: era demasiado fino para sostener aquel peso.
+Miró hacia el tejado que asomaba más arriba. Una cosa era llegar a la casa; otra, lograr que aquel desconocido pudiera descender sin caerse. El porteador propuso repartir el saco en dos bultos. La persona que lo llevaba aceptó, pero la cuerda disponible no alcanzaba para sujetar el segundo. Lera pensó en su hilo de coser: era demasiado fino para sostener aquel peso.
 
 La persona sentada junto a la pared volvió la cabeza.
 
