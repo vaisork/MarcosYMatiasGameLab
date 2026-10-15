@@ -28,11 +28,11 @@ Este directorio centraliza el trabajo **editorial** sobre novelas ambientadas en
 | [Protagonistas propuestos](plan/personajes.md) | `plan/personajes.md` | Propuestas, no aprobadas |
 | [Arco e índice del Libro I](plan/libro-01.md) | `plan/libro-01.md` | 15 capítulos propuestos; no aprobados |
 | [Fichas de capítulos 1–3](plan/fichas-001-003.md) | `plan/fichas-001-003.md` | C001 autorizado solo para borrador; C002–C003 no autorizados |
+| [Prólogo propuesto — El mundo que permanece](prologos/001-el-mundo-que-permanece.md) | `prologos/001-el-mundo-que-permanece.md` | Adaptado de «Conocer el Mundo» de VT1; revisión conjunta pendiente |
+| [Procedencia y control del prólogo](prologos/NOTA_DE_PROCEDENCIA_Y_REVISION.md) | `prologos/NOTA_DE_PROCEDENCIA_Y_REVISION.md` | Tabla de cambios VT1 → VT2 y permisos |
 | [Capítulo 001 — Una decisión al amanecer](capitulos/001-una-decision-al-amanecer.md) | `capitulos/001-una-decision-al-amanecer.md` | Primer borrador entregado; pendiente de revisión |
 | [Registro de continuidad C001](capitulos/001-continuidad-y-revision.md) | `capitulos/001-continuidad-y-revision.md` | Revisión de canon pendiente |
 | [Revisión del Arquitecto Editorial C001](revision/REVISION_ARQUITECTURA_EDITORIAL_C001_2026-10-14.md) | `revision/REVISION_ARQUITECTURA_EDITORIAL_C001_2026-10-14.md` | Aprobable literariamente con ajustes, no publicable |
-| [Prólogo propuesto — El mundo que permanece](prologos/001-el-mundo-que-permanece.md) | `prologos/001-el-mundo-que-permanece.md` | Adaptado de «Conocer el Mundo» de VT1; revisión conjunta pendiente |
-| [Procedencia y control del prólogo](prologos/NOTA_DE_PROCEDENCIA_Y_REVISION.md) | `prologos/NOTA_DE_PROCEDENCIA_Y_REVISION.md` | Tabla de cambios VT1 → VT2 y permisos |
 
 ## Contratos de coordinación
 
