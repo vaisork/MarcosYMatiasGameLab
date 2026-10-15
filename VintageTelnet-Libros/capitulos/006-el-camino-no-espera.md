@@ -194,3 +194,40 @@ Lera se detuvo. La lluvia golpeaba la bolsa, la media húmeda le enfriaba los de
 No era una promesa ni una palabra en una carta.
 
 Estaba delante.
+
+
+El camino dejó de parecer vacío mucho antes de llegar al arco.
+
+Un carro de grano venía de los campos y las ruedas levantaban barro al pasar sobre el suelo endurecido. Una mujer Dravak caminaba cerca con un saco de piedras apoyado contra el cuerpo compacto. Dos Felaryn avanzaban sin prisa junto al borde, evitando un charco con saltos cortos que a Lera le habrían resultado imposibles con la bota empapada.
+
+Nadie parecía sorprendido por la altura de los muros.
+
+Lera sí.
+
+Había oído describirlos en Valdren. Le habían dicho que eran más antiguos de lo que cualquier vecino podía recordar, que desde afuera parecían guardar toda la ciudad de un solo abrazo. Pero las historias no habían logrado prepararla para lo que tenía enfrente: piedra sobre piedra, una altura mayor que las casas de su pueblo y un camino que entraba por debajo sin que los muros mostraran dónde terminaban.
+
+La lluvia se había vuelto más ligera. Olía a barro de carros y a cargas mojadas. Desde dentro llegaban golpes de martillo, voces que se cruzaban y el rechinar de ruedas sobre un suelo más duro.
+
+Una guardiana observaba las cargas al paso. Señaló a un conductor dónde el barro resultaba menos profundo y lo dejó continuar. Cuando vio la bolsa pequeña de Lera, hizo un gesto breve para que no se quedara parada en medio del tránsito.
+
+Lera avanzó hasta uno de los apoyos laterales de la puerta, dejando libre el lugar por donde pasaban las ruedas.
+
+La superficie de piedra bajo el arco estaba pulida hasta brillar como si una corriente de agua hubiese corrido sobre ella. Lera apoyó la bota seca primero, después la mojada. En el segundo paso oyó un pequeño chapoteo junto al talón.
+
+Se llevó una mano a la chaqueta.
+
+La carta seguía en su sitio.
+
+Pensó en sacarla, comprobar de nuevo la primera línea y asegurarse de que la lluvia no había borrado lo que añadiera con carboncillo. Pero aquella no era la plaza de Valdren, con un banco donde sentarse a repasar las palabras sin que nadie la empujara. Por el arco entraban y salían personas con asuntos que resolver.
+
+Guardó la mano.
+
+La carta podía esperar a que encontrara un lugar seco.
+
+Del otro lado de la piedra se abrían calles, tejados y voces de las que todavía no conocía nada. En algún punto de aquel laberinto cotidiano estaba, quizá, Dalia. La carta no decía dónde buscarla.
+
+Lera dejó pasar un carro y cruzó el arco.
+
+Al otro lado no encontró a Dalia.
+
+Encontró una ciudad que seguía moviéndose aunque ella hubiera llegado.
