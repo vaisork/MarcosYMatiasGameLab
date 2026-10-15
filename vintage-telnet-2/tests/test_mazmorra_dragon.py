@@ -128,7 +128,7 @@ class MazmorraDragonTests(unittest.TestCase):
         # Room description reflects visible wounds in child-friendly prose
         desc = self.engine.narrative(p2, self.world, 'mirar')
         danger_event = next(e for e in desc if e['kind'] == 'danger')
-        self.assertIn('se mueve más despacio', danger_event['text'])
+        self.assertIn('Una de sus alas queda baja', danger_event['text'])
 
         # Player 2 engages: combat begins with 170 HP, NOT 240!
         self.engine.apply(p2, self.world, {'id': 'acercarse', 'target': 'dragon_aguas_antiguas'})
