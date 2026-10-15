@@ -39,7 +39,7 @@ class HilosOrigenTests(unittest.TestCase):
         response = self.post(self.client, '/api/character/create', {'name': name, 'species': species, 'class_id': class_id})
         self.assertEqual(response.status_code, 201)
         cid = response.json['character']['id']
-        self.assertEqual(self.post(self.master, '/api/master/login', {'password': 'private-master-test'}).status_code, 200)
+        self.assertEqual(self.post(self.master, '/api/master/login', {'username': 'vaisork', 'password': 'private-master-test'}).status_code, 200)
         self.assertEqual(self.post(self.master, '/api/master/approve', {'character_id': cid}).status_code, 200)
         return cid
 
