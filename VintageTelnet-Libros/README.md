@@ -31,9 +31,8 @@ Este directorio centraliza el trabajo **editorial** sobre novelas ambientadas en
 | [Capítulo 001 — Una decisión al amanecer](capitulos/001-una-decision-al-amanecer.md) | `capitulos/001-una-decision-al-amanecer.md` | Primer borrador entregado; pendiente de revisión |
 | [Registro de continuidad C001](capitulos/001-continuidad-y-revision.md) | `capitulos/001-continuidad-y-revision.md` | Revisión de canon pendiente |
 | [Revisión del Arquitecto Editorial C001](revision/REVISION_ARQUITECTURA_EDITORIAL_C001_2026-10-14.md) | `revision/REVISION_ARQUITECTURA_EDITORIAL_C001_2026-10-14.md` | Aprobable literariamente con ajustes, no publicable |
-
-| [Epílogo propuesto — El mundo que permanece](epilogos/001-el-mundo-que-permanece.md) | `epilogos/001-el-mundo-que-permanece.md` | Adaptado de «Conocer el Mundo» de VT1; revisión conjunta pendiente |
-| [Procedencia y control del epílogo](epilogos/NOTA_DE_PROCEDENCIA_Y_REVISION.md) | `epilogos/NOTA_DE_PROCEDENCIA_Y_REVISION.md` | Tabla de cambios VT1 → VT2 y permisos |
+| [Prólogo propuesto — El mundo que permanece](prologos/001-el-mundo-que-permanece.md) | `prologos/001-el-mundo-que-permanece.md` | Adaptado de «Conocer el Mundo» de VT1; revisión conjunta pendiente |
+| [Procedencia y control del prólogo](prologos/NOTA_DE_PROCEDENCIA_Y_REVISION.md) | `prologos/NOTA_DE_PROCEDENCIA_Y_REVISION.md` | Tabla de cambios VT1 → VT2 y permisos |
 
 ## Contratos de coordinación
 
