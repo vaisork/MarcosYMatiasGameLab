@@ -80,7 +80,7 @@ Crónicas de Vaisgard/
     00_Manuscritos_aprobados/       (solo acceso editorial)
     01_Maquetas_en_revision/         (versiones de prueba sin distribución)
     02_Arte_y_trazabilidad/          (copias de uso autorizadas + registro)
-    03_Ediciones_autorizadas/        (Google Docs de lectura)
+    03_Ediciones_autorizadas/        (metadatos y fuentes aprobadas)
     04_Exportaciones_EPUB/          (ediciones principales validadas)
     04b_Exportaciones_PDF/          (opcional, si se autoriza)
     05_Portadas_y_creditos/         (piezas con autorización)
@@ -90,9 +90,9 @@ La estructura se implementará en Drive **sólo** tras aprobación. El repositor
 ## D. Control de versiones y publicación
 1. Entrada: manuscrito firmado/aprobado, commit de referencia y ficha del capítulo; convertir al formato EPUB 3 reajustable tras validación.
 2. Rama propia de Agente 04 para maquetación/registros, con una sola entrega principal WIP. Nunca editar rama del Escritor.
-3. Documento de revisión: nomenclatura `CV_L1_CNN_REV_vNN`, derechos de acceso controlados; ninguna marca "publicado".
+3. EPUB de revisión: nomenclatura `CV_L1_CNN_REV_vNN.epub`, derechos de acceso controlados; ninguna marca "publicado".
 4. Revisión por Editor de Canon (ilustraciones), Historiador (IDs representados) y Arquitecto Editorial (EPUB de revisión); ejecutar EPUBCheck y pruebas en lectores reales.
-5. La versión final recibe `CV_L1_CNN_EDICION_vNN` o `CV_L1_LIBRO_I_EDICION_vNN` **solamente tras autorización**.
+5. El archivo final recibe `CV_L1_CNN_EDICION_vNN.epub` o `CV_L1_LIBRO_I_EDICION_vNN.epub` **solamente tras autorización**.
 6. Verificar que el EPUB alojado en Drive se descargue y abra en un lector compatible con los permisos previstos; registrar URL, ID de archivo, fecha, revisión de origen y estado `PUBLICADO_VERIFICADO`.
 7. Correcciones futuras generan una edición nueva con changelog y revalidación; nunca sustituir silenciosamente texto o arte publicado.
 8. Los créditos de los ilustradores no se inventan; revisar titularidad/licencias y atribución con el Arquitecto Editorial.
