@@ -121,3 +121,112 @@ En medio se distinguía un canalillo por donde corría el agua de los toldos. Un
 Había llegado más lejos de lo que había imaginado al salir de Valdren.
 
 Y no sabía a quién preguntar.
+
+
+***
+
+—Si vas a quedarte mirando, hazlo del lado de la fruta. Las herramientas no se apartan solas.
+
+Lera retrocedió. Una mujer colocaba sobre un mostrador hojas de acero, mangos de madera y piezas de distintas formas. Había dejado las provisiones en el extremo contrario, lejos de las herramientas cortantes.
+
+—No pensaba tocar nada —dijo Lera.
+
+—Mejor. Hay gente que toca todo y luego jura que no.
+
+La comerciante sonrió apenas y retiró una cesta del paso para que pudiera cruzar una compradora. Tenía movimientos rápidos, sin desperdiciar un gesto. Cuando volvió al mostrador, alineó dos mangos para que pudieran compararse uno junto al otro.
+
+—Soy Bela. ¿Buscas algo para el camino?
+
+Lera se fijó en su bolsa mojada.
+
+—No exactamente.
+
+Bela esperó. Detrás de Lera alguien preguntaba por una cuerda, pero la comerciante no apartó la mirada de inmediato.
+
+—Estoy buscando a una persona —se atrevió a decir Lera—. Se llama Dalia.
+
+El ruido del mercado siguió como si no hubiera ocurrido nada.
+
+—¿Una persona que vino a comprar? —preguntó Bela.
+
+—No lo sé.
+
+—¿Que dejó una cosa aquí?
+
+—Tampoco.
+
+Bela cruzó los brazos. No parecía irritada; parecía intentar entender qué clase de respuesta esperaba la muchacha.
+
+—No puedo buscar entre mercancías a alguien que no es mercancía.
+
+—No era eso lo que quería…
+
+Lera enmudeció. A su lado pasaron dos compradores discutiendo sobre el filo de un cuchillo. Ella no había tenido problemas para contarle a la mujer de la escalera que Dalia venía de Valdren. Ahora le costaba explicar algo más sencillo: por qué estaba allí.
+
+—Éramos amigas —dijo.
+
+Bela dejó de mover los mangos.
+
+—¿Eran?
+
+Lera se tocó el lugar de la chaqueta donde guardaba la carta.
+
+—Le dije algo horrible antes de que se fuera. Pensé que podía esperar para arreglarlo. Luego ya no estaba.
+
+No añadió la frase exacta. Había escrito sobre ella y seguía siendo incapaz de decirla a voz en cuello en un mercado.
+
+La comerciante miró un instante hacia las cestas, donde un comprador esperaba su turno, y después volvió a Lera.
+
+—No sé dónde está esa muchacha. Ni sé si ha venido a este puesto.
+
+Lera asintió. Era la respuesta que había temido desde que cruzó el arco.
+
+—Pero hay muchas personas aquí que tampoco conocen los caminos de los demás —añadió Bela—. La plaza grande está al norte del mercado. Allí se juntan los de las distintas rutas.
+
+—¿Me dirán si la conocen?
+
+—No puedo prometerlo.
+
+Un muchacho se acercó por el extremo de las herramientas. Llevaba una pieza de metal en la mano.
+
+—Bela, ¿esta es la misma que vimos antes?
+
+—Déjala en el mostrador; no la acerques a la comida.
+
+Bela lo atendió, colocó ambas piezas juntas y comenzó a explicar la diferencia. La conversación ya no tenía lugar para Lera.
+
+Lera se apartó sin recibir una promesa ni un nombre nuevo. Había preguntado dos veces en la ciudad y las dos respuestas eran negativas. Sin embargo, la segunda vez había dicho algo que no había podido decirle a la primera desconocida.
+
+*Éramos amigas.*
+
+La expresión le dolió más que el hombro.
+
+***
+
+La lluvia se detuvo mientras estaba junto al canalillo.
+
+No se despejó el cielo de inmediato: de las esquinas de los toldos seguían cayendo hilos de agua. Los vendedores levantaron las cajas que habían dejado a salvo de la humedad y una mujer sacudió un paño antes de volver a colocar sus frutas.
+
+Lera sacó una sola vez la taza de su bolsillo exterior. Su asa torcida estaba fría. La sostuvo con ambas manos, sin beber nada, y miró el paso hacia el norte.
+
+Desde allí podía distinguir un empedrado que se abría más allá de los puestos. La plaza parecía enorme, llena de personas que cruzaban en distintas direcciones; una parte de ella estaba oculta detrás de un toldo azul.
+
+No caminó todavía.
+
+A su lado, un joven intentaba cruzar el canalillo cargando dos cestas de fruta, una en cada brazo. La tabla que facilitaba el paso de las ruedas estaba ocupada por un vendedor que llevaba una caja; el joven aguardó sin decir palabra y miró cómo el agua bajaba entre las piedras.
+
+Lera le ofreció sujetar una cesta mientras esperaba.
+
+—Si quieres —aclaró enseguida.
+
+Él negó con una sonrisa.
+
+—Si la dejo, luego tendré que volver a levantarla.
+
+Esperó su turno, cruzó la tabla y desapareció entre compradores sin que Lera tuviera que hacer nada.
+
+Ella se quedó mirando el hueco que había dejado.
+
+Durante todo el camino había encontrado una manera de ser útil cargando, apartando o esperando junto a otras personas. En el mercado nadie le había pedido eso. No estaba allí para arreglar una rueda ni una canaleta.
+
+Estaba allí porque necesitaba encontrar a alguien y soportar lo que pudiera contestarle.
