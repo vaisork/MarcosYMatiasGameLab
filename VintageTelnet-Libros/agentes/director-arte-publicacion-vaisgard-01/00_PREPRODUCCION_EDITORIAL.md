@@ -42,12 +42,13 @@ El archivo adjunto `INVENTARIO_ARTE_MAIN_2026-10-14.csv` registra **451 entradas
 **Evidencia de aprobación:** no se recuperó un registro único, verificable y por-archivo que permita certificar todas las imágenes. Por eso el CSV marca todas como `PENDIENTE_EVIDENCIA`, incluso las utilizadas en el videojuego. El inventario físico no equivale a licencia de uso final ni a aprobación. La selección concreta está en `01_SELECCION_PRELIMINAR_LIBRO_I.md`.
 
 ## 4. Identidad visual propuesta para la colección
+**Decisión posterior del propietario (2026-10-14): EPUB 3 reajustable será la edición principal.** Google Docs queda opcional para edición/revisión y PDF sólo como derivado secundario autorizado. Véase `02_PLANTILLA_CAPITULOS_Y_PLAN_PUBLICACION.md`.
 **Concepto:** "crónica de viaje": una novela contemporánea con materiales visuales de un mundo antiguo; sin interfaz de videojuego, estadísticas, escudos inventados ni ornamentos invasivos.
 
 - **Cubiertas coherentes:** título de colección pequeño, título de libro predominante, ilustración original validada, autor/créditos reales sólo cuando estén autorizados. Sin prometer una portada específica antes de decidir la escena.
 - **Paleta de maquetación:** papel blanco/marfil claro, texto carbón casi negro, un acento discreto de tono tierra/cobre. Propuesta de referencia `#FAF8F2`, `#242321`, `#906B52`; colores editoriales, NO modificación de la imagen.
 - **Tipografía de lectura:** serif instalada y común como Georgia para narrativa; alternativa equivalente libre si la plataforma obliga. Títulos en serif clara o sans sobria; evitar tipografías fantasiosas. No depender de fuentes con licencia pagada.
-- **Tamaño de texto en Docs:** comenzar con 12–13 pt y 1.25–1.4 de interlineado, reajustar por prueba real en teléfono; párrafos respirables y separación de escenas `* * *` o símbolo simple.
+- **Texto editable y lectura EPUB:** en Docs, comenzar pruebas de revisión con 12–13 pt e interlineado moderado; en EPUB 3 permitir que el lector ajuste tamaño, fuente e interlineado, sin medidas fijas. Párrafos respirables y separación de escenas `* * *` o símbolo simple.
 - **Ritmo de ilustraciones:** una imagen de apertura *cuando aporte una nueva atmósfera*; otras sólo en cambios significativos de lugar, criatura o descubrimiento. Nunca una imagen por página por obligación.
 - **Ubicación:** preferir imágenes completas, insertadas en línea entre bloques narrativos, manteniendo proporción; **no recortar ni recolorear** el contenido visual original. Pies de imagen breves y no enciclopédicos cuando sean necesarios.
 - **Accesibilidad:** contraste alto, texto seleccionable, títulos con estilos estructurados y descripciones alternativas sin anticipar secretos. Evitar texto incrustado sobre imágenes.
@@ -72,11 +73,11 @@ Si falta arte: registrar `SIN_RECURSO_VALIDADO` y recomendar capítulo **sin ilu
 - [ ] Originales de `vintage-telnet-2/` sin modificaciones.
 - [ ] Ningún texto del autor ha sido reescrito durante la maquetación.
 - [ ] Índice navegable y tipografía cómoda en móvil real; pruebas de imágenes y exportación.
-- [ ] Decisión Docs/PDF basada en pruebas, no supuestos.
+- [ ] EPUB 3 reajustable validado con EPUBCheck y lectura real; Docs para edición opcional y PDF derivado sólo si procede.
 - [ ] Fecha, versión, acceso y enlace de Drive comprobados **después** de publicar.
 
 ## 7. Estado al cierre de esta propuesta
-**Hecho:** estudio documental de PR #705, localización física y registro SHA de imágenes, identidad editorial propuesta, plantilla y plan operativo de lectura.  
+**Hecho:** estudio documental de PR #705, localización física y registro SHA de imágenes, identidad editorial propuesta, plantilla y plan de edición principal EPUB 3.  
 **No hecho:** certificación individual de aprobación, inspección visual completa de cada imagen, maquetación de capítulo, subida a Drive, PDF final, liberación al público.  
 **Dependencias:** capítulo/ficha aprobados y responsable de validación de arte; prueba real de lectura y permiso editorial antes de publicar.  
 **Siguiente consumidor:** Arquitecto Editorial Principal; Editor de Canon/Arquitecto VT2 sólo cuando la imagen seleccionada afecte material compartido.
