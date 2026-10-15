@@ -38,7 +38,7 @@ Los **ocho recursos siguientes fueron abiertos e inspeccionados visualmente en e
 ### V03. Corredor de los Huertos — capítulo 1 / ecos del capítulo 2
 ![Huertos de Valdren](../../../vintage-telnet-2/client/art/places/valdren_huertos-anime-v1.webp)
 
-- **Full:** `vintage-telnet-2/client/art/places/valdren_huertos-anime-v1.webp`; blob `unverified_full_SHA_check_before_export`.
+- **Full:** `vintage-telnet-2/client/art/places/valdren_huertos-anime-v1.webp`; blob `8804cb8068a3201b1c52a61491a277a97aed3b2f`.
 - **Miniatura revisada:** `vintage-telnet-2/client/art/places/valdren_huertos-anime-v1-thumb.webp`; blob `5ecea67bc7a98f0a896c4d69f00a3dcfcb70e9f8`.
 - **Lectura visual:** corredor de casas, árboles y cultivo delimitado por cercas bajas; encaja con las escenas de trabajo y paso hacia el campo.
 - **Uso:** imagen interior C001 cerca de la primera conversación sobre riego, o C002 cuando se vuelve a los huertos, **no duplicarla en los dos capítulos sin motivación**. Recomendada en C001 para sostener la geografía.
@@ -56,7 +56,7 @@ Los **ocho recursos siguientes fueron abiertos e inspeccionados visualmente en e
 ### V05. Salida de las Cercas Bajas — capítulo 3, primera apertura al mundo
 ![Salida de Valdren hacia Edran](../../../vintage-telnet-2/client/art/places/edran_salida_huertos-anime-v1.webp)
 
-- **Full:** `vintage-telnet-2/client/art/places/edran_salida_huertos-anime-v1.webp`; SHA exacto aún por registrar.
+- **Full:** `vintage-telnet-2/client/art/places/edran_salida_huertos-anime-v1.webp`; Git blob `1a71578f0aa4b3f56e4a7c63e277417d9a7b9e29`.
 - **Miniatura revisada:** `vintage-telnet-2/client/art/places/edran_salida_huertos-anime-v1-thumb.webp`; blob `6dfbfaf3058b2db3b477202a36b50c88d076c09a`.
 - **Lectura visual:** cercas, camino curvado y campo abierto; imagen especialmente útil para enfatizar la primera salida verdadera de Lera.
 - **Uso:** apertura de C003 después de la despedida breve, donde se cruzan los postes. **C003 permanece fuera de la prelectura vigente hasta revisión.**
@@ -65,7 +65,7 @@ Los **ocho recursos siguientes fueron abiertos e inspeccionados visualmente en e
 ### V06. Curva de la Acequia — capítulo 3, tránsito
 ![Cruce de acequia](../../../vintage-telnet-2/client/art/places/edran_acequia-anime-v1.webp)
 
-- **Full:** `vintage-telnet-2/client/art/places/edran_acequia-anime-v1.webp`; SHA exacto aún por registrar.
+- **Full:** `vintage-telnet-2/client/art/places/edran_acequia-anime-v1.webp`; Git blob `bcca9f7c714c037704ca0d09e0f5203086ba34d2`.
 - **Miniatura revisada:** `vintage-telnet-2/client/art/places/edran_acequia-anime-v1-thumb.webp`; blob `0718e5f22133d8a27482e43598074a139a01c155`.
 - **Lectura visual:** canal de agua, losa ancha y sendero; respalda el cruce señalado sin atribuir encuentros de fauna.
 - **Uso:** opcional. Si C003 tiene imagen de salida + Espinajo, puede omitirse para evitar fragmentar el viaje.
@@ -74,7 +74,7 @@ Los **ocho recursos siguientes fueron abiertos e inspeccionados visualmente en e
 ### V07. Campo de surcos — capítulo 3, nueva amplitud
 ![Campos de Edran](../../../vintage-telnet-2/client/art/places/edran_surcos-anime-v1.webp)
 
-- **Full:** `vintage-telnet-2/client/art/places/edran_surcos-anime-v1.webp`; SHA exacto aún por registrar.
+- **Full:** `vintage-telnet-2/client/art/places/edran_surcos-anime-v1.webp`; Git blob `baf30da0a015103575ea011f5cd629b4f1d4654c`.
 - **Miniatura revisada:** `vintage-telnet-2/client/art/places/edran_surcos-anime-v1-thumb.webp`; blob `07384cfbbf66e980dffdccc53388410362b3eda3`.
 - **Lectura visual:** surcos agrícolas y apertura de horizonte; sirve para la escena territorial, sin afirmar que representa necesariamente la época/hora exacta.
 - **Uso:** alternativa a V06 cuando se busca un paisaje más amplio.
