@@ -2,7 +2,7 @@
 
 ## Organización de programación vigente — actualización 2026-10-14
 
-Por decisión explícita de Javier, la programación activa de VT2 se realiza desde Raspberry bajo una estructura **Claude → Codex + Antigravity**. Claude actúa como Arquitecto de Programación, reparte y revisa trabajo; Codex y Antigravity son los ejecutores técnicos principales. Los antiguos programadores web genéricos de ChatGPT y agentes Junior dejan de considerarse parte del pipeline activo.
+Por decisión explícita de Javier, la programación activa de VT2 se realiza desde la computadora Ubuntu de Javier (la Raspberry es sólo producción) bajo una estructura **Claude → Codex + Antigravity**. Claude actúa como Arquitecto de Programación, reparte y revisa trabajo; Codex y Antigravity son los ejecutores técnicos principales. Los antiguos programadores web genéricos de ChatGPT y agentes Junior dejan de considerarse parte del pipeline activo.
 
 Claude debe mantener un relevo técnico vivo en `docs/PROGRAMMING_STATUS.md` para que Arquitectura VT2 pueda comprobar el estado real de `main`, producción, PRs integradas, trabajo de ambos ejecutores, bloqueos y siguiente lote. No debe asumirse que una conversación anterior refleja el estado actual si la repo ha avanzado.
 

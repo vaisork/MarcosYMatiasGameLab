@@ -15,7 +15,7 @@ Encargo vigente del 8 de octubre de 2026: integrar las entregas actuales de arte
 
 ## Organización técnica vigente
 
-La programación activa de VT2 se coordina actualmente desde Raspberry con este flujo:
+La programación activa de VT2 se coordina desde la computadora Ubuntu de Javier (`/home/jdiaz/proyectos`); la Raspberry es sólo producción. Flujo:
 
 - **Claude** — Arquitecto de Programación y orquestador técnico. Recibe contratos aprobados, descompone trabajo, mantiene ocupados de forma continua a Codex y Antigravity, revisa sus entregas y reconcilia la integración.
 - **Codex** — ejecutor técnico principal para implementación, revisión, pruebas y reparación según la asignación de Claude.
