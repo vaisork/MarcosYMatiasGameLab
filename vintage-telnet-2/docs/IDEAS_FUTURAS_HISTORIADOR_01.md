@@ -1,7 +1,7 @@
 # Ideas futuras preservadas — legado del Historiador 1
 
 **Estado:** ideas de exploración futura, NO canon aprobado, NO backlog de implementación.
-**Origen:** tres temas compartidos por el hijo del creador, preservados a petición expresa del creador el 2026-10-08.
+**Origen:** tres temas originales compartidos por el hijo del creador y preservados el 2026-10-08; además, una propuesta posterior de Matías sobre objetos duplicados, registrada el 2026-10-14.
 **Custodia:** Historiador de Vintage Telnet 2.
 
 Este archivo conserva ideas sin activarlas. No autoriza cambios de mundo, clases, criaturas, tecnología, progresión, mapas, narrativa, arte ni código. Cualquier desarrollo requiere decisión posterior explícita y contraste con `docs/DECISIONES_VIGENTES.md`, `AGENTS.md` y el contenido jugable actual.
