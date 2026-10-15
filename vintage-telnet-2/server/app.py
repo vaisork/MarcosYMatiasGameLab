@@ -117,7 +117,7 @@ def create_app(config=None):
     @app.get('/dm')
     def index():
         if request.path=='/dm':
-            html=(ROOT/'client'/'index.html').read_text()
+            html=(ROOT/'client'/'index.html').read_text(encoding='utf-8')
             return (html.replace('/client/manifest.webmanifest','/client/manifest-dm.webmanifest')
                         .replace('/client/icons/apple-touch-icon.png','/client/icons/dm-apple-touch-icon.png')
                         .replace('apple-mobile-web-app-title" content="Vintage Telnet"','apple-mobile-web-app-title" content="VT Director"'))
