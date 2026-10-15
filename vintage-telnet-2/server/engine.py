@@ -424,6 +424,7 @@ class Engine:
                 barrier=combat.pop('barrier',0)
                 damage=max(0,damage-barrier)
                 state['hp']-=damage;m.wound(state,damage);state['events'].append(event('combat',m.creature_prose(creature,'hit',damage,combat['round'])))
+                if m.is_vaisork(state):state['hp']=max(1,state['hp'])
                 if state['hp']<=0:self.death(primary,world)
             else:
                 state['events'].append(event('combat',m.creature_prose(creature,'miss',0,combat['round'])))
@@ -541,6 +542,10 @@ class Engine:
         raise RuleError('No hay un pueblo accesible desde este lugar.',409)
 
     def death(self,character,world):
+        state=character['state']
+        if m.is_vaisork(state):
+            state['hp']=max(1,state.get('hp',1))
+            return
         self.clear_attention(character,world)
         state=character['state'];room=self.room(character,world);destination,distance=self.nearest_settlement(state['location'])
         recovery={'from':state['location'],'from_name':room['name'],'to':destination,'to_name':self.content.rooms[destination]['name'],'distance':distance,'at':self.clock()}
@@ -1480,6 +1485,7 @@ class Engine:
         char['gender']=state.get('gender')
         portrait=state.get('portrait')
         if isinstance(portrait,str) and re.fullmatch(r'/client/art/players/[a-z0-9-]+\.webp',portrait):char['portrait']=portrait
+        if m.is_vaisork(state):char['vaisork']=True
         char.update({key:state.get(key) for key in ('location','level','xp','hp','fatigue','wound','seals','attributes','equipment','pa','pp')})
         if char.get('pa') is None:char['pa']=0
         char['numenes']=state.get('numenes',{'active':None,'bonded':[],'encounters':{}})

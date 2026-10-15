@@ -20,6 +20,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def create_app(config=None):
     app=Flask(__name__,static_folder=None)
     app.config.update(SECRET_KEY=os.environ.get('VT_NEW_SECRET_KEY'),DATA_DIR=str(ROOT/'runtime'),CONTENT_DIR=str(ROOT/'content'),
+                      DM_USERNAME=os.environ.get('VT_NEW_DM_USERNAME','vaisork'),
                       DM_PASSWORD_HASH=os.environ.get('VT_NEW_DM_PASSWORD_HASH'),PUBLIC_ORIGIN=os.environ.get('VT_NEW_PUBLIC_ORIGIN'),SESSION_COOKIE_HTTPONLY=True,SESSION_COOKIE_SAMESITE='Lax',MAX_CONTENT_LENGTH=16384)
     if config:app.config.update(config)
     # Tests keep fixed UTC clocks; the deployed server plays on Mexico City time.
@@ -144,6 +145,8 @@ def create_app(config=None):
     def register():
         data=payload();username=str(data.get('username','')).strip();password=data.get('password','')
         if not 3<=len(username)<=40 or not isinstance(password,str) or not 8<=len(password)<=200:raise RuleError('Usa un nombre de 3–40 caracteres y una contraseña de al menos 8.')
+        dm_user=str(app.config.get('DM_USERNAME') or 'vaisork').strip().lower()
+        if username.lower() in (dm_user,'vaisork'):raise RuleError('Ese nombre de cuenta está reservado.',400)
         with store.transaction() as db:
             try:cursor=db.execute('INSERT INTO accounts(username,password_hash) VALUES(?,?)',(username,generate_password_hash(password)))
             except sqlite3.IntegrityError:raise RuleError('Ese nombre de cuenta ya existe.',409)
@@ -152,9 +155,39 @@ def create_app(config=None):
     @app.post('/api/account/login')
     def login():
         data=payload()
+        username=str(data.get('username','')).strip()
+        password=str(data.get('password',''))
+        dm_user=str(app.config.get('DM_USERNAME') or 'vaisork').strip().lower()
+        dm_hash=app.config.get('DM_PASSWORD_HASH') or app.config.get('MASTER_PASSWORD_HASH')
         with store.transaction() as db:
-            row=db.execute('SELECT * FROM accounts WHERE username=?',(str(data.get('username','')).strip(),)).fetchone()
-            if not row or not check_password_hash(row['password_hash'],str(data.get('password',''))):raise RuleError('Cuenta o contraseña incorrecta.',401)
+            if username.lower()==dm_user:
+                if not dm_hash or not check_password_hash(dm_hash,password):
+                    raise RuleError('Cuenta o contraseña incorrecta.',401)
+                row=db.execute("SELECT * FROM accounts WHERE LOWER(username)='vaisork'").fetchone()
+                if not row:
+                    cursor=db.execute("INSERT INTO accounts(username,password_hash) VALUES(?,?)",('vaisork','!reserved_dm'))
+                    acc_id=cursor.lastrowid
+                else:acc_id=row['id']
+                access=db.execute('SELECT blocked,session_version FROM account_access WHERE account_id=?',(acc_id,)).fetchone()
+                if access and access['blocked']:raise RuleError('El director ha bloqueado el acceso de esta cuenta.',403)
+                char_row=db.execute("SELECT * FROM characters WHERE account_id=? AND name=?",(acc_id,'Vaisork')).fetchone()
+                if not char_row:
+                    cursor=db.execute("INSERT INTO characters(account_id,name,species,class_id,status,state) VALUES(?,?,?,?,?,?)",(acc_id,'Vaisork','humano','juramentado','approved','{}'))
+                    cid=cursor.lastrowid;home=f'home:{cid}';initial=mechanics.new_state('humano','juramentado',home,clock())
+                    initial['gender']='masculino';initial['portrait']='/client/art/players/vaisork-anime-v1.webp'
+                    initial['vaisork']=True
+                    if 'vaisork' not in initial['flags']:initial['flags'].append('vaisork')
+                    initial['level']=10;initial['pa']=18;initial['pp']=2;initial['hp']=mechanics.hp_max(initial)
+                    db.execute('UPDATE characters SET state=? WHERE id=?',(json.dumps(initial,ensure_ascii=False),cid))
+                    db.execute('INSERT OR IGNORE INTO approvals VALUES(?,?)',(cid,clock()))
+                    char_id=cid
+                else:char_id=char_row['id']
+                session.clear();session['account_id']=acc_id;session['character_id']=char_id
+                session['account_version']=access['session_version'] if access else 0
+                session['master']=True
+                return jsonify(state(db,engine()))
+            row=db.execute('SELECT * FROM accounts WHERE username=?',(username,)).fetchone()
+            if not row or not check_password_hash(row['password_hash'],password):raise RuleError('Cuenta o contraseña incorrecta.',401)
             access=db.execute('SELECT blocked,session_version FROM account_access WHERE account_id=?',(row['id'],)).fetchone()
             if access and access['blocked']:raise RuleError('El director ha bloqueado el acceso de esta cuenta.',403)
             session.clear();session['account_id']=row['id'];session['account_version']=access['session_version'] if access else 0;return jsonify(state(db,engine()))
@@ -269,7 +302,9 @@ def create_app(config=None):
     @app.post('/api/master/login')
     def master_login():
         data=payload();hashed=app.config.get('DM_PASSWORD_HASH') or app.config.get('MASTER_PASSWORD_HASH')
-        if not hashed or not check_password_hash(hashed,str(data.get('password',''))):raise RuleError('Acceso DM no autorizado.',401)
+        dm_user=str(app.config.get('DM_USERNAME') or 'vaisork').strip().lower()
+        req_user=str(data.get('username','')).strip().lower()
+        if not hashed or req_user!=dm_user or not check_password_hash(hashed,str(data.get('password',''))):raise RuleError('Acceso DM no autorizado.',401)
         session['master']=True;session['csrf']=secrets.token_urlsafe(32);return jsonify(authenticated=True,csrf_token=csrf())
 
     @app.post('/api/master/logout')

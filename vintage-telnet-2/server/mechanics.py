@@ -589,6 +589,9 @@ def creature_prose(creature, kind, damage, combat_round):
     text = options[combat_round % len(options)].format(n=creature['name'])
     return text + f": {damage} de daño." if kind == 'hit' else text
 
+def is_vaisork(state):
+ return bool(isinstance(state,dict) and (state.get('vaisork') or 'vaisork' in state.get('flags',[])))
+
 def resolve_round(state, creature, rng, respond=True):
  combat=state['combat']; profile=combat['profile']; intervention=combat.pop('intervention',None) or {'id':'atacar'}
  action=intervention['id']; target=intervention.get('target'); a=state['attributes']; penalty,power=penalties(state)
@@ -780,6 +783,7 @@ def resolve_round(state, creature, rng, respond=True):
    events.append({'kind':'combat','text':ACTION_PROSE['velo_contencion']['absorb'].format(a=absorbed,c=creature['name'])})
   if damage>0:
    state['hp']-=damage;wound(state,damage)
+   if is_vaisork(state):state['hp']=max(1,state['hp'])
    events.append({'kind':'combat','text':creature_prose(creature,'hit',damage,combat['round'])})
   elif barrier>0:
    events.append({'kind':'combat','text':ACTION_PROSE['velo_contencion']['full_absorb'].format(c=creature['name'])})
@@ -798,6 +802,9 @@ def resolve_round(state, creature, rng, respond=True):
  else:
   combat['prepared']=False
  if 'cooldowns' in combat:combat['cooldowns']={k:max(0,v-1) for k,v in combat['cooldowns'].items() if v>1}
+ if is_vaisork(state):
+  state['hp']=max(1,state['hp'])
+  return events,'ongoing'
  return events,'death' if state['hp']<=0 else 'ongoing'
 
 

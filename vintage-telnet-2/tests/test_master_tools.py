@@ -13,7 +13,7 @@ class MasterToolsTests(unittest.TestCase):
   self.dm=self.app.test_client();self.player=self.app.test_client();self.store=self.app.extensions['store'];self.seq=0
   self.post(self.player,'/api/account/register',{'username':'tester','password':'testpass123'})
   r=self.post(self.player,'/api/character/create',{'name':'Tester','species':'humano','class_id':'juramentado'});self.cid=r.json['character']['id']
-  self.post(self.dm,'/api/master/login',{'password':'test-director'})
+  self.post(self.dm,'/api/master/login',{'username':'vaisork','password':'test-director'})
   self.post(self.dm,'/api/master/approve',{'character_id':self.cid})
  def post(self,c,path,data):
   with c.session_transaction() as s:token=s.get('csrf')
