@@ -10,7 +10,7 @@ De querer demostrar que puede hacerlo todo sola → a comprender que viajar es f
 
 ## Índice provisional: 15 capítulos
 1. **Una decisión al amanecer** — una necesidad personal exige salir de Valdren; primer compromiso.
-2. **Lo que cabe en una mochila** — elegir qué llevar, a quién escuchar y qué dejar.
+2. **Lo que cabe en una mochila** — renegociar responsabilidades y despedirse sin trasladar a otros el costo de la partida; **no repetir el inventario del equipaje resuelto en C001** (ajuste propuesto, pendiente de ficha aprobada).
 3. **Más allá de las cercas** — primera ruta por los huertos y la acequia; señales que requieren atención.
 4. **El lenguaje de las huellas** — avistamiento o indicio de fauna que obliga a corregir el paso.
 5. **Una historia a medias** — rumor local contradictorio; preguntar cuesta más que suponer.
