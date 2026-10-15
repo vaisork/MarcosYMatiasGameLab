@@ -288,9 +288,9 @@ Lera se detuvo con una mano sobre la correa de la bolsa. La promesa de llegar cu
 
 Miró la calzada. Después volvió hacia la mesa.
 
-—Sí —contestó—. Y dime cuánto debo por él.
+—Sí —contestó—. Pero dime primero cuánto cuesta.
 
-La mujer le señaló un sitio libre. Lera se sentó, dejó la cantimplora cerrada junto a la taza del bolsillo exterior y acercó las manos al calor.
+La mujer le indicó el precio antes de servirle. Lera contó los sellos que llevaba y pagó el caldo. Luego se sentó, dejó la cantimplora cerrada junto a la taza del bolsillo exterior y acercó las manos al calor.
 
 La noticia de la carga seguía sin estar completa. No se había perdido nada de lo que pudiera comprobarse, pero nadie había visto tampoco su llegada. Allí, entre mensajes que aún no encontraban destinatario, una historia podía permanecer abierta sin que por eso hubiera que inventarle un final.
 
