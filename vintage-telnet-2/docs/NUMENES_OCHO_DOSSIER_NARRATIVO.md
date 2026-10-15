@@ -1,5 +1,7 @@
 # Dossier narrativo de ocho Númenes — propuestas para Vintage Telnet 2
 
+**Documentos complementarios:** [reglas recuperadas](NUMENES_REGLAS_RECUPERADAS_VT2.md) · [encuentros narrativos completos](NUMENES_ENCUENTROS_NARRATIVOS_VT2.md) · [contrato y QA](NUMENES_CONTRATO_PREPARACION_VT2.md).
+
 **Estado:** desarrollo editorial completo para estudio, NO encuentros instalados, NO canon nuevo.
 **Responsable:** Historiador; 2026-10-14.
 **Lectura obligatoria primero:** [NUMENES_REGLAS_RECUPERADAS_VT2.md](NUMENES_REGLAS_RECUPERADAS_VT2.md).
