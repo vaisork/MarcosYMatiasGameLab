@@ -42,7 +42,7 @@ Lera se sentó en el extremo de una de las piedras enormes y se quitó la bota m
 
 El niño la estudió con respeto renovado, como si sobrevivir a un arroyo constituyera una hazaña mucho mayor que llegar a la ciudad.
 
-Lera sonrió. Le ardía ligeramente la palma cuando apretaba la tela; la dejó descansar abierta sobre la rodilla. La cantimplora seguía a medio llenar, la carta doblada bajo la chaqueta y la taza de asa torcida en el bolsillo exterior de la bolsa.
+Lera sonrió. Le ardía ligeramente la palma cuando apretaba la tela; la dejó descansar abierta sobre la rodilla. La cantimplora aún guardaba un poco de agua, la carta doblada bajo la chaqueta y la taza de asa torcida en el bolsillo exterior de la bolsa.
 
 Una voz gritó un nombre desde el otro lado de la plaza. Alguien respondió. El intercambio se perdió entre carros.
 
@@ -254,7 +254,7 @@ O podía hacer algo que no había hecho en todo el camino.
 
 Nara se detuvo, esta vez con evidente impaciencia.
 
-Lera sacó el pequeño carboncillo que había guardado desde Valdren. Lo había llevado por si necesitaba corregir la carta, pero nunca había conseguido hacerlo. Ahora buscó en la bolsa un recorte limpio de papel que aún conservaba, doblado junto a sus pertenencias.
+Lera sacó el pequeño carboncillo que había guardado desde Valdren. Lo había llevado por si necesitaba corregir la carta, pero desde que salió de Valdren no había vuelto a escribir en ella. Ahora buscó en la bolsa un recorte limpio de papel que aún conservaba, doblado junto a sus pertenencias.
 
 —¿Vuelves a encontrarte con gente de Valdren? —preguntó.
 
