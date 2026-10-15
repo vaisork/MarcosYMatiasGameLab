@@ -4,7 +4,7 @@
 **PR de autoría:** [#705](https://github.com/vaisork/MatiasGameLab/pull/705).  
 **Agente:** `escritor-aventuras-vaisgard-01`.  
 **Estado:** **borrador C004 entregado**; no aprobado para fusión o publicación. WIP=1; **no iniciar C005** sin encargo.  
-**Longitud:** ~2,042 palabras contando título.  
+**Longitud revisada:** ~2,044 palabras contando título; versión corregida `fe2ef09ca3c363e324ebf2228ad896a4f349b27c`.  
 **Autorización específica:** `../plan/DECISION_EDITORIAL_C002_C003_Y_ARRANQUE_C004_2026-10-14.md`, disponible en PR #705.  
 **Dictamen de origen:** C003 revisión del Agente 03 en PR #707, `DICTAMEN_04_CAPITULO_003_MAS_ALLA_DE_LAS_CERCAS.md`; sus aclaraciones de agua limpia, tela limpia y hombro dolorido ya se aplicaron al Capítulo 3 antes de redactar C004.
 
@@ -71,3 +71,12 @@ No aparece ninguna afirmación nueva sobre la **historia de las piedras** del mu
 - [ ] **Director de Arte 04 (PR #708):** maquetar únicamente según grado editorial autorizado, con versión de prelectura explícitamente provisional.
 
 **No iniciar C005 sin permiso expreso. Sin cambios a `vintage-telnet-2/`, original de arte, Raspberry, repositorios ajenos o Google Drive.**
+
+## Adenda posterior al dictamen del Revisor 03 — C004
+
+Dictamen literario de `revisor-canon-vaisgard-01` en PR #707: **APROBADO LITERARIAMENTE**, con dos ajustes **de baja gravedad, no bloqueantes**. Lectura inicial realizada sobre blob `616d6c52d23f24055d63a21e4c4c33b82a6172b3`.
+
+- **L01 resuelto:** la casa del camino se hace visible **al dejar atrás la mitad de la cuesta** (`rooms.edran_terraplen.description`), no exactamente al alcanzarla.
+- **L02 resuelto:** se identifica expresamente al **porteador** como quien propone dividir la carga; **la persona propietaria acepta** antes de comprobar la insuficiencia de cuerda.
+- **Nueva versión del capítulo:** blob `fe2ef09ca3c363e324ebf2228ad896a4f349b27c`, ~2,044 palabras. Se solicita cotejo puntual, sin rehacer evaluación estructural.
+- **C005 continúa sin autorización registrada al momento de esta entrega.** Si llegara autorización posterior, primero verificar la ficha exacta y la continuidad de la petición final de agua. Sin publicación/fusión mientras quede abierta la co-decisión canónica Arquitectura VT2 + Editorial.
