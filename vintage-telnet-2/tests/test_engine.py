@@ -33,6 +33,30 @@ class JourneyTests(unittest.TestCase):
   self.assertEqual(get('/favicon.ico').mimetype,'image/png')
   self.assertEqual(get('/client/icons/server.env').status_code,404)
 
+ def test_director_home_screen_manifest_and_icons_are_scoped_to_dm(self):
+  def get(path):
+   response=self.client.get(path);self.addCleanup(response.close);return response
+  html_dm=get('/dm').get_data(as_text=True)
+  self.assertIn('href="/client/manifest-dm.webmanifest"',html_dm)
+  self.assertIn('href="/client/icons/dm-apple-touch-icon.png"',html_dm)
+  self.assertIn('content="VT Director"',html_dm)
+  html_root=get('/').get_data(as_text=True)
+  self.assertIn('href="/client/manifest.webmanifest"',html_root)
+  self.assertIn('href="/client/icons/apple-touch-icon.png"',html_root)
+  self.assertIn('content="Vintage Telnet"',html_root)
+  self.assertNotIn('manifest-dm.webmanifest',html_root)
+  orig=json.loads(get('/client/manifest.webmanifest').get_data(as_text=True))
+  self.assertEqual(orig['id'],'/');self.assertEqual(orig['start_url'],'/');self.assertEqual(orig['scope'],'/')
+  dm_resp=get('/client/manifest-dm.webmanifest')
+  self.assertEqual(dm_resp.status_code,200);self.assertEqual(dm_resp.mimetype,'application/manifest+json')
+  dm_manifest=json.loads(dm_resp.get_data(as_text=True))
+  self.assertEqual(dm_manifest['id'],'/dm');self.assertEqual(dm_manifest['start_url'],'/dm');self.assertEqual(dm_manifest['scope'],'/dm')
+  self.assertEqual(dm_manifest['name'],'Vintage Telnet · Director');self.assertEqual(dm_manifest['short_name'],'VT Director')
+  for icon in dm_manifest['icons']:
+   asset=get(icon['src']);self.assertEqual(asset.status_code,200)
+   self.assertEqual(asset.mimetype,'image/png')
+  self.assertEqual(get('/client/icons/dm-apple-touch-icon.png').status_code,200)
+
  def test_director_expel_blocks_sessions_and_preserves_progress_on_return(self):
   cid=self.create();store=self.app.extensions['store']
   stale=self.app.test_client()

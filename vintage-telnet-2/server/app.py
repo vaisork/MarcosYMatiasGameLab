@@ -115,15 +115,22 @@ def create_app(config=None):
 
     @app.get('/')
     @app.get('/dm')
-    def index():return send_from_directory(ROOT/'client','index.html')
+    def index():
+        if request.path=='/dm':
+            html=(ROOT/'client'/'index.html').read_text(encoding='utf-8')
+            return (html.replace('/client/manifest.webmanifest','/client/manifest-dm.webmanifest')
+                        .replace('/client/icons/apple-touch-icon.png','/client/icons/dm-apple-touch-icon.png')
+                        .replace('apple-mobile-web-app-title" content="Vintage Telnet"','apple-mobile-web-app-title" content="VT Director"'))
+        return send_from_directory(ROOT/'client','index.html')
 
     @app.get('/favicon.ico')
     def favicon():return send_from_directory(ROOT/'client'/'icons','favicon-32.png',mimetype='image/png')
 
     @app.get('/client/<path:filename>')
     def client_asset(filename):
-        if filename=='manifest.webmanifest':return send_from_directory(ROOT/'client',filename,mimetype='application/manifest+json')
-        if filename in ('icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon.png','icons/favicon-32.png'):return send_from_directory(ROOT/'client',filename)
+        if filename in ('manifest.webmanifest','manifest-dm.webmanifest'):return send_from_directory(ROOT/'client',filename,mimetype='application/manifest+json')
+        if filename in ('icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon.png','icons/favicon-32.png',
+                        'icons/dm-icon-192.png','icons/dm-icon-512.png','icons/dm-icon-maskable-512.png','icons/dm-apple-touch-icon.png'):return send_from_directory(ROOT/'client',filename)
         if filename.startswith(('art/bestiary/','art/species/','art/places/','art/encounters/','art/players/','art/map/')) and filename.endswith('.webp'):
             return send_from_directory(ROOT/'client'/'art',filename.removeprefix('art/'))
         if filename not in ('app.js','style.css','ui-data.js','world3d.js','model-assets.js','vendor/three.module.js','vendor/GLTFLoader.js','vendor/BufferGeometryUtils.js','vendor/LICENSE-three.txt','models/species/felaryn.glb','models/species/marevyn.glb','models/species/vesperi.glb','models/species/humano.glb','models/species/dravak.glb'):return jsonify(error='not_found'),404
