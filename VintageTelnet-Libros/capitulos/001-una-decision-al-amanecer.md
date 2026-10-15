@@ -394,7 +394,7 @@ Mara dio un paso y se volvió.
 
 —Lera. La próxima vez que tengas que decirme algo difícil, prueba a hacerlo antes de traer una casa entera en un saco.
 
-Lera levantó la taza de madera como si fuera a arrojársela. Mara se alejó riendo.
+Lera levantó la taza de madera como si fuera a arrojársela. Mara se alejó riendo. Regresó poco después con un carboncillo, lo dejó a su lado y siguió hacia las casas.
 
 El niño del banco exclamó que había descubierto otra marca en la semilla. Su abuela se inclinó para mirar, tan interesada como él. Desde la calle alta volvieron a llegar tres golpes de martillo.
 
