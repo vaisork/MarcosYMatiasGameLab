@@ -32,6 +32,9 @@ Este directorio centraliza el trabajo **editorial** sobre novelas ambientadas en
 | [Registro de continuidad C001](capitulos/001-continuidad-y-revision.md) | `capitulos/001-continuidad-y-revision.md` | Revisión de canon pendiente |
 | [Revisión del Arquitecto Editorial C001](revision/REVISION_ARQUITECTURA_EDITORIAL_C001_2026-10-14.md) | `revision/REVISION_ARQUITECTURA_EDITORIAL_C001_2026-10-14.md` | Aprobable literariamente con ajustes, no publicable |
 
+| [Epílogo propuesto — El mundo que permanece](epilogos/001-el-mundo-que-permanece.md) | `epilogos/001-el-mundo-que-permanece.md` | Adaptado de «Conocer el Mundo» de VT1; revisión conjunta pendiente |
+| [Procedencia y control del epílogo](epilogos/NOTA_DE_PROCEDENCIA_Y_REVISION.md) | `epilogos/NOTA_DE_PROCEDENCIA_Y_REVISION.md` | Tabla de cambios VT1 → VT2 y permisos |
+
 ## Contratos de coordinación
 
 1. **Cada entrega sustantiva llega por rama y PR en este repositorio.** En el chat se comunica únicamente estado, PR, bloqueo y siguiente acción.
