@@ -122,6 +122,27 @@ ARMOR_SLOTS=('cabeza','torso','brazos','piernas','pies')
 ACCESSORY_SLOTS=('anillo','amuleto')
 SLOT_NAMES={'weapon':'arma','block':'escudo','armor':'armadura','cabeza':'cabeza','torso':'torso','brazos':'brazos','piernas':'piernas','pies':'pies','anillo':'anillo','amuleto':'amuleto'}
 ARMOR_CAP=.5
+FUSION_RATES={1:.25,2:.50,3:1.00}
+FUSION_REQUIREMENTS={
+ 1:{'material':'espina_espinajo','quantity':5,'rate':.25},
+ 2:{'material':'placa_cascapedernal','quantity':5,'rate':.50},
+ 3:{'material':'escama_dragon','quantity':3,'rate':1.00},
+}
+MATERIAL_SOURCES={
+ 'espina_espinajo':'en los espinajos de rastrojo de los caminos de Edran',
+ 'fibra_espinajo':'en los espinajos de rastrojo de los caminos de Edran',
+ 'colmillo_mordelinde':'en los mordelindes de los llanos de Edran',
+ 'piel_mordelinde':'en los mordelindes de los llanos de Edran',
+ 'placa_cascapedernal':'en los cascapedernales de las tierras de Korven',
+ 'garra_rasgacumbres':'en los rasgacumbres de los pasos altos de Korven',
+ 'placa_quebrarrocas':'en los quebrarrocas de los pedrales de Korven',
+ 'cristal_veta':'en las vetas de piedra de Korven',
+ 'escama_dragon':'en el Dragón de las Aguas Antiguas en el Bastión',
+ 'colmillo_dragon':'en el Dragón de las Aguas Antiguas en el Bastión',
+ 'hierro_viejo':'en los talleres y ruinas del camino',
+ 'cuero_curtido':'en curtidores y puestos de artesanos',
+ 'piedra_veteada':'buscando entre las rocas del camino',
+}
 
 def gear(state):
  """Equipped items, once each, from any slot."""
