@@ -2198,6 +2198,25 @@
           "text": "Un Espinajo de rastrojo rasca la tierra con una pata delantera. Está marcando su sitio.",
           "persistent_trace": false
         }
+      ],
+      "states": [
+        {
+          "requires_flags": [
+            "dragon_vencido"
+          ],
+          "overrides": {
+            "description": "Te recibe un ruido que antes no estaba: agua clara corriendo bajo las tablas del camino. La acequia de Veyra vuelve a moverse. Donde antes había costras blancas, el fondo oscuro deja pasar una corriente que dobla los juncos y arrastra despacio las hojas secas. La sal permanece en las piedras más altas, pero ya no ocupa todo el cauce. Sobre la rejilla, unas gotas frescas te salpican los dedos. Los pasos de la gente se mezclan con el chapoteo y, por primera vez desde que llegaste, el camino parece tener dos voces: la de arriba, ocupada con sus tareas, y la del agua que volvió a encontrar la salida.",
+            "brief": "La acequia vuelve a correr bajo las tablas; las piedras blancas aún recuerdan los días sin agua.",
+            "day": "Una vecina se asoma sobre la rejilla y llama a otra para que escuche. No hacen falta palabras: el agua corre otra vez, y alguien acerca un pequeño recipiente para llenarlo.",
+            "night": "El agua oscura lleva reflejos de las luces del camino. Ya no puedes oír el antiguo rumor subterráneo: lo cubre el sonido continuo de la corriente libre.",
+            "rain": "Las gotas de lluvia se confunden con la superficie de la acequia. La corriente sigue su rumbo entre las piedras en lugar de desaparecer bajo ellas.",
+            "return": "Reconoces la rejilla y los cercos de sal en las orillas, pero ahora escuchas agua bajo tus pies. Aunque no hayas presenciado lo ocurrido en el fondo, el cambio pertenece al camino entero.",
+            "examine": {
+              "rejilla": "Entre las barras ves el cauce de nuevo lleno. El agua pasa por encima de las estrías antiguas y deja a la vista la entrada de la rampa junto a una orilla. La bajada al Bastión sigue allí; ahora huele a musgo fresco y piedra lavada.",
+              "tablas": "Apoyas la palma sobre una tabla. Su vibración ya no llega en golpes separados: un pequeño rumor constante corre por debajo. El agua roza la madera y se aleja hacia Veyra."
+            }
+          }
+        }
       ]
     },
     "veyra_mazmorra_umbral": {
@@ -2828,8 +2847,17 @@
             "dragon_vencido"
           ],
           "overrides": {
-            "description": "Una inmensa cámara circular iluminada por reflejos de agua pura. Las grandes compuertas del fondo están abiertas y el agua corre tranquila hacia el Sagrario de los Recorridos al norte. El Dragón de las Aguas Antiguas reposa apaciblemente junto al pedestal, con las aletas replegadas en calma; el camino hacia el norte queda libre.",
-            "return": "La gran bóveda permanece en calma. Las aguas corren libres y el paso hacia el Sagrario está despejado."
+            "description": "Los doce arcos siguen levantándose sobre el manantial, pero la bóveda ya no tiembla como antes. En el centro, el remolino se ha abierto en un cauce claro que deja ver las piedras lisas del fondo. El dragón descansa ahora en una repisa de roca junto al pedestal, con las alas recogidas y el pecho subiendo despacio. Una de sus crestas conserva aquella marca antigua. Cuando abre un ojo dorado para seguir la corriente, no se incorpora ni cierra el paso. El agua pasa libre entre sus garras y entra en los conductos que vuelven hacia Veyra. Al norte, el portal del Sagrario queda descubierto; una línea de luz temblorosa cruza el umbral.",
+            "brief": "El manantial fluye limpio y el dragón descansa junto al pedestal; el portal norte está libre.",
+            "day": "La luz que baja por las grietas encuentra el fondo transparente de la cuenca. Los reflejos viajan por los arcos sin agitarse sobre las alas del guardián dormido.",
+            "night": "Sobre la piedra se oye una respiración lenta, sin rugidos. La corriente traza hilos de luz hacia los conductos y deja la bóveda en una oscuridad tranquila.",
+            "rain": "Los canales reciben el agua de la lluvia sin sacudir el pedestal. La corriente se ensancha, rodea con suavidad la repisa del dragón y continúa hacia la salida.",
+            "return": "El guardián sigue descansando fuera del paso. Donde antes rugía un remolino atrapado, ahora oyes agua que no se detiene.",
+            "examine": {
+              "pedestal": "El estrado sigue marcado por las garras antiguas, pero ya no sostiene el peso del dragón. El agua limpia recorre los surcos, da una vuelta corta y toma su cauce hacia las conducciones.",
+              "arcos": "Los doce arcos brillan con gotas que caen a su propio ritmo. Ningún resuello las arranca del techo. La piedra conserva grandes arañazos, huellas de una vigilancia que por fin se ha aquietado.",
+              "portal": "El portal norte está abierto y la piedra de su umbral permanece húmeda. Puedes ver una escalinata baja, un resplandor que viene de arriba y la entrada al Sagrario de los Recorridos."
+            }
           }
         }
       ],
@@ -2840,23 +2868,25 @@
       "name": "Sagrario de los Recorridos",
       "region": "veyra",
       "kind": "interior",
-      "description": "Una estancia solemne iluminada por una claraboya natural en la roca alta, por la que entra luz clara y el aire puro de la vega abierta. En los muros descansan tres arquetas de piedra labrada que custodian las recompensas de los constructores del Bastión: armas nobles de segundo nivel forjadas para cada vocación, joyas del Bastión y reliquias del dragón. Al este, una escalinata cómoda asciende de vuelta a la acequia exterior.",
-      "day": "La luz solar entra por la claraboya y hace brillar las gemas y el metal de las arquetas.",
-      "night": "La claraboya deja ver las estrellas sobre la vega; el ambiente es sereno y acogedor.",
-      "rain": "El aire que baja de la claraboya trae aroma a tierra mojada y vegetación abierta.",
+      "description": "Después de la profundidad del Bastión, llegas a una sala pequeña y alta, abierta por una claraboya natural. La claridad entra en diagonal y alcanza tres arquetas de piedra, cada una con huecos de distintas formas. No hay nombres grabados ni una explicación de quién las dejó aquí. Sobre el borde de una arqueta descansan gotas transparentes; más allá se distinguen armas antiguas, joyas y piezas pulidas que recuerdan las escamas del guardián. El aire viene de la vega abierta. Al este, una escalinata sube hacia la acequia; al sur queda el camino por el que llegaste. Estás tan lejos del ruido del combate que alcanzas a oír cómo una gota cae desde la claraboya y golpea una piedra lisa.",
+      "day": "La luz cae sobre las arquetas en franjas estrechas. Cada filo y cada gema devuelve un destello distinto.",
+      "night": "Por la claraboya asoma un pedazo de cielo. La piedra conserva el frío del día y las arquetas esperan en silencio.",
+      "rain": "La lluvia baja en gotas sueltas por el borde de la claraboya. Huele a tierra mojada y a hierba de la vega.",
       "clear": "",
-      "return": "El Sagrario de los Recorridos y sus arquetas de piedra bajo la claraboya.",
-      "brief": "El Sagrario con claraboya natural y las arquetas de recompensas.",
+      "return": "La sala sigue abierta al cielo. Las arquetas permanecen sobre sus bases y la escalinata este conduce a la acequia.",
+      "brief": "Tres arquetas bajo una claraboya natural y una escalera que lleva de vuelta a la acequia.",
       "exits": {
         "sur": "veyra_mazmorra_boveda_guardian",
         "este": "veyra_acequia_exterior"
       },
       "examine": {
-        "arquetas": "Arquetas abiertas de piedra pulida donde reposan las armas del Bastión, joyas valiosas y trofeos del dragón.",
-        "claraboya": "Una abertura natural en la roca que comunica directamente con el cielo de Veyra.",
-        "escalinata": "Peldaños anchos y bien iluminados que ascienden directamente al camino sobre la acequia."
+        "arquetas": "Tres arquetas de piedra conservan huecos preparados para armas y pequeñas piezas. Ves joyas cristalinas, una escama tornasolada y un colmillo suavemente curvado entre otros objetos. Ninguna inscripción dice quién preparó el lugar ni por qué.",
+        "claraboya": "La abertura es irregular y natural. Por ella se ven el cielo y algunas hierbas que crecen entre las piedras altas. Aquí el aire se mueve libre, distinto del vapor encerrado en la bóveda.",
+        "escalinata": "Los peldaños son anchos, de piedra áspera en los bordes. Hacia arriba llega el olor de los juncos y una claridad que no necesita antorchas."
       },
-      "arrivals": {},
+      "arrivals": {
+        "veyra_mazmorra_boveda_guardian": "Cruzas el portal norte con cuidado. A tus espaldas queda el ruido amplio del manantial; un tramo de escalones lo vuelve lejano. Después notas una corriente de aire diferente, fresca y con olor a hierba. La oscuridad se adelgaza hasta que un rectángulo de cielo aparece sobre ti. Por primera vez desde el descenso puedes levantar la vista y ver nubes."
+      },
       "npcs": [],
       "signals": [],
       "actions": [
@@ -2881,8 +2911,8 @@
             "joyas_bastion": 1,
             "escama_dragon": 1
           },
-          "text": "Te acercas a la arqueta del Juramentado. Levantas la Espada del Bastión, con su hoja azulada brillante y equilibrada, junto a un cofre de joyas del Bastión y una gran escama tornasolada de dragón. Has superado el mayor desafío del Bastión.",
-          "journal": "Recibiste la Espada del Bastión, las joyas y la escama de dragón por vencer en el Bastión de las Aguas Antiguas."
+          "text": "Te acercas al hueco destinado al Juramentado. La Espada del Bastión descansa sobre dos apoyos de piedra; su hoja azulada recoge la luz de la claraboya y la extiende hasta la pared. Al tomar la empuñadura sientes un peso firme, hecho para sostener la guardia sin retroceder. Junto a ella recoges las Joyas del Bastión y una gran escama tornasolada que parece guardar el color del manantial. Recuerdas las cuencas oscuras, el golpe del trinquete y los ojos del dragón. La victoria no es sólo haber llegado: el agua vuelve a correr y tú sales de aquí con una historia que puedes contar.",
+          "journal": "Tras liberar el paso del manantial y participar en la victoria sobre el guardián, recibiste la Espada del Bastión, las Joyas del Bastión y una gran escama de dragón. La acequia de Veyra volvió a correr."
         },
         {
           "id": "reclamar_premio_arcano",
@@ -2905,8 +2935,8 @@
             "joyas_bastion": 1,
             "escama_dragon": 1
           },
-          "text": "Te acercas a la arqueta del Arcano. Toman tus manos la Vara de los Caudales, cuyo cristal vibra con el murmullo de aguas profundas, junto a un lote de joyas del Bastión y una gran escama de dragón.",
-          "journal": "Recibiste la Vara de los Caudales, las joyas y la escama de dragón por vencer en el Bastión de las Aguas Antiguas."
+          "text": "En la arqueta del Arcano descubres la Vara de los Caudales apoyada sobre un canalito seco. La madera petrificada pesa menos de lo que imaginabas; en su punta, el cristal deja pasar una línea azul de luz cuando lo alzas. Su vibración es suave, como el agua que corre detrás del muro. Recoges también las Joyas del Bastión y una gran escama tornasolada. Las pruebas del descenso no desaparecen de tu memoria: aprendiste a escuchar la piedra, seguir el agua y mirar de frente a su guardián. Ahora llevas contigo algo que te recordará ese recorrido.",
+          "journal": "Tras liberar el paso del manantial y participar en la victoria sobre el guardián, recibiste la Vara de los Caudales, las Joyas del Bastión y una gran escama de dragón. La acequia de Veyra volvió a correr."
         },
         {
           "id": "reclamar_premio_sombra",
@@ -2929,8 +2959,8 @@
             "joyas_bastion": 1,
             "colmillo_dragon": 1
           },
-          "text": "Te acercas a la arqueta de la Sombra. Tomas la Daga de las Aguas Profundas, de filo oscuro y silencioso como agua nocturna, junto a las joyas del Bastión y un colmillo pulido de dragón.",
-          "journal": "Recibiste la Daga de las Aguas Profundas, las joyas y el colmillo de dragón por vencer en el Bastión de las Aguas Antiguas."
+          "text": "La arqueta de la Sombra apenas refleja la luz. Allí descansa la Daga de las Aguas Profundas: una hoja curva y oscura cuyo contorno sólo descubres al moverla. El mango se acomoda a tu mano sin hacer ruido contra la piedra. Junto a ella encuentras las Joyas del Bastión y un colmillo de dragón ya pulido, liso como porcelana antigua. Guardas cada pieza y vuelves a oír en tu recuerdo el silencio de las losas, el roce de los alambres y la respiración enorme al final del camino. Con paciencia y valor encontraste una salida donde parecía no haberla.",
+          "journal": "Tras liberar el paso del manantial y participar en la victoria sobre el guardián, recibiste la Daga de las Aguas Profundas, las Joyas del Bastión y un colmillo pulido de dragón. La acequia de Veyra volvió a correr."
         },
         {
           "id": "reclamar_premio_artifice",
@@ -2953,8 +2983,41 @@
             "joyas_bastion": 1,
             "colmillo_dragon": 1
           },
-          "text": "Te acercas a la arqueta del Artífice. Tomas el Arco de la Esclusa, reforzado con placas impermeables de bronce y gran tensión, junto a las joyas del Bastión y un colmillo pulido de dragón.",
-          "journal": "Recibiste el Arco de la Esclusa, las joyas y el colmillo de dragón por vencer en el Bastión de las Aguas Antiguas."
+          "text": "Te detienes frente a la arqueta del Artífice. El Arco de la Esclusa tiene placas de bronce fijadas a sus brazos y una cuerda trenzada que permanece firme en el aire húmedo. Lo levantas con cuidado: el arco responde con una tensión pareja, como las compuertas cuando encontraron su equilibrio. Recoges las Joyas del Bastión y un colmillo de dragón pulido que descansa en una pequeña cavidad. Entre tus manos llevas una recompensa, pero también el recuerdo de lo que lograste entender y poner en movimiento. Desde el muro llega el rumor del agua que ya no está atrapada.",
+          "journal": "Tras liberar el paso del manantial y participar en la victoria sobre el guardián, recibiste el Arco de la Esclusa, las Joyas del Bastión y un colmillo pulido de dragón. La acequia de Veyra volvió a correr."
+        }
+      ],
+      "states": [
+        {
+          "requires_flags": [
+            "dragon_vencido"
+          ],
+          "overrides": {
+            "description": "La luz de la claraboya cae sobre tres arquetas de piedra y el agua recién liberada canta muy abajo, detrás de los muros. Una canaleta delgada recorre el borde del Sagrario sin mojar el suelo; en ella flotan destellos que se mueven como estrellas pequeñas. En las arquetas reposan armas de distintas formas, joyas cristalinas y piezas pulidas del dragón. No sabes quién preparó esos huecos, pero ahora comprendes por qué esta sala se encuentra al final del camino: aquí puedes detenerte, recordar lo que atravesaste y elegir el premio que corresponde a tu recorrido. La escalera este asciende hacia el aire libre de Veyra.",
+            "brief": "La luz y el agua recorren el Sagrario; las arquetas esperan a quienes ganaron su premio.",
+            "day": "Un rayo de sol atraviesa la claraboya y llega a la canaleta. La luz salta del agua a una hoja de metal, luego a una gema, sin quedarse quieta.",
+            "night": "Las estrellas asoman entre las piedras de la claraboya. La canaleta las refleja como pequeños puntos de luz que viajan despacio junto a las arquetas.",
+            "rain": "El olor a tierra mojada baja desde la vega. Las gotas de lluvia resuenan sobre la claraboya, pero la canaleta del Sagrario conserva un flujo parejo.",
+            "return": "Reconoces la claridad de la salida y el murmullo que llega desde la bóveda. Las arquetas siguen aquí para los demás viajeros; cada recorrido tiene su propio premio.",
+            "examine": {
+              "arquetas": "La piedra presenta huecos para armas de formas distintas y pequeñas cavidades para joyas y reliquias. No puedes leer su procedencia: no hay nombres ni fechas. Puedes acercarte a la recompensa de tu vocación si participaste en la victoria y todavía no la has reclamado.",
+              "claraboya": "Por la abertura ves cielo abierto. Unas gotas se reúnen sobre una raíz y caen hasta la canaleta, que las recibe antes de continuar hacia la bóveda.",
+              "escalinata": "La escalera oriental sube hacia una luz cada vez más cálida. Desde aquí ya se escucha, muy distante, el curso de agua que vuelve a la acequia."
+            }
+          }
+        },
+        {
+          "requires_flags": [
+            "gran_premio_recibido"
+          ],
+          "overrides": {
+            "description": "El Sagrario conserva la luz que cae por la claraboya y el hilo de agua que recorre la canaleta entre las arquetas. Una de ellas guarda un espacio libre: ahí descansaba el premio que ya recogiste. Los demás huecos siguen preparados para otros viajeros; el agua no se detiene por tu partida. Desde el este llega olor a juncos y a tierra abierta. Abajo, detrás del muro sur, el manantial continúa su camino.",
+            "brief": "Tu espacio en las arquetas ya está vacío; el Sagrario conserva premios para otros viajeros.",
+            "return": "Vuelves a encontrar vacío el hueco de tu recompensa. No se ha llevado las demás: otros caminos aún terminarán en esta sala.",
+            "examine": {
+              "arquetas": "Reconoces el hueco del premio que ya recibiste. Las otras cavidades conservan sus piezas para otros viajeros. Un hilo de agua dibuja luces sobre sus bordes sin tocar los objetos."
+            }
+          }
         }
       ]
     }
@@ -3151,6 +3214,22 @@
           "overrides": {
             "topics": {
               "reparación": "La atadura que hiciste sujeta el desgarro sin tapar el desagüe. Cuando pase agua, revisaré ese borde."
+            }
+          }
+        },
+        {
+          "requires_flags": [
+            "dragon_vencido"
+          ],
+          "overrides": {
+            "topics": {
+              "acequia": "¡Ya escuchaste la acequia! Esta mañana volvió a correr bajo las tablas. Primero salió un hilo, luego se llenó el cauce y alguien empezó a llamar a los vecinos para que fueran a verlo. Ya no oigo aquel golpeteo profundo; ahora oigo agua de verdad. No sé qué pasó allá abajo, pero vaya que cambió las cosas. Los juncos volverán a levantarse cuando tengan tiempo.",
+              "toldos": "El agua regresó a las canaletas y ya puedo ver cómo cae desde el toldo. Sigue faltando revisar algunas costuras, pero al menos puedo comprobar el camino del agua otra vez. Eso sí: primero hay que dejarle una salida."
+            },
+            "day": "Seli levanta la vista de su costura para seguir el agua que vuelve a la canaleta. Le muestra el hilo de corriente a un vecino antes de volver al trabajo.",
+            "night": "Seli guarda el hilo seco mientras escucha el sonido constante de la canaleta. Sonríe al reconocerlo; no había sonado así en días.",
+            "world_memory": {
+              "dragon_vencido": "Seli señala la canaleta llena: «No sé quién logró que el agua regresara, pero hoy medio barrio se acercó a verla. Escucha: hasta las calles suenan distintas»."
             }
           }
         }
