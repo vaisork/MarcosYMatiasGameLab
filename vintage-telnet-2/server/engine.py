@@ -423,8 +423,10 @@ class Engine:
                 damage=max(1,m.rounded(combat['profile']['damage']*(1-reply.get('reduction',0))*(1-state.get('armor_reduction',0))*(1-reply.get('guard',0))))
                 barrier=combat.pop('barrier',0)
                 damage=max(0,damage-barrier)
-                state['hp']-=damage;m.wound(state,damage);state['events'].append(event('combat',m.creature_prose(creature,'hit',damage,combat['round'])))
-                if m.is_vaisork(state):state['hp']=max(1,state['hp'])
+                if m.is_vaisork(state):damage=0
+                if damage>0:
+                    state['hp']-=damage;m.wound(state,damage)
+                state['events'].append(event('combat',m.creature_prose(creature,'hit',damage,combat['round'])))
                 if state['hp']<=0:self.death(primary,world)
             else:
                 state['events'].append(event('combat',m.creature_prose(creature,'miss',0,combat['round'])))
@@ -544,7 +546,6 @@ class Engine:
     def death(self,character,world):
         state=character['state']
         if m.is_vaisork(state):
-            state['hp']=max(1,state.get('hp',1))
             return
         self.clear_attention(character,world)
         state=character['state'];room=self.room(character,world);destination,distance=self.nearest_settlement(state['location'])

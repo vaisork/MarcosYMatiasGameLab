@@ -101,9 +101,11 @@ class VaisorkTests(unittest.TestCase):
         self.assertEqual(data['character']['species'], 'humano')
         self.assertEqual(data['character']['class_id'], 'juramentado')
         self.assertEqual(data['character']['status'], 'approved')
-        self.assertEqual(data['character']['level'], 10)
+        self.assertEqual(data['character']['level'], 100)
         self.assertEqual(data['character']['portrait'], '/client/art/players/vaisork-anime-v1.webp')
         self.assertTrue(data['character'].get('vaisork'))
+        self.assertEqual(data['character']['attributes'], {a: 100 for a in mechanics.ATTRIBUTES})
+        self.assertEqual(data['character']['hp'], mechanics.hp_max(data['character']))
 
         # session['master'] is active
         with self.client.session_transaction() as s:
@@ -121,8 +123,10 @@ class VaisorkTests(unittest.TestCase):
             s = char['state']
             self.assertTrue(s.get('vaisork'))
             self.assertIn('vaisork', s.get('flags', []))
-            self.assertEqual(s.get('level'), 10)
+            self.assertEqual(s.get('level'), 100)
             self.assertEqual(s.get('portrait'), '/client/art/players/vaisork-anime-v1.webp')
+            self.assertEqual(s.get('attributes'), {a: 100 for a in mechanics.ATTRIBUTES})
+            self.assertEqual(s.get('hp'), mechanics.hp_max(s))
 
         # Second login does NOT recreate character
         c2 = self.app.test_client()
@@ -143,8 +147,11 @@ class VaisorkTests(unittest.TestCase):
 
         state = vaisork_char['state']
         self.assertTrue(mechanics.is_vaisork(state))
+        self.assertEqual(state['level'], 100)
+        self.assertEqual(state['attributes'], {a: 100 for a in mechanics.ATTRIBUTES})
+        self.assertEqual(state['hp'], mechanics.hp_max(state))
 
-        # 1. resolve_round with fatal creature damage
+        # 1. resolve_round with fatal creature damage: damage is 0, hp never drops
         deadly_creature = {
             'id': 'deadly_beast',
             'name': 'Bestia Devastadora',
@@ -158,7 +165,7 @@ class VaisorkTests(unittest.TestCase):
             'cooldown': 0,
             'prepared': False
         }
-        state['hp'] = 50
+        initial_hp = state['hp']
 
         class FixedRandom:
             def random(self): return 0.01
@@ -167,19 +174,39 @@ class VaisorkTests(unittest.TestCase):
         # Outcome is never 'death'
         self.assertNotEqual(outcome, 'death')
         self.assertEqual(outcome, 'ongoing')
-        # HP never drops below 1
-        self.assertGreaterEqual(state['hp'], 1)
+        # Incoming damage is 0: HP never decreases
+        self.assertEqual(state['hp'], initial_hp)
+        self.assertIsNone(state.get('wound'))
+        self.assertTrue(any('0 de daño' in ev.get('text', '') for ev in events))
+
+        # Also test with character having only flag "vaisork"
+        flagged_state = mechanics.new_state('humano', 'juramentado', 'home:1', 123456)
+        flagged_state['flags'].append('vaisork')
+        flagged_state['combat'] = {
+            'creature': 'deadly_beast',
+            'profile': deadly_creature['profile'],
+            'round': 1,
+            'hp': 100,
+            'cooldown': 0,
+            'prepared': False
+        }
+        initial_flagged_hp = flagged_state['hp']
+        flagged_events, flagged_outcome = mechanics.resolve_round(flagged_state, deadly_creature, FixedRandom(), respond=True)
+        self.assertEqual(flagged_outcome, 'ongoing')
+        self.assertEqual(flagged_state['hp'], initial_flagged_hp)
+        self.assertIsNone(flagged_state.get('wound'))
+        self.assertTrue(any('0 de daño' in ev.get('text', '') for ev in flagged_events))
 
         # 2. engine.death call does not defeat Vaisork
         e = Engine(Content(self.app.config['CONTENT_DIR']), lambda: 123456)
         with self.store.transaction() as db:
             world = self.store.world(db)
         original_location = state['location']
-        state['hp'] = 0  # Even if set to 0 or negative
+        state['hp'] = initial_hp
         e.death(vaisork_char, world)
 
-        # Life never drops below 1, defeat not applied
-        self.assertGreaterEqual(vaisork_char['state']['hp'], 1)
+        # Defeat not applied, location unchanged
+        self.assertEqual(vaisork_char['state']['hp'], initial_hp)
         self.assertEqual(vaisork_char['state']['location'], original_location)
         self.assertNotIn('last_recovery', vaisork_char['state'])
 

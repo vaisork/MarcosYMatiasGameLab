@@ -177,11 +177,20 @@ def create_app(config=None):
                     initial['gender']='masculino';initial['portrait']='/client/art/players/vaisork-anime-v1.webp'
                     initial['vaisork']=True
                     if 'vaisork' not in initial['flags']:initial['flags'].append('vaisork')
-                    initial['level']=10;initial['pa']=18;initial['pp']=2;initial['hp']=mechanics.hp_max(initial)
+                    initial['level']=100;initial['pa']=198;initial['pp']=20
+                    initial['attributes']={a:100 for a in mechanics.ATTRIBUTES}
+                    initial['hp']=mechanics.hp_max(initial)
                     db.execute('UPDATE characters SET state=? WHERE id=?',(json.dumps(initial,ensure_ascii=False),cid))
                     db.execute('INSERT OR IGNORE INTO approvals VALUES(?,?)',(cid,clock()))
                     char_id=cid
-                else:char_id=char_row['id']
+                else:
+                    char_id=char_row['id']
+                    cs=json.loads(char_row['state'] or '{}')
+                    if cs.get('level')!=100 or cs.get('attributes',{}).get('fuerza')!=100:
+                        cs['level']=100;cs['pa']=198;cs['pp']=20
+                        cs['attributes']={a:100 for a in mechanics.ATTRIBUTES}
+                        cs['hp']=mechanics.hp_max(cs)
+                        db.execute('UPDATE characters SET state=? WHERE id=?',(json.dumps(cs,ensure_ascii=False),char_id))
                 session.clear();session['account_id']=acc_id;session['character_id']=char_id
                 session['account_version']=access['session_version'] if access else 0
                 session['master']=True
