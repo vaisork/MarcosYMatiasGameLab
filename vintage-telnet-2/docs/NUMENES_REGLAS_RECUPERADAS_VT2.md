@@ -110,7 +110,13 @@ La ubicación y los encuentros deben obedecer al servidor, pero **la pertenencia
 
 **Piloto propuesto para evaluación (no aprobado):** empezar por A (perro de cuatro orejas) para validar observación y vínculo físico; contrastar con E (ave de sombra doble), que prueba anomalía ambiental y accesibilidad. Después escalar a los demás. Preparar el sistema **antes** de generar ocho mecánicas distintas.
 
-## 7. Estado final
+## 7. Documentos de esta preparación
+
+- [Ocho Númenes: fichas de identidad y hábitat](NUMENES_OCHO_DOSSIER_NARRATIVO.md): personalidad, anomalía y propuesta de lugar.
+- [Ocho encuentros narrativos completos](NUMENES_ENCUENTROS_NARRATIVOS_VT2.md): llegada, observación, consentimiento, rechazo, diario, clima y hogar.
+- [Contrato de integración, poderes, arte y QA](NUMENES_CONTRATO_PREPARACION_VT2.md): invariantes, responsabilidades, 25 casos de prueba y puertas de aprobación.
+
+## 8. Estado final
 
 Las reglas históricas están **recuperadas**. Los encuentros, ubicaciones, conductas refinadas y habilidades propuestas están **preparados editorialmente**, no aprobados como canon vivo ni programados. No abrir issues de implementación por el solo hecho de archivar estas notas. No cambiar contenido jugable, servidor, UI, archivos de partida o desplegables durante esta fase.
 
