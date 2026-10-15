@@ -206,3 +206,82 @@ Lera miró el tramo que seguía oculto tras la curva.
 El hombre empezó a caminar y ella lo siguió a distancia prudente. Donde las paredes comenzaban a apartarse, el viento regresaba en pequeñas ráfagas y el polvo levantado por el carro se acumulaba en los bordes.
 
 Lera miró las rodadas bajo sus pies. Sabía cuánto pesaba lo que había pasado por allí. No podía leer en ellas cuánto faltaba para llegar a un lugar seguro.
+
+
+***
+
+Las paredes del terraplén cortaban el viento y hacían resonar los pasos. El porteador avanzaba sin mirar atrás; de vez en cuando se detenía para acomodar la carga y Lera aprovechaba para descansar el hombro.
+
+Había huellas de botas sobre rodadas antiguas, marcas de sacos apoyados en la tierra y raíces pulidas por quienes se agarraban al subir. Lera pensó en la tabla que había confundido con un carro y en los golpes que imaginó venir de la oscuridad.
+
+No se avergonzaba tanto de haber interpretado mal las señales como de la rapidez con que había decidido que su primera explicación debía ser la verdadera.
+
+Más arriba apareció un tejado.
+
+La casa del camino se recortó contra el cielo cuando alcanzaron la parte media de la cuesta. Hasta entonces el propio terraplén la había ocultado.
+
+Lera se sintió aliviada, aunque todavía no sabía si podría encontrar agua allí.
+
+—¿Siempre cruje tanto la tierra? —preguntó al porteador.
+
+—Cuando está seca. Cuando llueve, cambia el ruido.
+
+No añadió más. La tierra volvió a crujir bajo sus propias botas.
+
+Lera inclinó la cantimplora para escuchar el agua restante. Después la guardó con el tapón hacia arriba. No tenía sentido lamentarse por la parte derramada a cada paso; necesitaba cuidar la que conservaba.
+
+Al aproximarse a una curva, el porteador se detuvo de pronto.
+
+No venía otro carro.
+
+Se oían unas pisadas irregulares desde arriba: dos seguidas, una pausa y una tercera que arrastraba la suela.
+
+El hombre apoyó su carga del lado de la pared para que no rodara hacia las huellas de ruedas. Lera se hizo a un lado, buscando un espacio firme.
+
+De la curva apareció una persona con un saco enorme cruzado sobre los hombros. Bajaba inclinada, apoyando de vez en cuando una mano contra la tierra. Al verlos se detuvo.
+
+—¿Hay sitio para pasar? —preguntó con la respiración agitada.
+
+El porteador observó el saco.
+
+—Hay sitio para detenerse —contestó—. Para cruzarnos así, no.
+
+La persona intentó mover la carga sobre su espalda. El saco se inclinó hacia la rodada y tuvo que sujetarlo con ambos brazos.
+
+—Puedo esperar —dijo Lera.
+
+—No aguantaré mucho más con esto encima —respondió la persona.
+
+El porteador dejó su propia carga bien apoyada y miró a Lera.
+
+—Hay que hacer espacio para bajar ese saco, antes de que le gane el peso.
+
+Lera miró el suelo. Donde ellos estaban había una parte más ancha, con una raíz que impedía que una carga apoyada se deslizara hacia el camino. El terreno, sin embargo, era desigual.
+
+—Aquí —dijo, señalando la zona firme—. Si lo bajas despacio, podremos pasar después.
+
+La persona dio un paso inseguro. El porteador se acercó por el lado de la pendiente, sin entrar bajo la carga.
+
+Lera avanzó desde el otro costado. La palma lastimada la obligó a cambiar la forma en que sujetaba la tela. Entre los tres consiguieron apoyar el saco sin que golpeara el suelo ni resbalara hacia las rodadas.
+
+Nadie celebró nada.
+
+La persona se sentó junto a la pared, exhausta.
+
+—Creí que podría con él hasta abajo —murmuró.
+
+El porteador miró la carga y luego la curva.
+
+—Desde aquí todavía queda camino.
+
+Lera pudo haber dicho lo mismo sobre sí misma.
+
+Miró hacia el tejado que asomaba más arriba. Una cosa era llegar a la casa; otra, lograr que aquel desconocido pudiera descender sin caerse. El hombre estaba atando el saco en dos bultos más pequeños para repartir el peso, pero no tenía con qué hacer un segundo nudo.
+
+Lera tocó su bolsa. Recordó el hilo, el poco agua y la carta que todavía llevaba.
+
+Había salido buscando a una persona que quizás no quisiera escucharla.
+
+Ahora, a mitad de una cuesta, alguien necesitaba ayuda antes de que ella pudiera seguir.
+
+Y aquella vez no bastaba con reconocer una huella.
