@@ -312,11 +312,9 @@ NUMENES_MODELS = {
 }
 
 TRUST_STAGES = {
- 1: 'cauteloso',
- 2: 'cercano',
- 3: 'confiado',
- 4: 'fiel',
- 5: 'inseparable'
+ 1: 'vínculo_naciente',
+ 2: 'confianza_estable',
+ 3: 'armonía_profunda'
 }
 
 def get_active_numen(state):
@@ -385,15 +383,24 @@ def care_numen(state, action, now):
   raise ValueError('No tienes un compañero Númen activo a tu lado.')
  care = active.setdefault('care', {})
  if action == 'alimentar':
+  inv = state.get('inventory', [])
+  ration = next((i for i in inv if (i.get('kind') == 'consumable' or 'racion' in i.get('id', '') or 'comida' in i.get('id', '')) and i.get('quantity', 1) > 0), None)
+  if ration:
+   if ration.get('quantity', 1) > 1:
+    ration['quantity'] -= 1
+   else:
+    inv.remove(ration)
   care['last_fed'] = now
   care['well_cared'] = True
   care['fed_today'] = True
-  if active.get('trust', 1) < 5:
+  if active.get('trust', 1) < 3:
    active['trust'] = active.get('trust', 1) + 1
    active['trust_stage'] = TRUST_STAGES[active['trust']]
    return f"Compartes comida con {active['name']}. Come con tranquilidad y su confianza aumenta a {active['trust_stage']}."
   return f"Compartes comida con {active['name']}. Come contento a tu lado con total confianza."
  elif action == 'cuidar':
+  care['last_rested'] = now
+  care['well_cared'] = True
   return f"Acaricias a {active['name']} con calma. Su compañía te reconforta en el camino."
  return 'Cuidas a tu compañero.'
 

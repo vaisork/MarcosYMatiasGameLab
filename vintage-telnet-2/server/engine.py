@@ -1033,7 +1033,7 @@ class Engine:
             cat=item.get('catalog_id') or item['id'].split(':')[0]
             copies=sum(i.get('quantity',1) for i in state['inventory'] if (i.get('catalog_id') or i['id'].split(':')[0])==cat)
             if copies<2:raise RuleError('Necesitas dos objetos iguales para poder fusionarlos.',409)
-        candidate=next((a for a in candidates if a['id']==action and a.get('target')==target and (a.get('topic') is None or a.get('topic')==intent.get('topic'))),None)
+        candidate=next((a for a in candidates if a['id']==action and (a.get('target')==target or (target is None and action in ('cuidar_numen','alimentar_numen'))) and (a.get('topic') is None or a.get('topic')==intent.get('topic'))),None)
         if not candidate or candidate.get('disabled'):raise RuleError((candidate or {}).get('reason') or 'Esa acción no está disponible en tu situación actual.',409)
         state['events']=[]
         if state['combat']:
