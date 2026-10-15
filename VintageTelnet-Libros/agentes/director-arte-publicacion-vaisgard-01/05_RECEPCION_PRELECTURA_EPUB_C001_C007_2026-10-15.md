@@ -46,3 +46,24 @@
 
 ## Siguiente entrega
 Revisar compatibilidad y contenido en lector real, resolver firmas pendientes y preparar nueva maquetación ilustrada antes de difusión aprobada.
+
+---
+
+## Adenda de pendientes — 15/10/2026, posterior al encargo Drive
+
+**Corrección del estado editorial:** Arquitectura Editorial ratificó C007 como **aprobado literariamente** sobre blob `6aca35d8ca12704ce189e70349d8740c6c4b3f61` (PR #705, comentario 20:23 UTC). En esta edición ya se empleó ese SHA correcto. El revisor #707 aún debe emitir su adenda formal puntual; no equivale a co-ratificación VT2.
+
+**Nueva autorización de distribución limitada:** Los comentarios de Arquitectura Editorial en #708 de las 20:32–20:33 UTC aclararon que el propietario **sí permite almacenar el EPUB como prelectura BORRADOR PRIVADA en su Google Drive personal**. Esta autorización reemplaza la prohibición anterior de toda subida a Drive, pero no habilita edición final, enlace público, fusión o difusión externa.
+
+**Destino priorizado por la instrucción más reciente:**
+[Crónicas de Vaisgard — Prelecturas EPUB](https://drive.google.com/drive/folders/1GoGePI5CDOJ2nZppO8fOOgDJX6KrO5UD) · ID `1GoGePI5CDOJ2nZppO8fOOgDJX6KrO5UD` · cuenta conectada `vaisork@gmail.com`. Se verificó mediante Drive conectado que la carpeta existe y está **vacía**. También existe otra carpeta homónima vacía, ID `1bLao4n77Ymjffa0wonl236vKGHFbcBpy`; evitar crear una tercera, mover o eliminar ninguna sin instrucción.
+
+**Transferencia aún PENDIENTE / no fingir carga:** Se confirmó el archivo EPUB en GitHub, Git blob `1eddba4e64dc05311d93ea18188d4c84c6b3677c` y tamaño **126,397 bytes**. Sin embargo, el conector GitHub ofrece contenido UTF-8 y no entregó bytes de un EPUB binario (`fetch_file` con `base64` devolvió contenido vacío; `fetch_blob` para binarios produjo error Unicode). El conector Drive solo permite `upload_file` desde un **file_uri** autorizado, nunca una URL arbitraria ni base64 inventado. No se obtuvo referencia binaria compatible ni se transfirió el archivo; el acceso a red externa del contenedor no resolvió el URL RAW. **No existe enlace de archivo EPUB en Drive para publicar todavía.** La carpeta seleccionada seguirá vacía hasta una transferencia real con verificación del archivo devuelto.
+
+**Alternativa manual segura para lectura privada:** abrir el [EPUB GitHub de #708](https://github.com/vaisork/MatiasGameLab/blob/editorial/cronicas-vaisgard-agente-04-preproduccion/VintageTelnet-Libros/agentes/director-arte-publicacion-vaisgard-01/prelecturas/CV_L1_PRELECTURA_BORRADOR_PR705_PROLOGO_C001_C007.epub), usar `Download raw`, entrar en la carpeta Drive anterior con la cuenta personal y usar `Nuevo → Subir archivo`. Tras subir, comprobar nombre, extensión `.epub`, tamaño **126,397 bytes** y que abra en lector EPUB. Este procedimiento requiere operación humana; **no se afirma ejecutado**.
+
+**Capítulo posterior:** C008 `008-la-plaza-de-las-cinco-rutas.md`, Git blob `a2b9265935341c55638946d963d832937bd2e865`, aparece en #705, **entregado como borrador para dictamen**, por lo que **no** debe alterar la prelectura congelada C001–C007. Solo preparar versión 02 al recibir aprobación literaria y encargo específico; mantener WIP=1.
+
+**Pendientes técnicos reales:** EPUBCheck no ejecutado; lector Android/tablet/escritorio no probado; selección ilustrada VT2 sin autorización final individual. Ninguno debe marcarse como aprobado antes de aportar evidencia.
+
+**Pendientes de gobernanza:** co-decisión Arquitectura Editorial + Arquitecto VT2 sobre prólogo, personajes exclusivos de novela, secreto/canon y finalización de obra; permiso de publicación definitiva sin otorgar. Las PR siguen borrador.
