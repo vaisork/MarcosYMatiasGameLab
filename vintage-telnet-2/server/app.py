@@ -240,7 +240,7 @@ def create_app(config=None):
     def action():
         data=payload();request_id=data.get('request_id')
         if not isinstance(request_id,str) or not 8<=len(request_id)<=120:raise RuleError('La acción necesita una identidad de petición válida.')
-        intent={k:data[k] for k in ('id','target','topic','confirmed','text') if k in data};encoded=json.dumps(intent,sort_keys=True,ensure_ascii=False)
+        intent={k:data[k] for k in ('id','target','topic','confirmed','text','name') if k in data};encoded=json.dumps(intent,sort_keys=True,ensure_ascii=False)
         with store.transaction() as db:
             char=selected(db)
             if not char:raise RuleError('Crea y selecciona un personaje.',401)

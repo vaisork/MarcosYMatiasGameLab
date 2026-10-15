@@ -1451,3 +1451,9 @@ export const attributeDescriptions={
  intelecto:'Su efecto en el juego está pendiente de motor.',
  presencia:'Su efecto en el juego está pendiente de motor.'
 };
+
+export const trustStageNames={
+ 'vínculo_naciente':'Vínculo naciente (Etapa 1)',
+ 'confianza_estable':'Confianza estable (Etapa 2)',
+ 'armonía_profunda':'Armonía profunda (Etapa 3)'
+};
