@@ -27,7 +27,10 @@ Este directorio centraliza el trabajo **editorial** sobre novelas ambientadas en
 | [Política de secretos](POLITICA_DE_SECRETOS.md) | `POLITICA_DE_SECRETOS.md` | Pendiente de revisión conjunta |
 | [Protagonistas propuestos](plan/personajes.md) | `plan/personajes.md` | Propuestas, no aprobadas |
 | [Arco e índice del Libro I](plan/libro-01.md) | `plan/libro-01.md` | 15 capítulos propuestos; no aprobados |
-| [Fichas de capítulos 1–3](plan/fichas-001-003.md) | `plan/fichas-001-003.md` | Fichas preparadas, no autorizadas para redacción |
+| [Fichas de capítulos 1–3](plan/fichas-001-003.md) | `plan/fichas-001-003.md` | C001 autorizado solo para borrador; C002–C003 no autorizados |
+| [Capítulo 001 — Una decisión al amanecer](capitulos/001-una-decision-al-amanecer.md) | `capitulos/001-una-decision-al-amanecer.md` | Primer borrador entregado; pendiente de revisión |
+| [Registro de continuidad C001](capitulos/001-continuidad-y-revision.md) | `capitulos/001-continuidad-y-revision.md` | Revisión de canon pendiente |
+| [Revisión del Arquitecto Editorial C001](revision/REVISION_ARQUITECTURA_EDITORIAL_C001_2026-10-14.md) | `revision/REVISION_ARQUITECTURA_EDITORIAL_C001_2026-10-14.md` | Aprobable literariamente con ajustes, no publicable |
 
 ## Contratos de coordinación
 
@@ -58,3 +61,12 @@ Se escribe una **novela**, no una enciclopedia, manual de juego ni narración de
 
 
 **Organización confirmada:** el libro NO dispone de un repositorio independiente: su raíz editorial es esta carpeta en `vaisork/MatiasGameLab`. El proyecto mantiene separación por carpetas y flujo editorial, con revisión conjunta de canon. El Segundo Cerebro sigue en `vaisork/Conocimiento` y sólo el Arquitecto Editorial traslada allí aprendizajes y decisiones.
+
+## PR de coordinación del equipo cerrado
+
+- [#705 — Escritor 01, borrador Capítulo 001](https://github.com/vaisork/MatiasGameLab/pull/705).
+- [#706 — Historiador 02, atlas y expediente de ruta](https://github.com/vaisork/MatiasGameLab/pull/706).
+- [#707 — Revisor Integral 03, dictamen inicial y actualización de Capítulo 001 pendiente](https://github.com/vaisork/MatiasGameLab/pull/707).
+- [#708 — Arte/Publicación 04, preproducción de EPUB 3](https://github.com/vaisork/MatiasGameLab/pull/708).
+
+El equipo consta de **cuatro asistentes**, sin puestos 05–07. El formato principal de lectura aprobado es **EPUB 3 reajustable** con Drive como canal de almacenamiento y distribución. Ninguna PR aquí supone ejecución autónoma de agentes ni aprobación automática de publicación.
