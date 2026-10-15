@@ -143,7 +143,7 @@ La bota se hundió hasta el tobillo. Una descarga de frío le recorrió la piern
 
 Se dobló hacia delante, extendiendo la mano sana.
 
-Los dedos encontraron el extremo seco de la tercera piedra.
+Los dedos encontraron la parte alta de la tercera piedra, por encima del agua.
 
 No había una cuerda a la que agarrarse ni nadie al alcance. Solo agua, piedra y el peso de su propio cuerpo.
 
