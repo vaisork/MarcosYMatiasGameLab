@@ -28,7 +28,7 @@ La persona miró el saco. No parecía convencida.
 
 —Es tuyo —contestó el porteador—. No voy a decidir por ti.
 
-Lera contempló la curva por donde subía la casa del camino, todavía oculta tras el borde. El saco era pesado incluso en el suelo. Si alguien volvía a pasar con un carro, tendrían que moverlo otra vez.
+Lera miró hacia la curva. Por encima del borde ya asomaba el tejado de la casa del camino, aunque todavía no se veían ni los muros ni la puerta. El saco era pesado incluso en el suelo. Si alguien volvía a pasar con un carro, tendrían que moverlo otra vez.
 
 —¿Y si vamos a pedir ayuda a la casa? —preguntó—. Podemos dejarlo contigo mientras llegamos, si estás dispuesto a esperar.
 
@@ -36,7 +36,7 @@ El porteador observó el camino, luego la carga que debía llevar él mismo.
 
 —Solo un momento. No me quedaré hasta que oscurezca.
 
-La persona del saco aceptó al fin. Se levantó despacio y comprobó que los dos bultos quedaban lejos de las rodadas. Habían propuesto dividir su carga, pero no había cuerda suficiente para sujetarla: **seguiría intacta** mientras buscaban otra manera de transportarla.
+La persona del saco aceptó al fin. Se levantó despacio y comprobó que el saco y la carga del porteador quedaban lejos de las rodadas. Habían propuesto dividir su carga, pero no había cuerda suficiente para sujetarla: **seguiría intacta** mientras buscaban otra manera de transportarla.
 
 Lera no pidió que confiaran en ella sin explicaciones.
 
@@ -48,11 +48,11 @@ Subieron Lera y la persona del saco sin cargar nada ajeno. Al alejarse, el porte
 
 ***
 
-La casa apareció cuando la subida comenzó a ceder. Tenía muros de piedra y una puerta abierta a los viajeros. Junto a la entrada había bultos húmedos apoyados sobre el suelo que soportaba el barro; más adentro, una mesa elevada quedaba lejos del agua de las botas.
+Al terminar la subida, Lera pudo ver la casa completa, cuyo tejado había divisado antes. Tenía muros de piedra y una puerta abierta a los viajeros. Junto a la entrada había bultos húmedos apoyados sobre el suelo que soportaba el barro; más adentro, una mesa elevada quedaba lejos del agua de las botas.
 
 Olía a sopa caliente.
 
-A Lera el olor le resultó casi ofensivo. Hacía poco que había bebido el último sorbo disponible y la garganta se le pegaba al respirar, pero la olla parecía recordarles a todos que la vida seguía ocurriendo dentro.
+A Lera el olor le resultó casi ofensivo. Hacía poco que había compartido parte de su última reserva de agua y la garganta se le pegaba al respirar, pero la olla parecía recordarles a todos que la vida seguía ocurriendo dentro.
 
 La persona del saco se detuvo en el umbral.
 
@@ -70,7 +70,7 @@ Una mujer cerca del fuego volvió la cabeza.
 
 —Depende de lo que pese y de dónde esté.
 
-Lera explicó el lugar: el ensanche, la curva que ocultaba el tejado y el carro que había bajado. La mujer le pidió que aguardara mientras terminaba de repartir los recipientes de sopa. No prometió ayuda.
+Lera explicó el lugar: el ensanche, la curva que ocultaba el camino hasta la puerta y el carro que había bajado. La mujer le pidió que aguardara mientras terminaba de repartir los recipientes de sopa. No prometió ayuda.
 
 —¿Y agua? —preguntó Lera.
 
