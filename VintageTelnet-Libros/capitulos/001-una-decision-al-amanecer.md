@@ -22,7 +22,7 @@ Lera ocultó la carta en el bolsillo interior de su chaqueta.
 
 —Yo creí que ibas a ayudarme con la canaleta antes de empezar a discutir con tus cosas.
 
-Un gallo cantó detrás de las casas. Cerca del banco largo, una mujer sacudía las migas de un paño. Lo hizo con tanto cuidado por no despertar a nadie y con tan poco éxito que una ventana se abrió al otro lado de la plaza.
+Un gallo cantó detrás de las casas. Cerca del banco largo, una mujer sacudía las migas de un paño. Parecía procurar no despertar a nadie, pero una ventana se abrió al otro lado de la plaza.
 
 —¡Todavía es temprano! —protestó alguien.
 
@@ -344,19 +344,19 @@ Lera volvió a guardar la aguja y el hilo. Dudó con la taza.
 
 —La taza se queda.
 
+La acomodó en el bolsillo exterior de la bolsa, al alcance de la mano.
+
 —Nunca he discutido con la taza.
 
 —Solo con todo lo que la rodea.
 
-Mara le dio una palmada en el brazo y echó a andar hacia la plaza.
+Mara le dio una palmada en el brazo y echó a andar hacia la plaza. Lera se colgó la bolsa, ahora más liviana, y la siguió.
 
 En el corredor, una familia llevaba hojas hacia una cocina en delantales doblados. Un manojo cayó al camino; alguien volvió para recogerlo mientras los demás seguían hablando como si nada.
 
 Lera recordó a Dalia riéndose de sí misma cada vez que intentaba llevar tres cosas con dos manos. Hacía demasiado tiempo que no se permitía recordar aquella risa sin oír después la frase que había dicho junto al carro.
 
-Al entrar en la plaza, el olor a pan era más intenso. En el banco, un niño examinaba una semilla mordida mientras una mujer mayor le señalaba dos marcas diminutas. Ninguno levantó la vista hacia Lera. Desde la calle alta volvió a sonar el martillo.
-
-Nada había cambiado para ellos.
+Al entrar en la plaza, un niño examinaba una semilla mordida mientras una mujer mayor le señalaba dos marcas diminutas. Ninguno levantó la vista hacia Lera. Desde la calle alta volvió a sonar el martillo.
 
 Lera se sentó junto al extremo curvado del banco y sostuvo la bolsa entre las rodillas. La piedra vieja seguía allí, lisa por tantos usos.
 
@@ -364,7 +364,7 @@ Lera se sentó junto al extremo curvado del banco y sostuvo la bolsa entre las r
 
 Lera sacó la carta.
 
-—Voy a escribirla de nuevo.
+—Voy a corregirla.
 
 —¿Está mal escrita?
 
@@ -394,7 +394,7 @@ Mara dio un paso y se volvió.
 
 —Lera. La próxima vez que tengas que decirme algo difícil, prueba a hacerlo antes de traer una casa entera en un saco.
 
-Lera levantó la taza de madera como si fuera a arrojársela. Mara se alejó riendo. Regresó poco después con un carboncillo, lo dejó a su lado y siguió hacia las casas.
+Lera sacó la taza del bolsillo exterior de la bolsa y la levantó como si fuera a arrojársela. Mara se alejó riendo. Regresó poco después con un carboncillo, lo dejó a su lado y siguió hacia las casas.
 
 El niño del banco exclamó que había descubierto otra marca en la semilla. Su abuela se inclinó para mirar, tan interesada como él. Desde la calle alta volvieron a llegar tres golpes de martillo.
 
@@ -412,7 +412,7 @@ Se quedó mirando la frase. No era exactamente lo que había dicho, pero era la 
 
 Volvió a doblar la hoja, esta vez una sola vez y con cuidado.
 
-Todavía no sabía qué respondería Dalia. Tenía por delante los turnos que negociar, una bolsa que revisar y una despedida que ya no podría fingir que no existía.
+Todavía no sabía qué respondería Dalia. Antes de partir debía acordar los turnos que faltaban y terminar la carta. Ninguna de esas tareas podía delegarla sin hablar con alguien.
 
 Miró hacia el corredor de los huertos, donde las cercas se abrían al campo.
 
