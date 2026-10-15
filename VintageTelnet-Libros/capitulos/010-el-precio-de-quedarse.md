@@ -142,7 +142,7 @@ Lera se incorporó tan deprisa que el hombro se lo reprochó.
 
 —No te he pedido que corras. Te he pedido que dejes el paso.
 
-Lera recogió la media, todavía algo fría, se puso la bota y apartó sus cosas. Devolvió las tablas a la posición en que estaban. Cuando salió, la mujer había comenzado a colocar fruta y ni siquiera la siguió con la mirada.
+Lera recogió la media, todavía algo fría, se puso la media y la bota, y apartó sus cosas. Devolvió las tablas a la posición en que estaban. Cuando salió, la mujer había comenzado a colocar fruta y ni siquiera la siguió con la mirada.
 
 No le debía un desayuno ni otra noche.
 
@@ -307,7 +307,7 @@ No vio a Arel. No tenía por qué verla; la mensajera no había prometido acudir
 
 El primer atardecer transcurrió sin noticias.
 
-Lera terminó el último bocado que había reservado y guardó el paño. No tenía un rincón pagado donde pasar esa segunda noche. La vendedora del mercado había sido clara al decir que el espacio detrás del puesto era solo para una vez. Y la pequeña cantidad que había conseguido trabajando no cambiaba que el dinero seguía disminuyendo.
+Lera terminó el último bocado que había reservado y guardó el paño. No tenía un rincón pagado donde pasar esa segunda noche. La vendedora del mercado había sido clara al decir que el espacio detrás del puesto era solo para una vez. Y el alimento que había conseguido trabajando no le devolvía los sellos gastados.
 
 Miró el oeste, donde se oían los animales de carga, y el sur, donde los puestos empezaban a cerrar otra vez. Pensó en la comodidad de marcharse antes de que alguien pudiera reconocerla como la muchacha que esperaba al lado de la piedra. Pensó también en la oferta del vendedor: podía volver mañana y acabar más cestas, siempre que dejara el trabajo antes de que se fuera la luz.
 
