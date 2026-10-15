@@ -230,3 +230,72 @@ Ella se quedó mirando el hueco que había dejado.
 Durante todo el camino había encontrado una manera de ser útil cargando, apartando o esperando junto a otras personas. En el mercado nadie le había pedido eso. No estaba allí para arreglar una rueda ni una canaleta.
 
 Estaba allí porque necesitaba encontrar a alguien y soportar lo que pudiera contestarle.
+
+
+Una voz la llamó desde el lado de las frutas.
+
+—Muchacha de Valdren.
+
+Era la vendedora que había estado partiendo una fruta para enseñársela a una vecina. Ahora tenía las manos limpias y guardaba las piezas cortadas en una cesta.
+
+—¿Cómo sabe de dónde vengo? —preguntó Lera.
+
+—Se lo has dicho a Bela delante de medio mercado. Y tu manera de hablar tampoco ayuda a ocultarlo.
+
+La mujer no parecía burlarse.
+
+—Si quieres preguntar por alguien, acércate. Desde ahí no te voy a oír.
+
+Lera cruzó por la tabla cuando quedó libre. La vendedora le hizo sitio junto al extremo seco del puesto.
+
+—¿Tú conoces a Dalia? —preguntó Lera, esta vez sin rodeos—. Vivía en Valdren. Yo la conocí allí.
+
+—No conozco a nadie con ese nombre que pueda asegurarte que sea tu amiga.
+
+Lera bajó los ojos.
+
+—Pero oí que dijiste «éramos».
+
+No había sabido que su voz pudiera atravesar tantas cestas.
+
+—No dejamos de ser amigas de golpe —respondió—. Fui yo quien dijo algo que no podía deshacer.
+
+La vendedora colocó una fruta entera sobre un paño.
+
+—No te pregunté qué hiciste, muchacha.
+
+Lera levantó la mirada.
+
+—¿Entonces?
+
+—Preguntaste por Dalia. Te digo que no sé dónde está. Lo demás tendrás que decírselo a ella, cuando la encuentres.
+
+Lera dejó salir el aire lentamente.
+
+La mujer señaló hacia el norte con el cuchillo pequeño que aún sostenía por el mango, sin apuntarle a nadie.
+
+—Por allí está la Plaza de las Cinco Rutas. Los que vienen de los campos se detienen a orientarse, igual que los que llegan de la sierra. Quizá encuentres a alguien que haya vivido en Valdren. No es lo mismo que encontrar a tu amiga, pero es algo que puedes intentar.
+
+—Gracias.
+
+—Y sácate esa media mojada cuando puedas. Desde aquí se oye cada paso que das.
+
+Lera se echó a reír. El sonido la sorprendió tanto que tuvo que llevarse una mano a la boca.
+
+Regresó a su lado del canalillo. La mujer volvió a atender a una compradora y no la siguió mirando.
+
+Lera guardó la taza en el bolsillo exterior. La carta seguía seca y doblada bajo la chaqueta; no la abrió. Todavía no había decidido qué diría después de entregar aquella hoja, ni siquiera si Dalia querría tomarla.
+
+Pero había hecho dos preguntas y había recibido dos negativas sin que el mundo se cerrara a su alrededor. Había dicho en voz alta que Dalia había sido su amiga. Ya no necesitaba presentarse solo como una viajera perdida.
+
+Al norte el empedrado se abría en una plaza grande. En uno de sus bordes vio capas de montaña y una carretilla cargada de piedras; cerca pasaron personas con cestas como las que conocía de Edran.
+
+Lera no podía señalar a ninguna y decir que conocía a Dalia.
+
+Se ajustó la correa para que no rozara tanto el hombro y caminó hasta el límite norte del mercado.
+
+Se detuvo antes de pisar la plaza. Miró las rutas que se cruzaban, buscó con los ojos a las personas que traían señales de los campos y eligió a quién preguntaría primero.
+
+Esta vez no llevaba una respuesta preparada por otro.
+
+Llevaba un nombre y estaba dispuesta a decir quién era ella.
