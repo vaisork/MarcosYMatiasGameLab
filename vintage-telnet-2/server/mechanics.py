@@ -323,14 +323,32 @@ def get_active_numen(state):
  if not active_id: return None
  return next((n for n in numenes.get('bonded', []) if n.get('id') == active_id), None)
 
+def validate_numen_name(name):
+ if name is None:
+  raise ValueError('Escribe un nombre para tu compañero Númen (entre 2 y 24 caracteres).')
+ clean = str(name).strip()
+ if not (2 <= len(clean) <= 24):
+  raise ValueError('El nombre del Númen debe tener entre 2 y 24 caracteres.')
+ if '<' in clean or '>' in clean or any(ord(c) < 32 or ord(c) == 127 for c in clean):
+  raise ValueError('El nombre del Númen no puede contener <, > ni caracteres de control.')
+ return clean
+
+def rename_numen(state, numen_id, name):
+ clean_name = validate_numen_name(name)
+ numenes = state.setdefault('numenes', {'active': None, 'bonded': [], 'encounters': {}})
+ bonded = numenes.setdefault('bonded', [])
+ target = next((n for n in bonded if n['id'] == numen_id), None) if numen_id else get_active_numen(state)
+ if not target:
+  raise ValueError('No se encontró ese Númen entre tus compañeros vinculados.')
+ target['name'] = clean_name
+ return target
+
 def bond_numen(state, model_id, name, now):
  numenes = state.setdefault('numenes', {'active': None, 'bonded': [], 'encounters': {}})
  bonded = numenes.setdefault('bonded', [])
  if len(bonded) >= 3:
   raise ValueError('Límite alcanzado: máximo tres Númenes vinculados.')
- clean_name = str(name).strip()
- if not (2 <= len(clean_name) <= 24):
-  raise ValueError('El nombre del Númen debe tener entre 2 y 24 caracteres.')
+ clean_name = validate_numen_name(name)
  if model_id not in NUMENES_MODELS:
   raise ValueError('Modelo de Númen desconocido.')
  if any(n.get('model') == model_id for n in bonded):

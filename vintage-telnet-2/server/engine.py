@@ -822,11 +822,13 @@ class Engine:
         if active_numen:
             actions.append({'id':'cuidar_numen','target':active_numen['id'],'label':f"Atender a {active_numen['name']}",'reason':f"Comprobar el estado de {active_numen['name']} y ofrecerle afecto."})
             actions.append({'id':'alimentar_numen','target':active_numen['id'],'label':f"Compartir comida con {active_numen['name']}",'reason':f"Ofrecer alimento a {active_numen['name']} para cuidar su bienestar."})
+            actions.append({'id':'nombrar_numen','target':active_numen['id'],'label':f"Cambiar nombre de {active_numen['name']}",'reason':f"Darle un nuevo nombre a {active_numen['name']}."})
         if room.get('kind')=='home':
             numenes_data=state.get('numenes',{})
             for b in numenes_data.get('bonded',[]):
                 if b['id']!=numenes_data.get('active'):
                     actions.append({'id':'activar_numen','target':b['id'],'label':f"Viajar con {b['name']}",'reason':f"Elegir a {b['name']} ({m.NUMENES_MODELS.get(b['model'],{}).get('species_name','Númen')}) como tu acompañante de viaje."})
+                    actions.append({'id':'nombrar_numen','target':b['id'],'label':f"Cambiar nombre de {b['name']}",'reason':f"Darle un nuevo nombre a {b['name']}."})
                 else:
                     actions.append({'id':'descansar_numen','target':b['id'],'label':f"Dejar a {b['name']} descansando en casa",'reason':'Dejar a tu compañero descansando al abrigo de tu hogar.'})
         mod=next((v for v in m.NUMENES_MODELS.values() if v['room']==room['id']),None)
@@ -853,7 +855,7 @@ class Engine:
                     reason='Ya has alcanzado el límite de 3 Númenes vinculados (R06).' if disabled else 'El animal ha aceptado tu compañía por voluntad propia.'
                     actions.append({'id':'vincular_numen','target':mod['id'],'label':'Aceptar el vínculo y darle nombre','disabled':disabled,'reason':reason})
         story_ids={item['id'] for item in room.get('actions',[])}
-        numen_prio={'observar_numen','aproximar_numen','confiar_numen','calmar_numen','vincular_numen','cuidar_numen','alimentar_numen','activar_numen','descansar_numen','apoyo_numen'}
+        numen_prio={'observar_numen','aproximar_numen','confiar_numen','calmar_numen','vincular_numen','cuidar_numen','alimentar_numen','nombrar_numen','activar_numen','descansar_numen','apoyo_numen'}
         actions.sort(key=lambda action:0 if action['id'] in story_ids or action['id'] in ('cobrar','examinar_criatura','buscar','combatir','acercarse','retirarse','calmar') or action['id'] in numen_prio else 1)
         return actions
 
@@ -870,6 +872,18 @@ class Engine:
         if typed in ('mira','mirar'):typed='mirar'
         if typed in ('ayuda','inventario'):return {'id':typed}
         choices=self.actions(character,world)
+        raw_clean=text.strip()
+        for prefix in ('vincular numen ','vincular ','adoptar '):
+            if raw_clean.casefold().startswith(prefix):
+                v_choice=next((c for c in choices if c['id']=='vincular_numen'),None)
+                if v_choice:
+                    if v_choice.get('disabled'):raise RuleError(v_choice.get('reason') or 'Esa decisión todavía no está disponible.',409)
+                    return {'id':'vincular_numen','target':v_choice.get('target'),'name':raw_clean[len(prefix):]}
+        for prefix in ('nombrar numen ','renombrar numen ','nombrar ','renombrar ','llamar '):
+            if raw_clean.casefold().startswith(prefix):
+                n_choice=next((c for c in choices if c['id']=='nombrar_numen'),None)
+                if n_choice:
+                    return {'id':'nombrar_numen','target':n_choice.get('target'),'name':raw_clean[len(prefix):]}
         for npc in self.people(room,state,world,self.ambient(room,world)) if not state['combat'] else []:
             if typed in {normalize(prefix+' '+npc['name']) for prefix in ('hablar','hablar con','conversar con')}:
                 return {'id':'saludar','target':npc['id']}
@@ -906,10 +920,11 @@ class Engine:
                     aliases.add(normalize('calmar'))
                     aliases.add(normalize('tranquilizar '+creature.get('name',target)))
                 if id=='combatir':aliases.add(normalize('atacar '+creature.get('name',target)))
-            elif id in ('cuidar_numen','alimentar_numen','activar_numen','descansar_numen','observar_numen','aproximar_numen','confiar_numen','forzar_numen','calmar_numen','vincular_numen','apoyo_numen'):
+            elif id in ('cuidar_numen','alimentar_numen','nombrar_numen','activar_numen','descansar_numen','observar_numen','aproximar_numen','confiar_numen','forzar_numen','calmar_numen','vincular_numen','apoyo_numen'):
                 aliases.add(normalize(id))
                 if id=='cuidar_numen':aliases.update(('cuidar','atender','acariciar','cuidar numen'))
                 elif id=='alimentar_numen':aliases.update(('alimentar','dar comida','comida numen','alimentar numen'))
+                elif id=='nombrar_numen':aliases.update(('nombrar','renombrar','cambiar nombre','nombrar numen','renombrar numen'))
                 elif id=='apoyo_numen':aliases.update(('apoyo','apoyo numen','companero'))
                 elif id=='vincular_numen':aliases.update(('vincular','vincular numen','adoptar'))
             if typed in aliases:matches.append(choice)
@@ -1039,6 +1054,14 @@ class Engine:
             cat=item.get('catalog_id') or item['id'].split(':')[0]
             copies=sum(i.get('quantity',1) for i in state['inventory'] if (i.get('catalog_id') or i['id'].split(':')[0])==cat)
             if copies<2:raise RuleError('Necesitas dos objetos iguales para poder fusionarlos.',409)
+        if action=='nombrar_numen':
+            try:
+                numen=m.rename_numen(state,target,intent.get('name'))
+                state['events']=[event('action',f"Ahora tu compañero se llama {numen['name']}.")]
+                state['last_active']=self.clock()
+                return
+            except ValueError as err:
+                raise RuleError(str(err))
         candidate=next((a for a in candidates if a['id']==action and (a.get('target')==target or (target is None and action in ('cuidar_numen','alimentar_numen'))) and (a.get('topic') is None or a.get('topic')==intent.get('topic'))),None)
         if not candidate or candidate.get('disabled'):raise RuleError((candidate or {}).get('reason') or 'Esa acción no está disponible en tu situación actual.',409)
         state['events']=[]
@@ -1341,11 +1364,11 @@ class Engine:
         elif action=='vincular_numen':
             mod=m.NUMENES_MODELS.get(target)
             if not mod:raise RuleError('Númen no encontrado.',404)
-            name=intent.get('name') or intent.get('text') or 'Compañero'
+            name=intent.get('name')
             try:
                 numen=m.bond_numen(state,target,name,self.clock())
             except ValueError as err:
-                raise RuleError(str(err),409)
+                raise RuleError(str(err))
             state['events']=[event('reward',f"¡{numen['name']} ha aceptado tu compañía voluntariamente! Ahora es tu compañero Númen."),
                              event('discovery',f"Has formalizado el vínculo con {numen['name']} ({numen['species_name']}).")]
             state.setdefault('journal',[]).append(f"Vinculaste a {numen['name']} ({mod['species_name']}) tras ganarte su confianza con respeto.")

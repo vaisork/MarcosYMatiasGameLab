@@ -234,6 +234,48 @@ class NumenesPilotTests(unittest.TestCase):
             self.assertIsNotNone(active)
             self.assertEqual(active['power_name'], 'Calma Cercana')
 
+    def test_numen_name_validation_and_renaming(self):
+        """Server trims whitespace, validates 2-24 chars without < > or control chars, and allows renaming."""
+        from server.engine import RuleError
+        self.state['location'] = 'edran_camino_carros'
+        self.engine.apply(self.character, self.world, {'id': 'observar_numen', 'target': 'a'})
+        self.engine.apply(self.character, self.world, {'id': 'aproximar_numen', 'target': 'a'})
+        self.engine.apply(self.character, self.world, {'id': 'confiar_numen', 'target': 'a'})
+
+        # Invalid names rejected on bonding
+        for bad_name in (None, '', 'A', '   X   ', 'NombreDemasiadoLargoParaElNumen', 'Mal<Nombre', 'Mal>Nombre', 'Mal\nNombre', 'Mal\x00Nombre'):
+            with self.assertRaises(RuleError):
+                self.engine.apply(self.character, self.world, {'id': 'vincular_numen', 'target': 'a', 'name': bad_name})
+        self.assertEqual(len(self.state['numenes']['bonded']), 0)
+
+        # Valid name with surrounding spaces is trimmed
+        self.engine.apply(self.character, self.world, {'id': 'vincular_numen', 'target': 'a', 'name': '  Relámpago  '})
+        bonded = self.state['numenes']['bonded']
+        self.assertEqual(len(bonded), 1)
+        self.assertEqual(bonded[0]['name'], 'Relámpago')
+        numen_id = bonded[0]['id']
+
+        # Action nombrar_numen is exposed while active
+        actions = self.engine.actions(self.character, self.world)
+        rename_act = next((a for a in actions if a['id'] == 'nombrar_numen' and a.get('target') == numen_id), None)
+        self.assertIsNotNone(rename_act)
+
+        # Invalid name rejected on renaming
+        for bad_name in ('', 'Z', 'A' * 25, '<script>', 'Con>Mayor', 'Control\tChar'):
+            with self.assertRaises(RuleError):
+                self.engine.apply(self.character, self.world, {'id': 'nombrar_numen', 'target': numen_id, 'name': bad_name})
+        self.assertEqual(bonded[0]['name'], 'Relámpago')
+
+        # Renaming active numen succeeds and trims spaces
+        self.engine.apply(self.character, self.world, {'id': 'nombrar_numen', 'target': numen_id, 'name': '  Trueno Fiel  '})
+        self.assertEqual(bonded[0]['name'], 'Trueno Fiel')
+        self.assertTrue(any('Trueno Fiel' in e['text'] for e in self.state.get('events', [])))
+
+        # Second bonded numen (resting at home) can also be renamed by id
+        n2 = m.bond_numen(self.state, 'b', 'Compañero', self.now)
+        self.engine.apply(self.character, self.world, {'id': 'nombrar_numen', 'target': n2['id'], 'name': 'Sombra Azul'})
+        self.assertEqual(n2['name'], 'Sombra Azul')
+
 
 if __name__ == '__main__':
     unittest.main()
