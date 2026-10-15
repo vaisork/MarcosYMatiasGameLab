@@ -286,7 +286,7 @@ Regresó a su lado del canalillo. La mujer volvió a atender a una compradora y 
 
 Lera guardó la taza en el bolsillo exterior. La carta seguía seca y doblada bajo la chaqueta; no la abrió. Todavía no había decidido qué diría después de entregar aquella hoja, ni siquiera si Dalia querría tomarla.
 
-Pero había hecho dos preguntas y había recibido dos negativas sin que el mundo se cerrara a su alrededor. Había dicho en voz alta que Dalia había sido su amiga. Ya no necesitaba presentarse solo como una viajera perdida.
+Pero había preguntado por Dalia a tres personas y recibido tres respuestas negativas sin que el mundo se cerrara a su alrededor. Había dicho en voz alta que Dalia había sido su amiga. Ya no necesitaba presentarse solo como una viajera perdida.
 
 Al norte el empedrado se abría en una plaza grande. En uno de sus bordes vio capas de montaña y una carretilla cargada de piedras; cerca pasaron personas con cestas como las que conocía de Edran.
 
