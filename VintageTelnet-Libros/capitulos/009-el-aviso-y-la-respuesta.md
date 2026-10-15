@@ -195,3 +195,156 @@ Arel esperó a que levantara la mirada.
 Lera oyó de nuevo a Nara en el patio de animales: *No me habías preguntado si quería cargar con ella.*
 
 Esta vez había una parte de la carga que era suya.
+
+
+***
+
+Cuando Arel volvió a su mesa, una ráfaga hizo vibrar todas las tablillas al mismo tiempo. El sonido le recordó a Lera una multitud que aplaudía sin ponerse de acuerdo.
+
+—He pensado una cosa —dijo.
+
+—Espero que no consista en esconder una carta entre las tablas.
+
+—No iba a hacerlo.
+
+—Entonces ya es mejor que algunas cosas que he visto hoy.
+
+La Vesperi había dicho aquello sin sonreír, y por eso a Lera le costó decidir si hablaba en serio.
+
+—Puedo estar mañana en la plaza —continuó—. Junto a la piedra grande, la que los niños usan como banco. Al caer la tarde. Y volver al día siguiente, a la misma hora.
+
+Arel miró hacia el otro lado del umbral. Las piedras antiguas eran enormes; la plaza tenía varias que una viajera podía llamar «la grande».
+
+—¿Cuál de ellas?
+
+Lera salió apenas lo suficiente para señalarla. Era la que tenía un borde liso donde se había sentado para secar la media. La niña que contaba tablillas podía verla desde su banco.
+
+—Aquella, al sur del centro, cerca de la entrada del mercado.
+
+—Eso se parece más a un lugar que pueda describirse.
+
+—Si alguien pregunta por Lera, de Valdren, ¿podrías decirle dónde me encontrará?
+
+Arel no respondió enseguida.
+
+—Si me pregunta a mí, si estoy aquí y si lo recuerdo, puedo decir que te vi y lo que tú misma me has autorizado a contar. No puedo dejar mi trabajo para buscar a tus conocidos ni garantizar que otro mensajero haga lo mismo.
+
+—Lo entiendo.
+
+—¿Y qué información me autorizas a decir?
+
+Lera abrió la boca para mencionar a Dalia. Se detuvo.
+
+Había querido que cualquiera reconociera a su amiga y la llevara hasta ella. Pero eso significaba contar el nombre de Dalia a personas que tal vez no lo conocieran, y explicar una discusión que seguía sin pertenecerles.
+
+—Mi nombre. De dónde vengo. Y dónde esperaré mañana y al día siguiente.
+
+—¿Nada más?
+
+—Nada más.
+
+Arel asintió.
+
+—Entonces, si se da la ocasión, diré eso. No es un recado registrado, Lera. Es una conversación entre tú y yo. Podría no llegar a nadie.
+
+—Ya dejé un recorte con una viajera —dijo Lera—. Nara. Lo lleva ella, no tú. Tampoco sé dónde terminará.
+
+—No necesito saberlo para escucharte.
+
+Lera apartó los ojos.
+
+Era la primera vez que alguien en Vaisgard le concedía una posibilidad pequeña sin convertirla en algo que pudiera comprar, exigir o interpretar como una garantía.
+
+—¿Y si mañana viene alguien y pregunta por otra Lera? —preguntó, inquieta de pronto—. ¿O dice que conoce a Dalia?
+
+—Entonces quien pregunte tendrá que decidir qué contar y a quién. Yo no voy a entregar tu carta ni a asegurar que la persona indicada sea quien dice ser.
+
+Arel tocó con un dedo una de sus fundas cerradas, como si acabara de recordar que tenía más cosas por hacer.
+
+—Tampoco tienes que contestarle a cualquiera que pronuncie tu nombre.
+
+Lera pensó en el recorte que había confiado a Nara. Allí había escrito que podían buscarla en la Plaza de las Cinco Rutas, sin decir cuándo. Ahora le daba a esas palabras un lugar y dos atardeceres. Si alguien llegaba demasiado tarde o demasiado pronto, no habría manera de saberlo.
+
+La posibilidad no se volvió cómoda. Se volvió concreta.
+
+Arel iba a regresar al armazón cuando Lera la detuvo.
+
+—¿Puedo preguntarte algo más?
+
+—Depende de si son cuatro preguntas dentro de una.
+
+—Una sola.
+
+—Adelante.
+
+Lera tocó la carta bajo la chaqueta.
+
+—Si algún día encuentro a Dalia y me dice que no quiere leerla... ¿qué hago?
+
+Por primera vez Arel pareció no tener una respuesta preparada.
+
+—No lo sé —dijo—. No he conocido a esa muchacha ni sé qué pasó entre ustedes.
+
+Lera esperaba algo más. Una frase ingeniosa, quizás. Alguna costumbre de los mensajeros para cuando nadie acepta un papel.
+
+Pero Arel estaba mirándola, no mirando las tablillas.
+
+—Lo que sí puedo decirte —añadió— es que, cuando alguien no quiere recibir un recado, no por eso deja de ser suyo decidir.
+
+La observación le hizo daño a Lera, más del que había esperado de unas palabras tranquilas.
+
+—Yo no quería obligarla.
+
+—No he dicho que quieras. Me has preguntado qué pasaría.
+
+Lera apretó la correa de la bolsa con la mano sana. Había imaginado tantas veces entregando su carta que no había dejado espacio para una Dalia que no extendiera las manos.
+
+—Entonces tendré que encontrar otra cosa que hacer con ella.
+
+—Puede ser.
+
+Arel se apartó para recibir a una mujer que aguardaba con dos hojas, una tan arrugada que parecía haber viajado en el fondo de una bota. Lera se movió hacia el banco y no escuchó el resto de aquella conversación.
+
+***
+
+El banco había quedado libre. La niña de antes acababa de anunciar que por fin había contado todas las tablillas.
+
+—¿Cuántas eran? —preguntó Lera.
+
+—No te lo voy a decir.
+
+—¿Por qué?
+
+—Porque me distraerías otra vez y tendría que comprobarlo.
+
+Lera soltó una carcajada tan repentina que la niña pareció ofendida. Después también se rio.
+
+Fuera, la plaza empezaba a cambiar de luz. Los viajeros que llegaban tarde buscaban un sitio para sus animales. Sobre una de las piedras antiguas, dos niños discutían quién había saltado más lejos. La calle que subía hacia el norte seguía abierta, igual que las otras.
+
+Lera pensó en la ruta por la que podría salir de Vaisgard para continuar buscando. Podía seguir caminos, preguntar en nuevos pueblos y gastar los días que le quedaran. Si lo hacía mañana, nadie la encontraría en la piedra del mercado al caer la tarde.
+
+Se sentó un momento, hizo cuentas en silencio de los sellos que le quedaban y volvió a guardarlos. Tendría que escoger con cuidado qué comer y dónde resguardarse durante aquellas dos jornadas. No tenía una cama ni una promesa de ayuda aseguradas. Nadie le pagaría por estar en la plaza.
+
+Su bota seguía húmeda. Necesitaba ocuparse de ella antes de que el frío de la noche la hiciera todavía más incómoda. Y tenía hambre, aunque no tanta como para haberlo notado entre todas las preguntas.
+
+Dos tardes. Se había comprometido consigo misma, sin contrato ni testigo que pudiera exigirle cumplir.
+
+El problema era que ahora sí tenía una razón para hacerlo.
+
+Se levantó y miró la piedra de la plaza que había elegido. No era una casa. No podía cerrarle la puerta al viento. Si alguien llegaba con una noticia, tendría que decidir si era cierta y si deseaba escucharla. Si nadie llegaba, la ciudad no le devolvería esas horas.
+
+Lera tomó el camino de regreso hacia la plaza.
+
+Cuando cruzó el umbral del alero, Arel seguía atendiendo sus tablillas. Ni se volvió ni levantó una mano para despedirla. Tenía trabajo, y Lera sintió cierto alivio al comprobar que su decisión no había detenido la vida de la mensajera.
+
+En la plaza se acercó a la piedra de su futuro encuentro y colocó una palma sobre la superficie lisa.
+
+Mañana, cuando comenzara a bajar el sol, estaría allí.
+
+No había enviado su carta, ni recibido una respuesta, ni encontrado a Dalia. El recorte seguía con Nara y tal vez no regresaría nunca.
+
+Pero por primera vez desde que dejó Valdren podía decir dónde estaría cuando alguien preguntara por ella.
+
+El siguiente paso no era otra puerta que atravesar.
+
+Era cumplir una espera que había elegido.
