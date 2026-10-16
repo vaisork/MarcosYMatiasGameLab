@@ -199,3 +199,52 @@ Firmó.
 El carbón le dejó una mancha negra en un dedo. Cuando trató de doblar el papel descubrió que escribir con la mano irritada le había costado más que separarle fruta a la vendedora.
 
 No tenía una solución. Tenía un mensaje para una persona real y una petición que esa persona podía rechazar.
+
+
+La dobló con cuidado. La envoltura olía un poco a fruta madura; se preguntó si Mara se burlaría de aquel olor, si es que alguna vez recibía la nota.
+
+Desde el mercado caminó hacia el norte. Cruzó la Plaza de las Cinco Rutas sin detenerse en la piedra donde había esperado dos tardes. Esta vez no tenía que sentarse a mirar las caras de quienes pasaban. Giró hacia el este y entró al Patio de Mensajes.
+
+Bajo el alero las tablillas rozaban sus bordes con el movimiento del aire. Había gente aguardando. Lera esperó su turno.
+
+Arel escuchaba a un hombre que decía dos nombres de pueblos como si fueran uno solo. Le pidió que repitiera el origen del envío, lo anotó con cuidado y guardó el recado en una funda.
+
+Cuando terminaron, levantó la vista.
+
+—Has vuelto.
+
+—Cumplí las dos tardes.
+
+—Me alegro. ¿Vienes a fijar otras dos?
+
+—No. Esta vez sé a quién escribo.
+
+Lera levantó el papel.
+
+—A Mara, de Valdren. Trabaja en los huertos, cerca de la canaleta donde reparten el agua. Si alguien llega a la plaza del pueblo, puede preguntar por ella o por Sabel, que también trabaja en ese corredor.
+
+Arel no extendió todavía la mano.
+
+—¿Mara espera noticias tuyas?
+
+—No. Pero tiene motivos para pedirlas.
+
+—¿Y qué necesitas de mí?
+
+—Saber si es posible hacer llegar este mensaje por una ruta ordinaria. No pretendo que tú busques a nadie.
+
+Arel examinó la hoja sin desplegarla.
+
+—Está escrita en un papel pequeño.
+
+—Era el que tenía.
+
+—¿Y sabes que podría no llegar?
+
+—Sí.
+
+La mensajera miró las marcas de las rutas y luego volvió hacia Lera.
+
+—Puedo considerar el recado para Valdren con los demás de esa procedencia. No hay una persona esperando aquí para llevarlo especialmente por ti, y quien viaje tendrá que poder identificar a Mara. No puedo asegurarte cuándo saldrá, ni que se entregue.
+
+Lera asintió. Era la primera vez que la falta de una garantía no le parecía una razón para no actuar.
