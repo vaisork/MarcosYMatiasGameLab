@@ -46,7 +46,7 @@ with tempfile.TemporaryDirectory(prefix='vt-story-reader-') as tmp:
   walk(content.quests[qid]['accept_room']);s=act('cobrar',qid);assert next(q for q in s['quests'] if q['id']==qid)['status']=='paid'
  post(client,'/api/account/register',{'username':'story-reader-'+mode,'password':'temporary-story-reader'})
  c=post(client,'/api/character/create',{'name':'Lectura '+mode,'species':'humano','class_id':'juramentado','gender':'femenino'})
- post(dm,'/api/master/login',{'password':'isolated-story-review'});post(dm,'/api/master/approve',{'character_id':c['character']['id']})
+ post(dm,'/api/master/login',{'username':'vaisork','password':'isolated-story-review'});post(dm,'/api/master/approve',{'character_id':c['character']['id']})
  act('mover','salir')
  if mode=='all':
   accept('valdren_recado_forja');walk('valdren_cobertizo');talk('edran_bren','rueda');act('edran_comprobar_rueda');paid('valdren_recado_forja');talk('edran_daro','trabajo')
