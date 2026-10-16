@@ -265,13 +265,13 @@ Lera encontró en casa un sitio seco para la carta, lejos de las botas, las herr
 
 La guardó entre sus cosas, en un lugar que podría encontrar si algún día Dalia quisiera escucharla.
 
-Después sacó de la bolsa la taza de madera con el asa torcida. La puso a secar al lado de la ventana. El carboncillo seguía envuelto en la tela limpia que Mara le había dado; lo dejó junto a las cosas que necesitaría para escribir los turnos. El extremo de cuerda prestado seguía sujetando la correa gastada. Tendría que arreglarla antes de volver a usarla mucho.
+Después sacó de la bolsa la taza de madera con el asa torcida. La puso a secar al lado de la ventana. El carboncillo seguía envuelto en la tela limpia que Mara le había dado; lo guardó otra vez en la bolsa para las revisiones. El extremo de cuerda prestado seguía sujetando la correa gastada. Tendría que arreglarla antes de volver a usarla mucho.
 
 No deshizo la bolsa entera. Era posible que volviera a viajar.
 
 Pero al vaciar el bolsillo interior de la chaqueta notó su ligereza, como si hubiera dejado allí algo más que un papel.
 
-Al salir, llevaba la tablilla de revisión que Sabel le había pedido comprobar antes del siguiente turno. No era suya para siempre ni decía que los demás tuvieran que esperar por ella. En una marca estrecha escribió su nombre junto a la tarea acordada para la mañana siguiente.
+Cuando regresó a los huertos, Sabel le acercó la tablilla de revisión. No era suya para siempre ni decía que los demás tuvieran que esperar por ella. Lera desenvolvió el carboncillo y escribió su nombre en un espacio estrecho, junto a la tarea acordada para la mañana siguiente.
 
 Sabel se acercó desde el otro lado de la cerca.
 
