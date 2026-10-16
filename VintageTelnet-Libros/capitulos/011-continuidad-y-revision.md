@@ -1,7 +1,7 @@
 # Capítulo 011 — Continuidad, fuentes y entrega a revisión
 
 **Novela:** *Crónicas de Vaisgard*, Libro I «El primer camino». **Escritor:** Agente 01, [PR #705](https://github.com/vaisork/MatiasGameLab/pull/705).  
-**Texto:** [011 — Más allá de la espera](011-mas-alla-de-la-espera.md), **2,886 palabras** incluyendo título, SHA **`4cbfe9c3a6518d115c1a8738c6412839059da01a`**.  
+**Texto:** [011 — Más allá de la espera](011-mas-alla-de-la-espera.md), **2,886 palabras** incluyendo título, SHA **`40e57cc711eaa889ca34a1fe0a36ea98f2a2f5e3`** tras microedición del Editor 03 (original `4cbfe9c3a6518d115c1a8738c6412839059da01a`).  
 **Autorización vinculante:** `../plan/DECISION_CIERRE_C010_Y_AUTORIZACION_C011_2026-10-15.md`.  
 **Estado:** **BORRADOR COMPLETO, EN REVISIÓN**; no aprobación literaria todavía. **WIP=1, C012 NO autorizado ni iniciado.** Ningún merge/publicación definitiva sin co-canon VT2+Editorial.  
 **Capítulo previo:** C010 corregido por Editor 03, blob `2c49eadba6a655607e63092920978cc220730f7d`, matriz `4b703a661d3db1035705ccb86a126ab2373c9d43`, aprobado literariamente por Arquitectura Editorial y Dictamen 11 de PR #707.
@@ -62,3 +62,12 @@
 - [ ] **Director de Arte/EPUB #708:** prelectura paralela hasta C010 según prioridades propias; no declarar arte/Android/Drive aprobados por entrega C011 y no bloquear la accesibilidad del EPUB por nuevos manuscritos.
 
 **WIP=1 — C012 NO AUTORIZADO, NO INICIADO.** PR #705 sigue DRAFT. No se modifican `vintage-telnet-2/`, código ni assets del juego.
+
+## 6. Intervenciones menores directas por Editor Integral 03 — 15/10/2026
+
+**Permiso:** autorización explícita del propietario y criterio de Arquitectura Editorial para pulidos de una frase (sin reenviar cada microcorrección al Escritor). El Editor leyó el capítulo completo sobre blob inicial `4cbfe9c3a6518d115c1a8738c6412839059da01a`.
+
+- **L01 — pasado narrativo, RESUELTA.** «Durante parte de la noche dormitaría ... se despertaría ... volvería a acomodarse» → «Durante parte de la noche dormitó ... se despertó ... volvió a acomodarse». El tiempo verbal continúa la secuencia **noche 1**, seguida del amanecer del día 2, sin crear un futuro hipotético inadvertido.
+- **L02 — Puerta de los Campos no visible directamente desde Plaza, RESUELTA.** «Al fondo se abría el camino hacia la Puerta de los Campos...» → «Más allá del mercado y de la calle de almacenes quedaba la Puerta de los Campos...». `veyra.json` confirma `veyra_plaza_rutas --sur--> vaisgard_mercado --oeste--> veyra_barrio_cargas --oeste--> veyra_puerta_campos`; la plaza sólo ofrece vista directa del mercado por el sur. Cambio de una línea sin alterar dirección ni memoria del viaje.
+- **Manuscrito vigente:** `40e57cc711eaa889ca34a1fe0a36ea98f2a2f5e3`. Se conserva íntegra la escena de Seli, iniciativa de Lera con la vendedora, compra de comida, las dos noches distintas y **el segundo atardecer cumplido**. No se cambian personajes, ningún dato de Dalia, canon, quests ni runtime.
+- **Dictamen Editor 03:** C011 **APROBADO LITERARIAMENTE SIN OBSERVACIONES MENORES PENDIENTES** sobre versión corregida. **Quedan pendientes** pronunciamiento del Arquitecto Editorial y **co-decisión Arquitectura Editorial + Arquitecto VT2** para canon compartido antes de fusión/publicación definitiva. C012 **NO autorizado** sin ficha nueva.
