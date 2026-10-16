@@ -118,7 +118,7 @@ Los ayudantes se rieron también.
 
 Lera no.
 
-—En la calzada hay dos reparaciones claras —dijo—. Una obliga a dejar espacio al borde para que pase quien va a pie. Después, antes de la puerta, el arroyo cruza junto a tres piedras de paso. Cuando vine, me metí en el agua por confiarme demasiado.
+—Al salir de la puerta, el arroyo cruza junto a tres piedras de paso —dijo—. Más abajo, en la calzada, hay dos reparaciones claras. En una conviene dejar espacio al borde para quien va a pie. Cuando vine, me metí en el agua por confiarme demasiado.
 
 El hombre se incorporó.
 
