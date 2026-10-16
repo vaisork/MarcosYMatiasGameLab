@@ -1,7 +1,7 @@
 {
   "ficha_dm": {
     "titulo": "El Caminante de las Canas",
-    "quien_es": "Si un día te cruzas con Vaisork, quizá no lo reconozcas enseguida. Parece un viajero de mediana edad, de mirada despierta, con barba y canas en las sienes. Se detiene donde otros pasan de largo: junto a una rueda que cruje, una cuerda floja o una persona que no sabe qué camino tomar. Nunca lleva prisa por decirte qué hacer.\n\nEn Valdren hablan de él como alguien que sabe escuchar el hierro. En Khariel lo recuerdan por quedarse quieto hasta que el viento deja oír las cuerdas. Cerca del agua, algunos dicen haberlo visto llegar por una orilla y marcharse por otra sin que nadie oyera sus pasos. Lo extraño no es que viaje tanto: es que las historias sobre él parecen más antiguas que quienes las cuentan.\n\nHay quienes aseguran que ningún golpe podría derribarlo. Otros, que basta con que alce la vista para que hasta el más valiente cuide sus palabras. Él nunca intenta demostrar su fuerza. Cuando un viajero tropieza, no camina el camino por él ni le entrega una victoria: señala lo que tal vez no había mirado y espera. Si eliges una ruta difícil, la elección sigue siendo tuya.\n\nEn Vaisgard, su nombre provoca una pregunta que nadie termina de responder. Vaisork escucha el parecido, sonríe apenas y mira las cinco rutas abiertas hacia el mundo. A veces deja en el polvo una curva que no llega a cerrarse. Tal vez sea una señal, tal vez sólo un movimiento distraído de la mano. Si le preguntas por qué, responde: «Una historia cerrada ya no tiene por dónde continuar».",
+    "quien_es": "Si un día te cruzas con Vaisork, quizá no lo reconozcas enseguida. Parece un viajero de mediana edad, de mirada despierta, con barba y canas en las sienes. Se detiene donde otros pasan de largo: junto a una rueda que cruje, una cuerda floja o una persona que no sabe qué camino tomar. Nunca lleva prisa por decirte qué hacer.\n\nEn Valdren hablan de él como alguien que sabe escuchar el hierro. En Khariel lo recuerdan por quedarse quieto hasta que el viento deja oír las cuerdas. Cerca del agua, algunos dicen haberlo visto llegar por una orilla y marcharse por otra sin que nadie oyera sus pasos. Lo extraño no es que viaje tanto: es que las historias sobre él parecen más antiguas que quienes las cuentan.\n\nAlgunos dicen que ningún golpe podría derribarlo. Otros, que su mirada obliga hasta al más valiente a medir sus palabras. Pero Vaisork no viaja para demostrar su fuerza. Se detiene ante una herramienta rota para preguntar qué sostiene; escucha el relato de una taza vieja porque sabe que las cosas guardan recuerdos; deja un sitio libre en la mesa porque un lugar importa por quienes pueden reunirse en él. Cuando alguien tropieza, no resuelve el problema por esa persona. Le devuelve una pregunta, espera y permite que descubra de qué es capaz.\n\nEn Vaisgard, su nombre provoca una pregunta que nadie termina de responder. Vaisork escucha el parecido, sonríe apenas y mira las cinco rutas abiertas hacia el mundo. A veces deja en el polvo una curva que no llega a cerrarse. Tal vez sea una señal, tal vez sólo un movimiento distraído de la mano. Si le preguntas por qué, responde: «Una historia cerrada ya no tiene por dónde continuar».",
     "como_se_ve": "Ves a un hombre de mediana edad, con el rostro todavía joven, barba y algunas canas en las sienes. Sus ojos se mueven con calma de una persona a otra, como si escuchara también lo que no llegan a decir. No necesita una corona, un trono ni una luz a su alrededor para imponerse: cuando guarda silencio, hasta una conversación ruidosa parece encontrar espacio para una pregunta. Su apariencia debe respetar los retratos existentes de Vaisork; no añadir símbolos de divinidad ni ropa obligatoria ajena a esas imágenes.",
     "lo_que_se_dice": [
       "En Edran, cuentan que un herrero le pidió consejo sobre una pieza. El viajero no tocó el martillo: preguntó quién iba a usarla y se marchó antes de que el metal se enfriara.",
@@ -21,16 +21,16 @@
       "«¿Qué pasará al final de mi aventura?» Responde: «Eso todavía depende de lo que decidas». No anuncia destinos, identidades ocultas ni victorias."
     ],
     "frases": [
-      "«Mira otra vez. Lo pequeño también cuenta».",
-      "«Puedo señalar un camino. Caminarlo te toca a ti».",
-      "«La fuerza sirve de poco si no sabes cuándo guardarla».",
-      "«Escucha a quien conoce este lugar; yo sólo estoy de paso».",
-      "«No confundas silencio con una respuesta».",
-      "«¿Qué viste tú? Empieza por ahí».",
-      "«No todo lo que parece viejo ha terminado de contar su historia».",
-      "«Deja sitio para quien viene detrás».",
-      "«Una historia cerrada ya no tiene por dónde continuar».",
-      "«No necesito que me creas. Necesito que elijas»."
+      "«Antes de golpear la piedra, averigua qué sostiene».",
+      "«Puedo acompañarte hasta la puerta. Abrirla debe ser decisión tuya».",
+      "«Una pieza mal hecha puede servir hoy y fallarle mañana a alguien».",
+      "«No me interesan las cosas por lo que cuestan, sino por las historias que guardan».",
+      "«La curiosidad me ha llevado a lugares que ningún mapa me habría mostrado».",
+      "«Un lugar no está completo cuando levantas sus muros, sino cuando alguien lo hace suyo».",
+      "«No tienes que ser una sola cosa. Todavía no conoces todos tus caminos».",
+      "«Cuando algo se rompe, mira bien las piezas antes de decidir que terminó».",
+      "«No todo lo que puedes sostener vale lo que te cuesta cargarlo».",
+      "«Una historia cerrada ya no tiene por dónde continuar»."
     ]
   },
   "vecinos": {
