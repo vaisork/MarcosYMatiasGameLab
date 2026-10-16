@@ -203,7 +203,7 @@ Mara miró a Sabel, que recogía sus herramientas sin apresurarse.
 
 Se acercó a la tablilla, la levantó y la sostuvo de manera que Lera pudiera leerla.
 
-—La primera semana funcionó el relevo. Después la gota empezó a aumentar cuando abríamos más agua. Cambiamos la cuña. La reemplazamos por otra que no quedaba tan ajustada, pero sostuvo la tabla mientras arreglábamos el reparto.
+—Al principio funcionó el relevo. Después la gota empezó a aumentar cuando abríamos más agua. Cambiamos la cuña. La reemplazamos por otra que no quedaba tan ajustada, pero sostuvo la tabla mientras arreglábamos el reparto.
 
 Lera reconoció varios nombres en los turnos. Había algunos tachados y reescritos.
 
