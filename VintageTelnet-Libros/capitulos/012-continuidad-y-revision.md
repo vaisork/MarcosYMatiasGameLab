@@ -1,7 +1,7 @@
 # Capítulo 012 — Continuidad, fuentes y dictamen pendiente
 
 **Libro:** *Crónicas de Vaisgard*, Libro I «El primer camino». **Autor:** Escritor 01, [PR #705](https://github.com/vaisork/MatiasGameLab/pull/705).  
-**Manuscrito:** [012 — Lo que todavía podemos elegir](012-lo-que-todavia-podemos-elegir.md), **2,719 palabras** incluido título, Git blob **`0f0eb9a49b2cee7318f2dc737a7865a6a49c992e`**.  
+**Manuscrito:** [012 — Lo que todavía podemos elegir](012-lo-que-todavia-podemos-elegir.md), **2,719 palabras** incluido título, Git blob **`da0855503ab1d8365cee15c75c09535a0e30b69d`** tras microedición directa del Editor 03 (original `0f0eb9a49b2cee7318f2dc737a7865a6a49c992e`).  
 **Autorización:** `../plan/DECISION_CIERRE_C011_Y_AUTORIZACION_C012_2026-10-15.md`.  
 **Estado:** **BORRADOR COMPLETO, PENDIENTE DICTAMEN** del Revisor 03 y cierre del Arquitecto Editorial; **WIP=1: C013 NO INICIADO NI AUTORIZADO**. Sin merge ni publicación final hasta co-decisión expresa de canon VT2+Editorial.
 **C011 previo:** manuscrito revisado `40e57cc711eaa889ca34a1fe0a36ea98f2a2f5e3` + matriz `93a675064180111d65959b27a3b40cbb0184ed7e`, ambos aprobados literariamente. L01/L02 corregidas por Editor 03.
@@ -63,3 +63,12 @@
 - [ ] **Publicador #708:** flujo independiente de EPUB privado hasta C011, accesibilidad Android y arte todavía pendientes de verificación; no confundir C012 entregado con publicación final.
 
 **WIP=1:** C013 no iniciado ni autorizado. PR #705 DRAFT; no se tocaron `vintage-telnet-2/` ni código/arte.
+
+## 6. Microedición del Revisor Integral 03 — 15/10/2026
+
+**Autorización:** permiso directo del propietario para corregir detalles mínimos en la rama del Escritor sin reenviar cada observación. Editor leyó el capítulo completo original `0f0eb9a49b2cee7318f2dc737a7865a6a49c992e` y contrastó `content/regions/veyra.json` vigente en main, así como C002 (Mara/Sabel/canaleta).
+
+- **L01 — concordancia de referente, RESUELTA:** «La dobló con cuidado. La envoltura olía un poco a fruta madura…» → «Dobló el papel con cuidado. La envoltura olía un poco a fruta madura…». El antecedente explícito inmediato es «el papel»; no se altera nota, acción ni trama.
+- **Nuevo blob manuscrito:** `da0855503ab1d8365cee15c75c09535a0e30b69d`. **No se modificaron** términos de pago en alimento o sellos, nueva nota a **Mara**, doblez/contenido de carta original a Dalia, recorte con Nara, ni participación de Arel; tampoco se afirma que el recado haya salido o llegado.
+- **Dictamen Editor 03:** C012 **APROBADO LITERARIAMENTE SIN CORRECCIONES MENORES PENDIENTES**; queda pendiente ratificación de Arquitectura Editorial. La aceptación de Arel para **intento singular de transmisión ordinaria** y la referencia no garantizada en Mercado son **escena privada solo novela**, sujeta a co-decisión Arquitectura Editorial + Arquitecto VT2 antes de publicación definitiva.
+- **C013 NO autorizado** sin una nueva ficha; no se cambió runtime, flags ni secretos.
