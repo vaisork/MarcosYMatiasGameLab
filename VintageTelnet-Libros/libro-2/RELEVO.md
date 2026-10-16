@@ -1,17 +1,17 @@
 # Relevo Libro II — 2026-10-16 — Arquitecto
-Fase / hito: 0.3 — premisa y pago fijados
-Rama y PR: editorial/libro-2-plan, PR aún no abierta
+Fase / hito: 0.4 — índice narrativo completo
+Rama y PR: editorial/libro-2-plan, PR por abrir
 Hecho:
-- libro-2/CANON_FELARYN.md: fuentes y nivel de secreto
-- BIBLIA_EDITORIAL.md: Felaryn en Libro II; Las cinco rutas más adelante
-- libro-2/PREMISA.md: Nuba, oficio, herida, objetivo, conflictos, semillas C001/C004 y cosechas C008/C012–13
+- libro-2/CANON_FELARYN.md: mundo/secretos clasificados
+- BIBLIA_EDITORIAL.md: Libro II Felaryn
+- libro-2/PREMISA.md: deseo, límite, promesa y dos pagos
+- libro-2/INDICE.md: prólogo y C001–C013 con deseos, obstáculos, giros, ritmo y rutas de salas
 Decisiones tomadas:
-- Título provisional «El lado que no se ve»; el definitivo lo decide el propietario
-- La polea se devuelve sin borrar la deuda; la cuerda se informa sin certificar lo desconocido
-Siguiente paso exacto: redactar libro-2/INDICE.md, 13 capítulos con grafo de salas y ritmo
+- C002 ya tiene conflicto y decisión; cierre propio en Khariel, sin secretos
+- Rutas solo sobre conexiones de hoshai.json, sin atajos ni distancias inventadas
+Siguiente paso exacto: crear libro-2/PERSONAJES.md, asegurando voces, fauna y límites
 Pendientes / dudas:
-- Fichas de personajes, encargo escritor, revisión canon y PR lista
-- No iniciar fase 1 antes de fusión de fase 0
+- Crear ENCARGO_ESCRITOR, revisión y PR lista; fase 1 tras fusión
 Archivos que debe leer quien siga:
 - Conocimiento/06-Proyectos/Cronicas-de-Vaisgard-Libro-II-plan.md
-- VintageTelnet-Libros/libro-2/{CANON_FELARYN,PREMISA}.md
+- VintageTelnet-Libros/libro-2/{CANON_FELARYN,PREMISA,INDICE}.md
