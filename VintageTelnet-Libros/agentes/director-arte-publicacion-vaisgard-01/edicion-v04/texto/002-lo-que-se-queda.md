@@ -16,7 +16,7 @@ Lera había escrito al final de la carta:
 
 Debajo firmó con su nombre.
 
-No era una carta hermosa. Por primera vez, eso le pareció una ventaja.
+No era una carta hermosa. Eso le pareció una ventaja.
 
 La guardó cuando vio a Mara regresar por el lado de los huertos.
 
@@ -26,7 +26,7 @@ La guardó cuando vio a Mara regresar por el lado de los huertos.
 
 —Me refería a hablar con los demás.
 
-Lera miró hacia la salida de la plaza. Durante un instante había creído que terminar la carta era lo último que necesitaba hacer para marcharse.
+Lera miró hacia la salida de la plaza.
 
 —Todavía no.
 
@@ -42,7 +42,7 @@ Mara se detuvo frente a ella. Traía la cuerda al hombro y una mancha de barro e
 
 —Preferí no arruinarte la sorpresa.
 
-Sabel cultivaba una franja de huerto que recibía agua después de las parcelas donde trabajaba Lera. No eran amigas, aunque se conocían desde hacía años. Sabel tenía la costumbre de recordar con exactitud las veces que alguien prometía hacer algo y la poca paciencia de quien debía corregir después lo que otros habían hecho deprisa.
+Sabel cultivaba una franja de huerto que recibía agua después de las parcelas donde trabajaba Lera. No eran amigas, aunque se conocían desde hacía años. Sabel recordaba con exactitud las promesas y tenía poca paciencia con los trabajos hechos deprisa.
 
 Lera se levantó.
 
@@ -96,7 +96,7 @@ Sabel dejó uno de los recipientes sobre una piedra. Al golpear, sonó vacío.
 
 Una persona de la fila se aclaró la garganta. Sabel adelantó su recipiente un sitio y esperó a que le tocara. No levantó la voz ni se apresuró a llenar el silencio.
 
-Lera odiaba que las conversaciones importantes continuaran mientras las cosas corrientes seguían su curso. La obligaban a pensar entre el chirrido de una cuerda y el chapoteo de agua que otra persona estaba sacando.
+Lera intentó pensar entre el chirrido de la cuerda y el chapoteo del agua.
 
 —Puedo quedarme hoy a terminar lo que necesites —propuso.
 
@@ -106,7 +106,7 @@ La respuesta le dolió más de lo esperado.
 
 Sabel se volvió hacia ella.
 
-—No te estoy negando ayuda, Lera. Estoy preguntando qué vas a dejar organizado. Si mañana falta agua en una parcela porque nadie sabía a quién le tocaba abrir, no me servirá que hayas sido muy generosa esta tarde.
+—¿Quién abrirá mañana el agua si hoy te quedas aquí conmigo?
 
 Mara apartó la mirada hacia el pozo. No parecía complacida con aquella intervención. Parecía cansada.
 
@@ -116,7 +116,7 @@ Mara apartó la mirada hacia el pozo. No parecía complacida con aquella interve
 
 Lera volvió los ojos hacia su amiga.
 
-Hasta entonces había pensado que Mara sería quien explicara las cosas, quien encontrara palabras más adecuadas. Mara no se ofreció.
+Mara esperaba su respuesta.
 
 —De acuerdo —respondió Lera—. Vamos a verlo.
 
@@ -146,37 +146,27 @@ Lera señaló una piedra junto al borde.
 
 Lera abrió la boca.
 
-Era una pregunta tan sencilla que habría podido responderla antes de vivir aquella mañana.
-
 —Buscas a otra persona —dijo.
 
 —Bien.
 
 Sabel apoyó los dedos en el borde seco de la canaleta.
 
-—¿Y si esa persona tampoco puede?
+—Y si no hay manos suficientes —añadió Lera—, avisamos a los demás y detenemos la maniobra.
 
-Lera miró el agua.
-
-—Entonces no se fuerza. Se avisa a los demás de que ese reparto no está funcionando y se detiene la maniobra hasta que haya manos suficientes.
-
-Sabel asintió, pero no sonrió.
-
-—Eso me gusta más que un «yo puedo».
+Sabel asintió.
 
 Mara desató su cuerda y la dejó junto al árbol.
 
-—Mañana haré la primera revisión —dijo—. Eso es lo que prometí. Después puedo acompañar a Sabel una vez para mostrarle la junta, pero no puedo estar aquí todas las mañanas. También tengo trabajo en otra parcela.
+—Mañana haré la primera revisión —dijo—. Después puedo acompañar a Sabel una vez para mostrarle la junta, pero no puedo estar aquí todas las mañanas. También tengo trabajo en otra parcela.
 
 —¿Y las siguientes aperturas? —preguntó Lera.
 
 Sabel se puso de pie.
 
-—Puedo asumir los turnos que eran tuyos mientras faltes, si dejamos claro dónde terminan mis obligaciones y si alguien más se ocupa de lo que yo voy a descuidar por venir hasta aquí.
+—Puedo asumir tus turnos si alguien se ocupa de lo que dejaré por venir hasta aquí.
 
-Por primera vez apareció una posibilidad real. Lera sintió ganas de decir que sí antes de escuchar el resto.
-
-No lo hizo.
+Lera se inclinó hacia Sabel.
 
 —¿Qué descuidarías? —preguntó.
 
@@ -184,21 +174,9 @@ Sabel se limpió las palmas contra el pantalón.
 
 —Mis primeras tareas de cocina. Suelo llevar hojas cortadas antes de que los demás regresen de los campos. El agua de mi parcela la recojo por mi cuenta; no te estoy pidiendo que otros cubran también eso. Si vengo a comprobar este tramo, llegaré tarde.
 
-—Puedo hacerlo hoy por ti.
-
-—Hoy no resuelve mañana.
-
-Lera cerró los ojos un instante.
-
-Mara dejó escapar una risa mínima.
-
-—No te rías —murmuró Lera.
-
-—No me río de ti. Es que te conozco.
-
 Se oyó el golpe de una puerta de cocina. Una mujer pasó al otro lado de la cerca con hojas en el delantal, las dejó sobre una mesa y volvió a su huerto. Lera siguió el movimiento.
 
-—Puedo hablar con quienes reciben tus hojas —dijo a Sabel—. Pedirles que durante mi ausencia se ocupen ellos de recogerlas. Pero tendrán que aceptarlo, no basta con que yo lo diga.
+—Puedo hablar con quienes reciben tus hojas —dijo a Sabel—. Pedirles que durante mi ausencia se ocupen ellos de recogerlas.
 
 Sabel señaló la cerca.
 
@@ -226,27 +204,19 @@ Sabel ladeó la cabeza.
 
 —Eso tendremos que verlo —respondió—. Pero es un comienzo.
 
-Lera pensó en la expresión que ella misma había usado tantas veces: *Es un comienzo*. Siempre la había dicho cuando algo no estaba terminado y quería que dejara de importar. En boca de Sabel significaba lo contrario. Aquello continuaría importando mañana.
-
 ***
 
 La tarde fue consumiéndose en pequeñas comprobaciones.
 
-Sabel pidió a Lera que le mostrara el tramo sin tocarlo; después lo examinó ella. Mara señaló la parte firme del camino donde se podía sujetar la cuerda. Entre las tres apartaron unas hojas del paso del agua y observaron de nuevo la gota. La junta seguía requiriendo vigilancia. Nadie llamó reparación a lo que habían hecho.
+Sabel pidió a Lera que le mostrara el tramo sin tocarlo; después lo examinó ella. Mara señaló la parte firme del camino donde se podía sujetar la cuerda. Entre las tres apartaron unas hojas del paso del agua y observaron de nuevo la gota. La junta seguía requiriendo vigilancia.
 
-En una tablilla de desecho —lisa por un lado y astillada por el otro— Lera anotó los nombres de las personas con quienes había hablado y lo que cada una aceptó. Era una lista privada, no un registro del pueblo ni una orden para nadie. Puso al lado una marca para las tareas que aún no tenían responsable.
+En una tablilla de desecho —lisa por un lado y astillada por el otro— Lera anotó los nombres de las personas con quienes había hablado y lo que cada una aceptó. Puso al lado una marca para las tareas que aún no tenían responsable.
 
 Esa parte ocupó más espacio del que esperaba.
 
-—No puedo prometer que todo seguirá igual hasta que regreses —dijo Sabel, leyendo por encima de su hombro—. Si cambia el reparto de agua o tengo que ausentarme, hablaré con los demás. No voy a esconderlo para cumplir una promesa tuya.
+—Si cambia el reparto o tengo que ausentarme, hablaré con los demás —dijo Sabel, leyendo por encima de su hombro.
 
-—No te lo pediría.
-
-Sabel la miró.
-
-Lera notó que había estado a punto de pronunciar aquellas palabras con la misma facilidad con la que habría dicho cualquier otra cosa agradable.
-
-—Quiero decir —corrigió— que estoy de acuerdo. Debes poder cambiarlo si es necesario. Nadie tiene que mantener mis turnos como si yo estuviera aquí.
+—De acuerdo —dijo Lera.
 
 Sabel señaló una marca de la tablilla.
 
@@ -256,7 +226,7 @@ Lera observó el espacio vacío. Podía escribir cualquier nombre. Podía inclus
 
 En vez de eso, se levantó y buscó a otra vecina del corredor. La encontró con las manos cubiertas de tierra, trabajando detrás de una cerca. Lera le explicó la avería, lo que Sabel había aceptado y lo que todavía no estaba decidido. La vecina escuchó hasta el final.
 
-—Puedo acompañarla si vuelve a moverse la tabla —dijo—. Pero no prometo presentarme a la primera voz. Si estoy lejos del huerto, tendrá que esperarme.
+—Puedo acompañarla si vuelve a moverse la tabla —dijo—. Si estoy lejos del huerto, tendrá que esperarme.
 
 —Entonces quedará escrito así.
 
@@ -281,8 +251,6 @@ Mara le devolvió la tablilla.
 —Y tú ya sabes qué les estás pidiendo a los demás.
 
 Eso fue todo.
-
-Era suficiente, aunque a Lera le costara admitirlo.
 
 ***
 
@@ -332,8 +300,6 @@ Mara no respondió de inmediato.
 
 Lera sintió la necesidad de explicarse. De hablar de Dalia, de la carta, de todas las noches en que le había faltado valor.
 
-No lo hizo.
-
 —Lo sé.
 
 —Y voy a estar enfadada mañana cuando abra el agua.
@@ -352,7 +318,7 @@ Mara se inclinó hacia la bolsa de Lera y señaló el bolsillo exterior.
 
 Mara soltó una carcajada tan repentina que una persona al otro lado del banco levantó la vista.
 
-Lera rio también. No porque la discusión hubiera desaparecido, sino porque por un momento podían sostener ambas cosas sin negarlas.
+Lera rio también.
 
 Antes de irse, Mara dejó sobre el banco un pedazo de tela limpia.
 
@@ -368,7 +334,7 @@ Mara avanzó unos pasos y se volvió.
 
 Lera asintió.
 
-Se quedó un rato sentada. Guardó el carboncillo en la tela y la carta en un lugar seco de la chaqueta. La tablilla quedó bajo su brazo: antes de partir debía entregársela a quienes habían aceptado el relevo. No faltaba nada imprescindible en su bolsa; sin embargo, la parte importante de lo que dejaba atrás no podía meterse allí.
+Se quedó un rato sentada. Guardó el carboncillo en la tela y la carta en un lugar seco de la chaqueta. La tablilla quedó bajo su brazo: antes de partir debía entregársela a quienes habían aceptado el relevo. No faltaba nada imprescindible en su bolsa; aun así, revisó otra vez los nombres de la tablilla.
 
 Al caer la tarde regresó al corredor de los huertos. La tabla seguía asentada, con una gota lenta en el extremo. Sabel apareció al otro lado de la cerca y las dos comprobaron que el agua avanzaba hacia las parcelas sin salirse del cauce principal.
 

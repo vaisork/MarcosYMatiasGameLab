@@ -32,7 +32,7 @@ La mujer terminó de asegurar el paño.
 
 —Entonces nos vemos cuando abra. Si todavía quieres hacer la prueba.
 
-Lera asintió y se apartó. No estaba enfadada con ella. La comerciante había cumplido exactamente lo ofrecido: una noche, no una promesa sin término.
+Lera asintió y se apartó.
 
 Buscó una zona de paso donde no hubiera mercancías ni puertas que obstruir. Encontró un tramo de muro bajo el borde de un tejado, protegido del viento por un costado. No estaba vacío del todo: dos personas hablaban de pie más allá y un hombre cargaba un paquete hacia la plaza. Lera se quedó hasta que el paso quedó libre; entonces apoyó su bolsa en el suelo y se sentó encima del paño que había usado para envolver el pan.
 
@@ -70,7 +70,7 @@ La mujer arqueó una ceja.
 
 —Vaya. Has aprendido a preguntar antes.
 
-Le dijo qué alimento podía darle si terminaba correctamente esa tarea y cuánto tiempo esperaba que ocupara. No le ofreció sellos, contrato ni trabajo al día siguiente.
+Le dijo qué alimento podía darle si terminaba correctamente esa tarea y cuánto tiempo esperaba que ocupara.
 
 Lera aceptó.
 
@@ -116,7 +116,7 @@ El hombre inspeccionó una pieza, después otra. No pareció satisfecho por habe
 
 La vendedora se adelantó lo justo para recuperar el control de su puesto.
 
-—Mi ayudante está probando cómo separar la carga. Para el viaje largo le recomiendo las del segundo montón. Si quiere las maduras, se las vendo para consumirlas pronto, sin prometer que soportarán el trayecto.
+—Mi ayudante está probando cómo separar la carga. Para el viaje largo le recomiendo las del segundo montón. Las maduras son para comerlas pronto.
 
 El hombre eligió unas pocas de las firmes, pagó y se fue.
 
@@ -142,13 +142,13 @@ Envolvió el alimento acordado en una hoja de papel usada por fuera y limpia por
 
 —Ayer sí parecías esperarlo.
 
-Lera sostuvo la pequeña ración entre las manos. Había recibido exactamente lo pactado, ni una promesa de más ni una humillación por equivocarse.
+Lera sostuvo la pequeña ración entre las manos.
 
 —¿Podría volver otro día? —preguntó.
 
 La mujer miró las cestas que aún le faltaba acomodar.
 
-—Puedes venir a preguntar. Si hay carga y nos entendemos, hablamos de condiciones. No me interesa prometer algo que mañana no exista.
+—Ven a preguntar. Si llega otra carga, quizá necesite ayuda.
 
 Lera asintió.
 
@@ -164,13 +164,11 @@ Ni siquiera sabía si Mara continuaba enfadada.
 
 Se sentó al extremo del mercado, con la ración recién ganada sobre el regazo.
 
-Había llegado a Vaisgard para buscar a Dalia. Aquella búsqueda seguía abierta y la carta aún estaba con ella. Pero en Valdren había dejado a Mara, que sí conocía su nombre, sus errores y el lugar del que venía. Una persona a quien podía escribir sin hacer que el mensaje tuviera que adivinar su destino.
+Había llegado a Vaisgard para buscar a Dalia. La carta seguía con ella. En Valdren había dejado a Mara; sabía dónde encontrarla.
 
 La idea la incomodó casi tanto como la primera vez que sacó la carta para Dalia.
 
-Porque escribir a Mara significaba dejar de imaginar que en Valdren todo seguía exactamente como lo había dispuesto antes de salir.
-
-Lera desenvolvió el carboncillo y buscó entre las cosas de la bolsa. El envoltorio de la comida que acababa de ganar tenía una cara interior limpia. Comió primero una parte y guardó el resto dentro del paño de la bolsa. Al alisar el papel sobre la rodilla, vio que apenas alcanzaría para unas cuantas líneas de letra menuda. No era una hoja suficiente para contar el viaje. Podía servir para decir una verdad breve.
+Lera desenvolvió el carboncillo y buscó entre las cosas de la bolsa. El envoltorio de la comida que acababa de ganar tenía una cara interior limpia. Comió primero una parte y guardó el resto dentro del paño de la bolsa. Al alisar el papel sobre la rodilla, vio que apenas alcanzaría para unas cuantas líneas de letra menuda.
 
 Probó el carbón en una esquina.
 
@@ -182,9 +180,7 @@ Leyó la frase.
 
 No decía nada de Dalia.
 
-Durante unos instantes pensó que quizá estaba bien así. Tenía derecho a escribir a su amiga sobre los huertos y dejar que lo demás se quedara en el bolsillo de la chaqueta.
-
-Pero eso volvía a separar el viaje en dos historias, como si una no hubiera empujado la otra.
+Lera rozó el bolsillo de la chaqueta donde guardaba la otra carta.
 
 Añadió:
 
@@ -197,9 +193,6 @@ Se detuvo antes de escribir otra frase. La más difícil no tenía que ver con D
 Firmó.
 
 El carbón le dejó una mancha negra en un dedo. Cuando trató de doblar el papel descubrió que escribir con la mano irritada le había costado más que separarle fruta a la vendedora.
-
-No tenía una solución. Tenía un mensaje para una persona real y una petición que esa persona podía rechazar.
-
 
 Dobló el papel con cuidado. La envoltura olía un poco a fruta madura; se preguntó si Mara se burlaría de aquel olor, si es que alguna vez recibía la nota.
 
@@ -239,16 +232,11 @@ Arel examinó la hoja sin desplegarla.
 
 —Era el que tenía.
 
-—¿Y sabes que podría no llegar?
-
-—Sí.
-
 La mensajera miró las marcas de las rutas y luego volvió hacia Lera.
 
-—Puedo considerar el recado para Valdren con los demás de esa procedencia. No hay una persona esperando aquí para llevarlo especialmente por ti, y quien viaje tendrá que poder identificar a Mara. No puedo asegurarte cuándo saldrá, ni que se entregue.
+—Puedo ponerlo con los recados ordinarios de Valdren. Hace falta encontrar un viajero dispuesto que pueda identificar a Mara. No sé cuándo saldrá.
 
-Lera asintió. Era la primera vez que la falta de una garantía no le parecía una razón para no actuar.
-
+Lera asintió.
 
 —¿Cuánto necesitaría dar para ese intento? —preguntó.
 
@@ -256,13 +244,11 @@ Arel explicó qué podía acordarse para incorporarlo a una salida ordinaria, si
 
 Miró la hoja doblada.
 
-En Valdren, Mara había tenido que escuchar cómo Lera anunciaba su partida y después aceptar turnos de trabajo que nunca había pedido. Lera no podía darle ahora la obligación de encontrar a Dalia. Pero sí podía decirle dónde estaba, qué había hecho y que quería escuchar noticias sobre la canaleta, aunque fueran malas.
-
 —Acepto —dijo.
 
 Arel recibió los sellos acordados y apartó el papel de las fundas urgentes.
 
-—No lo llamaré entregado hasta que alguien confirme haberlo recibido —le advirtió—. Si no se encuentra viajero dispuesto o la dirección resulta insuficiente, esto puede quedar pendiente.
+—Si la dirección resulta insuficiente, puede quedar pendiente —le advirtió.
 
 —Lo entiendo.
 
@@ -280,17 +266,11 @@ Arel escuchó la explicación completa.
 
 —Entonces eso es lo que puedo anotar como referencia, con esa limitación.
 
-Por primera vez, Lera comprendió que contar las cosas a medias podía perjudicar incluso a quien había escrito la carta.
-
 Arel guardó la nota en la funda destinada a los recados corrientes de la ruta. No anunció ninguna salida ni llamó a un mensajero. Después atendió a la siguiente persona.
 
 Lera permaneció allí un momento, con los dedos manchados de carboncillo.
 
-La carta que había escrito para Dalia seguía en el bolsillo interior de la chaqueta. No había cambiado de manos ni perdido una palabra. La otra, más pequeña, iba dirigida a Mara y tal vez saldría algún día de la ciudad. No eran dos formas de pedir perdón por lo mismo.
-
-Una era la conversación que Lera aún debía tener, si Dalia aceptaba.
-
-La otra era una manera de admitir que había dejado una vida en Valdren y que no podía decidir por todos los que seguían allí.
+La carta que había escrito para Dalia seguía en el bolsillo interior de la chaqueta. No había cambiado de manos ni perdido una palabra. La otra, más pequeña, iba dirigida a Mara y tal vez saldría algún día de la ciudad.
 
 ***
 
@@ -312,9 +292,9 @@ La comerciante la miró de arriba abajo.
 
 La vendedora pareció considerar aquella respuesta.
 
-—Una cesta —aceptó—. Y veremos cuánto te lleva. Hoy no te prometo nada más.
+—Una cesta —aceptó—. Y veremos cuánto te lleva.
 
-Lera esperó a que le indicara dónde podía colocar las piezas. El acuerdo era pequeño, pero esta vez entendía todo lo que había dentro: una tarea, un límite, otra persona con derecho a cambiar de opinión.
+Lera esperó a que le indicara dónde podía colocar las piezas.
 
 Empezó a separar las frutas.
 
@@ -339,7 +319,5 @@ La mujer dejó a su lado el paño para las piezas que viajarían.
 Lera volvió al trabajo. No se apresuró a llenar la cesta.
 
 Había pagado por enviar una pregunta a alguien que podía responderle con una verdad incómoda. Tal vez el papel no llegaría; tal vez Mara contestaría que estaba enfadada y que la canaleta requería su presencia. Tal vez no diría nada sobre Dalia.
-
-Por primera vez Lera no necesitaba inventar el contenido de esa respuesta para saber qué haría ahora.
 
 La fruta de su mano estaba dañada. La colocó en el montón que no debía viajar y buscó la siguiente.

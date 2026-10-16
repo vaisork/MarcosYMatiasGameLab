@@ -8,7 +8,7 @@ Mañana estaría allí.
 
 Y al día siguiente, otra vez.
 
-Era fácil hacer una promesa cuando lo único que tenía delante era una piedra. Más difícil resultó levantar la bolsa y pensar en todo lo que necesitaba antes de cumplirla.
+Lera levantó la bolsa. La correa le tiró del hombro.
 
 Tenía hambre. La media mojada le enfriaba los dedos y el hombro le dolía cada vez que la correa se deslizaba hacia atrás. Le quedaba algo de agua en la cantimplora y unos sellos que no parecían suficientes para convertir dos noches en algo cómodo.
 
@@ -76,7 +76,7 @@ Lera miró el espacio estrecho, protegido por la parte más baja de un tejado. H
 
 —¿Podría dormir?
 
-—Sentada, con la espalda contra el muro, si el frío te deja. No prometo otra cosa. Y no pienso vigilar tu bolsa.
+—Sentada, con la espalda contra el muro, si el frío te deja. Guarda bien tu bolsa.
 
 Era mucho menos de lo que había imaginado al llegar a Vaisgard.
 
@@ -88,7 +88,7 @@ Lera pensó en lo poco que le quedaría después.
 
 —¿Y mañana?
 
-—Mañana el puesto se abre y ese espacio vuelve a ser para cestas. No te ofrezco nada más.
+—Mañana el puesto se abre y ese espacio vuelve a ser para cestas.
 
 La respuesta no permitía equivocarse.
 
@@ -142,14 +142,9 @@ Lera se incorporó tan deprisa que el hombro se lo reprochó.
 
 —No te he pedido que corras. Te he pedido que dejes el paso.
 
-Lera recogió la media, todavía algo fría, se puso la media y la bota, y apartó sus cosas. Devolvió las tablas a la posición en que estaban. Cuando salió, la mujer había comenzado a colocar fruta y ni siquiera la siguió con la mirada.
-
-No le debía un desayuno ni otra noche.
-
-Eso había quedado claro desde el principio.
+Lera se puso la media, todavía algo fría, y la bota, y apartó sus cosas. Devolvió las tablas a la posición en que estaban. Cuando salió, la mujer había comenzado a colocar fruta y ni siquiera la siguió con la mirada.
 
 Lera salió hacia la calle con el cuerpo entumecido y la bolsa más ligera de sellos. El mercado olía a pan nuevo. Era una crueldad pequeña, de las que nadie había organizado contra ella.
-
 
 ***
 
@@ -201,7 +196,7 @@ Lera miró el sol que ya había subido sobre los tejados.
 
 El vendedor consideró aquella respuesta. Después apartó dos cestos del montón.
 
-—Arregla estos y te daré pan para comer. Si acabas más, podemos hablar de más trabajo. No voy a pagarte por prometer.
+—Arregla estos y te daré pan para comer. Si acabas más, podemos hablar de más trabajo.
 
 El acuerdo era sencillo. Lera lo aceptó.
 
@@ -215,7 +210,7 @@ Lera soltó el borde. Lo miró de nuevo, cambió la dirección de una tira y des
 
 Durante un rato dejó de pensar en Dalia.
 
-Fue un alivio extraño. Su problema no había desaparecido. Simplemente había encontrado algo que podía solucionar con las manos, delante de alguien que podía comprobar el resultado sin necesidad de creerle.
+Las tiras rozaban la tabla. Lera aflojó los hombros.
 
 Cuando terminó las dos cestas, el vendedor las levantó una por una, palpó las uniones y depositó ambas junto a las mercancías útiles.
 
@@ -296,8 +291,6 @@ El niño corrió detrás de los demás antes de exigir una explicación.
 Lera desenvolvió parte del pan que había ganado por la mañana. Lo comió mirando el paso que daba al mercado. Los viajeros iban y venían. A veces alguien dirigía la vista hacia la piedra. A veces las voces de la plaza pronunciaban un nombre que no era el suyo.
 
 No se levantó por ninguno de esos sonidos.
-
-Había elegido estar allí, no perseguir la sombra de cada posibilidad.
 
 Cuando el sol tocó los bordes de los tejados, Lera estaba sentada. Cuando las cargas tardías comenzaron a buscar el patio occidental, seguía allí. Una luz baja se encendió junto a una entrada. El aire se enfrió alrededor de la piedra y la media todavía húmeda dejó de parecer una molestia pequeña.
 

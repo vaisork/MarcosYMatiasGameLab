@@ -20,7 +20,7 @@ Antes de que saliera el sol, cuando una carreta cruzó muy cerca, Lera recogió 
 
 Había cumplido con la primera tarde. Le quedaba otra. Pero al mirar la piedra a la luz gris no sintió la satisfacción que había esperado.
 
-Si mañana seguía allí sin saber qué hacer después, tendría una promesa cumplida y exactamente el mismo problema.
+Se frotó las manos y miró hacia el mercado. Aún faltaban horas para la cita.
 
 ***
 
@@ -172,8 +172,7 @@ Lera miró sus manos. La raspadura le impedía apretar la correa con fuerza, y l
 
 En aquel puesto nadie había mencionado a Dalia.
 
-Y, sin embargo, por primera vez en mucho tiempo había hecho algo sin preguntarse si la acercaría a ella.
-
+Al recordar cómo la niña había extendido la mano hacia su capa, Lera sonrió.
 
 ***
 
@@ -187,13 +186,13 @@ Pagó el arreglo. La costurera le dio una última indicación sobre cómo lavar 
 
 No hizo falta decir nada más.
 
-—Me llamo Seli —dijo la remendadora cuando se quedaron solas—. No es obligatorio que me llames maestra cada vez que aparezcas por aquí.
+—Me llamo Ondra —dijo la remendadora cuando se quedaron solas—. No es obligatorio que me llames maestra cada vez que aparezcas por aquí.
 
 —No pensaba hacerlo.
 
 —Bien. Sería insoportable.
 
-Lera miró las agujas ordenadas en una tela gruesa, los retales colgados de cordeles, las costuras que cambiaban de color cada pocos dedos. Seli trabajaba sin prisa aparente. Sin embargo, todo encontraba su sitio.
+Lera miró las agujas ordenadas en una tela gruesa, los retales colgados de cordeles, las costuras que cambiaban de color cada pocos dedos. Ondra trabajaba sin prisa aparente. Sin embargo, todo encontraba su sitio.
 
 —¿Siempre arreglas capas? —preguntó.
 
@@ -207,11 +206,9 @@ Lera tocó la correa de su bolsa. La tela junto a la unión estaba gastada, aunq
 
 —¿Se puede arreglar antes de que se rompa?
 
-Seli inspeccionó la costura sin tocar la carta, la taza ni lo que llevaba dentro.
+Ondra inspeccionó la costura sin tocar la carta, la taza ni lo que llevaba dentro.
 
 —Se puede reforzar. No hoy: ya tengo trabajo. Y tendrás que pagar el material si quieres que use el mío.
-
-La respuesta le produjo un alivio extraño. Era un ofrecimiento limitado, con condiciones claras. Nadie estaba obligándola a escoger entre aceptar un favor inmenso o marcharse.
 
 —No tengo mucho —reconoció Lera.
 
@@ -219,7 +216,7 @@ La respuesta le produjo un alivio extraño. Era un ofrecimiento limitado, con co
 
 —¿Y si aprendo a hacerlo con mis manos?
 
-Seli miró su palma.
+Ondra miró su palma.
 
 —Con esa, primero deja que cierre la piel. Una aguja y una herida mal cuidada no son buenas compañeras.
 
@@ -227,11 +224,11 @@ Lera cerró los dedos, molesta consigo misma.
 
 —No estoy pidiendo que me enseñes gratis.
 
-—No he dicho que lo hagas. Pero no voy a prometer una enseñanza que no tengo tiempo de darte.
+—Hoy no tengo tiempo —respondió Ondra, mirando las prendas que esperaban sobre la mesa.
 
-Seli señaló un retal con un borde sin terminar, apartado de las prendas de sus clientes.
+Ondra señaló un retal con un borde sin terminar, apartado de las prendas de sus clientes.
 
-—Puedes volver cuando hayas descansado y preguntar otra vez. Mientras tanto, mira cómo está hecha la unión de tu bolsa. Hay trabajo que se aprende observando. Y hay trabajo que se estropea si uno se apresura a demostrar que ya sabe.
+—Puedes volver cuando hayas descansado y preguntar otra vez. Mientras tanto, mira cómo está hecha la unión de tu bolsa.
 
 Lera examinó la costura gastada. Había pasado por ella una cuerda para sostenerla y, debajo, otra persona había dejado un hilo mucho más fino. Dos soluciones diferentes habían logrado que siguiera funcionando.
 
@@ -239,7 +236,7 @@ Dejó la bolsa en su hombro.
 
 —Volveré —dijo.
 
-Seli levantó una ceja.
+Ondra levantó una ceja.
 
 —¿Eso es una promesa o un deseo?
 
@@ -275,7 +272,7 @@ Lera señaló las cestas.
 
 La mujer dejó una fruta sobre la mesa.
 
-—Tengo trabajo todos los días. Otra cosa es que quiera compartirlo.
+—Me llamo Fenna. Y sí, tengo fruta que separar.
 
 —Vengo de los huertos —dijo Lera—. Sé distinguir cuáles aguantan el viaje y cuáles hay que vender antes. No necesito que me creas; puedes comprobarlo.
 
@@ -325,7 +322,7 @@ No tenía una respuesta cómoda. Solo la que había descubierto después de dos 
 
 La vendedora recogió la cesta.
 
-—Mañana necesito separar otra carga. Si vienes por la mañana, podemos probar una vez más. Te diré antes qué necesito y qué puedo darte por hacerlo. Si no te conviene, me lo dices. No voy a reservarte el puesto ni a pagar una jornada que no hayas trabajado.
+—Mañana necesito separar otra carga. Si vienes por la mañana, podemos probar una vez más. Te diré antes qué necesito y qué puedo darte por hacerlo.
 
 —Hoy tengo que estar en la plaza cuando caiga la tarde. Mañana puedo venir temprano.
 
@@ -333,7 +330,7 @@ La vendedora recogió la cesta.
 
 Lera asintió.
 
-No tenía una habitación ni un trabajo fijo. Tampoco una respuesta sobre Dalia. Tenía, por primera vez, una manera de presentarse ante alguien sin empezar por el nombre de su amiga.
+No tenía una habitación ni un trabajo fijo. Tampoco una respuesta sobre Dalia. Fenna la esperaba por la mañana para separar otra carga.
 
 —Gracias —dijo.
 
@@ -347,7 +344,7 @@ La mujer soltó una carcajada.
 
 Cuando volvió a la Plaza de las Cinco Rutas, el sol aún estaba alto. Lera no se sentó en la piedra.
 
-La rodeó y miró la ciudad desde el costado contrario. Vio los toldos bajo los que podría volver a hablar con Seli y los puestos donde había una tarea concreta que aprender. Más allá del mercado y de la calle de almacenes quedaba la Puerta de los Campos, por donde había entrado después de cruzar un arroyo en el que todavía parecía llevar metido un pie.
+La rodeó y miró la ciudad desde el costado contrario. Vio los toldos bajo los que podría volver a hablar con Ondra y los puestos donde había una tarea concreta que aprender. Más allá del mercado y de la calle de almacenes quedaba la Puerta de los Campos, por donde había entrado después de cruzar un arroyo en el que todavía parecía llevar metido un pie.
 
 Pensó en la frase que había dicho a Dalia junto al carro, tanto tiempo atrás.
 
@@ -361,15 +358,13 @@ Seguía queriendo dársela a Dalia si alguna vez tenía la oportunidad. Seguía 
 
 Pero si no la encontraba, iba a necesitar vivir al día siguiente.
 
-Por eso había preguntado por trabajo. Por eso pensaba volver a preguntar a Seli cuando la mano dejara de arder. No estaba comprando una respuesta con esas decisiones; estaba dejando de poner su vida entera a esperar una.
-
 Al caer la tarde regresó a la piedra elegida, después de haber bebido apenas de la cantimplora. Unas personas se sentaron un rato cerca. Otras cruzaron la plaza sin mirarla. Nadie trajo la respuesta que imaginaba, y ninguna tablilla llevaba su nombre hasta allí.
 
 Lera permaneció mientras descendía la luz.
 
 Era el segundo atardecer.
 
-No sintió que algo se cerrara cuando terminó. Sintió el cansancio del día y el alivio extraño de haber cumplido lo prometido. Ni Nara ni Arel estaban obligadas a saberlo. El recorte que había entregado seguía fuera de sus manos; no podía hacer aparecer su destino.
+No sintió que algo se cerrara cuando terminó. Sintió el cansancio del día y el alivio extraño de haber cumplido lo prometido. Ni Tesca ni Arel estaban obligadas a saberlo. El recorte que había entregado seguía fuera de sus manos; no podía hacer aparecer su destino.
 
 Cuando comenzó a encenderse una luz baja bajo el alero oriental, Lera se levantó.
 
@@ -379,6 +374,4 @@ Pero ya no se quedaría en la plaza para comprobar si el mundo le debía una res
 
 Tomó el camino del mercado. Allí había una mujer que todavía podía decirle que no tenía trabajo para ella y otra, más allá de los toldos, que le había enseñado que una costura podía reforzarse antes de romperse.
 
-Lera no había encontrado a Dalia.
-
-Había encontrado algo que podía hacer mientras seguía siendo capaz de buscarla.
+Mañana volvería al puesto de Fenna. Todavía no sabía qué frutas traería la carga.

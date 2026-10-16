@@ -48,7 +48,7 @@ Junto a las últimas cercas vio movimiento. Una forma baja corrió pegada a los 
 
 —Buenos días a ti también —murmuró.
 
-Esperó un instante por si aparecía de nuevo. No lo hizo.
+Esperó un instante, mirando la mata inmóvil.
 
 Continuó sin acercarse a la mata.
 
@@ -156,7 +156,7 @@ Cuando levantó la vista, el Espinajo seguía junto a los tallos viejos, erizado
 
 Lera se incorporó despacio.
 
-La palma le ardía. Había una línea roja donde la piedra le había levantado la piel. No era una herida grave, pero le recordó que el suelo existía con independencia de sus intenciones.
+La palma le ardía. Había una línea roja donde la piedra le había levantado la piel. Movió los dedos; la piel tiró alrededor del raspón.
 
 Miró al animal.
 
@@ -190,15 +190,11 @@ En Valdren habría encontrado a alguien que supiera qué hacer con la sangre, au
 
 No había nadie a quien pedir esas cosas.
 
-Eso no significaba que tuviera que inventar una solución brillante.
-
 Se sentó sobre un borde firme, dejó que el agua se llevara la tierra suelta y esperó a que desapareciera el escozor más intenso. Después se secó con un retazo limpio que llevaba separado del paño donde Mara le había envuelto el carboncillo.
 
 Cuando volvió a ponerse en pie, observó el campo.
 
-La parcela antigua seguía allí. El sendero seguía allí. El animal tenía suficiente espacio entre los tallos para apartarse si nadie se lo cerraba. Ella, en cambio, había confundido curiosidad con permiso y casi había terminado encima de un surco recién trabajado.
-
-No le gustó pensarlo.
+El animal ya no se veía entre los tallos. Lera se quedó en el sendero.
 
 Avanzó hasta un punto desde el que podía ver el lugar de la caída. Había una marca de rodilla en el sendero y una huella incompleta junto al borde sembrado. Nada más.
 

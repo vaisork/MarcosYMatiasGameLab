@@ -160,7 +160,6 @@ Solo cuando el conductor alcanzó el tramo inferior volvió la cabeza y alzó la
 
 Se dio cuenta de que todavía le temblaban los dedos.
 
-
 ***
 
 El porteador esperó a que Lera respirara con calma. Su chaqueta estaba gastada en el hombro que soportaba una carga amarrada con cuerda. No parecía tener prisa por levantarla de nuevo.
@@ -205,16 +204,13 @@ Lera miró el tramo que seguía oculto tras la curva.
 
 El hombre empezó a caminar y ella lo siguió a distancia prudente. Donde las paredes comenzaban a apartarse, el viento regresaba en pequeñas ráfagas y el polvo levantado por el carro se acumulaba en los bordes.
 
-Lera miró las rodadas bajo sus pies. Sabía cuánto pesaba lo que había pasado por allí. No podía leer en ellas cuánto faltaba para llegar a un lugar seguro.
-
+Lera siguió las rodadas bajo sus pies hasta que se perdieron tras la curva.
 
 ***
 
 Las paredes del terraplén cortaban el viento y hacían resonar los pasos. El porteador avanzaba sin mirar atrás; de vez en cuando se detenía para acomodar la carga y Lera aprovechaba para descansar el hombro.
 
 Había huellas de botas sobre rodadas antiguas, marcas de sacos apoyados en la tierra y raíces pulidas por quienes se agarraban al subir. Lera pensó en la tabla que había confundido con un carro y en los golpes que imaginó venir de la oscuridad.
-
-No se avergonzaba tanto de haber interpretado mal las señales como de la rapidez con que había decidido que su primera explicación debía ser la verdadera.
 
 Más arriba apareció un tejado.
 
@@ -228,7 +224,7 @@ Lera se sintió aliviada, aunque todavía no sabía si podría encontrar agua al
 
 No añadió más. La tierra volvió a crujir bajo sus propias botas.
 
-Lera inclinó la cantimplora para escuchar el agua restante. Después la guardó con el tapón hacia arriba. No tenía sentido lamentarse por la parte derramada a cada paso; necesitaba cuidar la que conservaba.
+Lera inclinó la cantimplora para escuchar el agua restante. Después la guardó con el tapón hacia arriba.
 
 Al aproximarse a una curva, el porteador se detuvo de pronto.
 

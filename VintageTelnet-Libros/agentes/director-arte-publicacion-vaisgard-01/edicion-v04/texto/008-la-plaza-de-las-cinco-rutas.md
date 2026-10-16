@@ -2,7 +2,7 @@
 
 La primera cosa que vio Lera al entrar en la plaza fue un niño sentado sobre una piedra más grande que la mesa de la cocina de Sabel.
 
-Tenía los pies colgando y golpeaba los talones contra el costado, ocupado en contar cuántas veces podía hacerlo antes de que su hermana lo llamara. La piedra era lisa, muy antigua, y a nadie parecía importarle que él la utilizara como banco.
+Tenía los pies colgando y golpeaba los talones contra el costado, ocupado en contar cuántas veces podía hacerlo antes de que su hermana lo llamara. La piedra era lisa, muy antigua, y a nadie parecía importarle que él la utilizara como banco. Lera reconoció el pulido de la piedra vieja que interrumpía el banco de Valdren. En el costado del bloque había unas marcas poco profundas, parecidas a las de aquella piedra. Las vio también en otro de los bloques enormes de la plaza, antes de que un carro le tapara la vista.
 
 La segunda cosa fue el tamaño del lugar.
 
@@ -144,7 +144,7 @@ Lera levantó la cabeza.
 
 Iven miró hacia el patio del oeste.
 
-—¿Ves el patio de los animales? —preguntó Iven—. Busca allí a Nara. Viajó desde Valdren en los días en que Dalia se marchó. No te prometo que sepa más, pero iba por el mismo camino.
+—¿Ves el patio de los animales? —preguntó Iven—. Busca allí a Tesca. Viajó desde Valdren en los días en que Dalia se marchó. Iba por el mismo camino.
 
 —¿Está allí?
 
@@ -156,13 +156,13 @@ Lera miró la cesta de Iven.
 
 —No lo sabes. Acabas de oír un recuerdo mío. Por eso vas a preguntárselo a alguien más.
 
-No era una promesa de encontrar a su amiga. Sin embargo, por primera vez había una persona determinada a quien buscar, una razón para acercarse a ella y un relato que podía ser falso, incompleto o verdadero.
+Tesca podía salir del patio en cualquier momento.
 
 Lera empezó a caminar y se detuvo de pronto.
 
 —Gracias, Iven.
 
-—Si llegas tarde, no regreses a culparme —respondió la mujer, ajustándose la cesta—. En esta plaza nadie se queda esperando al que todavía está decidiendo.
+—Date prisa —respondió la mujer, ajustándose la cesta.
 
 ***
 
@@ -174,7 +174,7 @@ Lera se detuvo en la entrada.
 
 De la plaza llegaba un murmullo tan grande que había dejado de distinguir una voz de otra. En el patio, en cambio, oyó el respirar cansado de los animales y el golpe de una hebilla contra una argolla.
 
-—Busco a Nara —dijo al cuidador.
+—Busco a Tesca —dijo al cuidador.
 
 —¿La que vino de Valdren?
 
@@ -182,7 +182,7 @@ De la plaza llegaba un murmullo tan grande que había dejado de distinguir una v
 
 El hombre señaló una persona que recogía sus pertenencias junto al extremo del patio. No era la porteadora Dravak ni ninguna de las personas a quienes Lera había mirado primero. Era una mujer de cabello oscuro, recogido con una tira de tela, que intentaba meter un pequeño cuenco dentro de una bolsa demasiado ajustada.
 
-—Nara —llamó Lera.
+—Tesca —llamó Lera.
 
 La mujer levantó la cabeza.
 
@@ -196,13 +196,13 @@ Lera llegó hasta ella sin acercarse a los animales ni tocar las cargas.
 
 —Me llamo Lera. Soy de Valdren. Iven me dijo que quizá viajaste con una muchacha llamada Dalia.
 
-Nara dejó el cuenco donde estaba.
+Tesca dejó el cuenco donde estaba.
 
 —Conocí a una Dalia que salió por los campos —respondió—. Caminamos un tramo. Después cada una tomó su camino.
 
 Lera tuvo que apretar la correa de la bolsa con la mano sana. No quiso interrumpir.
 
-—Llevaba pocas cosas —continuó Nara—, y no parecía necesitar que nadie le llevara las suyas. Se detuvo cuando otros seguíamos andando porque quería saber si en una ciudad grande era sencillo hacer llegar una carta de vuelta a un pueblo.
+—Llevaba pocas cosas —continuó Tesca—, y no parecía necesitar que nadie le llevara las suyas. Se detuvo cuando otros seguíamos andando porque quería saber si en una ciudad grande era sencillo hacer llegar una carta de vuelta a un pueblo.
 
 Lera sintió el borde doblado de su propia carta contra el pecho.
 
@@ -216,13 +216,13 @@ Aquellas últimas palabras eran las que más necesitaba escuchar y las que menos
 
 —No delante de mí.
 
-Lera miró la bolsa de Nara. Había un cuenco junto a sus pies, una correa sin abrochar y una pequeña prenda seca protegida entre dos telas. La mujer tenía un viaje propio, con preocupaciones propias. No se había quedado allí para responder preguntas sobre alguien que acababa de conocer.
+Lera miró la bolsa de Tesca. Había un cuenco junto a sus pies, una correa sin abrochar y una pequeña prenda seca protegida entre dos telas. La mujer tenía un viaje propio, con preocupaciones propias. No se había quedado allí para responder preguntas sobre alguien que acababa de conocer.
 
 —¿Sabes si llegó a Vaisgard? —preguntó Lera.
 
-Nara negó con la cabeza.
+Tesca negó con la cabeza.
 
-—Vi hacia dónde quiso continuar. Después nos separamos. No voy a contarte el resto como si hubiera caminado detrás de ella.
+—Vi hacia dónde quiso continuar. Después nos separamos.
 
 Una bestia sacudió las orejas contra las moscas. Lera oyó el chasquido de la cuerda sobre el muro.
 
@@ -232,9 +232,9 @@ Pero aquella pregunta sobre una carta…
 
 —¿Recuerdas por qué quería escribir? —insistió.
 
-Nara cerró la bolsa.
+Tesca cerró la bolsa.
 
-—A veces una persona pregunta algo porque piensa hacerlo. A veces porque tiene miedo de que otra persona lo haga primero. No sé qué quería ella.
+—No sé qué quería ella.
 
 Lera apartó la mirada.
 
@@ -246,13 +246,13 @@ La mujer levantó la bolsa y probó su peso contra el hombro.
 
 —Tengo que salir.
 
-Lera vio cómo se iba cerrando la oportunidad. Nara no sabía dónde estaba Dalia. Podía dejarla marchar, regresar a la plaza y volver a buscar al azar entre desconocidos.
+Lera vio cómo se iba cerrando la oportunidad. Tesca no sabía dónde estaba Dalia. Podía dejarla marchar, regresar a la plaza y volver a buscar al azar entre desconocidos.
 
 O podía hacer algo que no había hecho en todo el camino.
 
 —Espera —dijo.
 
-Nara se detuvo, esta vez con evidente impaciencia.
+Tesca se detuvo, esta vez con evidente impaciencia.
 
 Lera sacó el pequeño carboncillo que había guardado desde Valdren. Lo había llevado por si necesitaba corregir la carta, pero desde que salió de Valdren no había vuelto a escribir en ella. Ahora buscó en la bolsa un recorte limpio de papel que aún conservaba, doblado junto a sus pertenencias.
 
@@ -268,9 +268,9 @@ Lera miró el recorte.
 
 —Quiero dejarte mi nombre. Si algún día vuelves a encontrarte con alguien que conozca a Dalia, puedes decirle que Lera llegó a Vaisgard buscándola. Nada más. No hace falta que cuentes nuestra historia.
 
-El rostro de Nara cambió apenas.
+El rostro de Tesca cambió apenas.
 
-—Eso sí puedo decidirlo, si se presenta la ocasión. Pero escucha bien: puede que no se presente nunca.
+—Eso sí puedo decidirlo, si se presenta la ocasión.
 
 —Lo sé.
 
@@ -278,7 +278,7 @@ Lera apoyó el papel en el borde de piedra donde no estorbaba a las cargas. Escr
 
 *Lera, de Valdren. Busco hablar con Dalia. Puedo volver a la Plaza de las Cinco Rutas.*
 
-Se quedó mirando las palabras. Eran demasiado pocas para explicar nada y suficientes para que otra persona supiera que estaba allí. Doblar el papel fue más difícil que escribirlo. Se lo tendió a Nara.
+Se quedó mirando las palabras. Eran demasiado pocas para explicar nada y suficientes para que otra persona supiera que estaba allí. Doblar el papel fue más difícil que escribirlo. Se lo tendió a Tesca.
 
 La mujer lo leyó una vez.
 
@@ -288,11 +288,7 @@ Lera miró la carta gruesa, todavía oculta en su chaqueta. Aquella sí contení
 
 —Solo esto.
 
-Nara guardó el recorte aparte, donde no se mezclara con la comida ni las correas.
-
-—No puedo prometer una respuesta.
-
-—No te la estoy pidiendo.
+Tesca guardó el recorte aparte, donde no se mezclara con la comida ni las correas.
 
 La mujer ajustó la bolsa y se alejó con sus asuntos.
 
@@ -314,17 +310,13 @@ Ninguna de esas opciones le diría automáticamente dónde estaba Dalia.
 
 Se sentó en el borde de una piedra enorme y volvió a revisar la carta. No la abrió; pasó los dedos sobre el doblez exterior, que seguía seco. Tenía la mano raspada, el hombro sensible y una media que empezaba a secarse demasiado despacio.
 
-Pensó en Nara avanzando con el papel pequeño entre sus cosas. Pensó en Dalia deteniéndose un momento en un camino, preguntando cómo se enviaba una carta sin nombrar a su destinatario.
+Pensó en Tesca avanzando con el papel pequeño entre sus cosas. Pensó en Dalia deteniéndose un momento en un camino, preguntando cómo se enviaba una carta sin nombrar a su destinatario.
 
 Eso era lo único que sabía: dos personas habían recordado a una Dalia de Valdren, una en los huertos y otra en la salida del pueblo. Una de ellas conservaba ahora su nombre escrito. Ninguna había dicho dónde estaba.
 
-Lera había imaginado que buscar consistiría en encontrar una puerta y llamar.
-
-Descubría que a veces consistía en decidir qué parte de uno mismo estaba dispuesto a dejar en manos de otras personas.
-
 Se levantó, comprobó que la taza de asa torcida siguiera en el bolsillo exterior y miró hacia los avisos del este.
 
-No iría allí para averiguar un secreto de Dalia. Iría para aprender qué hacer si algún día recibía una respuesta. Ahora tenía algo concreto que preguntar y no necesitaba fingir que una tablilla conocía a su amiga.
+Quería preguntar qué hacer si algún día recibía una respuesta.
 
 Atravesó la plaza hacia el alero sin sacar todavía la carta.
 

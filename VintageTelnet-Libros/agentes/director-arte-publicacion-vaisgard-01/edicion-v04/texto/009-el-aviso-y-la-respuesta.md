@@ -8,8 +8,6 @@ Una mujer sacudió el agua de su capa antes de entrar bajo el techo y recibió u
 
 Lera se quedó en el umbral.
 
-Había prometido no volver a buscar una respuesta en cualquier persona que pareciera saber algo. Sin embargo, un lugar lleno de mensajes ofrecía una tentación distinta: buscarla en cualquier palabra escrita.
-
 A la derecha, una mensajera intentaba descifrar el nombre anotado en una hoja doblada. Su compañera se inclinó para verlo, hizo una observación y ambas soltaron una risa breve. La primera escribió el nombre con trazos más grandes en el margen. Ninguna había dejado de trabajar.
 
 Junto al armazón estaba Arel.
@@ -54,7 +52,7 @@ Lera apretó el borde de su chaqueta.
 
 —Eso es lo que he venido a averiguar.
 
-Arel la miró con una paciencia que no se parecía a la de una persona que está esperando que alguien se calle, sino a la de quien procura entender el problema antes de moverlo.
+Arel la miró sin prisa.
 
 —Entonces traes una carta, pero todavía no tienes un destino.
 
@@ -76,19 +74,11 @@ A Lera se le calentaron las mejillas. Miró las tablillas, buscando alguna que e
 
 Arel apoyó la mano sobre el armazón sin tocar ninguna nota.
 
-—Podemos hablar de lo que es público y de lo que necesitas saber. No puedo convertir una pregunta que hizo otra persona en un mensaje que quizá nunca escribió.
+—Preguntó cómo enviar una carta. Eso no significa que la escribiera.
 
-Lera bajó la cabeza. Había defendido esa misma diferencia delante de Aren en la Casa del Camino, cuando un rumor creció alrededor de una rueda. Le molestó reconocerla aquí, justo donde más quería que fuera distinta.
+Lera bajó la cabeza. Había defendido esa misma diferencia delante de Brin en la Casa del Camino, cuando un rumor creció alrededor de una rueda. Le molestó reconocerla aquí, justo donde más quería que fuera distinta.
 
 —Ya lo sé —murmuró.
-
-—Entonces empezamos bien.
-
-La respuesta la sorprendió.
-
-—¿Eso es empezar bien?
-
-—Saber lo que no sabes ahorra que otra persona tenga que deshacerlo después.
 
 Arel separó una funda vacía y la dejó de nuevo en su lugar.
 
@@ -97,8 +87,6 @@ Arel separó una funda vacía y la dejó de nuevo en su lugar.
 Lera abrió la boca.
 
 Quería recibir una respuesta de Dalia. Quería saber que no había salido de Valdren únicamente para escapar de ella. Quería que la carta que le pesaba contra el pecho sirviera de algo y no terminara convertida en otro objeto guardado durante años.
-
-Pero no podía darle a aquella mensajera ninguna de esas cosas como encargo.
 
 —Si Dalia quisiera contestarme —dijo al fin—, ¿cómo podría saber dónde estoy?
 
@@ -152,8 +140,6 @@ No como mensaje bien dirigido. Simplemente para librarse del peso. Podía dejarl
 
 Volvió a guardarlo.
 
-No había venido hasta Vaisgard para conseguir que alguien desconocido cargara con una conversación que todavía le correspondía tener.
-
 Arel terminó de atender al viajero siguiente y se acercó al banco.
 
 —¿Ya elegiste un lugar al que se te pueda responder?
@@ -180,22 +166,15 @@ Arel ladeó la cabeza.
 
 —Eso podría ser muchísimo tiempo. También podría no llegar nunca.
 
-—Me lo han dicho varias veces desde que entré en la ciudad.
+—¿Y qué pongo entonces?
 
-—No me alegra ser una voz más. Pero no voy a convertir una espera sin fin en una indicación que alguien pueda seguir.
+—Un día y una hora.
 
 Lera se quedó mirando sus propias manos.
 
-Había dejado a Nara un recorte con su nombre. Tal vez acabaría en algún pueblo. Tal vez lo leería alguien que conociera a Dalia. Tal vez la viajera olvidaría por completo aquel papel. Nada de eso convertiría la plaza en una dirección segura si Lera se marchaba sin decir cuándo volver.
+Había dejado a Tesca un recorte con su nombre. Tal vez acabaría en algún pueblo. Tal vez lo leería alguien que conociera a Dalia. Tal vez la viajera olvidaría por completo aquel papel. Nada de eso convertiría la plaza en una dirección segura si Lera se marchaba sin decir cuándo volver.
 
 Arel esperó a que levantara la mirada.
-
-—No tienes que decidir dónde vivir para siempre —le dijo—. Solo qué puedes cumplir de verdad.
-
-Lera oyó de nuevo a Nara en el patio de animales: *No me habías preguntado si quería cargar con ella.*
-
-Esta vez había una parte de la carga que era suya.
-
 
 ***
 
@@ -227,15 +206,11 @@ Lera salió apenas lo suficiente para señalarla. Era la que tenía un borde lis
 
 Arel no respondió enseguida.
 
-—Si me pregunta a mí, si estoy aquí y si lo recuerdo, puedo decir que te vi y lo que tú misma me has autorizado a contar. No puedo dejar mi trabajo para buscar a tus conocidos ni garantizar que otro mensajero haga lo mismo.
-
-—Lo entiendo.
-
-—¿Y qué información me autorizas a decir?
+—Puedo decirle dónde esperarás. ¿Qué más me autorizas a contar?
 
 Lera abrió la boca para mencionar a Dalia. Se detuvo.
 
-Había querido que cualquiera reconociera a su amiga y la llevara hasta ella. Pero eso significaba contar el nombre de Dalia a personas que tal vez no lo conocieran, y explicar una discusión que seguía sin pertenecerles.
+No quería contar allí la discusión con Dalia.
 
 —Mi nombre. De dónde vengo. Y dónde esperaré mañana y al día siguiente.
 
@@ -247,25 +222,21 @@ Arel asintió.
 
 —Entonces, si se da la ocasión, diré eso. No es un recado registrado, Lera. Es una conversación entre tú y yo. Podría no llegar a nadie.
 
-—Ya dejé un recorte con una viajera —dijo Lera—. Nara. Lo lleva ella, no tú. Tampoco sé dónde terminará.
+—Ya dejé un recorte con una viajera —dijo Lera—. Tesca. Lo lleva ella, no tú. Tampoco sé dónde terminará.
 
 —No necesito saberlo para escucharte.
 
 Lera apartó los ojos.
 
-Era la primera vez que alguien en Vaisgard le concedía una posibilidad pequeña sin convertirla en algo que pudiera comprar, exigir o interpretar como una garantía.
-
 —¿Y si mañana viene alguien y pregunta por otra Lera? —preguntó, inquieta de pronto—. ¿O dice que conoce a Dalia?
 
-—Entonces quien pregunte tendrá que decidir qué contar y a quién. Yo no voy a entregar tu carta ni a asegurar que la persona indicada sea quien dice ser.
+—Tu carta sigue contigo. Tendrás que hablar con quien venga.
 
 Arel tocó con un dedo una de sus fundas cerradas, como si acabara de recordar que tenía más cosas por hacer.
 
 —Tampoco tienes que contestarle a cualquiera que pronuncie tu nombre.
 
-Lera pensó en el recorte que había confiado a Nara. Allí había escrito que podían buscarla en la Plaza de las Cinco Rutas, sin decir cuándo. Ahora le daba a esas palabras un lugar y dos atardeceres. Si alguien llegaba demasiado tarde o demasiado pronto, no habría manera de saberlo.
-
-La posibilidad no se volvió cómoda. Se volvió concreta.
+Lera pensó en el recorte que había confiado a Tesca. Allí había escrito que podían buscarla en la Plaza de las Cinco Rutas, sin decir cuándo. Ahora le daba a esas palabras un lugar y dos atardeceres. Si alguien llegaba demasiado tarde o demasiado pronto, no habría manera de saberlo.
 
 Arel iba a regresar al armazón cuando Lera la detuvo.
 
@@ -281,7 +252,7 @@ Lera tocó la carta bajo la chaqueta.
 
 —Si algún día encuentro a Dalia y me dice que no quiere leerla... ¿qué hago?
 
-Por primera vez Arel pareció no tener una respuesta preparada.
+Arel tardó en responder.
 
 —No lo sé —dijo—. No he conocido a esa muchacha ni sé qué pasó entre ustedes.
 
@@ -327,10 +298,6 @@ Se sentó un momento, hizo cuentas en silencio de los sellos que le quedaban y v
 
 Su bota seguía húmeda. Necesitaba ocuparse de ella antes de que el frío de la noche la hiciera todavía más incómoda. Y tenía hambre, aunque no tanta como para haberlo notado entre todas las preguntas.
 
-Dos tardes. Se había comprometido consigo misma, sin contrato ni testigo que pudiera exigirle cumplir.
-
-El problema era que ahora sí tenía una razón para hacerlo.
-
 Se levantó y miró la piedra de la plaza que había elegido. No era una casa. No podía cerrarle la puerta al viento. Si alguien llegaba con una noticia, tendría que decidir si era cierta y si deseaba escucharla. Si nadie llegaba, la ciudad no le devolvería esas horas.
 
 Lera tomó el camino de regreso hacia la plaza.
@@ -341,9 +308,9 @@ En la plaza se acercó a la piedra de su futuro encuentro y colocó una palma so
 
 Mañana, cuando comenzara a bajar el sol, estaría allí.
 
-No había enviado su carta, ni recibido una respuesta, ni encontrado a Dalia. El recorte seguía con Nara y tal vez no regresaría nunca.
+No había enviado su carta, ni recibido una respuesta, ni encontrado a Dalia. El recorte seguía con Tesca y tal vez no regresaría nunca.
 
-Pero por primera vez desde que dejó Valdren podía decir dónde estaría cuando alguien preguntara por ella.
+Si alguien preguntaba por ella, Arel podría señalar aquella piedra.
 
 El siguiente paso no era otra puerta que atravesar.
 

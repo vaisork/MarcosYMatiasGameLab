@@ -52,8 +52,6 @@ Lera miró el camino. Podía seguir sobre las piedras y arriesgar otro resbalón
 
 Eligió la hierba y avanzó con cuidado por el borde.
 
-No le gustó descubrir que su idea de un camino era un lugar que debía cambiar a cada paso.
-
 Unas gotas le corrieron por la nuca. Se estremeció y continuó hacia la curva.
 
 ***
@@ -74,12 +72,11 @@ Lera aguardó a que se alejara antes de regresar al sendero.
 
 La lluvia le había pegado el cabello a las sienes. Los bordes de su bolsa estaban oscuros, pero los nudos seguían firmes. En la chaqueta, el papel permanecía protegido contra el cuerpo.
 
-Al doblar la curva, vio por primera vez el poste.
+Al doblar la curva, apareció el poste.
 
 Era una raya de madera contra un cielo gris.
 
 Y al verlo comprendió que la subida estaba a punto de terminar.
-
 
 ***
 
@@ -157,7 +154,7 @@ La lluvia continuaba cayendo, indiferente a su pequeño desastre.
 
 —Muy bien —murmuró—. Ya conseguiste mojarte un pie.
 
-Un instante después tuvo ganas de reír. No lo hizo hasta que alcanzó la orilla contraria.
+Un instante después tuvo ganas de reír. La risa le salió al alcanzar la orilla contraria.
 
 Entonces se sentó sobre una piedra firme y comenzó a vaciar la bota.
 
@@ -194,7 +191,6 @@ Lera se detuvo. La lluvia golpeaba la bolsa, la media húmeda le enfriaba los de
 No era una promesa ni una palabra en una carta.
 
 Estaba delante.
-
 
 El camino dejó de parecer vacío mucho antes de llegar al arco.
 

@@ -36,11 +36,11 @@ El porteador observó el camino, luego la carga que debía llevar él mismo.
 
 —Solo un momento. No me quedaré hasta que oscurezca.
 
-La persona del saco aceptó al fin. Se levantó despacio y comprobó que el saco y la carga del porteador quedaban lejos de las rodadas. Habían propuesto dividir su carga, pero no había cuerda suficiente para sujetarla: **seguiría intacta** mientras buscaban otra manera de transportarla.
+La persona del saco aceptó al fin. Se levantó despacio y comprobó que el saco y la carga del porteador quedaban lejos de las rodadas. Habían propuesto dividir su carga, pero no había cuerda suficiente para sujetarla: seguiría intacta mientras buscaban otra manera de transportarla.
 
 Lera no pidió que confiaran en ella sin explicaciones.
 
-—Voy a la casa a preguntar si alguien puede ayudarnos —dijo al porteador—. Si no encontramos a nadie, regreso a decírtelo. No puedo prometer que haya cuerda ni manos libres allí.
+—Voy a la casa a preguntar si alguien puede ayudarnos —dijo al porteador—. Si no encontramos a nadie, regreso a decírtelo.
 
 —Eso sí lo entiendo —respondió él.
 
@@ -70,7 +70,7 @@ Una mujer cerca del fuego volvió la cabeza.
 
 —Depende de lo que pese y de dónde esté.
 
-Lera explicó el lugar: el ensanche, la curva que ocultaba el camino hasta la puerta y el carro que había bajado. La mujer le pidió que aguardara mientras terminaba de repartir los recipientes de sopa. No prometió ayuda.
+Lera explicó el lugar: el ensanche, la curva que ocultaba el camino hasta la puerta y el carro que había bajado. La mujer le pidió que aguardara mientras terminaba de repartir los recipientes de sopa.
 
 —¿Y agua? —preguntó Lera.
 
@@ -79,7 +79,6 @@ La mujer miró la cantimplora.
 —Habrá que llenar recipientes después de atender lo que está al fuego. Siéntate donde no estorbes. No tengo otra mano libre ahora.
 
 Lera se sentó en el extremo de un banco, con la cantimplora casi vacía entre las rodillas. Había venido a buscar agua y manos para una carga. Alrededor había calor, comida y personas ocupadas, pero ninguna de esas cosas se había convertido aún en una solución.
-
 
 Al otro lado de la mesa, un hombre con una capa polvorienta contaba algo a dos viajeros.
 
@@ -111,9 +110,9 @@ El hombre de los papeles levantó los ojos hacia el grupo. Tenía una nota entre
 
 El de la capa frunció el ceño.
 
-—Aren, todo el mundo sabe que falta una carga.
+—Brin, todo el mundo sabe que falta una carga.
 
-Aren no cambió la posición de la nota.
+Brin no cambió la posición de la nota.
 
 —Lo que tengo escrito aquí dice que se detuvo para reparar una rueda. Eso no me dice dónde está ahora, pero tampoco que haya desaparecido.
 
@@ -133,13 +132,13 @@ Lera recordó su propia voz, unos instantes antes, ofreciendo una pieza que todo
 
 —Porque lo vi —contestó—. Pero olvidé decir por qué estaba parado.
 
-Aren tendió la nota para que los más cercanos pudieran examinarla sin llevársela.
+Brin tendió la nota para que los más cercanos pudieran examinarla sin llevársela.
 
 —Aquí habla de una reparación. Ni siquiera afirma que la carga siga detenida a esta hora.
 
 —A mí me dijeron que no había llegado —insistió el hombre.
 
-—Puede ser verdad —respondió Aren—. Pero dime quién lo vio y desde qué lado del camino. No hay que inventar el resto.
+—Puede ser verdad —respondió Brin—. Pero dime quién lo vio y desde qué lado del camino. No hay que inventar el resto.
 
 Lera se levantó. El viajero que preparaba la bolsa ya avanzaba hacia la puerta.
 
@@ -157,7 +156,7 @@ El viajero miró hacia la calle que empezaba al otro lado de la casa.
 
 —Sí —dijo Lera—. Y yo no lo hice.
 
-Aren guardó la nota junto a otras, sin escribir una corrección que nadie había comprobado. Lera agradeció que no fingiera tener resuelto el asunto.
+Brin guardó la nota junto a otras, sin escribir una corrección que nadie había comprobado. Lera agradeció que no fingiera tener resuelto el asunto.
 
 La mujer de la sopa regresó al fuego. Cuando volvió a hablar, ya no fue sobre la carga.
 
@@ -171,32 +170,23 @@ Había pasado de una petición urgente a otra historia, y mientras tanto el port
 
 La mujer se sacudió harina seca de los dedos.
 
-—Hay alguien que bajará por el terraplén después de comer. Puedo preguntarle si quiere ayudar, pero no pienso enviarlo como si fuera una orden.
+—Hay alguien que bajará por el terraplén después de comer. Voy a preguntarle si puede ayudar.
 
-—Eso basta —dijo Lera.
+Lera miró hacia la puerta, pero la viajera seguía comiendo. La mujer le señaló un recipiente de barro junto al banco.
 
-La mujer la miró un instante.
-
-—No. Todavía no basta. Hasta que esa persona acepte, no tienes ayuda.
-
-A Lera se le encendieron las mejillas. Había oído una frase parecida demasiadas veces últimamente, pero en aquella casa nadie conocía sus conversaciones con Mara.
-
-La mujer no insistió. Le señaló un recipiente de barro junto al banco.
-
-—Puedes dejar la cantimplora ahí para que la llenemos cuando tengamos agua disponible. No antes.
+—Puedes dejar la cantimplora ahí para que la llenemos cuando tengamos agua disponible.
 
 Lera la depositó con cuidado. Todavía tenía las manos secas, los labios partidos por el polvo y un viaje entero por delante.
-
 
 ***
 
 La espera tuvo un precio que Lera podía contar sin monedas.
 
-Mientras aguardaba, vio partir a dos viajeros hacia la calzada. Uno preguntó de nuevo por la carga y recibió una respuesta cautelosa de Aren; el otro prefirió no participar. Lera, en cambio, seguía allí, incapaz de dejar atrás un saco que no le pertenecía.
+Mientras aguardaba, vio partir a dos viajeros hacia la calzada. Uno preguntó de nuevo por la carga y recibió una respuesta cautelosa de Brin; el otro prefirió no participar. Lera, en cambio, seguía allí, incapaz de dejar atrás un saco que no le pertenecía.
 
 El hombre de la capa se acercó a las casillas de mensajes.
 
-—¿Vas a escribir que estaba todo bien? —preguntó a Aren.
+—¿Vas a escribir que estaba todo bien? —preguntó a Brin.
 
 —No sé si estaba todo bien —respondió él—. Sé lo que dice la nota y lo que cada uno ha visto. Son cosas distintas.
 
@@ -218,7 +208,7 @@ La viajera escuchó a Lera y a la persona del saco. Hizo tres preguntas: dónde 
 
 La viajera asintió.
 
-—Puedo ayudar a llevarla hasta un punto menos estrecho. No voy más allá, ni prometo hacerlo dos veces.
+—Puedo ayudar a llevarla hasta un punto menos estrecho.
 
 —Lo entiendo —respondió la persona.
 
@@ -226,7 +216,7 @@ Lera recuperó su cantimplora. La mujer que servía había dejado en ella un poc
 
 —Es lo que puedo darte ahora —dijo—. No dejes el recipiente abierto cuando vuelvas a la cuesta.
 
-Lera agradeció y guardó el tapón con firmeza. No habría podido exigirle más.
+Lera agradeció y guardó el tapón con firmeza.
 
 Bajaron los tres por el terraplén. La viajera delante, Lera detrás y la persona del saco entre ambas, todavía cansada. Al llegar al ensanche encontraron al porteador donde lo habían dejado, junto a las cargas apartadas de las rodadas.
 
@@ -240,7 +230,7 @@ La persona del saco se arrodilló para examinar el bulto. No había sido abierto
 
 Lera sostuvo el borde libre cuando se lo pidieron, usando la mano que no tenía raspada. Después se hizo a un lado para dejarles sitio.
 
-—De aquí puedo bajar despacio —dijo la persona dueña de la carga—. No necesitaba que lo arreglaras por mí. Necesitaba llegar a donde pudiera cargarlo sin caerme.
+—De aquí puedo bajar despacio —dijo la persona dueña de la carga—. Ya no se me viene encima el saco.
 
 Lera estuvo a punto de disculparse por no haber tenido una cuerda larga. Se contuvo.
 
@@ -250,15 +240,15 @@ Lera miró un instante hacia el camino que descendía a la era. El viajero del s
 
 No lo siguió.
 
-Habían perdido tiempo. Ella lo había perdido en una demora que no figuraba en sus planes; los otros habían interrumpido sus trabajos para mover una carga ajena. La cantimplora no estaba llena. Pero la cuesta había quedado libre, y nadie había tenido que fingir que la dificultad desapareció.
+La cuesta había quedado libre. Lera volvió a subir detrás del porteador, con la cantimplora bien cerrada.
 
 ***
 
-Cuando Lera regresó a la casa, Aren estaba colocando dos notas separadas junto a una tablilla en blanco.
+Cuando Lera regresó a la casa, Brin estaba colocando dos notas separadas junto a una tablilla en blanco.
 
 El hombre de la capa ya no estaba.
 
-—Se marchó por la calzada —dijo Aren, al advertir que ella miraba hacia la puerta—. Le pedí que, si repetía la noticia, dijera también de dónde había salido. No sé si lo hará.
+—Se marchó por la calzada —dijo Brin, al advertir que ella miraba hacia la puerta—. Le pedí que, si repetía la noticia, dijera también de dónde había salido. No sé si lo hará.
 
 Lera observó los papeles. Uno mencionaba una rueda que necesitaba reparación. El otro no aportaba nada sobre la suerte posterior de la carga.
 
@@ -270,9 +260,9 @@ Lera observó los papeles. Uno mencionaba una rueda que necesitaba reparación. 
 
 —A veces no basta.
 
-Aren devolvió las notas a su sitio. No ofreció escribir una conclusión más cómoda ni entregar una respuesta sobre la carga.
+Brin devolvió las notas a su sitio. No ofreció escribir una conclusión más cómoda ni entregar una respuesta sobre la carga.
 
-Lera metió la mano en su chaqueta y rozó los pliegues de la carta a Dalia. Por un momento pensó en preguntar si podía dejarla en una de aquellas casillas, pero no lo hizo. Había escrito para hablarle en persona. Enviarla sería una decisión distinta, y todavía no sabía si quería tomarla.
+Lera metió la mano en su chaqueta y rozó los pliegues de la carta a Dalia. Por un momento pensó en preguntar si podía dejarla en una de aquellas casillas. Apartó la mano del bolsillo. Había escrito para hablarle en persona. Enviarla sería una decisión distinta, y todavía no sabía si quería tomarla.
 
 Se apartó de la mesa.
 
@@ -292,11 +282,11 @@ Miró la calzada. Después volvió hacia la mesa.
 
 La mujer le indicó el precio antes de servirle. Lera contó los sellos que llevaba y pagó el caldo. Luego se sentó, dejó la cantimplora cerrada junto a la taza del bolsillo exterior y acercó las manos al calor.
 
-La noticia de la carga seguía sin estar completa. Nadie había demostrado que la carga se hubiera perdido, pero tampoco sabían si ya había llegado a su destino. Allí, entre mensajes que aún no encontraban destinatario, una historia podía permanecer abierta sin que por eso hubiera que inventarle un final.
+La noticia de la carga seguía sin estar completa. Nadie había demostrado que la carga se hubiera perdido, pero tampoco sabían si ya había llegado a su destino.
 
 Lera miró el caldo humeante.
 
-Por primera vez desde que cruzó las cercas de Valdren, tenía delante una comida caliente y un camino al que volver. Se quedó lo necesario para comer, sin convertir el descanso en despedida.
+Tenía delante una comida caliente y un camino al que volver. Se quedó lo necesario para comer, sin convertir el descanso en despedida.
 
 Cuando dejó la mesa, guardó la carta otra vez y salió hacia la calzada.
 

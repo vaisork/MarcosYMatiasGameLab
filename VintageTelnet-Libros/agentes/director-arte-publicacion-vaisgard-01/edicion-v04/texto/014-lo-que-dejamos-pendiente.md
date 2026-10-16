@@ -8,11 +8,11 @@ El arroyo apareció antes que la losa del hito.
 
 Lera reconoció las tres piedras por donde había pasado hacia Vaisgard, con una bota llena de agua y demasiada prisa. Esta vez se detuvo en suelo firme. No intentó indicar por dónde debían ir las ruedas.
 
-—Yo cruzaré a pie —dijo al conductor—. Os espero más abajo, si seguís por la calzada.
+—Yo cruzaré a pie —dijo al conductor—. Los espero más abajo, si siguen por la calzada.
 
-—No prometí ir recogiendo viajeros —replicó él.
+—Voy a ocuparme del carro —replicó él.
 
-—Tampoco te pido que lo hagas. Acordamos caminar juntos mientras coincidamos.
+—Los esperaré fuera del paso. Acordamos caminar juntos mientras coincidamos.
 
 El hombre miró el cauce y dio instrucciones a sus ayudantes sobre la carga. Lera se apartó, esperó a que dejaran libre su paso y cruzó despacio las piedras. Apoyó primero el pie que tenía la bota seca, probó el siguiente apoyo y no permitió que el agua la empujara a darse prisa.
 
@@ -32,11 +32,9 @@ El trayecto fue largo sin que ocurriera nada extraordinario.
 
 Eso también la cansó.
 
-Más abajo, la Casa del Camino apareció al final de la cuesta. Lera recordó la sopa de Aren y el rumor de una rueda detenido a medio contar. El grupo se detuvo lo suficiente para comprobar la carga y decidir hasta dónde podría avanzar con la luz restante. Lera no entró a pedir otra historia ni un favor. Comió parte del alimento que había recibido en el mercado, bebió un poco de la cantimplora y, con el consentimiento del conductor, terminó de revisar las lazadas accesibles sin tocar los sacos pesados.
+Más abajo, la Casa del Camino apareció al final de la cuesta. Lera recordó la sopa de la mujer del fuego y el rumor, a medio contar, sobre un carro detenido por una rueda. El grupo se detuvo lo suficiente para comprobar la carga y decidir hasta dónde podría avanzar con la luz restante. Lera no entró a pedir otra historia ni un favor. Comió parte del alimento que había recibido en el mercado, bebió un poco de la cantimplora y, con el consentimiento del conductor, terminó de revisar las lazadas accesibles sin tocar los sacos pesados.
 
 Cuando llegaron al reparo de madera, la luz ya se retiraba de los campos. Allí los viajeros podían sentarse sin detener el camino. El conductor decidió parar hasta que se pudiera seguir con seguridad.
-
-No ofreció una cama. Nadie la había prometido.
 
 Lera se acomodó en un extremo libre del banco, lejos de las cargas, con la bolsa bajo el brazo y la chaqueta cerrada. Los ayudantes se repartieron su propia comida. Ella tenía todavía una porción pequeña y la guardó para la mañana, después de comprobar que el hambre no le impediría dormir del todo.
 
@@ -52,7 +50,7 @@ El conductor se acercó cuando ya habían recogido la carga.
 
 Lera sonrió.
 
-—Lo oí. Gracias por dejarme caminar este tramo con vosotros.
+—Lo oí. Gracias por dejarme caminar este tramo con ustedes.
 
 —Revisaste los amarres y no prometiste cargar lo que no podías levantar. Estamos en paz.
 
@@ -64,7 +62,7 @@ Uno de los ayudantes le ofreció un extremo de cuerda que había quedado sobrant
 
 —Entonces, si puedes desprenderte de él, lo usaré para que la bolsa no se abra.
 
-El conductor asintió. Lera aceptó únicamente el trozo ofrecido y reforzó el nudo sin deshacer la sujeción que sostenía el peso. No era una reparación de Seli ni una correa nueva. Pero podría permitirle llegar al pueblo sin dejar la taza en el camino.
+El conductor asintió. Lera aceptó únicamente el trozo ofrecido y reforzó el nudo sin deshacer la sujeción que sostenía el peso. No era una reparación de Ondra ni una correa nueva. Pero podría permitirle llegar al pueblo sin dejar la taza en el camino.
 
 Se separaron en la era, entre el olor seco del grano y las tablas que sujetaban los bordes del terreno. El carro continuó con su trabajo. Lera tomó el sendero hacia la zanja antigua, por donde recordaba haber salido durante el viaje anterior.
 
@@ -130,7 +128,7 @@ Lera miró la cuña. La antigua había sido sustituida, pero el agua seguía dej
 
 Lera dejó caer la mano sana sobre la rodilla.
 
-Había regresado pensando que aceptaría lo que Mara dijera. No esperaba descubrir que incluso escuchar requería contener las manos.
+Había regresado pensando que aceptaría lo que Mara dijera.
 
 —¿Dónde está Mara?
 
@@ -145,7 +143,6 @@ Sabel la señaló con el mentón.
 —Puedes quedarte mientras no tapes el paso. Y, si de verdad has vuelto para trabajar con nosotros, cuando llegue Mara empieza preguntando qué cambió. No empieces contando cómo era todo antes.
 
 Lera no respondió. Era exactamente lo que Mara le había pedido al despedirse.
-
 
 Mara apareció desde el extremo de los huertos con una cuerda al hombro y tierra en las uñas.
 
@@ -207,7 +204,7 @@ Se acercó a la tablilla, la levantó y la sostuvo de manera que Lera pudiera le
 
 Lera reconoció varios nombres en los turnos. Había algunos tachados y reescritos.
 
-—¿Por qué cambiasteis estos?
+—¿Por qué cambiaron estos?
 
 —Porque la persona que se había ofrecido a cubrir dos mañanas ya no podía hacerlo —dijo Sabel—. Avisó antes de faltar. Buscamos a otra. Durante esos días yo vine más veces a revisar, y las hojas que solía llevar a la cocina se quedaron sin recoger en las horas acordadas.
 
@@ -235,7 +232,7 @@ Lera quiso ofrecerse de inmediato a recoger hojas durante un mes. Pensó en el h
 
 Sabel miró la palma irritada.
 
-—Puedes venir —dijo—. No voy a dejarte levantar la tabla así. Y no te daré mi turno para siempre por haber aparecido hoy.
+—Puedes venir —dijo—. No voy a dejarte levantar la tabla así.
 
 —No te lo pediría.
 
@@ -243,9 +240,9 @@ Sabel miró la palma irritada.
 
 Mara soltó una risa breve y cansada. Sabel le entregó la tablilla.
 
-—Yo debo regresar a mi parcela —dijo—. Mañana hablaremos los tres antes de decidir quién hará qué.
+—Yo debo regresar a mi parcela —dijo—. Mañana hablaremos las tres antes de decidir quién hará qué.
 
-Lera se apartó del camino para dejarla pasar. Sabel se marchó sin darle las gracias. Lera comprendió que no había nada que agradecer todavía.
+Lera se apartó del camino para dejarla pasar. Sabel se marchó sin darle las gracias.
 
 ***
 
@@ -345,7 +342,7 @@ Mara miró hacia el camino de los campos.
 
 Mara no respondió enseguida.
 
-—Yo tampoco sé dónde está —dijo al final—. Y no voy a fingir que puedo averiguarlo porque tú hayas caminado hasta aquí.
+—Yo tampoco sé dónde está —dijo al final.
 
 —No te lo pediré.
 
@@ -383,7 +380,7 @@ Lera apoyó la bolsa en el lugar seco junto al árbol.
 
 Mara echó a andar y Lera la siguió hasta la cerca vecina. No fueron a anunciar que Lera había vuelto para salvar la canaleta. Preguntaron qué horario podía asumir aquella persona, escucharon lo que ya tenía comprometido y acordaron volver a revisar el reparto por la mañana, cuando Sabel también pudiera estar.
 
-Al regresar al árbol, la luz empezaba a inclinarse sobre los huertos. No habían cambiado el pasado ni reparado la madera definitivamente. Pero la persona a quien habían preguntado sabía qué se esperaba de ella y había podido decir hasta dónde llegaba su ayuda.
+Al regresar al árbol, la luz empezaba a inclinarse sobre los huertos. Habían anotado el nuevo horario junto al nombre de la vecina.
 
 Mara devolvió la tablilla a su lugar.
 

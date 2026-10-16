@@ -24,7 +24,7 @@ La mujer sacó una cesta vacía de debajo de la mesa y la colocó en el sitio de
 
 —Te pregunté una cosa parecida antes y me respondiste que hoy podías quedarte. No necesito saber qué harás dentro de diez años. Necesito saber si mañana contaré contigo o si tendré que revisar esta carga yo sola.
 
-Lera miró las manos de la vendedora. Había trabajado sin parar desde que el día se había aclarado. Nadie tenía tiempo para esperar mientras ella decidía el sentido de su vida.
+Lera miró las manos de la vendedora. Había trabajado sin parar desde que el día se había aclarado.
 
 —No cuentes conmigo mañana —dijo.
 
@@ -52,7 +52,7 @@ Al terminar, las dos se quedaron mirando la cesta.
 
 —Eso era lo acordado —dijo la comerciante.
 
-No había fijado un pago por aquella tarea adicional cuando comenzó. Lera no lo exigió como si existiera un contrato que ninguna recordaba. La vendedora le ofreció una pequeña porción de alimento por la ayuda realizada, y ella la aceptó. No resolvía su futuro, pero sí el hambre de aquella tarde.
+No había fijado un pago por aquella tarea adicional cuando comenzó. Lera no lo exigió como si existiera un contrato que ninguna recordaba. La vendedora le ofreció una pequeña porción de alimento por la ayuda realizada, y ella la aceptó.
 
 —Pensé que te quedarías en Vaisgard —añadió la mujer.
 
@@ -136,11 +136,11 @@ El conductor asintió, aunque no parecía impresionado.
 
 Señaló los sacos.
 
-—Voy hasta los campos. No he prometido llegar hoy a Valdren. Desde donde paremos, tendrás que seguir por tu cuenta si nuestros rumbos se separan.
+—Voy hasta los campos. No voy a Valdren. Desde donde paremos, tendrás que seguir por tu cuenta si nuestros rumbos se separan.
 
 —Lo entiendo.
 
-—Puedo dejar que camines con nosotros hasta donde coincidamos, si cumples lo que acabas de ofrecer. No te pagaré por contar historias, ni te daré una cama. Si comes de nuestra carga, será con permiso y con acuerdo previo.
+—Puedo dejar que camines con nosotros hasta donde coincidamos, si cumples lo que acabas de ofrecer. La comida de la carga no entra en el trato.
 
 —No necesito que me regales nada.
 
@@ -160,7 +160,7 @@ La cuerda quedó fuera del paso. El conductor la sacudió dos veces para probar 
 
 Lera volvió la cabeza hacia el este.
 
-Al final de la calle podía regresar al mercado. Allí una mujer tal vez volvería a aceptarla para un encargo pequeño. Más allá, bajo los toldos, Seli había dicho que podía preguntar por una costura cuando la palma estuviera mejor.
+Al final de la calle podía regresar al mercado. Allí una mujer tal vez volvería a aceptarla para un encargo pequeño. Más allá, bajo los toldos, Ondra había dicho que podía preguntar por una costura cuando la palma estuviera mejor.
 
 Y en el Patio de Mensajes había dejado una nota para Mara que todavía no había salido de la ciudad.
 
@@ -169,7 +169,6 @@ Si se iba ahora, era posible que la respuesta llegara a Vaisgard cuando ya no es
 Tal vez no llegara nunca.
 
 —Todavía tengo que despedirme de alguien —respondió.
-
 
 ***
 
@@ -237,7 +236,7 @@ La mujer soltó una risa.
 
 —Eso sí que necesita un trabajo de verdad.
 
-—Seli me dijo lo mismo.
+—Ondra me dijo lo mismo.
 
 —Entonces escúchala.
 
@@ -253,7 +252,7 @@ La vendedora siguió ordenando fruta. Lera esperó un instante, hasta comprender
 
 La mujer la miró por encima de las cestas.
 
-—Y tú te marchaste cuando necesité abrir el paso. Así es como funcionan los acuerdos que tienen principio y final.
+—Y tú te marchaste cuando necesité abrir el paso.
 
 Lera sonrió.
 
@@ -268,8 +267,6 @@ Lera sonrió.
 La vendedora regresó a su trabajo. Lera levantó la bolsa con cuidado y salió del mercado sin pedirle a nadie que guardara noticias ni prometiera buscarla. Había dado como referencia aquel lugar en una nota que tal vez llegara a Valdren, pero el mercado nunca había sido su domicilio. Arel lo sabía; Mara, si llegaba a leer el mensaje, también encontraría aquella limitación.
 
 No podía deshacer ahora el recado ni asegurar que llegara antes o después que ella.
-
-Podía, en cambio, elegir qué haría con sus propios pies.
 
 ***
 
@@ -301,7 +298,7 @@ Avanzaron despacio hacia el arco de la Puerta de los Campos. Bajo las escaleras 
 
 Lera había entrado por allí pensando únicamente en lo que iba a decirle a Dalia.
 
-Al salir, recordó el arroyo, la media empapada, el hambre y las voces del mercado. Recordó también a la niña que no quería que le cortaran la capa, a Seli y su aguja, a una vendedora que no le prometía más de lo que podía ofrecer.
+Al salir, recordó el arroyo, la media empapada, el hambre y las voces del mercado. Recordó también a la niña que no quería que le cortaran la capa, a Ondra y su aguja, a una vendedora que no le prometía más de lo que podía ofrecer.
 
 El arco se alzó sobre la carga. Al otro lado soplaba un aire distinto, con olor a tierra trabajada.
 
@@ -327,11 +324,9 @@ Se limitó a caminar.
 
 Las primeras piedras del descenso comenzaron a sonar bajo las ruedas.
 
-A medida que se alejaban de la puerta, Lera volvió la cabeza una sola vez. No alcanzó a ver la Plaza de las Cinco Rutas, oculta tras los tejados. Allí había esperado dos tardes por una respuesta que no llegó. En algún lugar de la ciudad seguía, quizá, la nota destinada a Mara. Más lejos, con Nara, viajaba un recorte que solo decía dónde había querido que alguien la encontrara.
+A medida que se alejaban de la puerta, Lera volvió la cabeza una sola vez. No alcanzó a ver la Plaza de las Cinco Rutas, oculta tras los tejados. Allí había esperado dos tardes por una respuesta que no llegó. En algún lugar de la ciudad seguía, quizá, la nota destinada a Mara. Más lejos, con Tesca, viajaba un recorte que solo decía dónde había querido que alguien la encontrara.
 
 Y bajo su chaqueta continuaba la carta para Dalia.
-
-Ninguna de aquellas hojas podía decidir por una persona.
 
 Lera acomodó el hombro bajo la correa más corta y alcanzó al ayudante que caminaba delante.
 
@@ -351,6 +346,4 @@ No había encontrado a Dalia. Tampoco regresaba al mismo lugar del que había sa
 
 El carro descendió hacia los campos de Edran.
 
-Por primera vez desde que salió de Valdren, Lera no seguía el rastro incierto de otra persona.
-
-Había escogido el camino que estaba dispuesta a recorrer.
+La correa volvió a rozarle el hombro. Se la acomodó sin perder de vista las piedras del descenso.

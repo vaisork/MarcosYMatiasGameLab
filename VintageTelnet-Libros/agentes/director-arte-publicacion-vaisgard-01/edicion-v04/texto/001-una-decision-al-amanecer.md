@@ -132,7 +132,7 @@ Una esquina se había astillado.
 
 —Podemos darle la vuelta —dijo Lera.
 
-—Podemos probar si asienta. Sin prometer que durará.
+—Podemos probar si asienta.
 
 Trabajaron sin hablar. A sus espaldas se oían puertas, pasos y el roce de hojas contra los delantales. El agua volvió a correr por la canaleta, primero con titubeos y luego con un sonido parejo.
 
@@ -270,7 +270,7 @@ Una puerta de huerto se abrió cerca del camino. Un hombre salió con un cesto y
 
 —Está pasando —respondió Mara—. Hay que vigilar esta junta.
 
-El hombre miró desde el borde, les dio las gracias y regresó con el cesto. Ni siquiera preguntó por la carta. El mundo seguía con sus propias ocupaciones.
+El hombre miró desde el borde, les dio las gracias y regresó con el cesto. Ni siquiera preguntó por la carta.
 
 —Puedo terminar ahora lo que me toca —dijo Lera—. Y antes de irme dejar la cuña preparada.
 
@@ -286,7 +286,7 @@ Era verdad. Lera no había querido imaginar el camino con suficiente detalle par
 
 Mara sostuvo su mirada.
 
-—Una deuda no desaparece porque queda lejos.
+—Lo recordaré.
 
 Lera buscó una respuesta sincera en lugar de una respuesta convincente.
 
@@ -294,7 +294,7 @@ Lera buscó una respuesta sincera en lugar de una respuesta convincente.
 
 Mara sacudió la cuerda para escurrirla.
 
-—Puedo cubrir la apertura de mañana y hablar con los demás sobre los siguientes turnos. No puedo prometerte todo el tiempo que haga falta. Y tú vas a quedarte hoy para revisar la junta, no a desaparecer entre las cercas.
+—Puedo cubrir la apertura de mañana y hablar con los demás sobre los siguientes turnos. Y tú vas a quedarte hoy para revisar la junta, no a desaparecer entre las cercas.
 
 —De acuerdo.
 
@@ -412,7 +412,7 @@ Se quedó mirando la frase. No era exactamente lo que había dicho, pero era la 
 
 Volvió a doblar la hoja, esta vez una sola vez y con cuidado.
 
-Todavía no sabía qué respondería Dalia. Antes de partir debía acordar los turnos que faltaban y terminar la carta. Ninguna de esas tareas podía delegarla sin hablar con alguien.
+Todavía no sabía qué respondería Dalia. Antes de partir debía acordar los turnos que faltaban y terminar la carta.
 
 Miró hacia el corredor de los huertos, donde las cercas se abrían al campo.
 

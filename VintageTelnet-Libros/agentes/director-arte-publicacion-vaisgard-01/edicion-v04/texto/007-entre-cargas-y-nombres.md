@@ -80,7 +80,7 @@ No tenía una respuesta.
 
 La mujer bajó la mirada hacia la jarra, que pesaba en sus manos.
 
-—Aquí llegan personas de todos los caminos, niña. Conozco a las que viven en mi escalera y a unas cuantas más. No puedo adivinar el resto.
+—Aquí llegan personas de todos los caminos, joven. Conozco a las que viven en mi escalera y a unas cuantas más. No puedo adivinar el resto.
 
 —Antes vivía cerca de los huertos —añadió Lera, como si la calle todavía pudiera conocer los mismos puntos de referencia que su pueblo.
 
@@ -108,8 +108,6 @@ Un niño pasó junto a ella sujetando una cesta pequeña por ambas asas. Se abri
 
 Lera lo siguió con la mirada.
 
-Había tenido que salir de Valdren para descubrir que incluso un niño podía conocer mejor que ella un camino.
-
 Al final de la calle apareció un olor a fruta cortada. Después llegó el pan. Y por último, el ruido de tantas voces que ninguna parecía sobresalir.
 
 El Mercado de Vaisgard se extendía entre muros antiguos sobre los que descansaban toldos, estantes y cestas. Nadie parecía preguntarse quién había levantado las piedras: una vendedora las utilizaba para sostener frutas, un hombre colgaba cuerdas nuevas y una niña observaba una semilla sobre un plato, como si acabara de encontrar un tesoro.
@@ -121,7 +119,6 @@ En medio se distinguía un canalillo por donde corría el agua de los toldos. Un
 Había llegado más lejos de lo que había imaginado al salir de Valdren.
 
 Y no sabía a quién preguntar.
-
 
 ***
 
@@ -135,19 +132,19 @@ Lera retrocedió. Una mujer colocaba sobre un mostrador hojas de acero, mangos d
 
 La comerciante sonrió apenas y retiró una cesta del paso para que pudiera cruzar una compradora. Tenía movimientos rápidos, sin desperdiciar un gesto. Cuando volvió al mostrador, alineó dos mangos para que pudieran compararse uno junto al otro.
 
-—Soy Bela. ¿Buscas algo para el camino?
+—Soy Hulda. ¿Buscas algo para el camino?
 
 Lera se fijó en su bolsa mojada.
 
 —No exactamente.
 
-Bela esperó. Detrás de Lera alguien preguntaba por una cuerda, pero la comerciante no apartó la mirada de inmediato.
+Hulda esperó. Detrás de Lera alguien preguntaba por una cuerda, pero la comerciante no apartó la mirada de inmediato.
 
 —Estoy buscando a una persona —se atrevió a decir Lera—. Se llama Dalia.
 
 El ruido del mercado siguió como si no hubiera ocurrido nada.
 
-—¿Una persona que vino a comprar? —preguntó Bela.
+—¿Una persona que vino a comprar? —preguntó Hulda.
 
 —No lo sé.
 
@@ -155,7 +152,7 @@ El ruido del mercado siguió como si no hubiera ocurrido nada.
 
 —Tampoco.
 
-Bela cruzó los brazos. No parecía irritada; parecía intentar entender qué clase de respuesta esperaba la muchacha.
+Hulda cruzó los brazos. No parecía irritada; parecía intentar entender qué clase de respuesta esperaba la muchacha.
 
 —No puedo buscar entre mercancías a alguien que no es mercancía.
 
@@ -165,7 +162,7 @@ Lera enmudeció. A su lado pasaron dos compradores discutiendo sobre el filo de 
 
 —Éramos amigas —dijo.
 
-Bela dejó de mover los mangos.
+Hulda dejó de mover los mangos.
 
 —¿Eran?
 
@@ -181,19 +178,15 @@ La comerciante miró un instante hacia las cestas, donde un comprador esperaba s
 
 Lera asintió. Era la respuesta que había temido desde que cruzó el arco.
 
-—Pero hay muchas personas aquí que tampoco conocen los caminos de los demás —añadió Bela—. La plaza grande está al norte del mercado. Allí se juntan los de las distintas rutas.
-
-—¿Me dirán si la conocen?
-
-—No puedo prometerlo.
+—Pero hay muchas personas aquí que tampoco conocen los caminos de los demás —añadió Hulda—. La plaza grande está al norte del mercado. Allí se juntan los de las distintas rutas.
 
 Un muchacho se acercó por el extremo de las herramientas. Llevaba una pieza de metal en la mano.
 
-—Bela, ¿esta es la misma que vimos antes?
+—Hulda, ¿esta es la misma que vimos antes?
 
 —Déjala en el mostrador; no la acerques a la comida.
 
-Bela lo atendió, colocó ambas piezas juntas y comenzó a explicar la diferencia. La conversación ya no tenía lugar para Lera.
+Hulda lo atendió, colocó ambas piezas juntas y comenzó a explicar la diferencia. La conversación ya no tenía lugar para Lera.
 
 Lera se apartó sin recibir una promesa ni un nombre nuevo. Había preguntado dos veces en la ciudad y las dos respuestas eran negativas. Sin embargo, la segunda vez había dicho algo que no había podido decirle a la primera desconocida.
 
@@ -227,10 +220,7 @@ Esperó su turno, cruzó la tabla y desapareció entre compradores sin que Lera 
 
 Ella se quedó mirando el hueco que había dejado.
 
-Durante todo el camino había encontrado una manera de ser útil cargando, apartando o esperando junto a otras personas. En el mercado nadie le había pedido eso. No estaba allí para arreglar una rueda ni una canaleta.
-
-Estaba allí porque necesitaba encontrar a alguien y soportar lo que pudiera contestarle.
-
+Lera volvió a sujetar la taza con ambas manos. El joven ya no se veía entre las cestas.
 
 Una voz la llamó desde el lado de las frutas.
 
@@ -240,7 +230,7 @@ Era la vendedora que había estado partiendo una fruta para enseñársela a una 
 
 —¿Cómo sabe de dónde vengo? —preguntó Lera.
 
-—Se lo has dicho a Bela delante de medio mercado. Y tu manera de hablar tampoco ayuda a ocultarlo.
+—Se lo has dicho a Hulda delante de medio mercado. Y tu manera de hablar tampoco ayuda a ocultarlo.
 
 La mujer no parecía burlarse.
 
@@ -286,7 +276,7 @@ Regresó a su lado del canalillo. La mujer volvió a atender a una compradora y 
 
 Lera guardó la taza en el bolsillo exterior. La carta seguía seca y doblada bajo la chaqueta; no la abrió. Todavía no había decidido qué diría después de entregar aquella hoja, ni siquiera si Dalia querría tomarla.
 
-Pero había preguntado por Dalia a tres personas y recibido tres respuestas negativas sin que el mundo se cerrara a su alrededor. Había dicho en voz alta que Dalia había sido su amiga. Ya no necesitaba presentarse solo como una viajera perdida.
+Pero había preguntado por Dalia a tres personas y recibido tres respuestas negativas sin que el mundo se cerrara a su alrededor. Había dicho en voz alta que Dalia había sido su amiga.
 
 Al norte el empedrado se abría en una plaza grande. En uno de sus bordes vio capas de montaña y una carretilla cargada de piedras; cerca pasaron personas con cestas como las que conocía de Edran.
 
