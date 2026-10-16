@@ -442,6 +442,8 @@ class JourneyTests(unittest.TestCase):
   for url in ('/client/art/encounters/forajido-camino-anime-v1.webp','/client/art/encounters/forajido-camino-anime-v1-thumb.webp','/client/art/places/valdren-fragua-anime-v1.webp','/client/world3d.js','/client/model-assets.js','/client/vendor/three.module.js','/client/vendor/GLTFLoader.js','/client/vendor/BufferGeometryUtils.js','/client/vendor/LICENSE-three.txt','/client/models/species/felaryn.glb','/client/models/species/marevyn.glb','/client/models/species/vesperi.glb','/client/models/species/humano.glb','/client/models/species/dravak.glb'):
    with self.subTest(url=url):
     response=self.client.get(url);self.addCleanup(response.close);self.assertEqual(response.status_code,200)
+  resp=self.client.get('/client/art/numenes/pixel/b.png');self.addCleanup(resp.close);self.assertEqual(resp.status_code,200)
+  resp=self.client.get('/client/art/numenes/b.png');self.addCleanup(resp.close);self.assertEqual(resp.status_code,404)
   self.assertEqual(self.client.get('/client/vendor/../../runtime/server.env').status_code,404)
   self.assertEqual(self.client.get('/client/models/species/unknown.glb').status_code,404)
   response=self.client.get('/');self.addCleanup(response.close);policy=response.headers['Content-Security-Policy']

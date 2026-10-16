@@ -51,7 +51,8 @@ const iconButton=(icon,label,handler,extra={})=>button(controlIcon(icon),handler
 const card=(...children)=>el('section',{class:'card stack'},...children);
 const subtitle=text=>el('p',{class:'muted'},text);
 function message(text,isError=false){notice.textContent=text||'';notice.hidden=!text;notice.classList.toggle('error',isError);}
-async function api(path,body){const options={credentials:'same-origin',headers:{Accept:'application/json'}};if(body){options.method='POST';options.headers['Content-Type']='application/json';const csrf=path.startsWith('/api/master/')?master?.csrf_token||state?.csrf_token:state?.csrf_token||master?.csrf_token;options.body=JSON.stringify({...body,csrf_token:csrf});if(csrf)options.headers['X-CSRF-Token']=csrf;}const response=await fetch(path,options);let data;try{data=await response.json();}catch(_){throw Error('El servidor no devolvió una respuesta legible. Intenta de nuevo.');}if(!response.ok&&!(path==='/api/master/state'&&response.status===401&&data.authenticated===false)){const error=Error(data.message||'No se pudo completar esta acción.');error.status=response.status;throw error;}return data;}
+let latestCsrfToken=null;
+async function api(path,body){const options={credentials:'same-origin',headers:{Accept:'application/json'}};if(body){options.method='POST';options.headers['Content-Type']='application/json';const csrf=path.startsWith('/api/master/')?master?.csrf_token||latestCsrfToken||state?.csrf_token:latestCsrfToken||state?.csrf_token||master?.csrf_token;options.body=JSON.stringify({...body,csrf_token:csrf});if(csrf)options.headers['X-CSRF-Token']=csrf;}const response=await fetch(path,options);let data;try{data=await response.json();}catch(_){throw Error('El servidor no devolvió una respuesta legible. Intenta de nuevo.');}if(data?.csrf_token){latestCsrfToken=data.csrf_token;if(state)state.csrf_token=data.csrf_token;if(master)master.csrf_token=data.csrf_token;}if(!response.ok&&!(path==='/api/master/state'&&response.status===401&&data.authenticated===false)){const error=Error(data.message||'No se pudo completar esta acción.');error.status=response.status;throw error;}return data;}
 function recordNarrative(next,confirmedAction=false){const before=journal.room;journal.consume(next,confirmedAction);if(before!==journal.room){const now=Date.now();if(lastArrivalAt&&now-lastArrivalAt<2000)travelPaceUntil=now+3500;lastArrivalAt=now;}}
 async function refresh(confirmedAction=false){const next=await api('/api/state');if(next.authenticated)recordNarrative(next,confirmedAction);state=next;render();}
 async function mutate(path,payload){if(busy)return false;const previousLocation=state?.character?.location,wasInCombat=Boolean(state?.character?.combat),attributeScroll=path==='/api/action'&&payload.id==='atributo'&&view==='character'?window.scrollY:null,writtenScroll=path==='/api/action'&&typeof payload.text==='string'?window.scrollY:null;let succeeded=false;busy=true;if(path==='/api/action')commandError='';message('');document.querySelectorAll('button').forEach(b=>{if(!b.disabled){b.disabled=true;b.dataset.working='';}});try{const result=await api(path,payload);if(path==='/api/action'&&!confirmedRequests.has(payload.request_id)){recordNarrative(result,true);confirmedRequests.add(payload.request_id);if(confirmedRequests.size>100)confirmedRequests.delete(confirmedRequests.values().next().value);}await refresh();pendingRetry=null;succeeded=true;if(path==='/api/action'&&payload.text)commandDraft='';if(path==='/api/action'&&(state?.character?.location!==previousLocation||(!wasInCombat&&state?.character?.combat)))main.querySelector('.room-context')?.scrollIntoView({block:'start',behavior:'instant'});}catch(error){if(path==='/api/action'&&payload.text)commandError=error.message;if(path==='/api/action'&&!error.status)pendingRetry={path,payload};message(path==='/api/action'&&payload.text?'':error.message,true);render();}finally{busy=false;document.querySelectorAll('[data-working]').forEach(b=>{b.disabled=false;b.removeAttribute('data-working');});render();if(attributeScroll!==null)window.scrollTo({top:attributeScroll,behavior:'instant'});if(!succeeded&&writtenScroll!==null)window.scrollTo({top:writtenScroll,behavior:'instant'});if(succeeded&&path==='/api/action'&&typeof payload.text==='string'&&payload.text.trim()&&view==='adventure'){const arrived=state?.character?.location!==previousLocation||(!wasInCombat&&state?.character?.combat);if(!arrived){following=true;followTerminal();}main.querySelector(arrived?'.room-context':'.reading')?.scrollIntoView({block:'start',behavior:'instant'});}}return succeeded;}
@@ -255,16 +256,19 @@ const numenMoodDescriptions={
 };
 let numenAnim='',numenReactionText='';
 async function triggerNumenCare(action,animKind){
- if(busy||pendingRetry)return;
- numenAnim=animKind;render();
- const ok=await mutate('/api/action',actionPayload(action,requestId()));
+ if(action?.disabled||busy||pendingRetry)return;
+ let confirmed=false;
+ if(action.confirmation){
+  confirmed=window.confirm(String(action.confirmation));
+  if(!confirmed)return;
+ }
+ const ok=await mutate('/api/action',actionPayload(action,requestId(),confirmed));
  if(ok){
+  numenAnim=animKind;
   const active=state?.character?.active_numen||(state?.numenes?.bonded||[]).find(n=>n.id===state?.numenes?.active);
   numenReactionText=active?.last_reaction||history.at(-1)?.text||'';
-  numenAnim=animKind;render();
+  render();
   setTimeout(()=>{if(numenAnim===animKind){numenAnim='';render();}},1800);
- }else{
-  numenAnim='';render();
  }
 }
 function numenCard(numen,isActive,availableActions){
@@ -490,6 +494,14 @@ function drawPixelBocado(ctx, x, y, size) {
   ctx.fillRect(px + 2, py + 2, 2, 2);
  }
 }
+const pixelSpriteCache=new Map();
+function getPixelSprite(clave){
+ if(pixelSpriteCache.has(clave))return pixelSpriteCache.get(clave);
+ const img=new Image();
+ img.src=`/client/art/numenes/pixel/${clave}.png`;
+ pixelSpriteCache.set(clave,img);
+ return img;
+}
 
 function numenView(){
  if(tamagotchiLoopId){cancelAnimationFrame(tamagotchiLoopId);tamagotchiLoopId=null;}
@@ -515,19 +527,15 @@ function numenView(){
  const artImg=numenArt(active,{class:'numen-art-img sr-only',alt:active.name});
 
  const available=actions(state.actions);
- const feedAct=available.find(a=>a.id==='alimentar_numen')||{id:'alimentar_numen',label:'Dar Bocado de Númen'};
- const petAct=available.find(a=>a.id==='cuidar_numen')||{id:'cuidar_numen',label:'Acariciar'};
- const restAct=available.find(a=>a.id==='descansar_juntos')||{id:'descansar_juntos',label:'Descansar juntos'};
+ const feedAct=available.find(a=>a.id==='alimentar_numen')||{id:'alimentar_numen',target:active.id,label:'Dar Bocado de Númen'};
+ const petAct=available.find(a=>a.id==='cuidar_numen')||{id:'cuidar_numen',target:active.id,label:'Acariciar'};
+ const restAct=available.find(a=>a.id==='descansar_numen'||a.id==='descansar_juntos')||{id:'descansar_juntos',target:active.id,label:'Descansar juntos'};
  const renameAct=available.find(a=>a.id==='nombrar_numen'&&a.target===active.id)||{id:'nombrar_numen',target:active.id,label:'Cambiar nombre',reason:`Darle un nuevo nombre a ${active.name}.`};
  const reactionLine=numenReactionText||active.last_reaction||'Se mantiene cerca de ti, atento a cada paso del camino.';
 
  // Load pixel art sprite
  const clave=variant?`${model}-${variant}`:model;
- const spriteImg=new Image();
- let spriteLoaded=false;
- spriteImg.onload=()=>{spriteLoaded=true;};
- spriteImg.onerror=()=>{spriteLoaded=false;};
- spriteImg.src=`/client/art/numenes/pixel/${clave}.png`;
+ const spriteImg=getPixelSprite(clave);
  const fallbackSheet=createFallbackSpriteSheet();
 
  // Menu items: 0=Comer, 1=Acariciar, 2=Descansar, 3=Nombre
@@ -725,7 +733,7 @@ function numenView(){
   ctx.clearRect(0,0,64,48);
 
   // Draw sprite
-  const sheet=(spriteLoaded&&spriteImg.naturalWidth===384)?spriteImg:fallbackSheet;
+  const sheet=(spriteImg.complete&&spriteImg.naturalWidth===384)?spriteImg:fallbackSheet;
   const drawX=Math.round(tamagotchiSim.x);
   const drawY=Math.round(tamagotchiSim.y-(jumpY>0?jumpY:0));
 
