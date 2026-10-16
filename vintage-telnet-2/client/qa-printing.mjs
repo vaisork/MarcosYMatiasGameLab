@@ -34,7 +34,7 @@ history.length=0;history.push({key:'v1',visit:1,kind:'WORLD',text:'OLD'.repeat(1
 history.push({key:'v2',visit:2,kind:'LOCATION',text:'Llegas al puente.'},{key:'v3',visit:2,kind:'WORLD',text:'Agua bajo las tablas.'});s.syncTerminal();
 assert.equal(s.printed.has('v1'),false);assert.equal(s.printed.has('v2'),false);assert.equal(history.length,3);assert.equal(s.printed.size,1);tick();assert.equal(s.printed.get('v3').at,4);
 context.travelPaceUntil=Date.now()+5000;tick();assert.equal(s.printed.get('v3').at,16);
-assert.match(source,/main\.replaceChildren\(context,reading,choices,localPeople\(state\),recent\);if\(visitChanged\)\{terminalFeed.scrollTop=0;following=true;\}else restoreReadingPosition\(readingPosition\);if\(instantReading\(\)&&!visitChanged\)followTerminal\(\)/);
+assert.match(source,/main\.replaceChildren\(context,\.\.\.\(numenAlert\?\[numenAlert\]:\[\]\),reading,choices,localPeople\(state\),recent\);if\(visitChanged\)\{terminalFeed.scrollTop=0;following=true;\}else restoreReadingPosition\(readingPosition\);if\(instantReading\(\)&&!visitChanged\)followTerminal\(\)/);
 // Live combat replies bypass unfinished scenery without changing its queue.
 context.travelPaceUntil=0;
 s.terminalFeed.scrollTop=0;s.terminalFeed.scroll();
