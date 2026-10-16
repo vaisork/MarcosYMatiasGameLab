@@ -1,7 +1,7 @@
 # Capítulo 014 — Continuidad, fuentes y revisión
 
 **Libro I:** *Crónicas de Vaisgard — El primer camino*. **Autor:** Escritor 01, [PR #705](https://github.com/vaisork/MatiasGameLab/pull/705).  
-**Manuscrito:** [014 — Lo que dejamos pendiente](014-lo-que-dejamos-pendiente.md), **3,058 palabras** incluyendo título; SHA **`3641c22b5eef533de82c23ee5ad38c7c04a9e11d`**.  
+**Manuscrito:** [014 — Lo que dejamos pendiente](014-lo-que-dejamos-pendiente.md), **3,058 palabras** incluyendo título; SHA **`d9bae6c9e5629216f65a418c1d65a9ab964fbbcc`** (original `3641c22b5eef533de82c23ee5ad38c7c04a9e11d`, microeditado por Revisor 03).  
 **Autorización única:** `../plan/DECISION_CIERRE_C013_Y_AUTORIZACION_C014_2026-10-16.md`.  
 **Estado:** **BORRADOR COMPLETO pendiente dictamen de Editor Integral 03 y cierre de Arquitectura Editorial**; **C015 no autorizado ni iniciado**. La aprobación literaria no permite fusionar ni distribuir edición definitiva sin co-decisión VT2+Editorial.  
 **Predecesor:** C013 corregido por Editor 03 y aprobado por Arquitectura Editorial, SHA `4b8dd7beb6dc4289470b4301fa8d955d9a69126a`, matriz `1e5e0c251da8abf23fcc80e3cca677e48ac0c309`. No tocar C013.
@@ -61,3 +61,13 @@
 - [ ] **Arte/Publicador #708:** EPUB v03 ilustrado prólogo+C001–C012 existente, su prioridad entrega Android y Drive privada; no bloquear por C014 ni publicar libro como final sin co-canon.
 
 **WIP=1: C015 NO INICIADO / NO AUTORIZADO.** PR #705 sigue DRAFT, no se editó runtime VT2, capítulos previos, arte ni otras PR.
+
+## Registro de corrección menor directa — Editor 03 (16/10/2026)
+
+**L01, cronología del relevo de la canaleta — RESUELTA EN LA RAMA DE AUTORÍA #705.**
+
+- **Original** (`3641c22b5eef533de82c23ee5ad38c7c04a9e11d`): «La primera semana funcionó el relevo. Después la gota empezó a aumentar cuando abríamos más agua».
+- **Corregido** (`d9bae6c9e5629216f65a418c1d65a9ab964fbbcc`): «Al principio funcionó el relevo. Después la gota empezó a aumentar cuando abríamos más agua».
+- **Fundamento:** C003–C006 narran la salida matinal y llegada a Vaisgard sin una semana intermedia acreditada; C009–C014 establecen una secuencia de **día 0 a día 4** en Vaisgard/regreso. Enunciar que «la primera semana» ya pasó **y luego** surgieron nuevos problemas contradice la cronología contada. «Al principio» conserva la evolución de la falla y reorganización del trabajo sin añadir días ficticios. No cambia turnos, Sabel/Mara, costo real ni resolución de la escena.
+- **Acción del Editor:** corrección directa de una frase con autorización del propietario; ninguna alteración estructural y ningún cambio al runtime del juego.
+- **Estado de oficio:** C014 aprobado literariamente por Editor 03, **sin correcciones menores pendientes**; falta cierre independiente de Arquitectura Editorial. No iniciar C015 sin autorización WIP=1 ni fusionar/publicar edición definitiva antes de co-decisión VT2+Editorial.
