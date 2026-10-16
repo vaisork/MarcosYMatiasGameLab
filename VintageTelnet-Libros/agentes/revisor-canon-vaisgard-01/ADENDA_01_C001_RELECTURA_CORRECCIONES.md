@@ -16,7 +16,7 @@
 | **M03 — taza sin movimiento que justificara gesto posterior** | Lera coloca la taza en bolsillo exterior y luego la saca explícitamente para bromear con Mara. | **RESUELTO** |
 | **L01 — densidad de repetición al volver a plaza** | Tránsito más compacto, conserva la semilla, el banco, los sonidos y la carta como cierre circular. | **RESUELTO** |
 | **L02 — intención interna atribuida a la vecina desde foco Lera** | Se cambia por «Parecía procurar no despertar a nadie». | **RESUELTO** |
-| **D01 — enlace del anexo de continuidad** | `[001-una-decision-al-amanecer.md](001-una-decision-al-amanecer.md)` desde el mismo directorio. | **RESUELTO** |
+| **D01 — enlace del anexo de continuidad** | enlace relativo a `001-una-decision-al-amanecer.md` desde el mismo directorio. | **RESUELTO** |
 
 **Observación menor NO bloqueante:** «La taza se queda» inmediatamente antes de meterla al bolsillo de la bolsa admite la lectura de «se queda conmigo» y también «se queda aquí». Dado que el gesto posterior ya es físicamente coherente, **no reabrir M03 como bloqueo**. En una corrección de estilo final puede precisarse «La taza viene conmigo» o frase equivalente, si el Escritor lo considera útil.
 

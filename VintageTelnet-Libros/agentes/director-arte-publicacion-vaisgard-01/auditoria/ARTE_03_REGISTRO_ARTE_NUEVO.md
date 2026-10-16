@@ -22,7 +22,7 @@ Las referencias visuales se suministraron como copias JPEG de los originales obt
 
 ### P02 — Carta, taza y carboncillo, primera versión
 
-- **Archivo/versión/estado:** [P02-carta-v1.jpg](arte-nuevo/descartadas/P02-carta-v1.jpg), v1, **descartada**.
+- **Archivo/versión/estado:** `P02-carta-v1.jpg` (no publicada), v1, **descartada**.
 - **Escena y ancla:** motivos de C001, «El banco se interrumpía donde sobresalía una piedra vieja.» Cubierta simbólica.
 - **Referencia:** `places/valdren_huertos-anime-v1.webp`.
 - **Prompt:** P02, apéndice.
@@ -46,7 +46,7 @@ Las referencias visuales se suministraron como copias JPEG de los originales obt
 
 ### N01 — Junta provisional, primera versión
 
-- **Archivo/versión/estado:** [N01-canaleta-v1.jpg](arte-nuevo/descartadas/N01-canaleta-v1.jpg), v1, **descartada**.
+- **Archivo/versión/estado:** `N01-canaleta-v1.jpg` (no publicada), v1, **descartada**.
 - **Escena/ancla:** C001, «En el borde aún quedaba una gota que crecía lentamente antes de caer.» Inserción tras el párrafo completo.
 - **Referencia:** `places/valdren_huertos-anime-v1.webp`.
 - **Prompt:** N01, apéndice.
@@ -78,7 +78,7 @@ Las referencias visuales se suministraron como copias JPEG de los originales obt
 
 ### N04 — Espera, primera versión
 
-- **Archivo/versión/estado:** [N04-espera-v1.jpg](arte-nuevo/descartadas/N04-espera-v1.jpg), v1, **descartada**.
+- **Archivo/versión/estado:** `N04-espera-v1.jpg` (no publicada), v1, **descartada**.
 - **Escena/ancla:** C010, «El primer atardecer transcurrió sin noticias.»
 - **Referencia:** `places/veyra_plaza_rutas-anime-v1.webp`.
 - **Prompt:** N04, apéndice.
