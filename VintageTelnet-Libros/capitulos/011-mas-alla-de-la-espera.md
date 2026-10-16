@@ -257,6 +257,8 @@ Volvió al Mercado de Vaisgard.
 
 Todavía había luz. Las cestas iban pasando de unas manos a otras y el aire llevaba olor a fruta recién cortada. Cerca del canalillo, un hombre trataba de elegir verduras que aguantaran el viaje de regreso a los campos. No preguntó por Dalia. Lera no se acercó a ofrecerle ayuda.
 
+Compró algo sencillo de comer con parte de los sellos que le quedaban y se sentó unos minutos junto al canalillo. No era una comida abundante; al menos le permitió continuar sin que el cansancio le pesara tanto en las rodillas.
+
 Buscó a la vendedora que la había dejado resguardarse detrás del puesto la primera noche.
 
 Estaba separando frutas maduras de otras que podrían soportar más días de camino. Cuando vio a Lera, miró inmediatamente su bota.
@@ -325,9 +327,9 @@ La vendedora recogió la cesta.
 
 —Mañana necesito separar otra carga. Si vienes por la mañana, podemos probar una vez más. Te diré antes qué necesito y qué puedo darte por hacerlo. Si no te conviene, me lo dices. No voy a reservarte el puesto ni a pagar una jornada que no hayas trabajado.
 
-—Tengo que estar en la plaza cuando caiga la tarde.
+—Hoy tengo que estar en la plaza cuando caiga la tarde. Mañana puedo venir temprano.
 
-—Entonces tendrás que marcharte a tiempo. Yo no voy a detener el día por ti.
+—Pues ven temprano. Yo no voy a detener el día por ti.
 
 Lera asintió.
 
