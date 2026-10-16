@@ -698,8 +698,17 @@ function masterNumenes(character){
  if(character.status!=='approved')return null;
  const numenes=list(character.numenes);
  return el('section',{'aria-label':`Númenes de ${character.name}`},el('h3',{},'Númenes'),
-  ...numenes.map(n=>el('div',{class:'numen-heading'},numenArt(n,{class:'species-thumbnail',loading:'lazy'}),
-   el('div',{},el('strong',{},n.name),subtitle(`${n.species_name||'Compañero Númen'} · ${n.active?'En viaje (activo)':'En el refugio'} · ${n.mood}`)))),
+  ...numenes.map(n=>{
+   const variantChoices=[...new Set([...list(n.variants),...(n.variant?[n.variant]:[])])];
+   return el('div',{class:'numen-heading'},numenArt(n,{class:'species-thumbnail',loading:'lazy'}),
+    el('div',{},el('strong',{},n.name),subtitle(`${n.species_name||'Compañero Númen'} · ${n.active?'En viaje (activo)':'En el refugio'} · ${n.mood}`)),
+    el('label',{class:'field'},'Apariencia',el('select',{name:'variant',disabled:busy,'aria-label':`Apariencia de ${n.name}`,onchange:async event=>{
+     const variant=event.currentTarget.value;busy=true;
+     try{await api('/api/master/numen/variant',{character_id:character.id,numen_id:n.id,variant});masterSheets.delete(character.id);await loadMaster();}
+     catch(error){message(error.message,true);}
+     finally{busy=false;render();}
+    }},el('option',{value:'',selected:!n.variant},'Original'),...variantChoices.map(v=>el('option',{value:v,selected:n.variant===v},v)))));
+  }),
   numenes.length?null:subtitle('Sin Númenes'));
 }
 function masterVaisorkSection(){

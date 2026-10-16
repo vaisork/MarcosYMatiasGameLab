@@ -188,7 +188,7 @@ class VaisorkTests(unittest.TestCase):
         self.assertEqual(character['numenes'], [{
             'id': companion['id'], 'model': 'b', 'variant': 'senku', 'name': 'Nube',
             'species_name': mechanics.NUMENES_MODELS['b']['species_name'],
-            'active': True, 'mood': 'con hambre'}])
+            'active': True, 'mood': 'con hambre', 'variants': ['senku']}])
         self.assertEqual(player.get('/api/master/state').status_code, 401)
         public_state = player.get('/api/state').json
         self.assertNotIn('approved', public_state)
