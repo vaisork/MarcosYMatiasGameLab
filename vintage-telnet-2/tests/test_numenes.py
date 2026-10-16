@@ -148,14 +148,15 @@ class NumenesPilotTests(unittest.TestCase):
     def test_care_actions_and_growth(self):
         """Feeding and caring update care timestamps and advance trust over time up to stage 3."""
         numen = m.bond_numen(self.state, 'a', 'Amigo', self.now)
-        self.state['inventory'].append({'id': 'item_rac', 'name': 'Ración de viaje', 'kind': 'consumable', 'quantity': 2})
+        self.state['inventory'].append({'id': 'bocado_numen', 'name': 'Bocado de Númen', 'kind': 'numen_food', 'quantity': 3})
 
         # Feeding advances trust from stage 1 to stage 2
         self.engine.apply(self.character, self.world, {'id': 'alimentar_numen'})
         events = self.state.get('events', [])
         self.assertTrue(any('Amigo' in e['text'] for e in events))
         self.assertTrue(numen['care']['fed_today'])
-        self.assertEqual(self.state['inventory'][0]['quantity'], 1)
+        bocado_item = next(i for i in self.state['inventory'] if i['id'] == 'bocado_numen')
+        self.assertEqual(bocado_item['quantity'], 2)
         self.assertEqual(numen['trust'], 2)
         self.assertEqual(numen['trust_stage'], 'confianza_estable')
 
@@ -171,6 +172,130 @@ class NumenesPilotTests(unittest.TestCase):
         # Capped at stage 3
         m.care_numen(self.state, 'alimentar', self.now + 172800)
         self.assertEqual(numen['trust'], 3)
+
+    def test_feeding_only_consumes_bocado_numen_not_potions_or_rations(self):
+        """Feeding requires bocado_numen; never consumes potions or travel rations, and raises clear RuleError if missing."""
+        from server.engine import RuleError
+        m.bond_numen(self.state, 'a', 'Fiel', self.now)
+        self.state['inventory'] = [
+            {'id': 'pocion_menor', 'name': 'Poción menor', 'kind': 'consumable', 'effect': 'potion', 'heal': 12, 'quantity': 2},
+            {'id': 'provision_basica', 'name': 'Ración de viaje', 'kind': 'consumable', 'effect': 'food', 'fatigue': 15, 'quantity': 3},
+        ]
+
+        with self.assertRaises(RuleError) as ctx:
+            self.engine.apply(self.character, self.world, {'id': 'alimentar_numen'})
+        self.assertIn('Necesitas un Bocado de Númen', str(ctx.exception))
+        self.assertIn('2 sellos', str(ctx.exception))
+        # Potions and rations untouched
+        self.assertEqual(self.state['inventory'][0]['quantity'], 2)
+        self.assertEqual(self.state['inventory'][1]['quantity'], 3)
+
+        # Now add Bocado de Númen and feed
+        self.state['inventory'].append({'id': 'bocado_numen', 'name': 'Bocado de Númen', 'kind': 'numen_food', 'quantity': 1})
+        self.engine.apply(self.character, self.world, {'id': 'alimentar_numen'})
+        self.assertEqual(self.state['inventory'][0]['quantity'], 2)
+        self.assertEqual(self.state['inventory'][1]['quantity'], 3)
+        self.assertEqual(len(self.state['inventory']), 2)
+
+    def test_hunger_and_mood_by_injected_clock(self):
+        """Mood derives from care.last_fed and care.last_rested: contento, con hambre (>8h), decaído (>24h); never dies."""
+        numen = m.bond_numen(self.state, 'b', 'Bigotes', self.now)
+        self.assertEqual(m.numen_mood(numen, self.now), 'contento')
+
+        # After 9 hours without eating -> con hambre
+        self.now += 9 * 3600
+        snap_hungry = self.engine.snapshot(self.character, self.world)
+        self.assertEqual(snap_hungry['character']['active_numen']['mood'], 'con hambre')
+        self.assertEqual(snap_hungry['numenes']['bonded'][0]['mood'], 'con hambre')
+
+        # After 25 hours from initial feeding -> decaído
+        self.now += 16 * 3600  # total 25h
+        snap_down = self.engine.snapshot(self.character, self.world)
+        self.assertEqual(snap_down['character']['active_numen']['mood'], 'decaído')
+        # Never dies or leaves even after many days
+        self.now += 200 * 3600
+        snap_later = self.engine.snapshot(self.character, self.world)
+        self.assertEqual(len(snap_later['numenes']['bonded']), 1)
+        self.assertEqual(snap_later['character']['active_numen']['mood'], 'decaído')
+
+    def test_reactions_do_not_repeat_consecutively_and_combat_reactions_appear(self):
+        """Reaction picker never repeats the same phrase twice in a row; combat start/end reactions appear."""
+        numen = m.bond_numen(self.state, 'c', 'Chispa', self.now)
+        for situation in ('llegar', 'combate_inicio', 'combate_fin', 'hablar', 'lluvia_noche', 'descansar', 'comer', 'caricia', 'saludo_regreso', 'hambre', 'decaido'):
+            previous = None
+            for _ in range(12):
+                line = m.pick_numen_reaction(numen, situation, self.now, ZeroRandom())
+                self.assertTrue(line)
+                self.assertNotEqual(line, previous, f'Repeated phrase in {situation}: {line}')
+                previous = line
+
+        # Start combat in a room with espinajo_rastrojo
+        room_with_espinajo = next(
+            r for r in self.content.rooms.values()
+            if any(s.get('creature') == 'espinajo_rastrojo' for s in r.get('signals', []))
+        )
+        self.state['location'] = room_with_espinajo['id']
+        self.engine.apply(self.character, self.world, {'id': 'combatir', 'target': 'espinajo_rastrojo'})
+        start_texts = [e['text'] for e in self.state.get('events', [])]
+        c_start_phrases = [p.format(name='Chispa') for p in self.content.numenes['c']['reacciones']['combate_inicio']]
+        self.assertTrue(any(any(p in t for p in c_start_phrases) for t in start_texts))
+
+        # Victory triggers combate_fin reaction
+        self.state['combat']['hp'] = 1
+        self.engine.victory(self.character, self.world, self.state['combat'], self.content.creatures['espinajo_rastrojo'])
+        end_texts = [e['text'] for e in self.state.get('events', [])]
+        c_end_phrases = [p.format(name='Chispa') for p in self.content.numenes['c']['reacciones']['combate_fin']]
+        self.assertTrue(any(any(p in t for p in c_end_phrases) for t in end_texts))
+
+    def test_combat_support_numbers_unchanged_when_decaido_and_narrates_reaction(self):
+        """apoyo_numen keeps exact mechanical numbers when contento or decaído, while narrating the model's reaction."""
+        def run_support(hours_elapsed):
+            st = m.new_state('humano', 'juramentado', 'edran_camino_carros', 43200)
+            st['hp'] = 10
+            st['fatigue'] = 20
+            numen = m.bond_numen(st, 'f', 'Pluma', 43200)
+            # Advance trust to 3 so power_val is max
+            numen['trust'] = 3
+            m.sync_numenes(st, 43200 + hours_elapsed * 3600)
+            st['combat'] = {
+                'creature': 'espinajo_rastrojo',
+                'profile': dict(m.PROFILES['espinajo_rastrojo']),
+                'hp': 30,
+                'hp_max': 30,
+                'prepared': False,
+                'round': 1,
+                'cooldown': 0,
+                'cooldowns': {},
+                'intervention': {'id': 'apoyo_numen'},
+            }
+            lines, _ = m.resolve_round(st, {'name': 'Espinajo'}, ZeroRandom(), respond=False)
+            return st, lines
+
+        st_happy, lines_happy = run_support(0)
+        st_down, lines_down = run_support(30)
+
+        self.assertEqual(st_happy['hp'], st_down['hp'])
+        self.assertEqual(st_happy['fatigue'], st_down['fatigue'])
+        self.assertEqual(st_happy['combat']['cooldowns']['apoyo_numen'], st_down['combat']['cooldowns']['apoyo_numen'])
+        happy_text = ' '.join(l['text'] for l in lines_happy)
+        down_text = ' '.join(l['text'] for l in lines_down)
+        self.assertTrue(any(p.format(name='Pluma') in happy_text for p in self.content.numenes['f']['reacciones']['apoyo_combate']))
+        self.assertTrue(any(p.format(name='Pluma') in down_text for p in self.content.numenes['f']['reacciones']['apoyo_combate_decaido']))
+
+    def test_companion_view_and_missing_art_fallback_contract(self):
+        """Companion view in client/app.js defines fallback silhouette and non-breaking onerror handler when art is absent."""
+        app_js = (ROOT / 'client' / 'app.js').read_text(encoding='utf-8')
+        style_css = (ROOT / 'client' / 'style.css').read_text(encoding='utf-8')
+        self.assertIn('function numenView()', app_js)
+        self.assertIn('/art/numenes/numen-${model}-v1.webp', app_js)
+        self.assertIn('numenArtMissing.add(model);event.currentTarget.remove()', app_js)
+        self.assertIn('numen-art-fallback', app_js)
+        self.assertIn('Dar Bocado de Númen', app_js)
+        self.assertIn('Descansar juntos', app_js)
+        self.assertIn('prefers-reduced-motion:reduce', style_css)
+        self.assertIn('numen-mood-contento', style_css)
+        self.assertIn('numen-mood-hambre', style_css)
+        self.assertIn('numen-mood-decaido', style_css)
 
     def test_combat_support_cooldown_and_survival(self):
         """Númen provides subtle support in combat with cooldown; companion never takes damage."""

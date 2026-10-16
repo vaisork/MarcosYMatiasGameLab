@@ -143,6 +143,7 @@
       "dusk": "Una vendedora ofrece la última mitad de fruta a su vecina. Dos toldos bajan antes de terminar la conversación.",
       "shop": [
         "provision_basica",
+        "bocado_numen",
         "punal_camino",
         "arco_ruta",
         "varita_aprendiz",
@@ -2870,19 +2871,19 @@
       "name": "Sagrario de los Recorridos",
       "region": "veyra",
       "kind": "interior",
-      "description": "Después de la profundidad del Bastión, llegas a una sala pequeña y alta, abierta por una claraboya natural. La claridad entra en diagonal y alcanza tres arquetas de piedra, cada una con huecos de distintas formas. No hay nombres grabados ni una explicación de quién las dejó aquí. Sobre el borde de una arqueta descansan gotas transparentes; más allá se distinguen armas antiguas, joyas y piezas pulidas que recuerdan las escamas del guardián. El aire viene de la vega abierta. Al este, una escalinata sube hacia la acequia; al sur queda el camino por el que llegaste. Estás tan lejos del ruido del combate que alcanzas a oír cómo una gota cae desde la claraboya y golpea una piedra lisa.",
+      "description": "Después de la profundidad del Bastión, llegas a una sala pequeña y alta, abierta por una claraboya natural. La claridad entra en diagonal y alcanza cuatro arquetas de piedra, cada una con huecos de distintas formas. No hay nombres grabados ni una explicación de quién las dejó aquí. Sobre el borde de una arqueta descansan gotas transparentes; más allá se distinguen armas antiguas, joyas y piezas pulidas que recuerdan las escamas del guardián. El aire viene de la vega abierta. Al este, una escalinata sube hacia la acequia; al sur queda el camino por el que llegaste. Estás tan lejos del ruido del combate que alcanzas a oír cómo una gota cae desde la claraboya y golpea una piedra lisa.",
       "day": "La luz cae sobre las arquetas en franjas estrechas. Cada filo y cada gema devuelve un destello distinto.",
       "night": "Por la claraboya asoma un pedazo de cielo. La piedra conserva el frío del día y las arquetas esperan en silencio.",
       "rain": "La lluvia baja en gotas sueltas por el borde de la claraboya. Huele a tierra mojada y a hierba de la vega.",
       "clear": "",
       "return": "La sala sigue abierta al cielo. Las arquetas permanecen sobre sus bases y la escalinata este conduce a la acequia.",
-      "brief": "Tres arquetas bajo una claraboya natural y una escalera que lleva de vuelta a la acequia.",
+      "brief": "Cuatro arquetas bajo una claraboya natural y una escalera que lleva de vuelta a la acequia.",
       "exits": {
         "sur": "veyra_mazmorra_boveda_guardian",
         "este": "veyra_acequia_exterior"
       },
       "examine": {
-        "arquetas": "Tres arquetas de piedra conservan huecos preparados para armas y pequeñas piezas. Ves joyas cristalinas, una escama tornasolada y un colmillo suavemente curvado entre otros objetos. Ninguna inscripción dice quién preparó el lugar ni por qué.",
+        "arquetas": "Cuatro arquetas de piedra conservan huecos preparados para armas y pequeñas piezas. Ves joyas cristalinas, una escama tornasolada y un colmillo suavemente curvado entre otros objetos. Ninguna inscripción dice quién preparó el lugar ni por qué.",
         "claraboya": "La abertura es irregular y natural. Por ella se ven el cielo y algunas hierbas que crecen entre las piedras altas. Aquí el aire se mueve libre, distinto del vapor encerrado en la bóveda.",
         "escalinata": "Los peldaños son anchos, de piedra áspera en los bordes. Hacia arriba llega el olor de los juncos y una claridad que no necesita antorchas."
       },
@@ -2913,7 +2914,7 @@
             "joyas_bastion": 1,
             "escama_dragon": 3
           },
-          "text": "Te acercas al hueco destinado al Juramentado. La Espada del Bastión descansa sobre dos apoyos de piedra; su hoja azulada recoge la luz de la claraboya y la extiende hasta la pared. Al tomar la empuñadura sientes un peso firme, hecho para sostener la guardia sin retroceder. Junto a ella recoges las Joyas del Bastión y tres grandes escamas tornasoladas que parecen guardar el color del manantial; el herrero sabrá qué hacer con ellas. Recuerdas las cuencas oscuras, el golpe del trinquete y los ojos del dragón. La victoria no es sólo haber llegado: el agua vuelve a correr y tú sales de aquí con una historia que puedes contar.",
+          "text": "Te acercas a la arqueta del Juramentado. La Espada del Bastión descansa sobre dos apoyos de piedra; su hoja azulada recoge la luz de la claraboya y la extiende hasta la pared. Al tomar la empuñadura sientes un peso firme, hecho para sostener la guardia sin retroceder. Junto a ella recoges las Joyas del Bastión y tres grandes escamas tornasoladas que parecen guardar el color del manantial; el herrero sabrá qué hacer con ellas. Recuerdas las cuencas oscuras, el golpe del trinquete y los ojos del dragón. La victoria no es sólo haber llegado: el agua vuelve a correr y tú sales de aquí con una historia que puedes contar.",
           "journal": "Tras liberar el paso del manantial y participar en la victoria sobre el guardián, recibiste la Espada del Bastión, las Joyas del Bastión y tres grandes escamas de dragón. La acequia de Veyra volvió a correr."
         },
         {
@@ -2997,7 +2998,7 @@
             "dragon_vencido"
           ],
           "overrides": {
-            "description": "La luz de la claraboya cae sobre tres arquetas de piedra y el agua recién liberada canta muy abajo, detrás de los muros. Una canaleta delgada recorre el borde del Sagrario sin mojar el suelo; en ella flotan destellos que se mueven como estrellas pequeñas. En las arquetas reposan armas de distintas formas, joyas cristalinas y piezas pulidas del dragón. No sabes quién preparó esos huecos, pero ahora comprendes por qué esta sala se encuentra al final del camino: aquí puedes detenerte, recordar lo que atravesaste y elegir el premio que corresponde a tu recorrido. La escalera este asciende hacia el aire libre de Veyra.",
+            "description": "La luz de la claraboya cae sobre cuatro arquetas de piedra y el agua recién liberada canta muy abajo, detrás de los muros. Una canaleta delgada recorre el borde del Sagrario sin mojar el suelo; en ella flotan destellos que se mueven como estrellas pequeñas. En las arquetas reposan armas de distintas formas, joyas cristalinas y piezas pulidas del dragón. No sabes quién preparó esos huecos, pero ahora comprendes por qué esta sala se encuentra al final del camino: aquí puedes detenerte, recordar lo que atravesaste y elegir el premio que corresponde a tu recorrido. La escalera este asciende hacia el aire libre de Veyra.",
             "brief": "La luz y el agua recorren el Sagrario; las arquetas esperan a quienes ganaron su premio.",
             "day": "Un rayo de sol atraviesa la claraboya y llega a la canaleta. La luz salta del agua a una hoja de metal, luego a una gema, sin quedarse quieta.",
             "night": "Las estrellas asoman entre las piedras de la claraboya. La canaleta las refleja como pequeños puntos de luz que viajan despacio junto a las arquetas.",

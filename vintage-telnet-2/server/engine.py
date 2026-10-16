@@ -257,7 +257,7 @@ class Engine:
                 if details[index]:lines.append(event('trace',details[index]))
             active_numen=m.get_active_numen(state)
             if active_numen:
-                cue=m.exploration_cue(active_numen,room)
+                cue=m.exploration_cue(active_numen,room,now=self.clock(),ambient=ambient,rng=self.rng)
                 if cue and not any(l['text']==cue for l in lines):lines.append(event('discovery',cue))
             return lines or [event('world',room.get('description',''))]
         # Space stays explicit; secondary layers compete for attention rather than accumulate.
@@ -396,7 +396,7 @@ class Engine:
                 has_weapon=bool(state['equipment'].get('weapon'))
                 class_action_ids={a['id'] for a in m.CLASS_ACTIONS.get(player['class_id'],[])}
                 contribution=(chosen=='atacar' and has_weapon) or chosen=='capacidad' or chosen in class_action_ids or (player is primary and chosen in ('defender','esquivar','bloquear','resistir'))
-                state['_class']=player['class_id'];lines,outcome=m.resolve_round(state,creature,self.rng,respond=False);state.pop('_class',None)
+                state['_class']=player['class_id'];state['_now']=now;lines,outcome=m.resolve_round(state,creature,self.rng,respond=False);state.pop('_class',None);state.pop('_now',None)
                 state['events']=lines;state['last_active']=now;changed=True
                 if outcome=='fled':self.flee(player,world);continue
                 combat['eligible']=combat.get('eligible',False) or contribution;animal['hp']=max(0,combat['hp']);prepared=combat.get('prepared',False)
@@ -454,17 +454,26 @@ class Engine:
         state=character['state'];now=self.clock();combat=state['combat'];changed=False
         if not combat:
             elapsed=max(0,now-state['last_active']);previous_fatigue=state['fatigue'];state['fatigue']=max(0,state['fatigue']-math.floor(elapsed/10));state['last_active']+=math.floor(elapsed/10)*10
-            return state['fatigue']<previous_fatigue
+            greeted=False
+            if elapsed>=4*3600:
+                active_numen=m.get_active_numen(state)
+                if active_numen:
+                    cue=m.pick_numen_reaction(active_numen,'saludo_regreso',now=now,rng=self.rng)
+                    state.setdefault('events',[]).append(event('info',cue))
+                    state['last_active']=now
+                    greeted=True
+            return state['fatigue']<previous_fatigue or greeted
         # Persist every due round exactly once; reconnect does not pause combat.
         rounds=min(60,max(0,int((now-combat['next_round'])//4)+1))
         for _ in range(rounds):
             if not state['combat']:break
-            combat=state['combat'];state['_class']=character['class_id']
+            combat=state['combat'];state['_class']=character['class_id'];state['_now']=now
             creature=self.creature_prose(self.room(character,world),combat['creature'])
             if combat.get('intervention',{}).get('id')=='abrir_salida':
                 world.setdefault('creature_states',{}).setdefault(f"{state['location']}:{combat['creature']}",{})['escape_open']=True
+                state.pop('_class',None);state.pop('_now',None)
                 self.withdraw_animal(character,world,combat['creature']);changed=True;break
-            lines,outcome=m.resolve_round(state,creature,self.rng);state.pop('_class',None);state['events']=lines;changed=True
+            lines,outcome=m.resolve_round(state,creature,self.rng);state.pop('_class',None);state.pop('_now',None);state['events']=lines;changed=True
             world.setdefault('creature_states',{}).setdefault(f"{state['location']}:{combat['creature']}",{}).update(hp=max(0,combat['hp']))
             if combat['creature']=='dragon_aguas_antiguas':
                 if character['id'] not in world.setdefault('dragon_participants',[]):
@@ -508,6 +517,9 @@ class Engine:
         else:
             if creature.get('defeat_text'):state['events'].append(event('world',creature['defeat_text']))
             state['events'].append(event('reward',f"Vences a {creature['name']}. Ganas {gain} XP; este enfrentamiento no entrega sellos."))
+        active_numen=m.get_active_numen(state)
+        if active_numen:
+            state['events'].append(event('info',m.pick_numen_reaction(active_numen,'combate_fin',now=self.clock(),rng=self.rng)))
         self.advance_levels(state)
         deathkey=f"{state['location']}:{combat['creature']}";world['deaths'][deathkey]=self.clock()+300
         world.setdefault('creature_states',{}).pop(deathkey,None)
@@ -743,6 +755,8 @@ class Engine:
             if forge and catalog.get('kind')=='weapon' and item['id'] not in state['equipment'].values() and item.get('condition','intact')=='intact' and sum(i.get('quantity',1) for i in state['inventory'] if i.get('kind')=='weapon' and i.get('activated',True) and i.get('condition','intact')=='intact')>1:
                 sell_val=item.get('sell_price') if isinstance(item.get('sell_price'),int) else catalog.get('sell_price',0)
                 actions.append({'id':'vender','target':item['id'],'label':f"Vender {item['name']} · {sell_val} sellos",'confirmation':f"¿Vender {item['name']} por {sell_val} sellos?"})
+            elif forge and catalog.get('kind')=='weapon' and item.get('condition','intact')=='intact':
+                actions.append({'id':'vender','target':item['id'],'label':f"Vender {item['name']}",'disabled':True,'reason':'Guárdala primero: no puedes vender el arma que llevas equipada.' if item['id'] in state['equipment'].values() else 'Es tu única arma: consigue otra antes de venderla.'})
             fusion_cat=item.get('catalog_id') or item['id'].split(':')[0]
             fusion_copies=sum(i.get('quantity',1) for i in state['inventory'] if (i.get('catalog_id') or i['id'].split(':')[0])==fusion_cat)
             if forge and item.get('kind') in ('weapon','armor','block') and fusion_copies>=2 and item.get('fusion',0)<3:
@@ -810,7 +824,7 @@ class Engine:
             if choice['id'] not in ('comprar','vender'):continue
             item=self.content.items.get(choice['target']) if choice['id']=='comprar' else next((i for i in state['inventory'] if i['id']==choice['target']),None)
             kind=(item or {}).get('kind')
-            choice['category']={'weapon':'armas','armor':'armaduras','accessory':'joyas','consumable':'pociones','material':'materiales'}.get(kind,'otros')
+            choice['category']={'weapon':'armas','armor':'armaduras','accessory':'joyas','consumable':'pociones','numen_food':'pociones','material':'materiales'}.get(kind,'otros')
             if kind in ('armor','accessory'):choice['slot']=item.get('slot','torso')
         for choice in actions:
             cost=self.content.items[choice['target']]['price'] if choice['id']=='comprar' else {'afinar':12,'reparar':8,'recuperacion':18}.get(choice['id'])
@@ -821,7 +835,7 @@ class Engine:
         active_numen=m.get_active_numen(state)
         if active_numen:
             actions.append({'id':'cuidar_numen','target':active_numen['id'],'label':f"Atender a {active_numen['name']}",'reason':f"Comprobar el estado de {active_numen['name']} y ofrecerle afecto."})
-            actions.append({'id':'alimentar_numen','target':active_numen['id'],'label':f"Compartir comida con {active_numen['name']}",'reason':f"Ofrecer alimento a {active_numen['name']} para cuidar su bienestar."})
+            actions.append({'id':'alimentar_numen','target':active_numen['id'],'label':f"Compartir comida con {active_numen['name']}",'reason':f"Ofrecer un Bocado de Númen a {active_numen['name']}."})
             actions.append({'id':'nombrar_numen','target':active_numen['id'],'label':f"Cambiar nombre de {active_numen['name']}",'reason':f"Darle un nuevo nombre a {active_numen['name']}."})
         if room.get('kind')=='home':
             numenes_data=state.get('numenes',{})
@@ -1023,6 +1037,8 @@ class Engine:
 
     def apply_action(self,character,world,intent):
         state=character['state'];room=self.room(character,world);action=intent.get('id');target=intent.get('target')
+        now_clock=self.clock()
+        returned_after_hours=(now_clock-state.get('last_active',now_clock))>=4*3600
         if action in ('ayuda','inventario'):
             text='Comandos básicos: mirar, observar, examinar <objeto>, ir <salida>, hablar con <nombre>, inventario.' if action=='ayuda' else 'Inventario: '+('; '.join(f"{item['name']} ({item.get('quantity',1)})" for item in state['inventory']) or 'vacío')+'.'
             state['events']=[event('info',text)];return
@@ -1030,7 +1046,10 @@ class Engine:
             npc=next((n for n in self.people(room,state,world,self.ambient(room,world)) if n['id']==target),None)
             if not npc or state['combat']:raise RuleError('No puedes conversar con ese personaje ahora.',409)
             topics=[a['topic'] for a in self.actions(character,world) if a['id']=='hablar' and a['target']==target]
-            state['events']=[event('npc',npc['name']+': Hola. Temas disponibles: '+(', '.join(topics) or 'ninguno por ahora')+'.')];return
+            state['events']=[event('npc',npc['name']+': Hola. Temas disponibles: '+(', '.join(topics) or 'ninguno por ahora')+'.')]
+            active_numen=m.get_active_numen(state)
+            if active_numen:state['events'].append(event('info',m.pick_numen_reaction(active_numen,'hablar',now=now_clock,rng=self.rng)))
+            state['last_active']=now_clock;m.sync_numenes(state,now_clock);return
         known_before=set(state['bestiary'])
         candidates=self.actions(character,world)
         if action=='decir':
@@ -1058,10 +1077,37 @@ class Engine:
             try:
                 numen=m.rename_numen(state,target,intent.get('name'))
                 state['events']=[event('action',f"Ahora tu compañero se llama {numen['name']}.")]
-                state['last_active']=self.clock()
+                state['last_active']=now_clock;m.sync_numenes(state,now_clock)
                 return
             except ValueError as err:
                 raise RuleError(str(err))
+        if action=='activar_numen' and not state['combat']:
+            # R06: los demás vinculados esperan en el hogar; el cambio de acompañante se hace allí.
+            if room.get('kind')!='home':raise RuleError('Solo puedes cambiar de acompañante en tu hogar, donde esperan los demás.',409)
+            try:
+                target_numen=m.activate_numen(state,target)
+                cue=m.pick_numen_reaction(target_numen,'llegar',now=now_clock,rng=self.rng)
+                state['events']=[event('action',f"{target_numen['name']} se prepara para acompañarte en tu viaje. {cue}")]
+                state['last_active']=now_clock;m.sync_numenes(state,now_clock)
+                return
+            except ValueError as err:
+                raise RuleError(str(err),409)
+        if action=='descansar_juntos' and not state['combat']:
+            active=m.get_active_numen(state)
+            if not active:raise RuleError('No tienes un compañero Númen activo a tu lado.',409)
+            active.setdefault('care',{})['last_rested']=now_clock
+            events_list=[]
+            if room.get('safe',room['kind'] in ('home','settlement','interior')):
+                before=state['fatigue'];healed=m.rest(state);relief=before-state['fatigue']
+                if active.get('model')=='f' and state['fatigue']>0:
+                    extra=min(2,state['fatigue']);state['fatigue']=max(0,state['fatigue']-extra);relief+=extra
+                changes=([f'recuperas {healed:g} de vida'] if healed>0 else [])+([f'reduces {relief:g} de fatiga'] if relief>0 else [])
+                if changes:events_list.append(event('action','Descansas: '+' y '.join(changes)+'.'))
+            cue=m.pick_numen_reaction(active,'descansar',now=now_clock,rng=self.rng)
+            events_list.append(event('info',cue))
+            state['events']=events_list
+            state['last_active']=now_clock;m.sync_numenes(state,now_clock)
+            return
         candidate=next((a for a in candidates if a['id']==action and (a.get('target')==target or (target is None and action in ('cuidar_numen','alimentar_numen'))) and (a.get('topic') is None or a.get('topic')==intent.get('topic'))),None)
         if not candidate or candidate.get('disabled'):raise RuleError((candidate or {}).get('reason') or 'Esa acción no está disponible en tu situación actual.',409)
         state['events']=[]
@@ -1098,7 +1144,14 @@ class Engine:
             _,region=self.region_for(character['species']);destination=state['home'] if target=='hogar' else room.get('exits',{}).get(target)
             if target=='hogar' and state['location']!=region['settlement']:raise RuleError('Tu hogar no está conectado con este lugar.',409)
             if not destination:raise RuleError('No hay una salida por ahí.')
-            self.clear_attention(character,world);self.visit(state,destination);self.encounter(character,world);self.observe(state,self.room(character,world),world);state['events']=self.narrative(character,world)
+            self.clear_attention(character,world);self.visit(state,destination);self.encounter(character,world)
+            new_room=self.room(character,world);self.observe(state,new_room,world);state['events']=self.narrative(character,world)
+            active=m.get_active_numen(state)
+            if active:
+                amb=self.ambient(new_room,world)
+                cue=m.exploration_cue(active,new_room,now=now_clock,ambient=amb,rng=self.rng)
+                if cue and not any(e.get('text')==cue for e in state['events']):
+                    state['events'].append(event('info',cue))
         elif action=='descansar':
             before=state['fatigue'];healed=m.rest(state);relief=before-state['fatigue']
             active=m.get_active_numen(state)
@@ -1109,7 +1162,7 @@ class Engine:
             changes=([f'recuperas {healed:g} de vida'] if healed>0 else [])+([f'reduces {relief:g} de fatiga'] if relief>0 else [])
             state['events']=[event('action','Descansas: '+' y '.join(changes)+'.')]
             if active:
-                state['events'].append(event('info',f"{active['name']} descansa tranquilamente a tu lado."))
+                state['events'].append(event('info',m.pick_numen_reaction(active,'descansar',now=now_clock,rng=self.rng)))
             if state['hp']<m.hp_max(state) and state['rest_budget'] is not None and state['rest_budget']<=0:state['events'].append(event('info','El descanso ya no recupera más vida. Para recuperarte más puedes usar una provisión o buscar cuidados.'))
         elif action=='hablar':
             npc=next(n for n in self.people(room,state,world,self.ambient(room,world)) if n['id']==target)
@@ -1126,9 +1179,13 @@ class Engine:
                 recalled=state.setdefault('dialogue_memories',{})
                 if not contextual and recalled.get(target)!=recollection:state['events'].append(event('discovery',text))
                 recalled[target]=recollection
+            active=m.get_active_numen(state)
+            if active:state['events'].append(event('info',m.pick_numen_reaction(active,'hablar',now=now_clock,rng=self.rng)))
         elif action=='hablar_adversario':
             creature=self.creature_prose(room,target);response=self.adversary_dialogue(creature)[intent['topic']]
             state['events']=[event('npc',f"{creature['name']}: {response}"),event('world','Mantienes la distancia. Hablar no te obliga a combatir; las salidas siguen siendo una opción.')]
+            active=m.get_active_numen(state)
+            if active:state['events'].append(event('info',m.pick_numen_reaction(active,'hablar',now=now_clock,rng=self.rng)))
         elif action=='evaluar':
             signal=next((i for i in room.get('signals',[]) if i['creature']==target),{})
             profile=m.scaled(m.PROFILES[target],signal.get('level')) if target in m.PROFILES else None
@@ -1171,6 +1228,8 @@ class Engine:
             state['events']=[event('danger',creature.get('combat_intro',creature.get('warning',f"{creature['name']} responde a tu acercamiento. Puedes intervenir antes de que actúe.")))]
             prepared=m.preparation(state['combat'])
             if prepared and prepared.get('tell'):state['events'].append(event('danger',prepared['tell']))
+            active=m.get_active_numen(state)
+            if active:state['events'].append(event('info',m.pick_numen_reaction(active,'combate_inicio',now=now_clock,rng=self.rng)))
         elif action=='atributo':
             if target not in (state.get('attributes') or {}):raise RuleError('Atributo no válido.',409)
             if not intent.get('confirmed'):raise RuleError('Confirma el atributo, el nuevo valor y el coste antes de gastar PA.',409)
@@ -1418,8 +1477,13 @@ class Engine:
         for cid in state['bestiary']:
             if cid not in known_before and action!='examinar_criatura':
                 state['events'].append(event('discovery',f"Añades {state['bestiary'][cid]['name']} al bestiario."))
+        if returned_after_hours:
+            active_numen=m.get_active_numen(state)
+            if active_numen and action not in ('vincular_numen','alimentar_numen','cuidar_numen','descansar'):
+                state['events'].insert(0,event('info',m.pick_numen_reaction(active_numen,'saludo_regreso',now=now_clock,rng=self.rng)))
         self.update_quests(state,world,intent,room['id'])
-        state['last_active']=self.clock()
+        state['last_active']=now_clock
+        m.sync_numenes(state,now_clock)
 
     def effects(self,state,world,item):
         for item_id,quantity in item.get('give_items',{}).items():
@@ -1459,6 +1523,7 @@ class Engine:
     def snapshot(self,character,world):
         self.sync_dragon_participation(character,world)
         state=character['state'];room=self.room(character,world);ambient=self.ambient(room,world)
+        m.sync_numenes(state,self.clock())
         people=self.people(room,state,world,ambient)
         known=set(state['known']);nodes=[]
         home_room=self.room({**character,'state':{**state,'location':state['home']}},world)
@@ -1513,6 +1578,7 @@ class Engine:
         char.update({key:state.get(key) for key in ('location','level','xp','hp','fatigue','wound','seals','attributes','equipment','pa','pp')})
         if char.get('pa') is None:char['pa']=0
         char['numenes']=state.get('numenes',{'active':None,'bonded':[],'encounters':{}})
+        char['active_numen']=m.get_active_numen(state)
         char['attribute_effects']=dict(m.ATTRIBUTE_EFFECTS)
         char.update(hp_max=m.hp_max(state),xp_next=m.xp_next(state.get('level',1)),combat=safe_combat)
         quests=[]
