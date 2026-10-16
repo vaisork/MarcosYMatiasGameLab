@@ -100,9 +100,24 @@ def create_app(config=None):
             with store.transaction() as db:
                 access=db.execute('SELECT blocked,session_version FROM account_access WHERE account_id=?',(session['account_id'],)).fetchone()
             if access and (access['blocked'] or access['session_version']!=session.get('account_version',0)):
-                for key in ('account_id','character_id','account_version'):session.pop(key,None)
+                for key in ('account_id','character_id','account_version','master','master_account_id','master_version'):session.pop(key,None)
                 if request.path=='/api/state' and request.method=='GET':return jsonify(authenticated=False,characters=[],csrf_token=csrf(),message='El director cerró el acceso de esta cuenta.')
                 raise RuleError('El director cerró el acceso de esta cuenta.',403)
+        if request.path.startswith('/api/master/') and request.path not in ('/api/master/login','/api/master/logout'):
+            if session.get('master'):
+                m_acc_id = session.get('master_account_id') or session.get('account_id')
+                m_ver = session.get('master_version', session.get('account_version', 0))
+                with store.transaction() as db:
+                    if not m_acc_id:
+                        row = db.execute("SELECT id FROM accounts WHERE LOWER(username)='vaisork'").fetchone()
+                        m_acc_id = row['id'] if row else None
+                    m_access = db.execute('SELECT blocked,session_version FROM account_access WHERE account_id=?',(m_acc_id,)).fetchone() if m_acc_id else None
+                if m_access and (m_access['blocked'] or m_access['session_version'] != m_ver):
+                    for key in ('master','master_account_id','master_version','account_id','character_id','account_version'):
+                        session.pop(key,None)
+                    if request.path == '/api/master/state':
+                        return jsonify(authenticated=False, csrf_token=csrf()), 401
+                    raise RuleError('Esta decisión pertenece al DM.', 403)
         if request.method=='POST':
             body=request.get_json(silent=True)
             supplied=request.headers.get('X-CSRF-Token') or (body.get('csrf_token') if isinstance(body,dict) else None)
@@ -187,8 +202,23 @@ def create_app(config=None):
                 if not row:
                     cursor=db.execute("INSERT INTO accounts(username,password_hash) VALUES(?,?)",('vaisork','!reserved_dm'))
                     acc_id=cursor.lastrowid
-                else:acc_id=row['id']
-                access=db.execute('SELECT blocked,session_version FROM account_access WHERE account_id=?',(acc_id,)).fetchone()
+                    db.execute('INSERT INTO account_access(account_id,blocked,session_version) VALUES(?,0,0)',(acc_id,))
+                    access={'blocked':0,'session_version':0}
+                else:
+                    acc_id=row['id']
+                    access=db.execute('SELECT blocked,session_version FROM account_access WHERE account_id=?',(acc_id,)).fetchone()
+                    if row['password_hash']!='!reserved_dm':
+                        db.execute("UPDATE accounts SET password_hash='!reserved_dm' WHERE id=?",(acc_id,))
+                        if access:
+                            new_ver=access['session_version']+1
+                            db.execute('UPDATE account_access SET session_version=? WHERE account_id=?',(new_ver,acc_id))
+                            access={'blocked':access['blocked'],'session_version':new_ver}
+                        else:
+                            db.execute('INSERT INTO account_access(account_id,blocked,session_version) VALUES(?,0,1)',(acc_id,))
+                            access={'blocked':0,'session_version':1}
+                    elif not access:
+                        db.execute('INSERT INTO account_access(account_id,blocked,session_version) VALUES(?,0,0)',(acc_id,))
+                        access={'blocked':0,'session_version':0}
                 if access and access['blocked']:raise RuleError('El director ha bloqueado el acceso de esta cuenta.',403)
                 char_row=db.execute("SELECT * FROM characters WHERE account_id=? AND name=?",(acc_id,'Vaisork')).fetchone()
                 if not char_row:
@@ -223,6 +253,8 @@ def create_app(config=None):
                 session.clear();session['account_id']=acc_id;session['character_id']=char_id
                 session['account_version']=access['session_version'] if access else 0
                 session['master']=True
+                session['master_account_id']=acc_id
+                session['master_version']=session['account_version']
                 return jsonify(state(db,engine()))
             row=db.execute('SELECT * FROM accounts WHERE username=?',(username,)).fetchone()
             if not row or not check_password_hash(row['password_hash'],password):raise RuleError('Cuenta o contraseña incorrecta.',401)
@@ -343,11 +375,40 @@ def create_app(config=None):
         dm_user=str(app.config.get('DM_USERNAME') or 'vaisork').strip().lower()
         req_user=str(data.get('username','')).strip().lower()
         if not hashed or req_user!=dm_user or not check_password_hash(hashed,str(data.get('password',''))):raise RuleError('Acceso DM no autorizado.',401)
-        session['master']=True;session['csrf']=secrets.token_urlsafe(32);return jsonify(authenticated=True,csrf_token=csrf())
+        with store.transaction() as db:
+            row=db.execute("SELECT id,password_hash FROM accounts WHERE LOWER(username)='vaisork'").fetchone()
+            if not row:
+                cursor=db.execute("INSERT INTO accounts(username,password_hash) VALUES(?,?)",('vaisork','!reserved_dm'))
+                acc_id=cursor.lastrowid
+                db.execute('INSERT INTO account_access(account_id,blocked,session_version) VALUES(?,0,0)',(acc_id,))
+                ver=0
+            else:
+                acc_id=row['id']
+                access=db.execute('SELECT blocked,session_version FROM account_access WHERE account_id=?',(acc_id,)).fetchone()
+                if row['password_hash']!='!reserved_dm':
+                    db.execute("UPDATE accounts SET password_hash='!reserved_dm' WHERE id=?",(acc_id,))
+                    if access:
+                        ver=access['session_version']+1
+                        db.execute('UPDATE account_access SET session_version=? WHERE account_id=?',(ver,acc_id))
+                    else:
+                        ver=1
+                        db.execute('INSERT INTO account_access(account_id,blocked,session_version) VALUES(?,0,1)',(acc_id,))
+                elif not access:
+                    db.execute('INSERT INTO account_access(account_id,blocked,session_version) VALUES(?,0,0)',(acc_id,))
+                    ver=0
+                else:
+                    if access['blocked']:raise RuleError('El director ha bloqueado el acceso de esta cuenta.',403)
+                    ver=access['session_version']
+        session['master']=True
+        session['master_account_id']=acc_id
+        session['master_version']=ver
+        session['csrf']=secrets.token_urlsafe(32)
+        return jsonify(authenticated=True,csrf_token=csrf())
 
     @app.post('/api/master/logout')
     def master_logout():
-        session.pop('master',None);session['csrf']=secrets.token_urlsafe(32)
+        for key in ('master','master_account_id','master_version'):session.pop(key,None)
+        session['csrf']=secrets.token_urlsafe(32)
         return jsonify(authenticated=False,csrf_token=csrf())
 
     @app.get('/api/master/state')
@@ -526,7 +587,12 @@ def create_app(config=None):
         with store.transaction() as db:
             row=db.execute('SELECT account_id FROM characters WHERE id=?',(data['character_id'],)).fetchone()
             if not row:raise RuleError('No existe ese personaje.',404)
+            acc=db.execute('SELECT username FROM accounts WHERE id=?',(row['account_id'],)).fetchone()
+            dm_user=str(app.config.get('DM_USERNAME') or 'vaisork').strip().lower()
+            if acc and acc['username'].lower() in (dm_user,'vaisork'):
+                raise RuleError('La contraseña de la cuenta reservada no se cambia desde aquí; la credencial del DM se rota en server.env.',400)
             db.execute('UPDATE accounts SET password_hash=? WHERE id=?',(generate_password_hash(password),row['account_id']))
+            db.execute('INSERT INTO account_access(account_id,blocked,session_version) VALUES(?,0,1) ON CONFLICT(account_id) DO UPDATE SET session_version=account_access.session_version+1',(row['account_id'],))
             db.execute('INSERT INTO audit(actor,action,target,at) VALUES(?,?,?,?)',('master','account_password_change',str(row['account_id']),clock()))
         return jsonify(changed=True,csrf_token=csrf())
 

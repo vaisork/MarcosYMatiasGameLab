@@ -2731,7 +2731,7 @@
       "name": "Galería de las Losas Sonoras",
       "region": "veyra",
       "kind": "interior",
-      "description": "La galería se extiende bajo una bóveda tan larga que no alcanzas a ver bien su final. Aquí no cae agua. Tampoco se oye la rueda que acabas de dejar atrás. Cada pisada vuelve desde las paredes en un sonido claro, casi como una campanita, y luego se apaga. El suelo tiene losas anchas separadas por canales finos. En el dintel de entrada, dos líneas rectas enmarcan un círculo: las líneas continúan sobre las piedras firmes de los lados; las losas del centro parecen descansar torcidas, apenas un dedo. Entre sus juntas brillan alambres tensados hacia un rastrillo al oeste. Hay arañazos largos en uno de los muros y manchas de vapor donde la piedra debería estar seca. Una gota suspendida de un alambre tiembla. Nada la ha tocado. Muy al fondo, detrás del rastrillo, algo grande acaba de mover el aire.",
+      "description": "La galería se extiende bajo una bóveda tan larga que no alcanzas a ver bien su final. Aquí no cae agua. Tampoco se oye la rueda que acabas de dejar atrás. Cada pisada vuelve desde las paredes en un sonido claro, casi como una campanita, y luego se apaga. El suelo tiene losas anchas separadas por canales finos. En el dintel de entrada, dos líneas rectas enmarcan un círculo: las líneas continúan sobre las piedras firmes de los lados; las losas del centro parecen descansar torcidas, apenas un dedo. Entre sus juntas brillan alambres tensados hacia un rastrillo al oeste. Hay arañazos largos en uno de los muros y manchas de vapor donde la piedra debería estar seca. Una gota suspendida de un alambre tiembla. Nada la ha tocado. Muy al fondo, detrás del rastrillo, algo grande acaba de mover el aire. Junto al rastrillo oeste hay marcas de advertencia grabadas en la piedra: la Bóveda del Guardián es un paraje extremadamente peligroso; conviene llegar con nivel alto y provisión de pociones antes de adentrarse.",
       "day": "La claridad que logra pasar desde la cámara del trinquete marca las dos hileras seguras del piso. En medio, los bordes irregulares arrojan sombras delgadas.",
       "night": "Sin reflejos que te ayuden, cada movimiento se vuelve sonido. Hasta el roce de tu ropa regresa por la bóveda, y un segundo después llega un eco más hondo desde el oeste.",
       "rain": "La humedad oscurece las losas del centro mientras las dos franjas firmes conservan un brillo pálido. Una gota se forma en cada alambre y tiembla sin caer.",
@@ -2747,13 +2747,15 @@
           "requires_flags": [
             "bastion_paso_ecos_seguro"
           ],
-          "text": "Las losas basculantes de la galería hacen sonar alambres trampa que cierran el rastrillo del oeste."
+          "text": "Las losas basculantes de la galería hacen sonar alambres trampa que cierran el rastrillo del oeste. Al otro lado se extiende la Bóveda del Guardián, un paraje sumamente peligroso que exige nivel alto y pociones."
         }
       },
       "examine": {
         "dintel": "Pasas la mano por la talla. Dos líneas paralelas avanzan rectas; un círculo se aparta de ellas justo donde empiezan las losas que basculan. Las líneas no nombran al autor del aviso, pero sí muestran por dónde caminar.",
         "losas": "Las baldosas de las dos franjas laterales descansan sobre piedra maciza. Las del centro están montadas sobre un eje: una se mueve apenas con la presión de tu pie y una nota fina cruza el pasillo. Más allá, otra losa sigue oscilando sola, muy despacio.",
-        "alambres": "Hilos delgados de bronce cruzan las juntas y llegan al rastrillo oeste. Algunos están tensos, otros vibran por una corriente de aire que viene de adelante. Una gota recorre el alambre más alto y se detiene antes de caer."
+        "alambres": "Hilos delgados de bronce cruzan las juntas y llegan al rastrillo oeste. Algunos están tensos, otros vibran por una corriente de aire que viene de adelante. Una gota recorre el alambre más alto y se detiene antes de caer.",
+        "rastrillo": "El rastrillo del oeste da acceso directo a la Bóveda del Guardián. En la piedra del umbral hay una advertencia clara: cruzar hacia el guardián es extremadamente peligroso; conviene llegar con nivel alto y suficientes pociones si pretendes salir con vida.",
+        "aviso": "Las marcas junto al rastrillo oeste advierten de un peligro mortal: más allá aguarda una criatura temible, y conviene llegar con nivel alto y pociones antes de entrar."
       },
       "arrivals": {
         "veyra_mazmorra_mecanismo": "Atraviesas el hueco de la reja. A tus espaldas, el trinquete aún retumba; delante, el corredor absorbe su estruendo hasta dejarlo en nada. El primer paso suena seco. El segundo, como si alguien lo repitiera lejos de ti. Te detienes. Tu último eco da una vuelta más por la bóveda antes de desaparecer."
@@ -2836,7 +2838,7 @@
         {
           "creature": "dragon_aguas_antiguas",
           "level": 10,
-          "text": "El Dragón de las Aguas Antiguas levanta lentamente la cabeza. Una gota resbala de una de sus crestas antiguas y tarda varios latidos en tocar el agua. La cola cierra un poco más su círculo alrededor del manantial; sus ojos te siguen sin odio, pero tampoco con permiso. Cuando despliega una de las alas, el viento mueve el vapor y deja al descubierto una marca pálida en sus escamas. Está cansado de vigilar. No piensa apartarse.",
+          "text": "El Dragón de las Aguas Antiguas levanta lentamente la cabeza. Una gota resbala de una de sus crestas antiguas y tarda varios latidos en tocar el agua. La cola cierra un poco más su círculo alrededor del manantial; sus ojos te siguen sin odio, pero tampoco con permiso. Cuando despliega una de las alas, el viento mueve el vapor y deja al descubierto una marca pálida en sus escamas. Está cansado de vigilar. No piensa apartarse. Su porte anuncia un peligro extremo: es un combate sumamente peligroso y conviene llegar con nivel alto y abundantes pociones para tener alguna esperanza de resistir.",
           "forbids_flags": [
             "dragon_vencido"
           ],

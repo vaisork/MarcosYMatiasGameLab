@@ -601,7 +601,7 @@ class Engine:
         if self.content.items[item_id].get('kind')=='weapon':
             state['inventory'].append(dict(self.content.items[item_id],catalog_id=item_id,id=item_id+':'+uuid.uuid4().hex,quantity=1,condition='intact'))
             return
-        existing=next((i for i in state['inventory'] if i['id']==item_id),None)
+        existing=next((i for i in state['inventory'] if i['id']==item_id and i.get('fusion',0)==0),None)
         if existing:existing['quantity']+=1
         else:state['inventory'].append(dict(self.content.items[item_id],id=item_id,quantity=1))
 
@@ -1340,10 +1340,16 @@ class Engine:
                     item['fusion']=next_lvl
                     base_name=re.sub(r'\s*\+\d+$','',item['name'])
                     item['name']=f"{base_name} +{item['fusion']}"
+                    old_id=item['id']
+                    if ':' not in old_id:
+                        item['id']=cat+':'+uuid.uuid4().hex
+                        for slot,eq_id in list(state['equipment'].items()):
+                            if eq_id==old_id:state['equipment'][slot]=item['id']
+                    item['catalog_id']=cat
                 else:
                     item['quantity']-=2
                     base_name=re.sub(r'\s*\+\d+$','',item['name'])
-                    new_item=dict(item,id=cat+':'+uuid.uuid4().hex,quantity=1,fusion=next_lvl,name=f"{base_name} +{next_lvl}")
+                    new_item=dict(item,id=cat+':'+uuid.uuid4().hex,catalog_id=cat,quantity=1,fusion=next_lvl,name=f"{base_name} +{next_lvl}")
                     state['inventory'].append(new_item)
                     for slot,eq_id in list(state['equipment'].items()):
                         if eq_id==item['id']:state['equipment'][slot]=new_item['id']
@@ -1358,9 +1364,15 @@ class Engine:
                 item['fusion']=next_lvl
                 base_name=re.sub(r'\s*\+\d+$','',item['name'])
                 item['name']=f"{base_name} +{item['fusion']}"
+                old_id=item['id']
+                if ':' not in old_id:
+                    item['id']=cat+':'+uuid.uuid4().hex
+                    for slot,eq_id in list(state['equipment'].items()):
+                        if eq_id==old_id:state['equipment'][slot]=item['id']
                 if consumed_id:
                     for slot,eq_id in list(state['equipment'].items()):
                         if eq_id==consumed_id:state['equipment'][slot]=item['id']
+                item['catalog_id']=cat
             state['seals']-=cost
             self.effects(state,world,{'consume_items':{mat_id:qty}})
             base_sell=catalog.get('sell_price') or item.get('base_sell_price') or item.get('sell_price') or max(1,round(base_price*0.35))
