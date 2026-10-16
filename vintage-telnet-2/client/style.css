@@ -1130,3 +1130,11 @@ html body .combat-round-label svg{width:16px;height:16px;color:#ff9eb5}
  html body .numen-care-notice{flex-wrap:wrap;gap:8px;padding:10px 12px}
  html body .numen-notice-btn{width:100%;text-align:center;justify-content:center}
 }
+
+/* Grouped menus must fit narrow screens, including long catalog and room names. */
+.master-management .stack,.master-management .field,.inventory-group,.inventory-stack{min-width:0;max-width:100%}
+.master-management select,.master-management input{width:100%;min-width:0;max-width:100%}
+.master-management button,.inventory-group button,.shop-tabs button{white-space:normal;overflow-wrap:anywhere;min-height:44px}
+.master-management summary,.inventory-group summary,.inventory-stack summary{min-height:44px;overflow-wrap:anywhere}
+.inventory-group .item-heading,.inventory-stack .item-heading{min-width:0}
+.inventory-group .item-heading h3,.inventory-stack .item-heading h3{min-width:0;overflow-wrap:anywhere}
