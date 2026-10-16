@@ -755,6 +755,8 @@ class Engine:
             if forge and catalog.get('kind')=='weapon' and item['id'] not in state['equipment'].values() and item.get('condition','intact')=='intact' and sum(i.get('quantity',1) for i in state['inventory'] if i.get('kind')=='weapon' and i.get('activated',True) and i.get('condition','intact')=='intact')>1:
                 sell_val=item.get('sell_price') if isinstance(item.get('sell_price'),int) else catalog.get('sell_price',0)
                 actions.append({'id':'vender','target':item['id'],'label':f"Vender {item['name']} · {sell_val} sellos",'confirmation':f"¿Vender {item['name']} por {sell_val} sellos?"})
+            elif forge and catalog.get('kind')=='weapon' and item.get('condition','intact')=='intact':
+                actions.append({'id':'vender','target':item['id'],'label':f"Vender {item['name']}",'disabled':True,'reason':'Guárdala primero: no puedes vender el arma que llevas equipada.' if item['id'] in state['equipment'].values() else 'Es tu única arma: consigue otra antes de venderla.'})
             fusion_cat=item.get('catalog_id') or item['id'].split(':')[0]
             fusion_copies=sum(i.get('quantity',1) for i in state['inventory'] if (i.get('catalog_id') or i['id'].split(':')[0])==fusion_cat)
             if forge and item.get('kind') in ('weapon','armor','block') and fusion_copies>=2 and item.get('fusion',0)<3:

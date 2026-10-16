@@ -27,6 +27,8 @@ class ForgeTests(unittest.TestCase):
   self.act('desequipar','weapon')
   with self.assertRaises(RuleError):self.act('vender','espada_juramento',confirmed=True)
   self.assertEqual(self.state['seals'],300)
+  offer=next(a for a in self.engine.actions(self.character,self.world) if a['id']=='vender' and a['target']=='espada_juramento')
+  self.assertTrue(offer['disabled']);self.assertIn('única arma',offer['reason'])
  def test_exceptional_repair_is_once_and_does_not_equip(self):
   item=self.state['inventory'][0];self.act('desequipar','weapon');item['condition']='damaged_event'
   with self.assertRaises(RuleError):self.act('equipar',item['id'])
