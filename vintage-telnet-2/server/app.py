@@ -398,8 +398,6 @@ def create_app(config=None):
                     if access['blocked']:raise RuleError('El director ha bloqueado el acceso de esta cuenta.',403)
                     ver=access['session_version']
         session['master']=True
-        session['account_id']=acc_id
-        session['account_version']=ver
         session['master_account_id']=acc_id
         session['master_version']=ver
         session['csrf']=secrets.token_urlsafe(32)
