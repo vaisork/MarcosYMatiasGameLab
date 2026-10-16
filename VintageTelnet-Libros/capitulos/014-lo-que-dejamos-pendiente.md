@@ -78,7 +78,7 @@ Más adelante aparecieron los dos postes que anunciaban la entrada del pueblo.
 
 Lera se detuvo.
 
-Había atravesado la sierra baja de emociones con la que salió de Valdren: la vergüenza, el miedo a llegar tarde, la certeza equivocada de que caminar muy lejos podía obligar a una respuesta a esperarla al final. Ninguna de esas cosas había desaparecido. Pero ahora tenía delante las cercas que sí conocía y un trabajo cuya respuesta no podía adivinar desde lejos.
+Había salido de Valdren con vergüenza, miedo a llegar tarde y la idea de que caminar muy lejos obligaría a una respuesta a esperarla al final. Ninguna de esas cosas había desaparecido del todo. Pero ahora tenía delante las cercas que sí conocía y un trabajo cuyo estado no podía adivinar desde lejos.
 
 Entró.
 
@@ -403,4 +403,4 @@ La canaleta continuó murmurando entre las cercas. Una gota se formó en la uni�
 
 Aquella gota no había desaparecido porque ella regresara.
 
-Mañana habría gente que sabía dónde mirar.
+Mañana estaría allí para mirarla con los demás.
