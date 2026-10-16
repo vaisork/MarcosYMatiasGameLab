@@ -169,3 +169,188 @@ Si se iba ahora, era posible que la respuesta llegara a Vaisgard cuando ya no es
 Tal vez no llegara nunca.
 
 —Todavía tengo que despedirme de alguien —respondió.
+
+
+***
+
+La vendedora estaba guardando las piezas que no debían viajar cuando Lera volvió al mercado.
+
+—¿Olvidaste algo? —preguntó.
+
+—Despedirme.
+
+La mujer tardó un momento en contestar.
+
+—Me parecía que ibas a quedarte unos días más.
+
+—A mí también.
+
+—¿Encontraste a Dalia?
+
+—No.
+
+—Entonces ¿por qué regresas?
+
+Lera apoyó la bolsa sobre el borde del puesto, sin ocupar el espacio de las mercancías.
+
+—Porque hay otra persona a la que le dejé una responsabilidad. Me fui creyendo que había arreglado todo lo necesario para que los demás siguieran trabajando. Le escribí para preguntarle si era verdad. Pero no puedo esperar una respuesta aquí sin saber siquiera si el mensaje saldrá de la ciudad.
+
+La vendedora dejó el paño.
+
+—No veo que regresar garantice que tu amiga esté en casa.
+
+—No lo garantiza. Ni siquiera sé si querrá verme. Pero sé dónde empezar a buscarla.
+
+—¿Y Dalia?
+
+La pregunta le dolió porque Lera había procurado que no quedara oculta detrás de otras.
+
+—Dalia tiene derecho a marcharse —dijo—. Si sigo detrás de ella por todos los caminos sin saber dónde está, acabaré persiguiendo una idea de ella, no a mi amiga.
+
+La comerciante se apoyó contra el muro. Tenía las manos cansadas y la expresión de quien había escuchado lo suficiente para formarse una opinión, aunque nadie se la pidiera.
+
+—Hay otra cosa que no sabes —dijo—. Si te esperan en Valdren.
+
+—Lo sé.
+
+—Entonces vas a caminar bastante para averiguarlo.
+
+—Sí.
+
+Una rueda golpeó la tabla del canalillo y las dos esperaron a que pasara un carro.
+
+Lera tocó la correa de su bolsa, que empezaba a deshilacharse donde se unía al tejido. En otra ocasión habría seguido caminando hasta que se rompiera, y después habría esperado que alguien tuviera una cuerda.
+
+Ahora retiró la bolsa del borde y la sostuvo con las manos.
+
+—No puedo llevarla así todo el camino.
+
+La vendedora la observó intentar un nudo.
+
+—Si la atas por ahí, se soltará en cuanto la cargues.
+
+—Lo sé. Todavía no la he terminado.
+
+Lera buscó la parte menos gastada de la correa y la dobló sobre sí misma, reduciendo la longitud para que el peso quedara más arriba. Pasó el extremo por una vuelta ya existente y apretó con la mano buena. Probó a levantar la bolsa, la bajó y volvió a ajustar. El remiendo era feo, pero no se abrió al tirar.
+
+La mujer soltó una risa.
+
+—Eso sí que necesita un trabajo de verdad.
+
+—Seli me dijo lo mismo.
+
+—Entonces escúchala.
+
+—Cuando vuelva, si puedo pagarle una costura.
+
+La vendedora siguió ordenando fruta. Lera esperó un instante, hasta comprender que no iba a ofrecerle una despedida solemne.
+
+—Gracias por aquella noche —dijo.
+
+—La pagaste.
+
+—Me dejaste quedarme cuando todavía no sabía qué hacer al día siguiente.
+
+La mujer la miró por encima de las cestas.
+
+—Y tú te marchaste cuando necesité abrir el paso. Así es como funcionan los acuerdos que tienen principio y final.
+
+Lera sonrió.
+
+—Todavía no sé si volveré a Vaisgard.
+
+—Si vuelves, trae mejores botas.
+
+—Eso no estaba en mis planes.
+
+—Pues ya tienes uno.
+
+La vendedora regresó a su trabajo. Lera levantó la bolsa con cuidado y salió del mercado sin pedirle a nadie que guardara noticias ni prometiera buscarla. Había dado como referencia aquel lugar en una nota que tal vez llegara a Valdren, pero el mercado nunca había sido su domicilio. Arel lo sabía; Mara, si llegaba a leer el mensaje, también encontraría aquella limitación.
+
+No podía deshacer ahora el recado ni asegurar que llegara antes o después que ella.
+
+Podía, en cambio, elegir qué haría con sus propios pies.
+
+***
+
+Cuando regresó a la calle de almacenes, el conductor estaba terminando de ajustar los últimos sacos.
+
+—Has vuelto —dijo.
+
+—Te dije que lo haría antes de que salieras.
+
+—La mayoría de la gente dice muchas cosas.
+
+Lera miró la carga.
+
+—¿Quieres que revisemos las ataduras otra vez?
+
+—Una sola vez. Luego caminamos. Si paramos a comprobar cada nudo hasta que se gaste el sol, terminaremos aquí.
+
+Los ayudantes hicieron sitio para que pudiera acercarse. Ella no tocó las cuerdas que sostenían la mayor parte del peso. Se limitó a vigilar las lazadas, a señalar un extremo que sobresalía y a mantener el paso libre cuando uno de los muchachos movió un saco.
+
+Al terminar, el conductor comprobó que el carro pudiera avanzar sin enganchar una cuerda en la esquina del muro.
+
+—Está bien —dijo.
+
+Lera no le preguntó si había ganado el derecho a seguir caminando con ellos. Ya lo habían acordado. Lo importante era cumplirlo.
+
+El carro se puso en marcha.
+
+Avanzaron despacio hacia el arco de la Puerta de los Campos. Bajo las escaleras exteriores, una mujer apartó su jarra para que las ruedas pudieran pasar. El conductor aguardó frente a la raya pintada hasta que la puerta quedó libre.
+
+Lera había entrado por allí pensando únicamente en lo que iba a decirle a Dalia.
+
+Al salir, recordó el arroyo, la media empapada, el hambre y las voces del mercado. Recordó también a la niña que no quería que le cortaran la capa, a Seli y su aguja, a una vendedora que no le prometía más de lo que podía ofrecer.
+
+El arco se alzó sobre la carga. Al otro lado soplaba un aire distinto, con olor a tierra trabajada.
+
+Uno de los ayudantes se adelantó para observar el camino. El conductor le pidió que no corriera junto a la rueda.
+
+—¿Conoces bien la bajada? —preguntó a Lera.
+
+—La crucé cuando venía.
+
+—No te pregunté si la cruzaste.
+
+Ella miró el suelo pulido por tantas ruedas y luego la pendiente que empezaba más adelante.
+
+—La conozco lo suficiente para saber dónde tendría que prestar atención. No para decirte que no hay peligro.
+
+—Eso me sirve mejor.
+
+Lera se quedó al costado del carro, donde podía ver la carga sin estorbar a los animales. El nudo improvisado de la bolsa le rozaba el hombro. No había comida para toda la ruta ni un lugar asegurado donde dormir cuando el conductor hiciera su primera parada.
+
+Tampoco tenía que inventarse uno para convencer al lector —o a sí misma— de que había tomado una decisión valiente.
+
+Se limitó a caminar.
+
+Las primeras piedras del descenso comenzaron a sonar bajo las ruedas.
+
+A medida que se alejaban de la puerta, Lera volvió la cabeza una sola vez. No alcanzó a ver la Plaza de las Cinco Rutas, oculta tras los tejados. Allí había esperado dos tardes por una respuesta que no llegó. En algún lugar de la ciudad seguía, quizá, la nota destinada a Mara. Más lejos, con Nara, viajaba un recorte que solo decía dónde había querido que alguien la encontrara.
+
+Y bajo su chaqueta continuaba la carta para Dalia.
+
+Ninguna de aquellas hojas podía decidir por una persona.
+
+Lera acomodó el hombro bajo la correa más corta y alcanzó al ayudante que caminaba delante.
+
+—Cuando lleguemos a las piedras del arroyo —le dijo—, avísame antes de mover el peso.
+
+—¿Por qué?
+
+—Porque la última vez aprendí demasiado tarde a mirar dónde ponía los pies.
+
+El muchacho sonrió.
+
+—Entonces hoy miraremos antes.
+
+Lera volvió los ojos al camino.
+
+No había encontrado a Dalia. Tampoco regresaba al mismo lugar del que había salido: volvía con preguntas para las personas que sí podía alcanzar, y sin exigir que las respuestas fueran fáciles.
+
+El carro descendió hacia los campos de Edran.
+
+Por primera vez desde que salió de Valdren, Lera no seguía el rastro incierto de otra persona.
+
+Había escogido el camino que estaba dispuesta a recorrer.
