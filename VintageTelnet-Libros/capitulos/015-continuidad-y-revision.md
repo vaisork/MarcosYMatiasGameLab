@@ -1,9 +1,9 @@
 # Capítulo 015 — Continuidad y propuesta de cierre del Libro I
 
 **Obra:** *Crónicas de Vaisgard*, Libro I *El primer camino*. **Escritor 01:** [PR #705](https://github.com/vaisork/MatiasGameLab/pull/705).  
-**Manuscrito de cierre propuesto:** [015 — «El camino que queda»](015-el-camino-que-queda.md), **2,532 palabras** contando título; SHA `52428a29d772d4677a2981e15f636d814ade4316`.  
+**Manuscrito de cierre propuesto:** [015 — «El camino que queda»](015-el-camino-que-queda.md), **2,532 palabras** contando título; SHA `a588a270c89538c7666635a84cedaa129a2cb6df`.  
 **Permiso expreso y único:** `../plan/DECISION_CIERRE_C014_Y_AUTORIZACION_C015_2026-10-16.md`.  
-**Estado:** **BORRADOR C015 COMPLETO y propuesta de CIERRE LITERARIO del Libro I**, **pendiente dictamen Editor 03 y aprobación Arquitectura Editorial**. El escritor **no** declara aprobado el final, ni autorizado un C016 o epílogo. **WIP=1. PR #705 DRAFT.** No hay publicación ni fusión final mientras falte co-decisión VT2+Editorial.
+**Estado:** **C015 APROBADO LITERARIAMENTE POR EDITOR 03**, con una minucia ya corregida; **pendiente ratificación independiente de Arquitectura Editorial**. El escritor **no** declara aprobado el final, ni autorizado un C016 o epílogo. **WIP=1. PR #705 DRAFT.** No hay publicación ni fusión final mientras falte co-decisión VT2+Editorial.
 **Capítulo anterior:** C014 aprobado literariamente (texto SHA `d9bae6c9e5629216f65a418c1d65a9ab964fbbcc`, matriz `9efbfb82484fa6697e0090b772096022de41c82f`), microcorrección cronológica «La primera semana»→«Al principio» ya realizada por Editor 03.
 
 ## 1. Reloj y recorrido
@@ -54,10 +54,19 @@
 
 ## 5. Dictamen editorial necesario y bloqueos
 
-- [ ] **Editor 03 / PR #707:** leer capítulo completo vigente SHA `52428a29d772d4677a2981e15f636d814ade4316` y esta matriz; revisar consistencia cronológica día 5, viabilidad de marca de humedad sin solución mágica, límite del acuerdo vecina/Sabel, corrección del objeto carta, verosimilitud de guardar en pertenencias propias, **potencia emocional del final sin aparición de Dalia ni moralización**, referencia a carta C001–C002. Correcciones menores directas autorizadas por propietario, **con blob SHA/commit trazados**; observación estructural al Arquitecto Editorial.
+- [x] **Editor 03 / PR #707:** leído capítulo completo, revisado y microeditado; SHA vigente `a588a270c89538c7666635a84cedaa129a2cb6df` y esta matriz; revisar consistencia cronológica día 5, viabilidad de marca de humedad sin solución mágica, límite del acuerdo vecina/Sabel, corrección del objeto carta, verosimilitud de guardar en pertenencias propias, **potencia emocional del final sin aparición de Dalia ni moralización**, referencia a carta C001–C002. Correcciones menores directas autorizadas por propietario, **con blob SHA/commit trazados**; observación estructural al Arquitecto Editorial.
 - [ ] **Arquitectura Editorial:** dictaminar explícitamente si este C015 **culmina orgánicamente Libro I** y si la novela está lista literariamente tras revisión, **sin inventar C016 ni epílogo**. Si el desenlace resulta insuficiente, escalar propuesta de arquitectura en vez de añadir por inercia.
 - [ ] **Historiador 02 / PR #706:** cotejar solo si aparecen dudas de Valdren (banco/canaleta/roles) o de límites de información; no atlas nuevo.
 - [ ] **Arquitectura VT2 + Editorial:** **co-decisión expresa antes de merge/publicación definitiva**: prólogo VT1→VT2, personajes Dalia/Lera/Mara/Sabel/Iven/Nara, episodios privados Arel (incluido cobro de C012), Seli y Saltalodo/canon. La aprobación literaria por sí sola no autoriza publicación definitiva.
 - [ ] **Publicador 04 / PR #708:** seguir prioridad aparte de **entregar EPUB v03 ya ilustrado al lector Android/Drive privado**, sin bloquearlo esperando C015 ni reconstruir el EPUB existente. Edición futura completa solo tras dictamen literario/QA/canon.
 
 **WIP=1 completado en manuscrito, pendiente dictamen. C016 no autorizado. No se modificó runtime VT2, arte, infra ni otras PR.**
+
+## 6. Revisión final del Editor Integral 03 — 16/10/2026
+
+**C015 leído íntegramente y cotejado con C001 y C002, C014, `vintage-telnet-2/content/regions/edran.json` de `main` (`valdren_plaza` y `valdren_huertos`), y ficha vinculante del capítulo final. Manuscrito original `52428a29d772d4677a2981e15f636d814ade4316`.**
+
+- **L01 — referente del diálogo afectivo, RESUELTA DIRECTAMENTE:** «¿Tú crees que volveremos a ser amigas?» → «¿Tú crees que Dalia y yo volveremos a ser amigas?». Sin referente, una pregunta a Mara podía leerse como pregunta por la relación Mara–Lera, cuando el foco inmediato es Dalia. La frase siguiente («Lera no sabía si [Mara] estaba pensando en Dalia o en las dos») mantiene la resonancia **de las dos amistades**.
+- **Nuevo blob manuscrito:** `a588a270c89538c7666635a84cedaa129a2cb6df` (commit `39824c40660083be18bc5d3725927065f099361c`).
+- **Desenlace:** Dalia ausente y sin contacto **sí admite culminación emocional activa**: Lera define consentimiento/ausencia de intermediarios, decide guardar la carta original en Valdren sin destruirla ni entregarla y **cumple en hechos**, no solo en reflexión, la revisión conjunta limitada de la canaleta. El final demuestra respeto por decisiones ajenas e implicación material responsable.
+- **Estado:** C015 **APROBADO LITERARIAMENTE POR EDITOR 03**, **sin minucias pendientes**, **en espera de ratificación independiente de Arquitectura Editorial**. **C016/epílogo no autorizados**. La co-decisión conjunta **Arquitectura Editorial + Arquitecto VT2** sigue siendo condición para fusión/publicación definitiva.
