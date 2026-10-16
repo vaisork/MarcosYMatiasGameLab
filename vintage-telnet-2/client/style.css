@@ -782,6 +782,309 @@ html.reduced-motion body .numen-art-frame .numen-art-img{animation:none!importan
  html body .numen-actions button{min-height:44px}
  html body .numen-care-buttons{grid-template-columns:minmax(0,1fr)}
 }
+
+/* --- TAMAGOTCHI CLÁSICO --- */
+html body .tamagotchi-container {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ width: 100%;
+ max-width: 440px;
+ margin: 0 auto;
+ padding-bottom: var(--nav-h, 190px);
+ box-sizing: border-box;
+}
+
+html body .tamagotchi-egg {
+ position: relative;
+ width: 100%;
+ max-width: 320px;
+ margin: 0 auto 16px;
+ padding: 26px 18px 22px;
+ border-radius: 50% 50% 46% 46% / 58% 58% 44% 44%;
+ background: radial-gradient(circle at 35% 25%, #ffffff 0%, #ffd6cc 24%, #f28b7d 68%, #d9534f 100%);
+ box-shadow:
+  inset 0 4px 12px rgba(255, 255, 255, 0.85),
+  inset 0 -8px 16px rgba(0, 0, 0, 0.35),
+  0 12px 28px rgba(0, 0, 0, 0.22);
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ border: 3px solid rgba(0, 0, 0, 0.15);
+ box-sizing: border-box;
+ user-select: none;
+}
+
+/* Color according to Númen model */
+html body .tamagotchi-egg.numen-egg-a { /* Perro / canino */
+ background: radial-gradient(circle at 35% 25%, #ffffff 0%, #ffd4be 25%, #fa8060 68%, #d95032 100%);
+}
+html body .tamagotchi-egg.numen-egg-b { /* Gato / felino */
+ background: radial-gradient(circle at 35% 25%, #ffffff 0%, #d4f7eb 25%, #4ecdc4 68%, #2ea098 100%);
+}
+html body .tamagotchi-egg.numen-egg-c { /* Lagarto */
+ background: radial-gradient(circle at 35% 25%, #ffffff 0%, #eaf8d0 25%, #9fd848 68%, #6ba820 100%);
+}
+html body .tamagotchi-egg.numen-egg-d { /* Nutria */
+ background: radial-gradient(circle at 35% 25%, #ffffff 0%, #d8f1fc 25%, #5dade2 68%, #2e86c1 100%);
+}
+html body .tamagotchi-egg.numen-egg-e { /* Zorro */
+ background: radial-gradient(circle at 35% 25%, #ffffff 0%, #ffe3c4 25%, #f39c12 68%, #d35400 100%);
+}
+html body .tamagotchi-egg.numen-egg-f { /* Búho */
+ background: radial-gradient(circle at 35% 25%, #ffffff 0%, #eedeff 25%, #af7ac5 68%, #884ea0 100%);
+}
+html body .tamagotchi-egg.numen-egg-g { /* Cabra */
+ background: radial-gradient(circle at 35% 25%, #ffffff 0%, #fef5d1 25%, #f1c40f 68%, #d4ac0d 100%);
+}
+html body .tamagotchi-egg.numen-egg-h { /* Tortuga */
+ background: radial-gradient(circle at 35% 25%, #ffffff 0%, #daf7dc 25%, #52be80 68%, #1e8449 100%);
+}
+
+/* Subtle decorative glossy highlight reflection */
+html body .tamagotchi-egg::before {
+ content: "";
+ position: absolute;
+ top: 12px;
+ left: 28px;
+ width: 56px;
+ height: 22px;
+ border-radius: 50%;
+ background: rgba(255, 255, 255, 0.55);
+ transform: rotate(-32deg);
+ pointer-events: none;
+}
+
+/* Decorative printed dots */
+html body .tamagotchi-decor-dots {
+ display: flex;
+ gap: 6px;
+ margin-top: 10px;
+ opacity: 0.55;
+}
+html body .tamagotchi-decor-dots span {
+ width: 4px;
+ height: 4px;
+ border-radius: 50%;
+ background: #333;
+ box-shadow: inset 0 1px 1px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.4);
+}
+
+html body .tamagotchi-brand {
+ font-size: 10px;
+ font-weight: 800;
+ letter-spacing: 2.5px;
+ color: rgba(30, 30, 30, 0.75);
+ text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+ margin-bottom: 6px;
+ text-transform: uppercase;
+}
+
+/* Sunken beveled frame around screen */
+html body .tamagotchi-bezel {
+ width: 100%;
+ max-width: 240px;
+ background: linear-gradient(180deg, #32363a 0%, #1e2023 100%);
+ border-radius: 18px;
+ padding: 8px 10px 10px;
+ box-shadow:
+  inset 2px 2px 6px rgba(0, 0, 0, 0.8),
+  inset -2px -2px 4px rgba(255, 255, 255, 0.2),
+  0 4px 8px rgba(0, 0, 0, 0.3);
+ border: 3px solid #18191c;
+ box-sizing: border-box;
+}
+
+/* LCD screen */
+html body .tamagotchi-screen {
+ position: relative;
+ background: #9ea77a;
+ border-radius: 10px;
+ box-shadow:
+  inset 3px 3px 8px rgba(0, 0, 0, 0.55),
+  inset -1px -1px 3px rgba(255, 255, 255, 0.3);
+ border: 2px solid #778157;
+ overflow: hidden;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ padding: 6px 6px 8px;
+ box-sizing: border-box;
+ transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+html body .tamagotchi-screen::after {
+ content: "";
+ position: absolute;
+ inset: 0;
+ background: repeating-linear-gradient(
+  0deg,
+  rgba(0, 0, 0, 0.035) 0px,
+  rgba(0, 0, 0, 0.035) 1px,
+  transparent 1px,
+  transparent 2px
+ );
+ pointer-events: none;
+}
+
+html body .tamagotchi-screen.is-night {
+ background: #25332a;
+ border-color: #1a261f;
+ box-shadow:
+  inset 3px 3px 10px rgba(0, 0, 0, 0.85),
+  inset -1px -1px 2px rgba(255, 255, 255, 0.08);
+}
+
+/* Top menu inside LCD */
+html body .tamagotchi-menu {
+ display: flex;
+ justify-content: space-between;
+ width: 100%;
+ margin-bottom: 4px;
+ padding: 0 2px;
+ gap: 3px;
+ z-index: 2;
+}
+
+html body .tamagotchi-menu-btn {
+ flex: 1;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ background: transparent;
+ border: 1px solid transparent;
+ border-radius: 4px;
+ padding: 3px 0 2px;
+ cursor: pointer;
+ font-size: 13px;
+ line-height: 1;
+ color: #242b18;
+ min-height: 34px;
+ transition: background 0.1s, color 0.1s;
+ touch-action: manipulation;
+}
+
+html body .tamagotchi-screen.is-night .tamagotchi-menu-btn {
+ color: #5c7463;
+}
+
+html body .tamagotchi-menu-btn.is-selected {
+ background: #242b18;
+ color: #9ea77a;
+ border-color: #242b18;
+}
+
+html body .tamagotchi-screen.is-night .tamagotchi-menu-btn.is-selected {
+ background: #465c4c;
+ color: #1a261f;
+ border-color: #465c4c;
+}
+
+html body .tamagotchi-menu-label {
+ font-size: 8px;
+ font-weight: 800;
+ text-transform: uppercase;
+ letter-spacing: -0.3px;
+ margin-top: 1px;
+}
+
+/* LCD Canvas */
+html body .tamagotchi-canvas {
+ width: 100%;
+ aspect-ratio: 4 / 3;
+ max-width: 216px;
+ height: auto;
+ image-rendering: pixelated;
+ image-rendering: -moz-crisp-edges;
+ image-rendering: crisp-edges;
+ background: transparent;
+ display: block;
+ z-index: 1;
+ cursor: pointer;
+}
+
+/* Physical A, B, C Buttons */
+html body .tamagotchi-buttons-row {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ gap: 20px;
+ margin-top: 16px;
+ width: 100%;
+}
+
+html body .tamagotchi-btn {
+ width: 44px;
+ height: 44px;
+ min-width: 44px;
+ min-height: 44px;
+ border-radius: 50%;
+ border: 1px solid rgba(0, 0, 0, 0.25);
+ background: radial-gradient(circle at 35% 30%, #ffffff 0%, #e2e2e2 65%, #b4b4b4 100%);
+ box-shadow:
+  0 4px 6px rgba(0, 0, 0, 0.35),
+  inset 0 1px 2px rgba(255, 255, 255, 0.95),
+  inset 0 -2px 3px rgba(0, 0, 0, 0.25);
+ cursor: pointer;
+ font-weight: 800;
+ font-size: 15px;
+ color: #2d3748;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ touch-action: manipulation;
+ user-select: none;
+ transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+html body .tamagotchi-btn:hover {
+ background: radial-gradient(circle at 35% 30%, #ffffff 0%, #ebebeb 65%, #bfbfbf 100%);
+}
+
+html body .tamagotchi-btn:active {
+ transform: translateY(3px);
+ box-shadow:
+  0 1px 2px rgba(0, 0, 0, 0.4),
+  inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+html body .tamagotchi-btn-b {
+ margin-top: 10px;
+}
+
+html body .tamagotchi-btn-b:active {
+ transform: translateY(13px);
+}
+
+html body .tamagotchi-btn-hint {
+ font-size: 0.72rem;
+ color: rgba(255, 255, 255, 0.9);
+ text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+ margin-top: 8px;
+ font-weight: 700;
+ letter-spacing: 0.3px;
+ text-align: center;
+}
+
+html body .numen-tamagotchi-details {
+ width: 100%;
+ max-width: 440px;
+ margin: 0 auto 12px;
+ box-sizing: border-box;
+}
+
+html body .sr-only {
+ position: absolute !important;
+ width: 1px !important;
+ height: 1px !important;
+ padding: 0 !important;
+ margin: -1px !important;
+ overflow: hidden !important;
+ clip: rect(0, 0, 0, 0) !important;
+ white-space: nowrap !important;
+ border: 0 !important;
+}
 html body .vaisork-dm-sheet{padding:12px;border:2px solid #c3d2ff;border-radius:14px;background:linear-gradient(180deg,#ffffff,#f4f8ff);color:var(--ink)}
 html body .vaisork-dm-header{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 html body .vaisork-dm-portrait{width:110px;height:138px;object-fit:cover;border-radius:12px;border:2px solid #9fb6ff;flex-shrink:0}

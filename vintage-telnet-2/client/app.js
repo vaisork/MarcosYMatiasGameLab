@@ -329,7 +329,170 @@ function numenSection(c){
  }
  return section;
 }
+// --- TAMAGOTCHI CLÁSICO ---
+let tamagotchiMenuIndex = -1;
+let tamagotchiLoopId = null;
+let cachedFallbackCanvas = null;
+let tamagotchiSim = {
+ x: 16,
+ y: 14,
+ dir: 1,
+ pauseUntil: 0,
+ jumpUntil: 0,
+ jumpY: 0,
+ lastFrameTime: 0,
+ frameIndex: 0
+};
+
+function createFallbackSpriteSheet() {
+ if (cachedFallbackCanvas) return cachedFallbackCanvas;
+ const canvas = document.createElement('canvas');
+ canvas.width = 384;
+ canvas.height = 32;
+ const ctx = canvas.getContext('2d');
+ if (!ctx) return canvas;
+ const ink = '#242b18', body = '#4d5c34', belly = '#7a8c5a';
+
+ for (let f = 0; f < 12; f++) {
+  const ox = f * 32;
+  let hx = ox + 15, hy = 8;
+  let bx = ox + 8, by = 14;
+  let lx1 = ox + 9, ly1 = 23, lx2 = ox + 17, ly2 = 23;
+  let legH = 5;
+  let tailX = ox + 5, tailY = 15;
+  let eyeX = ox + 22, eyeY = 11;
+  let eyeOpen = true;
+  let mouthX = ox + 24, mouthY = 14, mouthOpen = false;
+  let earY = 5, sad = false;
+
+  if (f === 1) { // Idle breath
+   by += 1; hy += 1; eyeY += 1; mouthY += 1; earY += 1; tailY -= 1;
+  } else if (f === 2) { // Walk 0
+   lx1 -= 2; lx2 += 2; by -= 1; hy -= 1; eyeY -= 1; mouthY -= 1; earY -= 1;
+  } else if (f === 3) { // Walk 1
+   lx1 += 2; lx2 -= 2;
+  } else if (f === 4) { // Eat 0
+   hy += 2; eyeY += 2; mouthY += 2; mouthOpen = true;
+  } else if (f === 5) { // Eat 1
+   hy += 1; eyeY += 1; mouthY += 1; mouthOpen = false;
+  } else if (f === 6 || f === 7) { // Sleep 0-1
+   by += 4; hy += 4; eyeY += 4; mouthY += 4; earY += 3;
+   legH = 2; ly1 += 3; ly2 += 3; eyeOpen = false;
+   if (f === 7) { by -= 1; hy -= 1; eyeY -= 1; mouthY -= 1; }
+  } else if (f === 8) { // Happy crouch
+   by += 2; hy += 2; eyeY += 2; mouthY += 2; earY += 2;
+  } else if (f === 9) { // Happy jump
+   by -= 4; hy -= 5; eyeY -= 5; mouthY -= 5; earY -= 6;
+   ly1 -= 2; ly2 -= 2; tailY -= 3;
+  } else if (f === 10 || f === 11) { // Sad
+   hy += 3; eyeY += 3; mouthY += 3; earY += 4; tailY += 3; sad = true;
+   if (f === 11) { by += 1; hy += 1; eyeY += 1; mouthY += 1; }
+  }
+
+  // Draw body & head
+  ctx.fillStyle = body;
+  ctx.fillRect(bx, by, 11, 9);
+  ctx.fillStyle = belly;
+  ctx.fillRect(bx + 2, by + 4, 7, 4);
+  ctx.fillStyle = body;
+  ctx.fillRect(hx, hy, 10, 8);
+  ctx.fillRect(hx + 7, hy + 3, 4, 4);
+
+  // Ears
+  ctx.fillStyle = ink;
+  if (sad) {
+   ctx.fillRect(hx + 1, earY + 2, 3, 5);
+   ctx.fillRect(hx + 5, earY + 2, 3, 5);
+  } else {
+   ctx.fillRect(hx + 1, earY, 3, 4);
+   ctx.fillRect(hx + 5, earY, 3, 4);
+  }
+
+  // Legs & tail
+  ctx.fillRect(lx1, ly1, 3, legH);
+  ctx.fillRect(lx2, ly2, 3, legH);
+  ctx.fillRect(tailX, tailY, 3, 2);
+  ctx.fillRect(tailX - 1, tailY - 2, 2, 3);
+  ctx.fillRect(bx - 1, by + 1, 1, 7);
+  ctx.fillRect(bx + 1, by + 9, 9, 1);
+
+  // Eyes
+  if (eyeOpen) {
+   if (f === 8 || f === 9) {
+    ctx.fillRect(eyeX, eyeY - 1, 2, 1);
+    ctx.fillRect(eyeX - 1, eyeY, 1, 1);
+    ctx.fillRect(eyeX + 2, eyeY, 1, 1);
+   } else {
+    ctx.fillRect(eyeX, eyeY, 2, 2);
+   }
+  } else {
+   ctx.fillRect(eyeX - 1, eyeY + 1, 3, 1);
+  }
+
+  // Snout
+  ctx.fillRect(mouthX + 1, mouthY, 2, 2);
+  if (mouthOpen) ctx.fillRect(mouthX - 1, mouthY + 2, 3, 2);
+ }
+ cachedFallbackCanvas = canvas;
+ return canvas;
+}
+
+function drawPixelHeart(ctx, x, y) {
+ ctx.fillStyle = '#242b18';
+ const px = Math.round(x), py = Math.round(y);
+ ctx.fillRect(px + 1, py, 2, 1);
+ ctx.fillRect(px + 4, py, 2, 1);
+ ctx.fillRect(px, py + 1, 7, 2);
+ ctx.fillRect(px + 1, py + 3, 5, 1);
+ ctx.fillRect(px + 2, py + 4, 3, 1);
+ ctx.fillRect(px + 3, py + 5, 1, 1);
+}
+
+function drawPixelMeat(ctx, x, y) {
+ ctx.fillStyle = '#242b18';
+ const px = Math.round(x), py = Math.round(y);
+ ctx.fillRect(px + 2, py, 4, 1);
+ ctx.fillRect(px + 1, py + 1, 6, 1);
+ ctx.fillRect(px, py + 2, 8, 2);
+ ctx.fillRect(px + 1, py + 4, 6, 1);
+ ctx.fillRect(px + 2, py + 5, 1, 2);
+ ctx.fillRect(px + 5, py + 5, 1, 2);
+ ctx.fillRect(px + 1, py + 6, 3, 1);
+ ctx.fillRect(px + 4, py + 6, 3, 1);
+}
+
+function drawPixelZ(ctx, x, y, scale = 1) {
+ ctx.fillStyle = '#242b18';
+ const px = Math.round(x), py = Math.round(y);
+ if (scale >= 1) {
+  ctx.fillRect(px, py, 5, 1);
+  ctx.fillRect(px + 3, py + 1, 1, 1);
+  ctx.fillRect(px + 2, py + 2, 1, 1);
+  ctx.fillRect(px + 1, py + 3, 1, 1);
+  ctx.fillRect(px, py + 4, 5, 1);
+ } else {
+  ctx.fillRect(px, py, 3, 1);
+  ctx.fillRect(px + 1, py + 1, 1, 1);
+  ctx.fillRect(px, py + 2, 3, 1);
+ }
+}
+
+function drawPixelBocado(ctx, x, y, size) {
+ ctx.fillStyle = '#242b18';
+ const px = Math.round(x), py = Math.round(y);
+ if (size > 3) {
+  ctx.fillRect(px, py, 6, 5);
+  ctx.fillRect(px + 1, py - 1, 4, 1);
+  ctx.fillRect(px + 1, py + 5, 4, 1);
+ } else if (size > 1) {
+  ctx.fillRect(px + 1, py + 1, 4, 3);
+ } else if (size > 0) {
+  ctx.fillRect(px + 2, py + 2, 2, 2);
+ }
+}
+
 function numenView(){
+ if(tamagotchiLoopId){cancelAnimationFrame(tamagotchiLoopId);tamagotchiLoopId=null;}
  const c=state.character||{},numenes=c.numenes||state.numenes||{active:null,bonded:[]};
  const bonded=list(numenes.bonded),activeId=numenes.active;
  const active=bonded.find(n=>n.id===activeId)||c.active_numen||bonded[0]||null;
@@ -337,30 +500,135 @@ function numenView(){
   main.replaceChildren(card(title('Tu compañero','Aún no caminas con un Númen'),subtitle('Los Númenes observan en silencio a quienes recorren el mundo sin prisa. Cuando formes un vínculo voluntario, podrás cuidarlo aquí.'),button([controlIcon('←'),' Volver a la aventura'],()=>navigate('adventure'))));
   return;
  }
- const model=active.model||'a',mood=active.mood||'contento',moodKey=mood==='con hambre'?'hambre':mood==='decaído'?'decaido':'contento';
+ const model=active.model||'a',variant=active.variant||'',mood=active.mood||'contento';
+ const moodKey=mood==='con hambre'?'hambre':mood==='decaído'?'decaido':'contento';
  const moodTone=mood==='contento'?'care-good':mood==='con hambre'?'care-hungry':'care-need';
- const fallback=el('div',{class:'numen-art-fallback'},
+ const inCombat=Boolean(c.combat);
+ const ambient=state.ambient||state.room?.ambient||{};
+ const isNight=/noche|atardecer/i.test(ambient.time_of_day||ambient.time||'');
+
+ const fallback=el('div',{class:'numen-art-fallback sr-only'},
   el('span',{class:'numen-silhouette','aria-hidden':'true'},numenSilhouettes[model]||'🐾'),
   el('strong',{},active.name),
   el('small',{class:'muted'},active.species_name||'Compañero Númen')
  );
- const artImg=numenArt(active,{class:'numen-art-img',onload:event=>event.currentTarget.parentElement?.classList.add('has-art')});
- const animBadge=numenAnim?el('span',{class:'numen-response-badge',role:'status'},numenAnim==='heart'?'♥ Ronroneo alegre':numenAnim==='jump'?'✦ ¡Salto de alegría!':'☾ Descanso tranquilo'):null;
- const artFrame=el('div',{class:`numen-art-frame numen-mood-${moodKey}${numenAnim?` numen-anim-${numenAnim}`:''}`,'data-mood':mood},fallback,artImg,animBadge);
- const bocados=list(state.inventory).filter(item=>item.id==='bocado_numen'||item.kind==='numen_food').reduce((sum,item)=>sum+(Number(item.quantity)||1),0);
+ const artImg=numenArt(active,{class:'numen-art-img sr-only',alt:active.name});
+
  const available=actions(state.actions);
  const feedAct=available.find(a=>a.id==='alimentar_numen')||{id:'alimentar_numen',label:'Dar Bocado de Númen'};
  const petAct=available.find(a=>a.id==='cuidar_numen')||{id:'cuidar_numen',label:'Acariciar'};
- const restAct=available.find(a=>a.id==='descansar_numen')||{id:'descansar_numen',label:'Descansar juntos'};
+ const restAct=available.find(a=>a.id==='descansar_juntos')||{id:'descansar_juntos',label:'Descansar juntos'};
  const renameAct=available.find(a=>a.id==='nombrar_numen'&&a.target===active.id)||{id:'nombrar_numen',target:active.id,label:'Cambiar nombre',reason:`Darle un nuevo nombre a ${active.name}.`};
  const reactionLine=numenReactionText||active.last_reaction||'Se mantiene cerca de ti, atento a cada paso del camino.';
- const inCombat=Boolean(c.combat);
- const careButtons=el('div',{class:'numen-care-buttons choices'},
-  button([controlIcon('ration'),bocados>0?` Dar Bocado de Númen (${bocados})`:' Dar Bocado de Númen'],()=>triggerNumenCare(feedAct,'jump'),{class:'game-action','data-tone':'care',disabled:busy||Boolean(pendingRetry)||inCombat,title:'Consume un Bocado de Númen (2 sellos en tiendas de provisiones)'}),
-  button([controlIcon('heart'),' Acariciar'],()=>triggerNumenCare(petAct,'heart'),{class:'game-action','data-tone':'care',disabled:busy||Boolean(pendingRetry)||inCombat}),
-  button([controlIcon('fire'),' Descansar juntos'],()=>triggerNumenCare(restAct,'purr'),{class:'game-action','data-tone':'care',disabled:busy||Boolean(pendingRetry)||inCombat}),
-  button([controlIcon('paw'),' Cambiar nombre'],()=>{namingNumen=`nombrar_numen:${active.id}`;render();main.querySelector('.numen-name-form input')?.focus();},{class:'game-action','data-tone':'story',disabled:busy||Boolean(pendingRetry)||inCombat})
+
+ // Load pixel art sprite
+ const clave=variant?`${model}-${variant}`:model;
+ const spriteImg=new Image();
+ let spriteLoaded=false;
+ spriteImg.onload=()=>{spriteLoaded=true;};
+ spriteImg.onerror=()=>{spriteLoaded=false;};
+ spriteImg.src=`/client/art/numenes/pixel/${clave}.png`;
+ const fallbackSheet=createFallbackSpriteSheet();
+
+ // Menu items: 0=Comer, 1=Acariciar, 2=Descansar, 3=Nombre
+ const menuItems=[
+  {key:'feed',icon:'🍖',label:'Comer',action:()=>triggerNumenCare(feedAct,'feed')},
+  {key:'pet',icon:'✋',label:'Acariciar',action:()=>triggerNumenCare(petAct,'pet')},
+  {key:'rest',icon:'💤',label:'Descansar',action:()=>triggerNumenCare(restAct,'rest')},
+  {key:'rename',icon:'✏️',label:'Nombre',action:()=>{namingNumen=`nombrar_numen:${active.id}`;render();setTimeout(()=>main.querySelector('.numen-name-form input')?.focus(),40);}}
+ ];
+
+ const menuButtons=menuItems.map((item,idx)=>{
+  return el('button',{
+   type:'button',
+   class:`tamagotchi-menu-btn${tamagotchiMenuIndex===idx?' is-selected':''}`,
+   'aria-label':item.label,
+   'aria-selected':String(tamagotchiMenuIndex===idx),
+   onclick:()=>{
+    tamagotchiMenuIndex=idx;
+    updateMenuSelection();
+    if(!busy&&!pendingRetry&&!inCombat)item.action();
+   }
+  },el('span',{class:'tamagotchi-menu-icon'},item.icon),el('span',{class:'tamagotchi-menu-label'},item.label));
+ });
+
+ function updateMenuSelection(){
+  menuButtons.forEach((btn,i)=>{
+   const sel=i===tamagotchiMenuIndex;
+   btn.classList.toggle('is-selected',sel);
+   btn.setAttribute('aria-selected',String(sel));
+  });
+ }
+
+ // LCD Canvas
+ const canvas=el('canvas',{class:'tamagotchi-canvas',width:64,height:48,'aria-label':`Pantalla Tamagotchi de ${active.name}`});
+ canvas.onclick=()=>{
+  if(!busy&&!pendingRetry&&!inCombat){
+   tamagotchiMenuIndex=1;
+   updateMenuSelection();
+   triggerNumenCare(petAct,'pet');
+  }
+ };
+
+ const lcdScreen=el('div',{class:`tamagotchi-screen${isNight||numenAnim==='rest'?' is-night':''}`},
+  el('div',{class:'tamagotchi-menu',role:'menubar','aria-label':'Acciones del Tamagotchi'},...menuButtons),
+  canvas
  );
+
+ const bezel=el('div',{class:'tamagotchi-bezel'},lcdScreen);
+
+ // Physical Buttons A, B, C
+ const btnA=el('button',{
+  type:'button',
+  class:'tamagotchi-btn tamagotchi-btn-a',
+  'aria-label':'Botón A: Seleccionar menú',
+  onclick:()=>{
+   if(tamagotchiMenuIndex<0)tamagotchiMenuIndex=0;
+   else tamagotchiMenuIndex=(tamagotchiMenuIndex+1)%menuItems.length;
+   updateMenuSelection();
+  }
+ },'A');
+
+ const btnB=el('button',{
+  type:'button',
+  class:'tamagotchi-btn tamagotchi-btn-b',
+  'aria-label':'Botón B: Ejecutar acción elegida',
+  onclick:()=>{
+   if(tamagotchiMenuIndex<0)tamagotchiMenuIndex=0;
+   updateMenuSelection();
+   if(!busy&&!pendingRetry&&!inCombat){
+    menuItems[tamagotchiMenuIndex]?.action();
+   }
+  }
+ },'B');
+
+ const btnC=el('button',{
+  type:'button',
+  class:'tamagotchi-btn tamagotchi-btn-c',
+  'aria-label':'Botón C: Cancelar o volver',
+  onclick:()=>{
+   if(namingNumen){
+    namingNumen=null;render();
+   }else if(tamagotchiMenuIndex>=0){
+    tamagotchiMenuIndex=-1;updateMenuSelection();
+   }else{
+    navigate('adventure');
+   }
+  }
+ },'C');
+
+ const buttonsRow=el('div',{class:'tamagotchi-buttons-row'},btnA,btnB,btnC);
+ const btnHint=el('div',{class:'tamagotchi-btn-hint','aria-hidden':'true'},'A: Menú · B: Elegir · C: Volver');
+
+ const egg=el('div',{class:`tamagotchi-egg numen-egg-${model}`},
+  el('div',{class:'tamagotchi-brand','aria-hidden':'true'},'★ NÚMEN ★'),
+  bezel,
+  buttonsRow,
+  btnHint,
+  el('div',{class:'tamagotchi-decor-dots','aria-hidden':'true'},el('span'),el('span'),el('span')),
+  fallback,artImg
+ );
+
  const rosterSection=bonded.length>1?el('section',{class:'numen-companion-roster stack','aria-label':'Compañeros vinculados'},
   el('h2',{class:'panel-title'},'¿Quién viaja contigo?'),
   ...bonded.map(entry=>{
@@ -374,21 +642,131 @@ function numenView(){
    );
   })
  ):null;
- main.replaceChildren(card(
-  el('div',{class:'numen-companion-view stack'},
-   title(active.species_name||'Compañero Númen',active.name),
-   artFrame,
-   el('div',{class:'numen-feeling-panel tile'},
-    el('p',{class:'numen-feeling-line'},el('strong',{},'Cómo se siente: '),el('span',{class:`pill ${moodTone} numen-mood-text`},mood)),
-    el('p',{class:'muted'},numenMoodDescriptions[mood]||numenMoodDescriptions.contento),
-    el('p',{class:'numen-power-line'},el('strong',{},`Poder (${active.power_name||'Apoyo'}): `),active.power_desc||'Te acompaña y te apoya en los momentos difíciles.')
+
+ const detailsPanel=el('div',{class:'tile numen-tamagotchi-details'},
+  el('div',{class:'numen-heading'},
+   el('div',{class:'numen-title-group'},
+    el('h3',{class:'numen-name'},active.name),
+    el('p',{class:'muted numen-species'},active.species_name||'Compañero Númen')
    ),
-   el('blockquote',{class:'numen-reaction-box','aria-live':'polite'},reactionLine),
-   careButtons,
-   namingNumen===`nombrar_numen:${active.id}`?numenNameForm(renameAct,active.name):null,
-   rosterSection
-  )
- ));
+   el('span',{class:`pill ${moodTone} numen-mood-text`},mood)
+  ),
+  el('div',{class:'numen-details'},
+   el('p',{class:'numen-feeling-line'},el('strong',{},'Cómo se siente: '),el('span',{},numenMoodDescriptions[mood]||numenMoodDescriptions.contento)),
+   el('p',{class:'numen-power-line'},el('strong',{},`Poder (${active.power_name||'Apoyo'}): `),active.power_desc||'Te acompaña y te apoya en los momentos difíciles.')
+  ),
+  reactionLine?el('blockquote',{class:'numen-reaction-box','aria-live':'polite'},reactionLine):null,
+  namingNumen===`nombrar_numen:${active.id}`?numenNameForm(renameAct,active.name):null,
+  rosterSection
+ );
+
+ const container=el('div',{class:`tamagotchi-container numen-mood-${moodKey}`},egg,detailsPanel);
+ main.replaceChildren(container);
+
+ // Start Canvas Loop
+ const ctx=canvas.getContext('2d');
+ let animStart=performance.now();
+ let lastLoop=performance.now();
+
+ function loop(now){
+  if(!canvas.isConnected){tamagotchiLoopId=null;return;}
+  const dt=Math.min(0.1,(now-lastLoop)/1000);
+  lastLoop=now;
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('reduced-motion');
+
+  // Determine frame and position
+  let frame=0;
+  let jumpY=0;
+  const isCareAnim=Boolean(numenAnim);
+  const sleeping=numenAnim==='rest'||(isNight&&!isCareAnim);
+
+  if(numenAnim==='feed'){
+   frame=Math.floor((now/180)%2)+4; // 4 or 5
+  }else if(numenAnim==='pet'){
+   frame=Math.floor((now/180)%2)+8; // 8 or 9
+   jumpY=Math.sin((now/180)*Math.PI)*4;
+  }else if(sleeping){
+   frame=Math.floor((now/600)%2)+6; // 6 or 7
+  }else if(mood==='con hambre'){
+   tamagotchiSim.x=16;
+   frame=Math.floor((now/450)%2); // 0 or 1
+  }else if(mood==='decaído'){
+   tamagotchiSim.x=16;
+   frame=Math.floor((now/700)%2)+10; // 10 or 11
+  }else{ // contento
+   if(reducedMotion){
+    tamagotchiSim.x=16;
+    frame=Math.floor((now/1200)%2);
+   }else{
+    if(now<tamagotchiSim.pauseUntil){
+     frame=Math.floor((now/400)%2); // 0 or 1 (respira)
+     if(now<tamagotchiSim.jumpUntil){
+      frame=Math.floor((now/160)%2)+8; // 8 or 9 (salto)
+      jumpY=Math.abs(Math.sin((now-tamagotchiSim.jumpUntil)/160*Math.PI))*6;
+     }
+    }else{
+     // Walking
+     frame=Math.floor((now/200)%2)+2; // 2 or 3 (camina)
+     tamagotchiSim.x+=tamagotchiSim.dir*dt*9;
+     if(tamagotchiSim.x>=30){
+      tamagotchiSim.x=30;tamagotchiSim.dir=-1;
+      tamagotchiSim.pauseUntil=now+1400+Math.random()*800;
+      if(Math.random()<0.35)tamagotchiSim.jumpUntil=now+600;
+     }else if(tamagotchiSim.x<=2){
+      tamagotchiSim.x=2;tamagotchiSim.dir=1;
+      tamagotchiSim.pauseUntil=now+1400+Math.random()*800;
+      if(Math.random()<0.35)tamagotchiSim.jumpUntil=now+600;
+     }
+    }
+   }
+  }
+
+  // Clear screen
+  ctx.clearRect(0,0,64,48);
+
+  // Draw sprite
+  const sheet=(spriteLoaded&&spriteImg.naturalWidth===384)?spriteImg:fallbackSheet;
+  const drawX=Math.round(tamagotchiSim.x);
+  const drawY=Math.round(tamagotchiSim.y-(jumpY>0?jumpY:0));
+
+  if(tamagotchiSim.dir<0&&!sleeping&&mood!=='con hambre'){
+   ctx.save();
+   ctx.translate(drawX+32,drawY);
+   ctx.scale(-1,1);
+   ctx.drawImage(sheet,frame*32,0,32,32,0,0,32,32);
+   ctx.restore();
+  }else{
+   ctx.drawImage(sheet,frame*32,0,32,32,drawX,drawY,32,32);
+  }
+
+  // Draw hunger blinking icon
+  if(mood==='con hambre'&&!isCareAnim){
+   if(Math.floor(now/350)%2===0){
+    drawPixelMeat(ctx,52,2);
+   }
+  }
+
+  // Care animation overlays
+  if(numenAnim==='feed'){
+   const treatX=tamagotchiSim.dir>0?drawX+25:drawX+1;
+   const progress=Math.min(1,(now-animStart)/1800);
+   drawPixelBocado(ctx,treatX,drawY+16,Math.max(0,Math.floor((1-progress)*5)));
+  }else if(numenAnim==='pet'){
+   const progress=Math.min(1,(now-animStart)/1800);
+   const heartY=drawY+2-progress*14;
+   const heartX=drawX+12+Math.sin(progress*7)*2;
+   drawPixelHeart(ctx,heartX,heartY);
+  }else if(sleeping){
+   const cycle=(now/1400)%1;
+   const z1X=drawX+18+cycle*4;
+   const z1Y=drawY-2-cycle*12;
+   drawPixelZ(ctx,z1X,z1Y,1);
+  }
+
+  tamagotchiLoopId=requestAnimationFrame(loop);
+ }
+
+ tamagotchiLoopId=requestAnimationFrame(loop);
 }
 function characterView(){const c=state.character,portrait=c.portrait||speciesPortraits[c.species],equipment=c.equipment||{},inventory=list(state.inventory),rows=[['Género',c.gender==='masculino'?'Masculino':c.gender==='femenino'?'Femenino':'Sin elegir'],['Especie',speciesNames[c.species]||c.species],['Clase',classNames[c.class_id]||c.class_id],['Vitalidad',`${whole(c.hp)}/${whole(c.hp_max)}`],['Fatiga',whole(c.fatigue)],['Sellos',c.seals],['Puntos de atributo',c.pa],['Puntos de técnica',c.pp],['Herida',c.wound==null?'Sin herida':typeof c.wound==='number'?c.wound===0?'Sin herida':`Grado ${c.wound}`:textLabel(c.wound)||'Sin información']];main.replaceChildren(card(el('div',{class:'character-heading'},portrait?button(el('img',{class:'species-thumbnail',src:portrait,alt:'',decoding:'async'}),()=>openIllustration({name:c.portrait?c.name:speciesNames[c.species],illustration:portrait}),{class:'species-art-button','aria-label':`Ver retrato de ${c.name}`}):null,title('Tu presencia en el mundo',c.name)),characterProgress(c),c.pa>0?el('p',{class:'pa-notice',role:'status'},`Tienes ${c.pa} puntos para mejorar`):null,el('div',{class:'stats'},...rows.filter(([,value])=>value!==undefined).map(([label,value])=>characterStat(label,value,c))),c.gender?null:el('form',{class:'stack',onsubmit:event=>{event.preventDefault();if(busy)return;const data=new FormData(event.currentTarget);mutate('/api/character/profile',{gender:String(data.get('gender'))});}},genderField(c.gender),el('button',{type:'submit',class:'primary',disabled:busy},'Guardar género')),testerPanel(),el('h2',{},'Equipo actual'),subtitle(gearSummary(c)[0].join(': ')),...Object.entries(equipment).map(([slot,id])=>subtitle(`${slotNames[slot]||slot}: ${id?(typeof id==='object'?id.name:inventory.find(entry=>entry.id===id)?.name)||'Equipo registrado (nombre pendiente de motor)':'Sin equipar'}`)),Object.keys(equipment).length?null:subtitle('No hay equipo indicado.'),button('Ver mi inventario',()=>navigate('inventory')),numenSection(c),characterCapabilities(),el('details',{class:'more'},el('summary',{},'Las cinco especies'),subtitle('Estas ilustraciones representan cada especie.'),el('div',{class:'species-gallery'},...Object.entries(speciesPortraits).map(([id,illustration])=>button(el('span',{},el('img',{class:'species-thumbnail',src:illustration,alt:'',loading:'lazy',decoding:'async'}),speciesNames[id]),()=>openIllustration({name:speciesNames[id],illustration}),{class:'species-gallery-button','aria-label':`Ver especie ${speciesNames[id]}`})))),el('h2',{},'Atributos'),el('div',{class:'attribute-grid'},...Object.entries(c.attributes||{}).map(([name,value])=>el('div',{class:'attribute'},el('span',{class:'attribute-icon'},controlIcon(attributeIcons[name]||'star')),el('small',{},attributeNames[name]||name),el('strong',{},String(value)),attributeUpgrade(name),el('p',{class:'attribute-description'},(c.attribute_effects||state.attribute_effects||{})[name]||attributeDescriptions[name]||'Explicación pendiente de motor.')))),...actions(state.actions).filter(action=>action.id==='tecnica').map(actionButton),list(state.characters).length>1?el('details',{class:'more'},el('summary',{},'Tus otros personajes'),...list(state.characters).filter(other=>other.id!==c.id).map(other=>button(`${other.name} · ${other.status==='approved'?'Disponible':'Pendiente'}`,()=>mutate('/api/character/select',{character_id:other.id})))):null));}
 function sellingSection(compact=false){
