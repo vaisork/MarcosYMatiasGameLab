@@ -173,3 +173,210 @@ Lera miró sus manos. La raspadura le impedía apretar la correa con fuerza, y l
 En aquel puesto nadie había mencionado a Dalia.
 
 Y, sin embargo, por primera vez en mucho tiempo había hecho algo sin preguntarse si la acercaría a ella.
+
+
+***
+
+La niña volvió a probarse la capa con el borde delantero recogido. Caminó hasta la entrada del taller y regresó sin pisarse la tela. Después levantó la cesta que había dejado junto al padre. La parte trasera de la capa cayó sobre las piernas, tal como había querido.
+
+—Ahora sí —dijo.
+
+El padre dio una vuelta a su alrededor, buscando algo que objetar. No encontró nada.
+
+Pagó el arreglo. La costurera le dio una última indicación sobre cómo lavar el tejido y se despidió de ambos. La niña, al pasar junto a Lera, levantó un extremo de la capa como quien muestra una victoria.
+
+No hizo falta decir nada más.
+
+—Me llamo Seli —dijo la remendadora cuando se quedaron solas—. No es obligatorio que me llames maestra cada vez que aparezcas por aquí.
+
+—No pensaba hacerlo.
+
+—Bien. Sería insoportable.
+
+Lera miró las agujas ordenadas en una tela gruesa, los retales colgados de cordeles, las costuras que cambiaban de color cada pocos dedos. Seli trabajaba sin prisa aparente. Sin embargo, todo encontraba su sitio.
+
+—¿Siempre arreglas capas? —preguntó.
+
+—Capas, cubiertas, ropa que alguien quiere conservar un invierno más. Hay días en que ni siquiera puedo terminar lo que prometí. ¿Por qué?
+
+—Porque pareces saber por dónde empezar.
+
+—Eso es distinto de saber cómo va a terminar.
+
+Lera tocó la correa de su bolsa. La tela junto a la unión estaba gastada, aunque todavía sostenía el peso. Se la quitó y se la mostró.
+
+—¿Se puede arreglar antes de que se rompa?
+
+Seli inspeccionó la costura sin tocar la carta, la taza ni lo que llevaba dentro.
+
+—Se puede reforzar. No hoy: ya tengo trabajo. Y tendrás que pagar el material si quieres que use el mío.
+
+La respuesta le produjo un alivio extraño. Era un ofrecimiento limitado, con condiciones claras. Nadie estaba obligándola a escoger entre aceptar un favor inmenso o marcharse.
+
+—No tengo mucho —reconoció Lera.
+
+—Eso también se nota.
+
+—¿Y si aprendo a hacerlo con mis manos?
+
+Seli miró su palma.
+
+—Con esa, primero deja que cierre la piel. Una aguja y una herida mal cuidada no son buenas compañeras.
+
+Lera cerró los dedos, molesta consigo misma.
+
+—No estoy pidiendo que me enseñes gratis.
+
+—No he dicho que lo hagas. Pero no voy a prometer una enseñanza que no tengo tiempo de darte.
+
+Seli señaló un retal con un borde sin terminar, apartado de las prendas de sus clientes.
+
+—Puedes volver cuando hayas descansado y preguntar otra vez. Mientras tanto, mira cómo está hecha la unión de tu bolsa. Hay trabajo que se aprende observando. Y hay trabajo que se estropea si uno se apresura a demostrar que ya sabe.
+
+Lera examinó la costura gastada. Había pasado por ella una cuerda para sostenerla y, debajo, otra persona había dejado un hilo mucho más fino. Dos soluciones diferentes habían logrado que siguiera funcionando.
+
+Dejó la bolsa en su hombro.
+
+—Volveré —dijo.
+
+Seli levantó una ceja.
+
+—¿Eso es una promesa o un deseo?
+
+Lera pensó en la piedra de la plaza.
+
+—Todavía no lo sé. Cuando lo sepa, te lo diré.
+
+La remendadora asintió como si acabara de escuchar una respuesta bastante mejor que la primera.
+
+***
+
+Al salir de la Calle de los Toldos, Lera no tomó el camino hacia la plaza.
+
+Volvió al Mercado de Vaisgard.
+
+Todavía había luz. Las cestas iban pasando de unas manos a otras y el aire llevaba olor a fruta recién cortada. Cerca del canalillo, un hombre trataba de elegir verduras que aguantaran el viaje de regreso a los campos. No preguntó por Dalia. Lera no se acercó a ofrecerle ayuda.
+
+Buscó a la vendedora que la había dejado resguardarse detrás del puesto la primera noche.
+
+Estaba separando frutas maduras de otras que podrían soportar más días de camino. Cuando vio a Lera, miró inmediatamente su bota.
+
+—Ya casi no suena.
+
+—Creo que el arroyo por fin se rindió.
+
+—No le digas eso. Los arroyos son capaces de guardar rencor.
+
+Lera señaló las cestas.
+
+—¿Tienes trabajo que no consista en arreglar cestos?
+
+La mujer dejó una fruta sobre la mesa.
+
+—Tengo trabajo todos los días. Otra cosa es que quiera compartirlo.
+
+—Vengo de los huertos —dijo Lera—. Sé distinguir cuáles aguantan el viaje y cuáles hay que vender antes. No necesito que me creas; puedes comprobarlo.
+
+La vendedora apartó el paño de una cesta pequeña.
+
+—Entonces dime cuáles separarías.
+
+Lera examinó las piezas sin tocarlas primero. Algunas habían recibido golpes en el transporte. Otras estaban sanas, pero las zonas más tiernas se empezaban a ablandar por el calor.
+
+Escogió dos para vender pronto y señaló otra que podía esperar. La comerciante la giró entre los dedos.
+
+—Esta no —dijo—. Mira debajo.
+
+Había una mancha que Lera no había visto.
+
+—Tienes razón.
+
+—La tengo a menudo. Es una de las pocas cosas que no tengo que comprar.
+
+Continuaron revisando la cesta. Lera acertó unas veces y otras no. La mujer le explicó qué cambiaba cuando una fruta pasaba días bajo un toldo en lugar de quedarse en un huerto fresco. No era igual trabajar con plantas vivas que con mercancía que alguien debía comprar antes de que se estropeara.
+
+Cuando terminaron, la vendedora volvió a mezclar unas pocas piezas para comprobar si Lera había entendido.
+
+Esta vez ella señaló la mancha sin que se la mostraran.
+
+—Eso está mejor —concedió la mujer.
+
+Lera esperaba otra pregunta, pero decidió hacerla ella.
+
+—Quiero quedarme en Vaisgard después de mañana. No sé por cuánto tiempo. Necesito trabajar sin contar con que alguien me encuentre por casualidad.
+
+La vendedora se apoyó sobre la mesa.
+
+—Ayer querías encontrar a una amiga.
+
+—Todavía quiero. Pero quizá no esté aquí. Y si está, puede que no quiera verme.
+
+La mujer la miró un momento.
+
+—¿Entonces para qué quedarte?
+
+Lera contempló los puestos, el canalillo y las caras de quienes trabajaban sin esperar a que ella resolviera nada.
+
+No tenía una respuesta cómoda. Solo la que había descubierto después de dos noches muy distintas.
+
+—Porque vine hasta aquí por lo que hice mal. Y no quiero que lo único que me quede de este lugar sea haber preguntado por ella.
+
+La vendedora recogió la cesta.
+
+—Mañana necesito separar otra carga. Si vienes por la mañana, podemos probar una vez más. Te diré antes qué necesito y qué puedo darte por hacerlo. Si no te conviene, me lo dices. No voy a reservarte el puesto ni a pagar una jornada que no hayas trabajado.
+
+—Tengo que estar en la plaza cuando caiga la tarde.
+
+—Entonces tendrás que marcharte a tiempo. Yo no voy a detener el día por ti.
+
+Lera asintió.
+
+No tenía una habitación ni un trabajo fijo. Tampoco una respuesta sobre Dalia. Tenía, por primera vez, una manera de presentarse ante alguien sin empezar por el nombre de su amiga.
+
+—Gracias —dijo.
+
+—Todavía no te he contratado.
+
+—Por eso.
+
+La mujer soltó una carcajada.
+
+***
+
+Cuando volvió a la Plaza de las Cinco Rutas, el sol aún estaba alto. Lera no se sentó en la piedra.
+
+La rodeó y miró la ciudad desde el costado contrario. Vio los toldos bajo los que podría volver a hablar con Seli y los puestos donde había una tarea concreta que aprender. Al fondo se abría el camino hacia la Puerta de los Campos, por donde había entrado después de cruzar un arroyo en el que todavía parecía llevar metido un pie.
+
+Pensó en la frase que había dicho a Dalia junto al carro, tanto tiempo atrás.
+
+*Si tanto quieres marcharte, aquí nadie va a echarte de menos.*
+
+En aquel momento no había entendido que una persona podía partir y seguir importando. Había esperado una carta como si Dalia tuviera que demostrarlo. Ahora estaba lejos de Valdren y entendía, de una forma menos hermosa, que marcharse tampoco obligaba al mundo a ir detrás de uno.
+
+Se llevó la mano a la chaqueta y encontró el doblez de la carta.
+
+Seguía queriendo dársela a Dalia si alguna vez tenía la oportunidad. Seguía sabiendo que podía recibir un no.
+
+Pero si no la encontraba, iba a necesitar vivir al día siguiente.
+
+Por eso había preguntado por trabajo. Por eso pensaba volver a preguntar a Seli cuando la mano dejara de arder. No estaba comprando una respuesta con esas decisiones; estaba dejando de poner su vida entera a esperar una.
+
+Al caer la tarde regresó a la piedra elegida, después de haber bebido apenas de la cantimplora. Unas personas se sentaron un rato cerca. Otras cruzaron la plaza sin mirarla. Nadie trajo la respuesta que imaginaba, y ninguna tablilla llevaba su nombre hasta allí.
+
+Lera permaneció mientras descendía la luz.
+
+Era el segundo atardecer.
+
+No sintió que algo se cerrara cuando terminó. Sintió el cansancio del día y el alivio extraño de haber cumplido lo prometido. Ni Nara ni Arel estaban obligadas a saberlo. El recorte que había entregado seguía fuera de sus manos; no podía hacer aparecer su destino.
+
+Cuando comenzó a encenderse una luz baja bajo el alero oriental, Lera se levantó.
+
+No sabía dónde pasaría aquella noche. Su espalda aún recordaba la piedra y la mano necesitaba descanso. Las decisiones de la mañana siguiente seguían sujetas a que otra persona aceptara tratar con ella.
+
+Pero ya no se quedaría en la plaza para comprobar si el mundo le debía una respuesta.
+
+Tomó el camino del mercado. Allí había una mujer que todavía podía decirle que no tenía trabajo para ella y otra, más allá de los toldos, que le había enseñado que una costura podía reforzarse antes de romperse.
+
+Lera no había encontrado a Dalia.
+
+Había encontrado algo que podía hacer mientras seguía siendo capaz de buscarla.
