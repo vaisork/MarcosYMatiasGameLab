@@ -134,7 +134,7 @@ Lera tuvo que reír.
 
 La comerciante revisó los dos montones. Corrigió tres piezas, devolvió otras a su lugar y le señaló que había terminado.
 
-Le dio el alimento acordado.
+Envolvió el alimento acordado en una hoja de papel usada por fuera y limpia por dentro, y se lo entregó.
 
 —Has hecho un trabajo útil —dijo—. No lo has hecho perfecto.
 
@@ -170,7 +170,7 @@ La idea la incomodó casi tanto como la primera vez que sacó la carta para Dali
 
 Porque escribir a Mara significaba dejar de imaginar que en Valdren todo seguía exactamente como lo había dispuesto antes de salir.
 
-Lera desenvolvió el carboncillo y buscó entre las cosas de la bolsa. Conservaba un pequeño espacio sin usar en la cara interior de la envoltura de papel que protegía una de sus pertenencias. No era una hoja suficiente para contar el viaje. Podía servir para decir una verdad breve.
+Lera desenvolvió el carboncillo y buscó entre las cosas de la bolsa. El envoltorio de la comida que acababa de ganar tenía una cara interior limpia. Comió primero una parte y guardó el resto dentro del paño de la bolsa. Al alisar el papel sobre la rodilla, vio que apenas alcanzaría para unas cuantas líneas de letra menuda. No era una hoja suficiente para contar el viaje. Podía servir para decir una verdad breve.
 
 Probó el carbón en una esquina.
 
