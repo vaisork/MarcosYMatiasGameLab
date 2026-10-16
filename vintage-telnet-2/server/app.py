@@ -15,8 +15,20 @@ from .store import Store
 from .content import Content
 from .engine import Engine, RuleError
 from . import mechanics
+import re
 
 ROOT=Path(__file__).resolve().parents[1]
+
+def numen_variants_for_model(model):
+    if not model or not isinstance(model,str):return []
+    art_dir=ROOT/'client'/'art'/'numenes'
+    if not art_dir.is_dir():return []
+    pattern=re.compile(rf'^numen-{re.escape(model)}-([a-z0-9-]+)-v1\.webp$')
+    variants=[]
+    for path in sorted(art_dir.glob(f'numen-{model}-*-v1.webp')):
+        m=pattern.match(path.name)
+        if m:variants.append(m.group(1))
+    return variants
 
 def create_app(config=None):
     app=Flask(__name__,static_folder=None)
@@ -348,7 +360,7 @@ def create_app(config=None):
             for row in rows:
                 if row['status']=='approved':
                     numenes=numenes_by_id[row['id']]
-                    row['numenes']=[{key:n.get(key) for key in ('id','model','variant','name','species_name')} | {'active':n.get('id')==numenes.get('active'),'mood':mechanics.numen_mood(n,now)} for n in numenes.get('bonded',[])]
+                    row['numenes']=[{key:n.get(key) for key in ('id','model','variant','name','species_name')} | {'active':n.get('id')==numenes.get('active'),'mood':mechanics.numen_mood(n,now),'variants':numen_variants_for_model(n.get('model'))} for n in numenes.get('bonded',[])]
                 row['movements']=movement_counts.get(row['id'],0)
                 row['places_visited']=places.get(row['id'],0)
             ficha=dict(engine().content.vaisork_ficha)
@@ -515,4 +527,35 @@ def create_app(config=None):
             db.execute('UPDATE accounts SET password_hash=? WHERE id=?',(generate_password_hash(password),row['account_id']))
             db.execute('INSERT INTO audit(actor,action,target,at) VALUES(?,?,?,?)',('master','account_password_change',str(row['account_id']),clock()))
         return jsonify(changed=True,csrf_token=csrf())
+
+    @app.post('/api/master/numen/variant')
+    def master_numen_variant():
+        if not session.get('master'):raise RuleError('Esta decisión pertenece al DM.',403)
+        data=payload();cid=data.get('character_id');numen_id=data.get('numen_id');variant=data.get('variant')
+        if type(cid) is not int:raise RuleError('Indica una identidad de personaje válida.')
+        if not isinstance(numen_id,str) or not numen_id.strip():raise RuleError('Indica una identidad de Númen válida.')
+        numen_id=numen_id.strip()
+        if variant is None:variant=''
+        elif isinstance(variant,str):variant=variant.strip()
+        else:raise RuleError('La variante debe ser una cadena de texto.')
+        with store.transaction() as db:
+            char=store.load(db.execute('SELECT * FROM characters WHERE id=?',(cid,)).fetchone())
+            if not char:raise RuleError('No existe ese personaje.',404)
+            numenes=char['state'].setdefault('numenes',{'active':None,'bonded':[],'encounters':{}})
+            bonded=numenes.setdefault('bonded',[])
+            target=next((n for n in bonded if n.get('id')==numen_id),None)
+            if not target:raise RuleError('No se encontró el Númen indicado en este personaje.',404)
+            if not variant:
+                target.pop('variant',None)
+            else:
+                if not re.fullmatch(r'[a-z0-9-]+',variant):
+                    raise RuleError('La variante solo puede contener letras minúsculas, números y guiones.',400)
+                model=target.get('model','a')
+                art_file=ROOT/'client'/'art'/'numenes'/f'numen-{model}-{variant}-v1.webp'
+                if not art_file.is_file():
+                    raise RuleError(f'La apariencia "{variant}" no existe para este modelo de Númen.',400)
+                target['variant']=variant
+            store.save(db,char)
+            db.execute('INSERT INTO audit(actor,action,target,at) VALUES(?,?,?,?)',('master','numen_variant',str(cid),clock()))
+            return jsonify(ok=True,variant=target.get('variant'),character_id=cid,numen_id=numen_id,csrf_token=csrf())
     return app

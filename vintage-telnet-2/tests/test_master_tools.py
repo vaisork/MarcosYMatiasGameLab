@@ -103,3 +103,37 @@ class MasterToolsTests(unittest.TestCase):
   if options:self.assertEqual(self.manage('portrait',target=options[0]['id']).status_code,200)
   with self.store.transaction() as db:self.assertEqual(self.store.world(db)['encounters'],{'shared-test':{'hp':5}})
   for key in ('quests','bestiary','attributes','inventory'):self.assertEqual(before[key],self.raw()[key])
+ def test_master_numen_variant(self):
+  with self.store.transaction() as db:
+   char=self.store.load(db.execute('SELECT * FROM characters WHERE id=?',(self.cid,)).fetchone())
+   numen=mechanics.bond_numen(char['state'],'b','Sombra',123456)
+   self.store.save(db,char)
+  numen_id=numen['id']
+  st=self.dm.get('/api/master/state').json
+  char_row=next(c for c in st['approved'] if c['id']==self.cid)
+  self.assertEqual(char_row['numenes'][0]['variants'],['senku'])
+  self.assertIsNone(char_row['numenes'][0].get('variant'))
+  res_player=self.post(self.player,'/api/master/numen/variant',{'character_id':self.cid,'numen_id':numen_id,'variant':'senku'})
+  self.assertEqual(res_player.status_code,403)
+  res_bad=self.post(self.dm,'/api/master/numen/variant',{'character_id':self.cid,'numen_id':numen_id,'variant':'no-existe'})
+  self.assertEqual(res_bad.status_code,400)
+  self.assertEqual(res_bad.json['error'],'rule')
+  res_bad_chars=self.post(self.dm,'/api/master/numen/variant',{'character_id':self.cid,'numen_id':numen_id,'variant':'SENKU_BAD!'})
+  self.assertEqual(res_bad_chars.status_code,400)
+  res_ok=self.post(self.dm,'/api/master/numen/variant',{'character_id':self.cid,'numen_id':numen_id,'variant':'senku'})
+  self.assertEqual(res_ok.status_code,200)
+  self.assertEqual(res_ok.json['variant'],'senku')
+  self.assertEqual(self.raw()['numenes']['bonded'][0]['variant'],'senku')
+  with self.store.transaction() as db:
+   audit=db.execute("SELECT * FROM audit WHERE action='numen_variant' AND target=?",(str(self.cid),)).fetchone()
+   self.assertIsNotNone(audit);self.assertEqual(audit['actor'],'master')
+  st=self.dm.get('/api/master/state').json
+  char_row=next(c for c in st['approved'] if c['id']==self.cid)
+  self.assertEqual(char_row['numenes'][0]['variant'],'senku')
+  res_clear=self.post(self.dm,'/api/master/numen/variant',{'character_id':self.cid,'numen_id':numen_id,'variant':''})
+  self.assertEqual(res_clear.status_code,200)
+  self.assertIsNone(res_clear.json['variant'])
+  self.assertIsNone(self.raw()['numenes']['bonded'][0].get('variant'))
+  st=self.dm.get('/api/master/state').json
+  char_row=next(c for c in st['approved'] if c['id']==self.cid)
+  self.assertIsNone(char_row['numenes'][0].get('variant'))
