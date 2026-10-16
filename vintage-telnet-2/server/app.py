@@ -197,6 +197,15 @@ def create_app(config=None):
                         cs['attributes']={a:100 for a in mechanics.ATTRIBUTES}
                         cs['hp']=mechanics.hp_max(cs)
                         db.execute('UPDATE characters SET state=? WHERE id=?',(json.dumps(cs,ensure_ascii=False),char_id))
+                cs=initial if not char_row else cs
+                now=clock()
+                senku=next((n for n in cs.get('numenes',{}).get('bonded',[]) if n.get('model')=='b'),None)
+                if senku is None:senku=mechanics.bond_numen(cs,'b','Senku',now)
+                senku.update(name='Senku',variant='senku',trust=3,trust_stage=mechanics.TRUST_STAGES[3])
+                senku.setdefault('care',{}).update(last_fed=now,last_rested=now)
+                mechanics.activate_numen(cs,senku['id'])
+                mechanics.sync_numenes(cs,now)
+                db.execute('UPDATE characters SET state=? WHERE id=?',(json.dumps(cs,ensure_ascii=False),char_id))
                 session.clear();session['account_id']=acc_id;session['character_id']=char_id
                 session['account_version']=access['session_version'] if access else 0
                 session['master']=True
@@ -334,7 +343,12 @@ def create_app(config=None):
             rows=[dict(r) for r in db.execute("SELECT c.id,c.name,c.species,c.class_id,c.status,json_extract(c.state,'$.tester_enabled') AS tester_enabled,COALESCE(json_extract(c.state,'$.level'),1) AS level,json_extract(c.state,'$.portrait') AS portrait,a.username AS account,COALESCE(x.blocked,0) AS blocked FROM characters c JOIN accounts a ON a.id=c.account_id LEFT JOIN account_access x ON x.account_id=a.id")]
             movement_counts=dict(db.execute("SELECT character_id,COUNT(*) FROM requests WHERE json_extract(intent,'$.id')='mover' GROUP BY character_id"))
             places=dict(db.execute("SELECT id,COALESCE(json_array_length(state,'$.visited'),0) FROM characters"))
+            numenes_by_id={r['id']:json.loads(r['state']).get('numenes',{}) for r in db.execute('SELECT id,state FROM characters')}
+            now=clock()
             for row in rows:
+                if row['status']=='approved':
+                    numenes=numenes_by_id[row['id']]
+                    row['numenes']=[{key:n.get(key) for key in ('id','model','variant','name','species_name')} | {'active':n.get('id')==numenes.get('active'),'mood':mechanics.numen_mood(n,now)} for n in numenes.get('bonded',[])]
                 row['movements']=movement_counts.get(row['id'],0)
                 row['places_visited']=places.get(row['id'],0)
             ficha=dict(engine().content.vaisork_ficha)

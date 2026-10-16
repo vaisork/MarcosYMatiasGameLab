@@ -253,7 +253,7 @@ const numenMoodDescriptions={
  'con hambre':'Con hambre · Te mira esperando un Bocado de Númen.',
  'decaído':'Decaído · Lleva muchas horas sin comer o descansar, pero sigue a tu lado.'
 };
-let numenAnim='',numenReactionText='',numenArtMissing=new Set();
+let numenAnim='',numenReactionText='';
 async function triggerNumenCare(action,animKind){
  if(busy||pendingRetry)return;
  numenAnim=animKind;render();
@@ -274,7 +274,7 @@ function numenCard(numen,isActive,availableActions){
  const moodTone=mood==='contento'?'care-good':mood==='con hambre'?'care-hungry':'care-need';
  const cardEl=el('article',{class:`tile numen-card${isActive?' numen-active':''}`},
   el('div',{class:'numen-heading'},
-   el('span',{class:'numen-emblem','aria-hidden':'true'},controlIcon('paw')),
+   numenArt(numen,{class:'species-thumbnail'}),
    el('div',{class:'numen-title-group'},
     el('h3',{class:'numen-name'},numen.name),
     el('p',{class:'muted numen-species'},numen.species_name||'Compañero Númen')
@@ -298,6 +298,15 @@ function numenCard(numen,isActive,availableActions){
  }
  if(namingNumen===`nombrar_numen:${numen.id}`)cardEl.append(numenNameForm(renameAction,numen.name));
  return cardEl;
+}
+function numenArt(numen,attrs={}){
+ const base=`/client/art/numenes/numen-${numen.model||'a'}-v1.webp`;
+ const src=numen.variant?base.replace('-v1.webp',`-${numen.variant}-v1.webp`):base;
+ return el('img',{...attrs,src,alt:`Ilustración de ${numen.name}`,decoding:'async',onerror:event=>{
+  const img=event.currentTarget;
+  if(img.getAttribute('src')!==base){img.src=base;return;}
+  img.remove();
+ }});
 }
 function numenSection(c){
  const numenes=c.numenes||state.numenes||{active:null,bonded:[]};
@@ -330,20 +339,12 @@ function numenView(){
  }
  const model=active.model||'a',mood=active.mood||'contento',moodKey=mood==='con hambre'?'hambre':mood==='decaído'?'decaido':'contento';
  const moodTone=mood==='contento'?'care-good':mood==='con hambre'?'care-hungry':'care-need';
- const artSrc=`/art/numenes/numen-${model}-v1.webp`;
  const fallback=el('div',{class:'numen-art-fallback'},
   el('span',{class:'numen-silhouette','aria-hidden':'true'},numenSilhouettes[model]||'🐾'),
   el('strong',{},active.name),
   el('small',{class:'muted'},active.species_name||'Compañero Númen')
  );
- const artImg=!numenArtMissing.has(model)?el('img',{
-  class:'numen-art-img',
-  src:artSrc,
-  alt:`Ilustración de ${active.name}`,
-  decoding:'async',
-  onload:event=>event.currentTarget.parentElement?.classList.add('has-art'),
-  onerror:event=>{numenArtMissing.add(model);event.currentTarget.remove();}
- }):null;
+ const artImg=numenArt(active,{class:'numen-art-img',onload:event=>event.currentTarget.parentElement?.classList.add('has-art')});
  const animBadge=numenAnim?el('span',{class:'numen-response-badge',role:'status'},numenAnim==='heart'?'♥ Ronroneo alegre':numenAnim==='jump'?'✦ ¡Salto de alegría!':'☾ Descanso tranquilo'):null;
  const artFrame=el('div',{class:`numen-art-frame numen-mood-${moodKey}${numenAnim?` numen-anim-${numenAnim}`:''}`,'data-mood':mood},fallback,artImg,animBadge);
  const bocados=list(state.inventory).filter(item=>item.id==='bocado_numen'||item.kind==='numen_food').reduce((sum,item)=>sum+(Number(item.quantity)||1),0);
@@ -693,6 +694,14 @@ function masterActivity(character){
   subtitle(valid?`Desde tu revisión: +${moves-saved.moves} movimientos · +${places-saved.places} lugares`:'Sin revisión anterior.'),
   button('Marcar como revisado',()=>{try{localStorage.setItem(key,JSON.stringify({moves,places}));render();}catch(_){message('No se pudo guardar la revisión en este navegador.',true);}},{disabled:busy,'aria-label':`Marcar actividad de ${character.name} como revisada`}));
 }
+function masterNumenes(character){
+ if(character.status!=='approved')return null;
+ const numenes=list(character.numenes);
+ return el('section',{'aria-label':`Númenes de ${character.name}`},el('h3',{},'Númenes'),
+  ...numenes.map(n=>el('div',{class:'numen-heading'},numenArt(n,{class:'species-thumbnail',loading:'lazy'}),
+   el('div',{},el('strong',{},n.name),subtitle(`${n.species_name||'Compañero Númen'} · ${n.active?'En viaje (activo)':'En el refugio'} · ${n.mood}`)))),
+  numenes.length?null:subtitle('Sin Númenes'));
+}
 function masterVaisorkSection(){
  const v=master?.vaisork;if(!v)return null;
  const portrait=v.portrait||'/client/art/players/vaisork-anime-v1.webp',fullBody=v.full_body||'/client/art/players/vaisork-anime-cuerpo-completo-v1.webp';
@@ -724,13 +733,13 @@ function renderMaster(){const back=button('Volver a la aventura',async()=>{view=
   const character=selected,isPending=list(master.pending).some(c=>c.id===character.id);
   main.replaceChildren(card(button('Volver a jugadores',()=>{masterSelected=null;render();},{disabled:busy}),title('Gestionar jugador',character.name),masterPortraitPreview(character),subtitle(masterCharacterSummary(character)),subtitle(`Cuenta: ${masterAccountName(character)} · ${character.blocked?'Acceso bloqueado':isPending?'Pendiente de aprobación':'Aprobado'}`),
    isPending?button('Aprobar personaje',async()=>{if(busy)return;busy=true;try{await api('/api/master/approve',{character_id:character.id,request_id:requestId()});await loadMaster();message('Personaje aprobado. Ya puede comenzar su recorrido.');}catch(error){message(error.message,true);}finally{busy=false;render();}},{class:'primary',disabled:busy}):button(character.tester_enabled?'Deshabilitar pruebas':'Habilitar pruebas',async()=>{if(busy)return;busy=true;try{await api('/api/master/tester',{character_id:character.id,enabled:!character.tester_enabled});await loadMaster();}catch(error){message(error.message,true);}finally{busy=false;render();}},{disabled:busy}),
-   masterActivity(character),isPending?null:masterManagement(character),masterPasswordForm(character),masterAccessButton(character),logout,back));return;
+   masterActivity(character),masterNumenes(character),isPending?null:masterManagement(character),masterPasswordForm(character),masterAccessButton(character),logout,back));return;
  }
  const search=el('input',{type:'search',value:masterSearch,placeholder:'Nombre del personaje o cuenta','aria-label':'Buscar jugadores',oninput:event=>{masterSearch=event.currentTarget.value;masterPage=0;renderMaster();const input=main.querySelector('input[type=search]');input?.focus({preventScroll:true});}});
  const filter=el('select',{'aria-label':'Filtrar jugadores',value:masterFilter,onchange:event=>{masterFilter=event.currentTarget.value;masterPage=0;renderMaster();}},...Object.entries({all:'Todos',pending:'Pendientes',approved:'Aprobados',blocked:'Expulsados'}).map(([value,label])=>el('option',{value,selected:value===masterFilter},label)));
  const query=masterSearch.trim().toLocaleLowerCase('es'),filtered=characters.filter(c=>`${c.name} ${masterAccountName(c)}`.toLocaleLowerCase('es').includes(query)&&(masterFilter==='all'||masterFilter==='blocked'&&c.blocked||masterFilter==='pending'&&list(master.pending).some(p=>p.id===c.id)||masterFilter==='approved'&&list(master.approved).some(p=>p.id===c.id)));
  const pageCount=Math.max(1,Math.ceil(filtered.length/12));masterPage=Math.min(masterPage,pageCount-1);
- main.replaceChildren(card(title('Dirección del mundo','Jugadores'),subtitle(`${list(master.pending).length} pendientes · ${list(master.approved).length} aprobados`),subtitle('La última revisión se guarda en este navegador. Los totales pertenecen al personaje.'),masterVaisorkSection(),refreshRoster,el('label',{class:'field'},'Buscar jugadores',search),el('label',{class:'field'},'Mostrar',filter),...filtered.slice(masterPage*12,masterPage*12+12).map(c=>el('article',{class:'tile master-player-row'},el('h3',{},c.name),subtitle(masterCharacterSummary(c)),masterActivity(c),subtitle(`Cuenta: ${masterAccountName(c)} · ${c.blocked?'Expulsado':list(master.pending).some(p=>p.id===c.id)?'Pendiente':'Aprobado'}`),button('Ver jugador',()=>{masterSelected=c.id;render();},{'aria-label':`Ver jugador ${c.name}`,disabled:busy}))),filtered.length?null:subtitle('No hay jugadores que coincidan.'),el('div',{class:'master-pagination'},button('Anterior',()=>{masterPage--;renderMaster();},{disabled:masterPage===0||busy}),el('span',{},`Página ${masterPage+1} de ${pageCount}`),button('Siguiente',()=>{masterPage++;renderMaster();},{disabled:masterPage>=pageCount-1||busy})),logout,back));
+ main.replaceChildren(card(title('Dirección del mundo','Jugadores'),subtitle(`${list(master.pending).length} pendientes · ${list(master.approved).length} aprobados`),subtitle('La última revisión se guarda en este navegador. Los totales pertenecen al personaje.'),masterVaisorkSection(),refreshRoster,el('label',{class:'field'},'Buscar jugadores',search),el('label',{class:'field'},'Mostrar',filter),...filtered.slice(masterPage*12,masterPage*12+12).map(c=>el('article',{class:'tile master-player-row'},el('h3',{},c.name),subtitle(masterCharacterSummary(c)),masterActivity(c),masterNumenes(c),subtitle(`Cuenta: ${masterAccountName(c)} · ${c.blocked?'Expulsado':list(master.pending).some(p=>p.id===c.id)?'Pendiente':'Aprobado'}`),button('Ver jugador',()=>{masterSelected=c.id;render();},{'aria-label':`Ver jugador ${c.name}`,disabled:busy}))),filtered.length?null:subtitle('No hay jugadores que coincidan.'),el('div',{class:'master-pagination'},button('Anterior',()=>{masterPage--;renderMaster();},{disabled:masterPage===0||busy}),el('span',{},`Página ${masterPage+1} de ${pageCount}`),button('Siguiente',()=>{masterPage++;renderMaster();},{disabled:masterPage>=pageCount-1||busy})),logout,back));
 }
 document.getElementById('account-logout').addEventListener('click',async()=>{const done=await mutate('/api/account/logout',{});if(done){journal.reset();resetTerminal();confirmedRequests.clear();view='adventure';authMode='login';pendingRetry=null;render();}});
 for(const [key,className] of [['font','large-reading'],['small-font','small-reading'],['contrast','high-contrast'],['motion','reduced-motion']])try{document.documentElement.classList.toggle(className,localStorage.getItem('vt-new:'+key)==='on');}catch(_){}

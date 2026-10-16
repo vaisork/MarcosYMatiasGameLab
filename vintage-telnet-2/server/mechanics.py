@@ -175,7 +175,7 @@ def use_consumable(state,item):
 def hp_max(state):
  a=state.get('attributes') or {}; return 100+1.25*(state.get('level',1)-1)+2.5*(a.get('resistencia',10)-10)+.5*(a.get('voluntad',10)-10)+gear_bonus(state,'vida')
 # One lifetime reward per room, secret, journal text, ending flag, quest or behavior.
-EXPLORATION_XP = {'room':4, 'secret':10, 'clue':3, 'closure':25, 'quest':15, 'behavior':3}
+EXPLORATION_XP = {'room':1, 'secret':10, 'clue':3, 'closure':25, 'quest':15, 'behavior':3}
 def xp_next(level): return rounded(100+18*(level-1)+.25*(level-1)**2)
 def fatigue_cost(state, base):
  multiplier = (1.10 if state.get('wound')=='leve' else 1.20 if state.get('wound')=='moderada' else 1.35 if state.get('wound')=='grave' else 1)
@@ -441,7 +441,8 @@ def rename_numen(state, numen_id, name):
 def bond_numen(state, model_id, name, now):
  numenes = state.setdefault('numenes', {'active': None, 'bonded': [], 'encounters': {}})
  bonded = numenes.setdefault('bonded', [])
- if len(bonded) >= 3:
+ # El compañero del DM no desplaza vínculos previos de un roster completo.
+ if len(bonded) >= 3 and not (is_vaisork(state) and model_id == 'b' and name == 'Senku'):
   raise ValueError('Límite alcanzado: máximo tres Númenes vinculados.')
  clean_name = validate_numen_name(name)
  if model_id not in NUMENES_MODELS:
