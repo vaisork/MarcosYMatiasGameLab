@@ -879,6 +879,14 @@
       "effect": "basic_provision",
       "price": 8
     },
+    "bocado_numen": {
+      "id": "bocado_numen",
+      "name": "Bocado de Númen",
+      "description": "Un puñado de semillas dulces, migas suaves y brotes tiernos envueltos en hoja limpia, preparado especialmente para alimentar a un Númen compañero.",
+      "kind": "numen_food",
+      "price": 2,
+      "sell_price": 0
+    },
     "piel_mordelinde": {
       "id": "piel_mordelinde",
       "name": "Piel terrosa aprovechable",

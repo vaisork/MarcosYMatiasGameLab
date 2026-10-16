@@ -6,7 +6,7 @@ const whole=value=>Math.ceil(Number(value)||0);
 let map3dOpen=false;
 let map3dCamera=null,map3dCameraKey=null;
 const journal=new NarrativeJournal(),history=journal.entries,confirmedRequests=new Set();
-const labels={adventure:['compass','Explorar'],map:['⌁','Mapa'],inventory:['▱','Inventario'],character:['○','Personaje'],bestiary:['paw','Bestiario'],journal:['≡','Diario'],help:['?','Ayuda'],more:['dots','Más']};
+const labels={adventure:['compass','Explorar'],map:['⌁','Mapa'],inventory:['▱','Inventario'],character:['○','Personaje'],numen:['paw','Compañero'],bestiary:['paw','Bestiario'],journal:['≡','Diario'],help:['?','Ayuda'],more:['dots','Más']};
 const requestId=()=>globalThis.crypto?.randomUUID?.()||`web-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 function el(tag,attrs={},...children){const node=document.createElement(tag);for(const [key,value] of Object.entries(attrs)){if(value==null)continue;if(key==='class')node.className=value;else if(key==='text')node.textContent=value;else if(key.startsWith('on')&&typeof value==='function')node.addEventListener(key.slice(2),value);else if(key in node&&!key.startsWith('aria-')&&key!=='role')node[key]=value;else node.setAttribute(key,String(value));}for(const child of children.flat(Infinity)){if(child==null)continue;node.append(typeof child==='string'?document.createTextNode(child):child);}return node;}
 const button=(label,handler,extra={})=>el('button',{type:'button',onclick:handler,...extra},label);
@@ -157,9 +157,21 @@ function speciesSelector(){
  return fieldContainer;
 }
 function creationScreen(){const form=el('form',{class:'stack',onsubmit:e=>{e.preventDefault();const data=new FormData(e.currentTarget);mutate('/api/character/create',{name:String(data.get('name')),species:String(data.get('species')),class_id:String(data.get('class_id')),gender:String(data.get('gender'))});}},field('Nombre de tu personaje','text','name','nickname'),speciesSelector(),el('label',{class:'field'},'Clase',el('select',{name:'class_id',required:true},...Object.entries(classNames).map(([id,label])=>el('option',{value:id},label)))),genderField(),el('button',{type:'submit',class:'primary',disabled:busy},'Presentar mi personaje'));const characters=list(state.characters),pending=characters.filter(c=>c.status!=='approved');main.replaceChildren(card(title('Un lugar en el mundo','Tu personaje'),subtitle('Elige su nombre, especie, clase y género. El director revisará la solicitud.'),...pending.map(c=>el('div',{class:'tile'},el('h3',{},c.name),subtitle(`${speciesNames[c.species]||c.species} · ${classNames[c.class_id]||c.class_id}`),el('span',{class:'pill'},'Pendiente de aprobación'))),state.pending_approval||pending.length?button('Comprobar aprobación',async()=>{try{await refresh();if(state?.pending_approval||list(state?.characters).some(c=>c.status!=='approved')||!state?.character||state?.character?.status!=='approved'){message('El director aún está revisando tu personaje.');}}catch(e){message(e.message,true);}}):form,...characters.filter(c=>c.status==='approved').map(c=>button(`Entrar con ${c.name}`,()=>mutate('/api/character/select',{character_id:c.id})))));}
-const actionIcons={guardia_comprometida:'shield',paso_ruptura:'swords',impulso_arcano:'bolt',velo_contencion:'shield',destello_frio:'star',borrar_foco:'eye',golpe_apertura:'weapon',distraccion:'talk',tiro_interrupcion:'weapon',traba_campo:'armor',balsamo_campo:'heart',mirar:'eye',observar:'search',buscar:'search',examinar:'search',evaluar:'search',atacar:'swords',combatir:'swords',acercarse:'eye',retirarse:'↗',defender:'shield',proteger:'shield',huir:'↗',descansar:'fire',hablar:'talk',conversar:'talk',hablar_adversario:'talk',comprar:'coin',vender:'coin',equipar:'armor',usar:'potion',mover:'→',mirar_direccion:'eye',capacidad:'bolt',examinar_criatura:'paw',aceptar:'star',cobrar:'star',afinar:'weapon',reparar:'weapon',recuperacion:'heart',fusionar:'swords',cuidar_numen:'heart',alimentar_numen:'ration',descansar_numen:'fire',activar_numen:'paw',apoyo_numen:'star',observar_numen:'eye',aproximar_numen:'eye',confiar_numen:'talk',forzar_numen:'talk',calmar_numen:'talk',vincular_numen:'star'};
-const actionTone=id=>['atacar','combatir','defender','proteger','huir','capacidad','apoyo_numen'].includes(id)?'fight':['comprar','vender','afinar','reparar','cobrar','fusionar'].includes(id)?'trade':['hablar','conversar','hablar_adversario','aceptar','confiar_numen','forzar_numen','calmar_numen'].includes(id)?'talk':['usar','descansar','recuperacion','equipar','cuidar_numen','alimentar_numen','descansar_numen'].includes(id)?'care':['mirar','observar','buscar','examinar','evaluar','examinar_criatura','acercarse','retirarse','observar_numen','aproximar_numen'].includes(id)?'explore':'story';
-function actionButton(action){const classAction=Object.values(classActions).flat().find(entry=>entry.id===action.id),wait=action.reason?.match(/(\d+)\s*s(?:egundos)?\b/i),cooldown=action.reason?.match(/Recarga:\s*(\d+)\s*rondas/i),funds=action.reason?.match(/Te faltan (\d+) sellos/),fuseMat=action.id==='fusionar'&&action.reason?.match(/necesita \d+ unidades? de ([^(.]+).*?Te faltan (\d+)/),powerHint=capabilityReadingHint(action),hint=action.disabled?(wait?`Espera ${wait[1]} s`:cooldown?`Recarga: ${cooldown[1]} rondas`:funds?`Faltan ${funds[1]} sellos`:fuseMat?`Faltan ${fuseMat[2]} ${fuseMat[1].trim()}`:powerHint?powerHint:action.id==='descansar'?action.reason?.startsWith('Ya estás')?'Ya estás recuperado':'Descanso agotado':action.id==='afinar'&&action.reason?.startsWith('Consume ')?action.reason.replace(/^Consume /,'Necesitas '):action.reason==='No necesitas atención ahora.'?'No lo necesitas':action.reason==='Tu decisión está preparada para esta ronda.'?'Espera la ronda':'No disponible'):powerHint;return button(el('span',{class:'action-content'},actionIcons[action.id]?el('span',{class:'action-symbol','aria-hidden':true},controlIcon(actionIcons[action.id])):null,el('span',{class:'action-label'},action.label),classAction?el('small',{class:'action-description'},action.description||classAction.description):null,['comprar','afinar'].includes(action.id)&&!action.disabled&&action.reason&&!/^Te faltan \d+ sellos\.?$/.test(action.reason)?el('small',{class:'action-reason'},action.reason):null,(classAction?action.disabled? action.reason||'No disponible':null:hint)?el('small',{class:'action-reason'},classAction?action.reason||'No disponible':hint):null),()=>perform(action),{class:`game-action${['atacar','defender','proteger','huir'].includes(action.id)?' combat-choice':classAction||action.id==='capacidad'?' capability-choice':''}`,'data-tone':classAction?'fight':actionTone(action.id),title:action.reason||action.label,'aria-description':action.reason||undefined,disabled:busy||Boolean(pendingRetry)||action.disabled||Boolean(state.character?.combat?.intervention_pending)});}
+const actionIcons={guardia_comprometida:'shield',paso_ruptura:'swords',impulso_arcano:'bolt',velo_contencion:'shield',destello_frio:'star',borrar_foco:'eye',golpe_apertura:'weapon',distraccion:'talk',tiro_interrupcion:'weapon',traba_campo:'armor',balsamo_campo:'heart',mirar:'eye',observar:'search',buscar:'search',examinar:'search',evaluar:'search',atacar:'swords',combatir:'swords',acercarse:'eye',retirarse:'↗',defender:'shield',proteger:'shield',huir:'↗',descansar:'fire',hablar:'talk',conversar:'talk',hablar_adversario:'talk',comprar:'coin',vender:'coin',equipar:'armor',usar:'potion',mover:'→',mirar_direccion:'eye',capacidad:'bolt',examinar_criatura:'paw',aceptar:'star',cobrar:'star',afinar:'weapon',reparar:'weapon',recuperacion:'heart',fusionar:'swords',cuidar_numen:'heart',alimentar_numen:'ration',nombrar_numen:'paw',descansar_numen:'fire',activar_numen:'paw',apoyo_numen:'star',observar_numen:'eye',aproximar_numen:'eye',confiar_numen:'talk',forzar_numen:'talk',calmar_numen:'talk',vincular_numen:'star'};
+const actionTone=id=>['atacar','combatir','defender','proteger','huir','capacidad','apoyo_numen'].includes(id)?'fight':['comprar','vender','afinar','reparar','cobrar','fusionar'].includes(id)?'trade':['hablar','conversar','hablar_adversario','aceptar','confiar_numen','forzar_numen','calmar_numen'].includes(id)?'talk':['usar','descansar','recuperacion','equipar','cuidar_numen','alimentar_numen','nombrar_numen','descansar_numen'].includes(id)?'care':['mirar','observar','buscar','examinar','evaluar','examinar_criatura','acercarse','retirarse','observar_numen','aproximar_numen'].includes(id)?'explore':'story';
+let namingNumen=null;
+function numenNameForm(action,initialName=''){
+ const key=`${action.id}:${action.target||''}`;
+ return el('form',{class:'stack numen-name-form',onsubmit:async event=>{
+  event.preventDefault();if(busy||pendingRetry)return;
+  const data=new FormData(event.currentTarget),name=String(data.get('name')||'').trim();
+  if(await mutate('/api/action',actionPayload({...action,name},requestId()))){if(namingNumen===key)namingNumen=null;render();}
+ }},
+  el('label',{class:'field'},action.id==='vincular_numen'?'Nombre para tu compañero Númen':'Nuevo nombre del Númen',el('input',{type:'text',name:'name',value:initialName,required:true,minLength:2,maxLength:24,placeholder:'2 a 24 caracteres',autocomplete:'off',disabled:busy})),
+  el('div',{class:'choices'},el('button',{type:'submit',class:'primary',disabled:busy},action.id==='vincular_numen'?'Confirmar vínculo y nombre':'Guardar nombre'),button('Cancelar',()=>{namingNumen=null;render();},{disabled:busy}))
+ );
+}
+function actionButton(action){const classAction=Object.values(classActions).flat().find(entry=>entry.id===action.id),wait=action.reason?.match(/(\d+)\s*s(?:egundos)?\b/i),cooldown=action.reason?.match(/Recarga:\s*(\d+)\s*rondas/i),funds=action.reason?.match(/Te faltan (\d+) sellos/),fuseMat=action.id==='fusionar'&&action.reason?.match(/necesita \d+ unidades? de ([^(.]+).*?Te faltan (\d+)/),powerHint=capabilityReadingHint(action),hint=action.disabled?(wait?`Espera ${wait[1]} s`:cooldown?`Recarga: ${cooldown[1]} rondas`:funds?`Faltan ${funds[1]} sellos`:fuseMat?`Faltan ${fuseMat[2]} ${fuseMat[1].trim()}`:powerHint?powerHint:action.id==='descansar'?action.reason?.startsWith('Ya estás')?'Ya estás recuperado':'Descanso agotado':action.id==='afinar'&&action.reason?.startsWith('Consume ')?action.reason.replace(/^Consume /,'Necesitas '):action.reason==='No necesitas atención ahora.'?'No lo necesitas':action.reason==='Tu decisión está preparada para esta ronda.'?'Espera la ronda':'No disponible'):powerHint;return button(el('span',{class:'action-content'},actionIcons[action.id]?el('span',{class:'action-symbol','aria-hidden':true},controlIcon(actionIcons[action.id])):null,el('span',{class:'action-label'},action.label),classAction?el('small',{class:'action-description'},action.description||classAction.description):null,['comprar','afinar'].includes(action.id)&&!action.disabled&&action.reason&&!/^Te faltan \d+ sellos\.?$/.test(action.reason)?el('small',{class:'action-reason'},action.reason):null,(classAction?action.disabled? action.reason||'No disponible':null:hint)?el('small',{class:'action-reason'},classAction?action.reason||'No disponible':hint):null),()=>{if(['vincular_numen','nombrar_numen'].includes(action.id)&&!action.name){namingNumen=`${action.id}:${action.target||''}`;render();main.querySelector('.numen-name-form input')?.focus();return;}perform(action);},{class:`game-action${['atacar','defender','proteger','huir'].includes(action.id)?' combat-choice':classAction||action.id==='capacidad'?' capability-choice':''}`,'data-tone':classAction?'fight':actionTone(action.id),title:action.reason||action.label,'aria-description':action.reason||undefined,disabled:busy||Boolean(pendingRetry)||action.disabled||Boolean(state.character?.combat?.intervention_pending)});}
 
 function artPeek(art,label,extraClass=''){
  const peek=el('img',{class:'art-peek',src:art.thumbnail||art.illustration,alt:'',loading:'lazy',decoding:'async',onerror:event=>{if(art.illustration&&event.currentTarget.src!==art.illustration){event.currentTarget.src=art.illustration;}else{event.currentTarget.remove();}}});
@@ -167,7 +179,9 @@ function artPeek(art,label,extraClass=''){
 }
 function statusBar(c){
  const bar=(icon,label,value,max,tone,text)=>el('div',{class:`hud-bar hud-${tone}`,role:'img','aria-label':`${label}: ${text}`},controlIcon(icon),el('span',{class:'hud-track'},el('span',{class:'hud-fill',style:`width:${Math.max(0,Math.min(100,100*value/(max||1)))}%`})),el('span',{class:'hud-value'},text));
- return el('div',{class:'hud',onclick:()=>navigate('character')},bar('heart','Vida',c.hp,c.hp_max,'life',`${whole(c.hp)}/${whole(c.hp_max)}`),bar('bolt','Energía',100-(c.fatigue||0),100,'energy',`${whole(100-(c.fatigue||0))}%`),el('span',{class:'hud-chip','aria-label':`Sellos: ${c.seals}`},controlIcon('coin'),String(c.seals??0)),el('span',{class:'hud-chip hud-level','aria-label':`Nivel ${c.level}`},controlIcon('star'),`Nv ${c.level??1}`));
+ const bonded=list(c.numenes?.bonded||state?.numenes?.bonded),activeId=c.numenes?.active||state?.numenes?.active,active=bonded.find(n=>n.id===activeId)||c.active_numen||null;
+ const numenChip=(active||bonded.length)?button([controlIcon('paw'),el('span',{class:'hud-numen-text'},active?`${active.name} · ${active.mood||'contento'}`:'Compañero')],event=>{event.stopPropagation();navigate('numen');},{class:'hud-chip hud-numen','aria-label':active?`Compañero Númen: ${active.name}, ${active.mood||'contento'}`:'Ver compañero Númen',title:active?`${active.name} (${active.mood||'contento'})`:'Ver compañero Númen'}):null;
+ return el('div',{class:'hud',onclick:()=>navigate('character')},bar('heart','Vida',c.hp,c.hp_max,'life',`${whole(c.hp)}/${whole(c.hp_max)}`),bar('bolt','Energía',100-(c.fatigue||0),100,'energy',`${whole(100-(c.fatigue||0))}%`),el('span',{class:'hud-chip','aria-label':`Sellos: ${c.seals}`},controlIcon('coin'),String(c.seals??0)),el('span',{class:'hud-chip hud-level','aria-label':`Nivel ${c.level}`},controlIcon('star'),`Nv ${c.level??1}`),numenChip);
 }
 function exitsPanel(available){
  const arrows={norte:'↑',sur:'↓',este:'→',oeste:'←',hogar:'⌂'},moves=available.filter(a=>a.id==='mover');
@@ -198,7 +212,9 @@ function adventure(){const readingPosition=captureReadingPosition();const room=s
  if(state.character.combat){const combat=state.character.combat;context.append(el('div',{class:'selection'},el('h3',{},combat.illustration?artPeek({name:combat.name,illustration:combat.illustration,thumbnail:combat.illustration.replace('.webp','-thumb.webp'),caption:'Retrato del adversario. No es una entrada del bestiario.'},`Ver retrato de ${combat.name}`,'encounter-portrait'):null,`Encuentro · ${combat.name}`),combatMeter(combat),subtitle(`Ronda ${combat.round}${combat.prepared?' · '+(combat.prepared_action?.name||'Prepara un ataque'):''}`),combat.intervention_pending?subtitle(state.character.combat.combatant_kind==='human'?'Tu decisión está preparada. Esperas la respuesta del adversario.':'Tu decisión está preparada. Esperas la respuesta de la criatura.'):subtitle('Lee las señales antes de decidir.')));}
  const reading=el('section',{class:'reading','aria-label':'Crónica de tu aventura'},el('h2',{},'Crónica de viaje'),terminalFeed,el('div',{class:'reading-footer'},'El mundo continúa. Tú decides.',el('span',{'aria-hidden':true})));const visitChanged=syncTerminal();
 
- const available=actions(state.actions),contextual=available.filter(a=>!['mover','hablar','equipar','desequipar','usar','atributo','tecnica','vender','comprar','fusionar'].includes(a.id)),shopCount=available.filter(a=>['comprar','vender'].includes(a.id)).length,choices=el('section',{class:'card quick-actions','aria-label':'Decide tu siguiente paso'},el('h2',{class:'panel-title'},state.character.combat?'Combate':'Acciones'),el('div',{class:'choices action-grid'},...(shopCount&&!state.character.combat?[button(el('span',{class:'action-content'},el('span',{class:'action-symbol','aria-hidden':true},controlIcon('coin')),el('span',{class:'action-label'},'Tienda'),el('small',{class:'action-reason'},shopCount===1?'1 cosa':`${shopCount} cosas`)),()=>{shopSection=null;navigate('shop');},{class:'game-action','data-tone':'trade'})]:[]),...(state.character.combat?contextual:contextual.slice(0,shopCount?8:9)).map(actionButton)));
+ const available=actions(state.actions),contextual=available.filter(a=>!['mover','hablar','equipar','desequipar','usar','atributo','tecnica','vender','comprar','fusionar','nombrar_numen'].includes(a.id)),shopCount=available.filter(a=>['comprar','vender'].includes(a.id)).length,choices=el('section',{class:'card quick-actions','aria-label':'Decide tu siguiente paso'},el('h2',{class:'panel-title'},state.character.combat?'Combate':'Acciones'),el('div',{class:'choices action-grid'},...(shopCount&&!state.character.combat?[button(el('span',{class:'action-content'},el('span',{class:'action-symbol','aria-hidden':true},controlIcon('coin')),el('span',{class:'action-label'},'Tienda'),el('small',{class:'action-reason'},shopCount===1?'1 cosa':`${shopCount} cosas`)),()=>{shopSection=null;navigate('shop');},{class:'game-action','data-tone':'trade'})]:[]),...(state.character.combat?contextual:contextual.slice(0,shopCount?8:9)).map(actionButton)));
+ const pendingBond=contextual.find(a=>a.id==='vincular_numen'&&namingNumen===`${a.id}:${a.target||''}`);
+ if(pendingBond)choices.append(numenNameForm(pendingBond));
 
  const reasons=contextual.filter(a=>a.reason);if(reasons.length)choices.append(el('details',{class:'more'},el('summary',{},'Detalles de las acciones'),el('ul',{},...reasons.map(a=>el('li',{},el('strong',{},a.label+': '),a.reason)))));
  if(!state.character.combat&&contextual.length>9)choices.append(el('details',{class:'more'},el('summary',{},'Otras posibilidades'),el('div',{class:'choices'},...contextual.slice(9).map(actionButton))));
@@ -231,10 +247,31 @@ function attributeUpgrade(name){
  const action=actions(state.actions).find(action=>action.id==='atributo'&&action.target===name);
  return button('+',()=>perform(action),{class:'attribute-upgrade','aria-label':action?.label||`Mejorar ${attributeNames[name]||name}: PA insuficientes`,title:action?.label||'PA insuficientes',disabled:busy||Boolean(pendingRetry)||!action||Boolean(action.disabled)});
 }
+const numenSilhouettes={a:'🐕',b:'🐈',c:'🦎',d:'🦦',e:'🦊',f:'🦉',g:'🐐',h:'🐢'};
+const numenMoodDescriptions={
+ 'contento':'Contento · Te acompaña con energía y curiosidad.',
+ 'con hambre':'Con hambre · Te mira esperando un Bocado de Númen.',
+ 'decaído':'Decaído · Lleva muchas horas sin comer o descansar, pero sigue a tu lado.'
+};
+let numenAnim='',numenReactionText='',numenArtMissing=new Set();
+async function triggerNumenCare(action,animKind){
+ if(busy||pendingRetry)return;
+ numenAnim=animKind;render();
+ const ok=await mutate('/api/action',actionPayload(action,requestId()));
+ if(ok){
+  const active=state?.character?.active_numen||(state?.numenes?.bonded||[]).find(n=>n.id===state?.numenes?.active);
+  numenReactionText=active?.last_reaction||history.at(-1)?.text||'';
+  numenAnim=animKind;render();
+  setTimeout(()=>{if(numenAnim===animKind){numenAnim='';render();}},1800);
+ }else{
+  numenAnim='';render();
+ }
+}
 function numenCard(numen,isActive,availableActions){
- const isCared=numen.care?.well_cared,isFed=numen.care?.fed_today,trustLevel=numen.trust||1;
+ const mood=numen.mood||'contento',trustLevel=numen.trust||1;
  const stageName=trustStageNames[numen.trust_stage]||numen.trust_stage||`Etapa ${trustLevel}`;
  const stars='★'.repeat(trustLevel)+'☆'.repeat(Math.max(0,3-trustLevel));
+ const moodTone=mood==='contento'?'care-good':mood==='con hambre'?'care-hungry':'care-need';
  const cardEl=el('article',{class:`tile numen-card${isActive?' numen-active':''}`},
   el('div',{class:'numen-heading'},
    el('span',{class:'numen-emblem','aria-hidden':'true'},controlIcon('paw')),
@@ -245,24 +282,21 @@ function numenCard(numen,isActive,availableActions){
    el('span',{class:`pill${isActive?' numen-pill-active':''}`},isActive?'En viaje':'En el refugio')
   ),
   el('div',{class:'numen-details'},
+   el('div',{class:'numen-row numen-line'},el('strong',{},'Estado: '),el('span',{class:`pill ${moodTone} numen-mood-text`},mood)),
    el('div',{class:'numen-row'},el('strong',{},'Confianza: '),el('span',{class:'numen-trust'},`${stageName} `),el('span',{class:'numen-stars','aria-label':`${trustLevel} de 3 estrellas`},stars)),
-   el('div',{class:'numen-row'},el('strong',{},'Apoyo (Piloto): '),el('span',{},numen.power_name||'Apoyo sutil con recarga')),
-   el('div',{class:'numen-row numen-care-status'},el('strong',{},'Estado: '),
-    el('span',{class:`pill ${isCared?'care-good':'care-need'}`},isCared?'Bien cuidado':'Necesita descanso'),
-    el('span',{class:`pill ${isFed?'care-fed':'care-hungry'}`},isFed?'Alimentado hoy':'Sin alimentar hoy'))
+   el('div',{class:'numen-row'},el('strong',{},'Apoyo: '),el('span',{},numen.power_name||'Apoyo sutil con recarga')),
+   numen.last_reaction?el('p',{class:'muted numen-last-reaction'},numen.last_reaction):null
   )
  );
+ const renameAction=availableActions.find(a=>a.id==='nombrar_numen'&&a.target===numen.id)||{id:'nombrar_numen',target:numen.id,label:`Cambiar nombre de ${numen.name}`,reason:`Darle un nuevo nombre a ${numen.name}.`};
  if(isActive){
-  const careActions=availableActions.filter(a=>['cuidar_numen','alimentar_numen','descansar_numen'].includes(a.id));
-  if(careActions.length){
-   cardEl.append(el('div',{class:'numen-actions'},el('h4',{class:'numen-actions-title'},'Cuidados disponibles aquí:'),...careActions.map(actionButton)));
-  }else{
-   cardEl.append(el('p',{class:'muted numen-care-hint'},'Para alimentarlo o atenderlo, lleva raciones de viaje o descansa en un fuego o posada.'));
-  }
+  const careActions=[...availableActions.filter(a=>['cuidar_numen','alimentar_numen','descansar_numen'].includes(a.id)),renameAction];
+  cardEl.append(el('div',{class:'numen-actions'},el('h4',{class:'numen-actions-title'},'Cuidados disponibles aquí:'),...careActions.map(actionButton),button([controlIcon('paw'),' Ver pantalla del compañero'],()=>navigate('numen'),{class:'primary numen-open-screen'})));
  }else{
-  const activateAction=availableActions.find(a=>a.id==='activar_numen'&&a.target===numen.id);
-  if(activateAction)cardEl.append(el('div',{class:'numen-actions'},actionButton(activateAction)));
+  const activateAction=availableActions.find(a=>a.id==='activar_numen'&&a.target===numen.id)||{id:'activar_numen',target:numen.id,label:`Viajar con ${numen.name}`,reason:`Elegir a ${numen.name} como tu compañero activo.`};
+  cardEl.append(el('div',{class:'numen-actions'},actionButton(activateAction),actionButton(renameAction)));
  }
+ if(namingNumen===`nombrar_numen:${numen.id}`)cardEl.append(numenNameForm(renameAction,numen.name));
  return cardEl;
 }
 function numenSection(c){
@@ -275,6 +309,7 @@ function numenSection(c){
   section.append(subtitle('Todavía no caminas con ningún Númen. Los Númenes observan con paciencia a los viajeros en rincones tranquilos del mundo; no se capturan ni se compran.'));
   return section;
  }
+ if(active)section.append(el('p',{class:'numen-status-line'},`${active.name} (${active.species_name||'Compañero Númen'}): ${active.mood||'contento'}.`));
  section.append(subtitle(`Compañeros vinculados: ${bonded.length}/3 (máximo 1 activo en viaje).`));
  const available=actions(state.actions);
  if(active)section.append(numenCard(active,true,available));
@@ -284,6 +319,75 @@ function numenSection(c){
   for(const other of others)section.append(numenCard(other,false,available));
  }
  return section;
+}
+function numenView(){
+ const c=state.character||{},numenes=c.numenes||state.numenes||{active:null,bonded:[]};
+ const bonded=list(numenes.bonded),activeId=numenes.active;
+ const active=bonded.find(n=>n.id===activeId)||c.active_numen||bonded[0]||null;
+ if(!active){
+  main.replaceChildren(card(title('Tu compañero','Aún no caminas con un Númen'),subtitle('Los Númenes observan en silencio a quienes recorren el mundo sin prisa. Cuando formes un vínculo voluntario, podrás cuidarlo aquí.'),button([controlIcon('←'),' Volver a la aventura'],()=>navigate('adventure'))));
+  return;
+ }
+ const model=active.model||'a',mood=active.mood||'contento',moodKey=mood==='con hambre'?'hambre':mood==='decaído'?'decaido':'contento';
+ const moodTone=mood==='contento'?'care-good':mood==='con hambre'?'care-hungry':'care-need';
+ const artSrc=`/art/numenes/numen-${model}-v1.webp`;
+ const fallback=el('div',{class:'numen-art-fallback'},
+  el('span',{class:'numen-silhouette','aria-hidden':'true'},numenSilhouettes[model]||'🐾'),
+  el('strong',{},active.name),
+  el('small',{class:'muted'},active.species_name||'Compañero Númen')
+ );
+ const artImg=!numenArtMissing.has(model)?el('img',{
+  class:'numen-art-img',
+  src:artSrc,
+  alt:`Ilustración de ${active.name}`,
+  decoding:'async',
+  onload:event=>event.currentTarget.parentElement?.classList.add('has-art'),
+  onerror:event=>{numenArtMissing.add(model);event.currentTarget.remove();}
+ }):null;
+ const animBadge=numenAnim?el('span',{class:'numen-response-badge',role:'status'},numenAnim==='heart'?'♥ Ronroneo alegre':numenAnim==='jump'?'✦ ¡Salto de alegría!':'☾ Descanso tranquilo'):null;
+ const artFrame=el('div',{class:`numen-art-frame numen-mood-${moodKey}${numenAnim?` numen-anim-${numenAnim}`:''}`,'data-mood':mood},fallback,artImg,animBadge);
+ const bocados=list(state.inventory).filter(item=>item.id==='bocado_numen'||item.kind==='numen_food').reduce((sum,item)=>sum+(Number(item.quantity)||1),0);
+ const available=actions(state.actions);
+ const feedAct=available.find(a=>a.id==='alimentar_numen')||{id:'alimentar_numen',label:'Dar Bocado de Númen'};
+ const petAct=available.find(a=>a.id==='cuidar_numen')||{id:'cuidar_numen',label:'Acariciar'};
+ const restAct=available.find(a=>a.id==='descansar_numen')||{id:'descansar_numen',label:'Descansar juntos'};
+ const renameAct=available.find(a=>a.id==='nombrar_numen'&&a.target===active.id)||{id:'nombrar_numen',target:active.id,label:'Cambiar nombre',reason:`Darle un nuevo nombre a ${active.name}.`};
+ const reactionLine=numenReactionText||active.last_reaction||'Se mantiene cerca de ti, atento a cada paso del camino.';
+ const inCombat=Boolean(c.combat);
+ const careButtons=el('div',{class:'numen-care-buttons choices'},
+  button([controlIcon('ration'),bocados>0?` Dar Bocado de Númen (${bocados})`:' Dar Bocado de Númen'],()=>triggerNumenCare(feedAct,'jump'),{class:'game-action','data-tone':'care',disabled:busy||Boolean(pendingRetry)||inCombat,title:'Consume un Bocado de Númen (2 sellos en tiendas de provisiones)'}),
+  button([controlIcon('heart'),' Acariciar'],()=>triggerNumenCare(petAct,'heart'),{class:'game-action','data-tone':'care',disabled:busy||Boolean(pendingRetry)||inCombat}),
+  button([controlIcon('fire'),' Descansar juntos'],()=>triggerNumenCare(restAct,'purr'),{class:'game-action','data-tone':'care',disabled:busy||Boolean(pendingRetry)||inCombat}),
+  button([controlIcon('paw'),' Cambiar nombre'],()=>{namingNumen=`nombrar_numen:${active.id}`;render();main.querySelector('.numen-name-form input')?.focus();},{class:'game-action','data-tone':'story',disabled:busy||Boolean(pendingRetry)||inCombat})
+ );
+ const rosterSection=bonded.length>1?el('section',{class:'numen-companion-roster stack','aria-label':'Compañeros vinculados'},
+  el('h2',{class:'panel-title'},'¿Quién viaja contigo?'),
+  ...bonded.map(entry=>{
+   const traveling=entry.id===active.id;
+   return el('div',{class:`tile numen-roster-item${traveling?' numen-active':''}`},
+    el('div',{class:'numen-roster-info'},
+     el('strong',{},entry.name),
+     el('span',{class:'muted'},` · ${entry.species_name||'Númen'} · ${entry.mood||'contento'}`)
+    ),
+    traveling?el('span',{class:'pill numen-pill-active'},'Viaja contigo'):button([controlIcon('paw'),` Viajar con ${entry.name}`],()=>mutate('/api/action',actionPayload({id:'activar_numen',target:entry.id,label:`Viajar con ${entry.name}`},requestId())),{disabled:busy||Boolean(pendingRetry)||inCombat})
+   );
+  })
+ ):null;
+ main.replaceChildren(card(
+  el('div',{class:'numen-companion-view stack'},
+   title(active.species_name||'Compañero Númen',active.name),
+   artFrame,
+   el('div',{class:'numen-feeling-panel tile'},
+    el('p',{class:'numen-feeling-line'},el('strong',{},'Cómo se siente: '),el('span',{class:`pill ${moodTone} numen-mood-text`},mood)),
+    el('p',{class:'muted'},numenMoodDescriptions[mood]||numenMoodDescriptions.contento),
+    el('p',{class:'numen-power-line'},el('strong',{},`Poder (${active.power_name||'Apoyo'}): `),active.power_desc||'Te acompaña y te apoya en los momentos difíciles.')
+   ),
+   el('blockquote',{class:'numen-reaction-box','aria-live':'polite'},reactionLine),
+   careButtons,
+   namingNumen===`nombrar_numen:${active.id}`?numenNameForm(renameAct,active.name):null,
+   rosterSection
+  )
+ ));
 }
 function characterView(){const c=state.character,portrait=c.portrait||speciesPortraits[c.species],equipment=c.equipment||{},inventory=list(state.inventory),rows=[['Género',c.gender==='masculino'?'Masculino':c.gender==='femenino'?'Femenino':'Sin elegir'],['Especie',speciesNames[c.species]||c.species],['Clase',classNames[c.class_id]||c.class_id],['Vitalidad',`${whole(c.hp)}/${whole(c.hp_max)}`],['Fatiga',whole(c.fatigue)],['Sellos',c.seals],['Puntos de atributo',c.pa],['Puntos de técnica',c.pp],['Herida',c.wound==null?'Sin herida':typeof c.wound==='number'?c.wound===0?'Sin herida':`Grado ${c.wound}`:textLabel(c.wound)||'Sin información']];main.replaceChildren(card(el('div',{class:'character-heading'},portrait?button(el('img',{class:'species-thumbnail',src:portrait,alt:'',decoding:'async'}),()=>openIllustration({name:c.portrait?c.name:speciesNames[c.species],illustration:portrait}),{class:'species-art-button','aria-label':`Ver retrato de ${c.name}`}):null,title('Tu presencia en el mundo',c.name)),characterProgress(c),c.pa>0?el('p',{class:'pa-notice',role:'status'},`Tienes ${c.pa} puntos para mejorar`):null,el('div',{class:'stats'},...rows.filter(([,value])=>value!==undefined).map(([label,value])=>characterStat(label,value,c))),c.gender?null:el('form',{class:'stack',onsubmit:event=>{event.preventDefault();if(busy)return;const data=new FormData(event.currentTarget);mutate('/api/character/profile',{gender:String(data.get('gender'))});}},genderField(c.gender),el('button',{type:'submit',class:'primary',disabled:busy},'Guardar género')),testerPanel(),el('h2',{},'Equipo actual'),subtitle(gearSummary(c)[0].join(': ')),...Object.entries(equipment).map(([slot,id])=>subtitle(`${slotNames[slot]||slot}: ${id?(typeof id==='object'?id.name:inventory.find(entry=>entry.id===id)?.name)||'Equipo registrado (nombre pendiente de motor)':'Sin equipar'}`)),Object.keys(equipment).length?null:subtitle('No hay equipo indicado.'),button('Ver mi inventario',()=>navigate('inventory')),numenSection(c),characterCapabilities(),el('details',{class:'more'},el('summary',{},'Las cinco especies'),subtitle('Estas ilustraciones representan cada especie.'),el('div',{class:'species-gallery'},...Object.entries(speciesPortraits).map(([id,illustration])=>button(el('span',{},el('img',{class:'species-thumbnail',src:illustration,alt:'',loading:'lazy',decoding:'async'}),speciesNames[id]),()=>openIllustration({name:speciesNames[id],illustration}),{class:'species-gallery-button','aria-label':`Ver especie ${speciesNames[id]}`})))),el('h2',{},'Atributos'),el('div',{class:'attribute-grid'},...Object.entries(c.attributes||{}).map(([name,value])=>el('div',{class:'attribute'},el('span',{class:'attribute-icon'},controlIcon(attributeIcons[name]||'star')),el('small',{},attributeNames[name]||name),el('strong',{},String(value)),attributeUpgrade(name),el('p',{class:'attribute-description'},(c.attribute_effects||state.attribute_effects||{})[name]||attributeDescriptions[name]||'Explicación pendiente de motor.')))),...actions(state.actions).filter(action=>action.id==='tecnica').map(actionButton),list(state.characters).length>1?el('details',{class:'more'},el('summary',{},'Tus otros personajes'),...list(state.characters).filter(other=>other.id!==c.id).map(other=>button(`${other.name} · ${other.status==='approved'?'Disponible':'Pendiente'}`,()=>mutate('/api/character/select',{character_id:other.id})))):null));}
 function sellingSection(compact=false){
@@ -297,7 +401,7 @@ function sellingSection(compact=false){
  }
  return section;
 }
-function inventoryView(){const items=list(state.inventory),available=actions(state.actions),equipment=state.character.equipment||{},purchases=available.filter(action=>action.id==='comprar');const itemCards=items.map(item=>{const id=item.id||item.item_id||item.key,slot=Object.keys(equipment).find(slot=>equipment[slot]===id),same=items.filter(other=>other.name===item.name),number=same.findIndex(other=>other.id===id)+1;const entry=el('article',{class:`tile inventory-item${slot?' item-equipped':''}`},el('div',{class:'item-heading'},el('span',{class:'item-emblem','aria-hidden':true},controlIcon(item.kind==='weapon'?'weapon':item.kind==='armor'||item.kind==='accessory'?'armor':item.kind==='consumable'?'ration':'▱')),el('h3',{},item.name||item.label||'Objeto')),same.length>1?el('p',{class:'muted'},`Ejemplar ${number} de ${same.length}`):null,item.description?el('p',{},item.description):null,item.quantity!==undefined?el('span',{class:'pill'},`Cantidad: ${item.quantity}`):null,item.kind==='weapon'&&typeof item.damage==='number'?el('span',{class:'pill'},`Daño base: ${item.damage}`):null,item.kind==='armor'?el('span',{class:'pill'},`${slotNames[item.slot]||'Torso'} · −${Math.round((item.armor_reduction||0)*100)}% daño`):null,item.slot&&item.kind==='accessory'?el('span',{class:'pill'},slotNames[item.slot]):null,...Object.entries(item.bonus||{}).map(([key,value])=>el('span',{class:'pill'},`+${value} ${bonusNames[key]||key}`)),item.effect==='potion'?el('span',{class:'pill'},'Se puede usar en combate'):null,item.honed?el('span',{class:'pill'},'Afinada · +1 daño'):null,item.fusion?el('span',{class:'pill'},`Fusión +${item.fusion}${item.kind==='weapon'?` · +${item.fusion*2} daño`:item.kind==='armor'||item.kind==='block'?` · −${item.fusion*2}% daño`:''}`):null,typeof item.sell_price==='number'?el('span',{class:'pill'},`Valor: ${item.sell_price} sellos`):null,slot?el('span',{class:'pill'},'En uso'):null,item.condition==='damaged_event'?el('p',{class:'action-reason'},'Dañada: necesita reparación antes de equiparse.'):null,item.activated===false?el('p',{class:'action-reason'},'Pendiente de validación de Forja.'):null,...available.filter(action=>['equipar','usar','reparar','afinar','fusionar'].includes(action.id)&&action.target===id&&!(slot&&action.id==='equipar')).map(action=>actionButton(action.confirmation&&same.length>1?{...action,confirmation:`Ejemplar ${number} de ${same.length}. ${action.confirmation}`}:action)));if(slot){const remove=available.find(action=>action.id==='desequipar'&&action.target===slot);if(remove)entry.append(actionButton({...remove,label:'Guardar esta pieza'}));}return entry;});const sellHere=available.some(action=>action.id==='vender'),selling=sellHere?sellingSection():el('details',{class:'more selling-fold'},el('summary',{},'Dónde vender'),sellingSection());main.replaceChildren(card(title('Lo que llevas','Mochila'),subtitle(`Dispones de ${state.character.seals} sellos.`),subtitle('El contenido y el equipo reflejan tu situación real.'),...itemCards,items.length?null:subtitle('Tu mochila no contiene objetos visibles.'),...available.filter(action=>action.id==='equipar'&&!action.target).map(actionButton),purchases.length?el('section',{'aria-label':'Compras disponibles en este lugar'},el('h2',{},'Comprar aquí'),button(`Abrir la tienda (${purchases.length})`,()=>{shopSection=null;navigate('shop');},{class:'primary'})):null,selling));}
+function inventoryView(){const items=list(state.inventory),available=actions(state.actions),equipment=state.character.equipment||{},purchases=available.filter(action=>action.id==='comprar');const itemCards=items.map(item=>{const id=item.id||item.item_id||item.key,slot=Object.keys(equipment).find(slot=>equipment[slot]===id),same=items.filter(other=>other.name===item.name),number=same.findIndex(other=>other.id===id)+1;const entry=el('article',{class:`tile inventory-item${slot?' item-equipped':''}`},el('div',{class:'item-heading'},el('span',{class:'item-emblem','aria-hidden':true},controlIcon(item.kind==='weapon'?'weapon':item.kind==='armor'||item.kind==='accessory'?'armor':item.kind==='consumable'||item.kind==='numen_food'?'ration':'▱')),el('h3',{},item.name||item.label||'Objeto')),same.length>1?el('p',{class:'muted'},`Ejemplar ${number} de ${same.length}`):null,item.description?el('p',{},item.description):null,item.quantity!==undefined?el('span',{class:'pill'},`Cantidad: ${item.quantity}`):null,item.kind==='weapon'&&typeof item.damage==='number'?el('span',{class:'pill'},`Daño base: ${item.damage}`):null,item.kind==='armor'?el('span',{class:'pill'},`${slotNames[item.slot]||'Torso'} · −${Math.round((item.armor_reduction||0)*100)}% daño`):null,item.slot&&item.kind==='accessory'?el('span',{class:'pill'},slotNames[item.slot]):null,...Object.entries(item.bonus||{}).map(([key,value])=>el('span',{class:'pill'},`+${value} ${bonusNames[key]||key}`)),item.effect==='potion'?el('span',{class:'pill'},'Se puede usar en combate'):null,item.honed?el('span',{class:'pill'},'Afinada · +1 daño'):null,item.fusion?el('span',{class:'pill'},`Fusión +${item.fusion}${item.kind==='weapon'?` · +${item.fusion*2} daño`:item.kind==='armor'||item.kind==='block'?` · −${item.fusion*2}% daño`:''}`):null,typeof item.sell_price==='number'?el('span',{class:'pill'},`Valor: ${item.sell_price} sellos`):null,slot?el('span',{class:'pill'},'En uso'):null,item.condition==='damaged_event'?el('p',{class:'action-reason'},'Dañada: necesita reparación antes de equiparse.'):null,item.activated===false?el('p',{class:'action-reason'},'Pendiente de validación de Forja.'):null,...available.filter(action=>['equipar','usar','reparar','afinar','fusionar'].includes(action.id)&&action.target===id&&!(slot&&action.id==='equipar')).map(action=>actionButton(action.confirmation&&same.length>1?{...action,confirmation:`Ejemplar ${number} de ${same.length}. ${action.confirmation}`}:action)));if(slot){const remove=available.find(action=>action.id==='desequipar'&&action.target===slot);if(remove)entry.append(actionButton({...remove,label:'Guardar esta pieza'}));}return entry;});const sellHere=available.some(action=>action.id==='vender'),selling=sellHere?sellingSection():el('details',{class:'more selling-fold'},el('summary',{},'Dónde vender'),sellingSection());main.replaceChildren(card(title('Lo que llevas','Mochila'),subtitle(`Dispones de ${state.character.seals} sellos.`),subtitle('El contenido y el equipo reflejan tu situación real.'),...itemCards,items.length?null:subtitle('Tu mochila no contiene objetos visibles.'),...available.filter(action=>action.id==='equipar'&&!action.target).map(actionButton),purchases.length?el('section',{'aria-label':'Compras disponibles en este lugar'},el('h2',{},'Comprar aquí'),button(`Abrir la tienda (${purchases.length})`,()=>{shopSection=null;navigate('shop');},{class:'primary'})):null,selling));}
 // Keep GPU resources when only nonvisual state (for example a cooldown) changes.
 function mapVisualKey(snapshot){
  const character=snapshot?.character||{},map=orientationMap(snapshot?.map,character.location),equipment=character.equipment||{},equipped=new Set(Object.values(equipment));
@@ -481,9 +585,9 @@ function shopView(){
 }
 function moreView(){
  const tile=(key,text)=>button([el('span',{class:'more-icon'},controlIcon(labels[key][0])),el('strong',{},labels[key][1]),el('small',{},text)],()=>navigate(key),{class:'more-tile'});
- main.replaceChildren(card(title('Tu aventura','Más'),el('div',{class:'more-grid'},tile('bestiary','Criaturas que has visto'),tile('journal','Encargos y recuerdos'),tile('help','Cómo se juega'))));
+ main.replaceChildren(card(title('Tu aventura','Más'),el('div',{class:'more-grid'},tile('numen','Tu compañero Númen'),tile('bestiary','Criaturas que has visto'),tile('journal','Encargos y recuerdos'),tile('help','Cómo se juega'))));
 }
-function render(){if(positionCharacter!==state?.character?.id){viewPositions.clear();positionCharacter=state?.character?.id;}document.documentElement.classList.toggle('directing-world',view==='master');document.documentElement.classList.toggle('combat-active',view==='adventure'&&Boolean(state?.character?.combat));document.documentElement.classList.toggle('playing-map',view==='map'&&state?.character?.status==='approved');document.documentElement.classList.toggle('reading-adventure',view==='adventure'&&state?.character?.status==='approved');if(pendingRetry){notice.hidden=false;notice.classList.add('error');notice.replaceChildren('La respuesta no llegó. Comprueba la misma decisión antes de elegir otra.',button('Comprobar mi decisión',()=>mutate(pendingRetry.path,pendingRetry.payload)));}if(view==='master'){renderMaster();navigation.hidden=true;return;}const authenticated=Boolean(state?.authenticated);document.getElementById('account-logout').hidden=!authenticated;navigation.hidden=true;if(!authenticated){authScreen();return;}if(!state.character||state.pending_approval||state.character.status!=='approved'){creationScreen();return;}navigation.hidden=false;({adventure,map:mapView,inventory:inventoryView,character:characterView,bestiary:bestiaryView,journal:journalView,help:helpView,more:moreView,shop:shopView}[view]||adventure)();if(['character','inventory','bestiary','journal','help','more'].includes(view)){main.prepend(el('div',{class:'submenu-context'},button([controlIcon('←'),' Volver a la aventura'],()=>navigate('adventure')),el('span',{},state.room?.name||'Tu aventura')));main.setAttribute('aria-label',labels[view]?.[1]||'Tu aventura');}else main.removeAttribute('aria-label');renderNavigation();document.querySelectorAll('button').forEach(button=>{if(busy&&!button.disabled){button.disabled=true;button.dataset.working='';}});}
+function render(){if(positionCharacter!==state?.character?.id){viewPositions.clear();positionCharacter=state?.character?.id;}document.documentElement.classList.toggle('directing-world',view==='master');document.documentElement.classList.toggle('combat-active',view==='adventure'&&Boolean(state?.character?.combat));document.documentElement.classList.toggle('playing-map',view==='map'&&state?.character?.status==='approved');document.documentElement.classList.toggle('reading-adventure',view==='adventure'&&state?.character?.status==='approved');if(pendingRetry){notice.hidden=false;notice.classList.add('error');notice.replaceChildren('La respuesta no llegó. Comprueba la misma decisión antes de elegir otra.',button('Comprobar mi decisión',()=>mutate(pendingRetry.path,pendingRetry.payload)));}if(view==='master'){renderMaster();navigation.hidden=true;return;}const authenticated=Boolean(state?.authenticated);document.getElementById('account-logout').hidden=!authenticated;navigation.hidden=true;if(!authenticated){authScreen();return;}if(!state.character||state.pending_approval||state.character.status!=='approved'){creationScreen();return;}navigation.hidden=false;({adventure,map:mapView,inventory:inventoryView,character:characterView,numen:numenView,bestiary:bestiaryView,journal:journalView,help:helpView,more:moreView,shop:shopView}[view]||adventure)();if(['character','numen','inventory','bestiary','journal','help','more'].includes(view)){main.prepend(el('div',{class:'submenu-context'},button([controlIcon('←'),' Volver a la aventura'],()=>navigate('adventure')),el('span',{},state.room?.name||'Tu aventura')));main.setAttribute('aria-label',labels[view]?.[1]||'Tu aventura');}else main.removeAttribute('aria-label');renderNavigation();document.querySelectorAll('button').forEach(button=>{if(busy&&!button.disabled){button.disabled=true;button.dataset.working='';}});}
 async function loadMaster(){try{master=await api('/api/master/state');view='master';render();}catch(error){message(error.message,true);}}
 function masterPasswordForm(character){
  const account=typeof character.account==='object'?character.account.username:character.account||'Sin indicar';

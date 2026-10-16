@@ -1,7 +1,9 @@
 """Document-sourced rules: GAMEPLAY §§20,22,24,27,36,42,43; WEAPON_CATALOG.
 All values transcribed from documents, not imported from the former engine.
 """
+import json
 import math
+from pathlib import Path
 
 ATTRIBUTES = ('fuerza','resistencia','agilidad','percepcion','intelecto','voluntad','destreza','presencia')
 CLASS_ATTRIBUTES = {
@@ -311,6 +313,17 @@ NUMENES_MODELS = {
  }
 }
 
+def _load_numenes_reacciones():
+ path = Path(__file__).resolve().parents[1] / 'content' / 'numenes.json'
+ if not path.is_file():
+  return
+ data = json.loads(path.read_text(encoding='utf-8')).get('numenes', {})
+ for m_id, entry in data.items():
+  if m_id in NUMENES_MODELS and 'reacciones' in entry:
+   NUMENES_MODELS[m_id]['reacciones'] = entry['reacciones']
+
+_load_numenes_reacciones()
+
 TRUST_STAGES = {
  1: 'vínculo_naciente',
  2: 'confianza_estable',
@@ -323,14 +336,114 @@ def get_active_numen(state):
  if not active_id: return None
  return next((n for n in numenes.get('bonded', []) if n.get('id') == active_id), None)
 
+def numen_mood(numen, now=None):
+ if not numen:
+  return 'contento'
+ care = numen.get('care') or {}
+ last_fed = care.get('last_fed')
+ last_rested = care.get('last_rested', last_fed)
+ if now is None:
+  if numen.get('mood') in ('contento', 'con hambre', 'decaído') and care.get('_mood_fed') == last_fed:
+   return numen['mood']
+  return 'contento'
+ if last_fed is None:
+  return 'contento'
+ unfed_h = max(0.0, (now - last_fed) / 3600.0)
+ unrested_h = max(0.0, (now - (last_rested if last_rested is not None else last_fed)) / 3600.0)
+ if unfed_h > 24 or (unfed_h > 16 and unrested_h > 24):
+  return 'decaído'
+ if unfed_h > 8:
+  return 'con hambre'
+ return 'contento'
+
+def sync_numenes(state, now):
+ numenes = state.get('numenes') or {}
+ for n in numenes.get('bonded', []):
+  care = n.setdefault('care', {})
+  mood = numen_mood(n, now)
+  n['mood'] = mood
+  care['_mood_fed'] = care.get('last_fed')
+  care['well_cared'] = (mood == 'contento')
+  care['fed_today'] = (max(0.0, now - care.get('last_fed', now)) <= 86400)
+  mod = NUMENES_MODELS.get(n.get('model'), {})
+  n.setdefault('power_desc', mod.get('power_desc', ''))
+  if not n.get('last_reaction'):
+   n['last_reaction'] = f"{n.get('name', 'Tu compañero')} te acompaña con atención."
+ return numenes
+
+def pick_numen_reaction(numen, situation='llegar', now=None, rng=None):
+ if not numen:
+  return ''
+ m_id = numen.get('model', 'a')
+ name = numen.get('name', 'Tu compañero')
+ mod = NUMENES_MODELS.get(m_id, {})
+ reacciones = mod.get('reacciones') or {}
+ mood = 'contento' if situation == 'comer' else numen_mood(numen, now)
+ numen['mood'] = mood
+ suffix = ''
+ if situation == 'comer':
+  pool = reacciones.get('comer') or ["{name} come su Bocado de Númen con apetito."]
+ elif situation == 'apoyo_combate':
+  if mood in ('decaído', 'con hambre'):
+   pool = reacciones.get('apoyo_combate_decaido') or reacciones.get('apoyo_combate') or ["Aunque está cansado, {name} te apoya en combate."]
+  else:
+   pool = reacciones.get('apoyo_combate') or ["{name} te apoya con atención en combate."]
+ elif situation in ('llegar', 'observar'):
+  if mood == 'decaído':
+   pool = reacciones.get('decaido') or ["{name} camina despacito a tu lado; está decaído."]
+  elif mood == 'con hambre':
+   pool = reacciones.get('hambre') or ["{name} mira tu mochila con hambre."]
+  else:
+   pool = reacciones.get('llegar') or ["{name} explora el lugar a tu lado."]
+ else:
+  pool = reacciones.get(situation) or reacciones.get('llegar') or ["{name} está a tu lado."]
+  if mood == 'decaído':
+   suffix = ' Se nota decaído y sin fuerzas, pero sigue contigo.'
+  elif mood == 'con hambre':
+   suffix = ' Notas que tiene hambre.'
+ formatted = [tpl.format(name=name) + suffix for tpl in pool]
+ prev = numen.get('last_reaction')
+ candidates = [p for p in formatted if p != prev] or formatted
+ if len(candidates) == 1:
+  chosen = candidates[0]
+ elif rng is not None and hasattr(rng, 'random'):
+  idx = min(int(rng.random() * len(candidates)), len(candidates) - 1)
+  if candidates[idx] == prev and len(candidates) > 1:
+   idx = (idx + 1) % len(candidates)
+  chosen = candidates[idx]
+ else:
+  step = int(numen.get('_reaction_seq', 0))
+  chosen = candidates[step % len(candidates)]
+ numen['_reaction_seq'] = int(numen.get('_reaction_seq', 0)) + 1
+ numen['last_reaction'] = chosen
+ return chosen
+
+def validate_numen_name(name):
+ if name is None:
+  raise ValueError('Escribe un nombre para tu compañero Númen (entre 2 y 24 caracteres).')
+ clean = str(name).strip()
+ if not (2 <= len(clean) <= 24):
+  raise ValueError('El nombre del Númen debe tener entre 2 y 24 caracteres.')
+ if '<' in clean or '>' in clean or any(ord(c) < 32 or ord(c) == 127 for c in clean):
+  raise ValueError('El nombre del Númen no puede contener <, > ni caracteres de control.')
+ return clean
+
+def rename_numen(state, numen_id, name):
+ clean_name = validate_numen_name(name)
+ numenes = state.setdefault('numenes', {'active': None, 'bonded': [], 'encounters': {}})
+ bonded = numenes.setdefault('bonded', [])
+ target = next((n for n in bonded if n['id'] == numen_id), None) if numen_id else get_active_numen(state)
+ if not target:
+  raise ValueError('No se encontró ese Númen entre tus compañeros vinculados.')
+ target['name'] = clean_name
+ return target
+
 def bond_numen(state, model_id, name, now):
  numenes = state.setdefault('numenes', {'active': None, 'bonded': [], 'encounters': {}})
  bonded = numenes.setdefault('bonded', [])
  if len(bonded) >= 3:
   raise ValueError('Límite alcanzado: máximo tres Númenes vinculados.')
- clean_name = str(name).strip()
- if not (2 <= len(clean_name) <= 24):
-  raise ValueError('El nombre del Númen debe tener entre 2 y 24 caracteres.')
+ clean_name = validate_numen_name(name)
  if model_id not in NUMENES_MODELS:
   raise ValueError('Modelo de Númen desconocido.')
  if any(n.get('model') == model_id for n in bonded):
@@ -343,17 +456,21 @@ def bond_numen(state, model_id, name, now):
   'name': clean_name,
   'trust': 1,
   'trust_stage': TRUST_STAGES[1],
+  'mood': 'contento',
   'care': {
    'last_fed': now,
    'last_rested': now,
+   '_mood_fed': now,
    'well_cared': True,
    'fed_today': True
   },
   'power': NUMENES_MODELS[model_id]['power_id'],
   'power_name': NUMENES_MODELS[model_id]['power_name'],
+  'power_desc': NUMENES_MODELS[model_id]['power_desc'],
   'bonded_at': now,
   'location': 'travel' if numenes.get('active') is None else 'home'
  }
+ pick_numen_reaction(numen, 'llegar', now=now)
  bonded.append(numen)
  if numenes.get('active') is None:
   numenes['active'] = numen_id
@@ -384,49 +501,41 @@ def care_numen(state, action, now):
  care = active.setdefault('care', {})
  if action == 'alimentar':
   inv = state.get('inventory', [])
-  ration = next((i for i in inv if (i.get('kind') == 'consumable' or 'racion' in i.get('id', '') or 'comida' in i.get('id', '')) and i.get('quantity', 1) > 0), None)
-  if ration:
-   if ration.get('quantity', 1) > 1:
-    ration['quantity'] -= 1
-   else:
-    inv.remove(ration)
+  bocado = next((i for i in inv if (i.get('id') == 'bocado_numen' or i.get('catalog_id') == 'bocado_numen' or i.get('kind') == 'numen_food') and i.get('quantity', 1) > 0), None)
+  if not bocado:
+   raise ValueError('Necesitas un Bocado de Númen; cuesta 2 sellos en los puestos de comida y pociones.')
+  if bocado.get('quantity', 1) > 1:
+   bocado['quantity'] -= 1
+  else:
+   inv.remove(bocado)
   care['last_fed'] = now
+  care['_mood_fed'] = now
   care['well_cared'] = True
   care['fed_today'] = True
+  active['mood'] = 'contento'
+  reaction = pick_numen_reaction(active, 'comer', now=now)
   if active.get('trust', 1) < 3:
    active['trust'] = active.get('trust', 1) + 1
    active['trust_stage'] = TRUST_STAGES[active['trust']]
-   return f"Compartes comida con {active['name']}. Come con tranquilidad y su confianza aumenta a {active['trust_stage']}."
-  return f"Compartes comida con {active['name']}. Come contento a tu lado con total confianza."
+   return f"{reaction} Su confianza aumenta a {active['trust_stage']}."
+  return reaction
  elif action == 'cuidar':
   care['last_rested'] = now
-  care['well_cared'] = True
-  return f"Acaricias a {active['name']} con calma. Su compañía te reconforta en el camino."
+  mood = numen_mood(active, now)
+  active['mood'] = mood
+  care['well_cared'] = (mood == 'contento')
+  return pick_numen_reaction(active, 'caricia', now=now)
  return 'Cuidas a tu compañero.'
 
-def exploration_cue(numen, room):
- m_id = numen.get('model')
- name = numen.get('name', 'Tu compañero')
- if m_id == 'a':
-  if room.get('signals'):
-   return f"{name} orienta dos de sus cuatro orejas hacia la distancia, captando un sonido que tú no habías advertido."
- elif m_id == 'b':
-  if room.get('examine'):
-   return f"{name} fija sus ojos azules profundos en un detalle cercano, invitándote a examinar con pausa."
- elif m_id == 'c':
-  return f"{name} adelanta con cautela una pata y orienta sus cuatro orejas antes de que cruces el paso."
- elif m_id == 'd':
-  if room.get('kind') == 'interior':
-   return f"Los bigotes de {name} emiten una hebra sutil de luz fría que alivia la penumbra del suelo."
- elif m_id == 'e':
-  return f"{name} se posa sobre la piedra; sus dos sombras nítidas te recuerdan estar atento a la luz del lugar."
- elif m_id == 'f':
-  return f"La respiración tibia de {name} y la suave ondulación de su lomo transmiten calma al ambiente."
- elif m_id == 'g':
-  return f"{name} menea sus dos colas con compases opuestos y te observa con curiosidad juguetona."
- elif m_id == 'h':
-  return f"{name} cruza junto a ti sin quebrar el silencio ni hacer crujir una sola brizna."
- return None
+def exploration_cue(numen, room, now=None, ambient=None, rng=None):
+ if not numen:
+  return None
+ sit = 'llegar'
+ if ambient:
+  weather = str(ambient.get('weather', '')).lower()
+  if weather in ('lluvia', 'tormenta', 'rain') or ambient.get('time_of_day') == 'Noche':
+   sit = 'lluvia_noche'
+ return pick_numen_reaction(numen, sit, now=now, rng=rng)
 
 def new_state(species,class_id,home,now):
  weapon=dict(WEAPONS[CLASSES[class_id]['weapon']],quantity=1)
@@ -725,23 +834,25 @@ def resolve_round(state, creature, rng, respond=True):
   if active:
    cd=2 if active.get('trust',1)>=4 else 3
    combat.setdefault('cooldowns',{})['apoyo_numen']=cd+1
-   name=active['name'];m_id=active['model']
+   m_id=active['model']
+   now_combat=state.get('_now')
+   cue=pick_numen_reaction(active,'apoyo_combate',now=now_combat,rng=rng)
    if m_id=='a':
-    enemy_accuracy-=15;events.append({'kind':'action','text':f"{name} orienta sus cuatro orejas y te advierte a tiempo el movimiento rival (+evasión)."})
+    enemy_accuracy-=15;events.append({'kind':'action','text':f"{cue} (+evasión)"})
    elif m_id=='b':
-    combat['opening']=True;events.append({'kind':'action','text':f"{name} clava sus ojos profundos en el rival, señalando una apertura inmediata (+precisión)."})
+    combat['opening']=True;events.append({'kind':'action','text':f"{cue} (+precisión)"})
    elif m_id=='c':
-    state['fatigue']=max(0,state['fatigue']-8);events.append({'kind':'action','text':f"{name} marca un apoyo firme en el suelo rocoso, ahorrándote esfuerzo (-fatiga)."})
+    state['fatigue']=max(0,state['fatigue']-8);events.append({'kind':'action','text':f"{cue} (-fatiga)"})
    elif m_id=='d':
-    enemy_accuracy-=15;events.append({'kind':'action','text':f"{name} ilumina levemente con sus bigotes la penumbra, desconcertando al rival."})
+    enemy_accuracy-=15;events.append({'kind':'action','text':f"{cue} (-precisión rival)"})
    elif m_id=='e':
-    reduction+=.25;events.append({'kind':'action','text':f"{name} despliega sus dos sombras desconcertantes, mitigando el impacto rival (-daño)."})
+    reduction+=.25;events.append({'kind':'action','text':f"{cue} (-daño)"})
    elif m_id=='f':
-    state['fatigue']=max(0,state['fatigue']-12);events.append({'kind':'action','text':f"{name} emite una tibia calma a tu lado que disipa la fatiga acumulada (-fatiga)."})
+    state['fatigue']=max(0,state['fatigue']-12);events.append({'kind':'action','text':f"{cue} (-fatiga)"})
    elif m_id=='g':
-    enemy_accuracy-=20;events.append({'kind':'action','text':f"{name} agita sus dos colas en compases opuestos, distrayendo al rival."})
+    enemy_accuracy-=20;events.append({'kind':'action','text':f"{cue} (-precisión rival)"})
    elif m_id=='h':
-    guard=max(guard,.25);events.append({'kind':'action','text':f"{name} se desliza en completo silencio, permitiéndote acomodar tu guardia (-daño)."})
+    guard=max(guard,.25);events.append({'kind':'action','text':f"{cue} (-daño)"})
   else:
    events.append({'kind':'action','text':'No tienes un compañero Númen activo a tu lado.'})
 

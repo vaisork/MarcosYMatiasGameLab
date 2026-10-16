@@ -18,7 +18,72 @@
       "home": "En casa busca una esquina desde la que pueda oír la puerta, pero también se echa a dormir plácidamente cuando siente calma.",
       "power_id": "oido_ruta",
       "power_name": "Oído de Ruta",
-      "power_desc": "Advierte el movimiento del rival antes del golpe, aumentando tu evasión en combate."
+      "power_desc": "Advierte el movimiento del rival antes del golpe, aumentando tu evasión en combate.",
+      "reacciones": {
+        "llegar": [
+          "{name} gira dos orejas hacia el camino y las otras dos hacia tus botas antes de trotar a tu lado.",
+          "{name} olfatea una piedra del borde y mueve las cuatro orejas como pequeñas antenas.",
+          "{name} se adelanta medio paso, escucha el viento con las orejas traseras y te espera moviendo la cola."
+        ],
+        "combate_inicio": [
+          "{name} levanta las cuatro orejas de golpe y se planta firme junto a tus piernas.",
+          "{name} da un brinco corto al costado y orienta sus orejas pequeñas hacia los pies del rival.",
+          "{name} sacude el lomo, pega las orejas grandes y vigila cada ruido del suelo."
+        ],
+        "combate_fin": [
+          "{name} sacude todo el cuerpo desde el hocico hasta la cola y afloja las cuatro orejas.",
+          "{name} da una vuelta rápida alrededor de tus botas y apoya la cabeza en tu rodilla.",
+          "{name} suelta un resoplido suave y vuelve a mover las orejas con calma."
+        ],
+        "apoyo_combate": [
+          "{name} gira las orejas pequeñas hacia el rival y te empuja suavemente la pierna para que esquives a tiempo.",
+          "{name} oye el roce del suelo antes del golpe y da un toque con el hocico en tu bota para avisarte."
+        ],
+        "apoyo_combate_decaido": [
+          "Aunque tiene las orejas gachas y camina lento, {name} levanta una oreja pequeña y te avisa del golpe a tiempo.",
+          "Con el paso cansado, {name} hace un esfuerzo por escuchar el suelo y te roza la pierna para ayudarte a esquivar."
+        ],
+        "hablar": [
+          "{name} ladea la cabeza mientras escuchas: dos orejas siguen la voz y las otras dos vigilan el camino.",
+          "{name} se sienta sobre las patas traseras y mueve una oreja pequeña cada vez que alguien habla.",
+          "{name} acerca el hocico con curiosidad y luego se queda quieto escuchando la charla."
+        ],
+        "lluvia_noche": [
+          "{name} pliega las orejas pequeñas para que no les entren gotas y se pega a tu pierna buscando abrigo.",
+          "{name} escucha la oscuridad con las cuatro orejas abiertas y camina pegado a tus pasos.",
+          "{name} sacude el agua del pelaje y levanta una oreja hacia el cielo nocturno."
+        ],
+        "descansar": [
+          "{name} da dos vueltas en el suelo, se hace un ovillo junto a ti y deja solo una oreja pequeña atenta.",
+          "{name} apoya la barbilla sobre tus pies y suspira largo mientras sus cuatro orejas descansan.",
+          "{name} estira las patas delanteras con un bostezo grande y se tumba a tu lado."
+        ],
+        "comer": [
+          "{name} mastica el Bocado de Númen moviendo la cola tan rápido que le bailan las cuatro orejas.",
+          "{name} atrapa el bocado al vuelo, relame las migas y te da un empujoncito alegre con la nariz.",
+          "{name} come con apetito y levanta las cuatro orejas contento al terminar."
+        ],
+        "caricia": [
+          "{name} cierra los ojos cuando le rascas detrás de las cuatro orejas y mueve una pata trasera de gusto.",
+          "{name} empuja tu mano con la frente pidiendo un poco más de mimo y bate la cola contra el suelo.",
+          "{name} se apoya contra tu pierna y mueve las orejas pequeñas hacia tu palma."
+        ],
+        "saludo_regreso": [
+          "¡{name} te oye llegar desde lejos! Levanta las cuatro orejas y corre a dar vueltas alrededor de tus botas.",
+          "{name} se pone en pie de un salto al verte volver y sacude la cola sin parar.",
+          "{name} apoya las patas delanteras en tu rodilla y mueve las cuatro orejas de alegría porque has vuelto."
+        ],
+        "hambre": [
+          "{name} te mira fijo, baja dos orejas y da un toquecito con la nariz en tu mochila buscando comida.",
+          "{name} camina más despacio y olfatea el suelo con las orejas gachas: tiene hambre.",
+          "{name} se sienta frente a ti y rasca suavemente el suelo con una pata pidiendo un bocado."
+        ],
+        "decaido": [
+          "{name} lleva la cabeza baja y las cuatro orejas caídas, pero sigue caminando despacito a tu lado.",
+          "{name} se detiene un momento con el lomo encogido y te mira esperando comida o un rato de descanso.",
+          "{name} apoya el hocico cansado contra tu bota; necesita comer y descansar."
+        ]
+      }
     },
     "b": {
       "id": "b",
@@ -37,7 +102,72 @@
       "home": "En el hogar prefiere una ventana con vistas al exterior donde tumbarse al sol, acompañándote en silencio.",
       "power_id": "mirada_profunda",
       "power_name": "Mirada Profunda",
-      "power_desc": "Fija la mirada en el rival en combate, señalando un ángulo descubierto para tu ataque (+precisión)."
+      "power_desc": "Fija la mirada en el rival en combate, señalando un ángulo descubierto para tu ataque (+precisión).",
+      "reacciones": {
+        "llegar": [
+          "{name} camina sin ruido junto a ti, se sube a una piedra baja y observa el lugar con sus ojos azules sin fondo.",
+          "{name} roza tu tobillo con la cola en alto y parpadea despacio mirando los rincones de la sala.",
+          "{name} da un salto ligero y se sienta con la cola enroscada sobre las patas a estudiar el camino."
+        ],
+        "combate_inicio": [
+          "{name} arquea el lomo, clava sus ojos azules profundos en el rival y mueve solo la punta de la cola.",
+          "{name} salta a un lado en silencio y fija su mirada honda en el punto débil del oponente.",
+          "{name} agacha las orejas y refleja cada movimiento del combate en el fondo azul de sus ojos."
+        ],
+        "combate_fin": [
+          "{name} parpadea despacio, alisa su pelaje con dos lengüetazos y vuelve a caminar a tu lado.",
+          "{name} estira el lomo como un arco y te roza la espinilla con la cabeza.",
+          "{name} sacude una pata delantera con elegancia y te mira tranquilo."
+        ],
+        "apoyo_combate": [
+          "{name} clava sus ojos profundos en el hueco de la guardia rival y te guía con un giro rápido de cabeza.",
+          "El reflejo azul en los ojos de {name} marca el instante exacto en que el rival deja un flanco abierto."
+        ],
+        "apoyo_combate_decaido": [
+          "Aunque parpadea con pesadez y tiene la cola baja, {name} fija sus ojos azules en el rival para marcar tu golpe.",
+          "Sin muchas fuerzas, {name} se esfuerza en sostener su mirada profunda sobre el rival para ayudarte a acertar."
+        ],
+        "hablar": [
+          "{name} mira a quien habla con sus ojos hondos como agua quieta y mueve la punta de la cola.",
+          "{name} se sienta sobre tus botas y parpadea muy despacio mientras escuchas la conversación.",
+          "{name} estira el cuello para oler el aire y luego se limpia un bigote sin perder detalle."
+        ],
+        "lluvia_noche": [
+          "{name} busca el resguardo de tu capa y sus ojos azules guardan el brillo de la noche.",
+          "{name} sacude una pata mojada con disgusto y se pega a tu costado para no pisar los charcos.",
+          "{name} mira caer las gotas como si contara cada círculo en el suelo."
+        ],
+        "descansar": [
+          "{name} amasa tu manta con las patitas delanteras y se enrosca ronroneando bajito.",
+          "{name} cierra sus ojos azules profundos y apoya la frente contra tu brazo.",
+          "{name} bosteza mostrando los colmillos pequeños y se hace una bola tibia a tu lado."
+        ],
+        "comer": [
+          "{name} huele el Bocado de Númen con cuidado, lo come a bocaditos limpios y ronronea contento.",
+          "{name} termina su bocado, se relame los bigotes y te da un cabezazo cariñoso en la mano.",
+          "{name} mastica satisfecho con los ojos entrecerrados y levanta la cola en signo de alegría."
+        ],
+        "caricia": [
+          "{name} arquea la espalda bajo tu mano y suelta un ronroneo que le hace vibrar todo el pecho.",
+          "{name} empuja tu palma con la mejilla y entrecierra sus ojos azules sin fondo.",
+          "{name} da media vuelta, te roza los dedos con la cola y pide otra caricia en la barbilla."
+        ],
+        "saludo_regreso": [
+          "{name} baja de su rincón de un salto al verte volver y se frota ocho veces seguidas contra tus piernas.",
+          "{name} te recibe con un maullido corto, la cola bien alta y sus ojos azules brillantes.",
+          "{name} estira las patas delanteras hacia tus botas y ronronea fuerte porque ya estás de vuelta."
+        ],
+        "hambre": [
+          "{name} se sienta delante de tu mochila y te clava sus ojos azules profundos pidiendo un bocado.",
+          "{name} te toca la mano con una pata sin sacar las uñas y maúlla bajito: tiene hambre.",
+          "{name} da vueltas lentas alrededor de tus pies mirando tu bolsa de viaje."
+        ],
+        "decaido": [
+          "{name} camina con la cabeza gacha y la cola arrastrando, aunque no se separa de tu sombra.",
+          "{name} se acurruca quieto junto a tu bota con los ojos medio cerrados por el cansancio y el hambre.",
+          "{name} apenas mueve las orejas; necesita un Bocado de Númen y descansar contigo."
+        ]
+      }
     },
     "c": {
       "id": "c",
@@ -56,7 +186,72 @@
       "home": "En casa busca rincones con salida despejada. Durante las caminatas suele adelantarse unos pasos para comprobar el terreno.",
       "power_id": "apoyo_terreno",
       "power_name": "Apoyo de Terreno",
-      "power_desc": "Señala un apoyo firme en el suelo rocoso en combate, ahorrándote fatiga (-fatiga)."
+      "power_desc": "Señala un apoyo firme en el suelo rocoso en combate, ahorrándote fatiga (-fatiga).",
+      "reacciones": {
+        "llegar": [
+          "{name} da dos brinquitos cortos para probar el suelo y mueve sus cuatro orejas por parejas.",
+          "{name} se pone en dos patas, husmea el aire con la nariz temblorosa y comprueba que el paso es firme.",
+          "{name} salta sobre una losa segura y gira el par de orejas traseras hacia ti para invitarte a avanzar."
+        ],
+        "combate_inicio": [
+          "{name} golpea el suelo dos veces con la pata trasera y despliega sus cuatro orejas en alerta.",
+          "{name} brinca hacia una piedra firme a tu lado, marcándote dónde apoyar bien los pies.",
+          "{name} tensa las patas traseras y mueve sus cuatro orejas siguiendo el viento y al rival."
+        ],
+        "combate_fin": [
+          "{name} da un salto alto en el aire con giro alegre y aterriza suave junto a tu bota.",
+          "{name} se limpia la cara con las dos patitas delanteras y baja un par de orejas tranquilo.",
+          "{name} corretea en un círculo pequeño celebrando que el peligro pasó."
+        ],
+        "apoyo_combate": [
+          "{name} da un zapatazo rápido sobre la piedra más firme para mostrarte dónde pisar sin cansarte.",
+          "{name} salta al costado seguro del terreno y mueve sus cuatro orejas guiando tu equilibrio."
+        ],
+        "apoyo_combate_decaido": [
+          "Aunque sus cuatro orejas pesan y salta bajito, {name} golpea la roca firme para guiarte el paso.",
+          "Cansado y todo, {name} se acerca al suelo seguro y te señala el mejor apoyo con un brinco corto."
+        ],
+        "hablar": [
+          "{name} mueve el par de orejas altas hacia quien habla y el par pequeño hacia ti.",
+          "{name} mastica una brizna invisible mientras escucha sentado sobre sus patas traseras.",
+          "{name} asoma la nariz detrás de tu pierna con las cuatro orejas bien abiertas."
+        ],
+        "lluvia_noche": [
+          "{name} pega sus cuatro orejas finas sobre el lomo y se mete debajo de tu capa buscando calor.",
+          "{name} tiembla la nariz olfateando la humedad nocturna y da saltitos pegados a tus talones.",
+          "{name} sacude las orejas por parejas para quitarse el rocío de la noche."
+        ],
+        "descansar": [
+          "{name} encoge las cuatro patas bajo su cuerpo como un panecillo tibio y pliega sus cuatro orejas.",
+          "{name} se tumba de costado junto a tu pierna y mueve la nariz en sueños.",
+          "{name} apoya la barbilla en el suelo y deja descansar sus dos pares de orejas."
+        ],
+        "comer": [
+          "{name} sujeta el Bocado de Númen con las patitas y mueve el hocico a toda velocidad.",
+          "{name} da un brinco de alegría en el aire tras terminar el bocado y te roza la mano.",
+          "{name} mordisquea cada semilla con las cuatro orejas levantadas de pura felicidad."
+        ],
+        "caricia": [
+          "{name} aplana las cuatro orejas con suavidad cuando le acaricias la frente y entrecierra los ojos.",
+          "{name} hace un ruidito suave con los dientes de contento y empuja tu mano con la nariz.",
+          "{name} se estira largo en el suelo para que le pases la mano por el lomo."
+        ],
+        "saludo_regreso": [
+          "¡{name} da tres saltos con pirueta en el aire al verte volver y levanta las cuatro orejas!",
+          "{name} corre hacia ti, rodea tus botas a toda prisa y se alza sobre dos patas para saludarte.",
+          "{name} golpea el suelo contento y frota la nariz contra tu tobillo porque has regresado."
+        ],
+        "hambre": [
+          "{name} se levanta en dos patas frente a tu bolsa y mueve rápido la nariz buscando un Bocado de Númen.",
+          "{name} baja el par de orejas grandes y rasca tu bota con las patitas: tiene hambre.",
+          "{name} olfatea el suelo sin encontrar brotes y te mira esperando comida."
+        ],
+        "decaido": [
+          "{name} tiene las cuatro orejas caídas hacia los lados y avanza con brinquitos muy lentos.",
+          "{name} se queda hecho un ovillo quieto junto a tus pies, con hambre y ganas de descansar.",
+          "{name} apenas levanta la nariz cuando te detienes; necesita un bocado y reposo."
+        ]
+      }
     },
     "d": {
       "id": "d",
@@ -75,7 +270,72 @@
       "home": "En el hogar necesita un rincón protegido donde descansar a salvo, sin que nadie lo pise ni lo encierre en cajas.",
       "power_id": "hilo_penumbra",
       "power_name": "Hilo de Penumbra",
-      "power_desc": "Emite un destello sutil con sus bigotes que desorienta al rival en combate (-precisión rival)."
+      "power_desc": "Emite un destello sutil con sus bigotes que desorienta al rival en combate (-precisión rival).",
+      "reacciones": {
+        "llegar": [
+          "{name} asoma desde el borde de tu bolsillo y sus bigotes luminosos trazan dos hilos claros en el aire.",
+          "{name} corretea hasta tu hombro, huele el lugar nuevo y enciende una chispita suave en sus bigotes.",
+          "{name} baja por tu manga, alumbra una grieta del suelo con el hocico y vuelve a subir."
+        ],
+        "combate_inicio": [
+          "{name} se aferra a tu hombro y sus bigotes brillan con una luz fría lista para distraer al rival.",
+          "{name} corre hasta el borde de tu brazo, eriza los bigotes luminosos y vigila de frente.",
+          "{name} enciende y apaga sus bigotes rápido como dos pequeños relámpagos junto a ti."
+        ],
+        "combate_fin": [
+          "{name} atenúa el brillo de sus bigotes a una luz tibia y se frota la carita con las dos manos.",
+          "{name} da una voltereta sobre tu hombro y esconde la cola contento en tu cuello.",
+          "{name} suelta un chillidito alegre y sus bigotes dibujan circulitos de luz suave."
+        ],
+        "apoyo_combate": [
+          "{name} lanza un destello rápido con sus bigotes luminosos desde tu hombro y confunde la vista del rival.",
+          "Los bigotes de {name} trazan un hilo de luz pálida en la penumbra que hace parpadear al oponente."
+        ],
+        "apoyo_combate_decaido": [
+          "Aunque la luz de sus bigotes parpadea bajito por el cansancio, {name} saca fuerzas para deslumbrar al rival.",
+          "Con el cuerpo encogido en tu hombro, {name} enciende un último destello fiel en sus bigotes para protegerte."
+        ],
+        "hablar": [
+          "{name} saca la cabecita por tu cuello y mueve los bigotes brillantes al ritmo de las palabras.",
+          "{name} se sienta sobre tu hombro sujetándose la cola con las patitas mientras escuchas.",
+          "{name} inclina las orejas redondas y sus bigotes se iluminan un poquito con curiosidad."
+        ],
+        "lluvia_noche": [
+          "En la oscuridad, los bigotes de {name} brillan como dos hebras de luna junto a tu mejilla.",
+          "{name} se resguarda de la lluvia bajo tu cuello y asoma solo la punta brillante de los bigotes.",
+          "{name} alumbra el borde húmedo de tu capa con su luz suave y silenciosa."
+        ],
+        "descansar": [
+          "{name} se hace una bolita diminuta en el hueco de tu mano y apaga casi del todo sus bigotes.",
+          "{name} bosteza con su boca minúscula, se tapa la nariz con la cola y duerme tibio.",
+          "{name} respira despacito en tu bolsillo mientras sus bigotes dan un pulso tenue y tranquilo."
+        ],
+        "comer": [
+          "{name} sostiene un trocito del Bocado de Númen con las dos manos y sus bigotes brillan fuerte de gusto.",
+          "{name} roe las semillas dulces a toda prisa, se limpia los bigotes luminosos y te hace cosquillas en los dedos.",
+          "{name} guarda una miga última, la termina de un bocado y salta contento a tu palma."
+        ],
+        "caricia": [
+          "{name} cierra los ojitos cuando le acaricias el lomo con un dedo y sus bigotes se encienden de alegría.",
+          "{name} abraza tu pulgar con las patitas delanteras y da toquecitos tibios con la nariz.",
+          "{name} gira sobre tu palma disfrutando la caricia y deja una estela tenue de luz."
+        ],
+        "saludo_regreso": [
+          "¡{name} trepa hasta tu hombro a toda velocidad al verte y sus bigotes brillan como estrellitas!",
+          "{name} da tres saltitos sobre tu mano y te frota la mejilla con los bigotes encendidos porque volviste.",
+          "{name} asoma dando un chillido corto de felicidad y corretea de un hombro al otro."
+        ],
+        "hambre": [
+          "{name} asoma del bolsillo con los bigotes apagados y huele tus dedos buscando un Bocado de Númen.",
+          "{name} rasca suavemente la tela de tu mochila con sus patitas: tiene hambre.",
+          "{name} suelta un chillido bajito y señala tu bolsa con el hocico."
+        ],
+        "decaido": [
+          "{name} tiene los bigotes casi sin luz y se queda quietecito en tu bolsillo esperando cuidado.",
+          "{name} apenas saca el hocico con las orejitas bajas; lleva mucho tiempo sin comer.",
+          "{name} se apoya cansado contra tu mano con un brillito muy débil en los bigotes."
+        ]
+      }
     },
     "e": {
       "id": "e",
@@ -94,7 +354,72 @@
       "home": "En casa prefiere una percha abierta en un lugar alto donde posarse sin sentirse enjaulada.",
       "power_id": "doble_sombra",
       "power_name": "Doble Sombra",
-      "power_desc": "Proyecta dos sombras desconcertantes que mitigan el impacto del daño rival en combate (-daño)."
+      "power_desc": "Proyecta dos sombras desconcertantes que mitigan el impacto del daño rival en combate (-daño).",
+      "reacciones": {
+        "llegar": [
+          "{name} da un vuelo corto frente a ti y sus dos sombras bailan por el suelo a distinto ritmo.",
+          "{name} se posa en tu hombro, ladea la cabecita y despliega dos siluetas en la pared.",
+          "{name} salta de piedra en piedra mientras su segunda sombra la sigue un instante después."
+        ],
+        "combate_inicio": [
+          "{name} alza el vuelo sobre ti y abre las alas para que sus dos sombras crucen el suelo.",
+          "{name} lanza un trino firme y bate las alas haciendo girar dos siluetas delante del rival.",
+          "{name} se impulsa desde tu hombro y proyecta su doble sombra protectora entre tú y el peligro."
+        ],
+        "combate_fin": [
+          "{name} aterriza suave en tu brazo, sacude las plumas y recoge sus dos sombras.",
+          "{name} da dos saltitos alegres y picotea cariñosamente el borde de tu hombro.",
+          "{name} canta una nota clara mientras sus dos sombras vuelven a juntarse en calma."
+        ],
+        "apoyo_combate": [
+          "{name} cruza volando y sus dos sombras se abren a destiempo, confundiendo la fuerza del golpe rival.",
+          "Las dos sombras de {name} se cruzan sobre ti como un escudo cambiante que desvía parte del impacto."
+        ],
+        "apoyo_combate_decaido": [
+          "Con las plumas alborotadas y un vuelo bajo, {name} aun así despliega sus dos sombras para amortiguar el golpe.",
+          "Aunque está cansada, {name} abre las alas a tu lado y proyecta su doble sombra para protegerte."
+        ],
+        "hablar": [
+          "{name} inclina la cabeza a un lado y al otro desde tu hombro mientras su segunda sombra imita el gesto.",
+          "{name} alisa una pluma del ala con el pico y escucha atenta cada voz.",
+          "{name} suelta un pío bajito cuando termina una frase y mueve la cola."
+        ],
+        "lluvia_noche": [
+          "{name} ahueca las plumas bajo el cuello de tu capa y sus dos sombras se acurrucan juntas.",
+          "{name} sacude las gotitas de las alas y se pega a tu calor mientras cae la noche.",
+          "{name} mira el cielo oscuro con ojitos brillantes desde el resguardo de tu hombro."
+        ],
+        "descansar": [
+          "{name} esconde el pico entre las plumas del hombro y sus dos sombras descansan quietas.",
+          "{name} se posa sobre tu rodilla, cierra los ojos despacio y respira como una bolita de plumas.",
+          "{name} afloja las alas junto a ti mientras su segunda sombra se pliega un segundo después."
+        ],
+        "comer": [
+          "{name} picotea el Bocado de Númen con saltitos rápidos y sus dos sombras bailan contentas.",
+          "{name} traga una semilla dulce, bate las alas de alegría y te roza los dedos con el pico.",
+          "{name} limpia el último trocito del bocado y suelta un trino saltarín."
+        ],
+        "caricia": [
+          "{name} esponja las plumas del cuello cuando le pasas el dedo con suavidad y cierra los ojitos.",
+          "{name} apoya la cabecita contra tu mejilla mientras sus dos sombras se juntan en el suelo.",
+          "{name} da un pasito hacia tu mano buscando que le acaricies las plumas suaves."
+        ],
+        "saludo_regreso": [
+          "¡{name} vuela en círculo alrededor de ti al verte volver y sus dos sombras giran por todo el suelo!",
+          "{name} aterriza en tu hombro con un trino alegre y da saltitos sin parar porque regresaste.",
+          "{name} bate las alas contenta y te toca la mejilla con el pico para darte la bienvenida."
+        ],
+        "hambre": [
+          "{name} da toquecitos suaves con el pico en tu mochila buscando un Bocado de Númen.",
+          "{name} baja las alas con un pío cortito y mira tus manos esperando semillas.",
+          "{name} salta al suelo buscando migas mientras sus dos sombras se mueven despacio: tiene hambre."
+        ],
+        "decaido": [
+          "{name} tiene las plumas caídas y vuela muy bajito; necesita comer y descansar contigo.",
+          "{name} se queda posada sin cantar en tu hombro y sus dos sombras apenas se mueven.",
+          "{name} apoya el pecho cansado sobre tu brazo esperando un bocado y calma."
+        ]
+      }
     },
     "f": {
       "id": "f",
@@ -113,7 +438,72 @@
       "home": "En casa duerme ovillado cerca de la chimenea o en una alfombra cálida, llenando la estancia de tranquilidad.",
       "power_id": "calma_cercana",
       "power_name": "Calma Cercana",
-      "power_desc": "Transmite una tibia calma que disipa la fatiga acumulada en combate (-fatiga) y favorece el descanso."
+      "power_desc": "Transmite una tibia calma que disipa la fatiga acumulada en combate (-fatiga) y favorece el descanso.",
+      "reacciones": {
+        "llegar": [
+          "{name} trota alegre a tu lado y el aire sobre su lomo ondula con una tibieza suave.",
+          "{name} olfatea el lugar moviendo la cola y deja una pequeña brisa templada junto a tus botas.",
+          "{name} se estira sobre las patas delanteras y te mira listo para explorar."
+        ],
+        "combate_inicio": [
+          "{name} se coloca cerca de tus piernas y el aire alrededor de su lomo vibra con calor protector.",
+          "{name} afirma las cuatro patas en el suelo, mueve la cola despacio y te transmite calma para pelear.",
+          "{name} suelta un ladrido corto y valiente mientras una onda tibia te quita los nervios."
+        ],
+        "combate_fin": [
+          "{name} bosteza grande, sacude las orejas y se frota contra tu pierna irradiando calorcito.",
+          "{name} da dos saltos patosos alrededor de ti y el aire tibio de su lomo vuelve a aquietarse.",
+          "{name} se sienta a tu lado moviendo la cola contra el suelo porque ya estáis a salvo."
+        ],
+        "apoyo_combate": [
+          "{name} se acerca a tu pierna y la onda tibia de su lomo te alivia el cansancio de golpe.",
+          "El calor tranquilo que desprende {name} te envuelve un instante y recuperas el aliento en plena pelea."
+        ],
+        "apoyo_combate_decaido": [
+          "Aunque la onda tibia de su lomo es débil por el cansancio, {name} se pega a tu pierna para quitarte fatiga.",
+          "Con las orejas gachas, {name} reúne su calorcito restante y te apoya en la pelea sin fallarte."
+        ],
+        "hablar": [
+          "{name} se sienta sobre tus pies calentándote las botas mientras escuchas hablar.",
+          "{name} inclina la cabeza con una oreja doblada y mueve la cola despacio durante la charla.",
+          "{name} bosteza bajito y el aire sobre su espalda tiembla como agua tranquila."
+        ],
+        "lluvia_noche": [
+          "En el frío de la noche o la lluvia, {name} se pega a tu costado como una pequeña estufa viva.",
+          "Las gotas se secan enseguida cerca del lomo tibio de {name} mientras camina pegado a ti.",
+          "{name} busca tus manos con la cabeza para compartir su calor en la oscuridad."
+        ],
+        "descansar": [
+          "{name} se hace una rosca pegada a tu espalda y el aire tibio de su lomo os arropa a los dos.",
+          "{name} suelta un suspiro hondo, estira las patitas traseras y se queda dormido al instante.",
+          "{name} apoya la cabeza sobre tu tobillo y su respiración tranquila calienta el rincón."
+        ],
+        "comer": [
+          "{name} engulle el Bocado de Númen moviendo todo el cuerpo y la onda tibia de su lomo brilla más.",
+          "{name} se relame el hocico feliz, da un brinco corto y te lame los dedos en agradecimiento.",
+          "{name} mastica contento mientras su cola golpea el suelo como un tambor."
+        ],
+        "caricia": [
+          "{name} se deja caer panza arriba para que le rasques y el aire a su alrededor tiembla de gusto.",
+          "{name} apoya toda la cabeza en tu mano y mueve la cola despacio sintiendo tu caricia.",
+          "{name} cierra los ojos feliz y el calor suave de su pelaje te templa los dedos."
+        ],
+        "saludo_regreso": [
+          "¡{name} despierta de un salto al verte volver y corre hacia ti moviendo la cola y todo el lomo!",
+          "{name} da vueltas entre tus piernas con una onda tibia enorme de pura alegría porque regresaste.",
+          "{name} se alza sobre tus botas y te llena las manos de lametones cálidos de bienvenida."
+        ],
+        "hambre": [
+          "{name} apoya el hocico en tu bolsa y te mira con ojos grandes: su pancita pide un Bocado de Númen.",
+          "{name} camina despacito y el aire sobre su lomo apenas ondula porque tiene hambre.",
+          "{name} se sienta frente a ti y levanta una patita pidiendo comida."
+        ],
+        "decaido": [
+          "{name} lleva la cola baja y su calor habitual casi no se siente; necesita comer y descansar.",
+          "{name} se acurruca cansado junto a tus botas esperando que cuides un ratito de él.",
+          "{name} avanza lento con las orejas caídas, aunque no quiere dejarte solo."
+        ]
+      }
     },
     "g": {
       "id": "g",
@@ -132,7 +522,72 @@
       "home": "En el hogar explora armarios y cornisas altas, conservando su carácter juguetón e independiente.",
       "power_id": "paso_jugueton",
       "power_name": "Paso Juguetón",
-      "power_desc": "Agita sus dos colas con ritmos opuestos distrayendo al rival en combate (-precisión rival)."
+      "power_desc": "Agita sus dos colas con ritmos opuestos distrayendo al rival en combate (-precisión rival).",
+      "reacciones": {
+        "llegar": [
+          "{name} entra de un brinco ágil llevando una cola levantada y la otra haciendo eses.",
+          "{name} se sube a un borde alto para explorar y mueve sus dos colas con ritmos distintos.",
+          "{name} rodea tus botas jugando y cruza las dos colas en el aire antes de mirar la sala."
+        ],
+        "combate_inicio": [
+          "{name} se agacha listo para saltar y agita sus dos colas en direcciones opuestas para marear al rival.",
+          "{name} brinca de un lado a otro con las dos colas erizadas llamando la atención del oponente.",
+          "{name} golpea el suelo con una cola rápido y con la otra despacio, preparando su distracción."
+        ],
+        "combate_fin": [
+          "{name} entrelaza sus dos colas en alto con orgullo y da un salto elástico hasta tu lado.",
+          "{name} persigue un segundo una de sus propias colas celebrando la victoria y luego se sienta digno.",
+          "{name} se limpia una pata delantera y te roza la pierna con sus dos colas a la vez."
+        ],
+        "apoyo_combate": [
+          "{name} salta al costado y mueve sus dos colas a ritmos cruzados, haciendo que el rival pierda la puntería.",
+          "Las dos colas de {name} giran como dos péndulos distintos y distraen la mirada del oponente."
+        ],
+        "apoyo_combate_decaido": [
+          "Aunque tiene las dos colas pesadas por el cansancio, {name} da un brinco y las agita para distraer al rival.",
+          "Sin su energía de siempre, {name} aun así mueve sus dos colas a destiempo para protegerte del golpe."
+        ],
+        "hablar": [
+          "{name} escucha desde cerca: una cola va despacio y la otra marca el ritmo de la charla.",
+          "{name} intenta atrapar el borde de tu capa con una pata mientras hablas y luego disimula.",
+          "{name} se sienta con una cola enroscada en las patas y la otra moviéndose curiosa."
+        ],
+        "lluvia_noche": [
+          "{name} mete sus dos colas bajo tu capa para que no se mojen y asoma solo las orejas.",
+          "{name} salta de piedra seca en piedra seca en la noche con las dos colas equilibrando el paso.",
+          "{name} sacude las dos colas a la vez para quitarse la humedad y se pega a tu pierna."
+        ],
+        "descansar": [
+          "{name} se hace una rosca junto a ti y se tapa la nariz con sus dos colas como una bufanda doble.",
+          "{name} estira las cuatro patas al sol o junto a tu manta y mueve solo la puntita de una cola.",
+          "{name} ronronea dormido mientras sus dos colas descansan cruzadas sobre tu bota."
+        ],
+        "comer": [
+          "{name} da un zarpazo juguetón al Bocado de Númen antes de comérselo contento con las dos colas arriba.",
+          "{name} mastica feliz, se relame y abraza tu muñeca con sus dos colas suaves.",
+          "{name} termina el bocado y hace bailar sus dos colas de alegría."
+        ],
+        "caricia": [
+          "{name} ronronea fuerte bajo tu mano y envuelve tu brazo con sus dos colas a la vez.",
+          "{name} da una voltereta juguetona buscando que le rasques detrás de las orejas.",
+          "{name} empuja tu palma con la cabeza mientras una cola sube y la otra se mece feliz."
+        ],
+        "saludo_regreso": [
+          "¡{name} salta desde una repisa al verte volver y agita sus dos colas como dos banderitas!",
+          "{name} corre a recibirte, hace un ocho entre tus botas y te envuelve el tobillo con las dos colas.",
+          "{name} maúlla alegre y da un brinco alto porque por fin has vuelto a jugar."
+        ],
+        "hambre": [
+          "{name} golpea tu mochila con las dos colas a la vez y te mira pidiendo un Bocado de Númen.",
+          "{name} deja de jugar y se sienta frente a ti con las dos colas quietas: tiene hambre.",
+          "{name} te toca la mano con la patita y mira tu bolsa esperando comida."
+        ],
+        "decaido": [
+          "{name} arrastra sus dos colas sin ganas de saltar; necesita comer y descansar contigo.",
+          "{name} camina muy despacio pegado a tu bota, cansado y con hambre.",
+          "{name} se echa en el suelo con las dos colas caídas esperando tu cuidado."
+        ]
+      }
     },
     "h": {
       "id": "h",
@@ -151,7 +606,72 @@
       "home": "En casa descansa en una esquina apacible; se mueve de noche por la habitación sin hacer el más leve ruido.",
       "power_id": "pausa_silenciosa",
       "power_name": "Pausa Silenciosa",
-      "power_desc": "Enseña a moverse en el silencio del bosque reforzando tu guardia defensiva en combate (+defensa)."
+      "power_desc": "Enseña a moverse en el silencio del bosque reforzando tu guardia defensiva en combate (+defensa).",
+      "reacciones": {
+        "llegar": [
+          "{name} cruza las hojas y las piedras de un salto sin hacer el más mínimo ruido.",
+          "{name} aparece a tu lado como un susurro, mueve la nariz y vigila el lugar en completo silencio.",
+          "{name} da tres brincos mudos delante de tus botas y se gira para ver si lo sigues."
+        ],
+        "combate_inicio": [
+          "{name} se desliza sin un sonido junto a tus pies, ayudándote a mantener una guardia tranquila y firme.",
+          "{name} da un salto mudo al frente y el silencio que lo rodea te ayuda a concentrar tu defensa.",
+          "{name} afirma sus patas silenciosas en el suelo y vigila cada gesto del rival sin hacer ruido."
+        ],
+        "combate_fin": [
+          "{name} da un brinco alto y cae sobre el suelo tan suave como un copo de algodón.",
+          "{name} frota sus orejas con las patitas en silencio y se acerca a tocar tu bota.",
+          "{name} rodea tus piernas con saltitos mudos celebrando que todo terminó bien."
+        ],
+        "apoyo_combate": [
+          "{name} se mueve sin un crujido a tu alrededor, marcándote una pausa silenciosa que refuerza tu guardia.",
+          "El paso mudo de {name} te enseña a afirmar la postura en silencio y resistir mejor el ataque."
+        ],
+        "apoyo_combate_decaido": [
+          "Aunque salta despacito y tiene las orejas bajas, {name} mantiene su paso silencioso para reforzar tu defensa.",
+          "Cansado pero fiel, {name} se coloca en silencio junto a tu bota para ayudarte a cubrir el golpe."
+        ],
+        "hablar": [
+          "{name} escucha tan quieto y en silencio que parece parte de la sombra del camino.",
+          "{name} mueve solo la puntita de la nariz mientras atiendes la conversación.",
+          "{name} se acerca sin hacer sonar ni una piedrita y apoya una pata en tu bota."
+        ],
+        "lluvia_noche": [
+          "Ni siquiera los charcos suenan cuando {name} salta a tu lado bajo la lluvia nocturna.",
+          "{name} se resguarda junto a tu capa como una sombra silenciosa en la noche.",
+          "{name} sacude el agua del pelo en completo silencio y se pega a tu tobillo."
+        ],
+        "descansar": [
+          "{name} se acurruca junto a ti sin un susurro y su quietud hace más fácil descansar.",
+          "{name} pliega las orejas sobre el lomo y duerme tan tranquilo que no mueve ni una hoja.",
+          "{name} se hace una bolita tibia y silenciosa pegada a tu costado."
+        ],
+        "comer": [
+          "{name} mastica el Bocado de Númen sin hacer ni un crujido, pero mueve las orejas feliz.",
+          "{name} termina su bocado, da un salto mudo en el aire y te roza los dedos con la nariz.",
+          "{name} come con apetito y luego frota la mejilla contra tu mano en silencio."
+        ],
+        "caricia": [
+          "{name} cierra los ojos bajo tu caricia y se queda tan quieto y a gusto que parece flotar.",
+          "{name} empuja tu mano suavemente con la frente sin hacer ningún ruido.",
+          "{name} estira las patas traseras relajado mientras le acaricias las orejas suaves."
+        ],
+        "saludo_regreso": [
+          "¡De pronto notas un toque suave en tu bota: {name} llegó de tres saltos mudos para recibirte!",
+          "{name} da brincos alegres y silenciosos en círculo alrededor de ti porque has vuelto.",
+          "{name} se alza sobre dos patas sin hacer ruido y mueve la nariz a toda prisa de alegría."
+        ],
+        "hambre": [
+          "{name} aparece sin ruido frente a tu mochila y te toca la mano con la nariz: tiene hambre.",
+          "{name} baja las orejas en silencio y mira tu bolsa esperando un Bocado de Númen.",
+          "{name} da un toquecito mudo en tu bota con la pata delantera pidiendo comida."
+        ],
+        "decaido": [
+          "{name} avanza con saltos muy cortos y las orejas caídas en silencio; necesita comer y descansar.",
+          "{name} se queda quieto y encogido junto a tu pie esperando un bocado y reposo.",
+          "{name} apoya la cabeza cansada en tu bota sin hacer ruido."
+        ]
+      }
     }
   }
 }
