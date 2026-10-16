@@ -1,7 +1,7 @@
 # Capítulo 013 — Continuidad, fuentes públicas y revisión
 
 **Proyecto:** *Crónicas de Vaisgard*, Libro I «El primer camino». **Escritor 01:** [PR #705](https://github.com/vaisork/MatiasGameLab/pull/705).  
-**Texto C013:** [«Una ruta propia»](013-una-ruta-propia.md), **2,487 palabras** (incluido título). **Git blob vigente de autor** `13e065f556485aa461824363382f685d42c00ed6`.  
+**Texto C013:** [«Una ruta propia»](013-una-ruta-propia.md), **2,487 palabras** (incluido título). **Git blob vigente de autor** `4b8dd7beb6dc4289470b4301fa8d955d9a69126a` (edición directa del Editor 03, original `13e065f556485aa461824363382f685d42c00ed6`).  
 **Autorización vinculante:** `../plan/DECISION_CIERRE_C012_Y_AUTORIZACION_C013_2026-10-16.md`. **WIP=1: solo C013, NO C014**.  
 **Estado:** BORRADOR ENTREGADO, **pendiente dictamen** Revisor 03 y cierre Arquitectura Editorial. PR draft sin merge/edición final hasta co-decisión canon VT2 + Arquitectura Editorial.  
 **Anterior aprobado:** C012 «Lo que todavía podemos elegir» SHA `da0855503ab1d8365cee15c75c09535a0e30b69d` y matriz `76032b59a5758c714b5ae34458d75b0511ed9290`, tras microcorrección L01 del Editor #707.
@@ -61,3 +61,11 @@ La acción de Lera cambia **sus opciones materiales**, no solo cómo se siente: 
 - [ ] **Publicador 04, PR #708:** EPUB privado ilustrado y accesible, sin esperar este borrador; no afirmar entrega Android/Drive no verificada.
 
 **WIP=1**: C014 **NO INICIADO** y NO AUTORIZADO. PR #705 sigue DRAFT, no se modifica runtime, otros capítulos aprobados, assets o arte.
+
+## 6. Corrección editorial directa (Editor 03) — 16/10/2026
+
+**Autorización:** permiso explícito del propietario para microediciones de continuidad en la rama del Escritor sin devolución de tareas simples. **Lectura completa** realizada sobre C013 original `13e065f556485aa461824363382f685d42c00ed6`.
+
+- **L01 — orden espacial para el trayecto de salida, RESUELTA:** La explicación original de Lera al conductor describía primero las dos reparaciones de la calzada y «después, antes de la puerta» el arroyo. Ese es el **sentido de llegada a Vaisgard** desde Valdren de C006; en C013 el carro marcha **hacia Edran**, así que se sustituyó el pasaje por: «Al salir de la puerta, el arroyo cruza junto a tres piedras de paso. Más abajo, en la calzada, hay dos reparaciones claras. En una conviene dejar espacio al borde para quien va a pie. Cuando vine, me metí en el agua por confiarme demasiado». Respeta `veyra_puerta_campos —sur→ edran_hito_campos —sur→ edran_calzada` y el recuerdo de C006. **No modifica** los riesgos, la negociación con el conductor ni la secuencia de hechos.
+- **Manuscrito actual:** `4b8dd7beb6dc4289470b4301fa8d955d9a69126a`. **Siguen pendientes sin variación:** carta íntima de Dalia con Lera; nota a Mara todavía con Arel, sin salida confirmada; recorte con Nara; trayectoria a pie sin llegada acreditada a Hito/Valdren; solo acompañamiento de carro hasta coincidencia de ruta; renuncia voluntaria al trabajo posible en Vaisgard.
+- **Dictamen:** Editor 03 **APRUEBA LITERARIAMENTE C013**, sin minucias pendientes tras L01. La validación de Arquitectura Editorial y co-decisión VT2+Editorial siguen separadas; **C014 requiere autorización expresa**, y PR #705 continúa en borrador.
