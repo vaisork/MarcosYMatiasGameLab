@@ -248,3 +248,98 @@ La mensajera miró las marcas de las rutas y luego volvió hacia Lera.
 —Puedo considerar el recado para Valdren con los demás de esa procedencia. No hay una persona esperando aquí para llevarlo especialmente por ti, y quien viaje tendrá que poder identificar a Mara. No puedo asegurarte cuándo saldrá, ni que se entregue.
 
 Lera asintió. Era la primera vez que la falta de una garantía no le parecía una razón para no actuar.
+
+
+—¿Cuánto necesitaría dar para ese intento? —preguntó.
+
+Arel explicó qué podía acordarse para incorporarlo a una salida ordinaria, sin añadir una búsqueda ni una entrega personal. Lera contó los sellos que le quedaban sobre la palma sana. Pagarlos le impediría comprar algunas cosas que había pensado necesitar pronto.
+
+Miró la hoja doblada.
+
+En Valdren, Mara había tenido que escuchar cómo Lera anunciaba su partida y después aceptar turnos de trabajo que nunca había pedido. Lera no podía darle ahora la obligación de encontrar a Dalia. Pero sí podía decirle dónde estaba, qué había hecho y que quería escuchar noticias sobre la canaleta, aunque fueran malas.
+
+—Acepto —dijo.
+
+Arel recibió los sellos acordados y apartó el papel de las fundas urgentes.
+
+—No lo llamaré entregado hasta que alguien confirme haberlo recibido —le advirtió—. Si no se encuentra viajero dispuesto o la dirección resulta insuficiente, esto puede quedar pendiente.
+
+—Lo entiendo.
+
+—¿Cómo podría responderte Mara?
+
+La pregunta encontró a Lera desprevenida.
+
+Ya no estaba obligada a pasar otra tarde junto a la piedra. No tenía habitación, ni puesto ni persona encargada de recibir sus respuestas.
+
+Pensó unos segundos.
+
+—Puede preguntar por mí en el Mercado de Vaisgard. Ayudo a una vendedora de fruta cuando tiene tareas que puedo hacer. Pero no prometas que estaré allí todos los días. Ni siquiera hemos acordado otra jornada.
+
+Arel escuchó la explicación completa.
+
+—Entonces eso es lo que puedo anotar como referencia, con esa limitación.
+
+Por primera vez, Lera comprendió que contar las cosas a medias podía perjudicar incluso a quien había escrito la carta.
+
+Arel guardó la nota en la funda destinada a los recados corrientes de la ruta. No anunció ninguna salida ni llamó a un mensajero. Después atendió a la siguiente persona.
+
+Lera permaneció allí un momento, con los dedos manchados de carboncillo.
+
+La carta que había escrito para Dalia seguía en el bolsillo interior de la chaqueta. No había cambiado de manos ni perdido una palabra. La otra, más pequeña, iba dirigida a Mara y tal vez saldría algún día de la ciudad. No eran dos formas de pedir perdón por lo mismo.
+
+Una era la conversación que Lera aún debía tener, si Dalia aceptaba.
+
+La otra era una manera de admitir que había dejado una vida en Valdren y que no podía decidir por todos los que seguían allí.
+
+***
+
+Al regresar al mercado, Lera descubrió que la ciudad no había detenido ninguna de sus tareas mientras ella estaba fuera.
+
+La vendedora volvía a separar fruta. A su lado había una cesta de piezas más firmes que las anteriores, pero algunas ocultaban golpes bajo las hojas. Lera se acercó sin entrar detrás del puesto.
+
+—Vengo a preguntar si necesitas que revise otra carga.
+
+La comerciante la miró de arriba abajo.
+
+—No tienes buena cara para trabajar hasta que oscurezca.
+
+—No puedo quedarme tanto. Tengo la mano resentida, y quiero conservar fuerzas. Pero puedo revisar una cesta y decirte si hay algo que no veo bien.
+
+—¿Y después me pedirás trabajo para mañana?
+
+—Después te preguntaré si te conviene que vuelva. No es lo mismo.
+
+La vendedora pareció considerar aquella respuesta.
+
+—Una cesta —aceptó—. Y veremos cuánto te lleva. Hoy no te prometo nada más.
+
+Lera esperó a que le indicara dónde podía colocar las piezas. El acuerdo era pequeño, pero esta vez entendía todo lo que había dentro: una tarea, un límite, otra persona con derecho a cambiar de opinión.
+
+Empezó a separar las frutas.
+
+Una tenía la piel firme por fuera y una mancha casi invisible junto al tallo. La primera vez que vio una así, habría pensado que podía viajar sin problemas. Ahora la levantó a la altura de la luz.
+
+—Esta debería quedarse —dijo.
+
+La comerciante la giró, encontró el golpe y asintió.
+
+—¿Y tú, Lera? ¿Vas a quedarte?
+
+La pregunta la tomó desprevenida.
+
+Lera no sabía si Mara le respondería. No sabía si la vendedora necesitaría ayuda la semana siguiente o si Dalia seguía siquiera en Vaisgard. Había dormido mal, tenía pocos sellos y la correa de la bolsa acabaría necesitando una reparación.
+
+—Hoy sí —respondió—. Y si mañana necesito irme, antes te lo diré.
+
+La mujer dejó a su lado el paño para las piezas que viajarían.
+
+—Eso me sirve.
+
+Lera volvió al trabajo. No se apresuró a llenar la cesta.
+
+Había pagado por enviar una pregunta a alguien que podía responderle con una verdad incómoda. Tal vez el papel no llegaría; tal vez Mara contestaría que estaba enfadada y que la canaleta requería su presencia. Tal vez no diría nada sobre Dalia.
+
+Por primera vez Lera no necesitaba inventar el contenido de esa respuesta para saber qué haría ahora.
+
+La fruta de su mano estaba dañada. La colocó en el montón que no debía viajar y buscó la siguiente.
