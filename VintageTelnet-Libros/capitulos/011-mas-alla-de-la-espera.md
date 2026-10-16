@@ -14,7 +14,7 @@ Se sentó en el lado de la piedra que quedaba protegido del viento, se quitó la
 
 El viajero del alero se levantó al poco rato, porque un grupo de personas necesitaba pasar con bultos. Lera comprendió entonces lo poco que significaba tener un lugar para sentarse cuando no se podía cerrar una puerta.
 
-Durante parte de la noche dormitaría con la barbilla sobre el pecho, se despertaría al oír una rueda y volvería a acomodarse. Nadie le cobró por el banco. El frío, la falta de sueño y el dolor de espalda fueron un pago menos fácil de contar.
+Durante parte de la noche dormitó con la barbilla sobre el pecho, se despertó al oír una rueda y volvió a acomodarse. Nadie le cobró por el banco. El frío, la falta de sueño y el dolor de espalda fueron un pago menos fácil de contar.
 
 Antes de que saliera el sol, cuando una carreta cruzó muy cerca, Lera recogió la bolsa y dejó libre el paso sin que se lo pidieran.
 
@@ -347,7 +347,7 @@ La mujer soltó una carcajada.
 
 Cuando volvió a la Plaza de las Cinco Rutas, el sol aún estaba alto. Lera no se sentó en la piedra.
 
-La rodeó y miró la ciudad desde el costado contrario. Vio los toldos bajo los que podría volver a hablar con Seli y los puestos donde había una tarea concreta que aprender. Al fondo se abría el camino hacia la Puerta de los Campos, por donde había entrado después de cruzar un arroyo en el que todavía parecía llevar metido un pie.
+La rodeó y miró la ciudad desde el costado contrario. Vio los toldos bajo los que podría volver a hablar con Seli y los puestos donde había una tarea concreta que aprender. Más allá del mercado y de la calle de almacenes quedaba la Puerta de los Campos, por donde había entrado después de cruzar un arroyo en el que todavía parecía llevar metido un pie.
 
 Pensó en la frase que había dicho a Dalia junto al carro, tanto tiempo atrás.
 
