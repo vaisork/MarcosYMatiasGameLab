@@ -693,6 +693,29 @@ function masterActivity(character){
   subtitle(valid?`Desde tu revisión: +${moves-saved.moves} movimientos · +${places-saved.places} lugares`:'Sin revisión anterior.'),
   button('Marcar como revisado',()=>{try{localStorage.setItem(key,JSON.stringify({moves,places}));render();}catch(_){message('No se pudo guardar la revisión en este navegador.',true);}},{disabled:busy,'aria-label':`Marcar actividad de ${character.name} como revisada`}));
 }
+function masterVaisorkSection(){
+ const v=master?.vaisork;if(!v)return null;
+ const portrait=v.portrait||'/client/art/players/vaisork-anime-v1.webp',fullBody=v.full_body||'/client/art/players/vaisork-anime-cuerpo-completo-v1.webp';
+ const paragraphs=String(v.quien_es||'').split(/\n\s*\n/).filter(Boolean);
+ return masterSection('dm','vaisork','Vaisork',
+  el('section',{class:'vaisork-dm-sheet stack','aria-label':'Ficha de Vaisork'},
+   el('div',{class:'vaisork-dm-header'},
+    el('img',{class:'vaisork-dm-portrait',src:portrait,alt:'Retrato de Vaisork',decoding:'async'}),
+    el('div',{class:'stack'},
+     el('h2',{},'Vaisork'),
+     v.titulo?el('p',{class:'vaisork-dm-title'},v.titulo):null,
+     button('Ver cuerpo completo',()=>openIllustration({name:`Vaisork · ${v.titulo||'Cuerpo completo'}`,illustration:fullBody}))
+    )
+   ),
+   el('h3',{},'Quién es'),
+   ...paragraphs.map(p=>el('p',{class:'vaisork-dm-prose'},p)),
+   v.como_se_ve?[el('h3',{},'Cómo se ve'),el('p',{class:'vaisork-dm-prose'},v.como_se_ve)]:null,
+   list(v.lo_que_se_dice).length?[el('h3',{},'Lo que se dice'),el('ul',{class:'vaisork-dm-list'},...list(v.lo_que_se_dice).map(item=>el('li',{},item)))]:null,
+   list(v.lo_que_nunca_dice).length?[el('h3',{},'Lo que nunca dice'),el('ul',{class:'vaisork-dm-list'},...list(v.lo_que_nunca_dice).map(item=>el('li',{},item)))]:null,
+   list(v.frases).length?[el('h3',{},'Frases'),el('ul',{class:'vaisork-dm-list'},...list(v.frases).map(item=>el('li',{},item)))]:null
+  )
+ );
+}
 function renderMaster(){const back=button('Volver a la aventura',async()=>{view='adventure';try{await refresh();}catch(e){message(e.message,true);}});if(!master?.authenticated){const form=el('form',{class:'stack',autocomplete:'on',action:'/api/master/login',method:'post',onsubmit:async e=>{e.preventDefault();if(busy)return;const data=new FormData(e.currentTarget),username=String(data.get('username')||'').trim(),password=String(data.get('password')||'');busy=true;try{await api('/api/master/login',{username,password});await loadMaster();void rememberBrowserLogin(username,password,true);}catch(error){message(error.message,true);}finally{busy=false;render();}}},field('Usuario','text','username','username'),field('Contraseña del director','password','password','section-director current-password'),el('button',{type:'submit',class:'primary',disabled:busy},'Entrar como director'));main.replaceChildren(card(title('Dirección del mundo','Revisar personajes'),subtitle('Este acceso permite revisar las solicitudes de personajes.'),form,back));return;}
  const characters=[...list(master.pending),...list(master.approved)],selected=characters.find(c=>c.id===masterSelected);
  const refreshRoster=button('Actualizar jugadores',async()=>{if(busy)return;busy=true;try{await loadMaster();}finally{busy=false;render();}},{disabled:busy});
@@ -707,7 +730,7 @@ function renderMaster(){const back=button('Volver a la aventura',async()=>{view=
  const filter=el('select',{'aria-label':'Filtrar jugadores',value:masterFilter,onchange:event=>{masterFilter=event.currentTarget.value;masterPage=0;renderMaster();}},...Object.entries({all:'Todos',pending:'Pendientes',approved:'Aprobados',blocked:'Expulsados'}).map(([value,label])=>el('option',{value,selected:value===masterFilter},label)));
  const query=masterSearch.trim().toLocaleLowerCase('es'),filtered=characters.filter(c=>`${c.name} ${masterAccountName(c)}`.toLocaleLowerCase('es').includes(query)&&(masterFilter==='all'||masterFilter==='blocked'&&c.blocked||masterFilter==='pending'&&list(master.pending).some(p=>p.id===c.id)||masterFilter==='approved'&&list(master.approved).some(p=>p.id===c.id)));
  const pageCount=Math.max(1,Math.ceil(filtered.length/12));masterPage=Math.min(masterPage,pageCount-1);
- main.replaceChildren(card(title('Dirección del mundo','Jugadores'),subtitle(`${list(master.pending).length} pendientes · ${list(master.approved).length} aprobados`),subtitle('La última revisión se guarda en este navegador. Los totales pertenecen al personaje.'),refreshRoster,el('label',{class:'field'},'Buscar jugadores',search),el('label',{class:'field'},'Mostrar',filter),...filtered.slice(masterPage*12,masterPage*12+12).map(c=>el('article',{class:'tile master-player-row'},el('h3',{},c.name),subtitle(masterCharacterSummary(c)),masterActivity(c),subtitle(`Cuenta: ${masterAccountName(c)} · ${c.blocked?'Expulsado':list(master.pending).some(p=>p.id===c.id)?'Pendiente':'Aprobado'}`),button('Ver jugador',()=>{masterSelected=c.id;render();},{'aria-label':`Ver jugador ${c.name}`,disabled:busy}))),filtered.length?null:subtitle('No hay jugadores que coincidan.'),el('div',{class:'master-pagination'},button('Anterior',()=>{masterPage--;renderMaster();},{disabled:masterPage===0||busy}),el('span',{},`Página ${masterPage+1} de ${pageCount}`),button('Siguiente',()=>{masterPage++;renderMaster();},{disabled:masterPage>=pageCount-1||busy})),logout,back));
+ main.replaceChildren(card(title('Dirección del mundo','Jugadores'),subtitle(`${list(master.pending).length} pendientes · ${list(master.approved).length} aprobados`),subtitle('La última revisión se guarda en este navegador. Los totales pertenecen al personaje.'),masterVaisorkSection(),refreshRoster,el('label',{class:'field'},'Buscar jugadores',search),el('label',{class:'field'},'Mostrar',filter),...filtered.slice(masterPage*12,masterPage*12+12).map(c=>el('article',{class:'tile master-player-row'},el('h3',{},c.name),subtitle(masterCharacterSummary(c)),masterActivity(c),subtitle(`Cuenta: ${masterAccountName(c)} · ${c.blocked?'Expulsado':list(master.pending).some(p=>p.id===c.id)?'Pendiente':'Aprobado'}`),button('Ver jugador',()=>{masterSelected=c.id;render();},{'aria-label':`Ver jugador ${c.name}`,disabled:busy}))),filtered.length?null:subtitle('No hay jugadores que coincidan.'),el('div',{class:'master-pagination'},button('Anterior',()=>{masterPage--;renderMaster();},{disabled:masterPage===0||busy}),el('span',{},`Página ${masterPage+1} de ${pageCount}`),button('Siguiente',()=>{masterPage++;renderMaster();},{disabled:masterPage>=pageCount-1||busy})),logout,back));
 }
 document.getElementById('account-logout').addEventListener('click',async()=>{const done=await mutate('/api/account/logout',{});if(done){journal.reset();resetTerminal();confirmedRequests.clear();view='adventure';authMode='login';pendingRetry=null;render();}});
 for(const [key,className] of [['font','large-reading'],['small-font','small-reading'],['contrast','high-contrast'],['motion','reduced-motion']])try{document.documentElement.classList.toggle(className,localStorage.getItem('vt-new:'+key)==='on');}catch(_){}

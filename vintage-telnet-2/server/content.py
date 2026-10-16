@@ -20,6 +20,22 @@ class Content:
                     self.data[table][key] = value
         numenes_file = self.root/'numenes.json'
         self.numenes = json.loads(numenes_file.read_text(encoding='utf-8')).get('numenes',{}) if numenes_file.is_file() else {}
+        vaisork_file = self.root/'vaisork.json'
+        self.vaisork = json.loads(vaisork_file.read_text(encoding='utf-8')) if vaisork_file.is_file() else {}
+        ficha = dict(self.vaisork.get('ficha_dm', {}))
+        if 'como_se_ve' in ficha:
+            ficha['como_se_ve'] = ficha['como_se_ve'].split(' Su apariencia debe respetar los retratos existentes')[0]
+            self.vaisork['ficha_dm'] = ficha
+        self.vaisork_ficha = ficha
+        for npc_id, entry in self.vaisork.get('vecinos', {}).items():
+            if npc_id not in self.npcs:
+                raise ValueError(f'Unknown Vaisork NPC: {npc_id}')
+            self.npcs[npc_id].setdefault('topics', {})[entry.get('tema', 'vaisork')] = entry['texto']
+        for trace in self.vaisork.get('rastros', []):
+            room_id = trace.get('room')
+            if room_id not in self.rooms:
+                raise ValueError(f'Unknown Vaisork room: {room_id}')
+            self.rooms[room_id].setdefault('examine', {})[trace['examine_key']] = trace['text']
         for key, room in self.rooms.items():
             if room.get('id',key) != key or room.get('region') not in self.regions:
                 raise ValueError(f'Invalid room identity/region: {key}')

@@ -1,0 +1,126 @@
+{
+  "ficha_dm": {
+    "titulo": "El Caminante de las Canas",
+    "quien_es": "Si un día te cruzas con Vaisork, quizá no lo reconozcas enseguida. Parece un viajero de mediana edad, de mirada despierta, con barba y canas en las sienes. Se detiene donde otros pasan de largo: junto a una rueda que cruje, una cuerda floja o una persona que no sabe qué camino tomar. Nunca lleva prisa por decirte qué hacer.\n\nEn Valdren hablan de él como alguien que sabe escuchar el hierro. En Khariel lo recuerdan por quedarse quieto hasta que el viento deja oír las cuerdas. Cerca del agua, algunos dicen haberlo visto llegar por una orilla y marcharse por otra sin que nadie oyera sus pasos. Lo extraño no es que viaje tanto: es que las historias sobre él parecen más antiguas que quienes las cuentan.\n\nAlgunos dicen que ningún golpe podría derribarlo. Otros, que su mirada obliga hasta al más valiente a medir sus palabras. Pero Vaisork no viaja para demostrar su fuerza. Se detiene ante una herramienta rota para preguntar qué sostiene; escucha el relato de una taza vieja porque sabe que las cosas guardan recuerdos; deja un sitio libre en la mesa porque un lugar importa por quienes pueden reunirse en él. Cuando alguien tropieza, no resuelve el problema por esa persona. Le devuelve una pregunta, espera y permite que descubra de qué es capaz.\n\nEn Vaisgard, su nombre provoca una pregunta que nadie termina de responder. Vaisork escucha el parecido, sonríe apenas y mira las cinco rutas abiertas hacia el mundo. A veces deja en el polvo una curva que no llega a cerrarse. Tal vez sea una señal, tal vez sólo un movimiento distraído de la mano. Si le preguntas por qué, responde: «Una historia cerrada ya no tiene por dónde continuar».",
+    "como_se_ve": "Ves a un hombre de mediana edad, con el rostro todavía joven, barba y algunas canas en las sienes. Sus ojos se mueven con calma de una persona a otra, como si escuchara también lo que no llegan a decir. No necesita una corona, un trono ni una luz a su alrededor para imponerse: cuando guarda silencio, hasta una conversación ruidosa parece encontrar espacio para una pregunta.",
+    "lo_que_se_dice": [
+      "En Edran, cuentan que un herrero le pidió consejo sobre una pieza. El viajero no tocó el martillo: preguntó quién iba a usarla y se marchó antes de que el metal se enfriara.",
+      "En Hoshai, una comerciante asegura haber visto su silueta inmóvil en la subida, mucho antes de que se levantara el campamento de ese día. Nadie supo decir de dónde venía.",
+      "En Korven, dicen que un hombre de barba canosa se sentó junto al banco de revisión y escuchó una piedra como si esperara respuesta. No afirmó que la piedra hablara.",
+      "En Lethra, recuerdan a un viajero que no pidió cruzar primero: aguardó mientras terminaban de sujetar una barca y preguntó quién faltaba por llegar.",
+      "En Nhal, una historia habla de un desconocido que escuchó hasta la última palabra antes de corregir un recuerdo. Nadie sabe cuántos años llevaba haciendo lo mismo.",
+      "En Veyra, un conductor jura haberlo visto entre los carros; al mirar de nuevo, sólo quedaba un espacio libre por el que pasar. El carro siguió necesitando su reparación.",
+      "En Valdren, una mujer dice que su abuela ya hablaba de aquel viajero de las canas. Su retrato en palabras nunca ha envejecido lo suficiente para que ella se quede tranquila.",
+      "En Vaisgard, algunos se ríen del parecido entre «Vaisork» y «Vaisgard». Otros prefieren callarse cuando escuchan ambos nombres juntos. Nadie ha presentado una prueba de que compartan origen."
+    ],
+    "lo_que_nunca_dice": [
+      "«¿Quién levantó las piedras antiguas de Vaisgard?» Vaisork observa las juntas, se aparta para dejarte mirar y responde: «Primero dime qué has visto tú». No da nombres ni fechas.",
+      "«¿De dónde viene la magia?» Sonríe sin burlarse: «Una pregunta tan grande merece algo más que mi respuesta». No describe su origen ni reglas desconocidas.",
+      "«¿Por qué te llamas casi igual que Vaisgard?» Se vuelve hacia los caminos: «Los nombres viajan. A veces llegan antes que nosotros». No confirma ninguna relación.",
+      "«¿Cuántos años tienes?» Se toca una cana y pregunta: «¿Cuántos amaneceres hacen falta para aprender a escuchar?». No ofrece una cifra.",
+      "«¿Qué pasará al final de mi aventura?» Responde: «Eso todavía depende de lo que decidas». No anuncia destinos, identidades ocultas ni victorias."
+    ],
+    "frases": [
+      "«Antes de golpear la piedra, averigua qué sostiene».",
+      "«Puedo acompañarte hasta la puerta. Abrirla debe ser decisión tuya».",
+      "«Una pieza mal hecha puede servir hoy y fallarle mañana a alguien».",
+      "«No me interesan las cosas por lo que cuestan, sino por las historias que guardan».",
+      "«La curiosidad me ha llevado a lugares que ningún mapa me habría mostrado».",
+      "«Un lugar no está completo cuando levantas sus muros, sino cuando alguien lo hace suyo».",
+      "«No tienes que ser una sola cosa. Todavía no conoces todos tus caminos».",
+      "«Cuando algo se rompe, mira bien las piezas antes de decidir que terminó».",
+      "«No todo lo que puedes sostener vale lo que te cuesta cargarlo».",
+      "«Una historia cerrada ya no tiene por dónde continuar»."
+    ]
+  },
+  "vecinos": {
+    "edran_daro": {
+      "tema": "vaisork",
+      "texto": "Lo vi detenerse en la fragua cuando estaba comparando una abrazadera. Ni tocó el martillo ni fingió saber la medida que todavía necesito del carro de Bren. Me preguntó para quién era la pieza. Un viajero que pregunta antes de opinar es raro. Uno que vuelve a hacer la misma pregunta muchos años después, todavía más."
+    },
+    "edran_elva": {
+      "tema": "vaisork",
+      "texto": "Una vez se sentó a la mesa sin ocupar el lugar que guardo para quien llegue tarde. No me pidió comida ni noticias de otros. Preguntó si seguía dejando esa taza disponible. Le dije que sí. Sonrió como alguien que recordara la mesa de antes, aunque yo no sé cuándo pudo verla."
+    },
+    "hoshai_luma": {
+      "tema": "vaisork",
+      "texto": "Si hablas del hombre con canas en las sienes, lo he visto en el camino de altura. Se quedó escuchando una cuerda mientras todos discutíamos cuánto peso podía pasar. No me dio una respuesta ni cambió mis cuentas. Sólo preguntó si habíamos mirado el apoyo del otro lado. Hay quien le dice sabio. Yo digo que sabe hacer buenas preguntas."
+    },
+    "korven_taren": {
+      "tema": "vaisork",
+      "texto": "Se sentó junto a unas muestras y examinó una taza torcida como si fuera importante. No dijo quién la hizo ni por qué falló; eso no se adivina mirando un solo lado. Me preguntó si la pieza iba a servirle a alguien. No sé cómo se llama, pero recuerdo su barba canosa y lo despacio que habló."
+    },
+    "lethra_mira": {
+      "tema": "vaisork",
+      "texto": "Lo recuerdo al borde del canal. No me pidió una barca ni me dijo que apurara la costura. Preguntó a quién esperábamos para comer y escuchó el nombre de Sola sin interrumpirme. Luego miró el agua y se marchó. No sé de dónde venía; aquí nadie cruza sin notar al menos un poco de barro."
+    },
+    "nhal_elin": {
+      "tema": "vaisork",
+      "texto": "Un viajero me escuchó hablar del recipiente sin contar la historia por mí. No intentó arreglar lo que ya estaba reparado. Miró el borde raspado y dijo que algunas marcas sólo muestran que algo siguió usándose. Tenía unas canas en las sienes, pero los ojos parecían de alguien que todavía hace preguntas nuevas."
+    },
+    "nhal_leris": {
+      "tema": "vaisork",
+      "texto": "Hay relatos que mencionan a un viajero de barba canosa mucho antes de mi primera página. No voy a asegurar que todos hablaran de la misma persona: sería inventar una prueba que no tengo. Pero en varias historias alguien dibuja una curva abierta en el polvo y luego deja hablar al siguiente testigo. Eso sí me intriga."
+    },
+    "veyra_tov": {
+      "tema": "vaisork",
+      "texto": "Había un hombre junto al carro cuando tuve que detenerme por el separador roto. Vio la tabla de repuesto y no intentó fingir que la carga ya estaba segura. Me preguntó si Nera sabía por qué me retrasaba. En cuanto miré hacia los animales, ya no estaba. El trabajo seguía siendo mío."
+    },
+    "veyra_seli": {
+      "tema": "vaisork",
+      "texto": "Cuando llovió, vi a un viajero quieto bajo el borde del toldo. No tocó la pértiga ni arregló la sujeción por arte de magia. Miró hacia dónde caía el agua y dijo: «Deja sitio para quien viene detrás». Después salió a la calle. Le escuché el nombre de Vaisork; por aquí algunos dicen que ese nombre se parece demasiado al de la ciudad."
+    }
+  },
+  "rastros": [
+    {
+      "room": "valdren_pozo",
+      "examine_key": "curva",
+      "text": "En la tierra seca, lejos de las cuerdas del pozo, alguien trazó con un dedo una curva pequeña y la dejó abierta. La marca no indica una ruta ni es una inscripción antigua. A su lado queda la huella de quien se detuvo un momento a mirar el agua."
+    },
+    {
+      "room": "edran_reparo",
+      "examine_key": "huellas",
+      "text": "El polvo del refugio conserva dos pisadas junto a un rincón protegido del viento. Están orientadas hacia el camino, como si alguien hubiera descansado allí para escuchar a quienes pasaban. No hay equipaje abandonado ni nada que recoger."
+    },
+    {
+      "room": "hoshai_descanso_tres_piedras",
+      "examine_key": "trazo",
+      "text": "En el polvo sobre una piedra suelta, al margen de los apoyos del camino, hay una curva dibujada con la punta de un dedo. Termina antes de cerrarse. La lluvia podrá borrarla; no es una marca de ruta ni una señal para seguir."
+    },
+    {
+      "room": "hoshai_mirador_nudo",
+      "examine_key": "apoyo",
+      "text": "Un pequeño sector del polvo del mirador está limpio, como si alguien hubiera descansado la mano allí mucho rato mientras miraba las cuerdas. No falta ninguna herramienta ni ha cambiado la sujeción. Sólo parece haber pasado alguien con paciencia."
+    },
+    {
+      "room": "korven_asiento_revision",
+      "examine_key": "polvo",
+      "text": "Sobre el polvo fino que se junta en una esquina del banco aparece una curva abierta. Cerca hay la marca leve de un asiento ocupado. Ninguna medida fue corregida, ninguna pieza fue movida: alguien se detuvo, observó y siguió de largo."
+    },
+    {
+      "room": "lethra_banco_conversacion",
+      "examine_key": "arena",
+      "text": "Una línea curva se distingue en la arena húmeda junto al banco; alguien la dejó sin unir sus extremos. El agua se acerca despacio y pronto la borrará. Desde aquí se ve un sitio libre junto al canal donde otra persona puede sentarse a conversar."
+    },
+    {
+      "room": "nhal_claro_silencio",
+      "examine_key": "hojas",
+      "text": "En el suelo de hojas hay un espacio abierto con forma de media curva. No hay ramas arrancadas ni madera cortada. Alguien parece haberse sentado sin querer alterar el claro, dejando incluso un sitio libre a su lado."
+    },
+    {
+      "room": "nhal_patio_relato",
+      "examine_key": "rastro",
+      "text": "Junto al borde donde la gente se reúne para hablar, el polvo muestra una curva incompleta. Una pisada se aleja de las otras, sin señal de prisa. No se ha borrado ningún relato ni se ha añadido una palabra: el rastro sólo sugiere a alguien que se fue después de escuchar."
+    },
+    {
+      "room": "veyra_colina_vista",
+      "examine_key": "curva",
+      "text": "En la tierra de la colina, con las cinco rutas extendidas abajo, alguien dibujó una curva abierta del tamaño de una mano. No apunta hacia ninguna salida. Unas huellas dan media vuelta hacia el camino, como si el viajero hubiera mirado el mundo antes de regresar a él."
+    },
+    {
+      "room": "veyra_patio_senales",
+      "examine_key": "borde",
+      "text": "Una zona del polvo junto al patio está barrida por la forma de una palma apoyada un instante. Más abajo aparece una curva abierta, pequeña, hecha con la yema de un dedo. Los avisos siguen donde estaban; nadie los alteró para dejar la señal."
+    }
+  ]
+}
