@@ -201,7 +201,7 @@ El carbón le dejó una mancha negra en un dedo. Cuando trató de doblar el pape
 No tenía una solución. Tenía un mensaje para una persona real y una petición que esa persona podía rechazar.
 
 
-La dobló con cuidado. La envoltura olía un poco a fruta madura; se preguntó si Mara se burlaría de aquel olor, si es que alguna vez recibía la nota.
+Dobló el papel con cuidado. La envoltura olía un poco a fruta madura; se preguntó si Mara se burlaría de aquel olor, si es que alguna vez recibía la nota.
 
 Desde el mercado caminó hacia el norte. Cruzó la Plaza de las Cinco Rutas sin detenerse en la piedra donde había esperado dos tardes. Esta vez no tenía que sentarse a mirar las caras de quienes pasaban. Giró hacia el este y entró al Patio de Mensajes.
 
