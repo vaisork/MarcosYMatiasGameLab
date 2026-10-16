@@ -51,11 +51,25 @@ const iconButton=(icon,label,handler,extra={})=>button(controlIcon(icon),handler
 const card=(...children)=>el('section',{class:'card stack'},...children);
 const subtitle=text=>el('p',{class:'muted'},text);
 function message(text,isError=false){notice.textContent=text||'';notice.hidden=!text;notice.classList.toggle('error',isError);}
-async function api(path,body){const options={credentials:'same-origin',headers:{Accept:'application/json'}};if(body){options.method='POST';options.headers['Content-Type']='application/json';const csrf=path.startsWith('/api/master/')?master?.csrf_token||state?.csrf_token:state?.csrf_token||master?.csrf_token;options.body=JSON.stringify({...body,csrf_token:csrf});if(csrf)options.headers['X-CSRF-Token']=csrf;}const response=await fetch(path,options);let data;try{data=await response.json();}catch(_){throw Error('El servidor no devolvió una respuesta legible. Intenta de nuevo.');}if(!response.ok&&!(path==='/api/master/state'&&response.status===401&&data.authenticated===false)){const error=Error(data.message||'No se pudo completar esta acción.');error.status=response.status;throw error;}return data;}
+let latestCsrfToken=null;
+async function api(path,body){const options={credentials:'same-origin',headers:{Accept:'application/json'}};if(body){options.method='POST';options.headers['Content-Type']='application/json';const csrf=path.startsWith('/api/master/')?master?.csrf_token||latestCsrfToken||state?.csrf_token:latestCsrfToken||state?.csrf_token||master?.csrf_token;options.body=JSON.stringify({...body,csrf_token:csrf});if(csrf)options.headers['X-CSRF-Token']=csrf;}const response=await fetch(path,options);let data;try{data=await response.json();}catch(_){throw Error('El servidor no devolvió una respuesta legible. Intenta de nuevo.');}if(data?.csrf_token){latestCsrfToken=data.csrf_token;if(state)state.csrf_token=data.csrf_token;if(master)master.csrf_token=data.csrf_token;}if(!response.ok&&!(path==='/api/master/state'&&response.status===401&&data.authenticated===false)){const error=Error(data.message||'No se pudo completar esta acción.');error.status=response.status;throw error;}return data;}
 function recordNarrative(next,confirmedAction=false){const before=journal.room;journal.consume(next,confirmedAction);if(before!==journal.room){const now=Date.now();if(lastArrivalAt&&now-lastArrivalAt<2000)travelPaceUntil=now+3500;lastArrivalAt=now;}}
 async function refresh(confirmedAction=false){const next=await api('/api/state');if(next.authenticated)recordNarrative(next,confirmedAction);state=next;render();}
 async function mutate(path,payload){if(busy)return false;const previousLocation=state?.character?.location,wasInCombat=Boolean(state?.character?.combat),attributeScroll=path==='/api/action'&&payload.id==='atributo'&&view==='character'?window.scrollY:null,writtenScroll=path==='/api/action'&&typeof payload.text==='string'?window.scrollY:null;let succeeded=false;busy=true;if(path==='/api/action')commandError='';message('');document.querySelectorAll('button').forEach(b=>{if(!b.disabled){b.disabled=true;b.dataset.working='';}});try{const result=await api(path,payload);if(path==='/api/action'&&!confirmedRequests.has(payload.request_id)){recordNarrative(result,true);confirmedRequests.add(payload.request_id);if(confirmedRequests.size>100)confirmedRequests.delete(confirmedRequests.values().next().value);}await refresh();pendingRetry=null;succeeded=true;if(path==='/api/action'&&payload.text)commandDraft='';if(path==='/api/action'&&(state?.character?.location!==previousLocation||(!wasInCombat&&state?.character?.combat)))main.querySelector('.room-context')?.scrollIntoView({block:'start',behavior:'instant'});}catch(error){if(path==='/api/action'&&payload.text)commandError=error.message;if(path==='/api/action'&&!error.status)pendingRetry={path,payload};message(path==='/api/action'&&payload.text?'':error.message,true);render();}finally{busy=false;document.querySelectorAll('[data-working]').forEach(b=>{b.disabled=false;b.removeAttribute('data-working');});render();if(attributeScroll!==null)window.scrollTo({top:attributeScroll,behavior:'instant'});if(!succeeded&&writtenScroll!==null)window.scrollTo({top:writtenScroll,behavior:'instant'});if(succeeded&&path==='/api/action'&&typeof payload.text==='string'&&payload.text.trim()&&view==='adventure'){const arrived=state?.character?.location!==previousLocation||(!wasInCombat&&state?.character?.combat);if(!arrived){following=true;followTerminal();}main.querySelector(arrived?'.room-context':'.reading')?.scrollIntoView({block:'start',behavior:'instant'});}}return succeeded;}
-function perform(action){if(action.disabled||busy||pendingRetry)return;let confirmed=false;if(action.confirmation){confirmed=window.confirm(String(action.confirmation));if(!confirmed)return;}mutate('/api/action',actionPayload(action,requestId(),confirmed));}
+let combatDecisionAt=0,combatTimerInterval=null;
+function combatRemaining(combat){
+ if(!combat)return 0;
+ const now=Date.now();
+ if(typeof combat.next_round==='number'){
+  const diff=combat.next_round-now/1000;
+  if(diff>=-1&&diff<=10)return Math.max(0,diff);
+ }
+ if(combatDecisionAt>0){
+  return Math.max(0,4-(now-combatDecisionAt)/1000);
+ }
+ return 0;
+}
+function perform(action){if(action.disabled||busy||pendingRetry)return;if(state?.character?.combat)combatDecisionAt=Date.now();let confirmed=false;if(action.confirmation){confirmed=window.confirm(String(action.confirmation));if(!confirmed)return;}mutate('/api/action',actionPayload(action,requestId(),confirmed));}
 function moveTo(direction){const action=actions(state.actions).find(a=>a.id==='mover'&&(a.target===direction||!a.target));if(action)perform({...action,target:direction});else message('Esta salida no está disponible ahora.',true);}
 const viewPositions=new Map();
 let positionCharacter=null;
@@ -136,6 +150,12 @@ const speciesDescriptions={
  marevyn:'Altos, con membranas interdigitales y habilidad acuática; respiran aire.',
  vesperi:'Adaptados a poca luz, con ojos grandes y oído muy sensible.'
 };
+const classDescriptions={
+ juramentado:'Espada y escudo. Defensor valiente que protege y frena los golpes de frente.',
+ arcano:'Bastón y magia pura. Lanza rayos de energía y crea barreras protectoras.',
+ sombra:'Dagas gemelas y sigilo. Ataca por sorpresa en los puntos ciegos y lanza distracciones.',
+ artifice:'Ballesta, trampas y remedios. Dispara a distancia, frena enemigos y cura con ungüentos.'
+};
 function speciesSelector(){
  const fieldContainer=el('div',{class:'field'},el('span',{},'Especie'));
  const gallery=el('div',{class:'species-choice-list',role:'radiogroup','aria-label':'Elegir especie'});
@@ -156,9 +176,27 @@ function speciesSelector(){
  fieldContainer.append(gallery);
  return fieldContainer;
 }
-function creationScreen(){const form=el('form',{class:'stack',onsubmit:e=>{e.preventDefault();const data=new FormData(e.currentTarget);mutate('/api/character/create',{name:String(data.get('name')),species:String(data.get('species')),class_id:String(data.get('class_id')),gender:String(data.get('gender'))});}},field('Nombre de tu personaje','text','name','nickname'),speciesSelector(),el('label',{class:'field'},'Clase',el('select',{name:'class_id',required:true},...Object.entries(classNames).map(([id,label])=>el('option',{value:id},label)))),genderField(),el('button',{type:'submit',class:'primary',disabled:busy},'Presentar mi personaje'));const characters=list(state.characters),pending=characters.filter(c=>c.status!=='approved');main.replaceChildren(card(title('Un lugar en el mundo','Tu personaje'),subtitle('Elige su nombre, especie, clase y género. El director revisará la solicitud.'),...pending.map(c=>el('div',{class:'tile'},el('h3',{},c.name),subtitle(`${speciesNames[c.species]||c.species} · ${classNames[c.class_id]||c.class_id}`),el('span',{class:'pill'},'Pendiente de aprobación'))),state.pending_approval||pending.length?button('Comprobar aprobación',async()=>{try{await refresh();if(state?.pending_approval||list(state?.characters).some(c=>c.status!=='approved')||!state?.character||state?.character?.status!=='approved'){message('El director aún está revisando tu personaje.');}}catch(e){message(e.message,true);}}):form,...characters.filter(c=>c.status==='approved').map(c=>button(`Entrar con ${c.name}`,()=>mutate('/api/character/select',{character_id:c.id})))));}
-const actionIcons={guardia_comprometida:'shield',paso_ruptura:'swords',impulso_arcano:'bolt',velo_contencion:'shield',destello_frio:'star',borrar_foco:'eye',golpe_apertura:'weapon',distraccion:'talk',tiro_interrupcion:'weapon',traba_campo:'armor',balsamo_campo:'heart',mirar:'eye',observar:'search',buscar:'search',examinar:'search',evaluar:'search',atacar:'swords',combatir:'swords',acercarse:'eye',retirarse:'↗',defender:'shield',proteger:'shield',huir:'↗',descansar:'fire',hablar:'talk',conversar:'talk',hablar_adversario:'talk',comprar:'coin',vender:'coin',equipar:'armor',usar:'potion',mover:'→',mirar_direccion:'eye',capacidad:'bolt',examinar_criatura:'paw',aceptar:'star',cobrar:'star',afinar:'weapon',reparar:'weapon',recuperacion:'heart',fusionar:'swords',cuidar_numen:'heart',alimentar_numen:'ration',nombrar_numen:'paw',descansar_numen:'fire',activar_numen:'paw',apoyo_numen:'star',observar_numen:'eye',aproximar_numen:'eye',confiar_numen:'talk',forzar_numen:'talk',calmar_numen:'talk',vincular_numen:'star'};
-const actionTone=id=>['atacar','combatir','defender','proteger','huir','capacidad','apoyo_numen'].includes(id)?'fight':['comprar','vender','afinar','reparar','cobrar','fusionar'].includes(id)?'trade':['hablar','conversar','hablar_adversario','aceptar','confiar_numen','forzar_numen','calmar_numen'].includes(id)?'talk':['usar','descansar','recuperacion','equipar','cuidar_numen','alimentar_numen','nombrar_numen','descansar_numen'].includes(id)?'care':['mirar','observar','buscar','examinar','evaluar','examinar_criatura','acercarse','retirarse','observar_numen','aproximar_numen'].includes(id)?'explore':'story';
+function classSelector(){
+ const fieldContainer=el('div',{class:'field'},el('span',{},'Clase'));
+ const gallery=el('div',{class:'species-choice-list class-choice-list',role:'radiogroup','aria-label':'Elegir clase'});
+ const classList=['juramentado','arcano','sombra','artifice'];
+ classList.forEach((id,index)=>{
+  const radio=el('input',{type:'radio',name:'class_id',value:id,id:`class-opt-${id}`,required:true,checked:index===0});
+  const label=el('label',{class:'species-choice-card class-choice-card',htmlFor:`class-opt-${id}`},
+   radio,
+   el('div',{class:'species-info'},
+    el('strong',{},classNames[id]||id),
+    el('small',{class:'species-desc'},classDescriptions[id]||'')
+   )
+  );
+  gallery.append(label);
+ });
+ fieldContainer.append(gallery);
+ return fieldContainer;
+}
+function creationScreen(){const form=el('form',{class:'stack',onsubmit:e=>{e.preventDefault();const data=new FormData(e.currentTarget);mutate('/api/character/create',{name:String(data.get('name')),species:String(data.get('species')),class_id:String(data.get('class_id')),gender:String(data.get('gender'))});}},field('Nombre de tu personaje','text','name','nickname'),speciesSelector(),classSelector(),genderField(),el('button',{type:'submit',class:'primary',disabled:busy},'Presentar mi personaje'));const characters=list(state.characters),pending=characters.filter(c=>c.status!=='approved');main.replaceChildren(card(title('Un lugar en el mundo','Tu personaje'),subtitle('Elige su nombre, especie, clase y género. El director revisará la solicitud.'),state.character?.status==='approved'?button('Volver a la aventura',()=>{view='adventure';render();}):null,...pending.map(c=>el('div',{class:'tile'},el('h3',{},c.name),subtitle(`${speciesNames[c.species]||c.species} · ${classNames[c.class_id]||c.class_id}`),el('span',{class:'pill'},'Pendiente de aprobación'))),state.pending_approval||pending.length?button('Comprobar aprobación',async()=>{try{await refresh();if(state?.pending_approval||list(state?.characters).some(c=>c.status!=='approved')||!state?.character||state?.character?.status!=='approved'){message('El director aún está revisando tu personaje.');}}catch(e){message(e.message,true);}}):form,...characters.filter(c=>c.status==='approved').map(c=>button(`Entrar con ${c.name}`,async()=>{view='adventure';await mutate('/api/character/select',{character_id:c.id});}))));}
+const actionIcons={guardia_comprometida:'shield',paso_ruptura:'swords',impulso_arcano:'bolt',velo_contencion:'shield',destello_frio:'star',borrar_foco:'eye',golpe_apertura:'weapon',distraccion:'talk',tiro_interrupcion:'weapon',traba_campo:'armor',balsamo_campo:'heart',mirar:'eye',observar:'search',buscar:'search',examinar:'search',evaluar:'search',atacar:'swords',combatir:'swords',acercarse:'eye',retirarse:'↗',defender:'shield',proteger:'shield',huir:'↗',descansar:'fire',descansar_juntos:'fire',hablar:'talk',conversar:'talk',hablar_adversario:'talk',comprar:'coin',vender:'coin',equipar:'armor',usar:'potion',mover:'→',mirar_direccion:'eye',capacidad:'bolt',examinar_criatura:'paw',aceptar:'star',cobrar:'star',afinar:'weapon',reparar:'weapon',recuperacion:'heart',fusionar:'swords',cuidar_numen:'heart',alimentar_numen:'ration',nombrar_numen:'paw',descansar_numen:'fire',activar_numen:'paw',apoyo_numen:'star',observar_numen:'eye',aproximar_numen:'eye',confiar_numen:'talk',forzar_numen:'talk',calmar_numen:'talk',vincular_numen:'star'};
+const actionTone=id=>['atacar','combatir','defender','proteger','huir','capacidad','apoyo_numen'].includes(id)?'fight':['comprar','vender','afinar','reparar','cobrar','fusionar'].includes(id)?'trade':['hablar','conversar','hablar_adversario','aceptar','confiar_numen','forzar_numen','calmar_numen'].includes(id)?'talk':['usar','descansar','recuperacion','equipar','cuidar_numen','alimentar_numen','nombrar_numen','descansar_numen','descansar_juntos'].includes(id)?'care':['mirar','observar','buscar','examinar','evaluar','examinar_criatura','acercarse','retirarse','observar_numen','aproximar_numen'].includes(id)?'explore':'story';
 let namingNumen=null;
 function numenNameForm(action,initialName=''){
  const key=`${action.id}:${action.target||''}`;
@@ -171,7 +209,7 @@ function numenNameForm(action,initialName=''){
   el('div',{class:'choices'},el('button',{type:'submit',class:'primary',disabled:busy},action.id==='vincular_numen'?'Confirmar vínculo y nombre':'Guardar nombre'),button('Cancelar',()=>{namingNumen=null;render();},{disabled:busy}))
  );
 }
-function actionButton(action){const classAction=Object.values(classActions).flat().find(entry=>entry.id===action.id),wait=action.reason?.match(/(\d+)\s*s(?:egundos)?\b/i),cooldown=action.reason?.match(/Recarga:\s*(\d+)\s*rondas/i),funds=action.reason?.match(/Te faltan (\d+) sellos/),fuseMat=action.id==='fusionar'&&action.reason?.match(/necesita \d+ unidades? de ([^(.]+).*?Te faltan (\d+)/),powerHint=capabilityReadingHint(action),hint=action.disabled?(wait?`Espera ${wait[1]} s`:cooldown?`Recarga: ${cooldown[1]} rondas`:funds?`Faltan ${funds[1]} sellos`:fuseMat?`Faltan ${fuseMat[2]} ${fuseMat[1].trim()}`:powerHint?powerHint:action.id==='descansar'?action.reason?.startsWith('Ya estás')?'Ya estás recuperado':'Descanso agotado':action.id==='afinar'&&action.reason?.startsWith('Consume ')?action.reason.replace(/^Consume /,'Necesitas '):action.reason==='No necesitas atención ahora.'?'No lo necesitas':action.reason==='Tu decisión está preparada para esta ronda.'?'Espera la ronda':'No disponible'):powerHint;return button(el('span',{class:'action-content'},actionIcons[action.id]?el('span',{class:'action-symbol','aria-hidden':true},controlIcon(actionIcons[action.id])):null,el('span',{class:'action-label'},action.label),classAction?el('small',{class:'action-description'},action.description||classAction.description):null,['comprar','afinar'].includes(action.id)&&!action.disabled&&action.reason&&!/^Te faltan \d+ sellos\.?$/.test(action.reason)?el('small',{class:'action-reason'},action.reason):null,(classAction?action.disabled? action.reason||'No disponible':null:hint)?el('small',{class:'action-reason'},classAction?action.reason||'No disponible':hint):null),()=>{if(['vincular_numen','nombrar_numen'].includes(action.id)&&!action.name){namingNumen=`${action.id}:${action.target||''}`;render();main.querySelector('.numen-name-form input')?.focus();return;}perform(action);},{class:`game-action${['atacar','defender','proteger','huir'].includes(action.id)?' combat-choice':classAction||action.id==='capacidad'?' capability-choice':''}`,'data-tone':classAction?'fight':actionTone(action.id),title:action.reason||action.label,'aria-description':action.reason||undefined,disabled:busy||Boolean(pendingRetry)||action.disabled||Boolean(state.character?.combat?.intervention_pending)});}
+function actionButton(action){const classAction=Object.values(classActions).flat().find(entry=>entry.id===action.id),wait=action.reason?.match(/(\d+)\s*s(?:egundos)?\b/i),cooldown=action.reason?.match(/Recarga:\s*(\d+)\s*rondas/i),funds=action.reason?.match(/Te faltan (\d+) sellos/),fuseMat=action.id==='fusionar'&&action.reason?.match(/necesita \d+ unidades? de ([^(.]+).*?Te faltan (\d+)/),powerHint=capabilityReadingHint(action),hint=action.disabled?(wait?`Espera ${wait[1]} s`:cooldown?`Recarga: ${cooldown[1]} rondas`:funds?`Faltan ${funds[1]} sellos`:fuseMat?`Faltan ${fuseMat[2]} ${fuseMat[1].trim()}`:powerHint?powerHint:action.id==='descansar'?action.reason?.startsWith('Ya estás')?'Ya estás recuperado':'Descanso agotado':action.id==='afinar'&&action.reason?.startsWith('Consume ')?action.reason.replace(/^Consume /,'Necesitas '):action.reason==='No necesitas atención ahora.'?'No lo necesitas':action.reason==='Tu decisión está preparada para esta ronda.'?(combatRemaining(state?.character?.combat)>0?`Asalto: ${Math.ceil(combatRemaining(state.character.combat))} s`:'Resolviendo…'):'No disponible'):powerHint;return button(el('span',{class:'action-content'},actionIcons[action.id]?el('span',{class:'action-symbol','aria-hidden':true},controlIcon(actionIcons[action.id])):null,el('span',{class:'action-label'},action.label),classAction?el('small',{class:'action-description'},action.description||classAction.description):null,['comprar','afinar'].includes(action.id)&&!action.disabled&&action.reason&&!/^Te faltan \d+ sellos\.?$/.test(action.reason)?el('small',{class:'action-reason'},action.reason):null,(classAction?action.disabled? action.reason||'No disponible':null:hint)?el('small',{class:'action-reason'},classAction?action.reason||'No disponible':hint):null),()=>{if(['vincular_numen','nombrar_numen'].includes(action.id)&&!action.name){namingNumen=`${action.id}:${action.target||''}`;render();main.querySelector('.numen-name-form input')?.focus();return;}perform(action);},{class:`game-action${['atacar','defender','proteger','huir'].includes(action.id)?' combat-choice':classAction||action.id==='capacidad'?' capability-choice':''}`,'data-tone':classAction?'fight':actionTone(action.id),title:action.reason||action.label,'aria-description':action.reason||undefined,disabled:busy||Boolean(pendingRetry)||action.disabled||Boolean(state.character?.combat?.intervention_pending)});}
 
 function artPeek(art,label,extraClass=''){
  const peek=el('img',{class:'art-peek',src:art.thumbnail||art.illustration,alt:'',loading:'lazy',decoding:'async',onerror:event=>{if(art.illustration&&event.currentTarget.src!==art.illustration){event.currentTarget.src=art.illustration;}else{event.currentTarget.remove();}}});
@@ -207,9 +245,43 @@ function adventure(){const readingPosition=captureReadingPosition();const room=s
  const night=/noche|atardecer/i.test(phase||''),timeChip=phase||weather?el('span',{class:'time-chip',title:[phase,weather].filter(Boolean).join(' · ')},controlIcon(night?'moon':'sun'),el('span',{},[phase,weather].filter(Boolean).join(' · '))):null;
  // One compact strip: place, region, time and tools; the reading below keeps the space.
  const hero=el('header',{class:'scene-hero scene-hero-plain'},el('div',{class:'scene-title'},el('h1',{},room.name),region?el('p',{},region):null),el('div',{class:'scene-tools'},timeChip,artButton,metadata,iconButton('⌁','Ver mapa',()=>navigate('map'),{class:'map-shortcut'})));
+ const bondedNumenes=list(state.character?.numenes?.bonded||state?.numenes?.bonded),activeNumenId=state.character?.numenes?.active||state?.numenes?.active,activeNumen=bondedNumenes.find(n=>n.id===activeNumenId)||state.character?.active_numen||null;
+ const numenAlert=(activeNumen&&['con hambre','decaído'].includes(activeNumen.mood))?el('aside',{class:`numen-care-notice mood-${activeNumen.mood==='con hambre'?'hungry':'down'}`,'aria-live':'polite'},
+  el('span',{class:'numen-notice-icon'},controlIcon('paw')),
+  el('div',{class:'numen-notice-content'},
+   el('strong',{class:'numen-notice-title'},activeNumen.mood==='con hambre'?`¡${activeNumen.name} tiene mucha hambre!`:`¡${activeNumen.name} necesita tu cariño!`),
+   el('p',{class:'numen-notice-msg'},activeNumen.mood==='con hambre'?`${activeNumen.name} camina a tu lado con ojitos tiernos esperando un rico Bocado de Númen.`:`${activeNumen.name} se siente decaído y camina despacio. Acompáñalo y dale mimos.`)
+  ),
+  button([controlIcon('heart'),` Cuidar a ${activeNumen.name}`],()=>navigate('numen'),{class:'primary numen-notice-btn','aria-label':`Ir a cuidar a ${activeNumen.name}`})
+ ):null;
  const context=card(hero,statusBar(state.character));
  context.classList.add('room-context');
- if(state.character.combat){const combat=state.character.combat;context.append(el('div',{class:'selection'},el('h3',{},combat.illustration?artPeek({name:combat.name,illustration:combat.illustration,thumbnail:combat.illustration.replace('.webp','-thumb.webp'),caption:'Retrato del adversario. No es una entrada del bestiario.'},`Ver retrato de ${combat.name}`,'encounter-portrait'):null,`Encuentro · ${combat.name}`),combatMeter(combat),subtitle(`Ronda ${combat.round}${combat.prepared?' · '+(combat.prepared_action?.name||'Prepara un ataque'):''}`),combat.intervention_pending?subtitle(state.character.combat.combatant_kind==='human'?'Tu decisión está preparada. Esperas la respuesta del adversario.':'Tu decisión está preparada. Esperas la respuesta de la criatura.'):subtitle('Lee las señales antes de decidir.')));}
+ if(state.character.combat){
+  const combat=state.character.combat;
+  const pending=Boolean(combat.intervention_pending);
+  if(pending&&combatDecisionAt===0)combatDecisionAt=Date.now();
+  if(!pending)combatDecisionAt=0;
+  const rem=combatRemaining(combat);
+  const countdownBar=pending?el('div',{class:'combat-round-countdown','aria-live':'polite'},
+   el('div',{class:'combat-round-bar'},el('span',{class:'combat-round-fill',style:`width:${Math.max(0,Math.min(100,(4-rem)/4*100))}%`})),
+   el('p',{class:'combat-round-label'},controlIcon('fire'),el('span',{},rem>0?`Siguiente asalto en ${rem.toFixed(1)} s…`:'Resolviendo asalto…'))
+  ):null;
+  context.append(el('div',{class:'selection'},el('h3',{},combat.illustration?artPeek({name:combat.name,illustration:combat.illustration,thumbnail:combat.illustration.replace('.webp','-thumb.webp'),caption:'Retrato del adversario. No es una entrada del bestiario.'},`Ver retrato de ${combat.name}`,'encounter-portrait'):null,`Encuentro · ${combat.name}`),combatMeter(combat),subtitle(`Ronda ${combat.round}${combat.prepared?' · '+(combat.prepared_action?.name||'Prepara un ataque'):''}`),countdownBar||(combat.intervention_pending?subtitle(state.character.combat.combatant_kind==='human'?'Tu decisión está preparada. Esperas la respuesta del adversario.':'Tu decisión está preparada. Esperas la respuesta de la criatura.'):subtitle('Lee las señales antes de decidir.'))));
+  if(pending){
+   if(!combatTimerInterval){
+    combatTimerInterval=setInterval(()=>{
+     const fill=main.querySelector('.combat-round-fill');
+     const label=main.querySelector('.combat-round-label span');
+     if(!fill||!label||!state?.character?.combat?.intervention_pending){
+      clearInterval(combatTimerInterval);combatTimerInterval=null;return;
+     }
+     const left=combatRemaining(state.character.combat);
+     fill.style.width=`${Math.max(0,Math.min(100,(4-left)/4*100))}%`;
+     label.textContent=left>0?`Siguiente asalto en ${left.toFixed(1)} s…`:'Resolviendo asalto…';
+    },100);
+   }
+  }else if(combatTimerInterval){clearInterval(combatTimerInterval);combatTimerInterval=null;}
+ }else{combatDecisionAt=0;if(combatTimerInterval){clearInterval(combatTimerInterval);combatTimerInterval=null;}}
  const reading=el('section',{class:'reading','aria-label':'Crónica de tu aventura'},el('h2',{},'Crónica de viaje'),terminalFeed,el('div',{class:'reading-footer'},'El mundo continúa. Tú decides.',el('span',{'aria-hidden':true})));const visitChanged=syncTerminal();
 
  const available=actions(state.actions),contextual=available.filter(a=>!['mover','hablar','equipar','desequipar','usar','atributo','tecnica','vender','comprar','fusionar','nombrar_numen'].includes(a.id)),shopCount=available.filter(a=>['comprar','vender'].includes(a.id)).length,choices=el('section',{class:'card quick-actions','aria-label':'Decide tu siguiente paso'},el('h2',{class:'panel-title'},state.character.combat?'Combate':'Acciones'),el('div',{class:'choices action-grid'},...(shopCount&&!state.character.combat?[button(el('span',{class:'action-content'},el('span',{class:'action-symbol','aria-hidden':true},controlIcon('coin')),el('span',{class:'action-label'},'Tienda'),el('small',{class:'action-reason'},shopCount===1?'1 cosa':`${shopCount} cosas`)),()=>{shopSection=null;navigate('shop');},{class:'game-action','data-tone':'trade'})]:[]),...(state.character.combat?contextual:contextual.slice(0,shopCount?8:9)).map(actionButton)));
@@ -222,7 +294,7 @@ function adventure(){const readingPosition=captureReadingPosition();const room=s
  const readingTools=el('div',{class:'reading-tools'},iconButton('▶|','Mostrar completo',finishPrinting),iconButton('↓','Ir a lo último',()=>{following=true;followTerminal();}),iconButton('A⁻','Letra más pequeña',()=>readingFont(document.documentElement.classList.contains('small-reading')?'normal':'small'),{'data-font':'small','aria-pressed':document.documentElement.classList.contains('small-reading')}),iconButton('A⁺','Letra más grande',()=>readingFont(document.documentElement.classList.contains('large-reading')?'normal':'large'),{'data-font':'large','aria-pressed':document.documentElement.classList.contains('large-reading')}),iconButton('◐','Contraste',event=>{const on=!document.documentElement.classList.contains('high-contrast');document.documentElement.classList.toggle('high-contrast',on);try{localStorage.setItem('vt-new:contrast',on?'on':'off');}catch(_){}event.currentTarget.setAttribute('aria-pressed',String(on));},{'aria-pressed':document.documentElement.classList.contains('high-contrast')}));reading.prepend(readingTools);
  const people=list(room.npcs);if(people.length){const peopleDetails=el('details',{class:'more'},el('summary',{},`Hablar con personajes (${people.length})`));for(const person of people){const entry=el('article',{class:'npc'},el('h3',{},person.name),person.role?el('span',{class:'pill'},person.role):null,person.description?el('p',{},person.description):null),talk=available.filter(a=>a.id==='hablar'&&(!a.target||a.target===person.id));if(talk.length)entry.append(el('div',{class:'topics'},...talk.map(actionButton)));peopleDetails.append(entry);}choices.append(peopleDetails);}
  const command=el('form',{class:'command-entry stack',onsubmit:event=>{event.preventDefault();if(busy||pendingRetry||state.character.combat?.intervention_pending)return;const input=event.currentTarget.elements.decision,text=input.value.trim();if(text)mutate('/api/action',{text,request_id:requestId()});}},el('label',{class:'field'},'Escribe tu decisión',el('input',{name:'decision',type:'text',value:commandDraft,oninput:event=>{commandDraft=event.target.value;},maxLength:200,placeholder:'Observar, norte, examinar…',autocomplete:'off',disabled:busy||Boolean(pendingRetry)||Boolean(state.character.combat?.intervention_pending)})),commandError?el('p',{class:'notice error',role:'alert'},commandError):null,el('button',{type:'submit',class:'primary',disabled:busy||Boolean(pendingRetry)||Boolean(state.character.combat?.intervention_pending)},'Decidir'));choices.append(command);
- const recent=el('details',{class:'history'},el('summary',{},'Releer lo vivido'),el('p',{class:'muted'},'Recuerdos de esta pestaña; las acciones actuales están arriba.'),el('div',{class:'reading'},...history.map(event=>narrativeNode(event))));main.replaceChildren(context,reading,choices,localPeople(state),recent);if(visitChanged){terminalFeed.scrollTop=0;following=true;}else restoreReadingPosition(readingPosition);if(instantReading()&&!visitChanged)followTerminal();}
+ const recent=el('details',{class:'history'},el('summary',{},'Releer lo vivido'),el('p',{class:'muted'},'Recuerdos de esta pestaña; las acciones actuales están arriba.'),el('div',{class:'reading'},...history.map(event=>narrativeNode(event))));main.replaceChildren(context,...(numenAlert?[numenAlert]:[]),reading,choices,localPeople(state),recent);if(visitChanged){terminalFeed.scrollTop=0;following=true;}else restoreReadingPosition(readingPosition);if(instantReading()&&!visitChanged)followTerminal();}
 function testerPanel(){if(!state.tester?.enabled)return null;return el('details',{class:'more'},el('summary',{},'Pruebas: cambiar de lugar'),subtitle('Sólo para este personaje. No revela caminos ni concede equipo o experiencia.'),el('form',{class:'stack',onsubmit:async event=>{event.preventDefault();if(busy)return;const data=new FormData(event.currentTarget);if(await mutate('/api/character/tester/travel',{destination:String(data.get('destination')),recover:data.get('recover')==='on'}))navigate('adventure');}},el('label',{class:'field'},'Destino',el('select',{name:'destination'},...state.tester.destinations.map(d=>el('option',{value:d.id,selected:d.id===state.character.location},d.name)))),el('label',{},el('input',{type:'checkbox',name:'recover',checked:true}),' Recuperar vitalidad y quitar fatiga/heridas para probar'),el('button',{type:'submit',class:'primary',disabled:busy},'Ir al destino de prueba')));}
 function characterStat(label,value,c){const entry=el('div',{class:'stat'},el('small',{},label),el('strong',{},String(value)));const range=label==='Vitalidad'?[c.hp,c.hp_max]:label==='Experiencia'?[c.xp,c.xp_next]:null;if(range&&Number(range[1])>0){const fill=el('span',{class:'stat-meter-fill'});fill.style.width=`${Math.max(0,Math.min(100,Number(range[0])/Number(range[1])*100))}%`;entry.classList.add(label==='Vitalidad'?'stat-vitality':'stat-experience');entry.append(el('span',{class:'stat-meter','aria-hidden':true},fill));}return entry;}
 const attributeNames={agilidad:'Agilidad',destreza:'Destreza',fuerza:'Fuerza',intelecto:'Intelecto',percepcion:'Percepción',presencia:'Presencia',resistencia:'Resistencia',voluntad:'Voluntad'},attributeIcons={agilidad:'bolt',destreza:'weapon',fuerza:'swords',intelecto:'≡',percepcion:'eye',presencia:'star',resistencia:'shield',voluntad:'fire'};
@@ -255,16 +327,19 @@ const numenMoodDescriptions={
 };
 let numenAnim='',numenReactionText='';
 async function triggerNumenCare(action,animKind){
- if(busy||pendingRetry)return;
- numenAnim=animKind;render();
- const ok=await mutate('/api/action',actionPayload(action,requestId()));
+ if(action?.disabled||busy||pendingRetry)return;
+ let confirmed=false;
+ if(action.confirmation){
+  confirmed=window.confirm(String(action.confirmation));
+  if(!confirmed)return;
+ }
+ const ok=await mutate('/api/action',actionPayload(action,requestId(),confirmed));
  if(ok){
+  numenAnim=animKind;
   const active=state?.character?.active_numen||(state?.numenes?.bonded||[]).find(n=>n.id===state?.numenes?.active);
   numenReactionText=active?.last_reaction||history.at(-1)?.text||'';
-  numenAnim=animKind;render();
+  render();
   setTimeout(()=>{if(numenAnim===animKind){numenAnim='';render();}},1800);
- }else{
-  numenAnim='';render();
  }
 }
 function numenCard(numen,isActive,availableActions){
@@ -329,7 +404,178 @@ function numenSection(c){
  }
  return section;
 }
+// --- TAMAGOTCHI CLÁSICO ---
+let tamagotchiMenuIndex = -1;
+let tamagotchiLoopId = null;
+let cachedFallbackCanvas = null;
+let tamagotchiSim = {
+ x: 16,
+ y: 14,
+ dir: 1,
+ pauseUntil: 0,
+ jumpUntil: 0,
+ jumpY: 0,
+ lastFrameTime: 0,
+ frameIndex: 0
+};
+
+function createFallbackSpriteSheet() {
+ if (cachedFallbackCanvas) return cachedFallbackCanvas;
+ const canvas = document.createElement('canvas');
+ canvas.width = 384;
+ canvas.height = 32;
+ const ctx = canvas.getContext('2d');
+ if (!ctx) return canvas;
+ const ink = '#242b18', body = '#4d5c34', belly = '#7a8c5a';
+
+ for (let f = 0; f < 12; f++) {
+  const ox = f * 32;
+  let hx = ox + 15, hy = 8;
+  let bx = ox + 8, by = 14;
+  let lx1 = ox + 9, ly1 = 23, lx2 = ox + 17, ly2 = 23;
+  let legH = 5;
+  let tailX = ox + 5, tailY = 15;
+  let eyeX = ox + 22, eyeY = 11;
+  let eyeOpen = true;
+  let mouthX = ox + 24, mouthY = 14, mouthOpen = false;
+  let earY = 5, sad = false;
+
+  if (f === 1) { // Idle breath
+   by += 1; hy += 1; eyeY += 1; mouthY += 1; earY += 1; tailY -= 1;
+  } else if (f === 2) { // Walk 0
+   lx1 -= 2; lx2 += 2; by -= 1; hy -= 1; eyeY -= 1; mouthY -= 1; earY -= 1;
+  } else if (f === 3) { // Walk 1
+   lx1 += 2; lx2 -= 2;
+  } else if (f === 4) { // Eat 0
+   hy += 2; eyeY += 2; mouthY += 2; mouthOpen = true;
+  } else if (f === 5) { // Eat 1
+   hy += 1; eyeY += 1; mouthY += 1; mouthOpen = false;
+  } else if (f === 6 || f === 7) { // Sleep 0-1
+   by += 4; hy += 4; eyeY += 4; mouthY += 4; earY += 3;
+   legH = 2; ly1 += 3; ly2 += 3; eyeOpen = false;
+   if (f === 7) { by -= 1; hy -= 1; eyeY -= 1; mouthY -= 1; }
+  } else if (f === 8) { // Happy crouch
+   by += 2; hy += 2; eyeY += 2; mouthY += 2; earY += 2;
+  } else if (f === 9) { // Happy jump
+   by -= 4; hy -= 5; eyeY -= 5; mouthY -= 5; earY -= 6;
+   ly1 -= 2; ly2 -= 2; tailY -= 3;
+  } else if (f === 10 || f === 11) { // Sad
+   hy += 3; eyeY += 3; mouthY += 3; earY += 4; tailY += 3; sad = true;
+   if (f === 11) { by += 1; hy += 1; eyeY += 1; mouthY += 1; }
+  }
+
+  // Draw body & head
+  ctx.fillStyle = body;
+  ctx.fillRect(bx, by, 11, 9);
+  ctx.fillStyle = belly;
+  ctx.fillRect(bx + 2, by + 4, 7, 4);
+  ctx.fillStyle = body;
+  ctx.fillRect(hx, hy, 10, 8);
+  ctx.fillRect(hx + 7, hy + 3, 4, 4);
+
+  // Ears
+  ctx.fillStyle = ink;
+  if (sad) {
+   ctx.fillRect(hx + 1, earY + 2, 3, 5);
+   ctx.fillRect(hx + 5, earY + 2, 3, 5);
+  } else {
+   ctx.fillRect(hx + 1, earY, 3, 4);
+   ctx.fillRect(hx + 5, earY, 3, 4);
+  }
+
+  // Legs & tail
+  ctx.fillRect(lx1, ly1, 3, legH);
+  ctx.fillRect(lx2, ly2, 3, legH);
+  ctx.fillRect(tailX, tailY, 3, 2);
+  ctx.fillRect(tailX - 1, tailY - 2, 2, 3);
+  ctx.fillRect(bx - 1, by + 1, 1, 7);
+  ctx.fillRect(bx + 1, by + 9, 9, 1);
+
+  // Eyes
+  if (eyeOpen) {
+   if (f === 8 || f === 9) {
+    ctx.fillRect(eyeX, eyeY - 1, 2, 1);
+    ctx.fillRect(eyeX - 1, eyeY, 1, 1);
+    ctx.fillRect(eyeX + 2, eyeY, 1, 1);
+   } else {
+    ctx.fillRect(eyeX, eyeY, 2, 2);
+   }
+  } else {
+   ctx.fillRect(eyeX - 1, eyeY + 1, 3, 1);
+  }
+
+  // Snout
+  ctx.fillRect(mouthX + 1, mouthY, 2, 2);
+  if (mouthOpen) ctx.fillRect(mouthX - 1, mouthY + 2, 3, 2);
+ }
+ cachedFallbackCanvas = canvas;
+ return canvas;
+}
+
+function drawPixelHeart(ctx, x, y) {
+ ctx.fillStyle = '#242b18';
+ const px = Math.round(x), py = Math.round(y);
+ ctx.fillRect(px + 1, py, 2, 1);
+ ctx.fillRect(px + 4, py, 2, 1);
+ ctx.fillRect(px, py + 1, 7, 2);
+ ctx.fillRect(px + 1, py + 3, 5, 1);
+ ctx.fillRect(px + 2, py + 4, 3, 1);
+ ctx.fillRect(px + 3, py + 5, 1, 1);
+}
+
+function drawPixelMeat(ctx, x, y) {
+ ctx.fillStyle = '#242b18';
+ const px = Math.round(x), py = Math.round(y);
+ ctx.fillRect(px + 2, py, 4, 1);
+ ctx.fillRect(px + 1, py + 1, 6, 1);
+ ctx.fillRect(px, py + 2, 8, 2);
+ ctx.fillRect(px + 1, py + 4, 6, 1);
+ ctx.fillRect(px + 2, py + 5, 1, 2);
+ ctx.fillRect(px + 5, py + 5, 1, 2);
+ ctx.fillRect(px + 1, py + 6, 3, 1);
+ ctx.fillRect(px + 4, py + 6, 3, 1);
+}
+
+function drawPixelZ(ctx, x, y, scale = 1) {
+ ctx.fillStyle = '#242b18';
+ const px = Math.round(x), py = Math.round(y);
+ if (scale >= 1) {
+  ctx.fillRect(px, py, 5, 1);
+  ctx.fillRect(px + 3, py + 1, 1, 1);
+  ctx.fillRect(px + 2, py + 2, 1, 1);
+  ctx.fillRect(px + 1, py + 3, 1, 1);
+  ctx.fillRect(px, py + 4, 5, 1);
+ } else {
+  ctx.fillRect(px, py, 3, 1);
+  ctx.fillRect(px + 1, py + 1, 1, 1);
+  ctx.fillRect(px, py + 2, 3, 1);
+ }
+}
+
+function drawPixelBocado(ctx, x, y, size) {
+ ctx.fillStyle = '#242b18';
+ const px = Math.round(x), py = Math.round(y);
+ if (size > 3) {
+  ctx.fillRect(px, py, 6, 5);
+  ctx.fillRect(px + 1, py - 1, 4, 1);
+  ctx.fillRect(px + 1, py + 5, 4, 1);
+ } else if (size > 1) {
+  ctx.fillRect(px + 1, py + 1, 4, 3);
+ } else if (size > 0) {
+  ctx.fillRect(px + 2, py + 2, 2, 2);
+ }
+}
+const pixelSpriteCache=new Map();
+function getPixelSprite(clave){
+ if(pixelSpriteCache.has(clave))return pixelSpriteCache.get(clave);
+ const img=new Image();
+ img.src=`/client/art/numenes/pixel/${clave}.png`;
+ pixelSpriteCache.set(clave,img);
+ return img;
+}
+
 function numenView(){
+ if(tamagotchiLoopId){cancelAnimationFrame(tamagotchiLoopId);tamagotchiLoopId=null;}
  const c=state.character||{},numenes=c.numenes||state.numenes||{active:null,bonded:[]};
  const bonded=list(numenes.bonded),activeId=numenes.active;
  const active=bonded.find(n=>n.id===activeId)||c.active_numen||bonded[0]||null;
@@ -337,30 +583,131 @@ function numenView(){
   main.replaceChildren(card(title('Tu compañero','Aún no caminas con un Númen'),subtitle('Los Númenes observan en silencio a quienes recorren el mundo sin prisa. Cuando formes un vínculo voluntario, podrás cuidarlo aquí.'),button([controlIcon('←'),' Volver a la aventura'],()=>navigate('adventure'))));
   return;
  }
- const model=active.model||'a',mood=active.mood||'contento',moodKey=mood==='con hambre'?'hambre':mood==='decaído'?'decaido':'contento';
+ const model=active.model||'a',variant=active.variant||'',mood=active.mood||'contento';
+ const moodKey=mood==='con hambre'?'hambre':mood==='decaído'?'decaido':'contento';
  const moodTone=mood==='contento'?'care-good':mood==='con hambre'?'care-hungry':'care-need';
- const fallback=el('div',{class:'numen-art-fallback'},
+ const inCombat=Boolean(c.combat);
+ const ambient=state.ambient||state.room?.ambient||{};
+ const isNight=/noche|atardecer/i.test(ambient.time_of_day||ambient.time||'');
+
+ const fallback=el('div',{class:'numen-art-fallback sr-only'},
   el('span',{class:'numen-silhouette','aria-hidden':'true'},numenSilhouettes[model]||'🐾'),
   el('strong',{},active.name),
   el('small',{class:'muted'},active.species_name||'Compañero Númen')
  );
- const artImg=numenArt(active,{class:'numen-art-img',onload:event=>event.currentTarget.parentElement?.classList.add('has-art')});
- const animBadge=numenAnim?el('span',{class:'numen-response-badge',role:'status'},numenAnim==='heart'?'♥ Ronroneo alegre':numenAnim==='jump'?'✦ ¡Salto de alegría!':'☾ Descanso tranquilo'):null;
- const artFrame=el('div',{class:`numen-art-frame numen-mood-${moodKey}${numenAnim?` numen-anim-${numenAnim}`:''}`,'data-mood':mood},fallback,artImg,animBadge);
- const bocados=list(state.inventory).filter(item=>item.id==='bocado_numen'||item.kind==='numen_food').reduce((sum,item)=>sum+(Number(item.quantity)||1),0);
+ const artImg=numenArt(active,{class:'numen-art-img sr-only',alt:active.name});
+
  const available=actions(state.actions);
- const feedAct=available.find(a=>a.id==='alimentar_numen')||{id:'alimentar_numen',label:'Dar Bocado de Númen'};
- const petAct=available.find(a=>a.id==='cuidar_numen')||{id:'cuidar_numen',label:'Acariciar'};
- const restAct=available.find(a=>a.id==='descansar_numen')||{id:'descansar_numen',label:'Descansar juntos'};
+ const feedAct=available.find(a=>a.id==='alimentar_numen')||{id:'alimentar_numen',target:active.id,label:'Dar Bocado de Númen'};
+ const petAct=available.find(a=>a.id==='cuidar_numen')||{id:'cuidar_numen',target:active.id,label:'Acariciar'};
+ const restAct=available.find(a=>a.id==='descansar_juntos')||{id:'descansar_juntos',target:active.id,label:'Descansar juntos'};
  const renameAct=available.find(a=>a.id==='nombrar_numen'&&a.target===active.id)||{id:'nombrar_numen',target:active.id,label:'Cambiar nombre',reason:`Darle un nuevo nombre a ${active.name}.`};
  const reactionLine=numenReactionText||active.last_reaction||'Se mantiene cerca de ti, atento a cada paso del camino.';
- const inCombat=Boolean(c.combat);
- const careButtons=el('div',{class:'numen-care-buttons choices'},
-  button([controlIcon('ration'),bocados>0?` Dar Bocado de Númen (${bocados})`:' Dar Bocado de Númen'],()=>triggerNumenCare(feedAct,'jump'),{class:'game-action','data-tone':'care',disabled:busy||Boolean(pendingRetry)||inCombat,title:'Consume un Bocado de Númen (2 sellos en tiendas de provisiones)'}),
-  button([controlIcon('heart'),' Acariciar'],()=>triggerNumenCare(petAct,'heart'),{class:'game-action','data-tone':'care',disabled:busy||Boolean(pendingRetry)||inCombat}),
-  button([controlIcon('fire'),' Descansar juntos'],()=>triggerNumenCare(restAct,'purr'),{class:'game-action','data-tone':'care',disabled:busy||Boolean(pendingRetry)||inCombat}),
-  button([controlIcon('paw'),' Cambiar nombre'],()=>{namingNumen=`nombrar_numen:${active.id}`;render();main.querySelector('.numen-name-form input')?.focus();},{class:'game-action','data-tone':'story',disabled:busy||Boolean(pendingRetry)||inCombat})
+
+ // Load pixel art sprite
+ const clave=variant?`${model}-${variant}`:model;
+ const spriteImg=getPixelSprite(clave);
+ const fallbackSheet=createFallbackSpriteSheet();
+
+ // Menu items: 0=Comer, 1=Acariciar, 2=Descansar, 3=Nombre
+ const menuItems=[
+  {key:'feed',icon:'🍖',label:'Comer',action:()=>triggerNumenCare(feedAct,'feed')},
+  {key:'pet',icon:'✋',label:'Acariciar',action:()=>triggerNumenCare(petAct,'pet')},
+  {key:'rest',icon:'💤',label:'Descansar',action:()=>triggerNumenCare(restAct,'rest')},
+  {key:'rename',icon:'✏️',label:'Nombre',action:()=>{namingNumen=`nombrar_numen:${active.id}`;render();setTimeout(()=>main.querySelector('.numen-name-form input')?.focus(),40);}}
+ ];
+
+ const menuButtons=menuItems.map((item,idx)=>{
+  return el('button',{
+   type:'button',
+   class:`tamagotchi-menu-btn${tamagotchiMenuIndex===idx?' is-selected':''}`,
+   'aria-label':item.label,
+   'aria-selected':String(tamagotchiMenuIndex===idx),
+   onclick:()=>{
+    tamagotchiMenuIndex=idx;
+    updateMenuSelection();
+    if(!busy&&!pendingRetry&&!inCombat)item.action();
+   }
+  },el('span',{class:'tamagotchi-menu-icon'},item.icon),el('span',{class:'tamagotchi-menu-label'},item.label));
+ });
+
+ function updateMenuSelection(){
+  menuButtons.forEach((btn,i)=>{
+   const sel=i===tamagotchiMenuIndex;
+   btn.classList.toggle('is-selected',sel);
+   btn.setAttribute('aria-selected',String(sel));
+  });
+ }
+
+ // LCD Canvas
+ const canvas=el('canvas',{class:'tamagotchi-canvas',width:64,height:48,'aria-label':`Pantalla Tamagotchi de ${active.name}`});
+ canvas.onclick=()=>{
+  if(!busy&&!pendingRetry&&!inCombat){
+   tamagotchiMenuIndex=1;
+   updateMenuSelection();
+   triggerNumenCare(petAct,'pet');
+  }
+ };
+
+ const lcdScreen=el('div',{class:`tamagotchi-screen${isNight||numenAnim==='rest'?' is-night':''}`},
+  el('div',{class:'tamagotchi-menu',role:'menubar','aria-label':'Acciones del Tamagotchi'},...menuButtons),
+  canvas
  );
+
+ const bezel=el('div',{class:'tamagotchi-bezel'},lcdScreen);
+
+ // Physical Buttons A, B, C
+ const btnA=el('button',{
+  type:'button',
+  class:'tamagotchi-btn tamagotchi-btn-a',
+  'aria-label':'Botón A: Seleccionar menú',
+  onclick:()=>{
+   if(tamagotchiMenuIndex<0)tamagotchiMenuIndex=0;
+   else tamagotchiMenuIndex=(tamagotchiMenuIndex+1)%menuItems.length;
+   updateMenuSelection();
+  }
+ },'A');
+
+ const btnB=el('button',{
+  type:'button',
+  class:'tamagotchi-btn tamagotchi-btn-b',
+  'aria-label':'Botón B: Ejecutar acción elegida',
+  onclick:()=>{
+   if(tamagotchiMenuIndex<0)tamagotchiMenuIndex=0;
+   updateMenuSelection();
+   if(!busy&&!pendingRetry&&!inCombat){
+    menuItems[tamagotchiMenuIndex]?.action();
+   }
+  }
+ },'B');
+
+ const btnC=el('button',{
+  type:'button',
+  class:'tamagotchi-btn tamagotchi-btn-c',
+  'aria-label':'Botón C: Cancelar o volver',
+  onclick:()=>{
+   if(namingNumen){
+    namingNumen=null;render();
+   }else if(tamagotchiMenuIndex>=0){
+    tamagotchiMenuIndex=-1;updateMenuSelection();
+   }else{
+    navigate('adventure');
+   }
+  }
+ },'C');
+
+ const buttonsRow=el('div',{class:'tamagotchi-buttons-row'},btnA,btnB,btnC);
+ const btnHint=el('div',{class:'tamagotchi-btn-hint','aria-hidden':'true'},'A: Menú · B: Elegir · C: Volver');
+
+ const egg=el('div',{class:`tamagotchi-egg numen-egg-${model}`},
+  el('div',{class:'tamagotchi-brand','aria-hidden':'true'},'★ NÚMEN ★'),
+  bezel,
+  buttonsRow,
+  btnHint,
+  el('div',{class:'tamagotchi-decor-dots','aria-hidden':'true'},el('span'),el('span'),el('span')),
+  fallback,artImg
+ );
+
  const rosterSection=bonded.length>1?el('section',{class:'numen-companion-roster stack','aria-label':'Compañeros vinculados'},
   el('h2',{class:'panel-title'},'¿Quién viaja contigo?'),
   ...bonded.map(entry=>{
@@ -374,23 +721,133 @@ function numenView(){
    );
   })
  ):null;
- main.replaceChildren(card(
-  el('div',{class:'numen-companion-view stack'},
-   title(active.species_name||'Compañero Númen',active.name),
-   artFrame,
-   el('div',{class:'numen-feeling-panel tile'},
-    el('p',{class:'numen-feeling-line'},el('strong',{},'Cómo se siente: '),el('span',{class:`pill ${moodTone} numen-mood-text`},mood)),
-    el('p',{class:'muted'},numenMoodDescriptions[mood]||numenMoodDescriptions.contento),
-    el('p',{class:'numen-power-line'},el('strong',{},`Poder (${active.power_name||'Apoyo'}): `),active.power_desc||'Te acompaña y te apoya en los momentos difíciles.')
+
+ const detailsPanel=el('div',{class:'tile numen-tamagotchi-details'},
+  el('div',{class:'numen-heading'},
+   el('div',{class:'numen-title-group'},
+    el('h3',{class:'numen-name'},active.name),
+    el('p',{class:'muted numen-species'},active.species_name||'Compañero Númen')
    ),
-   el('blockquote',{class:'numen-reaction-box','aria-live':'polite'},reactionLine),
-   careButtons,
-   namingNumen===`nombrar_numen:${active.id}`?numenNameForm(renameAct,active.name):null,
-   rosterSection
-  )
- ));
+   el('span',{class:`pill ${moodTone} numen-mood-text`},mood)
+  ),
+  el('div',{class:'numen-details'},
+   el('p',{class:'numen-feeling-line'},el('strong',{},'Cómo se siente: '),el('span',{},numenMoodDescriptions[mood]||numenMoodDescriptions.contento)),
+   el('p',{class:'numen-power-line'},el('strong',{},`Poder (${active.power_name||'Apoyo'}): `),active.power_desc||'Te acompaña y te apoya en los momentos difíciles.')
+  ),
+  reactionLine?el('blockquote',{class:'numen-reaction-box','aria-live':'polite'},reactionLine):null,
+  namingNumen===`nombrar_numen:${active.id}`?numenNameForm(renameAct,active.name):null,
+  rosterSection
+ );
+
+ const container=el('div',{class:`tamagotchi-container numen-mood-${moodKey}`},egg,detailsPanel);
+ main.replaceChildren(container);
+
+ // Start Canvas Loop
+ const ctx=canvas.getContext('2d');
+ let animStart=performance.now();
+ let lastLoop=performance.now();
+
+ function loop(now){
+  if(!canvas.isConnected){tamagotchiLoopId=null;return;}
+  const dt=Math.min(0.1,(now-lastLoop)/1000);
+  lastLoop=now;
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('reduced-motion');
+
+  // Determine frame and position
+  let frame=0;
+  let jumpY=0;
+  const isCareAnim=Boolean(numenAnim);
+  const sleeping=numenAnim==='rest'||(isNight&&!isCareAnim);
+
+  if(numenAnim==='feed'){
+   frame=Math.floor((now/180)%2)+4; // 4 or 5
+  }else if(numenAnim==='pet'){
+   frame=Math.floor((now/180)%2)+8; // 8 or 9
+   jumpY=Math.sin((now/180)*Math.PI)*4;
+  }else if(sleeping){
+   frame=Math.floor((now/600)%2)+6; // 6 or 7
+  }else if(mood==='con hambre'){
+   tamagotchiSim.x=16;
+   frame=Math.floor((now/450)%2); // 0 or 1
+  }else if(mood==='decaído'){
+   tamagotchiSim.x=16;
+   frame=Math.floor((now/700)%2)+10; // 10 or 11
+  }else{ // contento
+   if(reducedMotion){
+    tamagotchiSim.x=16;
+    frame=Math.floor((now/1200)%2);
+   }else{
+    if(now<tamagotchiSim.pauseUntil){
+     frame=Math.floor((now/400)%2); // 0 or 1 (respira)
+     if(now<tamagotchiSim.jumpUntil){
+      frame=Math.floor((now/160)%2)+8; // 8 or 9 (salto)
+      jumpY=Math.abs(Math.sin((now-tamagotchiSim.jumpUntil)/160*Math.PI))*6;
+     }
+    }else{
+     // Walking
+     frame=Math.floor((now/200)%2)+2; // 2 or 3 (camina)
+     tamagotchiSim.x+=tamagotchiSim.dir*dt*9;
+     if(tamagotchiSim.x>=30){
+      tamagotchiSim.x=30;tamagotchiSim.dir=-1;
+      tamagotchiSim.pauseUntil=now+1400+Math.random()*800;
+      if(Math.random()<0.35)tamagotchiSim.jumpUntil=now+600;
+     }else if(tamagotchiSim.x<=2){
+      tamagotchiSim.x=2;tamagotchiSim.dir=1;
+      tamagotchiSim.pauseUntil=now+1400+Math.random()*800;
+      if(Math.random()<0.35)tamagotchiSim.jumpUntil=now+600;
+     }
+    }
+   }
+  }
+
+  // Clear screen
+  ctx.clearRect(0,0,64,48);
+
+  // Draw sprite
+  const sheet=(spriteImg.complete&&spriteImg.naturalWidth===384)?spriteImg:fallbackSheet;
+  const drawX=Math.round(tamagotchiSim.x);
+  const drawY=Math.round(tamagotchiSim.y-(jumpY>0?jumpY:0));
+
+  if(tamagotchiSim.dir<0&&!sleeping&&mood!=='con hambre'){
+   ctx.save();
+   ctx.translate(drawX+32,drawY);
+   ctx.scale(-1,1);
+   ctx.drawImage(sheet,frame*32,0,32,32,0,0,32,32);
+   ctx.restore();
+  }else{
+   ctx.drawImage(sheet,frame*32,0,32,32,drawX,drawY,32,32);
+  }
+
+  // Draw hunger blinking icon
+  if(mood==='con hambre'&&!isCareAnim){
+   if(Math.floor(now/350)%2===0){
+    drawPixelMeat(ctx,52,2);
+   }
+  }
+
+  // Care animation overlays
+  if(numenAnim==='feed'){
+   const treatX=tamagotchiSim.dir>0?drawX+25:drawX+1;
+   const progress=Math.min(1,(now-animStart)/1800);
+   drawPixelBocado(ctx,treatX,drawY+16,Math.max(0,Math.floor((1-progress)*5)));
+  }else if(numenAnim==='pet'){
+   const progress=Math.min(1,(now-animStart)/1800);
+   const heartY=drawY+2-progress*14;
+   const heartX=drawX+12+Math.sin(progress*7)*2;
+   drawPixelHeart(ctx,heartX,heartY);
+  }else if(sleeping){
+   const cycle=(now/1400)%1;
+   const z1X=drawX+18+cycle*4;
+   const z1Y=drawY-2-cycle*12;
+   drawPixelZ(ctx,z1X,z1Y,1);
+  }
+
+  tamagotchiLoopId=requestAnimationFrame(loop);
+ }
+
+ tamagotchiLoopId=requestAnimationFrame(loop);
 }
-function characterView(){const c=state.character,portrait=c.portrait||speciesPortraits[c.species],equipment=c.equipment||{},inventory=list(state.inventory),rows=[['Género',c.gender==='masculino'?'Masculino':c.gender==='femenino'?'Femenino':'Sin elegir'],['Especie',speciesNames[c.species]||c.species],['Clase',classNames[c.class_id]||c.class_id],['Vitalidad',`${whole(c.hp)}/${whole(c.hp_max)}`],['Fatiga',whole(c.fatigue)],['Sellos',c.seals],['Puntos de atributo',c.pa],['Puntos de técnica',c.pp],['Herida',c.wound==null?'Sin herida':typeof c.wound==='number'?c.wound===0?'Sin herida':`Grado ${c.wound}`:textLabel(c.wound)||'Sin información']];main.replaceChildren(card(el('div',{class:'character-heading'},portrait?button(el('img',{class:'species-thumbnail',src:portrait,alt:'',decoding:'async'}),()=>openIllustration({name:c.portrait?c.name:speciesNames[c.species],illustration:portrait}),{class:'species-art-button','aria-label':`Ver retrato de ${c.name}`}):null,title('Tu presencia en el mundo',c.name)),characterProgress(c),c.pa>0?el('p',{class:'pa-notice',role:'status'},`Tienes ${c.pa} puntos para mejorar`):null,el('div',{class:'stats'},...rows.filter(([,value])=>value!==undefined).map(([label,value])=>characterStat(label,value,c))),c.gender?null:el('form',{class:'stack',onsubmit:event=>{event.preventDefault();if(busy)return;const data=new FormData(event.currentTarget);mutate('/api/character/profile',{gender:String(data.get('gender'))});}},genderField(c.gender),el('button',{type:'submit',class:'primary',disabled:busy},'Guardar género')),testerPanel(),el('h2',{},'Equipo actual'),subtitle(gearSummary(c)[0].join(': ')),...Object.entries(equipment).map(([slot,id])=>subtitle(`${slotNames[slot]||slot}: ${id?(typeof id==='object'?id.name:inventory.find(entry=>entry.id===id)?.name)||'Equipo registrado (nombre pendiente de motor)':'Sin equipar'}`)),Object.keys(equipment).length?null:subtitle('No hay equipo indicado.'),button('Ver mi inventario',()=>navigate('inventory')),numenSection(c),characterCapabilities(),el('details',{class:'more'},el('summary',{},'Las cinco especies'),subtitle('Estas ilustraciones representan cada especie.'),el('div',{class:'species-gallery'},...Object.entries(speciesPortraits).map(([id,illustration])=>button(el('span',{},el('img',{class:'species-thumbnail',src:illustration,alt:'',loading:'lazy',decoding:'async'}),speciesNames[id]),()=>openIllustration({name:speciesNames[id],illustration}),{class:'species-gallery-button','aria-label':`Ver especie ${speciesNames[id]}`})))),el('h2',{},'Atributos'),el('div',{class:'attribute-grid'},...Object.entries(c.attributes||{}).map(([name,value])=>el('div',{class:'attribute'},el('span',{class:'attribute-icon'},controlIcon(attributeIcons[name]||'star')),el('small',{},attributeNames[name]||name),el('strong',{},String(value)),attributeUpgrade(name),el('p',{class:'attribute-description'},(c.attribute_effects||state.attribute_effects||{})[name]||attributeDescriptions[name]||'Explicación pendiente de motor.')))),...actions(state.actions).filter(action=>action.id==='tecnica').map(actionButton),list(state.characters).length>1?el('details',{class:'more'},el('summary',{},'Tus otros personajes'),...list(state.characters).filter(other=>other.id!==c.id).map(other=>button(`${other.name} · ${other.status==='approved'?'Disponible':'Pendiente'}`,()=>mutate('/api/character/select',{character_id:other.id})))):null));}
+function characterView(){const c=state.character,portrait=c.portrait||speciesPortraits[c.species],equipment=c.equipment||{},inventory=list(state.inventory),rows=[['Género',c.gender==='masculino'?'Masculino':c.gender==='femenino'?'Femenino':'Sin elegir'],['Especie',speciesNames[c.species]||c.species],['Clase',classNames[c.class_id]||c.class_id],['Vitalidad',`${whole(c.hp)}/${whole(c.hp_max)}`],['Fatiga',whole(c.fatigue)],['Sellos',c.seals],['Puntos de atributo',c.pa],['Puntos de técnica',c.pp],['Herida',c.wound==null?'Sin herida':typeof c.wound==='number'?c.wound===0?'Sin herida':`Grado ${c.wound}`:textLabel(c.wound)||'Sin información']];main.replaceChildren(card(el('div',{class:'character-heading'},portrait?button(el('img',{class:'species-thumbnail',src:portrait,alt:'',decoding:'async'}),()=>openIllustration({name:c.portrait?c.name:speciesNames[c.species],illustration:portrait}),{class:'species-art-button','aria-label':`Ver retrato de ${c.name}`}):null,title('Tu presencia en el mundo',c.name)),characterProgress(c),c.pa>0?el('p',{class:'pa-notice',role:'status'},`Tienes ${c.pa} puntos para mejorar`):null,el('div',{class:'stats'},...rows.filter(([,value])=>value!==undefined).map(([label,value])=>characterStat(label,value,c))),c.gender?null:el('form',{class:'stack',onsubmit:event=>{event.preventDefault();if(busy)return;const data=new FormData(event.currentTarget);mutate('/api/character/profile',{gender:String(data.get('gender'))});}},genderField(c.gender),el('button',{type:'submit',class:'primary',disabled:busy},'Guardar género')),testerPanel(),el('h2',{},'Equipo actual'),subtitle(gearSummary(c)[0].join(': ')),...Object.entries(equipment).map(([slot,id])=>subtitle(`${slotNames[slot]||slot}: ${id?(typeof id==='object'?id.name:inventory.find(entry=>entry.id===id)?.name)||'Equipo registrado (nombre pendiente de motor)':'Sin equipar'}`)),Object.keys(equipment).length?null:subtitle('No hay equipo indicado.'),button('Ver mi inventario',()=>navigate('inventory')),numenSection(c),characterCapabilities(),el('details',{class:'more'},el('summary',{},'Las cinco especies'),subtitle('Estas ilustraciones representan cada especie.'),el('div',{class:'species-gallery'},...Object.entries(speciesPortraits).map(([id,illustration])=>button(el('span',{},el('img',{class:'species-thumbnail',src:illustration,alt:'',loading:'lazy',decoding:'async'}),speciesNames[id]),()=>openIllustration({name:speciesNames[id],illustration}),{class:'species-gallery-button','aria-label':`Ver especie ${speciesNames[id]}`})))),el('h2',{},'Atributos'),el('div',{class:'attribute-grid'},...Object.entries(c.attributes||{}).map(([name,value])=>el('div',{class:'attribute'},el('span',{class:'attribute-icon'},controlIcon(attributeIcons[name]||'star')),el('small',{},attributeNames[name]||name),el('strong',{},String(value)),attributeUpgrade(name),el('p',{class:'attribute-description'},(c.attribute_effects||state.attribute_effects||{})[name]||attributeDescriptions[name]||'Explicación pendiente de motor.')))),...actions(state.actions).filter(action=>action.id==='tecnica').map(actionButton),el('details',{class:'more other-characters-section'},el('summary',{},'Tus otros personajes'),...list(state.characters).filter(other=>other.id!==c.id).map(other=>button(`${other.name} · ${other.status==='approved'?'Disponible':'Pendiente'}`,()=>mutate('/api/character/select',{character_id:other.id}))),button('Crear otro personaje',()=>{view='creation';render();}))));}
 function sellingSection(compact=false){
  const sales=actions(state.actions).filter(action=>action.id==='vender');
  const section=el('section',{class:'selling-section','aria-label':'Venta de objetos'},el('h2',{},sales.length?'Vender aquí':'Dónde vender'));
@@ -588,7 +1045,7 @@ function moreView(){
  const tile=(key,text)=>button([el('span',{class:'more-icon'},controlIcon(labels[key][0])),el('strong',{},labels[key][1]),el('small',{},text)],()=>navigate(key),{class:'more-tile'});
  main.replaceChildren(card(title('Tu aventura','Más'),el('div',{class:'more-grid'},tile('numen','Tu compañero Númen'),tile('bestiary','Criaturas que has visto'),tile('journal','Encargos y recuerdos'),tile('help','Cómo se juega'))));
 }
-function render(){if(positionCharacter!==state?.character?.id){viewPositions.clear();positionCharacter=state?.character?.id;}document.documentElement.classList.toggle('directing-world',view==='master');document.documentElement.classList.toggle('combat-active',view==='adventure'&&Boolean(state?.character?.combat));document.documentElement.classList.toggle('playing-map',view==='map'&&state?.character?.status==='approved');document.documentElement.classList.toggle('reading-adventure',view==='adventure'&&state?.character?.status==='approved');if(pendingRetry){notice.hidden=false;notice.classList.add('error');notice.replaceChildren('La respuesta no llegó. Comprueba la misma decisión antes de elegir otra.',button('Comprobar mi decisión',()=>mutate(pendingRetry.path,pendingRetry.payload)));}if(view==='master'){renderMaster();navigation.hidden=true;return;}const authenticated=Boolean(state?.authenticated);document.getElementById('account-logout').hidden=!authenticated;navigation.hidden=true;if(!authenticated){authScreen();return;}if(!state.character||state.pending_approval||state.character.status!=='approved'){creationScreen();return;}navigation.hidden=false;({adventure,map:mapView,inventory:inventoryView,character:characterView,numen:numenView,bestiary:bestiaryView,journal:journalView,help:helpView,more:moreView,shop:shopView}[view]||adventure)();if(['character','numen','inventory','bestiary','journal','help','more'].includes(view)){main.prepend(el('div',{class:'submenu-context'},button([controlIcon('←'),' Volver a la aventura'],()=>navigate('adventure')),el('span',{},state.room?.name||'Tu aventura')));main.setAttribute('aria-label',labels[view]?.[1]||'Tu aventura');}else main.removeAttribute('aria-label');renderNavigation();document.querySelectorAll('button').forEach(button=>{if(busy&&!button.disabled){button.disabled=true;button.dataset.working='';}});}
+function render(){if(positionCharacter!==state?.character?.id){viewPositions.clear();positionCharacter=state?.character?.id;}document.documentElement.classList.toggle('directing-world',view==='master');document.documentElement.classList.toggle('combat-active',view==='adventure'&&Boolean(state?.character?.combat));document.documentElement.classList.toggle('playing-map',view==='map'&&state?.character?.status==='approved');document.documentElement.classList.toggle('reading-adventure',view==='adventure'&&state?.character?.status==='approved');if(pendingRetry){notice.hidden=false;notice.classList.add('error');notice.replaceChildren('La respuesta no llegó. Comprueba la misma decisión antes de elegir otra.',button('Comprobar mi decisión',()=>mutate(pendingRetry.path,pendingRetry.payload)));}if(view==='master'){renderMaster();navigation.hidden=true;return;}const authenticated=Boolean(state?.authenticated);document.getElementById('account-logout').hidden=!authenticated;navigation.hidden=true;if(!authenticated){authScreen();return;}if(!state.character||state.pending_approval||state.character.status!=='approved'||view==='creation'){creationScreen();return;}navigation.hidden=false;({adventure,map:mapView,inventory:inventoryView,character:characterView,numen:numenView,bestiary:bestiaryView,journal:journalView,help:helpView,more:moreView,shop:shopView}[view]||adventure)();if(['character','numen','inventory','bestiary','journal','help','more'].includes(view)){main.prepend(el('div',{class:'submenu-context'},button([controlIcon('←'),' Volver a la aventura'],()=>navigate('adventure')),el('span',{},state.room?.name||'Tu aventura')));main.setAttribute('aria-label',labels[view]?.[1]||'Tu aventura');}else main.removeAttribute('aria-label');renderNavigation();document.querySelectorAll('button').forEach(button=>{if(busy&&!button.disabled){button.disabled=true;button.dataset.working='';}});}
 async function loadMaster(){try{master=await api('/api/master/state');view='master';render();}catch(error){message(error.message,true);}}
 function masterPasswordForm(character){
  const account=typeof character.account==='object'?character.account.username:character.account||'Sin indicar';
