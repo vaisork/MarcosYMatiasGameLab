@@ -1,18 +1,17 @@
 # Relevo Libro II — 2026-10-16 — Arquitecto
-Fase / hito: 0.2 — Biblia editorial reordenada
+Fase / hito: 0.3 — premisa y pago fijados
 Rama y PR: editorial/libro-2-plan, PR aún no abierta
 Hecho:
-- PR #705, #707, #708 fusionadas en main
-- libro-2/CANON_FELARYN.md: canon abierto/descubrible/reservado clasificado
-- BIBLIA_EDITORIAL.md: Libro II Felaryn; Las cinco rutas, V o posterior
+- libro-2/CANON_FELARYN.md: fuentes y nivel de secreto
+- BIBLIA_EDITORIAL.md: Felaryn en Libro II; Las cinco rutas más adelante
+- libro-2/PREMISA.md: Nuba, oficio, herida, objetivo, conflictos, semillas C001/C004 y cosechas C008/C012–13
 Decisiones tomadas:
-- Título de Libro II pendiente del propietario; continuidad de Libro I preservada
-- Sin cambios a código, arte, secretos reservados ni manuscrito del Libro I
-Siguiente paso exacto: redactar libro-2/PREMISA.md con protagonista y promesa pagada
+- Título provisional «El lado que no se ve»; el definitivo lo decide el propietario
+- La polea se devuelve sin borrar la deuda; la cuerda se informa sin certificar lo desconocido
+Siguiente paso exacto: redactar libro-2/INDICE.md, 13 capítulos con grafo de salas y ritmo
 Pendientes / dudas:
-- Fase 0: premisa, índice, fichas, encargo y PR lista
-- Fase 1 bloqueada hasta fusión de la PR de fase 0
+- Fichas de personajes, encargo escritor, revisión canon y PR lista
+- No iniciar fase 1 antes de fusión de fase 0
 Archivos que debe leer quien siga:
-- 06-Proyectos/Cronicas-de-Vaisgard-Libro-II-plan.md en Conocimiento
-- VintageTelnet-Libros/BIBLIA_EDITORIAL.md
-- VintageTelnet-Libros/libro-2/CANON_FELARYN.md
+- Conocimiento/06-Proyectos/Cronicas-de-Vaisgard-Libro-II-plan.md
+- VintageTelnet-Libros/libro-2/{CANON_FELARYN,PREMISA}.md
