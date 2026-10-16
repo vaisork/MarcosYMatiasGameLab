@@ -137,7 +137,7 @@ Las acciones de sala, temas de conversación de NPCs, exámenes y requisitos de 
 
 ## Experiencia por descubrimiento (decisión de Javier, 2026-10-14)
 
-El motor concede una sola vez por personaje: sala nueva 4 XP (excepto hogar),
+El motor concede una sola vez por personaje: sala nueva 1 XP (excepto hogar),
 secreto del catálogo 10, texto nuevo del diario 3, cierre 25, encargo 15 y dato
 nuevo de conducta 3. La tabla `EXPLORATION_XP` vive en `server/mechanics.py`.
 Los encargos dan XP al pasar a `ready`; cobrar y repetir el mismo ID no vuelven

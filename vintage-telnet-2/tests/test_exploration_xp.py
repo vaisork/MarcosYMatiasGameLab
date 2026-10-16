@@ -26,10 +26,10 @@ class ExplorationXPTests(unittest.TestCase):
   return sum(m.xp_next(n) for n in range(1,self.state['level']))+self.state['xp']-before
  def total(self):return sum(m.xp_next(n) for n in range(1,self.state['level']))+self.state['xp']
  def test_first_room_and_return(self):
-  self.assertEqual(self.state['xp'],4)
+  self.assertEqual(self.state['xp'],1)
   self.engine.apply(self.character,self.world,{'id':'mover','target':'hogar'})
   self.engine.apply(self.character,self.world,{'id':'mover','target':'salir'})
-  self.assertEqual(self.state['xp'],4)
+  self.assertEqual(self.state['xp'],1)
  def test_secret_persisted_and_idempotent(self):
   self.content.secrets['test']={'flag':'secret_test'}
   before=self.total();self.act(set_flags=['secret_test']);self.assertEqual(self.gained(before),10)
@@ -106,7 +106,7 @@ class ExplorationXPTests(unittest.TestCase):
    engine.apply(char,world,{'id':'balance_secret'})
    content.rooms[state['location']]['actions']=[{'id':'balance_end','label':'Cerrar','text':'Cierre aislado','set_flags':['balance_hilo_completado'],'journal':'El hilo ha terminado.'}]
    engine.apply(char,world,{'id':'balance_end'})
-   self.assertIn(state['level'],(3,4),species)
+   self.assertIn(state['level'],(2,3),species)
    results[species]=(region,state['level'],state['xp'])
   print('Calibración aislada (salas, diarios, secretos + un cierre):',results)
 
