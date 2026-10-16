@@ -1,0 +1,18 @@
+{
+  "cover": {"file": "P02-carta-v2.jpg", "alt": "Cubierta: Crónicas de Vaisgard, Libro I: El primer camino. Sobre un banco de madera que rodea una piedra antigua descansan una carta doblada, una taza de madera y un carboncillo envuelto en tela."},
+  "interior": [
+    {"id": "V01", "section": "prologo", "file": "V01.jpg", "anchor": "Un espacio construido para una tarea terminó sirviendo a otra.", "alt": "Puestos y viajeros entre grandes arcos de piedra antigua en Vaisgard."},
+    {"id": "V02", "section": "capitulo-001", "file": "V02.jpg", "anchor": "Había espacio para que un carro girase", "alt": "Valdren: casas bajas de piedra y madera alrededor de una plaza de pueblo agrícola."},
+    {"id": "N01", "section": "capitulo-001", "file": "N01-canaleta-v2.jpg", "anchor": "En el borde aún quedaba una gota que crecía lentamente antes de caer.", "alt": "Canaleta de madera bajo un árbol; una sola gota cuelga de la junta recién ajustada."},
+    {"id": "V04", "section": "capitulo-002", "file": "V04.jpg", "anchor": "El pozo quedaba en un patio de piedra", "alt": "El pozo de Valdren bajo un tejadillo de madera, en un patio de piedra."},
+    {"id": "V05", "section": "capitulo-003", "file": "V05.jpg", "anchor": "Al cruzar los postes, Lera sintió una punzada absurda de decepción.", "alt": "Camino de tierra entre los últimos huertos y los campos abiertos de Edran."},
+    {"id": "V08", "section": "capitulo-003", "file": "V08.jpg", "anchor": "Espinajo de rastrojo", "alt": "Un Espinajo de rastrojo, animal compacto de lomo espinoso, quieto entre tallos secos."},
+    {"id": "N02", "section": "capitulo-004", "file": "N02-terraplen-v1.jpg", "anchor": "Un porteador esperaba en un espacio más ancho", "alt": "Subida estrecha entre paredes de tierra y raíces, con rodadas hondas; un bulto y una cantimplora apoyados en el ensanche."},
+    {"id": "N03", "section": "capitulo-006", "file": "N03-arroyo-v1.jpg", "anchor": "Tres piedras sobresalían de la superficie", "alt": "Arroyo que cruza el camino junto a un poste, con piedras de paso que asoman sobre la corriente."},
+    {"id": "R09", "section": "capitulo-009", "file": "R09.jpg", "anchor": "pulidas por dedos que buscaban nombres", "alt": "Patio cubierto con soportes de madera llenos de tablillas y papeles de mensajes."},
+    {"id": "N04", "section": "capitulo-010", "file": "N04-espera-v2.jpg", "anchor": "El primer atardecer transcurrió sin noticias.", "alt": "Una bolsa de viaje apoyada junto a un gran bloque de piedra en una plaza al atardecer."},
+    {"id": "R11", "section": "capitulo-011", "file": "R11.jpg", "anchor": "los talleres ocupaban espacios pequeños bajo telas cosidas con retazos", "alt": "Calle de talleres bajo toldos de telas remendadas en Vaisgard."},
+    {"id": "N05", "section": "capitulo-012", "file": "N05-nota-v1.jpg", "anchor": "Dobló el papel con cuidado.", "alt": "Una nota pequeña doblada y un carboncillo envuelto en tela sobre un puesto de fruta."},
+    {"id": "R13", "section": "capitulo-013", "file": "R13.jpg", "anchor": "El arco se alzó sobre la carga.", "alt": "El gran arco de la Puerta de los Campos, visto desde la ciudad hacia los campos."}
+  ]
+}
