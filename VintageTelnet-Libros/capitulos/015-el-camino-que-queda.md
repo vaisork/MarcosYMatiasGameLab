@@ -235,7 +235,7 @@ Mara parecía a punto de responder, pero no encontró nada que añadir.
 
 Lera guardó la hoja de nuevo, solo hasta llegar a casa. La tela de la chaqueta seguía teniendo el lugar hecho por tantos días de llevarla allí.
 
-—¿Tú crees que volveremos a ser amigas? —preguntó Lera.
+—¿Tú crees que Dalia y yo volveremos a ser amigas? —preguntó Lera.
 
 Mara tardó en contestar. Lera no sabía si estaba pensando en Dalia o en las dos.
 
