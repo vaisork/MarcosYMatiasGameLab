@@ -319,9 +319,9 @@ Ella miró el suelo pulido por tantas ruedas y luego la pendiente que empezaba m
 
 —Eso me sirve mejor.
 
-Lera se quedó al costado del carro, donde podía ver la carga sin estorbar a los animales. El nudo improvisado de la bolsa le rozaba el hombro. No había comida para toda la ruta ni un lugar asegurado donde dormir cuando el conductor hiciera su primera parada.
+Lera se quedó al costado del carro, donde podía ver la carga sin estorbar a los animales. El nudo improvisado de la bolsa le rozaba el hombro. No había comida asegurada para toda la ruta ni un lugar donde dormir cuando el conductor hiciera su primera parada.
 
-Tampoco tenía que inventarse uno para convencer al lector —o a sí misma— de que había tomado una decisión valiente.
+Tampoco necesitaba inventar un sitio seguro para convencerse de que había tomado una decisión valiente.
 
 Se limitó a caminar.
 
