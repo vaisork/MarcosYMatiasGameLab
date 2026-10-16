@@ -340,7 +340,7 @@ Mara miró hacia el camino de los campos.
 
 —Me costó renunciar a la idea de que tenía que verla para poder volver.
 
-Mara no respondió enseguida.
+Mara no respondió enseguida. Se llevó la mano al bolsillo del delantal y la dejó allí un momento, sin sacar nada.
 
 —Yo tampoco sé dónde está —dijo al final.
 
