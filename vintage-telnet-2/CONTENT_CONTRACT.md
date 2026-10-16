@@ -170,3 +170,15 @@ Cada participante cobra una vez su arma de clase, joyas y escama o colmillo.
 Las pruebas recorren todas las salas y cinco combates con arcanos de nivel 3
 (humano, felaryn y pareja), usando tiradas favorables deterministas: demuestran
 accesibilidad y resolución, sin estimar probabilidad de victoria ni certificar producción.
+
+## Variantes de Númen y compañero del DM — 2026-10-16
+
+Un vínculo puede guardar `variant`; su arte usa
+`client/art/numenes/numen-<modelo>-<variant>-v1.webp` con caída al arte normal
+si falla la carga. Sin variante conserva el archivo del modelo.
+El login de Vaisork asegura Senku (modelo b, variante senku), confianza 3,
+alimentado, descansado y activo. Reutiliza su vínculo b y conserva los demás;
+si el roster ya está completo, este compañero del DM puede exceder el límite.
+La ficha y tarjeta del DM muestran los vínculos aprobados en lectura: nombre,
+especie, activo y ánimo calculado con el reloj del servidor. El resumen de otros
+personajes se sirve únicamente en `/api/master/state`, con sesión master.

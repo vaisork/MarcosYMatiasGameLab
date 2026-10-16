@@ -441,7 +441,8 @@ def rename_numen(state, numen_id, name):
 def bond_numen(state, model_id, name, now):
  numenes = state.setdefault('numenes', {'active': None, 'bonded': [], 'encounters': {}})
  bonded = numenes.setdefault('bonded', [])
- if len(bonded) >= 3:
+ # El compañero del DM no desplaza vínculos previos de un roster completo.
+ if len(bonded) >= 3 and not (is_vaisork(state) and model_id == 'b' and name == 'Senku'):
   raise ValueError('Límite alcanzado: máximo tres Númenes vinculados.')
  clean_name = validate_numen_name(name)
  if model_id not in NUMENES_MODELS:

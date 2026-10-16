@@ -136,6 +136,73 @@ class VaisorkTests(unittest.TestCase):
             count = db.execute("SELECT COUNT(*) FROM characters WHERE name='Vaisork'").fetchone()[0]
             self.assertEqual(count, 1)
 
+    def test_senku_login_is_idempotent_and_preserves_other_numenes(self):
+        credentials = {'username': 'vaisork', 'password': 'director-pass-123'}
+        first = self.post(self.client, '/api/account/login', credentials)
+        senku = first.json['character']['numenes']['bonded'][0]
+        self.assertEqual((senku['name'], senku['model'], senku['variant']), ('Senku', 'b', 'senku'))
+        self.assertEqual(senku['trust'], 3)
+        self.assertEqual(senku['mood'], 'contento')
+        self.assertEqual(first.json['character']['numenes']['active'], senku['id'])
+        with self.store.transaction() as db:
+            row = db.execute("SELECT * FROM characters WHERE name='Vaisork'").fetchone()
+            state = json.loads(row['state'])
+            other = mechanics.bond_numen(state, 'a', 'Otro', 1)
+            mechanics.activate_numen(state, other['id'])
+            state['numenes']['bonded'][0]['care']['last_fed'] = 1
+            db.execute('UPDATE characters SET state=? WHERE id=?', (json.dumps(state), row['id']))
+        second = self.post(self.client, '/api/account/login', credentials).json['character']['numenes']
+        self.assertEqual(len(second['bonded']), 2)
+        self.assertEqual(second['active'], senku['id'])
+        self.assertEqual(second['bonded'][0]['care']['last_fed'], 123456)
+        self.assertEqual(second['bonded'][1]['name'], 'Otro')
+
+    def test_senku_resync_preserves_a_full_roster(self):
+        credentials = {'username': 'vaisork', 'password': 'director-pass-123'}
+        self.post(self.client, '/api/account/login', credentials)
+        with self.store.transaction() as db:
+            row = db.execute("SELECT * FROM characters WHERE name='Vaisork'").fetchone()
+            state = json.loads(row['state'])
+            state['numenes'] = {'active': None, 'bonded': [], 'encounters': {}}
+            for model in ('a', 'c', 'd'):
+                mechanics.bond_numen(state, model, 'Otro ' + model, 1)
+            db.execute('UPDATE characters SET state=? WHERE id=?', (json.dumps(state), row['id']))
+        result = self.post(self.client, '/api/account/login', credentials).json['character']['numenes']
+        self.assertEqual([n['model'] for n in result['bonded']], ['a', 'c', 'd', 'b'])
+        self.assertEqual(result['active'], result['bonded'][-1]['id'])
+
+    def test_master_numenes_are_private_and_mood_is_current(self):
+        player = self.app.test_client()
+        self.post(player, '/api/account/register', {'username': 'normal', 'password': 'valid-pass-123'})
+        self.post(player, '/api/character/create', {'name': 'Normal', 'species': 'humano', 'class_id': 'juramentado', 'gender': 'masculino'})
+        with self.store.transaction() as db:
+            row = db.execute("SELECT * FROM characters WHERE name='Normal'").fetchone()
+            state = json.loads(row['state'])
+            companion = mechanics.bond_numen(state, 'b', 'Nube', 123456 - 10 * 3600)
+            companion['variant'] = 'senku'
+            db.execute("UPDATE characters SET state=?,status='approved' WHERE id=?", (json.dumps(state), row['id']))
+            cid = row['id']
+        self.post(self.client, '/api/account/login', {'username': 'vaisork', 'password': 'director-pass-123'})
+        master = self.client.get('/api/master/state').json
+        character = next(c for c in master['approved'] if c['id'] == cid)
+        self.assertEqual(character['numenes'], [{
+            'id': companion['id'], 'model': 'b', 'variant': 'senku', 'name': 'Nube',
+            'species_name': mechanics.NUMENES_MODELS['b']['species_name'],
+            'active': True, 'mood': 'con hambre'}])
+        self.assertEqual(player.get('/api/master/state').status_code, 401)
+        public_state = player.get('/api/state').json
+        self.assertNotIn('approved', public_state)
+        self.assertNotIn('Senku', json.dumps(public_state))
+        self.assertNotIn('Vaisork', json.dumps(public_state))
+
+    def test_normal_player_has_no_senku(self):
+        self.post(self.client, '/api/account/register', {'username': 'normal', 'password': 'valid-pass-123'})
+        self.post(self.client, '/api/character/create', {'name': 'Normal', 'species': 'humano', 'class_id': 'juramentado', 'gender': 'masculino'})
+        with self.store.transaction() as db:
+            row = db.execute("SELECT * FROM characters WHERE name='Normal'").fetchone()
+            self.assertIsNotNone(row)
+            self.assertEqual(json.loads(row['state']).get('numenes', {}).get('bonded', []), [])
+
     def test_vaisork_cannot_be_defeated_in_combat(self):
         # Login as Vaisork
         r = self.post(self.client, '/api/account/login', {'username': 'vaisork', 'password': 'director-pass-123'})
