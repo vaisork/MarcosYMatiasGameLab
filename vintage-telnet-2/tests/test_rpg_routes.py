@@ -8,7 +8,7 @@ class RpgRouteTests(unittest.TestCase):
   tmp=tempfile.TemporaryDirectory();self.addCleanup(tmp.cleanup)
   self.c=create_app({'TESTING':True,'DATA_DIR':tmp.name}).test_client()
  def test_index_is_served_with_csp(self):
-  r=self.c.get('/rpg');self.assertEqual(r.status_code,200)
+  r=self.c.get('/rpg');self.addCleanup(r.close);self.assertEqual(r.status_code,200)
   self.assertIn("script-src 'self'",r.headers['Content-Security-Policy'])
  def test_only_whitelisted_assets(self):
   for path in ('/client-rpg/../server/app.py','/client-rpg/index.html','/client-rpg/scenes/../../runtime/x.json','/client-rpg/otro.js','/client-rpg/scenes/Edran.json'):
