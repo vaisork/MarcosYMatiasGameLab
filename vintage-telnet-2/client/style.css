@@ -30,7 +30,7 @@
 .room-top>div{min-width:0;flex:1}.map-shortcut{flex-shrink:0;min-height:44px;font-size:12px;padding:9px 10px}
 
 /* Stable touch controls: closed directions retain their places. */
-.app{padding-bottom:190px}.room-context{padding:12px 14px;gap:6px}.room-context .eyebrow{display:none}.room-context h1{font-size:19px;line-height:1.25}.room-context .place-label{margin-top:3px;font-size:11px}.room-context .ambient{margin-top:0}.room-context .muted{font-size:12px}.brand{margin-bottom:9px}.reading{margin-top:9px;padding:14px}.reading h2{margin-bottom:10px;padding-bottom:8px}.reading-tools{gap:6px;margin-bottom:8px}.reading-tools button{width:44px;min-width:44px;padding:6px;font-size:18px}.terminal-feed{max-height:49dvh}
+.app{padding-bottom:var(--nav-h,190px)}.room-context{padding:12px 14px;gap:6px}.room-context .eyebrow{display:none}.room-context h1{font-size:19px;line-height:1.25}.room-context .place-label{margin-top:3px;font-size:11px}.room-context .ambient{margin-top:0}.room-context .muted{font-size:12px}.brand{margin-bottom:9px}.reading{margin-top:9px;padding:14px}.reading h2{margin-bottom:10px;padding-bottom:8px}.reading-tools{gap:6px;margin-bottom:8px}.reading-tools button{width:44px;min-width:44px;padding:6px;font-size:18px}.terminal-feed{max-height:49dvh}
 #navigation{position:fixed;bottom:max(8px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100% - 20px);max-width:528px;margin:0;display:block;padding:6px;background:#fff;border-radius:16px;backdrop-filter:none}
 #navigation.with-travel{display:grid;grid-template-columns:136px minmax(0,1fr);align-items:center;gap:8px}.navigation-icons{display:grid;grid-template-columns:repeat(3,minmax(44px,1fr));gap:2px}#navigation button{min-width:44px;min-height:44px;padding:5px}#navigation button>span{font-size:23px;line-height:1.2}.travel-pad{display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,44px);gap:2px}#navigation .travel-pad button{background:var(--soft);color:var(--blue)}#navigation .travel-pad button:disabled{background:#f0f2f5;color:#778194;opacity:.5}.travel-norte{grid-column:2;grid-row:1}.travel-oeste{grid-column:1;grid-row:2}.travel-este{grid-column:3;grid-row:2}.travel-sur{grid-column:2;grid-row:3}.travel-center{grid-column:2;grid-row:2;display:grid;place-items:center;color:#56675c;font-size:24px}
 @media(max-width:380px){.app{padding-top:8px}.brand a small{display:none}.brand-mark{width:30px;height:30px}.brand a{font-size:15px}.room-context h1{font-size:18px}.reading{padding:12px}.reading-footer{font-size:11px}.event{margin-bottom:15px}}
@@ -45,9 +45,9 @@
 
 .action-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.action-grid>button{min-width:0;min-height:44px;padding:8px 5px;font-size:12px;line-height:1.3;justify-content:center;text-align:center}.action-grid .action-reason{font-size:10px}
 
-.map-heading{display:flex;align-items:center;gap:12px;padding:5px 3px 9px}.map-heading h1{font-size:21px}.map-heading .muted{font-size:12px}.discovered-panel{padding:8px;gap:7px}.map-tools{display:flex;align-items:center;gap:4px}.map-tools>span{margin-right:auto;font-size:12px;padding-left:5px}.map-tools button{padding:5px;min-width:44px;font-size:20px}.discovered-plane{position:relative;overflow:hidden;min-width:1px;min-height:1px}.discovered-map{position:absolute;left:0;top:0;min-width:0}.discovered-panel .discovered-scroll{max-height:max(220px,calc(100dvh - 230px));min-height:220px}.discovered-panel>.muted{font-size:11px;padding:0 3px}.playing-map .app{padding-bottom:100px}.playing-map #navigation .navigation-icons{grid-template-columns:repeat(4,minmax(44px,1fr))}
+.map-heading{display:flex;align-items:center;gap:12px;padding:5px 3px 9px}.map-heading h1{font-size:21px}.map-heading .muted{font-size:12px}.discovered-panel{padding:8px;gap:7px}.map-tools{display:flex;align-items:center;gap:4px}.map-tools>span{margin-right:auto;font-size:12px;padding-left:5px}.map-tools button{padding:5px;min-width:44px;font-size:20px}.discovered-plane{position:relative;overflow:hidden;min-width:1px;min-height:1px}.discovered-map{position:absolute;left:0;top:0;min-width:0}.discovered-panel .discovered-scroll{max-height:max(220px,calc(100dvh - 230px));min-height:220px}.discovered-panel>.muted{font-size:11px;padding:0 3px}.playing-map .app{padding-bottom:var(--nav-h)}.playing-map #navigation .navigation-icons{grid-template-columns:repeat(4,minmax(44px,1fr))}
 @media(max-width:600px){.playing-map .brand{display:none}.playing-map .app{padding-top:6px}.playing-map .map-heading{padding-top:0}.playing-map .discovered-panel .discovered-scroll{max-height:max(220px,calc(100dvh - 205px))}}
-@media(min-width:360px){.playing-map #navigation .navigation-icons{grid-template-columns:repeat(7,minmax(44px,1fr))}.playing-map .app{padding-bottom:65px}}
+@media(min-width:360px){.playing-map #navigation .navigation-icons{grid-template-columns:repeat(7,minmax(44px,1fr))}.playing-map .app{padding-bottom:var(--nav-h)}}
 
 /* Bounded reader: new paragraphs scroll inside instead of growing the card. */
 .terminal-feed{height:clamp(160px,38dvh,300px);min-height:0;max-height:none}
@@ -256,9 +256,9 @@ body{background:linear-gradient(135deg,#eef6ed,#e8f1f6)}
 /* ===== Tema de juego (maqueta del usuario, 2026-10-09): noche azul, filetes dorados y pergamino. =====
    Capa final: sustituye la apariencia anterior sin tocar la estructura ni las clases que usan las pruebas. */
 :root{--night:#0f1d2b;--night-2:#15283a;--night-3:#1d3850;--gold:#c9a24a;--gold-2:#ecd394;--gold-dark:#8a6a26;--parchment:#f4ead3;--parchment-2:#e9dcbb;--parchment-3:#fbf5e6;--ink:#2c2217;--ink-soft:#6a5741;
- --red:#b8433a;--green:#5d9a46;--blue:#3b7fae;--purple:#8a5fb0;--teal:#2f9488;--serif:"Palatino Linotype","Book Antiqua",Palatino,"P052","URW Palladio L",Georgia,"Noto Serif",serif;--reading-size:18px;color-scheme:light}
+ --red:#b8433a;--green:#5d9a46;--blue:#3b7fae;--purple:#8a5fb0;--teal:#2f9488;--serif:"Palatino Linotype","Book Antiqua",Palatino,"P052","URW Palladio L",Georgia,"Noto Serif",serif;--reading-size:18px;--nav-h:calc(150px + env(safe-area-inset-bottom));color-scheme:light}
 html body{background:radial-gradient(ellipse at 50% -10%,#2a4a68 0,transparent 60%),linear-gradient(180deg,#132536 0,#0b1622 100%) fixed;color:var(--ink);font-family:var(--serif)}
-body .app{padding:10px 10px calc(150px + env(safe-area-inset-bottom))}
+body .app{padding:10px 10px var(--nav-h)}
 /* Cabecera: placa de madera noche con filete dorado */
 body .brand{background:linear-gradient(180deg,var(--night-3),var(--night));border:1px solid var(--gold-dark);border-radius:12px;padding:6px 12px;margin-bottom:10px;box-shadow:inset 0 0 0 1px #ffffff10,0 4px 14px #0007}
 body .brand a{color:var(--gold-2);font-family:var(--serif);font-weight:700;letter-spacing:.5px;text-decoration:none}
@@ -527,7 +527,7 @@ html body #navigation .travel-pad button:disabled{opacity:.3}
 html body #navigation .travel-pad button:hover:not(:disabled){border-color:var(--gold)}
 html body #navigation .travel-pad svg{width:20px;height:20px}
 html body #navigation .travel-pad .travel-center:not(button){color:var(--gold-dark);font-size:16px}
-html.reading-adventure body .app{padding-bottom:calc(150px + env(safe-area-inset-bottom))}
+html.reading-adventure body .app{padding-bottom:var(--nav-h)}
 html body #navigation .game-tabs{grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
 html body #navigation .game-tabs button{height:46px;min-height:0;padding:3px 1px;gap:2px}
 html body #navigation .game-tabs button svg{width:18px;height:18px}
