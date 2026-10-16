@@ -1080,6 +1080,8 @@ class Engine:
             except ValueError as err:
                 raise RuleError(str(err))
         if action=='activar_numen' and not state['combat']:
+            # R06: los demás vinculados esperan en el hogar; el cambio de acompañante se hace allí.
+            if room.get('kind')!='home':raise RuleError('Solo puedes cambiar de acompañante en tu hogar, donde esperan los demás.',409)
             try:
                 target_numen=m.activate_numen(state,target)
                 cue=m.pick_numen_reaction(target_numen,'llegar',now=now_clock,rng=self.rng)
