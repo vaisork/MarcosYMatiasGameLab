@@ -1,5 +1,8 @@
 # Encargo narrativo: Vaisork, el que todo lo ve
 
+> **DIRECTRIZ CREATIVA POSTERIOR (2026-10-16, aprobada por el creador):** [Vaisork — identidad de alter ego y voz permanente](VAISORK_ALTER_EGO_PRINCIPIOS.md). Todo trabajo futuro sobre la personalidad, frases, encuentros, diálogos, rastros narrativos o representación de Vaisork debe leer ese documento, que expresa su identidad como alter ego del creador sin exponer su biografía. El presente encargo conserva su contexto histórico; la directriz posterior rige la voz del personaje. Entrega narrativa en [PR #719](https://github.com/vaisork/MatiasGameLab/pull/719).
+
+
 Encargo **solo de narrativa** para ChatGPT. La mecánica de Vaisork ya existe (#716).
 Después, Antigravity programa lo que este texto defina. Una sesión.
 
