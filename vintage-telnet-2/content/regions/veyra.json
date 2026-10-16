@@ -143,6 +143,7 @@
       "dusk": "Una vendedora ofrece la última mitad de fruta a su vecina. Dos toldos bajan antes de terminar la conversación.",
       "shop": [
         "provision_basica",
+        "bocado_numen",
         "punal_camino",
         "arco_ruta",
         "varita_aprendiz",

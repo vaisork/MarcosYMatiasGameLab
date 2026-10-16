@@ -1270,7 +1270,8 @@
       ],
       "return": "Las tazas invertidas guardan todavía los sitios reservados. El extremo del fuego tiene una silla libre; del otro llega una conversación baja.",
       "shop": [
-        "provision_basica"
+        "provision_basica",
+        "bocado_numen"
       ],
       "buyer": "edran_elva",
       "memories": [
@@ -2866,6 +2867,7 @@
       "buyer": "edran_sena",
       "brief": "La casa de cuidados: cama corta, paños limpios y agua tapada.",
       "shop": [
+        "bocado_numen",
         "pocion_menor",
         "tonico_camino",
         "unguento_heridas"

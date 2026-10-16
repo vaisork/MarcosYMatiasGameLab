@@ -707,6 +707,71 @@ html body .numen-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;pad
 html body .numen-actions-title{width:100%;margin:0 0 4px;font-size:0.85rem;color:var(--muted);font-weight:600}
 html body .numen-care-hint{margin:8px 0 0;font-size:0.82rem;font-style:italic}
 html body .numen-shelter-heading{margin:16px 0 6px;font-size:1rem;color:var(--night-2)}
+html body .hud-numen{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;font-size:0.78rem;line-height:1.1;cursor:pointer}
+html body .hud-numen svg{width:14px;height:14px}
+html body .numen-status-line{margin:4px 0 8px;font-weight:600;color:var(--ink)}
+html body .numen-last-reaction{margin:4px 0 0;font-style:italic;font-size:0.88rem}
+html body .pill.care-good{background:#dcfce7;color:#14532d;border-color:#86efac}
+html body .pill.care-hungry{background:#fef3c7;color:#78350f;border-color:#fcd34d}
+html body .pill.care-need{background:#e0e7ff;color:#1e3a8a;border-color:#a5b4fc}
+html body .numen-companion-view{gap:12px}
+html body .numen-art-frame{position:relative;display:grid;place-items:center;min-height:220px;padding:18px;border-radius:18px;border:2px solid #9fb6ff;background:radial-gradient(circle at 50% 35%,#ffffff,#dcebff 75%);overflow:hidden;box-shadow:inset 0 0 18px rgba(47,134,232,0.12)}
+html body .numen-art-fallback{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;z-index:1}
+html body .numen-art-frame.has-art .numen-art-fallback{display:none}
+html body .numen-silhouette{font-size:4.2rem;line-height:1;filter:drop-shadow(0 6px 10px rgba(31,111,208,0.22))}
+html body .numen-art-img{max-width:100%;max-height:260px;width:auto;height:auto;object-fit:contain;border-radius:14px;z-index:1}
+html body .numen-response-badge{position:absolute;top:10px;right:12px;z-index:2;padding:4px 10px;border-radius:999px;background:#fff4cc;border:2px solid #f0a020;color:#3a2300;font-weight:700;font-size:0.85rem;box-shadow:0 3px 8px rgba(0,0,0,0.15)}
+html body .numen-reaction-box{margin:0;padding:12px 14px;border-left:4px solid var(--night-2,#2f86e8);background:#eef6ff;border-radius:10px;font-style:italic;color:var(--ink)}
+html body .numen-feeling-panel p{margin:4px 0}
+html body .numen-care-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+html body .numen-roster-item{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:10px 12px}
+@keyframes numen-breathe-happy{
+ 0%,100%{transform:translateY(0) scale(1)}
+ 50%{transform:translateY(-6px) scale(1.03)}
+}
+@keyframes numen-look-hungry{
+ 0%,100%{transform:translateY(1px) rotate(0deg) scale(0.99)}
+ 40%{transform:translateY(0) rotate(-2deg) scale(1.01)}
+ 75%{transform:translateY(1px) rotate(2deg) scale(1)}
+}
+@keyframes numen-breathe-low{
+ 0%,100%{transform:translateY(5px) rotate(-3deg) scale(0.96);opacity:0.92}
+ 50%{transform:translateY(8px) rotate(-4deg) scale(0.94);opacity:0.86}
+}
+@keyframes numen-react-jump{
+ 0%,100%{transform:translateY(0) scale(1)}
+ 35%{transform:translateY(-16px) scale(1.08)}
+ 65%{transform:translateY(-4px) scale(1.02)}
+}
+@keyframes numen-react-heart{
+ 0%,100%{transform:scale(1)}
+ 30%{transform:scale(1.09) rotate(3deg)}
+ 60%{transform:scale(1.05) rotate(-3deg)}
+}
+@keyframes numen-react-purr{
+ 0%,100%{transform:translateX(0)}
+ 25%{transform:translateX(-3px) translateY(-2px)}
+ 50%{transform:translateX(3px) translateY(-2px)}
+ 75%{transform:translateX(-2px)}
+}
+html body .numen-art-frame.numen-mood-contento .numen-silhouette,
+html body .numen-art-frame.numen-mood-contento .numen-art-img{animation:numen-breathe-happy 2.6s ease-in-out infinite}
+html body .numen-art-frame.numen-mood-hambre .numen-silhouette,
+html body .numen-art-frame.numen-mood-hambre .numen-art-img{animation:numen-look-hungry 4.2s ease-in-out infinite}
+html body .numen-art-frame.numen-mood-decaido .numen-silhouette,
+html body .numen-art-frame.numen-mood-decaido .numen-art-img{animation:numen-breathe-low 5.5s ease-in-out infinite}
+html body .numen-art-frame.numen-anim-jump .numen-silhouette,
+html body .numen-art-frame.numen-anim-jump .numen-art-img{animation:numen-react-jump 0.65s ease-out 2}
+html body .numen-art-frame.numen-anim-heart .numen-silhouette,
+html body .numen-art-frame.numen-anim-heart .numen-art-img{animation:numen-react-heart 0.7s ease-in-out 2}
+html body .numen-art-frame.numen-anim-purr .numen-silhouette,
+html body .numen-art-frame.numen-anim-purr .numen-art-img{animation:numen-react-purr 0.55s ease-in-out 3}
+@media(prefers-reduced-motion:reduce){
+ html body .numen-art-frame .numen-silhouette,
+ html body .numen-art-frame .numen-art-img{animation:none!important;transition:none!important}
+}
+html.reduced-motion body .numen-art-frame .numen-silhouette,
+html.reduced-motion body .numen-art-frame .numen-art-img{animation:none!important;transition:none!important}
 @media(max-width:390px){
  html body .numen-card{padding:10px 8px}
  html body .numen-heading{gap:6px}
@@ -715,4 +780,5 @@ html body .numen-shelter-heading{margin:16px 0 6px;font-size:1rem;color:var(--ni
  html body .numen-title-group p{font-size:0.8rem}
  html body .numen-details{font-size:0.85rem;gap:5px}
  html body .numen-actions button{min-height:44px}
+ html body .numen-care-buttons{grid-template-columns:minmax(0,1fr)}
 }
