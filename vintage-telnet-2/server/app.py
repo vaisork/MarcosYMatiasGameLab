@@ -337,7 +337,16 @@ def create_app(config=None):
             for row in rows:
                 row['movements']=movement_counts.get(row['id'],0)
                 row['places_visited']=places.get(row['id'],0)
-            return jsonify(authenticated=True,csrf_token=csrf(),pending=[r for r in rows if r['status']=='pending'],approved=[r for r in rows if r['status']=='approved'])
+            ficha=dict(engine().content.vaisork_ficha)
+            if ficha:ficha.update(portrait='/client/art/players/vaisork-anime-v1.webp',full_body='/client/art/players/vaisork-anime-cuerpo-completo-v1.webp')
+            return jsonify(authenticated=True,csrf_token=csrf(),pending=[r for r in rows if r['status']=='pending'],approved=[r for r in rows if r['status']=='approved'],vaisork=ficha)
+
+    @app.get('/api/master/vaisork')
+    def master_vaisork():
+        if not session.get('master'):raise RuleError('Esta decisión pertenece al DM.',403)
+        ficha=dict(engine().content.vaisork_ficha)
+        if ficha:ficha.update(portrait='/client/art/players/vaisork-anime-v1.webp',full_body='/client/art/players/vaisork-anime-cuerpo-completo-v1.webp')
+        return jsonify(ficha)
 
     @app.post('/api/master/approve')
     def approve():
