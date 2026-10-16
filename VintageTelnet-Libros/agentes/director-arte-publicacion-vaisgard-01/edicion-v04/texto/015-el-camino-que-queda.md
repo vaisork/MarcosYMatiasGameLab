@@ -4,21 +4,19 @@ Al amanecer, Lera encontró la carta donde la había dejado la noche anterior: e
 
 Le pareció extraño que estuviera tan lisa.
 
-Cuando comenzó el viaje, la había plegado cuatro veces, cada una como si pudiera esconder mejor su vergüenza. Después escribió algunas líneas más en el banco de la plaza y tuvo cuidado de no estropearlas. Ahora el papel había cruzado caminos, dormido junto a ella bajo aleros ajenos y soportado días enteros sin que lo sacara a la luz.
+Cuando comenzó el viaje, la había plegado cuatro veces, cada una como si pudiera esconder mejor su vergüenza. Ahora el papel había cruzado caminos, dormido junto a ella bajo aleros ajenos y soportado días enteros sin que lo sacara a la luz.
 
 Podía reconocerlo al tacto.
 
 Lo guardó de nuevo y salió hacia los huertos.
 
-Las primeras puertas de cocina se abrían. Una mujer cruzaba con un delantal lleno de hojas; alguien llamaba a un niño que aún no había terminado de ponerse las botas. La piedra del banco de la plaza seguía rodeada por sus tablas, como si nadie hubiera encontrado motivo para cambiarla durante su ausencia.
+Las primeras puertas de cocina se abrían. Una mujer cruzaba con un delantal lleno de hojas; alguien llamaba a un niño que aún no había terminado de ponerse las botas. La piedra vieja del banco seguía rodeada por sus tablas. Lera la miró al pasar y pensó en las piedras enormes de la Plaza de las Cinco Rutas, pulidas por tantas manos como esta. Nadie en Valdren sabía quién la había puesto allí. En Vaisgard tampoco lo sabían de las suyas.
 
-Lera pasó sin sentarse.
+No se sentó.
 
-Bajo el árbol de ramas anchas, Mara estaba desenrollando la cuerda y Sabel estudiaba los nombres de la tablilla. Había otra mujer con ellas: la vecina que había aceptado hablar del turno la tarde anterior. Tenía una cesta vacía colgada del brazo.
+Bajo el árbol de ramas anchas, Mara desenrollaba la cuerda y Sabel estudiaba los nombres de la tablilla. Había otra mujer con ellas: la vecina que había aceptado hablar del turno la tarde anterior, con una cesta vacía colgada del brazo.
 
-Lera se acercó antes de que abrieran el agua.
-
-—Estoy aquí.
+—Estoy aquí —dijo Lera.
 
 Sabel alzó la vista.
 
@@ -42,120 +40,89 @@ La vecina soltó una risita.
 
 Sabel señaló la tablilla.
 
-—Ayer acordamos comprobar quién podía abrir la salida baja. Yo puedo hacer la primera revisión, pero después tengo que volver a mi parcela. Mara puede estar en el cierre. Nuestra vecina ofreció cubrir parte de la mañana, siempre que no se retrase lo que tiene que llevar a la cocina.
+—Ayer acordamos comprobar quién podía abrir la salida baja. Yo hago la primera revisión, pero después tengo que volver a mi parcela. Mara está en el cierre. Nuestra vecina cubre parte de la mañana.
 
-—Eso sigue en pie —respondió la mujer—. Pero mañana no podré venir. Me han cambiado el día en que recogen las hojas.
+—Eso sigue en pie —respondió la mujer—. Pero mañana no podré venir. Me cambiaron el día en que recogen las hojas.
 
 Lera se quedó callada.
 
-La primera vez que había organizado los turnos, una noticia así le habría parecido un obstáculo que había que apartar. Casi podía oírse ofreciendo todo el resto de la semana para que dejaran de discutir.
+Semanas atrás, una noticia así le habría parecido un obstáculo que había que apartar. Casi podía oírse ofreciendo todo el resto de la semana para que dejaran de discutir.
 
-Sabel sostuvo la tablilla en alto.
+—Entonces mañana tenemos un hueco —dijo Sabel.
 
-—Entonces mañana tenemos un hueco —dijo.
-
-—Puedo cubrir la revisión temprana —respondió Lera—. La de mañana, y la siguiente si mi mano está mejor. Pero antes quisiera que me enseñarais cómo habéis cambiado la cuña. Si hay que levantarla, necesitaréis a otra persona.
+—Puedo cubrir la revisión temprana —respondió Lera—. La de mañana, y la siguiente si mi mano está mejor. Pero antes quisiera que me enseñaran cómo cambiaron la cuña. Si hay que levantarla, van a necesitar a otra persona.
 
 Mara no sonrió.
 
 —¿Y si decides marcharte otra vez?
 
-Lera sintió que la pregunta llegaba donde debía.
+La pregunta llegó donde debía.
 
-—Antes de decidirlo, os lo diré. Si un día no puedo cumplir, no dejaré mi nombre aquí como si pudiera.
+—Antes de decidirlo, se lo diré. Si un día no puedo cumplir, no dejaré mi nombre aquí como si pudiera.
 
 Sabel acercó la tablilla.
 
-—No basta con decirlo. ¿Qué pondrías?
+—¿Y qué pondrías?
 
-Lera miró los espacios en blanco, la marca del día siguiente y los nombres que otras manos habían corregido durante su ausencia.
+Lera miró los espacios en blanco y los nombres que otras manos habían corregido durante su ausencia.
 
-—Mi nombre en la revisión, no en la reparación —dijo—. Hasta que sepamos cuánto puedo hacer. Y al lado, que la tabla sigue necesitando a dos personas cuando haya que moverla.
+—Mi nombre en la revisión, no en la reparación. Hasta que sepamos cuánto puedo hacer. Y al lado, que la tabla sigue necesitando a dos personas cuando haya que moverla.
 
 La vecina se inclinó para ver.
 
 —Eso significa que quizá tendré que venir yo cuando la arreglen.
 
-—Solo si puedes y si lo acordamos —respondió Lera—. No quiero escribirte en ningún sitio sin preguntarte.
+—Solo si puedes —respondió Lera—. No quiero escribirte en ningún sitio sin preguntarte.
 
 Mara soltó la cuerda.
 
-—Entonces hoy haremos la revisión y después hablaremos de la reparación. No son la misma tarea.
-
-Sabel asintió.
-
-No parecía una gran victoria. Nadie había levantado una herramienta, ni cambiado una sola tabla. Pero por primera vez el reparto estaba empezando sin que Lera llenara los silencios con promesas.
+—Entonces hoy hacemos la revisión, y después hablamos de la reparación. No son la misma tarea.
 
 ***
 
-Esperaron hasta que la persona del turno anterior terminara de cerrar su salida. Mara y Sabel se acercaron a la curva de la canaleta. Lera permaneció sobre el suelo firme, junto a la tablilla, desde donde podía ver tanto el borde húmedo como el sendero por el que llegaban quienes necesitaban agua.
-
 Cuando Mara hizo una seña, abrieron despacio.
 
-La primera corriente atravesó la madera con un sonido suave. Luego, al aumentar, apareció la gota que Lera había visto la tarde anterior. No cayó donde había caído antes: resbaló por una fibra levantada y se reunió con otra debajo de la junta.
+La primera corriente atravesó la madera con un sonido suave. Al aumentar, apareció la gota que Lera había visto la tarde anterior. No cayó donde había caído antes: resbaló por una fibra levantada y se reunió con otra debajo de la junta.
 
 —Está abriéndose un poco más —dijo Lera.
 
-Mara se agachó hasta poder verlo.
+Mara se agachó a mirar.
 
 —Sí. Pero no toques la cuña.
 
 —No iba a hacerlo.
 
-Sabel levantó una mano para indicar a la persona de la salida siguiente que esperara.
+—Si seguimos abriendo así, perderemos agua por el costado —dijo Sabel—. Si cerramos demasiado, los últimos huertos recibirán menos.
 
-—Si seguimos abriendo así, perderemos agua por el costado. Si cerramos demasiado, los últimos huertos recibirán menos.
-
-Lera buscó una respuesta rápida.
-
-Conocía aquella unión desde antes de salir. Sabía dónde se sujetaba la cuerda y cómo había quedado la tabla cuando la colocaron por primera vez. Sintió la tentación de anunciar que todavía recordaba la mejor forma de arreglarla.
+Lera conocía aquella unión desde antes de salir. Sabía dónde se sujetaba la cuerda y cómo había quedado la tabla la primera vez. Sintió la tentación de anunciar que todavía recordaba la mejor forma de arreglarla.
 
 La mano raspada le dolió cuando cerró el puño.
 
-—No sé cuánto ha cedido desde que me fui —reconoció—. ¿Qué habéis probado?
+—No sé cuánto cedió desde que me fui —reconoció—. ¿Qué han probado?
 
-Mara le mostró la nueva posición de la cuña. Sabel explicó dónde aparecía la filtración cuando el agua crecía y qué habían hecho para mantener el reparto mientras decidían qué sustituir.
+Mara le mostró la nueva posición de la cuña. Sabel explicó dónde aparecía la filtración cuando el agua crecía. Lera escuchó sin interrumpir. Después señaló el punto donde la gota se formaba, apenas visible bajo el borde.
 
-Lera escuchó sin interrumpir.
-
-Después señaló el punto donde una gota se formaba, apenas visible bajo el borde.
-
-—Si marcamos hasta dónde llegó hoy, mañana podremos comprobar si empeora antes de intentar moverla.
+—Si marcamos hasta dónde llegó hoy, mañana podremos ver si empeora antes de intentar moverla.
 
 —Eso sí puedes hacerlo sin cargar la tabla —dijo Sabel.
 
-Lera pidió un trozo de carboncillo, recordó que aún tenía el suyo envuelto en la tela de Mara y fue a buscarlo en la bolsa. Marcó discretamente el borde seco de una tablilla auxiliar, sin escribir sobre el interior mojado ni sobre piedra antigua. Mara sostuvo la pieza mientras Lera señalaba la altura alcanzada por la humedad.
-
-Luego cerraron lo necesario para conservar el reparto provisional.
+Lera sacó el carboncillo, todavía envuelto en la tela de Mara, y marcó el borde seco de una tablilla auxiliar a la altura de la humedad. Mara sostuvo la pieza mientras ella trazaba la línea.
 
 La gota no desapareció. Siguió cayendo a intervalos, como una pequeña cuenta que nadie había terminado de pagar.
 
-La vecina observó la marca.
-
-—¿Entonces mañana la mediremos otra vez?
-
-—Mañana compararemos lo que vemos —dijo Lera—. Si cambia, tendremos que avisar antes de abrir más.
-
-Sabel volvió a colocar la tablilla de turnos sobre la piedra seca.
-
-—Y hablaremos con quienes dependen de la salida —añadió—. No son solo nuestros huertos.
-
-Lera asintió. Aquello era precisamente lo que no había hecho cuando empezó a preparar su partida.
-
-El trabajo continuó sin ceremonia. Llevaron el agua a las parcelas que la esperaban, avisaron del límite provisional y dejaron claro quién revisaría la junta antes del siguiente turno. Cuando todo estuvo anotado, la vecina regresó a sus hojas y Sabel fue hacia su parcela.
+El trabajo continuó sin ceremonia. Llevaron el agua a las parcelas que la esperaban, avisaron del límite provisional y anotaron quién revisaría la junta antes del siguiente turno. Cuando todo estuvo escrito, la vecina regresó a sus hojas y Sabel fue hacia su parcela.
 
 Lera se quedó un momento con Mara bajo el árbol.
 
-—No has intentado arreglarlo todo —dijo Mara.
+—No intentaste arreglarlo todo —dijo Mara.
 
 —Todavía es temprano.
 
 La risa les salió a las dos casi a la vez.
 
-
 ***
 
-Caminaron hacia la plaza cuando el sol ya alcanzaba los tejados. Lera había dejado la bolsa a resguardo durante la revisión y volvió a colgársela con cuidado. El remiendo de cuerda cedió un poco bajo el peso, pero no llegó a soltarse.
+Caminaron hacia la plaza cuando el sol ya alcanzaba los tejados.
 
 En el banco largo, Mara se sentó del lado de la piedra vieja. Lera reconoció el sitio: allí había desplegado la carta antes de partir, convencida de que bastaba con encontrar las palabras correctas y alcanzar a Dalia en Vaisgard.
 
@@ -165,139 +132,203 @@ Se sentó a cierta distancia y sacó el papel.
 
 —No.
 
-Lera lo desdobló sobre las rodillas. Estaba gastado en el pliegue, pero las palabras seguían allí. Vio la primera frase, la que había corregido con tanta dificultad antes de marcharse.
+Lo desdobló sobre las rodillas. Estaba gastado en el pliegue, pero las palabras seguían allí.
 
 *Te dije que no nos harías falta.*
 
-Debajo:
-
 *No era cierto.*
 
-Leyó hasta el final. La letra se apretaba en ciertos renglones y se abría en otros, como si la persona que había escrito no hubiera tenido la misma seguridad de una línea a la siguiente. Recordó que había añadido una petición: hablar con Dalia para decirle lo que debió decir antes. No para obligarla a perdonar.
+La letra se apretaba en ciertos renglones y se abría en otros, como si quien la escribió no hubiera tenido la misma seguridad de una línea a la siguiente.
 
-La carta no mentía.
+—¿Qué vas a hacer con ella? —preguntó Mara.
 
-Pero Lera había salido de Valdren imaginando que encontraría a Dalia, extendería el papel y entonces podría dejar de llevar aquella frase consigo. Había confundido la posibilidad de disculparse con el derecho a tener delante a quien había herido.
+—Guardarla en casa. No debajo de la chaqueta, como si tuviera que enseñarla en cuanto alguien diga su nombre. Tampoco voy a quemarla para fingir que ya no quiero hablar. —Lera dobló el papel por la marca que ya tenía—. Si un día Dalia quiere leerla, se la daré. Si quiere hablar y no leerla, hablaré. Y si no quiere ninguna de las dos cosas, se quedará conmigo.
 
-—¿Qué pone? —preguntó Mara.
+Mara no contestó.
 
-Lera no le tendió la hoja.
+Se quedó mirando la piedra vieja con una expresión que Lera conocía bien: la de alguien que lleva rato decidiendo cómo decir algo difícil y todavía no lo ha conseguido.
 
-—Algo que todavía tengo que decirle a ella.
+—Mara.
 
-Mara aceptó la respuesta sin insistir.
+—Espera.
 
-Un niño pasó por la plaza con un palo en la mano, haciendo rodar una piedra pequeña delante de sus botas. Al llegar al banco levantó la vista y saludó a Mara. Después siguió hacia la calle alta.
+Mara metió la mano en el bolsillo del delantal y sacó un papel doblado en tres, con una esquina oscurecida por la lluvia y una cuerda fina atada alrededor. Lo sostuvo un momento sin tendérselo.
 
-—Pensé en dejársela a alguien —dijo Lera cuando volvió el silencio—. En Vaisgard habría podido pedir que la guardaran hasta que Dalia apareciera. Pero nadie sabía dónde encontrarla. Y no quería que una persona cargara con ella solo porque yo no soportaba seguir guardándola.
+—Llegó hace seis días —dijo—. Lo trajo un arriero que venía de Vaisgard. Preguntó por ti en la plaza y, como no estabas, me lo dejaron a mí.
 
-—Ahora sabes que podrías volver a ir —dijo Mara.
+Lera no se movió.
 
-—Sí.
+En el borde exterior del papel, con una letra que se inclinaba hacia la derecha como si tuviera prisa por llegar a algún sitio, estaba escrito su nombre.
 
-—¿Vas a hacerlo?
+*Lera, de los huertos de Valdren.*
 
-Lera miró la carta. El camino todavía existía, con sus tres piedras en el arroyo y la cuesta de los dos parches claros. En Vaisgard todavía habría mercados, viajeros, mensajes que tal vez no llegaran. No todo lo que había aprendido allí estaba perdido porque no hubiera encontrado a Dalia.
+Conocía esa letra. La había visto en listas de semillas, en tablas de turnos, en una nota que alguien le dejó una vez debajo de la taza, hacía tanto tiempo que casi la había olvidado.
 
-—No por perseguirla —respondió—. Si un día tengo una razón para ir, iré. Pero no voy a salir otra vez de aquí suponiendo que encontrarla es la única manera de arreglar lo que hice.
+—¿Por qué no me lo diste ayer? —preguntó. La voz le salió más baja de lo que quería.
 
-Mara se apoyó en la piedra.
+Mara bajó los ojos hacia la cuerda.
 
-—¿Y qué harás con la carta?
+—Porque ayer llegaste preguntando qué había pasado aquí. Y quería saber si habías vuelto por nosotras o por esto. —Hizo una pausa—. No me pareció justo que una carta decidiera por ti antes de que lo hicieras tú.
 
-Lera levantó la vista hacia las casas.
+Lera tardó en entenderlo del todo. Cuando lo entendió, le dolió y le pareció bien al mismo tiempo.
 
-—Voy a guardarla en mi casa. No debajo de la chaqueta, como si tuviera que enseñarla en cuanto alguien pronuncie su nombre. Tampoco voy a quemarla para fingir que ya no quiero hablar.
+—No lo sabía —dijo.
 
-—Si Dalia pregunta por ti, puedo decirle que has vuelto —ofreció Mara—. Eso ya lo hablamos.
+—Lo sé. Por eso te la doy ahora.
 
-—Si pregunta por mí, sí. Pero no le ofrezcas la carta por tu cuenta. Y si te dice que no quiere saber de mí, no insistas.
+Mara se la puso en la mano y se levantó.
 
-Mara se volvió hacia ella.
+—Tengo que ver la parcela alta. —Se detuvo a dos pasos del banco—. No tienes que contarme lo que dice.
 
-—¿Ni una vez?
+—¿Y si quiero?
 
-A Lera le tembló la respuesta antes de pronunciarla.
+—Entonces me buscas. Pero después.
 
-—Ni una.
-
-Mara bajó la mirada a sus manos.
-
-—Debe de doler pensar que pudiera decir eso.
-
-—Duele.
-
-No añadió que, por haber caminado hasta Vaisgard, mereciera una ocasión de explicarse. El viaje había sido suyo; Dalia no se lo había pedido.
-
-—Si ella alguna vez quiere leer esto, se lo daré —dijo Lera, y dobló el papel por la marca que ya tenía—. Si quiere hablar y no leerlo, hablaré. Si no quiere ninguna de las dos cosas, la carta se quedará conmigo.
-
-Mara parecía a punto de responder, pero no encontró nada que añadir.
-
-Lera guardó la hoja de nuevo, solo hasta llegar a casa. La tela de la chaqueta seguía teniendo el lugar hecho por tantos días de llevarla allí.
-
-—¿Tú crees que Dalia y yo volveremos a ser amigas? —preguntó Lera.
-
-Mara tardó en contestar. Lera no sabía si estaba pensando en Dalia o en las dos.
-
-—No lo sé —dijo por fin—. A veces las cosas no vuelven a ser como eran.
-
-Lera asintió. Antes habría respondido que tenía que haber alguna manera. Ahora dejó que la frase terminara.
-
-La plaza seguía llena de vida. Desde la fragua llegaban los golpes de un martillo, y dos personas discutían sobre quién había movido una cesta al lado de la fuente. Una niña pasó corriendo con los cordones desatados, perseguida por alguien que le pedía que se detuviera.
-
-Mara se levantó.
-
-—Tengo trabajo.
-
-—Yo también.
-
-—No hagas que me acostumbre a verte llegar a tiempo.
-
-Lera sonrió.
-
-—No prometo milagros.
-
-Caminaron juntas hasta el borde de los huertos, donde sus caminos se separaban por aquella mañana.
+Se fue sin volverse.
 
 ***
 
-Lera encontró en casa un sitio seco para la carta, lejos de las botas, las herramientas y la ropa que todavía necesitaba lavar. Antes de dejarla, comprobó el doblez y alisó con el pulgar una esquina gastada. No añadió nombres, lugares ni instrucciones para nadie.
+Lera no abrió la carta en la plaza.
 
-La guardó entre sus cosas, en un lugar que podría encontrar si algún día Dalia quisiera escucharla.
+Un niño pasó haciendo rodar una piedra pequeña con un palo. Desde la fragua llegaban los golpes del martillo. Dos personas discutían quién había movido una cesta al lado de la fuente. El mundo seguía con sus asuntos, y Lera, por una vez, se lo agradeció: nadie la miraba.
 
-Después sacó de la bolsa la taza de madera con el asa torcida. La puso a secar al lado de la ventana. El carboncillo seguía envuelto en la tela limpia que Mara le había dado; lo guardó otra vez en la bolsa para las revisiones. El extremo de cuerda prestado seguía sujetando la correa gastada. Tendría que arreglarla antes de volver a usarla mucho.
+Se la llevó a casa.
 
-No deshizo la bolsa entera. Era posible que volviera a viajar.
+Allí se sentó junto a la ventana, puso la taza de asa torcida sobre la mesa y deshizo el nudo de la cuerda. El papel estaba seco por dentro. Alguien lo había protegido bien durante el camino.
 
-Pero al vaciar el bolsillo interior de la chaqueta notó su ligereza, como si hubiera dejado allí algo más que un papel.
+*Lera:*
 
-Cuando regresó a los huertos, Sabel le acercó la tablilla de revisión. No era suya para siempre ni decía que los demás tuvieran que esperar por ella. Lera desenvolvió el carboncillo y escribió su nombre en un espacio estrecho, junto a la tarea acordada para la mañana siguiente.
+*Tardé mucho en escribir esto porque esperaba que escribieras tú primero.*
 
-Sabel se acercó desde el otro lado de la cerca.
+Lera dejó de leer.
 
-—¿Ya has decidido cuánto tiempo vas a quedarte? —preguntó.
+Se quedó mirando esa línea hasta que las letras dejaron de parecer letras. Pensó en las noches en Valdren, antes de partir, esperando una carta que demostrara que Dalia todavía pensaba en ella. Pensó en el patio de animales de Vaisgard y en lo que le había contado Tesca: que Dalia se había detenido en el camino a preguntar cómo hacer llegar una carta de vuelta a un pueblo.
+
+Las dos habían estado esperando lo mismo.
+
+Siguió leyendo.
+
+*No sé si sigues enfadada. Yo lo estuve mucho tiempo. Ahora no sé si lo estoy o si solo me acostumbré a pensar que sí.*
+
+*Lo que dijiste junto al carro todavía me duele. No voy a fingir que no. Pero también me acuerdo de otras cosas, y estoy cansada de que esa frase pese más que todas ellas juntas.*
+
+*No te pido que vengas. Tampoco te digo que no lo hagas. Si quieres contestarme, deja tu respuesta en el Patio de Mensajes de Vaisgard, en la ruta de los campos. Paso por allí cuando bajo de la sierra. Preguntan por mí.*
+
+*Dalia.*
+
+Lera dejó la carta sobre la mesa, al lado de la taza.
+
+El Patio de Mensajes. Las tablillas que chocaban suavemente bajo el alero. El banco donde una niña contaba tablas y se negaba a decir cuántas eran. Había estado allí dos veces. Había escrito a Mara desde allí.
+
+Quizá aquella hoja había colgado de un travesaño mientras Lera esperaba en la plaza. Quizá ya iba camino de Valdren. No había manera de saberlo, y descubrió que no necesitaba saberlo.
+
+No había llegado tarde. Había llegado por otro camino.
+
+Sacó de la chaqueta su propia carta.
+
+Durante todo el viaje la había llevado contra el pecho, convencida de que solo podía entregarla con sus manos, delante de Dalia, para que nadie más cargara con ella. Arel se lo había dicho bajo el alero: *Traes una carta, pero todavía no tienes un destino.*
+
+Ahora lo tenía.
+
+Lera desdobló la hoja una última vez. Debajo de *No era cierto*, en el espacio que quedaba, escribió con el carboncillo:
+
+*Volví a Valdren. Estoy en los huertos, en el turno de la canaleta. Leí tu carta. Quiero hablar contigo, cuando tú quieras y donde tú digas.*
+
+Lo leyó. No añadió nada más.
+
+La dobló una sola vez, con cuidado, y escribió por fuera: *Para Dalia. Patio de Mensajes de Vaisgard, ruta de los campos.*
+
+***
+
+Al mediodía buscó a Mara en la parcela alta.
+
+Mara estaba agachada junto a una zanja de reparto. Cuando vio a Lera, se incorporó y esperó sin preguntar.
+
+—Me escribió —dijo Lera.
+
+—Ya lo imaginaba.
+
+—Dice que esperaba que yo escribiera primero.
+
+Mara soltó el aire despacio, casi una risa.
+
+—Las dos son igual de tercas.
+
+—Eso parece.
+
+Lera le enseñó su propia carta, cerrada, con el destino escrito por fuera.
+
+—Voy a enviarla. Con quien vaya hacia Vaisgard por la ruta de los campos.
+
+—¿No vas a llevarla tú?
+
+Lera pensó en la tablilla bajo el árbol, en su nombre escrito junto a la revisión de mañana, en Sabel diciendo que no le daría su turno para siempre por haber aparecido un día.
+
+—No. Aquí hay cosas que dije que haría. —Miró el papel—. Y alguien puede llevarla sin que eso signifique que dejé de importarme.
+
+Mara la observó un largo momento.
+
+—Esta tarde baja un carro de grano hacia la era —dijo—. El conductor suele seguir hasta la Casa del Camino. Puedes preguntarle.
+
+—Le preguntaré si quiere llevarla. No voy a ponérsela en las manos como si fuera una jarra vacía.
+
+Mara arqueó una ceja.
+
+—¿De dónde sacaste eso?
+
+—De una mujer con una jarra, en Vaisgard. Te lo contaré.
+
+—Me lo vas a contar todo, ¿no?
+
+—Si quieres escucharlo.
+
+—Después de la revisión de mañana —dijo Mara—. Y lento. Quiero saber cómo te mojaste el pie.
+
+Lera abrió la boca.
+
+—Nadie te ha contado lo del pie.
+
+—Nadie tuvo que contármelo. Te conozco.
+
+***
+
+El conductor del carro de grano escuchó la petición con el sombrero echado hacia atrás. Preguntó adónde iba la carta, quién la recogería y qué pasaría si en el Patio de Mensajes no encontraban a nadie con ese nombre.
+
+—Entonces que la guarden allí —dijo Lera—. Ella pasa cuando baja de la sierra.
+
+El hombre aceptó por unos pocos sellos y guardó el papel en una bolsa de cuero, lejos del grano.
+
+—No sé cuándo llegará —advirtió.
+
+—Yo tampoco —respondió Lera—. Pero sé adónde va.
+
+Lo vio alejarse por el corredor de los huertos, entre las cercas, hasta que las ruedas doblaron la curva y el sonido se mezcló con el del agua.
+
+Se quedó un momento quieta, con las manos vacías.
+
+No sentía la ligereza que había imaginado. Sentía algo más extraño: que lo más importante que había hecho en todo el viaje acababa de salir de sus manos y ya no dependía de ella. Y que podía soportarlo.
+
+***
+
+Por la tarde, Sabel le acercó la tablilla de revisión. Lera escribió su nombre en un espacio estrecho, junto a la tarea de la mañana siguiente.
+
+—¿Ya decidiste cuánto tiempo vas a quedarte? —preguntó Sabel.
 
 —No.
 
 Sabel frunció el ceño.
 
-—Al menos no me has dicho que será para siempre.
+—Al menos no me dices que será para siempre.
 
-Lera señaló la tablilla.
-
-—Mañana puedo hacer esa revisión. Después tenemos que volver a hablar. Si necesito marcharme más adelante, quiero que lo sepáis antes de reorganizar el agua.
+—Mañana hago esa revisión. Después volvemos a hablar. Si necesito marcharme más adelante, lo van a saber antes de reorganizar el agua.
 
 Sabel examinó lo escrito y corrigió con el dedo el lugar de una marca.
 
-—Aquí. Si la pones ahí, parecerá que tú también vas a abrir la salida.
+—Aquí. Si la pones ahí, parece que también vas a abrir la salida.
 
 Lera la movió al espacio adecuado.
 
-—Gracias.
-
-—No me lo agradezcas todavía. Mañana veremos si has aprendido a llegar antes que el agua.
-
-Mara apareció por el sendero y las encontró inclinadas sobre la tablilla.
+Mara apareció por el sendero con la cuerda al hombro.
 
 —¿Qué falta? —preguntó.
 
@@ -305,24 +336,22 @@ Mara apareció por el sendero y las encontró inclinadas sobre la tablilla.
 
 Mara alzó la suya.
 
-—Por una vez me he adelantado.
+—Por una vez me adelanté.
 
 Se rieron.
 
-Lera dejó la tablilla sobre la piedra seca. La corriente llegaba por la canaleta y seguía su curso hacia las parcelas, con la misma gota persistente en la junta. Aún tenían que vigilarla. Habría otros días de lluvia, madera que cediera y personas que necesitaran cambiar sus turnos.
+La corriente llegaba por la canaleta y seguía su curso hacia las parcelas, con la misma gota persistente en la junta. Aún tenían que vigilarla. Habría otros días de lluvia, madera que cediera y personas que necesitaran cambiar sus turnos.
 
-Al otro lado de los campos continuaba el camino a Vaisgard. Más lejos estaban las otras rutas que Lera no había recorrido. En alguna de ellas podía estar Dalia. Quizá habría leído ya el recorte que llevaba Nara; quizá no. La nota para Mara podía seguir todavía en una funda de Arel.
+Al otro lado de los campos continuaba el camino a Vaisgard. Más lejos estaban las otras rutas que Lera no había recorrido: la sierra, los pedrales, las aguas, el bosque. Por una de ellas bajaba a veces Dalia. Por otra viajaba Tesca con un recorte que solo decía dónde había querido Lera que la encontraran. Y en una bolsa de cuero, entre el olor a grano, iba una carta que por fin tenía destino.
 
 Lera no conocía el desenlace de aquellos papeles.
 
 Sí conocía a las dos personas que estaban delante de ella.
 
-Mara levantó la cuerda y preguntó si estaban listas para comprobar la salida.
-
-Sabel contestó que aún necesitaba mirar la marca de la víspera.
+Mara levantó la cuerda y preguntó si estaban listas para comprobar la salida. Sabel contestó que aún necesitaba mirar la marca de la víspera.
 
 Lera se arrodilló en el suelo firme, dejando libre el paso, y sostuvo la tablilla para que pudieran leerla las tres.
 
-—Decidme por dónde empezamos —preguntó.
+—Díganme por dónde empezamos.
 
 Esta vez esperó a escuchar la respuesta.
