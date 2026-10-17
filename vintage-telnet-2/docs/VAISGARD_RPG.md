@@ -47,7 +47,7 @@ Datos de presentación, no canon. El nombre del archivo es el id real de la sala
 - `layers.solid` sigue siendo la colisión local: cercas y orillas completas bloqueadas, losa y pasos abiertos. Las plantas bajas y el rastrojo son transitables. No define reglas del servidor.
 - Avatar y Lina: PNG RGBA de 192×384; celdas de 64×96, tres cuadros (paso, reposo, paso), filas sur/norte/oeste/este. Espinajo: 48×48 en mapa y 192×192 en combate. Fondo de combate: `backgrounds/edran_battle.webp`. Imágenes almacenadas en caché, sin filtrado de escala ni dependencias nuevas.
 - `exits[].direction` debe existir en las salidas reales de la sala. Al pisar el rectángulo el cliente envía la acción `{"id":"mover","target":<dirección>}` presente en `snapshot.actions`; si falta o viene con `disabled`, no la envía y muestra su `reason`.
-- `spawn[<dirección>]` es dónde aparece el avatar al llegar desde esa salida; `default` al cargar.
+- `spawn[<dirección>]` indica la celda de llegada desde esa salida; el cliente sitúa los pies en su centro (`+0.5`), evitando solapar paredes vecinas. La llegada usa la dirección opuesta al movimiento; las conexiones pueden doblar, así que todos los spawns deben ser transitables incluso si no existe puerta en ese borde. `default` se usa al cargar.
 - `npcs` y `creatures` sólo posicionan ids reales. Se dibujan **sólo si el snapshot los incluye** (`room.npcs`, señales/combate); el escenario nunca revela presencia que el servidor no dio.
 - Salas sin escenario: el cliente genera un escenario genérico a partir del snapshot (puertas en los bordes según la dirección, NPC presentes), para que nunca quede atrapado. Así se puede recorrer el mundo entero, aunque con arte pendiente.
 
@@ -74,3 +74,18 @@ Tarjeta «Vaisgard RPG» en `index.html` raíz jugable con botón «Jugar» haci
 ## Fuera de alcance del piloto
 
 Combate en tiempo real, nuevas mecánicas, cambios de fórmulas o balance, 183 escenarios, despliegue en Raspberry, Senku y VT1.
+
+## Menús y acceso — 2026-10-17
+
+Barra inferior con Personas, Criaturas, Mochila, Lugar y Más. Cada grupo abre un
+submenú acotado con Volver · B; A conserva la interacción cercana. Lugar incluye
+las salidas ofrecidas por el servidor para poder viajar también sin caminar.
+Los formularios conservan sus campos durante los refrescos, pero actualizan los
+botones dependientes de una petición al liberar `busy`, incluso sin eventos de
+`input` del autocompletado. El mínimo de ocho caracteres se aplica al registro;
+el acceso deja la comprobación de credenciales al servidor.
+
+`node scripts/check-rpg-client.mjs` comprueba todas las escenas pintadas y los
+escenarios genéricos del mundo: cada spawn queda libre con el volumen del avatar
+y alcanza cada salida mediante flood fill. Incluye el caso Huertos → Graneros,
+cuya llegada norte no corresponde a una puerta norte de Graneros.

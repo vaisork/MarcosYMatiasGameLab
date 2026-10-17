@@ -39,7 +39,7 @@ async function loadTileset(name='edran'){
  }catch{return null;}
 }
 void loadTileset('edran');
-let snapshot=null, scene=null, busy=false, pending=null, focus=null, entrance=null, exitLatch=null, lastTime=0, walk=0, facing=0;
+let snapshot=null, scene=null, busy=false, pending=null, focus=null, menuGroup=null, entrance=null, exitLatch=null, lastTime=0, walk=0, facing=0;
 let authTab='login', viewMode='game', latestCsrfToken=null, savedUsername='';
 const player={x:10,y:7};
 let battleEnteredAt=0;
@@ -51,7 +51,8 @@ function panel(open){$('panel').hidden=!open;keys.clear();}
 function back(){
  if(battleGroup){battleGroup=null;renderBattleMenu();}
  else if(viewMode==='creation'&&snapshot?.characters?.length){viewMode='characters';render();}
- else panel($('panel').hidden);
+ else if(!$('panel').hidden&&menuGroup){menuGroup=null;focus=null;render();}
+ else{panel($('panel').hidden);render();}
 }
 function advance(){const line=lines[lineIndex]||'';if(letters<line.length)letters=line.length;else if(lineIndex<lines.length-1){lineIndex++;letters=0;}else if(!snapshot?.character?.combat&&!outcome)interact();paintLine();}
 function paintLine(){const line=lines[lineIndex]||snapshot?.room?.description||'El camino se abre ante ti.';$('line').textContent=line.slice(0,letters);$('more').textContent=letters<line.length?'A · mostrar texto':lineIndex<lines.length-1?`A · siguiente (${lines.length-lineIndex-1})`:snapshot?.character?.combat?'Elige un comando · A':'A · interactuar';}
@@ -158,6 +159,11 @@ async function logout(){
  }catch(e){notice(e.message);}
  finally{busy=false;render();}
 }
+// Scene coordinates describe cells; place feet at their centers, clear of adjacent walls.
+function spawnPosition(map,arrival){
+ const at=map.spawn[arrival]||map.spawn.default;
+ return at.map(v=>Math.floor(v)+.5);
+}
 function generic(room){
  const exits=(room.exits||[]).map(e=>({direction:e.direction,rect:gates[e.direction]||[9,0,2,1]}));
  const ground=Array.from({length:15},(_,y)=>Array.from({length:20},(_,x)=>x===0||x===19||y===0||y===14?'f':'g'));
@@ -175,12 +181,12 @@ async function apply(next){
   render();return;
  }
  if(changed&&viewMode==='game'){
-  focus=null;scene=null;
+  focus=null;menuGroup=null;scene=null;
   try{const response=await fetch(`/client-rpg/scenes/${encodeURIComponent(next.room.id)}.json`);if(!response.ok)throw Error();scene=await response.json();}catch{scene=generic(next.room);}
   void loadTileset(scene.tileset||'edran');
   const real=new Set(next.room.exits.map(e=>e.direction));scene.exits=scene.exits.filter(e=>real.has(e.direction));
   for(const direction of real)if(!scene.exits.some(e=>e.direction===direction))scene.exits.push({direction,rect:gates[direction]||[9,0,2,1]});
-  [player.x,player.y]=scene.spawn[entrance]||scene.spawn.default;entrance=null;exitLatch=null;keys.clear();
+  [player.x,player.y]=spawnPosition(scene,entrance);entrance=null;exitLatch=null;keys.clear();
  }
  render();
 }
@@ -214,10 +220,10 @@ function renderEntry(){
   const form=document.createElement('form');form.className='entry-form';
   const userLabel=node('label','');userLabel.className='field';userLabel.append(node('span','Nombre de cuenta'));
   const userInput=document.createElement('input');userInput.name='username';userInput.type='text';userInput.autocomplete='username';userInput.required=true;userInput.minLength=3;userInput.maxLength=40;userInput.value=savedUsername;userLabel.append(userInput);
-  const passLabel=node('label','');passLabel.className='field';passLabel.append(node('span','Contraseña (mínimo 8 caracteres)'));
-  const passInput=document.createElement('input');passInput.name='password';passInput.type='password';passInput.autocomplete=authTab==='login'?'current-password':'new-password';passInput.required=true;passInput.minLength=8;passInput.maxLength=200;passLabel.append(passInput);
+  const passLabel=node('label','');passLabel.className='field';passLabel.append(node('span',authTab==='login'?'Contraseña':'Contraseña (mínimo 8 caracteres)'));
+  const passInput=document.createElement('input');passInput.name='password';passInput.type='password';passInput.autocomplete=authTab==='login'?'current-password':'new-password';passInput.required=true;if(authTab==='register')passInput.minLength=8;passInput.maxLength=200;passLabel.append(passInput);
   const actions=node('div','');actions.className='form-actions';
-  const submitBtn=node('button',authTab==='login'?'Entrar · A':'Crear cuenta · A');submitBtn.type='submit';submitBtn.className='primary-btn';submitBtn.disabled=busy;actions.append(submitBtn);
+  const submitBtn=node('button',authTab==='login'?'Entrar · A':'Crear cuenta · A');submitBtn.type='submit';submitBtn.className='primary-btn';submitBtn.dataset.busy='true';submitBtn.disabled=busy;actions.append(submitBtn);
   form.append(userLabel,passLabel,actions);
   form.onsubmit=async e=>{
    e.preventDefault();if(busy)return;
@@ -262,7 +268,7 @@ function renderEntry(){
   const lblF=node('label','');lblF.append(radF,document.createTextNode(' Femenino'));
   genRow.append(lblM,lblF);genGroup.append(genRow);
   const actions=node('div','');actions.className='form-actions';
-  const submitBtn=node('button','Presentar personaje · A');submitBtn.type='submit';submitBtn.className='primary-btn';submitBtn.disabled=busy;actions.append(submitBtn);
+  const submitBtn=node('button','Presentar personaje · A');submitBtn.type='submit';submitBtn.className='primary-btn';submitBtn.dataset.busy='true';submitBtn.disabled=busy;actions.append(submitBtn);
   if(chars.length>0){
    const backBtn=node('button','Volver · B');backBtn.type='button';backBtn.onclick=()=>{viewMode='characters';notice('');render();};actions.append(backBtn);
   }
@@ -297,7 +303,7 @@ function renderEntry(){
   }
   tile.append(info);
   if(isApproved){
-   const playBtn=node('button','Entrar al mundo · A');playBtn.type='button';playBtn.className='primary-btn';playBtn.disabled=busy;
+   const playBtn=node('button','Entrar al mundo · A');playBtn.type='button';playBtn.className='primary-btn';playBtn.dataset.busy='true';playBtn.disabled=busy;
    playBtn.onclick=async()=>{
     if(busy)return;busy=true;notice('Entrando al mundo…');
     try{const res=await api('/api/character/select',{character_id:Number(c.id)});viewMode='game';notice('');await apply(res);}
@@ -310,7 +316,7 @@ function renderEntry(){
  }
  const actions=node('div','');actions.className='form-actions';
  if(hasPending){
-  const checkBtn=node('button','Comprobar aprobación');checkBtn.type='button';checkBtn.disabled=busy;
+  const checkBtn=node('button','Comprobar aprobación');checkBtn.type='button';checkBtn.dataset.busy='true';checkBtn.disabled=busy;
   checkBtn.onclick=async()=>{
    if(busy)return;busy=true;notice('Comprobando aprobación…');
    try{
@@ -334,7 +340,7 @@ function render(){
  const entryElem=$('entry');const worldElem=$('world-view');
  if(!inGame){
   if(worldElem)worldElem.hidden=true;
-  if(entryElem){entryElem.hidden=false;if(entryState()!==entryKey)renderEntry();}
+  if(entryElem){entryElem.hidden=false;if(entryState()!==entryKey)renderEntry();for(const b of entryElem.querySelectorAll('button[data-busy]'))b.disabled=busy;}
   panel(false);return;
  }
  if(entryElem)entryElem.hidden=true;
@@ -343,10 +349,25 @@ function render(){
  const c=snapshot.character,combat=c.combat;
  if(focus&&!entities().some(e=>e.id===focus))focus=null;
  $('place').textContent=snapshot.room.name;$('identity').textContent=`${c.name} · Nv.${c.level} · PV ${c.hp}/${c.hp_max} · XP ${c.xp}/${c.xp_next}`;$('description').textContent=snapshot.room.description;
- $('contexts').replaceChildren(...entities().map(e=>{const b=node('button',e.name);b.onclick=()=>{focus=e.id;panel(true);render();};return b;}),Object.assign(node('button','Lugar / todas las acciones'),{onclick:()=>{focus=null;render();}}));
- $('action-title').textContent=focus?`Interacción · ${entities().find(e=>e.id===focus)?.name||focus}`:'Decisiones';
- const actions=snapshot.actions.filter(a=>combat||!focus||a.target===focus||['mirar','observar'].includes(a.id));
+ const groups=['Personas','Criaturas','Mochila','Lugar','Más'];
+ const people=new Set(snapshot.room.npcs.map(n=>n.id));
+ const creatures=new Set(entities().filter(e=>!people.has(e.id)).map(e=>e.id));
+ const category=a=>people.has(a.target)?'Personas':creatures.has(a.target)?'Criaturas':['usar','equipar','desequipar','tirar','inventario','examinar_objeto'].includes(a.id)?'Mochila':['mover','mirar','observar','explorar'].includes(a.id)?'Lugar':'Más';
+ $('menu-bar').replaceChildren(...groups.map(group=>{const b=node('button',group);b.type='button';b.setAttribute('aria-expanded',String(!$('panel').hidden&&menuGroup===group));b.onclick=()=>{menuGroup=group;focus=null;panel(true);render();};return b;}));
+ $('contexts').replaceChildren();
+ if(menuGroup==='Personas'||menuGroup==='Criaturas'){
+  for(const e of entities().filter(e=>menuGroup==='Personas'?people.has(e.id):!people.has(e.id))){const b=node('button',e.name);b.onclick=()=>{focus=e.id;render();};$('contexts').append(b);}
+ }
+ if(!menuGroup){
+  $('contexts').replaceChildren(...groups.map(group=>{const b=node('button',group);b.onclick=()=>{menuGroup=group;focus=null;render();};return b;}));
+ }
+ $('action-title').textContent=focus?`Interacción · ${entities().find(e=>e.id===focus)?.name||focus}`:menuGroup||'Menú';
+ $('description').hidden=menuGroup!=='Lugar';
+ document.querySelector('.panel-account-tools').hidden=menuGroup!=='Más';
+ document.querySelector('#panel details').hidden=menuGroup!=='Más';
+ const actions=snapshot.actions.filter(a=>focus?a.target===focus:menuGroup&&category(a)===menuGroup);
  $('actions').replaceChildren(...actions.map(actionButton));
+ if(menuGroup&&actions.length===0&&!focus)$('actions').append(node('p','No hay decisiones disponibles aquí.'));
  if(pending){const b=node('button','Reintentar la misma decisión');b.onclick=()=>send(pending);$('actions').prepend(b);}
  $('combat').hidden=!combat;document.body.classList.toggle('battling',Boolean(combat));
  $('combat').replaceChildren();$('speaker').textContent=combat?(combat.prepared_action?.name||'Combate'):focus?(entities().find(e=>e.id===focus)?.name||'Conversación'):'El camino';
@@ -370,13 +391,13 @@ async function perform(action){
 async function send(payload){
  if(busy)return;busy=true;render();notice('Consultando el mundo…');
  const before=snapshot.room?.id;
- try{const next=await api('/api/action',payload);pending=null;if(next.room?.id!==before&&payload.id==='mover')entrance=opposite[payload.target];await apply(next);notice('');}
+ try{const next=await api('/api/action',payload);pending=null;if(next.room?.id!==before&&payload.id==='mover'){entrance=opposite[payload.target];panel(false);}await apply(next);notice('');}
  catch(error){if(!error.status)pending=payload;else selectedRound=null;notice(error.message+(pending?' Reintenta la misma decisión para evitar duplicados.':''));}
  finally{busy=false;render();}
 }
-function interact(){if(outcome){dismissOutcome();return;}if(snapshot?.character?.combat){if(document.activeElement?.closest('#battle-menu')){document.activeElement.click();return;}const button=$('battle-menu').querySelector('button:not(:disabled)');button?.focus();return;}const near=entities().sort((a,b)=>Math.hypot(a.at[0]-player.x,a.at[1]-player.y)-Math.hypot(b.at[0]-player.x,b.at[1]-player.y))[0];focus=near&&Math.hypot(near.at[0]-player.x,near.at[1]-player.y)<3?near.id:null;panel(true);render();}
+function interact(){if(outcome){dismissOutcome();return;}if(snapshot?.character?.combat){if(document.activeElement?.closest('#battle-menu')){document.activeElement.click();return;}const button=$('battle-menu').querySelector('button:not(:disabled)');button?.focus();return;}const near=entities().sort((a,b)=>Math.hypot(a.at[0]-player.x,a.at[1]-player.y)-Math.hypot(b.at[0]-player.x,b.at[1]-player.y))[0];focus=near&&Math.hypot(near.at[0]-player.x,near.at[1]-player.y)<3?near.id:null;menuGroup=focus?(snapshot.room.npcs.some(n=>n.id===focus)?'Personas':'Criaturas'):null;panel(true);render();}
 $('interact').onclick=()=>{if(outcome)dismissOutcome();else if(letters<(lines[lineIndex]?.length||0)||lineIndex<lines.length-1)advance();else interact();};
-$('advance').onclick=()=>outcome?dismissOutcome():advance();$('pause').onclick=()=>panel($('panel').hidden);$('back').onclick=back;$('close-panel').onclick=()=>panel(false);
+$('advance').onclick=()=>outcome?dismissOutcome():advance();$('pause').onclick=()=>{menuGroup=null;focus=null;panel($('panel').hidden);render();};$('back').onclick=back;$('close-panel').onclick=back;
 const panelSelect=$('panel-select-char');if(panelSelect)panelSelect.onclick=()=>{panel(false);viewMode='characters';render();};
 const panelLogout=$('panel-logout');if(panelLogout)panelLogout.onclick=()=>{panel(false);logout();};
 const headerLogout=$('logout');if(headerLogout)headerLogout.onclick=logout;
