@@ -370,10 +370,7 @@ def sync_numenes(state, now):
   mod = NUMENES_MODELS.get(n.get('model'), {})
   n.setdefault('power_desc', mod.get('power_desc', ''))
   if not n.get('last_reaction'):
-   if n.get('location') == 'home':
-    n['last_reaction'] = f"{n.get('name', 'Tu compañero')} descansa a salvo en tu hogar."
-   else:
-    n['last_reaction'] = f"{n.get('name', 'Tu compañero')} te acompaña con atención."
+   n['last_reaction'] = f"{n.get('name', 'Tu compañero')} te acompaña con atención."
  return numenes
 
 def pick_numen_reaction(numen, situation='llegar', now=None, rng=None):
@@ -543,7 +540,6 @@ def feed_numen_remote(state, numen_id, now):
   raise ValueError('Tu compañero viaja contigo; puedes alimentarlo directamente.')
  care = target.setdefault('care', {})
  care['last_fed'] = now
- care['last_rested'] = now
  care['_mood_fed'] = now
  care['well_cared'] = True
  care['fed_today'] = True

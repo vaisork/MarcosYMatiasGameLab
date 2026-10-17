@@ -321,9 +321,9 @@ function attributeUpgrade(name){
 }
 const numenSilhouettes={a:'🐕',b:'🐈',c:'🦎',d:'🦦',e:'🦊',f:'🦉',g:'🐐',h:'🐢'};
 const numenMoodDescriptions={
- 'contento':'Contento · Camina a tu lado con energía y curiosidad.',
- 'con hambre':'Con apetito · Te mira con ojitos tiernos esperando un rico Bocado de Númen.',
- 'decaído':'Tranquilo · Camina despacito y con calma; agradece tus caricias y cuidados. Nunca corre peligro.'
+ 'contento':'Contento · Te acompaña con energía y curiosidad.',
+ 'con hambre':'Con hambre · Te mira esperando un Bocado de Númen.',
+ 'decaído':'Decaído · Lleva muchas horas sin comer o descansar, pero sigue a tu lado.'
 };
 let numenAnim='',numenReactionText='';
 async function triggerNumenCare(action,animKind){
@@ -347,7 +347,7 @@ function numenCard(numen,isActive,availableActions){
  const stageName=trustStageNames[numen.trust_stage]||numen.trust_stage||`Etapa ${trustLevel}`;
  const stars='★'.repeat(trustLevel)+'☆'.repeat(Math.max(0,3-trustLevel));
  const moodTone=mood==='contento'?'care-good':mood==='con hambre'?'care-hungry':'care-need';
- const displayMood=isActive?mood:(mood==='con hambre'?'con apetito en casa':mood==='decaído'?'descansando a salvo':'descansando en casa');
+ const displayMood=mood;
  const cardEl=el('article',{class:`tile numen-card${isActive?' numen-active':''}`},
   el('div',{class:'numen-heading'},
    numenArt(numen,{class:'species-thumbnail'}),
@@ -358,11 +358,10 @@ function numenCard(numen,isActive,availableActions){
    el('span',{class:`pill${isActive?' numen-pill-active':''}`},isActive?'En viaje':'En el refugio')
   ),
   el('div',{class:'numen-details'},
-   el('div',{class:'numen-row numen-line'},el('strong',{},'Estado: '),el('span',{class:`pill ${isActive?moodTone:'care-good'} numen-mood-text`},displayMood)),
+   el('div',{class:'numen-row numen-line'},el('strong',{},'Estado: '),el('span',{class:`pill ${moodTone} numen-mood-text`},displayMood)),
    el('div',{class:'numen-row'},el('strong',{},'Confianza: '),el('span',{class:'numen-trust'},`${stageName} `),el('span',{class:'numen-stars','aria-label':`${trustLevel} de 3 estrellas`},stars)),
    el('div',{class:'numen-row'},el('strong',{},'Apoyo: '),el('span',{},numen.power_name||'Apoyo sutil con recarga')),
-   numen.last_reaction?el('p',{class:'muted numen-last-reaction'},numen.last_reaction):null,
-   !isActive?el('p',{class:'muted numen-home-safe-note'},'En tu hogar siempre está seguro y calientito; los Númenes nunca mueren ni se van.'):null
+   numen.last_reaction?el('p',{class:'muted numen-last-reaction'},numen.last_reaction):null
   )
  );
  const renameAction=availableActions.find(a=>a.id==='nombrar_numen'&&a.target===numen.id)||{id:'nombrar_numen',target:numen.id,label:`Cambiar nombre de ${numen.name}`,reason:`Darle un nuevo nombre a ${numen.name}.`};
@@ -742,7 +741,7 @@ function numenView(){
     );
    }
 
-   const gentleMoodText=traveling?(entry.mood||'contento'):(entry.mood==='con hambre'?'con apetito en casa':entry.mood==='decaído'?'descansando a salvo':'descansando en casa');
+   const gentleMoodText=entry.mood||'contento';
 
    return el('div',{class:`tile numen-roster-item${traveling?' numen-active':''}`},
     el('div',{class:'numen-roster-info'},
