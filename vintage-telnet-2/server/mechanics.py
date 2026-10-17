@@ -190,6 +190,8 @@ def penalties(state):
  power=(.8 if f>=90 else .9 if f>=70 else 1)*(.9 if state['wound']=='grave' else 1)
  return accuracy,power
 
+MAX_BONDED_NUMENES = 6
+
 NUMENES_MODELS = {
  'a': {
   'id': 'a',
@@ -442,8 +444,8 @@ def bond_numen(state, model_id, name, now):
  numenes = state.setdefault('numenes', {'active': None, 'bonded': [], 'encounters': {}})
  bonded = numenes.setdefault('bonded', [])
  # El compañero del DM no desplaza vínculos previos de un roster completo.
- if len(bonded) >= 3 and not (is_vaisork(state) and model_id == 'b' and name == 'Senku'):
-  raise ValueError('Límite alcanzado: máximo tres Númenes vinculados.')
+ if len(bonded) >= MAX_BONDED_NUMENES and not (is_vaisork(state) and model_id == 'b' and name == 'Senku'):
+  raise ValueError(f'Límite alcanzado: máximo {MAX_BONDED_NUMENES} Númenes vinculados.')
  clean_name = validate_numen_name(name)
  if model_id not in NUMENES_MODELS:
   raise ValueError('Modelo de Númen desconocido.')

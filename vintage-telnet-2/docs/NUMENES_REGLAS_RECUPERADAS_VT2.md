@@ -51,7 +51,7 @@ Aprender posteriormente un poder que habría impedido un vínculo nuevo **no des
 
 ### R06 — Tres vinculados, uno activo
 
-Límite histórico **3 Númenes vinculados por personaje; 1 activo en viaje**. Los otros permanecen en el hogar, y mientras estén allí no prestan su poder. La existencia actual de hogares en VT2 no significa que exista el almacenamiento o panel de Númenes. Su implementación requiere contrato de persistencia y UI.
+Límite **6 Númenes vinculados por personaje; 1 activo en viaje** (el histórico era 3; Javier lo subió a 6 el 2026-10-16 para que Marcos pudiera vincular al gato de dos colas). Los otros permanecen en el hogar, y mientras estén allí no prestan su poder. La existencia actual de hogares en VT2 no significa que exista el almacenamiento o panel de Númenes. Su implementación requiere contrato de persistencia y UI.
 
 ### R07 — Un poder único fijo más compañía
 

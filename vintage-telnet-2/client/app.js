@@ -394,7 +394,7 @@ function numenSection(c){
   return section;
  }
  if(active)section.append(el('p',{class:'numen-status-line'},`${active.name} (${active.species_name||'Compañero Númen'}): ${active.mood||'contento'}.`));
- section.append(subtitle(`Compañeros vinculados: ${bonded.length}/3 (máximo 1 activo en viaje).`));
+ section.append(subtitle(`Compañeros vinculados: ${bonded.length}/6 (máximo 1 activo en viaje).`));
  const available=actions(state.actions);
  if(active)section.append(numenCard(active,true,available));
  const others=bonded.filter(n=>n.id!==active?.id);
