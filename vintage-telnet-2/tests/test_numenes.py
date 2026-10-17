@@ -133,10 +133,13 @@ class NumenesPilotTests(unittest.TestCase):
         self.assertEqual(n3['location'], 'home')
         self.assertEqual(len(self.state['numenes']['bonded']), 3)
 
-        # 4th: exceeds limit -> raises error
+        # 4th to 6th fit; 7th exceeds limit -> raises error
+        for model, name in (('d', 'Cuarto'), ('e', 'Quinto'), ('f', 'Sexto')):
+            m.bond_numen(self.state, model, name, self.now)
+        self.assertEqual(len(self.state['numenes']['bonded']), 6)
         with self.assertRaises(ValueError) as ctx:
-            m.bond_numen(self.state, 'd', 'Cuarto', self.now)
-        self.assertIn('máximo tres', str(ctx.exception).lower())
+            m.bond_numen(self.state, 'g', 'Séptimo', self.now)
+        self.assertIn('máximo 6', str(ctx.exception).lower())
 
         # Switching active companion
         m.activate_numen(self.state, n2['id'])

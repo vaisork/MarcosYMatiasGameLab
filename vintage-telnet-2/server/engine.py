@@ -865,8 +865,8 @@ class Engine:
                     actions.append({'id':'forzar_numen','target':mod['id'],'label':mod['unfavorable']['label'],'reason':'Intentar forzar la situación.'})
                 elif stage>=3:
                     bonded_count=len(state.get('numenes',{}).get('bonded',[]))
-                    disabled=bonded_count>=3
-                    reason='Ya has alcanzado el límite de 3 Númenes vinculados (R06).' if disabled else 'El animal ha aceptado tu compañía por voluntad propia.'
+                    disabled=bonded_count>=m.MAX_BONDED_NUMENES
+                    reason=f'Ya has alcanzado el límite de {m.MAX_BONDED_NUMENES} Númenes vinculados (R06).' if disabled else 'El animal ha aceptado tu compañía por voluntad propia.'
                     actions.append({'id':'vincular_numen','target':mod['id'],'label':'Aceptar el vínculo y darle nombre','disabled':disabled,'reason':reason})
         story_ids={item['id'] for item in room.get('actions',[])}
         numen_prio={'observar_numen','aproximar_numen','confiar_numen','calmar_numen','vincular_numen','cuidar_numen','alimentar_numen','nombrar_numen','activar_numen','descansar_numen','apoyo_numen'}
