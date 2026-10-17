@@ -101,6 +101,8 @@ class RpgTilesTests(unittest.TestCase):
         """El modo --preview genera vistas PNG a escala x3 de cada escena."""
         import subprocess
         import tempfile
+        if subprocess.run(['python3', '-c', 'import PIL'], capture_output=True).returncode:
+            self.skipTest('Pillow no instalado: herramienta de arte, no runtime')
         with tempfile.TemporaryDirectory() as tmpdir:
             script_path = ROOT / 'scripts' / 'build-rpg-tileset.py'
             res = subprocess.run(['python3', str(script_path), '--preview', tmpdir], capture_output=True, text=True)
