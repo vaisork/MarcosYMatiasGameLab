@@ -1,3 +1,4 @@
+import os
 import importlib.util
 import json
 from pathlib import Path
@@ -103,6 +104,9 @@ class RpgTilesTests(unittest.TestCase):
         import tempfile
         if subprocess.run(['python3', '-c', 'import PIL'], capture_output=True).returncode:
             self.skipTest('Pillow no instalado: herramienta de arte, no runtime')
+        pack = Path(os.environ.get('NINJA_ADVENTURE_DIR', Path.home() / 'proyectos' / 'entregas' / 'equipo' / 'assets-rpg' / 'Ninja Adventure - Asset Pack'))
+        if not pack.is_dir():
+            self.skipTest('Pack Ninja Adventure ausente (sólo en la máquina de arte; no se publica)')
         with tempfile.TemporaryDirectory() as tmpdir:
             script_path = ROOT / 'scripts' / 'build-rpg-tileset.py'
             res = subprocess.run(['python3', str(script_path), '--preview', tmpdir], capture_output=True, text=True)
