@@ -1,4 +1,4 @@
-# Vaisgard RPG — Especificación técnica: Escenas de Campos de Edran (Fase 1)
+# Vaisgard RPG — Especificación técnica y validación: Escenas de Campos de Edran (Fases 1 y 2)
 
 **Fecha:** 2026-10-17
 **Rol:** Implementador AGY (Vaisgard RPG), gestor de arte Codex.
@@ -7,11 +7,15 @@
 
 ---
 
-## 1. Alcance y objetivo de Fase 1
+## 1. Alcance y objetivos
 
-Preparación técnica y arquitectónica para incorporar seis escenas reales de los campos de Edran al cliente Vaisgard RPG (`/rpg`), sin arte placeholder ni generación anticipada de escenas JSON de runtime en esta fase. Los fondos serán generados por Codex en `backgrounds/` en la siguiente etapa; esta especificación fija el contrato de geometría, zonas transitables/bloqueadas, salidas reales, spawns y referencias anatómicas de criaturas.
+### Fase 1 (Completada en commit `a7135a3`)
+Preparación técnica y arquitectónica para incorporar seis escenas reales de los campos de Edran al cliente Vaisgard RPG (`/rpg`), fijando el contrato de geometría, zonas transitables/bloqueadas, salidas reales, spawns y referencias anatómicas de criaturas.
 
-Salas a integrar:
+### Fase 2 (Completada en esta entrega)
+Integración efectiva de los seis fondos aprobados por Codex (`client-rpg/backgrounds/<id>.webp`, WebP 1280×960 ≤250 KB), creación de los seis archivos de escena de runtime (`client-rpg/scenes/<id>.json`), alineación de colisiones sólidas con la composición visual definitiva de cada fondo, desarrollo del runner focal de QA (`scripts/qa-rpg-edran-campos.py`) y verificación visual interactiva en resoluciones de escritorio (1366×768) y móvil (390×844) mediante `codex-browser`.
+
+Salas integradas:
 1. `edran_estanque` (Estanque del Reflejo Partido)
 2. `edran_lindero` (Lindero de la Piedra Hundida)
 3. `edran_parcela_vieja` (Parcela vieja)
@@ -21,172 +25,241 @@ Salas a integrar:
 
 ---
 
-## 2. Inventario real de criaturas y referencias existentes
+## 2. Inventario real de criaturas y estado de sprites
 
-Se analiza el estado de cada criatura presente en el canon de las seis salas (`canon.json`, `content/world.json` y `client-rpg/sprites/`), respetando estrictamente el canon MUD y el principio de no inventar anatomía:
+Se respeta estrictamente el canon MUD y el principio de no inventar anatomía ni declarar implementadas criaturas sin sprite dedicado:
 
-| Criatura | Presencia canónica en las 6 salas | Referencia MUD / Bestiario | Sprite RPG existente | Anatomía canónica (MUD / Canon) |
+| Criatura | Presencia canónica en las 6 salas | Referencia MUD / Bestiario | Sprite RPG integrado | Estado en runtime / Escena |
 |---|---|---|---|---|
-| `espinajo_rastrojo` | Presente en las 6 salas (`wildlife_pool`) | `/client/art/bestiary/espinajo-rastrojo-anime-v1.webp` | **SÍ** (`sprites/espinajo.png` 48×48, `sprites/espinajo-battle.png` 192×192) | Cuadrúpedo bajo y compacto, armadura de púas/espinas de rastrojo en el lomo, ojos ámbar, paso defensivo entre tallos cortados. |
-| `mordelinde` | `edran_parcela_vieja`, `edran_bajo_humedo` (señal/acción), `edran_sauces` | `/client/art/bestiary/mordelinde-anime-v1.webp` | **NO** (usa símbolo `?` de fallback) | Pequeño mamífero excavador, hocico puntiagudo para apartar tierra, cuerpo bajo y alargado color tierra, cola corta con pelo, patas delanteras ágiles. Se refugia en agujeros entre raíces. |
-| `cornalomo` | `edran_parcela_vieja`, `edran_sauces` | `/client/art/bestiary/cornalomo-anime-v1.webp` | **NO** (usa símbolo `?` de fallback) | Herbívoro masivo de prado, cuerpo alto que sobresale sobre la hierba, huella ancha y partida en dos (como rueda de carro), lomo pesado visible a distancia, cuerno frontal/dorsal. |
-| `salteador_veterano` | `edran_estanque`, `edran_zanja_antigua` | `/client/art/encounters/forajido-camino-anime-v1.webp` (`combatant_kind: human`) | **NO** (usa símbolo `?` de fallback) | Humana de pelo gris, cota de malla vieja bien cuidada, espada corta, compostura tranquila y experimentada sentada en rocas al borde del camino. |
-
-*Nota técnica:* Ninguna de las criaturas salvo `espinajo_rastrojo` cuenta con sprite RPG integrado. Codex o el equipo de arte deberán producirlos en encargos dedicados de sprites con formato estandarizado (48×48 para mapa o 64×96 para humanoides).
+| `espinajo_rastrojo` | Presente en las 6 salas (`wildlife_pool`) | `/client/art/bestiary/espinajo-rastrojo-anime-v1.webp` | **SÍ** (`sprites/espinajo.png` 48×48, `sprites/espinajo-battle.png` 192×192) | Posicionado en celda libre conectada en las 6 escenas. Visible y funcional. |
+| `mordelinde` | `edran_parcela_vieja`, `edran_bajo_humedo` (señal/acción), `edran_sauces` | `/client/art/bestiary/mordelinde-anime-v1.webp` | **NO** (en curso por Codex) | **No declarado como implementado.** El runtime renderiza marcador `?` en acciones/combate hasta entrega de sprites. |
+| `cornalomo` | `edran_parcela_vieja`, `edran_sauces` | `/client/art/bestiary/cornalomo-anime-v1.webp` | **NO** (en curso por Codex) | **No declarado como implementado.** Sin sprite en mapa. |
+| `salteador_veterano` | `edran_estanque`, `edran_zanja_antigua` | `/client/art/encounters/forajido-camino-anime-v1.webp` (`combatant_kind: human`) | **NO** (en curso por Codex) | **No declarado como implementado.** Sin sprite en mapa. |
 
 ---
 
-## 3. Contrato de geometría 20×15 y especificación para Codex
+## 3. Contrato de geometría 20×15 y reglas de colisión
 
 - **Dimensiones de la cuadrícula:** 20 columnas (x: 0..19) × 15 filas (y: 0..14).
-- **Resolución lógica y Canvas:** Celda lógica de 16 px. El Canvas del cliente opera a 640×480 px (escalado entero 32×32 por celda).
-- **Fondos WebP (Codex):** 1280×960 px, RGB WebP (≤250 KB), perspectiva cenital 3/4 (top-down RPG), iluminación cálida desde superior-izquierda, paleta Edran (ocres, verde oliva, tierra húmeda, madera y agua turquesa). Sin actores ni sombras de personajes pintadas en el fondo.
-- **Geometría de colisión de avatar:** En `rpg.js`, el avatar ocupa `[x - 0.22, x + 0.22]` × `[y - 0.18, y + 0.18]` con pies en `(x + 0.5, y + 0.5)`. Las zonas de paso deben tener al menos 1 celda completa limpia (`.` en `solid`) sin obstáculos vecinos.
-- **Spawns y Flood Fill:** Todo punto de entrada (`spawn[dirección]`) debe situarse en celda transitable y disponer de camino libre continuo mediante flood fill hacia todas las salidas de la escena, verificable por `check-rpg-client.mjs`.
+- **Resolución lógica y Canvas:** Celda lógica de 16 px. El Canvas opera a 640×480 px (escalado entero 32×32 por celda). Fondos WebP a 1280×960 px.
+- **Geometría de colisión:** Avatar con volumen `[x - 0.22, x + 0.22]` × `[y - 0.18, y + 0.18]` con pies en `(x + 0.5, y + 0.5)`. Las zonas de paso tienen al menos 1 celda completa de paso libre (`.` en `solid`).
+- **Política de Spawns para cardinales sin salida:** Todo cardinal de llegada que no corresponda a una salida real de la escena reutiliza las coordenadas del spawn `default` interior seguro. Esto previene que una llegada teórica ubique al avatar en agua, maleza o rocas.
+- **Conectividad de actores:** Todos los actores (`creatures` y `npcs`) residen en celdas transitables conectadas por flood fill con el spawn por defecto.
 
 ---
 
-## 4. Propuestas técnicas de escenas (Sólidos, Spawns, Salidas y Briefs de Arte)
+## 4. Geometría final de las seis escenas
 
 ### 4.1 `edran_estanque` (Estanque del Reflejo Partido)
-- **Tipo:** `landmark`
-- **Salidas reales canónicas:**
-  - `norte` → `edran_acequia`
-  - `este` → `edran_bajo_humedo`
-  - `sur` → `edran_sauces`
-- **Brief para Codex:** Estanque circular que ocupa el cuadrante centro-norte (cols 7–14, filas 3–9). Tronco caído sumergido dividiendo el agua en dos reflejos (quieta al oeste, rápida al este). Orilla de tierra y piedras secas rodeando el estanque por el oeste y el sur. Paso de acequia abierto al norte, salida hacia sauces al sur y sendero hacia la hondonada por el este.
-- **Salidas propuestas:**
-  - `{"direction": "norte", "rect": [9, 0, 2, 1]}`
-  - `{"direction": "sur", "rect": [9, 14, 2, 1]}`
-  - `{"direction": "este", "rect": [19, 6, 1, 3]}`
-- **Spawns propuestos:**
-  - `default`: [4, 7], `norte`: [10, 1], `sur`: [10, 13], `este`: [18, 7], `oeste`: [2, 7]
-- **Sólidos (`layers.solid`):**
-  - Filas 0 y 14 cerradas salvo rectángulos de salida norte y sur.
-  - Columna 0 cerrada con rocas y cercas; columna 19 cerrada salvo salida este.
-  - Estanque central bloqueado (cols 7–14, filas 3–9). Sendero transitable en `L` (cols 2–5, filas 1–13) que conecta norte, sur y este.
-- **Actores / Criaturas:** `salteador_veterano` / `espinajo_rastrojo` en [4, 5] (piedras secas junto al agua).
+- **Fondo WebP:** `backgrounds/edran_estanque.webp` (228 KB, 1280×960 px).
+- **Disposición visual final:** El estanque de agua y el tronco sumergido ocupan el cuadrante izquierdo (cols 0–9). La senda de tierra principal discurre de norte a sur por la derecha (cols 10–12), bifurcándose hacia el este (filas 6–8) rumbo a la hondonada. Arbustos y rocas cierran los cuadrantes superior derecho e inferior derecho.
+- **Salidas finales:**
+  - `norte`: rect `[10, 0, 2, 1]` → `edran_acequia`
+  - `sur`: rect `[10, 14, 2, 1]` → `edran_sauces`
+  - `este`: rect `[19, 6, 1, 3]` → `edran_bajo_humedo`
+- **Spawns finales:** `default`: `[11, 7]`, `norte`: `[10, 1]`, `sur`: `[11, 13]`, `este`: `[18, 7]`, `oeste`: `[11, 7]` (reutiliza default seguro).
+- **Criaturas:** `espinajo_rastrojo` en `[12, 7]` (senda despejada).
+- **Matriz de sólidos (`layers.solid`):**
+  ```text
+  1111111111..11111111
+  1111111111..11111111
+  1111111111..11111111
+  1111111111...1111111
+  1111111111...1111111
+  1111111111...1111111
+  1111111111..........
+  1111111111..........
+  1111111111..........
+  1111111111...1111111
+  1111111111...1111111
+  1111111111...1111111
+  1111111111..11111111
+  1111111111..11111111
+  1111111111..11111111
+  ```
 
 ---
 
 ### 4.2 `edran_lindero` (Lindero de la Piedra Hundida)
-- **Tipo:** `landmark`
-- **Salidas reales canónicas:**
-  - `sur` → `edran_surcos`
-  - `oeste` → `edran_loma`
-  - `este` → `edran_cobertizo_campo`
-- **Brief para Codex:** Campo abierto de hierba peinada por el viento. En el centro (cols 8–11, filas 4–6), una gran piedra antigua semi-hundida con muesca al sur. Una cerca nueva de postes de madera dobla rodeando la piedra dejando paso hacia el este. Cruce de senderos en `T` que une oeste, este y sur. Al norte, matorral alto y cerca perimetral continua.
-- **Salidas propuestas:**
-  - `{"direction": "oeste", "rect": [0, 6, 1, 3]}`
-  - `{"direction": "este", "rect": [19, 6, 1, 3]}`
-  - `{"direction": "sur", "rect": [9, 14, 2, 1]}`
-- **Spawns propuestos:**
-  - `default`: [10, 7], `oeste`: [1, 7], `este`: [18, 7], `sur`: [10, 13], `norte`: [10, 2]
-- **Sólidos (`layers.solid`):**
-  - Fila 0 bloqueada en su totalidad por cerca y pastizal cerrado.
-  - Bloque de la piedra hundida y recodo de cerca (cols 8–11, filas 4–6).
-  - Cruce en `T` libre: franja horizontal (filas 6–8) y franja vertical sur (cols 9–11, filas 8–14).
-- **Actores / Interactivos:** `espinajo_rastrojo` en [14, 4]. Tablilla de madera (acción `edran_hallar_tablilla`) junto a la cerca en [11, 6].
+- **Fondo WebP:** `backgrounds/edran_lindero.webp` (239 KB, 1280×960 px).
+- **Disposición visual final:** Gran peñasco central y parcelas de cultivo con cercas de madera en toda la franja superior (filas 0–5). Cruce en `T` amplio que comunica el sendero oeste (filas 6–8), este (filas 6–8) y la bajada sur hacia los surcos (cols 9–11). Cuadrantes inferiores cerrados por arboledas a la izquierda y huerto vallado a la derecha.
+- **Salidas finales:**
+  - `oeste`: rect `[0, 6, 1, 3]` → `edran_loma`
+  - `este`: rect `[19, 6, 1, 3]` → `edran_cobertizo_campo`
+  - `sur`: rect `[10, 14, 2, 1]` → `edran_surcos`
+- **Spawns finales:** `default`: `[10, 7]`, `oeste`: `[1, 7]`, `este`: `[18, 7]`, `sur`: `[10, 13]`, `norte`: `[10, 7]` (reutiliza default seguro).
+- **Criaturas:** `espinajo_rastrojo` en `[14, 7]`.
+- **Matriz de sólidos (`layers.solid`):**
+  ```text
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  ....................
+  ....................
+  ....................
+  111111111...11111111
+  111111111...11111111
+  111111111...11111111
+  111111111...11111111
+  111111111...11111111
+  1111111111..11111111
+  ```
 
 ---
 
 ### 4.3 `edran_parcela_vieja` (Parcela vieja)
-- **Tipo:** `wilderness`
-- **Salidas reales canónicas:**
-  - `norte` → `edran_loma`
-  - `este` → `edran_surcos`
-- **Brief para Codex:** Dos hileras de rastrojo y cultivo abandonado que rematan contra una roca voluminosa. Arco de brotes tiernos alrededor de la piedra sin tocarla. Rincón seco de tierra blanda para descanso junto a la piedra (cols 12–14, filas 7–9). Senda de tierra que desciende desde la loma al norte y tuerce hacia el este rumbo a los surcos. Borde sur y oeste cerrados por maleza espesa y zanjas de desagüe.
-- **Salidas propuestas:**
-  - `{"direction": "norte", "rect": [9, 0, 2, 1]}`
-  - `{"direction": "este", "rect": [19, 6, 1, 3]}`
-- **Spawns propuestos:**
-  - `default`: [10, 5], `norte`: [10, 1], `este`: [18, 7], `sur`: [10, 13], `oeste`: [2, 7]
-- **Sólidos (`layers.solid`):**
-  - Columna 0 y Fila 14 bloqueadas por maleza densa.
-  - Roca masiva y brotes bloqueados en cols 7–10, filas 8–11.
-  - Senda abierta que conecta salida norte [9,0,2,1] bajando hasta fila 6–7 y enlazando con salida este [19,6,1,3].
-- **Actores / Criaturas:** `mordelinde` en [6, 10], `espinajo_rastrojo` en [15, 4], `cornalomo` visible al fondo en [3, 2].
+- **Fondo WebP:** `backgrounds/edran_parcela_vieja.webp` (234 KB, 1280×960 px).
+- **Disposición visual final:** Peñasco con cesta y pala ubicado en la parte inferior izquierda (filas 8–11, cols 1–5). Cultivos secos y rastrojo a la izquierda. Senda que desciende desde la loma al norte (cols 10–11) y se ensancha en una era de tierra firme que conecta con la salida este hacia los surcos (filas 6–8). Parte inferior y lateral oeste bloqueados por vegetación densa.
+- **Salidas finales:**
+  - `norte`: rect `[10, 0, 2, 1]` → `edran_loma`
+  - `este`: rect `[19, 6, 1, 3]` → `edran_surcos`
+- **Spawns finales:** `default`: `[11, 6]`, `norte`: `[10, 1]`, `este`: `[18, 7]`, `oeste`: `[11, 6]` (default seguro), `sur`: `[11, 6]` (default seguro).
+- **Criaturas:** `espinajo_rastrojo` en `[14, 6]`.
+- **Matriz de sólidos (`layers.solid`):**
+  ```text
+  1111111111..11111111
+  1111111111..11111111
+  1111111111...1111111
+  1111111111...1111111
+  1111111111...1111111
+  111111111.........11
+  111111111...........
+  111111111...........
+  1111111111..........
+  1111111111...1111111
+  1111111111...1111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  ```
 
 ---
 
 ### 4.4 `edran_zanja_antigua` (Zanja seca)
-- **Tipo:** `landmark`
-- **Salidas reales canónicas:**
-  - `oeste` → `edran_surcos`
-  - `norte` → `edran_era`
-  - `este` → `edran_canal_entrada`
-- **Brief para Codex:** Zanja profunda excavada que cruza el terreno (filas 9–12, cols 4–15). Al este, escalones de piedra empotrados que bajan a la boca abovedada del canal cubierto (`edran_canal_entrada`). Losa vertical clavada en tierra apisonada que marca el cierre del agua antigua. Sendero transitable superior que viene del oeste, se bifurca hacia la era al norte y bordea la zanja hacia los escalones orientales.
-- **Salidas propuestas:**
-  - `{"direction": "oeste", "rect": [0, 6, 1, 3]}`
-  - `{"direction": "norte", "rect": [9, 0, 2, 1]}`
-  - `{"direction": "este", "rect": [19, 6, 1, 3]}`
-- **Spawns propuestos:**
-  - `default`: [10, 5], `oeste`: [1, 7], `norte`: [10, 1], `este`: [18, 7], `sur`: [10, 13]
-- **Sólidos (`layers.solid`):**
-  - Fila 14 bloqueada por desnivel. Lecho inferior de la zanja bloqueado salvo escaleras al este.
-  - Losa vertical sólida en [16, 5–6].
-  - Plataforma superior transitable en filas 5–7 que une oeste, norte y este.
-- **Actores / Criaturas:** `espinajo_rastrojo` / `salteador_veterano` en [12, 4].
+- **Fondo WebP:** `backgrounds/edran_zanja_antigua.webp` (214 KB, 1280×960 px).
+- **Disposición visual final:** Terrazas superiores de olivos con bancales de piedra a ambos lados del camino norte (cols 10–11). Calzada horizontal ancha (filas 6–8) que cruza de oeste a este. En el extremo este, a la altura de la fila 7, se encuentra la boca en bóveda de piedra del conducto cubierto (`edran_canal_entrada`). Toda la mitad inferior (filas 9–14) está bloqueada por pastizal alto y olivos viejos.
+- **Salidas finales:**
+  - `oeste`: rect `[0, 6, 1, 3]` → `edran_surcos`
+  - `norte`: rect `[10, 0, 2, 1]` → `edran_era`
+  - `este`: rect `[19, 6, 1, 3]` → `edran_canal_entrada`
+- **Spawns finales:** `default`: `[10, 7]`, `oeste`: `[1, 7]`, `norte`: `[10, 1]`, `este`: `[18, 7]`, `sur`: `[10, 7]` (default seguro).
+- **Criaturas:** `espinajo_rastrojo` en `[7, 7]`.
+- **Matriz de sólidos (`layers.solid`):**
+  ```text
+  1111111111..11111111
+  1111111111..11111111
+  1111111111..11111111
+  1111111111..11111111
+  1111111111..11111111
+  1111111111..11111111
+  ....................
+  ....................
+  ....................
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  ```
 
 ---
 
 ### 4.5 `edran_bajo_humedo` (Hondonada húmeda)
-- **Tipo:** `wilderness`
-- **Salidas reales canónicas:**
-  - `oeste` → `edran_estanque` *(Única salida canónica; hondonada sin salida)*
-- **Brief para Codex:** Depresión de tierra pantanosa y hierba casi negra. Arroyuelos brillantes serpenteando por cieno blando e intransitable en el 70% del mapa (cols 6–19, filas 0–14). Franja elevada de piedras secas en el extremo oeste (cols 1–5, filas 3–11) donde se detiene el viajero. Entre las raíces del fango se vislumbra la madriguera del Mordelinde. Bordes norte, este y sur cerrados por el desnivel natural.
-- **Salidas propuestas:**
-  - `{"direction": "oeste", "rect": [0, 6, 1, 3]}`
-- **Spawns propuestos:**
-  - `default`: [3, 7], `oeste`: [1, 7], `este`: [3, 7], `norte`: [3, 5], `sur`: [3, 9]
-- **Sólidos (`layers.solid`):**
-  - Todo el cuadrante oriental y central (cols 6–19) bloqueado como barro intransitable.
-  - Franja segura transitable en cols 1–4, filas 4–10 comunicada con salida oeste [0, 6, 1, 3].
-- **Actores / Interactivos:** `mordelinde` en [10, 6] (en su madriguera en el fango, visible y examinable desde las piedras). Hallazgos de ungüento y hierbas en las piedras secas [3, 4].
+- **Fondo WebP:** `backgrounds/edran_bajo_humedo.webp` (209 KB, 1280×960 px).
+- **Disposición visual final:** Fondo de humedal cenagoso e intransitable en el 60% oriental (cols 10–19). Entrada por el oeste (filas 6–8) que accede a una plataforma rocosa elevada y seca en el cuadrante centro-occidental (filas 6–8, cols 0–9). Extremo oriental cerrado; es un fondo sin salida canónico hacia el este.
+- **Salidas finales:**
+  - `oeste`: rect `[0, 6, 1, 3]` → `edran_estanque`
+- **Spawns finales:** `default`: `[5, 7]`, `oeste`: `[1, 7]`, `este`: `[5, 7]` (default seguro), `norte`: `[5, 7]` (default seguro), `sur`: `[5, 7]` (default seguro).
+- **Criaturas:** `espinajo_rastrojo` en `[7, 7]` (sobre plataforma seca).
+- **Matriz de sólidos (`layers.solid`):**
+  ```text
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  ...11.....1111111111
+  ..........1111111111
+  ..........1111111111
+  ..........1111111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  ```
 
 ---
 
 ### 4.6 `edran_sauces` (Borde de los Sauces Bajos)
-- **Tipo:** `wilderness`
-- **Salidas reales canónicas:**
-  - `norte` → `edran_estanque`
-  - `este` → `edran_puente_juncos`
-- **Brief para Codex:** Sauce corpulento e inclinado cuyas ramas verdes cuelgan rozando el agua como una cortina (cols 2–7, filas 5–12). Raíces gruesas afirmando la ribera. La senda de tierra bordea el árbol por el norte y el este sin meterse bajo sus ramas, doblando hacia el puente de juncos en el este. Al oeste y sur el agua del arroyo impide el paso.
-- **Salidas propuestas:**
-  - `{"direction": "norte", "rect": [9, 0, 2, 1]}`
-  - `{"direction": "este", "rect": [19, 6, 1, 3]}`
-- **Spawns propuestos:**
-  - `default`: [11, 5], `norte`: [10, 1], `este`: [18, 7], `sur`: [10, 13], `oeste`: [2, 7]
-- **Sólidos (`layers.solid`):**
-  - Sombra del sauce y aguas del sur/oeste bloqueadas (cols 0–7, filas 6–14). Fila 14 cerrada.
-  - Senda transitable en arco: entra por norte [9,0,2,1], pasa por cols 9–13 (filas 2–6) y tuerce hacia salida este [19,6,1,3].
-- **Actores / Criaturas:** `mordelinde` en [5, 12] (bajo raíces), `espinajo_rastrojo` en [13, 4], `cornalomo` en [16, 11].
+- **Fondo WebP:** `backgrounds/edran_sauces.webp` (218 KB, 1280×960 px).
+- **Disposición visual final:** Sauce corpulento y arroyo de corriente viva en la ribera izquierda (cols 0–9). La senda de tierra entra por el norte (cols 10–12), bordea el árbol y dobla hacia el este (filas 6–8) en dirección a la pasarela sobre los juncos. Bloqueo total al sur e inferior derecho por zarzas espesas.
+- **Salidas finales:**
+  - `norte`: rect `[10, 0, 2, 1]` → `edran_estanque`
+  - `este`: rect `[19, 6, 1, 3]` → `edran_puente_juncos`
+- **Spawns finales:** `default`: `[11, 6]`, `norte`: `[11, 1]`, `este`: `[18, 7]`, `oeste`: `[11, 6]` (default seguro), `sur`: `[11, 6]` (default seguro).
+- **Criaturas:** `espinajo_rastrojo` en `[12, 6]`.
+- **Matriz de sólidos (`layers.solid`):**
+  ```text
+  1111111111..11111111
+  1111111111..11111111
+  1111111111...1111111
+  1111111111...1111111
+  1111111111....111111
+  1111111111....111111
+  1111111111..........
+  1111111111..........
+  1111111111..........
+  11111111111...111111
+  11111111111...111111
+  11111111111...111111
+  11111111111111111111
+  11111111111111111111
+  11111111111111111111
+  ```
 
 ---
 
-## 5. Validación y propuesta de runner focal para Fase 2
+## 5. Validación y resultados de QA
 
-### 5.1 Scripts de QA existentes en el repositorio
+### 5.1 Pruebas de contrato automatizadas
 1. `node scripts/check-rpg-client.mjs`:
-   - Valida el contrato del cliente, fetch/acciones, bloqueo de rondas de combate y renderizado.
-   - Realiza flood fill automático sobre todas las escenas en `client-rpg/scenes/*.json` y escenas genéricas de todas las regiones, asegurando que ningún spawn overlap con paredes (`blocked(x,y)`) y que cada salida sea alcanzable según el volumen del avatar (`[x±0.22, y±0.18]`).
-2. `scripts/qa-rpg-battle.py`:
-   - Instancia un servidor WSGI efímero usando `RpgParityTests` (`setUp()` / `doCleanups()`), con base de datos SQLite aislada y auto-login para pruebas seguras sin tocar datos de producción.
+   - 200 mapas validados (pintados y procedimentales de todas las regiones).
+   - Comprobación de colisión de volumen del avatar (`[x±0.22, y±0.18]`).
+   - Cero colisiones en spawns; 100% de salidas canónicas alcanzables mediante flood fill.
+2. `python -m unittest tests.test_rpg_scenes`:
+   - Verificación estricta de límites de cuadrícula, tipos y correspondencia con el mundo (`content/`).
+   - Conversión reversible `scene_to_tiled` ↔ `tiled_to_scene` sin pérdida de datos.
+   - Verificación de peso de archivos WebP (todos ≤ 250,000 bytes).
+3. `python scripts/qa-rpg-edran-campos.py`:
+   - Recorrido completo bidireccional entre las 6 escenas y sus vecinas canónicas en base de datos SQLite efímera.
+   - Paridad de estado, acciones y movimiento autoritativo verificado.
+4. `npm run check:client`:
+   - Sintaxis limpia de cliente.
+5. `git diff --check`:
+   - Cero espacios o saltos de línea irregulares.
 
-### 5.2 Diseño del Runner Focal de Fase 2 (`scripts/qa-rpg-edran-campos.py`)
-Para la Fase 2 (cuando existan fondos WebP y archivos `.json` en `scenes/`), se propone un runner focal ligero y no interactivo que:
-1. **Entorno aislado:** Instancie `RpgParityTests.setUp()` para crear la base de datos temporal con cuenta y personaje de prueba aprobados.
-2. **Navegación de prueba automatizada:** Emita peticiones `POST /api/action` secuenciales recorriendo las seis salas:
-   - `edran_acequia` → `edran_estanque` → `edran_bajo_humedo` → `edran_estanque` → `edran_sauces` → `edran_estanque` → `edran_acequia` → `edran_surcos` → `edran_lindero` / `edran_parcela_vieja` / `edran_zanja_antigua`.
-3. **Aserciones:**
-   - Compruebe respuesta `200` y `snapshot.room.id` correspondiente.
-   - Verifique presencia de las salidas esperadas en `snapshot.actions`.
-   - Compruebe que cada ID de sala cuente con su archivo `client-rpg/scenes/<id>.json` correspondiente y fondo asociado sin errores 404.
-4. **Limpieza estricta:** Ejecute `fixture.doCleanups()` al finalizar para garantizar cero residuos en disco.
-5. **Modo interactivo opcional:** Bandera `--serve` que levante el servidor WSGI efímero con AutoLogin en puerto aleatorio para inspección puntual con `codex-browser`.
+### 5.2 QA Visual con `codex-browser`
+Se ejecutó inspección visual en Chrome visible mediante el servidor efímero WSGI con auto-login. Se capturaron las 6 salas en escritorio (1366×768) y móvil (390×844), además de pruebas de cruce a escenas genéricas y regreso:
+- `campos01-estanque-desktop.png` / `campos01-estanque-mobile.png`
+- `campos01-lindero-desktop.png` / `campos01-lindero-mobile.png`
+- `campos01-parcela-desktop.png` / `campos01-parcela-mobile.png`
+- `campos01-zanja-desktop.png` / `campos01-zanja-mobile.png`
+- `campos01-hondonada-desktop.png` / `campos01-hondonada-mobile.png`
+- `campos01-sauces-desktop.png` / `campos01-sauces-mobile.png`
+- `campos01-cruce-vecina-generica.png` / `campos01-regreso-escena-pintada.png`
+
+Todas las capturas se encuentran almacenadas en `/home/jdiaz/proyectos/entregas/equipo/rpg-preview/`.
 
 ---
 
-## 6. Próximo consumidor y traspaso
-- **Próximo consumidor:** Codex (gestión y generación de fondos de arte en `backgrounds/` conforme a los briefs de la Sección 4).
-- **Fase 2 (AGY):** Creación de archivos `client-rpg/scenes/<id>.json` incorporando las matrices definitivas de sólidos y fondos generados, verificación con `check-rpg-client.mjs` y ejecución del runner focal propuesto.
+## 6. Estado de integración y próximo consumidor
+- **Trabajo completado:** Fase 2 finalizada en rama `agy/rpg-edran-campos-01`.
+- **Próximo consumidor:** Codex (producción e integración de sprites dedicados para `mordelinde`, `cornalomo` y `salteador_veterano`, seguido de asignación en `rpg.js`).
+- **Estado Git:** Commit local listo en rama autorizada; sin push, PR, merge ni despliegue según instrucciones de encargo.
