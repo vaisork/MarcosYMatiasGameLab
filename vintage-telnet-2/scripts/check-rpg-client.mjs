@@ -7,6 +7,7 @@ const nodes=new Map();const requests=[];
 const context=vm.createContext({console,performance:{now:()=>0},matchMedia:()=>({matches:true}),Image:class{},setInterval(){},setTimeout(){},fetch:async(path,options)=>{if(options?.body)requests.push(JSON.parse(options.body));return {ok:true,headers:{get:()=>null},json:async()=>JSON.parse(vm.runInContext('JSON.stringify(snapshot)',context))};},document:{getElementById:id=>{if(!nodes.has(id))nodes.set(id,element());return nodes.get(id);},createElement:element,querySelectorAll:()=>[],addEventListener(){},body:element()},window:{addEventListener(){},confirm:()=>true}});
 const source=fs.readFileSync(new URL('../client-rpg/rpg.js',import.meta.url),'utf8').replace('void poll();','');
 vm.runInContext(source,context);
+vm.runInContext("const clientRender=render;",context);
 await vm.runInContext(`
 render=()=>{};
 snapshot={authenticated:true,character:{id:1,status:'approved',hp:100,hp_max:100,xp:0,combat:{creature:'espinajo_rastrojo',round:0,hp:40,hp_max:40}},room:{id:'edran_surcos'},actions:[{id:'atacar',label:'Atacar'},{id:'defender',target:'resistir'},{id:'usar',target:'pocion',disabled:true}],narrative:[],inventory:[]};
@@ -44,3 +45,16 @@ vm.runInContext(`draws=[];fills=[];delete scene.background;delete scene.foregrou
 assert.equal(vm.runInContext('fills.length',context),300,'Generic rooms retain all tile cells');
 assert.equal(vm.runInContext("backgroundImage('../server/app.py')",context),null);
 console.log('RPG drawing: background, foreground order, sprite frame, tile fallback and path restriction OK');
+
+// Switching menus must never expose the previous category's target actions.
+vm.runInContext(`
+snapshot={authenticated:true,character:{status:'approved',name:'QA',level:1,hp:100,hp_max:100},room:{id:'qa',name:'QA',description:'QA',npcs:[{id:'lina',name:'Lina'}]},actions:[{id:'conversar',target:'lina',label:'Hablar con Lina'}],inventory:[],narrative:[]};
+scene.npcs=[];scene.creatures=[];viewMode='game';focus='lina';activeMenu='criaturas';
+clientRender();
+`,context);
+assert.equal(vm.runInContext('focus',context),null,'Empty creature menu clears NPC focus');
+vm.runInContext(`snapshot.actions.push({id:'combatir',target:'espinajo',label:'Combatir'});focus='espinajo';activeMenu='personas';clientRender();`,context);
+assert.equal(vm.runInContext('focus',context),'lina','Person menu selects its own NPC');
+vm.runInContext(`activeMenu='criaturas';clientRender();`,context);
+assert.equal(vm.runInContext('focus',context),'espinajo','Creature menu selects its own creature');
+console.log('RPG menus: focus stays within people/creature category, including empty menus OK');

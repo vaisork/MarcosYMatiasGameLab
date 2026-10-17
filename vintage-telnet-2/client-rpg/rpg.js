@@ -416,6 +416,7 @@ function render(){
  if(historyElem)historyElem.hidden=(activeMenu!=='mas');
 
  if(activeMenu==='personas'){
+  if(!npcs.some(n=>n.id===focus))focus=null;
   $('action-title').textContent=focus?`Personas · ${entities().find(e=>e.id===focus)?.name||focus}`:'Personas';
   descElem.textContent=npcs.length?'Elige una persona para conversar o interactuar:':'No hay nadie con quien hablar en este lugar.';
   if(npcs.length>1){
@@ -431,6 +432,7 @@ function render(){
   if(actions.length)actElem.replaceChildren(...actions.map(actionButton));
   else actElem.replaceChildren(node('p',npcs.length?'No hay más temas de conversación ahora.':''));
  }else if(activeMenu==='criaturas'){
+  if(!creatureEntities.some(e=>e.id===focus))focus=null;
   $('action-title').textContent=focus?`Criatura · ${entities().find(e=>e.id===focus)?.name||focus}`:'Criaturas';
   descElem.textContent=creatureEntities.length?'Criaturas en la zona o en combate:':'No hay criaturas en este lugar.';
   if(creatureEntities.length>1){
@@ -474,14 +476,14 @@ function render(){
   $('action-title').textContent='Más opciones';
   descElem.textContent=`${c.name} · ${speciesNames[c.species]||c.species} · ${classNames[c.class_id]||c.class_id}`;
   const statGrid=node('div','');statGrid.className='char-summary';
-  statGrid.append(
-   Object.assign(node('div',''),{className:'char-stat',innerHTML:`Nivel<strong>${c.level}</strong>`}),
-   Object.assign(node('div',''),{className:'char-stat',innerHTML:`Vitalidad<strong>${Math.ceil(c.hp)} / ${c.hp_max}</strong>`}),
-   Object.assign(node('div',''),{className:'char-stat',innerHTML:`Fatiga<strong>${c.fatigue??0} / 100</strong>`}),
-   Object.assign(node('div',''),{className:'char-stat',innerHTML:`Sellos<strong>${c.seals??0}</strong>`}),
-   Object.assign(node('div',''),{className:'char-stat',innerHTML:`Experiencia<strong>${c.xp} / ${c.xp_next}</strong>`}),
-   Object.assign(node('div',''),{className:'char-stat',innerHTML:`Herida<strong>${c.wound||'Ninguna'}</strong>`})
-  );
+  for(const [label,value] of [
+   ['Nivel',c.level],['Vitalidad',`${Math.ceil(c.hp)} / ${c.hp_max}`],
+   ['Fatiga',`${c.fatigue??0} / 100`],['Sellos',c.seals??0],
+   ['Experiencia',`${c.xp} / ${c.xp_next}`],['Herida',c.wound||'Ninguna']
+  ]){
+   const stat=node('div',label);stat.className='char-stat';
+   stat.append(node('strong',String(value)));statGrid.append(stat);
+  }
   ctxElem.replaceChildren(statGrid);
   actElem.replaceChildren();
  }else{
