@@ -1,0 +1,12 @@
+{
+  "image": "sprites/edran-tiles.png",
+  "tile": 16,
+  "map": {
+    "g": 0,
+    "p": 1,
+    "f": 2,
+    "w": 3,
+    "c": 4,
+    "s": 5
+  }
+}

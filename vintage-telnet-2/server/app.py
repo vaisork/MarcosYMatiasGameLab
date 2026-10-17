@@ -3,6 +3,7 @@ import hmac
 import json
 import os
 from pathlib import Path
+import re
 import secrets
 import sqlite3
 import time
@@ -171,6 +172,16 @@ def create_app(config=None):
             return send_from_directory(ROOT/'client'/'art',filename.removeprefix('art/'))
         if filename not in ('app.js','style.css','ui-data.js','world3d.js','model-assets.js','vendor/three.module.js','vendor/GLTFLoader.js','vendor/BufferGeometryUtils.js','vendor/LICENSE-three.txt','models/species/felaryn.glb','models/species/marevyn.glb','models/species/vesperi.glb','models/species/humano.glb','models/species/dravak.glb'):return jsonify(error='not_found'),404
         return send_from_directory(ROOT/'client',filename)
+
+    # Vaisgard RPG: segundo cliente del mismo motor (docs/VAISGARD_RPG.md). Sólo archivos estáticos;
+    # el estado y las acciones siguen pasando por /api/state y /api/action.
+    @app.get('/rpg')
+    def rpg_index():return send_from_directory(ROOT/'client-rpg','index.html')
+
+    @app.get('/client-rpg/<path:filename>')
+    def rpg_asset(filename):
+        if not re.fullmatch(r'(rpg\.js|rpg\.css|scenes/[a-z0-9_]+\.json|sprites/[a-z0-9_-]+\.(png|webp)|tilesets/[a-z0-9_]+\.json)',filename):return jsonify(error='not_found'),404
+        return send_from_directory(ROOT/'client-rpg',filename)
 
     @app.get('/api/state')
     def get_state():

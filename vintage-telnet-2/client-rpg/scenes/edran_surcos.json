@@ -1,0 +1,115 @@
+{
+  "room": "edran_surcos",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "layers": {
+    "ground": [
+      "fffffffffppfffffffff",
+      "fggssssssppssssssggf",
+      "fggssssssppssssssggf",
+      "fggssssssppssssssggf",
+      "fggssssssppssssssggf",
+      "fggggggggppggggggggf",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "fggggggggppggggggggf",
+      "fggggggggppggggggggf",
+      "fggssssssppssssssggf",
+      "fggssssssppssssssggf",
+      "fggssssssppssssssggf",
+      "fffffffffppfffffffff"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "....................",
+      "....................",
+      "....................",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "111111111..111111111"
+    ]
+  },
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "oeste": [
+      1,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "sur": [
+      10,
+      13
+    ]
+  },
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        3
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        3
+      ]
+    }
+  ],
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "espinajo_rastrojo",
+      "at": [
+        15,
+        5
+      ]
+    }
+  ]
+}
