@@ -1,9 +1,8 @@
-# Vaisgard RPG — Especificación técnica y validación: Escenas de Campos de Edran (Fases 1 y 2)
+# Vaisgard RPG — Especificación técnica y validación: Escenas y fauna de Campos de Edran
 
 **Fecha:** 2026-10-17
 **Rol:** Implementador AGY (Vaisgard RPG), gestor de arte Codex.
 **Entorno:** `/home/jdiaz/proyectos/wt-agy-rpg-edran-campos-01`, rama `agy/rpg-edran-campos-01`, base `origin/main 8b62492`.
-**Cuotas reutilizadas:** Medición `USO.md` (2026-10-17 15:12, Gemini 82% corta, 87% semanal).
 
 ---
 
@@ -32,9 +31,9 @@ Se respeta estrictamente el canon MUD y el principio de no inventar anatomía ni
 | Criatura | Presencia canónica en las 6 salas | Referencia MUD / Bestiario | Sprite RPG integrado | Estado en runtime / Escena |
 |---|---|---|---|---|
 | `espinajo_rastrojo` | Presente en las 6 salas (`wildlife_pool`) | `/client/art/bestiary/espinajo-rastrojo-anime-v1.webp` | **SÍ** (`sprites/espinajo.png` 48×48, `sprites/espinajo-battle.png` 192×192) | Posicionado en celda libre conectada en las 6 escenas. Visible y funcional. |
-| `mordelinde` | `edran_parcela_vieja`, `edran_bajo_humedo` (señal/acción), `edran_sauces` | `/client/art/bestiary/mordelinde-anime-v1.webp` | **NO** (en curso por Codex) | **No declarado como implementado.** El runtime renderiza marcador `?` en acciones/combate hasta entrega de sprites. |
-| `cornalomo` | `edran_parcela_vieja`, `edran_sauces` | `/client/art/bestiary/cornalomo-anime-v1.webp` | **NO** (en curso por Codex) | **No declarado como implementado.** Sin sprite en mapa. |
-| `salteador_veterano` | `edran_estanque`, `edran_zanja_antigua` | `/client/art/encounters/forajido-camino-anime-v1.webp` (`combatant_kind: human`) | **NO** (en curso por Codex) | **No declarado como implementado.** Sin sprite en mapa. |
+| `mordelinde` | `edran_parcela_vieja`, `edran_bajo_humedo` (señal/acción), `edran_sauces` | `/client/art/bestiary/mordelinde-anime-v1.webp` | **SÍ** (`mordelinde.png` / `mordelinde-battle.png`) | Posición explícita en suelo seco; mapa y batalla según snapshot. |
+| `cornalomo` | `edran_parcela_vieja`, `edran_sauces` | `/client/art/bestiary/cornalomo-anime-v1.webp` | **SÍ** (mapa 48×48 / batalla 192×192) | Posición explícita en suelo transitable; mapa y batalla según snapshot. |
+| `salteador_veterano` | `edran_estanque`, `edran_zanja_antigua` | `/client/art/encounters/forajido-camino-anime-v1.webp` (`combatant_kind: human`) | **SÍ** (mapa 48×48 / batalla 192×192) | Posición explícita en suelo transitable; mapa y batalla según snapshot. |
 
 ---
 
@@ -58,7 +57,7 @@ Se respeta estrictamente el canon MUD y el principio de no inventar anatomía ni
   - `sur`: rect `[10, 14, 2, 1]` → `edran_sauces`
   - `este`: rect `[19, 6, 1, 3]` → `edran_bajo_humedo`
 - **Spawns finales:** `default`: `[11, 7]`, `norte`: `[10, 1]`, `sur`: `[11, 13]`, `este`: `[18, 7]`, `oeste`: `[11, 7]` (reutiliza default seguro).
-- **Criaturas:** `espinajo_rastrojo` en `[12, 7]` (senda despejada).
+- **Criaturas:** `espinajo_rastrojo` en `[12, 7]`, `salteador_veterano` en `[11, 4]`.
 - **Matriz de sólidos (`layers.solid`):**
   ```text
   1111111111..11111111
@@ -117,7 +116,7 @@ Se respeta estrictamente el canon MUD y el principio de no inventar anatomía ni
   - `norte`: rect `[10, 0, 2, 1]` → `edran_loma`
   - `este`: rect `[19, 6, 1, 3]` → `edran_surcos`
 - **Spawns finales:** `default`: `[11, 6]`, `norte`: `[10, 1]`, `este`: `[18, 7]`, `oeste`: `[11, 6]` (default seguro), `sur`: `[11, 6]` (default seguro).
-- **Criaturas:** `espinajo_rastrojo` en `[14, 6]`.
+- **Criaturas:** `espinajo_rastrojo` en `[11, 4]`, `mordelinde` en `[13, 7]`, `cornalomo` en `[16, 7]`.
 - **Matriz de sólidos (`layers.solid`):**
   ```text
   1111111111..11111111
@@ -147,7 +146,7 @@ Se respeta estrictamente el canon MUD y el principio de no inventar anatomía ni
   - `norte`: rect `[10, 0, 2, 1]` → `edran_era`
   - `este`: rect `[19, 6, 1, 3]` → `edran_canal_entrada`
 - **Spawns finales:** `default`: `[10, 7]`, `oeste`: `[1, 7]`, `norte`: `[10, 1]`, `este`: `[18, 7]`, `sur`: `[10, 7]` (default seguro).
-- **Criaturas:** `espinajo_rastrojo` en `[7, 7]`.
+- **Criaturas:** `espinajo_rastrojo` en `[7, 7]`, `salteador_veterano` en `[13, 7]`.
 - **Matriz de sólidos (`layers.solid`):**
   ```text
   1111111111..11111111
@@ -175,7 +174,7 @@ Se respeta estrictamente el canon MUD y el principio de no inventar anatomía ni
 - **Salidas finales:**
   - `oeste`: rect `[0, 6, 1, 3]` → `edran_estanque`
 - **Spawns finales:** `default`: `[5, 7]`, `oeste`: `[1, 7]`, `este`: `[5, 7]` (default seguro), `norte`: `[5, 7]` (default seguro), `sur`: `[5, 7]` (default seguro).
-- **Criaturas:** `espinajo_rastrojo` en `[7, 7]` (sobre plataforma seca).
+- **Criaturas:** `espinajo_rastrojo` en `[5, 6]`, `mordelinde` en `[8, 7]`.
 - **Matriz de sólidos (`layers.solid`):**
   ```text
   11111111111111111111
@@ -204,7 +203,7 @@ Se respeta estrictamente el canon MUD y el principio de no inventar anatomía ni
   - `norte`: rect `[10, 0, 2, 1]` → `edran_estanque`
   - `este`: rect `[19, 6, 1, 3]` → `edran_puente_juncos`
 - **Spawns finales:** `default`: `[11, 6]`, `norte`: `[11, 1]`, `este`: `[18, 7]`, `oeste`: `[11, 6]` (default seguro), `sur`: `[11, 6]` (default seguro).
-- **Criaturas:** `espinajo_rastrojo` en `[12, 6]`.
+- **Criaturas:** `espinajo_rastrojo` en `[12, 6]`, `mordelinde` en `[11, 3]`, `cornalomo` en `[16, 7]`.
 - **Matriz de sólidos (`layers.solid`):**
   ```text
   1111111111..11111111
@@ -261,5 +260,9 @@ Todas las capturas se encuentran almacenadas en `/home/jdiaz/proyectos/entregas/
 
 ## 6. Estado de integración y próximo consumidor
 - **Trabajo completado:** Fase 2 finalizada en rama `agy/rpg-edran-campos-01`.
-- **Próximo consumidor:** Codex (producción e integración de sprites dedicados para `mordelinde`, `cornalomo` y `salteador_veterano`, seguido de asignación en `rpg.js`).
-- **Estado Git:** Commit local listo en rama autorizada; sin push, PR, merge ni despliegue según instrucciones de encargo.
+- **Próximo consumidor:** revisión del candidato conjunto y autorización de la PR por Javier.
+- **Publicación:** el lote se entrega mediante PR; merge y despliegue requieren la aprobación de Javier.
+
+## Revisión del candidato conjunto — 2026-10-17
+
+Los sprites dedicados de Mordelinde, Cornalomo y Salteador veterano ya se integran mediante una asignación fija de IDs en rpg.js. Las seis escenas declaran posiciones explícitas para TODAS las criaturas reales de sus señales y pools (13 posiciones en total), sobre celdas libres conectadas. En particular Mordelinde se ubica en las piedras secas de la hondonada; ninguna criatura nueva depende de la posición de reserva sobre el agua. Una regresión Python comprueba la cobertura de los pools y las celdas libres. Los inventarios y hashes de arte final están en VAISGARD_RPG_ARTE.md. La presencia continúa siendo exclusivamente la del snapshot. Las capturas de fase2 documentan los fondos; el QA final conjunto comprueba los sprites y sus batallas.

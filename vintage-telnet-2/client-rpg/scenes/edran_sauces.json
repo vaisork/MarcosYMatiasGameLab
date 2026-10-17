@@ -92,6 +92,20 @@
         12,
         6
       ]
+    },
+    {
+      "id": "mordelinde",
+      "at": [
+        11,
+        3
+      ]
+    },
+    {
+      "id": "cornalomo",
+      "at": [
+        16,
+        7
+      ]
     }
   ],
   "background": "backgrounds/edran_sauces.webp"

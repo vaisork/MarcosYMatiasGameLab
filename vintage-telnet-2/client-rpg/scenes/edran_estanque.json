@@ -101,6 +101,13 @@
         12,
         7
       ]
+    },
+    {
+      "id": "salteador_veterano",
+      "at": [
+        11,
+        4
+      ]
     }
   ],
   "background": "backgrounds/edran_estanque.webp"

@@ -93,3 +93,19 @@ class RpgSceneTests(unittest.TestCase):
                 for e in scene['exits']:
                     x,y,w,h=e['rect']
                     self.assertTrue(any((i,j) in seen for i in range(x,x+w) for j in range(y,y+h)))
+
+    def test_edran_campo_encounters_have_explicit_walkable_positions(self):
+        """Pool and signalled fauna must not fall back to a position over water."""
+        root = Path(__file__).resolve().parents[1]
+        content = Content(root / 'content')
+        for room_id in ('edran_estanque', 'edran_lindero', 'edran_parcela_vieja',
+                        'edran_zanja_antigua', 'edran_bajo_humedo', 'edran_sauces'):
+            with self.subTest(room=room_id):
+                room = content.rooms[room_id]
+                expected = {s['creature'] for s in
+                            room.get('signals', []) + room.get('wildlife_pool', [])}
+                scene = json.loads((root / 'client-rpg/scenes' / f'{room_id}.json').read_text())
+                self.assertEqual({c['id'] for c in scene['creatures']}, expected)
+                for creature in scene['creatures']:
+                    x, y = creature['at']
+                    self.assertIn(scene['layers']['solid'][y][x], '.0 ')

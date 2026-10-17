@@ -101,6 +101,13 @@
         7,
         7
       ]
+    },
+    {
+      "id": "salteador_veterano",
+      "at": [
+        13,
+        7
+      ]
     }
   ],
   "background": "backgrounds/edran_zanja_antigua.webp"
