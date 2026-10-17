@@ -227,4 +227,4 @@ function draw(time){
 async function refresh(){if(busy||pending||refreshing||(snapshot&&document.hidden))return;refreshing=true;try{await apply(await api('/api/state'));}catch(e){notice(e.message);}finally{refreshing=false;render();}}
 async function poll(){await refresh();setTimeout(poll,snapshot?.character?.combat?700:4000);}
 void poll();
-setInterval(()=>{draw(performance.now());},33);
+setInterval(()=>{if(!document.hidden)draw(performance.now());},33);
