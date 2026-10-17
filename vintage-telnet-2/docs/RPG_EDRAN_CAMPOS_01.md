@@ -266,3 +266,5 @@ Todas las capturas se encuentran almacenadas en `/home/jdiaz/proyectos/entregas/
 ## Revisión del candidato conjunto — 2026-10-17
 
 Los sprites dedicados de Mordelinde, Cornalomo y Salteador veterano ya se integran mediante una asignación fija de IDs en rpg.js. Las seis escenas declaran posiciones explícitas para TODAS las criaturas reales de sus señales y pools (13 posiciones en total), sobre celdas libres conectadas. En particular Mordelinde se ubica en las piedras secas de la hondonada; ninguna criatura nueva depende de la posición de reserva sobre el agua. Una regresión Python comprueba la cobertura de los pools y las celdas libres. Los inventarios y hashes de arte final están en VAISGARD_RPG_ARTE.md. La presencia continúa siendo exclusivamente la del snapshot. Las capturas de fase2 documentan los fondos; el QA final conjunto comprueba los sprites y sus batallas.
+
+Los seis archivos editables `client-rpg/tiled/<id>.tmj` se generan con el conversor existente y se versionan junto a las escenas. La suite verifica identidad de ida y vuelta entre cada archivo guardado y su escena, incluidos fondos y posiciones de criaturas.
