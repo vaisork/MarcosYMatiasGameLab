@@ -2,6 +2,21 @@
 const $=id=>document.getElementById(id), canvas=$('world'), ctx=canvas.getContext('2d');
 const opposite={norte:'sur',sur:'norte',este:'oeste',oeste:'este'};
 const gates={norte:[9,0,2,1],sur:[9,14,2,1],oeste:[0,6,1,3],este:[19,6,1,3],salir:[9,0,2,1],hogar:[4,0,2,1]};
+const speciesNames={humano:'Humano',felaryn:'Felaryn',dravak:'Dravak',marevyn:'Marevyn',vesperi:'Vesperi'};
+const classNames={juramentado:'Juramentado',arcano:'Arcano',sombra:'Sombra',artifice:'Artífice'};
+const speciesInfo=[
+ ['humano','Humano','Arraigo y cuidado cotidiano.'],
+ ['felaryn','Felaryn','Gran equilibrio, agilidad y salto.'],
+ ['dravak','Dravak','Bajos y compactos, piel pétrea.'],
+ ['marevyn','Marevyn','Membranas y destreza acuática.'],
+ ['vesperi','Vesperi','Ojos grandes y oído muy sensible.']
+];
+const classInfo=[
+ ['juramentado','Juramentado','Espada y escudo, defensa tenaz.'],
+ ['arcano','Arcano','Bastón y manipulación mágica.'],
+ ['sombra','Sombra','Dagas gemelas, sigilo y emboscada.'],
+ ['artifice','Artífice','Ballesta, trampas y remedios.']
+];
 const keys=new Set(), images={};
 for(const name of ['avatar','lina','espinajo','espinajo-battle']){images[name]=new Image();images[name].src=`/client-rpg/sprites/${name}.png`;}
 const tilesetData={};
@@ -19,6 +34,7 @@ async function loadTileset(name='edran'){
 }
 void loadTileset('edran');
 let snapshot=null, scene=null, busy=false, pending=null, focus=null, entrance=null, exitLatch=null, lastTime=0, walk=0, facing=0;
+let authTab='login', viewMode='game', latestCsrfToken=null, savedUsername='';
 const player={x:10,y:7};
 let battleEnteredAt=0;
 let selectedRound=null, battleGroup=null, battleStart=null, lastCombat=null, outcome=null, animation=null;
@@ -26,9 +42,13 @@ let lines=[], lineIndex=0, letters=0, letterTime=0, narrativeKey='', refreshing=
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const battleLocked=()=>busy||Boolean(pending)||selectedRound===snapshot?.character?.combat?.round;
 function panel(open){$('panel').hidden=!open;keys.clear();}
-function back(){if(battleGroup){battleGroup=null;renderBattleMenu();}else panel($('panel').hidden);}
+function back(){
+ if(battleGroup){battleGroup=null;renderBattleMenu();}
+ else if(viewMode==='creation'&&snapshot?.characters?.length){viewMode='characters';render();}
+ else panel($('panel').hidden);
+}
 function advance(){const line=lines[lineIndex]||'';if(letters<line.length)letters=line.length;else if(lineIndex<lines.length-1){lineIndex++;letters=0;}else if(!snapshot?.character?.combat&&!outcome)interact();paintLine();}
-function paintLine(){const line=lines[lineIndex]||snapshot?.room?.description||'Entra con un personaje aprobado desde el MUD.';$('line').textContent=line.slice(0,letters);$('more').textContent=letters<line.length?'A · mostrar texto':lineIndex<lines.length-1?`A · siguiente (${lines.length-lineIndex-1})`:snapshot?.character?.combat?'Elige un comando · A':'A · interactuar';}
+function paintLine(){const line=lines[lineIndex]||snapshot?.room?.description||'El camino se abre ante ti.';$('line').textContent=line.slice(0,letters);$('more').textContent=letters<line.length?'A · mostrar texto':lineIndex<lines.length-1?`A · siguiente (${lines.length-lineIndex-1})`:snapshot?.character?.combat?'Elige un comando · A':'A · interactuar';}
 function updatePresentation(previous,next){
  if(!next.character||next.character.id!==previous?.character?.id){selectedRound=null;lastCombat=null;outcome=null;animation=null;lines=[];narrativeKey='';document.body.classList.remove('battling');}
  if(!next.character)return;
@@ -51,7 +71,6 @@ function updatePresentation(previous,next){
  if(key!==narrativeKey){
   const oldText=JSON.parse(narrativeKey||'[]');let common=0;while(common<text.length&&common<oldText.length&&text[common]===oldText[common])common++;
   const incoming=text.slice(common);
-  // Keep unread server lines when a poll delivers another round.
   const unread=old&&combat&&lines.length&&lineIndex<lines.length-1?lines.slice(lineIndex):[];
   lines=[...unread,...incoming.flatMap(t=>t.match(/.{1,155}(?:\s|$)|\S+/g)?.map(p=>p.trim())||[t])];lineIndex=0;letters=reduced?(lines[0]?.length||0):0;narrativeKey=key;
  }
@@ -103,11 +122,32 @@ const requestId=()=>globalThis.crypto?.randomUUID?.()||`rpg-${Date.now().toStrin
 const notice=text=>{$('notice').textContent=text;};
 function node(tag,text){const n=document.createElement(tag);n.textContent=text;return n;}
 async function api(path,body){
- const response=await fetch(path,{credentials:'same-origin',headers:{Accept:'application/json',...(body?{'Content-Type':'application/json','X-CSRF-Token':snapshot?.csrf_token||''}:{})},...(body?{method:'POST',body:JSON.stringify(body)}:{})});
+ const csrf=latestCsrfToken||snapshot?.csrf_token||'';
+ const headers={Accept:'application/json'};
+ const options={credentials:'same-origin',headers};
+ if(body){
+  options.method='POST';
+  headers['Content-Type']='application/json';
+  if(csrf)headers['X-CSRF-Token']=csrf;
+  options.body=JSON.stringify({...body,...(csrf?{csrf_token:csrf}:{})});
+ }
+ const response=await fetch(path,options);
  let data;try{data=await response.json();}catch{throw Error('Respuesta ilegible. Reconecta antes de decidir.');}
- if(data.csrf_token&&snapshot)snapshot.csrf_token=data.csrf_token;
- if(response.headers.get('Date'))serverOffset=new Date(response.headers.get('Date')).getTime()/1000-Date.now()/1000;
- if(!response.ok){const error=Error(data.message||'No se pudo completar la acción.');error.status=response.status;throw error;}return data;
+ if(data?.csrf_token){latestCsrfToken=data.csrf_token;if(snapshot)snapshot.csrf_token=data.csrf_token;}
+ if(response.headers?.get?.('Date'))serverOffset=new Date(response.headers.get('Date')).getTime()/1000-Date.now()/1000;
+ if(!response.ok){const error=Error(data?.message||'No se pudo completar la acción.');error.status=response.status;throw error;}return data;
+}
+async function logout(){
+ if(busy)return;
+ busy=true;notice('Cerrando sesión…');
+ try{
+  await api('/api/account/logout',{});
+  snapshot=null;scene=null;pending=null;lines=[];narrativeKey='';
+  viewMode='auth';
+  notice('Sesión cerrada.');
+  await refresh();
+ }catch(e){notice(e.message);}
+ finally{busy=false;render();}
 }
 function generic(room){
  const exits=(room.exits||[]).map(e=>({direction:e.direction,rect:gates[e.direction]||[9,0,2,1]}));
@@ -116,14 +156,19 @@ function generic(room){
  return {size:[20,15],tile:16,tileset:'edran',layers:{ground:ground.map(r=>r.join('')),solid:ground.map(r=>r.map(c=>c==='f'?'1':'.').join(''))},spawn:{default:[10,7],norte:[10,1],sur:[10,13],este:[18,7],oeste:[1,7]},exits,npcs:[],creatures:[]};
 }
 async function apply(next){
+ if(next?.csrf_token)latestCsrfToken=next.csrf_token;
  const changed=next.room?.id!==snapshot?.room?.id||next.character?.id!==snapshot?.character?.id;
  updatePresentation(snapshot,next);snapshot=next;
- if(!next.authenticated||next.character?.status!=='approved'||!next.room){scene=null;$('place').textContent='Tu aventura comienza en Vintage Telnet';$('identity').replaceChildren(node('p','Entra y selecciona un personaje aprobado en el MUD.'));$('actions').replaceChildren();$('contexts').replaceChildren();$('combat').hidden=true;$('narrative').replaceChildren();$('narrative').dataset.text='';$('description').textContent='Usa «Volver a Vintage Telnet» para entrar con tu cuenta.';return;}
- if(changed){
+ if(!next.authenticated){scene=null;viewMode='auth';render();return;}
+ if(!next.character||next.pending_approval||next.character.status!=='approved'||!next.room){
+  scene=null;
+  if(viewMode==='game'){viewMode=(!next.characters||next.characters.length===0)?'creation':'characters';}
+  render();return;
+ }
+ if(changed&&viewMode==='game'){
   focus=null;scene=null;
   try{const response=await fetch(`/client-rpg/scenes/${encodeURIComponent(next.room.id)}.json`);if(!response.ok)throw Error();scene=await response.json();}catch{scene=generic(next.room);}
   void loadTileset(scene.tileset||'edran');
-  // Server exits are authoritative even when presentation files lag behind.
   const real=new Set(next.room.exits.map(e=>e.direction));scene.exits=scene.exits.filter(e=>real.has(e.direction));
   for(const direction of real)if(!scene.exits.some(e=>e.direction===direction))scene.exits.push({direction,rect:gates[direction]||[9,0,2,1]});
   [player.x,player.y]=scene.spawn[entrance]||scene.spawn.default;entrance=null;exitLatch=null;keys.clear();
@@ -142,7 +187,146 @@ function actionButton(action){
  b.addEventListener('click',()=>perform(action));
  if(action.disabled&&action.reason){const wrap=node('div','');wrap.append(b,node('small',action.reason));return wrap;}return b;
 }
+function renderEntry(){
+ const root=$('entry');if(!root)return;root.replaceChildren();
+ if(!snapshot?.authenticated){
+  const h2=node('h2',authTab==='login'?'Iniciar sesión':'Crear cuenta');
+  const intro=node('p','Vintage Telnet y Vaisgard RPG comparten mundo, cuenta y personaje.');
+  intro.className='muted';
+  const tabs=node('div','');tabs.className='entry-tabs';
+  const bLogin=node('button','Iniciar sesión');bLogin.type='button';if(authTab==='login')bLogin.className='active';
+  bLogin.onclick=()=>{authTab='login';notice('');renderEntry();};
+  const bReg=node('button','Registrarse');bReg.type='button';if(authTab==='register')bReg.className='active';
+  bReg.onclick=()=>{authTab='register';notice('');renderEntry();};
+  tabs.append(bLogin,bReg);
+  const form=document.createElement('form');form.className='entry-form';
+  const userLabel=node('label','');userLabel.className='field';userLabel.append(node('span','Nombre de cuenta'));
+  const userInput=document.createElement('input');userInput.name='username';userInput.type='text';userInput.autocomplete='username';userInput.required=true;userInput.minLength=3;userInput.maxLength=40;userInput.value=savedUsername;userLabel.append(userInput);
+  const passLabel=node('label','');passLabel.className='field';passLabel.append(node('span','Contraseña (mínimo 8 caracteres)'));
+  const passInput=document.createElement('input');passInput.name='password';passInput.type='password';passInput.autocomplete=authTab==='login'?'current-password':'new-password';passInput.required=true;passInput.minLength=8;passInput.maxLength=200;passLabel.append(passInput);
+  const actions=node('div','');actions.className='form-actions';
+  const submitBtn=node('button',authTab==='login'?'Entrar · A':'Crear cuenta · A');submitBtn.type='submit';submitBtn.className='primary-btn';submitBtn.disabled=busy;actions.append(submitBtn);
+  form.append(userLabel,passLabel,actions);
+  form.onsubmit=async e=>{
+   e.preventDefault();if(busy)return;
+   const username=userInput.value.trim(),password=passInput.value;savedUsername=username;busy=true;notice('Conectando…');
+   try{const res=await api(`/api/account/${authTab}`,{username,password});notice('');await apply(res);}
+   catch(err){notice(err.message);}
+   finally{busy=false;render();}
+  };
+  root.append(h2,intro,tabs,form);return;
+ }
+ const chars=snapshot.characters||[];
+ if(viewMode==='creation'||chars.length===0){
+  const h2=node('h2','Crear personaje');
+  const intro=node('p','Elige el nombre, especie, clase y género para recorrer Vaisgard.');
+  intro.className='muted';
+  const form=document.createElement('form');form.className='entry-form';
+  const nameLabel=node('label','');nameLabel.className='field';nameLabel.append(node('span','Nombre del personaje (2–50 caracteres)'));
+  const nameInput=document.createElement('input');nameInput.name='name';nameInput.type='text';nameInput.required=true;nameInput.minLength=2;nameInput.maxLength=50;nameInput.placeholder='Nombre en Vaisgard';nameLabel.append(nameInput);
+  const specGroup=node('div','');specGroup.className='choice-group';specGroup.append(node('label','Especie'));
+  const specGrid=node('div','');specGrid.className='choice-grid';
+  speciesInfo.forEach(([id,name,desc],idx)=>{
+   const card=node('label','');card.className='choice-card';
+   const rad=document.createElement('input');rad.type='radio';rad.name='species';rad.value=id;rad.checked=idx===0;
+   const info=node('div','');info.append(node('strong',name),node('small',desc));
+   card.append(rad,info);specGrid.append(card);
+  });
+  specGroup.append(specGrid);
+  const classGroup=node('div','');classGroup.className='choice-group';classGroup.append(node('label','Clase'));
+  const classGrid=node('div','');classGrid.className='choice-grid';
+  classInfo.forEach(([id,name,desc],idx)=>{
+   const card=node('label','');card.className='choice-card';
+   const rad=document.createElement('input');rad.type='radio';rad.name='class_id';rad.value=id;rad.checked=idx===0;
+   const info=node('div','');info.append(node('strong',name),node('small',desc));
+   card.append(rad,info);classGrid.append(card);
+  });
+  classGroup.append(classGrid);
+  const genGroup=node('div','');genGroup.className='choice-group';genGroup.append(node('label','Género'));
+  const genRow=node('div','');genRow.className='gender-row';
+  const radM=document.createElement('input');radM.type='radio';radM.name='gender';radM.value='masculino';radM.checked=true;
+  const lblM=node('label','');lblM.append(radM,document.createTextNode(' Masculino'));
+  const radF=document.createElement('input');radF.type='radio';radF.name='gender';radF.value='femenino';
+  const lblF=node('label','');lblF.append(radF,document.createTextNode(' Femenino'));
+  genRow.append(lblM,lblF);genGroup.append(genRow);
+  const actions=node('div','');actions.className='form-actions';
+  const submitBtn=node('button','Presentar personaje · A');submitBtn.type='submit';submitBtn.className='primary-btn';submitBtn.disabled=busy;actions.append(submitBtn);
+  if(chars.length>0){
+   const backBtn=node('button','Volver · B');backBtn.type='button';backBtn.onclick=()=>{viewMode='characters';notice('');render();};actions.append(backBtn);
+  }
+  form.append(nameLabel,specGroup,classGroup,genGroup,actions);
+  form.onsubmit=async e=>{
+   e.preventDefault();if(busy)return;
+   const fd=new FormData(form);
+   const name=String(fd.get('name')||'').trim(),species=String(fd.get('species')||'humano'),class_id=String(fd.get('class_id')||'juramentado'),gender=String(fd.get('gender')||'masculino');
+   busy=true;notice('Presentando personaje al mundo…');
+   try{const res=await api('/api/character/create',{name,species,class_id,gender});notice('');viewMode='characters';await apply(res);}
+   catch(err){notice(err.message);}
+   finally{busy=false;render();}
+  };
+  root.append(h2,intro,form);return;
+ }
+ const h2=node('h2','Tus personajes');
+ const user=snapshot.account?.username||'';
+ const intro=node('p',`Cuenta: ${user} · Elige con quién jugar o crea otro personaje.`);
+ intro.className='muted';
+ const charList=node('div','');charList.className='char-list';
+ let hasPending=Boolean(snapshot.pending_approval);
+ for(const c of chars){
+  const isApproved=c.status==='approved';if(!isApproved)hasPending=true;
+  const tile=node('div','');tile.className=isApproved?'char-tile':'char-tile pending';
+  const info=node('div','');info.className='char-info';
+  info.append(node('strong',c.name));
+  info.append(node('small',`${speciesNames[c.species]||c.species} · ${classNames[c.class_id]||c.class_id}`));
+  const pill=node('span',isApproved?'Aprobado':'Pendiente de aprobación');pill.className=isApproved?'pill approved':'pill';
+  info.append(pill);
+  if(!isApproved){
+   const note=node('p','El director aún está revisando este personaje antes de comenzar.');note.className='pending-note';info.append(note);
+  }
+  tile.append(info);
+  if(isApproved){
+   const playBtn=node('button','Entrar al mundo · A');playBtn.type='button';playBtn.className='primary-btn';playBtn.disabled=busy;
+   playBtn.onclick=async()=>{
+    if(busy)return;busy=true;notice('Entrando al mundo…');
+    try{const res=await api('/api/character/select',{character_id:Number(c.id)});viewMode='game';notice('');await apply(res);}
+    catch(err){notice(err.message);}
+    finally{busy=false;render();}
+   };
+   tile.append(playBtn);
+  }
+  charList.append(tile);
+ }
+ const actions=node('div','');actions.className='form-actions';
+ if(hasPending){
+  const checkBtn=node('button','Comprobar aprobación');checkBtn.type='button';checkBtn.disabled=busy;
+  checkBtn.onclick=async()=>{
+   if(busy)return;busy=true;notice('Comprobando aprobación…');
+   try{
+    await refresh();
+    if(snapshot?.pending_approval||(snapshot?.characters||[]).some(c=>c.status!=='approved')){
+     notice('El director aún está revisando tu personaje.');
+    }else{notice('¡Personaje aprobado!');}
+   }catch(err){notice(err.message);}
+   finally{busy=false;render();}
+  };
+  actions.append(checkBtn);
+ }
+ const createBtn=node('button','+ Crear otro personaje');createBtn.type='button';createBtn.onclick=()=>{viewMode='creation';notice('');render();};actions.append(createBtn);
+ const logoutBtn=node('button','Cerrar sesión');logoutBtn.type='button';logoutBtn.onclick=logout;actions.append(logoutBtn);
+ root.append(h2,intro,charList,actions);
+}
 function render(){
+ const auth=Boolean(snapshot?.authenticated);
+ const inGame=auth&&snapshot?.character?.status==='approved'&&!snapshot?.pending_approval&&viewMode==='game';
+ const logoutElem=$('logout');if(logoutElem)logoutElem.hidden=!auth;
+ const entryElem=$('entry');const worldElem=$('world-view');
+ if(!inGame){
+  if(worldElem)worldElem.hidden=true;
+  if(entryElem){entryElem.hidden=false;renderEntry();}
+  panel(false);return;
+ }
+ if(entryElem)entryElem.hidden=true;
+ if(worldElem)worldElem.hidden=false;
  if(!snapshot?.room||!scene)return;
  const c=snapshot.character,combat=c.combat;
  if(focus&&!entities().some(e=>e.id===focus))focus=null;
@@ -181,6 +365,9 @@ async function send(payload){
 function interact(){if(outcome){dismissOutcome();return;}if(snapshot?.character?.combat){if(document.activeElement?.closest('#battle-menu')){document.activeElement.click();return;}const button=$('battle-menu').querySelector('button:not(:disabled)');button?.focus();return;}const near=entities().sort((a,b)=>Math.hypot(a.at[0]-player.x,a.at[1]-player.y)-Math.hypot(b.at[0]-player.x,b.at[1]-player.y))[0];focus=near&&Math.hypot(near.at[0]-player.x,near.at[1]-player.y)<3?near.id:null;panel(true);render();}
 $('interact').onclick=()=>{if(outcome)dismissOutcome();else if(letters<(lines[lineIndex]?.length||0)||lineIndex<lines.length-1)advance();else interact();};
 $('advance').onclick=()=>outcome?dismissOutcome():advance();$('pause').onclick=()=>panel($('panel').hidden);$('back').onclick=back;$('close-panel').onclick=()=>panel(false);
+const panelSelect=$('panel-select-char');if(panelSelect)panelSelect.onclick=()=>{panel(false);viewMode='characters';render();};
+const panelLogout=$('panel-logout');if(panelLogout)panelLogout.onclick=()=>{panel(false);logout();};
+const headerLogout=$('logout');if(headerLogout)headerLogout.onclick=logout;
 const bindings={ArrowUp:[0,-1,1],w:[0,-1,1],ArrowDown:[0,1,0],s:[0,1,0],ArrowLeft:[-1,0,2],a:[-1,0,2],ArrowRight:[1,0,3],d:[1,0,3]};
 window.addEventListener('keydown',e=>{if(e.target.closest?.('input,textarea,select'))return;const key=e.key.length===1?e.key.toLowerCase():e.key;
  if(['x','Escape'].includes(key)){e.preventDefault();if(!e.repeat)back();return;}
@@ -222,9 +409,8 @@ function draw(time){
   if(!exit)exitLatch=null;
   if(exit&&exitLatch!==exit.direction&&!busy&&!pending){exitLatch=exit.direction;const action=snapshot.actions.find(a=>a.id==='mover'&&a.target===exit.direction);if(!action||action.disabled)notice(action?.reason||'Esta salida no está disponible ahora.');else void perform(action);}
  }else{ctx.fillStyle='#263d30';ctx.fillRect(0,0,640,480);}
-
 }
-async function refresh(){if(busy||pending||refreshing||(snapshot&&document.hidden))return;refreshing=true;try{await apply(await api('/api/state'));}catch(e){notice(e.message);}finally{refreshing=false;render();}}
-async function poll(){await refresh();setTimeout(poll,snapshot?.character?.combat?700:4000);}
+async function refresh(){if(refreshing||(snapshot&&document.hidden))return;refreshing=true;try{await apply(await api('/api/state'));}catch(e){notice(e.message);}finally{refreshing=false;render();}}
+async function poll(){await refresh();setTimeout(poll,snapshot?.character?.combat?700:(viewMode==='game'?4000:8000));}
 void poll();
-setInterval(()=>{if(!document.hidden)draw(performance.now());},33);
+setInterval(()=>{if(!document.hidden&&viewMode==='game'&&!$('world-view')?.hidden)draw(performance.now());},33);

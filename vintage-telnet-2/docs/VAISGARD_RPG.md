@@ -4,6 +4,7 @@ Decisión de producto: issue #731 (16 de octubre de 2026). Vaisgard RPG es **un 
 
 ## Principio
 
+- Decisión de Javier (16 de octubre de 2026): Vintage Telnet y Vaisgard RPG son **dos juegos con entrada propia desde el portal**. NO hay botón ni enlace para cambiar de uno a otro en ningún cliente. Comparten servidor, cuenta y personaje (misma partida y progresión persistente), pero ninguno obliga a usar la interfaz del otro. Cada cliente cuenta con sus propias pantallas de inicio de sesión, registro, selección y creación de personaje.
 - El servidor Python + SQLite de VT2 sigue siendo la única autoridad. No hay servidor paralelo, ni copia de reglas en JavaScript, ni estado de juego en el cliente.
 - El cliente RPG lee `GET /api/state` y envía `POST /api/action` exactamente igual que el MUD: CSRF en `X-CSRF-Token`, `request_id` único por intención, mismo personaje seleccionado en la misma sesión (misma cookie, mismo origen).
 - El RPG sólo envía **objetos tomados de `snapshot.actions`** (`id`, `target`, `confirmed`) o `{text}`. Nunca construye intenciones que el servidor no ofreció.
@@ -62,7 +63,7 @@ Prueba automática con datos aislados (`tests/test_rpg_parity.py`): mismo usuari
 
 ## Portal (fase D)
 
-Tarjeta «Vaisgard RPG — En desarrollo» en `index.html` raíz sin enlace jugable hasta que la fase C pase. Después, enlace a `/rpg` y botón de cambio de modo en ambos clientes (misma sesión).
+Tarjeta «Vaisgard RPG» en `index.html` raíz jugable con botón «Jugar» hacia la ruta `/rpg` real (mismo patrón que la tarjeta de Vintage Telnet hacia `/`). Ambas experiencias tienen entrada independiente desde el portal. Ningún cliente ofrece enlaces ni botones de cambio de modo; la sesión y la partida son compartidas en el servidor.
 
 ## Fuera de alcance del piloto
 

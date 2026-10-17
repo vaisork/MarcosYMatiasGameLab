@@ -242,6 +242,26 @@
       background:#5abf7014;
       border-color:#5abf7032;
     }
+    .rpg-card{
+      border-color:#5a9e7833;
+      background:linear-gradient(180deg,#101d20f2,#16292bf2);
+    }
+    .rpg-card:hover{border-color:#5a9e7866}
+    .rpg-card .game-info h3{color:#ead69c}
+    .rpg-card .cta{
+      background:#72a874;
+      color:#101d20;
+    }
+    .rpg-card .status{
+      color:#c9ff77;
+      background:#72a87418;
+      border-color:#72a87438;
+    }
+    .rpg-card .genre{
+      color:#b4e3be;
+      background:#4cffb914;
+      border-color:#4cffb930;
+    }
     .game-icon-shell{
       width:min(250px,72%);
       aspect-ratio:1;
@@ -348,6 +368,7 @@
         <div class="menu">
           <a href="senku/">Senku por Latinoamérica</a>
           <a href="https://raspberrypi.tail3d212e.ts.net/">Vintage Telnet</a>
+          <a href="https://raspberrypi.tail3d212e.ts.net/rpg">Vaisgard RPG</a>
         </div>
       </details>
     </nav>
@@ -420,13 +441,17 @@
           </div>
         </div>
       </a>
-      <article class="game-card telnet-card" aria-label="Vaisgard RPG, en desarrollo">
+      <a class="game-card rpg-card" href="https://raspberrypi.tail3d212e.ts.net/rpg" aria-label="Entrar a Vaisgard RPG">
         <div class="game-info">
-          <div class="meta"><span class="badge status">En desarrollo</span><span class="badge genre">Fantasía · RPG 2D</span></div>
+          <div class="meta"><span class="badge status">En pruebas</span><span class="badge genre">Fantasía · RPG 2D</span></div>
           <h3>Vaisgard RPG</h3>
           <p>Una nueva ventana al mundo de Vintage Telnet: explora Vaisgard desde una vista superior, con el mismo personaje y la misma aventura.</p>
+          <div class="cta-row">
+            <span class="cta">Jugar →</span>
+            <span class="tap-hint">RPG 2D · Misma partida</span>
+          </div>
         </div>
-      </article>
+      </a>
     </section>
   </main>
 
