@@ -93,3 +93,34 @@ assert.equal(entrySubmit.disabled,true);
 vm.runInContext('busy=false;entryRender()',context);
 assert.equal(entrySubmit.disabled,false,'Entry button must unlock after request completes');
 console.log('RPG entry: preserved form busy state unlocks without input events OK');
+
+// Known artwork only presents creatures that the server actually offers or is fighting.
+vm.runInContext(`
+scene={size:[20,15],npcs:[],creatures:[]};animation=null;
+snapshot={character:{name:'QA',level:1,hp:100,hp_max:100,combat:null},room:{npcs:[]},actions:[]};
+Object.assign(ctx,{strokeRect(){}});
+`,context);
+for(const [id,sprite] of [['espinajo_rastrojo','espinajo'],['mordelinde','mordelinde'],['cornalomo','cornalomo'],['salteador_veterano','salteador']]){
+ context.creatureId=id;
+ assert.equal(vm.runInContext('entities().length',context),0,'Artwork alone must not reveal a creature');
+ vm.runInContext(`snapshot.actions=[{id:'combatir',target:creatureId}];`,context);
+ assert.equal(vm.runInContext('entities()[0].sprite',context),sprite);
+ for(const [suffix,dimension] of [['',48],['-battle',192]]){
+  const png=fs.readFileSync(new URL(`../client-rpg/sprites/${sprite}${suffix}.png`,import.meta.url));
+  assert.equal(png.readUInt32BE(16),dimension,'Sprite width must match render frame');
+  assert.equal(png.readUInt32BE(20),dimension,'Sprite height must match render frame');
+ }
+ context.battleSprite=sprite+'-battle';
+ vm.runInContext(`
+images[battleSprite].complete=true;images[battleSprite].naturalWidth=192;
+snapshot.character.combat={creature:creatureId,name:creatureId,round:0,hp:40,hp_max:40,next_round:0};
+snapshot.actions=[];
+draws=[];battleDraw(1000);
+`,context);
+ assert.equal(vm.runInContext('entities()[0].sprite',context),sprite,'Active combat still presents the creature without encounter actions');
+ assert.equal(vm.runInContext('draws.some(args=>args[0]===images[battleSprite])',context),true,'Battle draws the matching creature artwork');
+ vm.runInContext('snapshot.actions=[];snapshot.character.combat=null;',context);
+}
+vm.runInContext("snapshot.actions=[{id:'combatir',target:'unknown_creature'}]",context);
+assert.equal(vm.runInContext('entities()[0].sprite',context),null,'Unmapped creatures retain the existing fallback');
+console.log('RPG creature artwork: server visibility, map/battle mapping, frame sizes and unknown fallback OK');

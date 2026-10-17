@@ -18,7 +18,8 @@ const classInfo=[
  ['artifice','Artífice','Ballesta, trampas y remedios.']
 ];
 const keys=new Set(), images={};
-for(const name of ['avatar','lina','espinajo','espinajo-battle']){images[name]=new Image();images[name].src=`/client-rpg/sprites/${name}.png`;}
+const creatureSprites={espinajo_rastrojo:'espinajo',mordelinde:'mordelinde',cornalomo:'cornalomo',salteador_veterano:'salteador'};
+for(const name of ['avatar','lina',...Object.values(creatureSprites).flatMap(name=>[name,`${name}-battle`])]){images[name]=new Image();images[name].src=`/client-rpg/sprites/${name}.png`;}
 const backgrounds={};
 function backgroundImage(path){
  if(!path||!/^backgrounds\/[a-z0-9_]+(?:-front)?\.webp$/.test(path))return null;
@@ -113,7 +114,7 @@ function battleDraw(time){
  platform(466,222,130,34);platform(155,407,145,40);
  }
  const lunge=!reduced&&elapsed<.35?Math.sin(elapsed/.35*Math.PI)*24:0;
- const enemy=b.creature==='espinajo_rastrojo'?images['espinajo-battle']:null;
+ const enemy=images[`${creatureSprites[b.creature]}-battle`]||null;
  if(!(animation?.enemy>0&&elapsed<.8&&Math.floor(elapsed*14)%2)&&enemy?.complete&&enemy.naturalWidth)ctx.drawImage(enemy,366+shake,45,200,200);
  if(!enemy){ctx.fillStyle='#e7e2bd';ctx.font='bold 80px monospace';ctx.textAlign='center';ctx.fillText('?',466,190);}
  const avatar=images.avatar;
@@ -195,7 +196,7 @@ function entities(){
  const npcs=snapshot.room.npcs.map((n,i)=>({...n,at:scene.npcs.find(p=>p.id===n.id)?.at||[4+i*2,5],sprite:'lina'}));
  const ids=new Set(snapshot.actions.filter(a=>['combatir','acercarse','retirarse'].includes(a.id)||(a.id==='examinar_criatura'&&scene.creatures.some(e=>e.id===a.target))).map(a=>a.target));
  if(snapshot.character.combat)ids.add(snapshot.character.combat.creature);
- return [...npcs,...[...ids].map((id,i)=>({id,name:snapshot.character.combat?.creature===id?snapshot.character.combat.name:id.replaceAll('_',' '),at:scene.creatures.find(p=>p.id===id)?.at||[12-i*2,5],sprite:id==='espinajo_rastrojo'?'espinajo':null}))];
+ return [...npcs,...[...ids].map((id,i)=>({id,name:snapshot.character.combat?.creature===id?snapshot.character.combat.name:id.replaceAll('_',' '),at:scene.creatures.find(p=>p.id===id)?.at||[12-i*2,5],sprite:creatureSprites[id]||null}))];
 }
 function actionButton(action){
  const b=node('button',action.label||action.id);b.type='button';b.disabled=(snapshot?.character?.combat?battleLocked():busy||Boolean(pending))||Boolean(action.disabled);b.title=action.reason||action.description||'';
