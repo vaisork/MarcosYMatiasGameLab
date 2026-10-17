@@ -187,8 +187,11 @@ function actionButton(action){
  b.addEventListener('click',()=>perform(action));
  if(action.disabled&&action.reason){const wrap=node('div','');wrap.append(b,node('small',action.reason));return wrap;}return b;
 }
+// Polling must not rebuild the entry forms: that wipes what the player is typing.
+let entryKey='';
+const entryState=()=>JSON.stringify([snapshot?.authenticated,authTab,viewMode,snapshot?.pending_approval,snapshot?.character?.id,snapshot?.character?.status,(snapshot?.characters||[]).map(c=>[c.id,c.status])]);
 function renderEntry(){
- const root=$('entry');if(!root)return;root.replaceChildren();
+ const root=$('entry');if(!root)return;entryKey=entryState();root.replaceChildren();
  if(!snapshot?.authenticated){
   const h2=node('h2',authTab==='login'?'Iniciar sesión':'Crear cuenta');
   const intro=node('p','Vintage Telnet y Vaisgard RPG comparten mundo, cuenta y personaje.');
@@ -322,7 +325,7 @@ function render(){
  const entryElem=$('entry');const worldElem=$('world-view');
  if(!inGame){
   if(worldElem)worldElem.hidden=true;
-  if(entryElem){entryElem.hidden=false;renderEntry();}
+  if(entryElem){entryElem.hidden=false;if(entryState()!==entryKey)renderEntry();}
   panel(false);return;
  }
  if(entryElem)entryElem.hidden=true;
