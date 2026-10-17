@@ -180,7 +180,7 @@ def create_app(config=None):
 
     @app.get('/client-rpg/<path:filename>')
     def rpg_asset(filename):
-        if not re.fullmatch(r'(rpg\.js|rpg\.css|scenes/[a-z0-9_]+\.json|sprites/[a-z0-9_-]+\.(png|webp)|tilesets/[a-z0-9_]+\.json)',filename):return jsonify(error='not_found'),404
+        if not re.fullmatch(r'(rpg\.js|rpg\.css|scenes/[a-z0-9_]+\.json|sprites/[a-z0-9_-]+\.(png|webp)|tilesets/[a-z0-9_]+\.json|backgrounds/[a-z0-9_]+(-front)?\.webp)',filename):return jsonify(error='not_found'),404
         return send_from_directory(ROOT/'client-rpg',filename)
 
     @app.get('/api/state')

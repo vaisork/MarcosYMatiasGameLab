@@ -19,6 +19,12 @@ const classInfo=[
 ];
 const keys=new Set(), images={};
 for(const name of ['avatar','lina','espinajo','espinajo-battle']){images[name]=new Image();images[name].src=`/client-rpg/sprites/${name}.png`;}
+const backgrounds={};
+function backgroundImage(path){
+ if(!path||!/^backgrounds\/[a-z0-9_]+(?:-front)?\.webp$/.test(path))return null;
+ if(!backgrounds[path]){const img=new Image();img.src=`/client-rpg/${path}`;backgrounds[path]=img;}
+ const img=backgrounds[path];return img.complete&&img.naturalWidth?img:null;
+}
 const tilesetData={};
 async function loadTileset(name='edran'){
  if(tilesetData[name])return tilesetData[name];
@@ -97,17 +103,20 @@ function battleDraw(time){
  const enemyHp=animation?animation.oldEnemy+(b.hp-animation.oldEnemy)*blend:b.hp;
  const playerHp=animation?animation.oldPlayer+(c.hp-animation.oldPlayer)*blend:c.hp;
  const shake=!reduced&&elapsed<.6?Math.sin(elapsed*65)*5*(1-elapsed/.6):0;
+ const backdrop=backgroundImage('backgrounds/edran_battle.webp');
+ if(backdrop)ctx.drawImage(backdrop,0,0,640,480);else{
  ctx.fillStyle='#8da087';ctx.fillRect(0,0,640,480);
  ctx.fillStyle='#697e65';ctx.fillRect(0,148,640,90);ctx.fillStyle='#546e5e';ctx.fillRect(0,222,640,258);
  for(let x=0;x<640;x+=32){ctx.fillStyle='#7c906f';ctx.fillRect(x,140+(x%96)/4,32,30);ctx.fillStyle='#465f51';ctx.fillRect(x,260+(x%64),18,3);}
  const platform=(x,y,rx,ry)=>{ctx.fillStyle='#344f45';ctx.beginPath();ctx.ellipse(x,y+10,rx,ry,0,0,7);ctx.fill();ctx.fillStyle='#b7ad7c';ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,7);ctx.fill();ctx.fillStyle='#8c9564';ctx.beginPath();ctx.ellipse(x,y-4,rx-10,ry-7,0,0,7);ctx.fill();};
  platform(466,222,130,34);platform(155,407,145,40);
+ }
  const lunge=!reduced&&elapsed<.35?Math.sin(elapsed/.35*Math.PI)*24:0;
  const enemy=b.creature==='espinajo_rastrojo'?images['espinajo-battle']:null;
- if(!(animation?.enemy>0&&elapsed<.8&&Math.floor(elapsed*14)%2)&&enemy?.complete){const size=enemy.naturalWidth===96?210:150;ctx.drawImage(enemy,0,0,enemy.naturalWidth===96?96:16,enemy.naturalWidth===96?96:16,466-size/2+shake,230-size,size,size);}
+ if(!(animation?.enemy>0&&elapsed<.8&&Math.floor(elapsed*14)%2)&&enemy?.complete&&enemy.naturalWidth)ctx.drawImage(enemy,366+shake,45,200,200);
  if(!enemy){ctx.fillStyle='#e7e2bd';ctx.font='bold 80px monospace';ctx.textAlign='center';ctx.fillText('?',466,190);}
  const avatar=images.avatar;
- if(!(animation?.player>0&&elapsed<.8&&Math.floor(elapsed*14)%2)&&avatar.complete)ctx.drawImage(avatar,0,16,16,16,68+lunge,245,174,174);
+ if(!(animation?.player>0&&elapsed<.8&&Math.floor(elapsed*14)%2)&&avatar.complete&&avatar.naturalWidth)ctx.drawImage(avatar,64,96,64,96,85+lunge,235,128,192);
  const box=(x,y,w,h)=>{ctx.fillStyle='#e7e2bd';ctx.fillRect(x,y,w,h);ctx.strokeStyle='#2c4742';ctx.lineWidth=4;ctx.strokeRect(x,y,w,h);ctx.fillStyle='#253e38';ctx.font='bold 21px monospace';ctx.textAlign='left';};
  box(22,24,333,91);ctx.fillText(b.name.replace(/ · nivel \d+$/, ''),36,52,305);
  const known=(snapshot.bestiary||[]).find(e=>(e.id===b.creature||e.creature===b.creature));
@@ -180,7 +189,7 @@ function entities(){
  const npcs=snapshot.room.npcs.map((n,i)=>({...n,at:scene.npcs.find(p=>p.id===n.id)?.at||[4+i*2,5],sprite:'lina'}));
  const ids=new Set(snapshot.actions.filter(a=>['combatir','acercarse','retirarse'].includes(a.id)||(a.id==='examinar_criatura'&&scene.creatures.some(e=>e.id===a.target))).map(a=>a.target));
  if(snapshot.character.combat)ids.add(snapshot.character.combat.creature);
- return [...npcs,...[...ids].map((id,i)=>({id,name:snapshot.character.combat?.creature===id?snapshot.character.combat.name:id.replaceAll('_',' '),at:scene.creatures.find(p=>p.id===id)?.at||[14-i*2,5],sprite:id==='espinajo_rastrojo'?'espinajo':null}))];
+ return [...npcs,...[...ids].map((id,i)=>({id,name:snapshot.character.combat?.creature===id?snapshot.character.combat.name:id.replaceAll('_',' '),at:scene.creatures.find(p=>p.id===id)?.at||[12-i*2,5],sprite:id==='espinajo_rastrojo'?'espinajo':null}))];
 }
 function actionButton(action){
  const b=node('button',action.label||action.id);b.type='button';b.disabled=(snapshot?.character?.combat?battleLocked():busy||Boolean(pending))||Boolean(action.disabled);b.title=action.reason||action.description||'';
@@ -393,7 +402,8 @@ function draw(time){
   const hasTiles=tsMeta&&tsImg?.complete&&tsImg.naturalWidth;
   const tileSz=tsMeta?.tile||16;
   const cols=hasTiles?Math.floor(tsImg.naturalWidth/tileSz):0;
-  scene.layers.ground.forEach((row,y)=>[...row].forEach((tile,x)=>{
+  const backdrop=backgroundImage(scene.background);
+  if(backdrop)ctx.drawImage(backdrop,0,0,canvas.width,canvas.height);else scene.layers.ground.forEach((row,y)=>[...row].forEach((tile,x)=>{
    const idx=tsMeta?.map?.[tile];
    if(hasTiles&&typeof idx==='number'&&cols>0){
     const tx=(idx%cols)*tileSz,ty=Math.floor(idx/cols)*tileSz;
@@ -403,11 +413,20 @@ function draw(time){
     ctx.fillRect(x*sx,y*sy,sx+1,sy+1);
    }
   }));
-  for(const e of scene.exits){const [x,y,w,h]=e.rect;ctx.fillStyle='#e6ce8d';ctx.fillRect(x*sx,y*sy,w*sx,h*sy);ctx.fillStyle='#293a2b';ctx.font='12px sans-serif';ctx.textAlign='center';ctx.fillText(e.direction,(x+w/2)*sx,Math.max(12,(y+h/2)*sy));}
+  for(const e of scene.exits){const [x,y,w,h]=e.rect;ctx.fillStyle='#e6ce8d88';ctx.fillRect(x*sx,y*sy,w*sx,h*sy);ctx.fillStyle='#293a2b';ctx.font='12px sans-serif';ctx.textAlign='center';ctx.fillText(e.direction,(x+w/2)*sx,Math.max(12,(y+h/2)*sy));}
   const key=[...keys].find(k=>bindings[k]);let moving=false;
   if(key&&!busy&&!pending&&$('panel').hidden){const [dx,dy,dir]=bindings[key];facing=dir;const x=player.x+dx*dt*4,y=player.y+dy*dt*4;if(!blocked(x,y)){player.x=x;player.y=y;moving=true;walk+=dt*9;}}
   const actors=[...entities().map(e=>({...e,x:e.at[0],y:e.at[1]})),{...player,sprite:'avatar',id:'player'}].sort((a,b)=>a.y-b.y);
-  for(const a of actors){const im=images[a.sprite];ctx.fillStyle='#1c302b55';ctx.beginPath();ctx.ellipse(a.x*sx,a.y*sy+8,12,5,0,0,7);ctx.fill();if(im?.complete&&im.naturalWidth)ctx.drawImage(im,a.id==='player'&&moving?Math.floor(walk)%3*16:0,a.id==='player'?facing*16:0,16,16,a.x*sx-16,a.y*sy-25,32,32);if(!im){ctx.fillStyle='#e6ce8d';ctx.font='bold 24px monospace';ctx.textAlign='center';ctx.fillText('?',a.x*sx,a.y*sy);}if(a.name){ctx.font='12px sans-serif';ctx.textAlign='center';ctx.fillStyle='#13291f';ctx.fillRect(a.x*sx-64,a.y*sy-42,128,15);ctx.fillStyle='#f4e6bf';ctx.fillText(a.name,a.x*sx,a.y*sy-31);}}
+  for(const a of actors){
+   const im=images[a.sprite],sheet=a.sprite==='avatar'||a.sprite==='lina';
+   const height=sheet?60:48,width=sheet?40:48;
+   ctx.fillStyle='#1c302b55';ctx.beginPath();ctx.ellipse(a.x*sx,a.y*sy+8,12,5,0,0,7);ctx.fill();
+   if(im?.complete&&im.naturalWidth){const frame=a.id==='player'&&moving?Math.floor(walk)%3:1;ctx.drawImage(im,sheet?frame*64:0,sheet&&a.id==='player'?facing*96:0,sheet?64:48,sheet?96:48,a.x*sx-width/2,a.y*sy-height+8,width,height);}
+   if(!im){ctx.fillStyle='#e6ce8d';ctx.font='bold 24px monospace';ctx.textAlign='center';ctx.fillText('?',a.x*sx,a.y*sy);}
+   if(a.name){ctx.font='12px sans-serif';ctx.textAlign='center';ctx.fillStyle='#13291f';const labelWidth=ctx.measureText(a.name).width+12;ctx.fillRect(a.x*sx-labelWidth/2,a.y*sy-height-12,labelWidth,15);ctx.fillStyle='#f4e6bf';ctx.fillText(a.name,a.x*sx,a.y*sy-height-1);}
+  }
+  const front=backgroundImage(scene.foreground);
+  if(front)ctx.drawImage(front,0,0,canvas.width,canvas.height);
   const exit=scene.exits.find(e=>{const [x,y,w,h]=e.rect;return player.x>=x&&player.x<x+w&&player.y>=y&&player.y<y+h;});
   if(!exit)exitLatch=null;
   if(exit&&exitLatch!==exit.direction&&!busy&&!pending){exitLatch=exit.direction;const action=snapshot.actions.find(a=>a.id==='mover'&&a.target===exit.direction);if(!action||action.disabled)notice(action?.reason||'Esta salida no está disponible ahora.');else void perform(action);}

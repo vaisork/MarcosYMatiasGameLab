@@ -843,6 +843,11 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/edran_surcos.webp"
     }
   ],
   "tilesets": [

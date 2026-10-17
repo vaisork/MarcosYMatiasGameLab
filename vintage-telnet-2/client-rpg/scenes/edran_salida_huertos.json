@@ -25,7 +25,7 @@
       "fffffffffppfffffffff"
     ],
     "solid": [
-      "11111111111111111111",
+      "111111111..111111111",
       "1..................1",
       "1..................1",
       "1..................1",
@@ -102,5 +102,6 @@
       ]
     }
   ],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/edran_salida_huertos.webp"
 }
