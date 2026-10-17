@@ -43,3 +43,16 @@
 .panel-account-tools button{flex:1;min-height:42px;font-size:13px}
 .primary-btn{background:#68553d;border-color:#c6ae76}
 .primary-btn:hover{background:#7d674b;color:#fff4c9}
+
+.menu-bar{display:flex;gap:6px;margin:8px 0;width:100%}
+.bar-btn{flex:1 1 0;min-height:42px;padding:6px 6px;font-size:13px;text-align:center;border:2px solid #5c7062;background:#203538;color:#f2e6bd;cursor:pointer;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;box-shadow:none}
+.bar-btn:hover{background:#2f4c4c;border-color:#ffdc83}
+.bar-btn.active{background:#486054;border-color:#f5d888;color:#fff4c9;font-weight:bold}
+.submenu-tabs{margin-bottom:12px}
+.inventory-list{display:flex;flex-direction:column;gap:6px;margin:8px 0 12px}
+.inventory-item{display:flex;justify-content:space-between;padding:8px 12px;background:#142426;border:1px solid #3d5650;font-size:13px;color:#f2e6bd}
+.char-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:8px 0 14px}
+.char-stat{background:#142426;padding:8px 10px;border:1px solid #3d5650;font-size:12px}
+.char-stat strong{display:block;font-size:14px;color:#ead69c}
+.emergency-exit-title{font-size:14px;color:#f5d888;margin:8px 0 4px}
+@media(max-width:600px){.menu-bar{gap:4px}.bar-btn{font-size:11px;padding:6px 3px;min-height:40px}}

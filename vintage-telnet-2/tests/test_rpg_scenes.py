@@ -93,3 +93,67 @@ class RpgSceneTests(unittest.TestCase):
                 for e in scene['exits']:
                     x,y,w,h=e['rect']
                     self.assertTrue(any((i,j) in seen for i in range(x,x+w) for j in range(y,y+h)))
+
+    def test_all_spawns_reach_all_exits_painted_and_generic(self):
+        """Every room (painted or generic) spawns avatar in free cell and reaches every exit via flood fill."""
+        from collections import deque
+        root = Path(__file__).resolve().parents[1]
+        content = Content(root / 'content')
+        gates = {
+            'norte': [9, 0, 2, 1],
+            'sur': [9, 14, 2, 1],
+            'oeste': [0, 6, 1, 3],
+            'este': [19, 6, 1, 3],
+        }
+
+        for path in sorted((root / 'client-rpg/scenes').glob('*.json')):
+            scene = json.loads(path.read_text(encoding='utf-8'))
+            solid = scene['layers']['solid']
+            w, h = scene['size']
+            for spawn_key, at in scene['spawn'].items():
+                sx, sy = at
+                self.assertIn(solid[sy][sx], '.0 ', f"{path.name} spawn {spawn_key} must be in free cell")
+                q = deque([(sx, sy)])
+                seen = {(sx, sy)}
+                while q:
+                    cx, cy = q.popleft()
+                    for nx, ny in ((cx - 1, cy), (cx + 1, cy), (cx, cy - 1), (cx, cy + 1)):
+                        if 0 <= nx < w and 0 <= ny < h and solid[ny][nx] in '.0 ' and (nx, ny) not in seen:
+                            seen.add((nx, ny))
+                            q.append((nx, ny))
+                for exit_info in scene['exits']:
+                    ex, ey, ew, eh = exit_info['rect']
+                    has_path = any((i, j) in seen for j in range(ey, ey + eh) for i in range(ex, ex + ew))
+                    self.assertTrue(has_path, f"{path.name} spawn {spawn_key} cannot reach exit {exit_info['direction']}")
+
+        for room_id, room in content.rooms.items():
+            exits = [{'direction': d, 'rect': gates[d]} for d in room.get('exits', {}) if d in gates]
+            ground = [['f' if x == 0 or x == 19 or y == 0 or y == 14 else 'g' for x in range(20)] for y in range(15)]
+            for e in exits:
+                x, y, w, h = e['rect']
+                for j in range(y, y + h):
+                    for i in range(x, x + w):
+                        ground[j][i] = 'p'
+            solid = [['1' if c == 'f' else '.' for c in row] for row in ground]
+            spawn = {
+                'default': [10, 7],
+                'norte': [10, 1],
+                'sur': [10, 13],
+                'este': [18, 7],
+                'oeste': [1, 7],
+            }
+            w, h = 20, 15
+            for spawn_key, (sx, sy) in spawn.items():
+                self.assertEqual(solid[sy][sx], '.', f"Generic {room_id} spawn {spawn_key} must be free")
+                q = deque([(sx, sy)])
+                seen = {(sx, sy)}
+                while q:
+                    cx, cy = q.popleft()
+                    for nx, ny in ((cx - 1, cy), (cx + 1, cy), (cx, cy - 1), (cx, cy + 1)):
+                        if 0 <= nx < w and 0 <= ny < h and solid[ny][nx] == '.' and (nx, ny) not in seen:
+                            seen.add((nx, ny))
+                            q.append((nx, ny))
+                for exit_info in exits:
+                    ex, ey, ew, eh = exit_info['rect']
+                    has_path = any((i, j) in seen for j in range(ey, ey + eh) for i in range(ex, ex + ew))
+                    self.assertTrue(has_path, f"Generic {room_id} spawn {spawn_key} cannot reach exit {exit_info['direction']}")
