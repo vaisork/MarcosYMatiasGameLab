@@ -3,7 +3,21 @@ const $=id=>document.getElementById(id), canvas=$('world'), ctx=canvas.getContex
 const opposite={norte:'sur',sur:'norte',este:'oeste',oeste:'este'};
 const gates={norte:[9,0,2,1],sur:[9,14,2,1],oeste:[0,6,1,3],este:[19,6,1,3],salir:[9,0,2,1],hogar:[4,0,2,1]};
 const keys=new Set(), images={};
-for(const name of ['avatar','lina','espinajo','terrain','espinajo-battle']){images[name]=new Image();images[name].src=`/client-rpg/sprites/${name}.png`;}
+for(const name of ['avatar','lina','espinajo','espinajo-battle']){images[name]=new Image();images[name].src=`/client-rpg/sprites/${name}.png`;}
+const tilesetData={};
+async function loadTileset(name='edran'){
+ if(tilesetData[name])return tilesetData[name];
+ try{
+  const res=await fetch(`/client-rpg/tilesets/${encodeURIComponent(name)}.json`);
+  if(!res.ok)throw Error();
+  const meta=await res.json();
+  const img=new Image();
+  img.src=meta.image.startsWith('/')?meta.image:`/client-rpg/${meta.image}`;
+  tilesetData[name]={meta,img};
+  return tilesetData[name];
+ }catch{return null;}
+}
+void loadTileset('edran');
 let snapshot=null, scene=null, busy=false, pending=null, focus=null, entrance=null, exitLatch=null, lastTime=0, walk=0, facing=0;
 const player={x:10,y:7};
 let battleEnteredAt=0;
@@ -99,7 +113,7 @@ function generic(room){
  const exits=(room.exits||[]).map(e=>({direction:e.direction,rect:gates[e.direction]||[9,0,2,1]}));
  const ground=Array.from({length:15},(_,y)=>Array.from({length:20},(_,x)=>x===0||x===19||y===0||y===14?'f':'g'));
  for(const {rect:[x,y,w,h]} of exits)for(let j=y;j<y+h;j++)for(let i=x;i<x+w;i++)ground[j][i]='p';
- return {size:[20,15],tile:16,layers:{ground:ground.map(r=>r.join('')),solid:ground.map(r=>r.map(c=>c==='f'?'1':'.').join(''))},spawn:{default:[10,7],norte:[10,1],sur:[10,13],este:[18,7],oeste:[1,7]},exits,npcs:[],creatures:[]};
+ return {size:[20,15],tile:16,tileset:'edran',layers:{ground:ground.map(r=>r.join('')),solid:ground.map(r=>r.map(c=>c==='f'?'1':'.').join(''))},spawn:{default:[10,7],norte:[10,1],sur:[10,13],este:[18,7],oeste:[1,7]},exits,npcs:[],creatures:[]};
 }
 async function apply(next){
  const changed=next.room?.id!==snapshot?.room?.id||next.character?.id!==snapshot?.character?.id;
@@ -108,6 +122,7 @@ async function apply(next){
  if(changed){
   focus=null;scene=null;
   try{const response=await fetch(`/client-rpg/scenes/${encodeURIComponent(next.room.id)}.json`);if(!response.ok)throw Error();scene=await response.json();}catch{scene=generic(next.room);}
+  void loadTileset(scene.tileset||'edran');
   // Server exits are authoritative even when presentation files lag behind.
   const real=new Set(next.room.exits.map(e=>e.direction));scene.exits=scene.exits.filter(e=>real.has(e.direction));
   for(const direction of real)if(!scene.exits.some(e=>e.direction===direction))scene.exits.push({direction,rect:gates[direction]||[9,0,2,1]});
@@ -182,7 +197,22 @@ function draw(time){
  if(scene){
   const [width,height]=scene.size,sx=canvas.width/width,sy=canvas.height/height;
   const colors={g:'#72874c',p:'#b4a076',c:'#63763c',s:'#8b7047',w:'#467d82',b:'#bab18c',f:'#46593c'};
-  scene.layers.ground.forEach((row,y)=>[...row].forEach((tile,x)=>{const index='gpcswbf'.indexOf(tile),im=images.terrain;if(im.complete&&im.naturalWidth)ctx.drawImage(im,Math.max(0,index)*32,0,32,32,x*sx,y*sy,sx,sy);else{ctx.fillStyle=colors[tile]||colors.g;ctx.fillRect(x*sx,y*sy,sx+1,sy+1);}}));
+  const ts=tilesetData[scene.tileset||'edran'];
+  if(!ts)void loadTileset(scene.tileset||'edran');
+  const tsMeta=ts?.meta, tsImg=ts?.img;
+  const hasTiles=tsMeta&&tsImg?.complete&&tsImg.naturalWidth;
+  const tileSz=tsMeta?.tile||16;
+  const cols=hasTiles?Math.floor(tsImg.naturalWidth/tileSz):0;
+  scene.layers.ground.forEach((row,y)=>[...row].forEach((tile,x)=>{
+   const idx=tsMeta?.map?.[tile];
+   if(hasTiles&&typeof idx==='number'&&cols>0){
+    const tx=(idx%cols)*tileSz,ty=Math.floor(idx/cols)*tileSz;
+    ctx.drawImage(tsImg,tx,ty,tileSz,tileSz,x*sx,y*sy,sx,sy);
+   }else{
+    ctx.fillStyle=colors[tile]||colors.g;
+    ctx.fillRect(x*sx,y*sy,sx+1,sy+1);
+   }
+  }));
   for(const e of scene.exits){const [x,y,w,h]=e.rect;ctx.fillStyle='#e6ce8d';ctx.fillRect(x*sx,y*sy,w*sx,h*sy);ctx.fillStyle='#293a2b';ctx.font='12px sans-serif';ctx.textAlign='center';ctx.fillText(e.direction,(x+w/2)*sx,Math.max(12,(y+h/2)*sy));}
   const key=[...keys].find(k=>bindings[k]);let moving=false;
   if(key&&!busy&&!pending&&$('panel').hidden){const [dx,dy,dir]=bindings[key];facing=dir;const x=player.x+dx*dt*4,y=player.y+dy*dt*4;if(!blocked(x,y)){player.x=x;player.y=y;moving=true;walk+=dt*9;}}
@@ -194,7 +224,7 @@ function draw(time){
  }else{ctx.fillStyle='#263d30';ctx.fillRect(0,0,640,480);}
 
 }
-async function refresh(){if(busy||pending||refreshing||document.hidden)return;refreshing=true;try{await apply(await api('/api/state'));}catch(e){notice(e.message);}finally{refreshing=false;render();}}
+async function refresh(){if(busy||pending||refreshing||(snapshot&&document.hidden))return;refreshing=true;try{await apply(await api('/api/state'));}catch(e){notice(e.message);}finally{refreshing=false;render();}}
 async function poll(){await refresh();setTimeout(poll,snapshot?.character?.combat?700:4000);}
 void poll();
-setInterval(()=>{if(!document.hidden)draw(performance.now());},33);
+setInterval(()=>{draw(performance.now());},33);
