@@ -97,6 +97,26 @@ class RpgTilesTests(unittest.TestCase):
         self.assertIn('Pixel-boy', text)
         self.assertIn('CC0', text)
 
+    def test_preview_cli_generates_scaled_scene_pngs(self):
+        """El modo --preview genera vistas PNG a escala x3 de cada escena."""
+        import subprocess
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            script_path = ROOT / 'scripts' / 'build-rpg-tileset.py'
+            res = subprocess.run(['python3', str(script_path), '--preview', tmpdir], capture_output=True, text=True)
+            self.assertEqual(res.returncode, 0, f"build-rpg-tileset.py failed:\n{res.stderr}")
+            for scene_file in sorted(SCENES_DIR.glob('*.json')):
+                png_path = Path(tmpdir) / f"{scene_file.stem}.png"
+                self.assertTrue(png_path.is_file(), f"Missing preview: {png_path}")
+                data = png_path.read_bytes()
+                self.assertEqual(data[:8], b'\x89PNG\r\n\x1a\n')
+                width, height = struct.unpack('>II', data[16:24])
+                scene_data = json.loads(scene_file.read_text(encoding='utf-8'))
+                expected_w = scene_data['size'][0] * 16 * 3
+                expected_h = scene_data['size'][1] * 16 * 3
+                self.assertEqual(width, expected_w)
+                self.assertEqual(height, expected_h)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -26,13 +26,14 @@ PACK_DIR = Path(os.environ.get(
 
 TILE_DEFS = [
     # (char, filename, (x1, y1, x2, y2), overlay_file_and_crop_or_None)
-    ('g', 'Backgrounds/Tilesets/TilesetNature.png', (16, 48, 32, 64), None),
+    ('g', 'Backgrounds/Tilesets/TilesetFloor.png', (176, 192, 192, 208), None),
     ('p', 'Backgrounds/Tilesets/TilesetFloor.png', (16, 128, 32, 144), None),
-    ('f', 'Backgrounds/Tilesets/TilesetNature.png', (16, 48, 32, 64),
-     ('Backgrounds/Tilesets/TilesetElement.png', (0, 32, 16, 48))),
+    ('f', 'Backgrounds/Tilesets/TilesetFloor.png', (176, 192, 192, 208),
+     ('Backgrounds/Tilesets/TilesetNature.png', (16, 160, 32, 176))),
     ('w', 'Backgrounds/Tilesets/TilesetWater.png', (16, 16, 32, 32), None),
-    ('c', 'Backgrounds/Tilesets/TilesetField.png', (16, 64, 32, 80), None),
-    ('s', 'Backgrounds/Tilesets/TilesetField.png', (16, 16, 32, 32), None),
+    ('c', 'Backgrounds/Tilesets/TilesetRelief.png', (80, 96, 96, 112),
+     ('Backgrounds/Tilesets/TilesetFloorDetail.png', (96, 32, 112, 48))),
+    ('s', 'Backgrounds/Tilesets/TilesetRelief.png', (80, 96, 96, 112), None),
 ]
 
 
@@ -83,7 +84,62 @@ def build_tileset(pack_dir=PACK_DIR, out_sprites=None, out_tileset=None):
     return out_sprites, out_tileset
 
 
+def render_previews(preview_dir, sprites_path=None, json_path=None, scenes_dir=None, scale=3):
+    if scenes_dir is None:
+        scenes_dir = ROOT / 'client-rpg' / 'scenes'
+    if sprites_path is None:
+        sprites_path = ROOT / 'client-rpg' / 'sprites' / 'edran-tiles.png'
+    if json_path is None:
+        json_path = ROOT / 'client-rpg' / 'tilesets' / 'edran.json'
+
+    preview_dir = Path(preview_dir)
+    preview_dir.mkdir(parents=True, exist_ok=True)
+
+    tileset_meta = json.loads(Path(json_path).read_text(encoding='utf-8'))
+    tile_map = tileset_meta['map']
+    atlas = Image.open(sprites_path).convert('RGBA')
+
+    tile_size = tileset_meta.get('tile', 16)
+    tiles = {}
+    for char, idx in tile_map.items():
+        tiles[char] = atlas.crop((idx * tile_size, 0, (idx + 1) * tile_size, tile_size))
+
+    resample_mode = getattr(getattr(Image, 'Resampling', Image), 'NEAREST')
+    generated = []
+
+    for scene_file in sorted(Path(scenes_dir).glob('*.json')):
+        scene_data = json.loads(scene_file.read_text(encoding='utf-8'))
+        width, height = scene_data['size']
+        scene_img = Image.new('RGBA', (width * tile_size, height * tile_size))
+        for y, row in enumerate(scene_data['layers']['ground']):
+            for x, char in enumerate(row):
+                if char in tiles:
+                    scene_img.paste(tiles[char], (x * tile_size, y * tile_size))
+
+        if scale > 1:
+            scene_img = scene_img.resize((width * tile_size * scale, height * tile_size * scale), resample=resample_mode)
+
+        out_file = preview_dir / f"{scene_file.stem}.png"
+        scene_img.save(out_file, format='PNG')
+        generated.append(out_file)
+
+    return generated
+
+
 if __name__ == '__main__':
-    sprites_path, json_path = build_tileset()
+    import argparse
+    parser = argparse.ArgumentParser(description="Build Edran RPG tileset and optional scene previews.")
+    parser.add_argument('--preview', metavar='DIR', type=Path, default=None,
+                        help="Render each scene to PNG (scale x3) in DIR")
+    parser.add_argument('--pack-dir', type=Path, default=PACK_DIR,
+                        help="Path to Ninja Adventure pack")
+    args = parser.parse_args()
+
+    sprites_path, json_path = build_tileset(pack_dir=args.pack_dir)
     print(f"Generated {sprites_path} ({sprites_path.stat().st_size} bytes)")
     print(f"Generated {json_path}")
+
+    if args.preview:
+        generated = render_previews(args.preview, sprites_path=sprites_path, json_path=json_path, scale=3)
+        for p in generated:
+            print(f"Generated preview {p} ({p.stat().st_size} bytes)")
