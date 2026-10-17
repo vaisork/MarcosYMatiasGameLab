@@ -135,11 +135,11 @@ if __name__ == '__main__':
                         help="Path to Ninja Adventure pack")
     args = parser.parse_args()
 
-    sprites_path, json_path = build_tileset(pack_dir=args.pack_dir)
-    print(f"Generated {sprites_path} ({sprites_path.stat().st_size} bytes)")
-    print(f"Generated {json_path}")
-
     if args.preview:
-        generated = render_previews(args.preview, sprites_path=sprites_path, json_path=json_path, scale=3)
-        for p in generated:
+        # Preview renders the committed atlas; it never needs the pack nor rewrites repo files.
+        for p in render_previews(args.preview, scale=3):
             print(f"Generated preview {p} ({p.stat().st_size} bytes)")
+    else:
+        sprites_path, json_path = build_tileset(pack_dir=args.pack_dir)
+        print(f"Generated {sprites_path} ({sprites_path.stat().st_size} bytes)")
+        print(f"Generated {json_path}")
