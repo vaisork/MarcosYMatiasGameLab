@@ -25,3 +25,22 @@ vm.runInContext(`updatePresentation(snapshot,{...snapshot,character:{...snapshot
 assert.equal(vm.runInContext('outcome.title',context),'Victoria');
 assert.match(vm.runInContext('outcome.text',context),/14 XP.*Fibra ×1/);
 console.log('RPG client: offered actions, disabled state, round lock, HP deltas and snapshot rewards OK');
+// Render contract: cached full-room background, optional front after actors, tiles fallback.
+vm.runInContext(`
+outcome=null;animation=null;snapshot={character:{},room:{npcs:[]},actions:[]};
+scene={size:[20,15],layers:{ground:Array(15).fill('g'.repeat(20)),solid:Array(15).fill('.'.repeat(20))},exits:[],npcs:[],creatures:[],background:'backgrounds/test.webp',foreground:'backgrounds/test-front.webp'};
+canvas.width=640;canvas.height=480;
+var draws=[],fills=[];
+Object.assign(ctx,{drawImage:(...args)=>draws.push(args),fillRect:(...args)=>fills.push(args),beginPath(){},ellipse(){},fill(){},fillText(){}});
+images.avatar.complete=true;images.avatar.naturalWidth=192;
+backgrounds[scene.background]={complete:true,naturalWidth:1280};
+backgrounds[scene.foreground]={complete:true,naturalWidth:1280};
+draw(1000);
+`,context);
+assert.equal(vm.runInContext('draws[0][0]===backgrounds[scene.background]',context),true);
+assert.equal(vm.runInContext('draws.at(-1)[0]===backgrounds[scene.foreground]',context),true);
+assert.equal(vm.runInContext('draws[1][3]===64&&draws[1][4]===96',context),true,'Use the full 64×96 avatar frame');
+vm.runInContext(`draws=[];fills=[];delete scene.background;delete scene.foreground;draw(1033);`,context);
+assert.equal(vm.runInContext('fills.length',context),300,'Generic rooms retain all tile cells');
+assert.equal(vm.runInContext("backgroundImage('../server/app.py')",context),null);
+console.log('RPG drawing: background, foreground order, sprite frame, tile fallback and path restriction OK');

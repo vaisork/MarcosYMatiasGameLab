@@ -65,3 +65,31 @@ class RpgSceneTests(unittest.TestCase):
                 for creature in scene.get('creatures', []):
                     self.assertIn(creature['id'], creatures)
                     point(creature['at'])
+
+    def test_painted_scenes_roundtrip_and_reachable_exits(self):
+        import importlib.util
+        from collections import deque
+        root = Path(__file__).resolve().parents[1]
+        spec = importlib.util.spec_from_file_location('tiled_to_scene', root / 'scripts/tiled-to-scene.py')
+        converter = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(converter)
+        for path in (root / 'client-rpg/scenes').glob('*.json'):
+            scene = json.loads(path.read_text())
+            with self.subTest(scene=path.stem):
+                background = root / 'client-rpg' / scene['background']
+                self.assertTrue(background.is_file())
+                self.assertLessEqual(background.stat().st_size, 250000)
+                scene['foreground'] = f'backgrounds/{path.stem}-front.webp'
+                self.assertEqual(converter.tiled_to_scene(converter.scene_to_tiled(scene)), scene)
+                solid = scene['layers']['solid']
+                queue = deque([tuple(scene['spawn']['default'])]);seen = set(queue)
+                while queue:
+                    x, y = queue.popleft()
+                    for nx, ny in ((x-1,y),(x+1,y),(x,y-1),(x,y+1)):
+                        if 0 <= nx < 20 and 0 <= ny < 15 and solid[ny][nx] == '.' and (nx,ny) not in seen:
+                            seen.add((nx,ny));queue.append((nx,ny))
+                for at in list(scene['spawn'].values()) + [e['at'] for e in scene['npcs']+scene['creatures']]:
+                    self.assertIn(tuple(at), seen)
+                for e in scene['exits']:
+                    x,y,w,h=e['rect']
+                    self.assertTrue(any((i,j) in seen for i in range(x,x+w) for j in range(y,y+h)))

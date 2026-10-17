@@ -167,6 +167,8 @@ def scene_to_tiled(scene, tilesets_dir=DEFAULT_TILESETS_DIR):
             }
         ],
     }
+    tmj['properties'].extend({'name': key, 'type': 'string', 'value': scene[key]}
+                             for key in ('background', 'foreground') if key in scene)
     return tmj
 
 
@@ -244,6 +246,7 @@ def tiled_to_scene(tmj, tilesets_dir=DEFAULT_TILESETS_DIR, room_fallback=''):
             })
 
     return {
+        **{key: props[key] for key in ('background', 'foreground') if key in props},
         'room': props.get('room', room_fallback),
         'tile': tile,
         'size': [width, height],

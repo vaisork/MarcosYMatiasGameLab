@@ -19,6 +19,7 @@ Decisión de producto: issue #731 (16 de octubre de 2026). Vaisgard RPG es **un 
 | `/client-rpg/rpg.js`, `/client-rpg/rpg.css` | cliente |
 | `/client-rpg/scenes/<room_id>.json` | escenario de una sala |
 | `/client-rpg/sprites/<nombre>.png\|webp` | sprites y tiles |
+| `/client-rpg/backgrounds/<id>(-front)?.webp` | fondos pintados y capas transparentes |
 
 `server/app.py` sólo sirve esos archivos (lista blanca por expresión regular). CSP vigente: `script-src 'self'`, `img-src 'self' blob:`; no hay CDN. Si se usa una biblioteca (p. ej. Phaser), se vendoriza en `client-rpg/` y se añade a la lista blanca con su licencia; el piloto prefiere Canvas 2D sin dependencias por el rendimiento en Raspberry y móvil.
 
@@ -32,6 +33,7 @@ Datos de presentación, no canon. El nombre del archivo es el id real de la sala
   "tile": 16,
   "size": [20, 15],
   "tileset": "edran",
+  "background": "backgrounds/edran_acequia.webp",
   "layers": {"ground": ["...20 caracteres por fila..."], "solid": ["...", "..."]},
   "spawn": {"default": [10, 7], "oeste": [1, 7], "norte": [10, 1], "sur": [10, 13]},
   "exits": [{"direction": "norte", "rect": [9, 0, 2, 1]}],
@@ -40,6 +42,10 @@ Datos de presentación, no canon. El nombre del archivo es el id real de la sala
 }
 ```
 
+- `background` (opcional): ruta relativa `backgrounds/<id>.webp`, pintada para toda la cuadrícula `size`, sin actores incorporados. Los fondos actuales son 1280×960, ≤250.000 bytes cada uno; el Canvas permanece en 640×480. Sin fondo disponible se conserva el dibujo de tiles.
+- `foreground` (opcional): `backgrounds/<id>-front.webp`, misma dimensión y transparencia real, dibujada después de los actores; omitir cuando no hay elementos que oculten al jugador. Ambos campos se conservan como propiedades de mapa en la conversión Tiled de ida y vuelta.
+- `layers.solid` sigue siendo la colisión local: cercas y orillas completas bloqueadas, losa y pasos abiertos. Las plantas bajas y el rastrojo son transitables. No define reglas del servidor.
+- Avatar y Lina: PNG RGBA de 192×384; celdas de 64×96, tres cuadros (paso, reposo, paso), filas sur/norte/oeste/este. Espinajo: 48×48 en mapa y 192×192 en combate. Fondo de combate: `backgrounds/edran_battle.webp`. Imágenes almacenadas en caché, sin filtrado de escala ni dependencias nuevas.
 - `exits[].direction` debe existir en las salidas reales de la sala. Al pisar el rectángulo el cliente envía la acción `{"id":"mover","target":<dirección>}` presente en `snapshot.actions`; si falta o viene con `disabled`, no la envía y muestra su `reason`.
 - `spawn[<dirección>]` es dónde aparece el avatar al llegar desde esa salida; `default` al cargar.
 - `npcs` y `creatures` sólo posicionan ids reales. Se dibujan **sólo si el snapshot los incluye** (`room.npcs`, señales/combate); el escenario nunca revela presencia que el servidor no dio.

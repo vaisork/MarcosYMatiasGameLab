@@ -336,8 +336,8 @@
         1,
         1,
         1,
-        1,
-        1,
+        0,
+        0,
         1,
         1,
         1,
@@ -825,6 +825,11 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/edran_salida_huertos.webp"
     }
   ],
   "tilesets": [
