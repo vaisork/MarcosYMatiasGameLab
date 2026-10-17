@@ -370,7 +370,10 @@ def sync_numenes(state, now):
   mod = NUMENES_MODELS.get(n.get('model'), {})
   n.setdefault('power_desc', mod.get('power_desc', ''))
   if not n.get('last_reaction'):
-   n['last_reaction'] = f"{n.get('name', 'Tu compañero')} te acompaña con atención."
+   if n.get('location') == 'home':
+    n['last_reaction'] = f"{n.get('name', 'Tu compañero')} descansa a salvo en tu hogar."
+   else:
+    n['last_reaction'] = f"{n.get('name', 'Tu compañero')} te acompaña con atención."
  return numenes
 
 def pick_numen_reaction(numen, situation='llegar', now=None, rng=None):
@@ -529,6 +532,29 @@ def care_numen(state, action, now):
   care['well_cared'] = (mood == 'contento')
   return pick_numen_reaction(active, 'caricia', now=now)
  return 'Cuidas a tu compañero.'
+
+def feed_numen_remote(state, numen_id, now):
+ numenes = state.setdefault('numenes', {'active': None, 'bonded': [], 'encounters': {}})
+ bonded = numenes.setdefault('bonded', [])
+ target = next((n for n in bonded if n['id'] == numen_id), None)
+ if not target:
+  raise ValueError('No se encontró ese Númen entre tus compañeros vinculados.')
+ if target['id'] == numenes.get('active'):
+  raise ValueError('Tu compañero viaja contigo; puedes alimentarlo directamente.')
+ care = target.setdefault('care', {})
+ care['last_fed'] = now
+ care['last_rested'] = now
+ care['_mood_fed'] = now
+ care['well_cared'] = True
+ care['fed_today'] = True
+ target['mood'] = 'contento'
+ reaction = pick_numen_reaction(target, 'comer', now=now)
+ trust_msg = ''
+ if target.get('trust', 1) < 3:
+  target['trust'] = target.get('trust', 1) + 1
+  target['trust_stage'] = TRUST_STAGES[target['trust']]
+  trust_msg = f" Su confianza aumenta a {target['trust_stage']}."
+ return target, reaction, trust_msg
 
 def exploration_cue(numen, room, now=None, ambient=None, rng=None):
  if not numen:

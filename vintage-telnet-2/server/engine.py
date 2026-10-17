@@ -837,14 +837,31 @@ class Engine:
             actions.append({'id':'cuidar_numen','target':active_numen['id'],'label':f"Atender a {active_numen['name']}",'reason':f"Comprobar el estado de {active_numen['name']} y ofrecerle afecto."})
             actions.append({'id':'alimentar_numen','target':active_numen['id'],'label':f"Compartir comida con {active_numen['name']}",'reason':f"Ofrecer un Bocado de Númen a {active_numen['name']}."})
             actions.append({'id':'nombrar_numen','target':active_numen['id'],'label':f"Cambiar nombre de {active_numen['name']}",'reason':f"Darle un nuevo nombre a {active_numen['name']}."})
+        numenes_data=state.get('numenes',{})
+        bonded=numenes_data.get('bonded',[])
+        food_price=self.content.items.get('bocado_numen',{}).get('price',2)
+        remote_feed_cost=food_price+2
         if room.get('kind')=='home':
-            numenes_data=state.get('numenes',{})
-            for b in numenes_data.get('bonded',[]):
+            for b in bonded:
                 if b['id']!=numenes_data.get('active'):
                     actions.append({'id':'activar_numen','target':b['id'],'label':f"Viajar con {b['name']}",'reason':f"Elegir a {b['name']} ({m.NUMENES_MODELS.get(b['model'],{}).get('species_name','Númen')}) como tu acompañante de viaje."})
                     actions.append({'id':'nombrar_numen','target':b['id'],'label':f"Cambiar nombre de {b['name']}",'reason':f"Darle un nuevo nombre a {b['name']}."})
+                    feed_dis=state.get('seals',0)<remote_feed_cost
+                    feed_rsn=f"Te faltan {remote_feed_cost-state.get('seals',0)} sellos para enviar comida." if feed_dis else f"Pagar {remote_feed_cost} sellos (comida y mensajero) para alimentar a {b['name']} en casa."
+                    actions.append({'id':'alimentar_lejos','target':b['id'],'label':f"Enviar comida a {b['name']} · {remote_feed_cost} sellos",'cost':remote_feed_cost,'disabled':feed_dis,'reason':feed_rsn})
                 else:
                     actions.append({'id':'descansar_numen','target':b['id'],'label':f"Dejar a {b['name']} descansando en casa",'reason':'Dejar a tu compañero descansando al abrigo de tu hogar.'})
+        else:
+            for b in bonded:
+                if b['id']!=numenes_data.get('active'):
+                    call_cost=15
+                    call_dis=state.get('seals',0)<call_cost
+                    call_rsn=f"Te faltan {call_cost-state.get('seals',0)} sellos para pagar al mensajero." if call_dis else f"Pagar 15 sellos a un mensajero para que traiga a {b['name']} hasta aquí."
+                    actions.append({'id':'traer_numen','target':b['id'],'label':f"Llamar a {b['name']} · {call_cost} sellos",'cost':call_cost,'disabled':call_dis,'reason':call_rsn})
+                    feed_dis=state.get('seals',0)<remote_feed_cost
+                    feed_rsn=f"Te faltan {remote_feed_cost-state.get('seals',0)} sellos para enviar comida." if feed_dis else f"Pagar {remote_feed_cost} sellos (comida y mensajero) para alimentar a {b['name']} en casa."
+                    actions.append({'id':'alimentar_lejos','target':b['id'],'label':f"Enviar comida a {b['name']} · {remote_feed_cost} sellos",'cost':remote_feed_cost,'disabled':feed_dis,'reason':feed_rsn})
+                    actions.append({'id':'nombrar_numen','target':b['id'],'label':f"Cambiar nombre de {b['name']}",'reason':f"Darle un nuevo nombre a {b['name']}."})
         mod=next((v for v in m.NUMENES_MODELS.values() if v['room']==room['id']),None)
         if mod:
             already_bonded=any(b.get('model')==mod['id'] for b in state.get('numenes',{}).get('bonded',[]))
@@ -869,7 +886,7 @@ class Engine:
                     reason=f'Ya has alcanzado el límite de {m.MAX_BONDED_NUMENES} Númenes vinculados (R06).' if disabled else 'El animal ha aceptado tu compañía por voluntad propia.'
                     actions.append({'id':'vincular_numen','target':mod['id'],'label':'Aceptar el vínculo y darle nombre','disabled':disabled,'reason':reason})
         story_ids={item['id'] for item in room.get('actions',[])}
-        numen_prio={'observar_numen','aproximar_numen','confiar_numen','calmar_numen','vincular_numen','cuidar_numen','alimentar_numen','nombrar_numen','activar_numen','descansar_numen','apoyo_numen'}
+        numen_prio={'observar_numen','aproximar_numen','confiar_numen','calmar_numen','vincular_numen','cuidar_numen','alimentar_numen','nombrar_numen','activar_numen','descansar_numen','apoyo_numen','traer_numen','alimentar_lejos'}
         actions.sort(key=lambda action:0 if action['id'] in story_ids or action['id'] in ('cobrar','examinar_criatura','buscar','combatir','acercarse','retirarse','calmar') or action['id'] in numen_prio else 1)
         return actions
 
@@ -934,10 +951,12 @@ class Engine:
                     aliases.add(normalize('calmar'))
                     aliases.add(normalize('tranquilizar '+creature.get('name',target)))
                 if id=='combatir':aliases.add(normalize('atacar '+creature.get('name',target)))
-            elif id in ('cuidar_numen','alimentar_numen','nombrar_numen','activar_numen','descansar_numen','observar_numen','aproximar_numen','confiar_numen','forzar_numen','calmar_numen','vincular_numen','apoyo_numen'):
+            elif id in ('cuidar_numen','alimentar_numen','nombrar_numen','activar_numen','descansar_numen','observar_numen','aproximar_numen','confiar_numen','forzar_numen','calmar_numen','vincular_numen','apoyo_numen','traer_numen','alimentar_lejos'):
                 aliases.add(normalize(id))
                 if id=='cuidar_numen':aliases.update(('cuidar','atender','acariciar','cuidar numen'))
                 elif id=='alimentar_numen':aliases.update(('alimentar','dar comida','comida numen','alimentar numen'))
+                elif id=='traer_numen':aliases.update(('traer','llamar','llamar numen','traer numen'))
+                elif id=='alimentar_lejos':aliases.update(('enviar comida','alimentar lejos','alimentar a distancia','enviar comida numen'))
                 elif id=='nombrar_numen':aliases.update(('nombrar','renombrar','cambiar nombre','nombrar numen','renombrar numen'))
                 elif id=='apoyo_numen':aliases.update(('apoyo','apoyo numen','companero'))
                 elif id=='vincular_numen':aliases.update(('vincular','vincular numen','adoptar'))
@@ -1081,13 +1100,52 @@ class Engine:
                 return
             except ValueError as err:
                 raise RuleError(str(err))
-        if action=='activar_numen' and not state['combat']:
+        if action=='activar_numen':
+            if state.get('combat'):raise RuleError('No puedes cambiar de acompañante en combate.',409)
             # R06: los demás vinculados esperan en el hogar; el cambio de acompañante se hace allí.
             if room.get('kind')!='home':raise RuleError('Solo puedes cambiar de acompañante en tu hogar, donde esperan los demás.',409)
             try:
                 target_numen=m.activate_numen(state,target)
                 cue=m.pick_numen_reaction(target_numen,'llegar',now=now_clock,rng=self.rng)
                 state['events']=[event('action',f"{target_numen['name']} se prepara para acompañarte en tu viaje. {cue}")]
+                state['last_active']=now_clock;m.sync_numenes(state,now_clock)
+                return
+            except ValueError as err:
+                raise RuleError(str(err),409)
+        if action=='traer_numen':
+            if state.get('combat'):raise RuleError('No puedes llamar a un mensajero durante el combate.',409)
+            if room.get('kind')=='home':raise RuleError('En tu hogar puedes cambiar de compañero sin costo.',409)
+            call_cost=15
+            if state.get('seals',0)<call_cost:raise RuleError(f"Te faltan {call_cost-state.get('seals',0)} sellos para pagar al mensajero.",409)
+            try:
+                numenes=state.setdefault('numenes',{'active':None,'bonded':[],'encounters':{}})
+                bonded=numenes.setdefault('bonded',[])
+                target_numen=next((n for n in bonded if n['id']==target),None)
+                if not target_numen:raise RuleError('No se encontró ese Númen entre tus compañeros vinculados.',404)
+                prev_active=m.get_active_numen(state)
+                if prev_active and prev_active['id']==target:raise RuleError(f"{target_numen['name']} ya está viajando a tu lado.",409)
+                state['seals']-=call_cost
+                target_numen=m.activate_numen(state,target)
+                cue=m.pick_numen_reaction(target_numen,'llegar',now=now_clock,rng=self.rng)
+                if prev_active:
+                    msg=f"Un mensajero llega con {target_numen['name']} en un canasto cómodo de viaje. Le pagas {call_cost} sellos, despides con cariño a {prev_active['name']} que vuelve seguro a descansar a casa, y {target_numen['name']} corre a saludarte listo para acompañarte. {cue}"
+                else:
+                    msg=f"Un mensajero llega con {target_numen['name']} en un canasto cómodo de viaje. Le pagas {call_cost} sellos por el traslado y {target_numen['name']} corre a saludarte feliz listo para acompañarte. {cue}"
+                state['events']=[event('action',msg)]
+                state['last_active']=now_clock;m.sync_numenes(state,now_clock)
+                return
+            except ValueError as err:
+                raise RuleError(str(err),409)
+        if action=='alimentar_lejos':
+            if state.get('combat'):raise RuleError('No puedes enviar comida en combate.',409)
+            food_price=self.content.items.get('bocado_numen',{}).get('price',2)
+            remote_feed_cost=food_price+2
+            if state.get('seals',0)<remote_feed_cost:raise RuleError(f"Te faltan {remote_feed_cost-state.get('seals',0)} sellos para enviar comida a casa.",409)
+            try:
+                state['seals']-=remote_feed_cost
+                target_numen,reaction,trust_msg=m.feed_numen_remote(state,target,now_clock)
+                msg=f"Pagas {remote_feed_cost} sellos al mensajero (2 del Bocado de Númen y 2 del envío) para que lleve comida fresca a tu casa. {target_numen['name']} recibe su comida con alegría, come con mucho gusto y se acomoda a descansar contento.{trust_msg}"
+                state['events']=[event('action',msg)]
                 state['last_active']=now_clock;m.sync_numenes(state,now_clock)
                 return
             except ValueError as err:
