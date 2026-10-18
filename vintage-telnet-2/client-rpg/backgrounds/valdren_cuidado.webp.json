@@ -1,0 +1,4 @@
+{
+  "prompt": "Edit this supplied pixel-art care-room gameplay background minimally. Preserve every detail, camera, room size, furnishings, bed, treatment table, lighting, pixels and the open EAST doorway exactly. There is a canonical layout error: the SOUTH/bottom center opening must NOT exist. Replace ONLY that bottom center doorway/open threshold with a continuous low cutaway timber-and-stone south wall matching the existing wall on both sides. The south wall must run unbroken left to right, retaining its low height so the interior floor remains visible. Below the new wall, continue the same black outside-room void as under the neighboring wall segments; remove the south path, steps, gap and doorway posts/opening. The ONLY exit in this room is the existing EAST door on the right. Do not add a door anywhere else. Do not add people, text, UI or props. No other changes.\n",
+  "createdAt": "2026-10-18T16:44:26.398Z"
+}

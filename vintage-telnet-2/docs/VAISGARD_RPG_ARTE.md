@@ -123,3 +123,24 @@ Seis fondos originales de plaza, huertos, graneros, patio de carros, cobertizo y
 El único NPC del lote es `edran_bren`, cuidador de carros del cobertizo. `sprites/bren.png` es una hoja192×384 RGBA con12celdas64×96 y cuatro direcciones; gorra oscura, mangas crema y delantal de trabajo marrón distinguen su interpretación visual del avatar y Lina. No añade datos de personaje, armas, acciones, actividades o recompensas. No representa jugador, Vaisork o Númen y no requiere nueva hoja de impresión3D.
 
 Huertos recibió una edición nativa para añadir el espantapájaros descrito en el canon dentro de su parcela cerrada, conservando caminos y salidas. El fondo final pesa248088bytes y su sidecar conserva el prompt de edición. Escenas, Tiled y mapeo de Bren están integrados localmente sobre el piloto7226843. Recorridos, capturas, pruebas y límites en [RPG_VALDREN_01.md](RPG_VALDREN_01.md). No constituye integración a main o despliegue; el piloto PR742 y esta iteración siguen sujetos al OK del propietario.
+
+## Valdren02 — recursos preparados, 2026-10-18
+
+Seis fondos originales para calle de la fragua, casa de semillas, comedor, casa de cuidados, fragua y patio de ropa. Canon de content/regions/edran.json sin cambios desde8b62492; referenciasMUD de client/art/places/ correspondientes. Vista superior3/4, sin actores pintados; fondos normalizados640×480 ampliados2× y WebP≤250000bytes. Casa de cuidados corrigió una puerta sur ajena al canon; comedor conserva tazas invertidas. Prompts exactos y originales en entregas/equipo/rpg-valdren-02/arte/, sidecars junto a losWebP.
+
+Daro y Elva preservan su aspecto de las ilustracionesMUD: herrero de pelo/barba castaños y delantal de cuero; anfitriona de pañuelo crema y vestido ciruela. Iria y Sena carecen de retrato fijo: trenza cobriza/vestido salvia y moño oscuro/vestido azul son interpretaciones visuales de sus roles, sin añadir datos canónicos. SonNPC, no jugadores/Vaisork/Númenes. Hojas transparentes192×384,12frames64×96, cuatrodirecciones; corregidas dosposes invertidas deElva. El cliente presenta soloNPCqueofreceelestadoautoridativo; no nuevas acciones/mecánicas.
+
+| Recurso en client-rpg | Dimensiones | Bytes | SHA-256 |
+|---|---|---:|---|
+| `backgrounds/valdren_calle_alta.webp` | 1280×960 | 249002 | `be24fdc2d3d8eb1b19889fa503927298efdce768f827df33040cb8c834358ebf` |
+| `backgrounds/valdren_casa_semillas.webp` | 1280×960 | 244878 | `dfda1462dc8f283e8b3021746e4d1655b43f5f7ef0c8f0ce1df629d1cc79c5ff` |
+| `backgrounds/valdren_comedor.webp` | 1280×960 | 249600 | `a1aa4aefae439dbf9d43db4aceee1d76e05ff6a504bec2a88d0347dfea5eea96` |
+| `backgrounds/valdren_cuidado.webp` | 1280×960 | 248840 | `494f8b3264d8b847dbea3a57d542bbc999800a4e47f4e41da2d944e7e313ba1d` |
+| `backgrounds/valdren_fragua.webp` | 1280×960 | 249388 | `7d7e9d0eb0b27ae63e6240d1f1de990822ccaa5587a9c14c45f5f2853e86ec82` |
+| `backgrounds/valdren_patio_ropa.webp` | 1280×960 | 246912 | `c99f8b61c358365070dd894b20653e87030eaaae3826714b00ff18b59ba0b0fb` |
+| `sprites/daro.png` | 192×384 | 102731 | `7b1bd4147004c3adc72c362a66c93c313e62b41c276c1ff399774b4f5aad61f1` |
+| `sprites/elva.png` | 192×384 | 98306 | `9be13bcf7f6dc1028fc7f5f19c77f8a6d040200da40833d10bce3b85e2796d6f` |
+| `sprites/iria.png` | 192×384 | 105184 | `8ea08b73ce322644cce5ca380bacc5fabfaf1e519b83969715b51bebb50ad132` |
+| `sprites/sena.png` | 192×384 | 103053 | `592b020ea043d8788905033e7719e0470060ba496dbccad3790682025f7cc5fd` |
+
+Esto acredita preparación de recursos y soporte de sprites. Las escenas, colisiones, Tiled y QA de este bloque aún deben comprobarse. No constituye integración o despliegue.

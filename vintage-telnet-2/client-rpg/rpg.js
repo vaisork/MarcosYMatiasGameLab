@@ -44,8 +44,10 @@ function svgNode(name){
 }
 
 const keys=new Set(), images={};
+const npcSprites={edran_bren:'bren',edran_daro:'daro',edran_iria:'iria',edran_elva:'elva',edran_sena:'sena'};
+const npcSpriteNames=new Set(Object.values(npcSprites));
 const creatureSprites={espinajo_rastrojo:'espinajo',mordelinde:'mordelinde',cornalomo:'cornalomo',salteador_veterano:'salteador'};
-for(const name of ['avatar','avatar-battle','lina','bren',...Object.values(creatureSprites).flatMap(name=>[name,`${name}-battle`])]){
+for(const name of ['avatar','avatar-battle','lina',...Object.values(npcSprites),...Object.values(creatureSprites).flatMap(name=>[name,`${name}-battle`])]){
  images[name]=new Image();
  images[name].src=`/client-rpg/sprites/${name}.png`;
 }
@@ -402,7 +404,7 @@ async function apply(next){
 }
 function entities(){
  if(!scene||!snapshot?.room)return [];
- const npcs=snapshot.room.npcs.map((n,i)=>({...n,at:scene.npcs.find(p=>p.id===n.id)?.at||[4+i*2,5],sprite:n.id==='edran_bren'?'bren':'lina'}));
+ const npcs=snapshot.room.npcs.map((n,i)=>({...n,at:scene.npcs.find(p=>p.id===n.id)?.at||[4+i*2,5],sprite:npcSprites[n.id]||'lina'}));
  const ids=new Set(snapshot.actions.filter(a=>['combatir','acercarse','retirarse'].includes(a.id)||(a.id==='examinar_criatura'&&scene.creatures.some(e=>e.id===a.target))).map(a=>a.target));
  if(snapshot.character.combat)ids.add(snapshot.character.combat.creature);
  return [...npcs,...[...ids].map((id,i)=>({id,name:snapshot.character.combat?.creature===id?snapshot.character.combat.name:id.replaceAll('_',' '),at:scene.creatures.find(p=>p.id===id)?.at||[12-i*2,5],sprite:creatureSprites[id]||null}))];
@@ -977,7 +979,7 @@ function draw(time){
   }
   const actors=[...entities().map(e=>({...e,x:e.at[0],y:e.at[1]})),{...player,sprite:'avatar',id:'player'}].sort((a,b)=>a.y-b.y);
   for(const a of actors){
-   const im=images[a.sprite],sheet=a.sprite==='avatar'||a.sprite==='lina'||a.sprite==='bren';
+   const im=images[a.sprite],sheet=a.sprite==='avatar'||a.sprite==='lina'||npcSpriteNames.has(a.sprite);
    const width=sheet?Math.round(40*S/32):Math.round(48*S/32);
    const height=sheet?Math.round(60*S/32):Math.round(48*S/32);
    const screenX=a.x*S-camX, screenY=a.y*S-camY;
