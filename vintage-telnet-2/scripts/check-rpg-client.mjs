@@ -45,6 +45,23 @@ vm.runInContext(`draws=[];fills=[];delete scene.background;delete scene.foregrou
 assert.equal(vm.runInContext('fills.length',context),300,'Generic rooms retain all tile cells');
 assert.equal(vm.runInContext("backgroundImage('../server/app.py')",context),null);
 console.log('RPG drawing: background, foreground order, sprite frame, tile fallback and path restriction OK');
+// Scene placement must not reveal Bren unless the authoritative room includes him.
+vm.runInContext(`
+scene.npcs=[{id:'edran_bren',at:[6,8]}];
+snapshot.room.npcs=[];
+`,context);
+assert.equal(vm.runInContext('entities().length',context),0);
+vm.runInContext(`
+snapshot.room.npcs=[{id:'edran_bren'}];
+images.bren.complete=true;images.bren.naturalWidth=192;
+draws=[];draw(1066);
+`,context);
+assert.equal(vm.runInContext('entities()[0].sprite',context),'bren');
+assert.equal(vm.runInContext('draws.some(a=>a[0]===images.bren&&a[1]===64&&a[3]===64&&a[4]===96)',context),true,'Bren uses full middle frame of the 64×96 atlas');
+const bren=fs.readFileSync(new URL('../client-rpg/sprites/bren.png',import.meta.url));
+assert.equal(bren.readUInt32BE(16),192);assert.equal(bren.readUInt32BE(20),384);
+vm.runInContext('snapshot.room.npcs=[]',context);
+console.log('RPG Bren: authoritative presence, dedicated sprite and full atlas frame OK');
 // Verify actual avatar collision geometry, not just point-cell flood fill.
 const regionFiles=fs.readdirSync(new URL('../content/regions/',import.meta.url)).filter(f=>f.endsWith('.json'));
 const rooms=Object.assign({},...regionFiles.map(f=>JSON.parse(fs.readFileSync(new URL('../content/regions/'+f,import.meta.url))).rooms||{}));
@@ -77,6 +94,10 @@ for(const [id,map] of maps){
  }
 }
 console.log(`RPG navigation: ${maps.length} painted/generated maps, every spawn and exit reachable with avatar bounds OK`);
+context.testMap=maps.find(([id])=>id==='valdren_cobertizo')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(6.5,5.5)',context),true,'Avatar cannot occupy the cobertizo support post');
+assert.equal(vm.runInContext('blocked(6,8)',context),false,'Bren remains on clear floor outside the turning rope');
 // Graneros has no north door: the former integer spawn touched its closed wall.
 vm.runInContext("scene=generic({exits:[{direction:'oeste'},{direction:'este'}]})",context);
 assert.equal(vm.runInContext('blocked(10,1)',context),true,'Reproduce former north-arrival overlap');

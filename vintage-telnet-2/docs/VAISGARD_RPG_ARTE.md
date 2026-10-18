@@ -116,10 +116,10 @@ Los prompts exactos y originales se conservan en `entregas/equipo/rpg-visual-pil
 La generación de arte no prueba la interfaz: los resultados de integración y QA se documentarán con la entrega del piloto, sin atribuirle las pruebas de la base anterior.
 
 El marco `sprites/ui-frame.png` es un borde ornamental original con transparencia, reutilizado mediante nine-slice. El piloto añade aproximadamente1,6MB de recursos de ejecución y1,4MB de capturas documentales. Resultados y límites de pruebas: [RPG_VISUAL_PILOTO.md](RPG_VISUAL_PILOTO.md).
-## Valdren01 — arte preparado, 2026-10-17
+## Valdren01 — candidato integrado, 2026-10-18
 
 Seis fondos originales de plaza, huertos, graneros, patio de carros, cobertizo y pozo se preparan para integración. Conservan las referencias de lugares del cliente MUD, reinterpretadas en vista superior3/4, sin actores incorporados. Todos1280×960 y≤250000bytes, cuadrícula visual640×480 ampliada2×, compresión WebP ajustada por archivo. Prompts exactos y originales externos en `entregas/equipo/rpg-valdren-01/arte/`; sidecars de procedencia acompañan los WebP.
 
 El único NPC del lote es `edran_bren`, cuidador de carros del cobertizo. `sprites/bren.png` es una hoja192×384 RGBA con12celdas64×96 y cuatro direcciones; gorra oscura, mangas crema y delantal de trabajo marrón distinguen su interpretación visual del avatar y Lina. No añade datos de personaje, armas, acciones, actividades o recompensas. No representa jugador, Vaisork o Númen y no requiere nueva hoja de impresión3D.
 
-Esto acredita preparación de arte; escenas, colisiones, Tiled, mapeo de Bren, recorridos y QA aún deben integrarse y comprobarse. No constituye entrega o despliegue. Las decisiones del piloto visual pertenecen a PR742 pendiente del OK del propietario.
+Huertos recibió una edición nativa para añadir el espantapájaros descrito en el canon dentro de su parcela cerrada, conservando caminos y salidas. El fondo final pesa248088bytes y su sidecar conserva el prompt de edición. Escenas, Tiled y mapeo de Bren están integrados localmente sobre el piloto7226843. Recorridos, capturas, pruebas y límites en [RPG_VALDREN_01.md](RPG_VALDREN_01.md). No constituye integración a main o despliegue; el piloto PR742 y esta iteración siguen sujetos al OK del propietario.
