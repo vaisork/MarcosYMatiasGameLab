@@ -113,6 +113,24 @@ for(const [id,map] of maps){
  }
 }
 console.log(`RPG navigation: ${maps.length} painted/generated maps, every spawn and exit reachable with avatar bounds OK`);
+// Reviewed image footprints: reachability alone must not allow crossing furniture.
+for(const [id,points] of Object.entries({
+ valdren_cuidado:[[5.5,4.5],[10.5,4.5]],
+ valdren_casa_semillas:[[5.5,4.5],[8.5,6.5],[13.5,6.5]],
+ valdren_calle_alta:[[5.5,8.5]],
+ valdren_fragua:[[4.7,7.5],[5.5,8.5],[9.5,4.5]],
+ valdren_patio_ropa:[[15.5,6.5]],
+ valdren_comedor:[[10.5,11.5]]
+})){
+ context.testMap=maps.find(([rid])=>rid===id)[1];vm.runInContext('scene=testMap',context);
+ for(const [x,y] of points)assert.equal(vm.runInContext(`blocked(${x},${y})`,context),true,`${id}: reviewed obstacle at ${x},${y}`);
+}
+context.testMap=maps.find(([id])=>id==='valdren_calle_alta')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(5.5,6.5)',context),false,'Painted west branch stays open');
+context.testMap=maps.find(([id])=>id==='valdren_cuidado')[1];
+assert.equal(vm.runInContext('testMap.exits.some(e=>{const[x,y,w,h]=e.rect;return e.direction==="este"&&16.5>=x&&16.5<x+w&&5.5>=y&&5.5<y+h;})',context),true,'Care room exit follows the actual interior doorway');
+console.log('RPG Valdren geometry: furniture, west branch and interior doorway regressions OK');
 context.testMap=maps.find(([id])=>id==='valdren_cobertizo')[1];
 vm.runInContext('scene=testMap',context);
 assert.equal(vm.runInContext('blocked(6.5,5.5)',context),true,'Avatar cannot occupy the cobertizo support post');

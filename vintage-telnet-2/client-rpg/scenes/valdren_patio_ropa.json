@@ -1,0 +1,99 @@
+{
+  "room": "valdren_patio_ropa",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/valdren_patio_ropa.webp",
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        7,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        2,
+        5,
+        1,
+        1
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        3
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "oeste": [
+      3,
+      6
+    ],
+    "este": [
+      18,
+      7
+    ],
+    "norte": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffppffffffffffffffff",
+      "pppppppppppppppfpppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "ffffppppppppppppffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11..1111111111111111",
+      "...............1....",
+      "....................",
+      "....................",
+      "1111............1111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111"
+    ]
+  }
+}

@@ -124,7 +124,7 @@ El único NPC del lote es `edran_bren`, cuidador de carros del cobertizo. `sprit
 
 Huertos recibió una edición nativa para añadir el espantapájaros descrito en el canon dentro de su parcela cerrada, conservando caminos y salidas. El fondo final pesa248088bytes y su sidecar conserva el prompt de edición. Escenas, Tiled y mapeo de Bren están integrados localmente sobre el piloto7226843. Recorridos, capturas, pruebas y límites en [RPG_VALDREN_01.md](RPG_VALDREN_01.md). No constituye integración a main o despliegue; el piloto PR742 y esta iteración siguen sujetos al OK del propietario.
 
-## Valdren02 — recursos preparados, 2026-10-18
+## Valdren02 — candidato integrado, 2026-10-18
 
 Seis fondos originales para calle de la fragua, casa de semillas, comedor, casa de cuidados, fragua y patio de ropa. Canon de content/regions/edran.json sin cambios desde8b62492; referenciasMUD de client/art/places/ correspondientes. Vista superior3/4, sin actores pintados; fondos normalizados640×480 ampliados2× y WebP≤250000bytes. Casa de cuidados corrigió una puerta sur ajena al canon; comedor conserva tazas invertidas. Prompts exactos y originales en entregas/equipo/rpg-valdren-02/arte/, sidecars junto a losWebP.
 
@@ -143,4 +143,4 @@ Daro y Elva preservan su aspecto de las ilustracionesMUD: herrero de pelo/barba 
 | `sprites/iria.png` | 192×384 | 105184 | `8ea08b73ce322644cce5ca380bacc5fabfaf1e519b83969715b51bebb50ad132` |
 | `sprites/sena.png` | 192×384 | 103053 | `592b020ea043d8788905033e7719e0470060ba496dbccad3790682025f7cc5fd` |
 
-Esto acredita preparación de recursos y soporte de sprites. Las escenas, colisiones, Tiled y QA de este bloque aún deben comprobarse. No constituye integración o despliegue.
+Las seis escenas y sus fuentesTiled están integradas en el candidato. La revisión corrigió obstáculos omitidos, el ramal curvo O y la puerta interior E; las posiciones deNPC evitan solapes con el relato. Las12capturas finales recibieron revisión visual favorable, con lienzo dimensionado explícitamente durante QA de pestaña oculta. Resultados y límites en [RPG_VALDREN_02.md](RPG_VALDREN_02.md). No constituye integración a main ni despliegue.
