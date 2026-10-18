@@ -104,3 +104,15 @@ Extensión del piloto con seis salas: estanque, lindero, parcela vieja, zanja se
 Mordelinde y Cornalomo conservan la anatomía de sus referencias de bestiario MUD. La salteadora sigue la descripción específica de `salteador_veterano` en `content/world.json`: mujer de pelo gris con cota cuidada y espada corta; la ilustración MUD genérica de un forajido varón con garrote no representa esa descripción. No se modifica el canon ni la referencia MUD.
 
 Los atlas originales tienen dos vistas con transparencia real: mapa superior y batalla 3/4. Se separan y normalizan a PNG RGBA de 48×48 y 192×192, respectivamente. El cliente asigna arte a los cuatro IDs conocidos y mantiene el símbolo de reserva para criaturas sin sprite. La existencia del arte no revela ninguna criatura: su presencia procede únicamente de las acciones o el combate del snapshot. No se añaden NPC, acciones, recompensas, fórmulas ni balance.
+
+## Piloto de nueva dirección visual — 2026-10-17
+
+Las tres referencias conceptuales de Javier sustituyen el objetivo visual anterior por fantasía luminosa con interfaz azul y oro. `client-rpg/PRODUCT.md` y `DESIGN.md` documentan el alcance. Los fondos `ui_title.webp` (vertical) y `ui_title_wide.webp` (horizontal) representan una vista ilustrativa rural de Edran; `ui_battle.webp` es un claro de bosque sin actores. Son imágenes originales de imagegen, sin texto o controles incorporados. No definen salas, edificios o mecánicas nuevas. Se conserva la relación de aspecto; el recorte depende del viewport. Estas láminas de interfaz se cargan de forma independiente de los fondos navegables de sala, cuyo límite sigue siendo250000 bytes.
+
+`sprites/avatar-battle.png` añade una pose de combate de512×512 con transparencia real: conserva pelo castaño, túnica azul petróleo, mangas crema, bufanda ocre, mochila, guantes y botas marrones. No añade arma o equipo. La referencia anime de impresión3D asociada sigue fuera del repositorio en `entregas/equipo/impresion-3d/vaisgard-rpg-avatar/vaisgard-rpg-avatar-3d-turnaround.png`, con sus cuatro vistas individuales. La hoja existente se utilizó expresamente para preservar identidad y vestuario de esta pose.
+
+Los prompts exactos y originales se conservan en `entregas/equipo/rpg-visual-piloto/arte/`. El PNG incluye el prompt en metadatos; cada WebP incluye sidecar de procedencia `.webp.json`. La tipografía de títulos es Cinzel, obtenida del repositorio oficial Google Fonts y alojada localmente en `client-rpg/fonts/cinzel.ttf`; su licencia SIL OFL acompaña el archivo en `fonts/OFL.txt`. No se requieren fuentes o scripts remotos en ejecución.
+
+La generación de arte no prueba la interfaz: los resultados de integración y QA se documentarán con la entrega del piloto, sin atribuirle las pruebas de la base anterior.
+
+El marco `sprites/ui-frame.png` es un borde ornamental original con transparencia, reutilizado mediante nine-slice. El piloto añade aproximadamente1,6MB de recursos de ejecución y1,4MB de capturas documentales. Resultados y límites de pruebas: [RPG_VISUAL_PILOTO.md](RPG_VISUAL_PILOTO.md).

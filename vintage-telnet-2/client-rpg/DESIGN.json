@@ -1,0 +1,96 @@
+{
+  "date": "2026-10-17",
+  "direction": "Fantasía luminosa, azul profundo y oro trabajado; tres referencias del usuario.",
+  "sources": [
+    "vintage-telnet-2/client-rpg/DESIGN.md",
+    "vintage-telnet-2/client-rpg/rpg.css"
+  ],
+  "palette": {
+    "--bg-deep": "#060b13",
+    "--bg-navy-900": "#0a121f",
+    "--bg-navy-800": "#0e192c",
+    "--bg-navy-700": "#14243d",
+    "--bg-card": "rgba(10, 18, 31, 0.92)",
+    "--bg-card-overlay": "rgba(6, 11, 19, 0.95)",
+    "--gold-glow": "#ffea9f",
+    "--gold-bright": "#f5d888",
+    "--gold-primary": "#d4af37",
+    "--gold-dim": "#9c7b23",
+    "--gold-dark": "#634b12",
+    "--gold-gradient": "linear-gradient(135deg, #f7e6a7 0%, #caa24e 50%, #947120 100%)",
+    "--gold-border": "#caa24e",
+    "--text-main": "#f5eedb",
+    "--text-muted": "#afc0d4",
+    "--text-gold": "#f8e4a0",
+    "--btn-blue": "linear-gradient(180deg, #1e5991 0%, #0d355f 100%)",
+    "--btn-blue-hover": "linear-gradient(180deg, #276cae 0%, #114377 100%)",
+    "--btn-green": "linear-gradient(180deg, #1b683d 0%, #0d4023 100%)",
+    "--btn-green-hover": "linear-gradient(180deg, #23804c 0%, #12522e 100%)",
+    "--btn-amber": "linear-gradient(180deg, #7c5520 0%, #4c320d 100%)",
+    "--btn-amber-hover": "linear-gradient(180deg, #966927 0%, #5f3e10 100%)",
+    "--btn-red": "linear-gradient(180deg, #8a1d1d 0%, #520f0f 100%)",
+    "--btn-red-hover": "linear-gradient(180deg, #a62424 0%, #681414 100%)",
+    "--btn-neutral": "linear-gradient(180deg, #293748 0%, #151d27 100%)"
+  },
+  "typography": {
+    "families": {
+      "--font-title": "'Cinzel', 'Cinzel Decorative', 'Trajan Pro', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+      "--font-body": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+      "--font-mono": "ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace"
+    },
+    "body": "15px",
+    "brandTitle": "18px",
+    "titleLogo": "clamp(36px, 12.5vw, 92px)",
+    "titleLogoWeight": 900,
+    "titleLogoLineHeight": "1.05",
+    "entrySubtitle": "clamp(22px, 6vw, 32px)"
+  },
+  "spacingObserved": {
+    "headerPadding": "0 16px",
+    "entryPadding": "24px 16px",
+    "titleHeroMarginBottom": "20px",
+    "entryPanelPadding": "22px 20px",
+    "headerBrandGap": "8px",
+    "headerToolsGap": "12px"
+  },
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 1366,
+      "height": 768
+    }
+  ],
+  "materialOrnamental": {
+    "frameBorder": "2px solid var(--gold-border)",
+    "frameAsset": "/client-rpg/sprites/ui-frame.png",
+    "borderImageSlice": 96,
+    "borderImageWidth": "12px",
+    "borderRadius": "4px",
+    "prominentBorderImageWidth": "16px"
+  },
+  "fontSource": {
+    "family": "Cinzel",
+    "path": "/client-rpg/fonts/cinzel.ttf",
+    "weight": "400 900",
+    "display": "swap",
+    "upstream": "https://github.com/NDISCOVER/Cinzel",
+    "license": "SIL Open Font License 1.1",
+    "licensePath": "vintage-telnet-2/client-rpg/fonts/OFL.txt",
+    "copyright": "2020 The Cinzel Project Authors",
+    "downloadSource": "https://github.com/google/fonts/tree/main/ofl/cinzel"
+  },
+  "artPaths": [
+    "/client-rpg/backgrounds/ui_title.webp",
+    "/client-rpg/backgrounds/ui_title_wide.webp",
+    "/client-rpg/backgrounds/ui_battle.webp",
+    "/client-rpg/backgrounds/edran_battle.webp",
+    "/client-rpg/sprites/avatar.png",
+    "/client-rpg/sprites/avatar-battle.png",
+    "/client-rpg/sprites/ui-frame.png"
+  ],
+  "canonContract": "Servidor autoritativo para sala, acciones, estadísticas, partida y rondas. Coordenadas de presentación y cámara son del cliente; llegada visible elige celda libre alcanzable sin cambiar colisiones o salidas. No inventar moneda, maná, compañeros o misiones.",
+  "sourceObservation": "Tokens efectivos de rpg.css. Marcos destacados usan borde pintado de16px; frame genérico12px."
+}

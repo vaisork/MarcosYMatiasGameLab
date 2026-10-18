@@ -2,7 +2,7 @@
 import vm from 'node:vm';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
-const element=()=>({hidden:true,dataset:{},classList:{add(){},toggle(){}},append(){},replaceChildren(){},addEventListener(){},getContext(){return {};},querySelector(){return null;},querySelectorAll(){return [];}});
+const element=()=>({hidden:true,dataset:{},classList:{add(){},remove(){},toggle(){}},append(){},replaceChildren(){},addEventListener(){},getContext(){return {};},querySelector(){return null;},querySelectorAll(){return [];}});
 const nodes=new Map();const requests=[];
 const context=vm.createContext({console,performance:{now:()=>0},matchMedia:()=>({matches:true}),Image:class{},setInterval(){},setTimeout(){},fetch:async(path,options)=>{if(options?.body)requests.push(JSON.parse(options.body));return {ok:true,headers:{get:()=>null},json:async()=>JSON.parse(vm.runInContext('JSON.stringify(snapshot)',context))};},document:{getElementById:id=>{if(!nodes.has(id))nodes.set(id,element());return nodes.get(id);},createElement:element,querySelectorAll:()=>[],addEventListener(){},body:element()},window:{addEventListener(){},confirm:()=>true}});
 const source=fs.readFileSync(new URL('../client-rpg/rpg.js',import.meta.url),'utf8').replace('void poll();','');
@@ -124,3 +124,76 @@ draws=[];battleDraw(1000);
 vm.runInContext("snapshot.actions=[{id:'combatir',target:'unknown_creature'}]",context);
 assert.equal(vm.runInContext('entities()[0].sprite',context),null,'Unmapped creatures retain the existing fallback');
 console.log('RPG creature artwork: server visibility, map/battle mapping, frame sizes and unknown fallback OK');
+
+// Verification: getCamera in portrait (mobile 390×844) and desktop (1366×768)
+// Check corners (0,0), (19,0), (0,14), (19,14) and center (10,7), aspect proportion, and actor screen position within viewport.
+for(const [cw,ch] of [[390,844],[780,1688],[1366,768],[2732,1536]]){
+ for(const [ax,ay] of [[0.5,0.5],[19.5,0.5],[0.5,14.5],[19.5,14.5],[10,7]]){
+  context.tCw=cw;context.tCh=ch;context.tAx=ax;context.tAy=ay;
+  const cam=vm.runInContext('getCamera(tCw,tCh,20,15,tAx,tAy)',context);
+  assert.ok(cam.S>=cw/20&&cam.S>=ch/15,'World scale must cover viewport dimension without distortion');
+  assert.equal(cam.worldW,20*cam.S);
+  assert.equal(cam.worldH,15*cam.S);
+  const sx=ax*cam.S-cam.camX;
+  const sy=ay*cam.S-cam.camY;
+  assert.ok(sx>=0&&sx<=cw,`Actor X=${ax} on screen ${sx} must stay inside horizontal viewport [0, ${cw}]`);
+  assert.ok(sy>=0&&sy<=ch,`Actor Y=${ay} on screen ${sy} must stay inside vertical viewport [0, ${ch}]`);
+ }
+}
+console.log('RPG camera: portrait and desktop corners, proportions and actor inside viewport OK');
+
+// Verification: battle layout in DPR1 and DPR2 (portrait mobile and landscape desktop)
+// Verifies enemy and avatar rectangles remain visible and within canvas bounds.
+for(const [cw,ch] of [[390,844],[780,1688],[1366,768],[2732,1536]]){
+ context.tCw=cw;context.tCh=ch;
+ const layout=vm.runInContext('getBattleLayout(tCw,tCh)',context);
+ for(const key of ['enemy','avatar']){
+  const r=layout[key];
+  assert.ok(r.w>0&&r.h>0,`Battle ${key} must have positive dimensions`);
+  assert.ok(r.x>=0&&r.x+r.w<=cw,`Battle ${key} X [${r.x}, ${r.x+r.w}] must stay inside canvas width ${cw}`);
+  assert.ok(r.y>=0&&r.y+r.h<=ch,`Battle ${key} Y [${r.y}, ${r.y+r.h}] must stay inside canvas height ${ch}`);
+ }
+}
+console.log('RPG battle layout: DPR1/DPR2 portrait and desktop rects visible inside viewport OK');
+
+// Returning from the welcome screen keeps the same room and character IDs.
+// It must still load a scene before movement and action navigation can render.
+await vm.runInContext(`(async()=>{
+ const savedFetch=fetch;
+ try{
+  fetch=async()=>({ok:false});
+  snapshot={authenticated:true,character:{id:1,status:'approved',hp:100,hp_max:100,xp:0,combat:null},room:{id:'edran_surcos',exits:[{direction:'sur'}],npcs:[]},actions:[],narrative:[]};
+  scene=null;viewMode='welcome';
+  await apply(snapshot);
+  viewMode='game';
+  await apply(snapshot);
+ }finally{fetch=savedFetch;}
+})()`,context);
+assert.equal(vm.runInContext('scene.size.join(",")',context),'20,15');
+assert.equal(vm.runInContext('scene.exits[0].direction',context),'sur');
+assert.equal(vm.runInContext('blocked(player.x,player.y)',context),false);
+console.log('RPG entry regression: Continue loads unchanged room before movement OK');
+
+// Arrival must expose the entire avatar, rather than only its feet under the HUD.
+for(const [cw,ch] of [[390,844],[1366,768]]){
+ for(const id of ['edran_acequia','edran_salida_huertos','valdren_graneros']){
+  const map=maps.find(([rid])=>rid===id)[1];context.testMap=map;context.tCw=cw;context.tCh=ch;
+  const result=vm.runInContext(`(()=>{scene=testMap;const at=visibleSpawn(scene,'norte',tCw,tCh);const c=getCamera(tCw,tCh,...scene.size,...at);return {free:!blocked(...at),head:at[1]*c.S-c.camY-52*c.S/32,foot:at[1]*c.S-c.camY+8*c.S/32};})()`,context);
+  assert.ok(result.free,`${id}: visible arrival remains walkable`);
+  assert.ok(result.head>=ch*(ch>=cw?.24:.15),`${id}: avatar head clears top overlays`);
+  assert.ok(result.foot<=ch*(ch>=cw?.75:.88),`${id}: avatar feet clear bottom controls`);
+ }
+}
+console.log('RPG visible arrivals: full avatar clears HUD and controls in painted/generic rooms OK');
+
+await vm.runInContext(`(async()=>{
+ snapshot={...snapshot,account:{id:1,username:'server-account'},characters:[{id:1,name:'One',status:'approved'},{id:2,name:'Two',status:'approved'}]};
+ const {account,characters,...actionResponse}=snapshot;
+ await apply(actionResponse);
+})()`,context);
+assert.equal(vm.runInContext('snapshot.characters.length',context),2,'Gameplay response must preserve the server-provided character list');
+assert.equal(vm.runInContext('snapshot.account.username',context),'server-account');
+await vm.runInContext('apply({authenticated:false,characters:[]})',context);
+assert.equal(vm.runInContext('snapshot.account',context),undefined,'Logout must clear account metadata');
+assert.equal(vm.runInContext('snapshot.characters.length',context),0);
+console.log('RPG account metadata: partial action responses preserve character selection; logout clears it OK');

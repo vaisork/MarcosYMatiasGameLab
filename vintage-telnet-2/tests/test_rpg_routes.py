@@ -28,3 +28,10 @@ class RpgRouteTests(unittest.TestCase):
   with patch('server.app.send_from_directory',return_value='foreground') as send:
    self.assertEqual(self.c.get('/client-rpg/backgrounds/edran_acequia-front.webp').status_code,200)
    send.assert_called_once()
+ def test_whitelisted_font_route(self):
+  from unittest.mock import patch
+  with patch('server.app.send_from_directory',return_value='font') as send:
+   self.assertEqual(self.c.get('/client-rpg/fonts/cinzel.ttf').status_code,200)
+   send.assert_called_once()
+  for bad in ('/client-rpg/fonts/cinzel.woff2','/client-rpg/fonts/../secret.ttf','/client-rpg/fonts/Cinzel.ttf','/client-rpg/fonts/evil.otf'):
+   self.assertEqual(self.c.get(bad).status_code,404,bad)

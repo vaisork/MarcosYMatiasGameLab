@@ -208,9 +208,11 @@ def main():
         if args.capture:
             run_visual_captures(fixture, content)
         elif args.server:
+            # Encounters created while travelling must use the same clock as
+            # browser requests; switching afterwards immediately expires them.
+            fixture.clock.side_effect = time.time
             if args.room:
                 navigate_to(fixture, content, args.room)
-            fixture.clock.side_effect = time.time
             serializer = fixture.app.session_interface.get_signing_serializer(fixture.app)
             cookie_val = serializer.dumps({'account_id': 1, 'character_id': fixture.cid})
             app = AutoLogin(fixture.app, cookie_val)
