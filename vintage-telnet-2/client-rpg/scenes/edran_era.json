@@ -1,0 +1,114 @@
+{
+  "room": "edran_era",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/edran_era.webp",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        10,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        10,
+        14,
+        3,
+        1
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        10,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "sur": [
+      11,
+      13
+    ],
+    "oeste": [
+      1,
+      10
+    ],
+    "este": [
+      14,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "salteadora_negociante",
+      "at": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "espinajo_rastrojo",
+      "at": [
+        14,
+        8
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "ggggggggggppgggggggg",
+      "ggggggggggppgggggggg",
+      "ggggggggggppgggggggg",
+      "ggggggggppppppgggggg",
+      "gggggggpppppppppgggg",
+      "gggggggppppppppppggg",
+      "gggggppppppppppppggg",
+      "gggggppppppppppppggg",
+      "ggggpppppppppppppggg",
+      "ggppppppppppppppgggg",
+      "ppppppppppppppgggggg",
+      "ppppggggggpppggggggg",
+      "ggggggggggpppggggggg",
+      "ggggggggggpppggggggg",
+      "ggggggggggpppggggggg"
+    ],
+    "solid": [
+      "1111111111..11111111",
+      "1111111111..11111111",
+      "1111111111..11111111",
+      "11111111......111111",
+      "1111111.........1111",
+      "1111111..........111",
+      "11111............111",
+      "11111............111",
+      "1111.............111",
+      "11..............1111",
+      "..............111111",
+      "....111111...1111111",
+      "1111111111...1111111",
+      "1111111111...1111111",
+      "1111111111...1111111"
+    ]
+  }
+}
