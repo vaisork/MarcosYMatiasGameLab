@@ -164,4 +164,4 @@ Forajido y Negociante añaden mapa48×48 y batalla192×192 transparentes. El pri
 | `sprites/negociante.png` | 48×48 | 5035 | `def093583b390389574b10f2d227ffb57fec9160cc0d20478f5757437f9d23cd` |
 | `sprites/negociante-battle.png` | 192×192 | 42369 | `eda8d4157fc1949fe90bbf84d1dc31c70a538e3fc084fc388e96bbe69c7f4743` |
 
-Recursos y mapeo preparados; integración de escenas/Tiled/colisiones y QA pendientes. No constituye entrega integrada o desplegada.
+Recursos, mapeo, seis escenas y sus Tiled incorporados al candidato. Navegación y capturas móvil/escritorio verificadas; la negociante se situó en(9,9) para evitar el relato en escritorio. Resultados y límites en [RPG_EDRAN_CAMINOS_01.md](RPG_EDRAN_CAMINOS_01.md). No constituye integración a main ni despliegue.

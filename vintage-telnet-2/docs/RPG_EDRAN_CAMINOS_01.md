@@ -18,7 +18,7 @@ La revisión visual detectó que el relato ocultaba a la negociante en escritori
 
 Chrome ha reportado `document.hidden` durante QA anteriores. Tras cada cambio de viewport se debe invocar el manejador real `resizeCanvas()` y dibujar, comprobando dimensiones CSS×DPR y lienzo pintado. Los pasos sintéticos no certifican tacto físico ni FPS sostenidos en una pestaña activa.
 
-Rama de trabajo: `codex/rpg-edran-caminos-01`. Sin PR propia, merge ni despliegue de este lote todavía. Los recursos del siguiente tramo del canal se preparan externamente y no forman parte de esta entrega.
+Rama de trabajo: `codex/rpg-edran-caminos-01`, [PR745](https://github.com/vaisork/MatiasGameLab/pull/745) en borrador, apilada sobre PR744. Sin merge ni despliegue de este lote todavía. Los recursos del siguiente tramo del canal se preparan externamente y no forman parte de esta entrega.
 
 ## Capturas del candidato
 
