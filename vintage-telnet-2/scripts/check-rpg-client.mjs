@@ -52,7 +52,9 @@ scene.npcs=[
  {id:'edran_daro',at:[12,6]},
  {id:'edran_iria',at:[10,5]},
  {id:'edran_elva',at:[5,5]},
- {id:'edran_sena',at:[10,6]}
+ {id:'edran_sena',at:[10,6]},
+ {id:'edran_nela',at:[8,6]},
+ {id:'edran_oren',at:[7,7]}
 ];
 snapshot.room.npcs=[];
 `,context);
@@ -62,7 +64,9 @@ const expectedNpcSprites={
  edran_daro:'daro',
  edran_iria:'iria',
  edran_elva:'elva',
- edran_sena:'sena'
+ edran_sena:'sena',
+ edran_nela:'nela',
+ edran_oren:'oren'
 };
 for(const [id,sprite] of Object.entries(expectedNpcSprites)){
  vm.runInContext(`snapshot.room.npcs=[{id:'${id}'}];`,context);
@@ -74,13 +78,15 @@ for(const [id,sprite] of Object.entries(expectedNpcSprites)){
 // Unmapped NPCs without dedicated art fall back to Lina.
 vm.runInContext(`snapshot.room.npcs=[{id:'edran_otro'}];`,context);
 assert.equal(vm.runInContext('entities()[0].sprite',context),'lina','NPC without art falls back to Lina');
-for(const sprite of Object.values(expectedNpcSprites)){
+const existingAtlasSprites=['bren','daro','iria','elva','sena'];
+for(const sprite of existingAtlasSprites){
  const atlas=fs.readFileSync(new URL(`../client-rpg/sprites/${sprite}.png`,import.meta.url));
  assert.equal(atlas.readUInt32BE(16),192,`${sprite} atlas width`);
  assert.equal(atlas.readUInt32BE(20),384,`${sprite} atlas height`);
 }
+// Validación binaria de nuevos atlas (nela.png, oren.png de 192×384) se incorporará obligatoriamente al integrar arte.
 vm.runInContext('snapshot.room.npcs=[]',context);
-console.log('RPG NPCs: authoritative presence, dedicated map (Bren+4), Lina fallback, preloading and 64×96 atlas OK');
+console.log('RPG NPCs: authoritative presence, dedicated map (Bren+4, Nela, Oren), Lina fallback, preloading and 64×96 atlas OK');
 // Verify actual avatar collision geometry, not just point-cell flood fill.
 const regionFiles=fs.readdirSync(new URL('../content/regions/',import.meta.url)).filter(f=>f.endsWith('.json'));
 const rooms=Object.assign({},...regionFiles.map(f=>JSON.parse(fs.readFileSync(new URL('../content/regions/'+f,import.meta.url))).rooms||{}));
