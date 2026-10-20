@@ -125,8 +125,9 @@ class RpgTilesTests(unittest.TestCase):
 
     def test_background_actions_roundtrip_and_validation(self):
         """background_actions opcional se conserva en ida/vuelta y valida formato."""
-        base_scene_file = next(SCENES_DIR.glob('*.json'))
+        base_scene_file = SCENES_DIR / 'edran_canal_entrada.json'
         base_scene = json.loads(base_scene_file.read_text(encoding='utf-8'))
+        base_scene.pop('background_actions', None)
         scene_with_actions = dict(base_scene)
         scene_with_actions['background_actions'] = {
             'edran_recoger_caja': 'backgrounds/edran_canal_repisa_caja.webp'
@@ -189,8 +190,9 @@ class RpgTilesTests(unittest.TestCase):
 
     def test_battle_background_roundtrip_and_validation(self):
         """battle_background opcional se conserva en ida/vuelta y valida whitelist."""
-        base_scene_file = next(SCENES_DIR.glob('*.json'))
+        base_scene_file = SCENES_DIR / 'edran_canal_entrada.json'
         base_scene = json.loads(base_scene_file.read_text(encoding='utf-8'))
+        base_scene.pop('battle_background', None)
         scene_with_bb = dict(base_scene)
         scene_with_bb['battle_background'] = 'backgrounds/edran_canal_battle.webp'
 
