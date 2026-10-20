@@ -99,6 +99,7 @@ let battleEnteredAt=0;
 let selectedRound=null, battleGroup=null, battleStart=null, lastCombat=null, outcome=null, animation=null;
 let lines=[], lineIndex=0, letters=0, letterTime=0, narrativeKey='', refreshing=false, serverOffset=0;
 let dialogueExpanded=false;
+let mutationVersion=0, applyVersion=0, pollTimer=null, polling=false, pollAgain=false;
 const reduced=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 const battleLocked=()=>busy||Boolean(pending)||selectedRound===snapshot?.character?.combat?.round;
 
@@ -337,6 +338,9 @@ const requestId=()=>globalThis.crypto?.randomUUID?.()||`rpg-${Date.now().toStrin
 const notice=text=>{$('notice').textContent=text;};
 function node(tag,text){const n=document.createElement(tag);if(text)n.textContent=text;return n;}
 async function api(path,body){
+ // A late state read must not undo a newer decision or session change.
+ if(body){mutationVersion++;applyVersion++;}
+ const version=mutationVersion;
  const csrf=latestCsrfToken||snapshot?.csrf_token||'';
  const headers={Accept:'application/json'};
  const options={credentials:'same-origin',headers};
@@ -348,7 +352,7 @@ async function api(path,body){
  }
  const response=await fetch(path,options);
  let data;try{data=await response.json();}catch{throw Error('Respuesta ilegible. Reconecta antes de decidir.');}
- if(data?.csrf_token){latestCsrfToken=data.csrf_token;if(snapshot)snapshot.csrf_token=data.csrf_token;}
+ if(data?.csrf_token&&version===mutationVersion){latestCsrfToken=data.csrf_token;if(snapshot)snapshot.csrf_token=data.csrf_token;}
  if(response.headers?.get?.('Date'))serverOffset=new Date(response.headers.get('Date')).getTime()/1000-Date.now()/1000;
  if(!response.ok){const error=Error(data?.message||'No se pudo completar la acción.');error.status=response.status;throw error;}return data;
 }
@@ -360,7 +364,7 @@ async function logout(){
   snapshot=null;scene=null;pending=null;lines=[];narrativeKey='';
   entryView='welcome';viewMode='welcome';
   notice('Sesión cerrada.');
-  await refresh();
+  await refresh(true);
  }catch(e){notice(e.message);}
  finally{busy=false;render();}
 }
@@ -392,7 +396,10 @@ function generic(room){
  for(const {rect:[x,y,w,h]} of exits)for(let j=y;j<y+h;j++)for(let i=x;i<x+w;i++)ground[j][i]='p';
  return {size:[20,15],tile:16,tileset:'edran',layers:{ground:ground.map(r=>r.join('')),solid:ground.map(r=>r.map(c=>c==='f'?'1':'.').join(''))},spawn:{default:[10,7],norte:[10,1],sur:[10,13],este:[18,7],oeste:[1,7]},exits,npcs:[],creatures:[]};
 }
-async function apply(next){
+async function apply(next,version=mutationVersion){
+ if(version!==mutationVersion)return;
+ const application=++applyVersion;
+ const hadCombat=Boolean(snapshot?.character?.combat);
  // Action responses contain gameplay state but omit account/character lists.
  // Preserve only that server-provided session metadata, never gameplay fields.
  if(next.authenticated&&snapshot?.authenticated&&(!next.account||next.account.id===snapshot.account?.id)){
@@ -413,7 +420,10 @@ async function apply(next){
  }
  if((changed||!scene)&&viewMode==='game'){
   focus=null;menuGroup=null;scene=null;
-  try{const response=await fetch(`/client-rpg/scenes/${encodeURIComponent(next.room.id)}.json`);if(!response.ok)throw Error();scene=await response.json();}catch{scene=generic(next.room);}
+  let nextScene;
+  try{const response=await fetch(`/client-rpg/scenes/${encodeURIComponent(next.room.id)}.json`);if(!response.ok)throw Error();nextScene=await response.json();}catch{nextScene=generic(next.room);}
+  if(version!==mutationVersion||application!==applyVersion)return;
+  scene=nextScene;
   void loadTileset(scene.tileset||'edran');
   const real=new Set(next.room.exits.map(e=>e.direction));scene.exits=scene.exits.filter(e=>real.has(e.direction));
   for(const direction of real)if(!scene.exits.some(e=>e.direction===direction))scene.exits.push({direction,rect:gates[direction]||[9,0,2,1]});
@@ -421,6 +431,7 @@ async function apply(next){
   [player.x,player.y]=visibleSpawn(scene,entrance,canvas.width,canvas.height);entrance=null;exitLatch=null;keys.clear();
  }
  render();
+ if(hadCombat!==Boolean(next.character?.combat))schedulePoll(0);
 }
 function entities(){
  if(!scene||!snapshot?.room)return [];
@@ -652,7 +663,7 @@ function renderEntry(){
    checkBtn.onclick=async()=>{
     if(busy)return;busy=true;notice('Comprobando aprobación…');
     try{
-     await refresh();
+     await refresh(true);
      if(snapshot?.pending_approval||(snapshot?.characters||[]).some(c=>c.status!=='approved')){notice('El director aún está revisando tu personaje.');}
      else{notice('¡Personaje aprobado!');}
     }catch(err){notice(err.message);}
@@ -690,7 +701,7 @@ function renderEntry(){
    if(busy)return;busy=true;notice('Entrando al mundo…');
    try{
     if(snapshot.character?.id!==approvedChar.id)await api('/api/character/select',{character_id:Number(approvedChar.id)});
-    viewMode='game';notice('');await refresh();
+    viewMode='game';notice('');await refresh(true);
    }catch(err){notice(err.message);}
    finally{busy=false;render();}
   };
@@ -892,7 +903,7 @@ async function send(payload){
  const before=snapshot.room?.id;
  try{const next=await api('/api/action',payload);pending=null;if(next.room?.id!==before&&payload.id==='mover'){entrance=opposite[payload.target];panel(false);}await apply(next);notice('');}
  catch(error){if(!error.status)pending=payload;else selectedRound=null;notice(error.message+(pending?' Reintenta la misma decisión para evitar duplicados.':''));}
- finally{busy=false;render();}
+ finally{busy=false;render();schedulePoll(0);}
 }
 
 function interact(){
@@ -1047,7 +1058,23 @@ function draw(time){
  }else{ctx.fillStyle='#060b13';ctx.fillRect(0,0,canvas.width,canvas.height);}
 }
 
-async function refresh(){if(refreshing||(snapshot&&typeof document!=='undefined'&&document.hidden))return;refreshing=true;try{await apply(await api('/api/state'));}catch(e){notice(e.message);}finally{refreshing=false;render();}}
-async function poll(){await refresh();setTimeout(poll,snapshot?.character?.combat?700:(viewMode==='game'?4000:8000));}
+async function refresh(allowBusy=false){
+ if(refreshing||(!allowBusy&&busy)||(snapshot&&typeof document!=='undefined'&&document.hidden))return;
+ refreshing=true;const version=mutationVersion;
+ try{const next=await api('/api/state');if(version===mutationVersion&&(allowBusy||!busy))await apply(next,version);}
+ catch(e){if(version===mutationVersion&&(allowBusy||!busy))notice(e.message);}
+ finally{refreshing=false;render();}
+}
+const pollDelay=()=>snapshot?.character?.combat?250:(viewMode==='game'?4000:8000);
+function schedulePoll(delay=pollDelay()){
+ if(polling){pollAgain=true;return;}
+ clearTimeout(pollTimer);pollTimer=setTimeout(poll,delay);
+}
+async function poll(){
+ if(polling)return;
+ clearTimeout(pollTimer);pollTimer=null;polling=true;
+ try{await refresh();}
+ finally{polling=false;const delay=pollAgain?0:pollDelay();pollAgain=false;schedulePoll(delay);}
+}
 void poll();
 setInterval(()=>{if(typeof document!=='undefined'&&!document.hidden&&viewMode==='game'&&!$('world-view')?.hidden)draw(performance.now());},33);
