@@ -158,13 +158,16 @@ scene={size:[20,15],npcs:[],creatures:[]};animation=null;
 snapshot={character:{name:'QA',level:1,hp:100,hp_max:100,combat:null},room:{npcs:[]},actions:[]};
 Object.assign(ctx,{strokeRect(){}});
 `,context);
-for(const [id,sprite] of [['espinajo_rastrojo','espinajo'],['mordelinde','mordelinde'],['cornalomo','cornalomo'],['salteador_veterano','salteador']]){
+for(const [id,sprite] of [['espinajo_rastrojo','espinajo'],['mordelinde','mordelinde'],['cornalomo','cornalomo'],['salteador_veterano','salteador'],['forajido_camino','forajido'],['salteadora_negociante','negociante']]){
  context.creatureId=id;
  assert.equal(vm.runInContext('entities().length',context),0,'Artwork alone must not reveal a creature');
  vm.runInContext(`snapshot.actions=[{id:'combatir',target:creatureId}];`,context);
  assert.equal(vm.runInContext('entities()[0].sprite',context),sprite);
+ assert.equal(vm.runInContext(`images['${sprite}'].src`,context),`/client-rpg/sprites/${sprite}.png`);
+ assert.equal(vm.runInContext(`images['${sprite}-battle'].src`,context),`/client-rpg/sprites/${sprite}-battle.png`);
  for(const [suffix,dimension] of [['',48],['-battle',192]]){
-  const png=fs.readFileSync(new URL(`../client-rpg/sprites/${sprite}${suffix}.png`,import.meta.url));
+  const fileUrl=new URL(`../client-rpg/sprites/${sprite}${suffix}.png`,import.meta.url);
+  const png=fs.readFileSync(fileUrl);
   assert.equal(png.readUInt32BE(16),dimension,'Sprite width must match render frame');
   assert.equal(png.readUInt32BE(20),dimension,'Sprite height must match render frame');
  }

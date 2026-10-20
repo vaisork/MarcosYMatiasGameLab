@@ -1,0 +1,112 @@
+{
+  "room": "edran_sendero_regreso",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/edran_sendero_regreso.webp",
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        2,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        2,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      9,
+      9
+    ],
+    "oeste": [
+      1,
+      3
+    ],
+    "este": [
+      18,
+      3
+    ],
+    "norte": [
+      1,
+      3
+    ],
+    "sur": [
+      18,
+      3
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "espinajo_rastrojo",
+      "at": [
+        7,
+        9
+      ]
+    },
+    {
+      "id": "mordelinde",
+      "at": [
+        11,
+        9
+      ]
+    },
+    {
+      "id": "cornalomo",
+      "at": [
+        14,
+        9
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "pppgggggggggggggggpp",
+      "ppppgggggggggggggppp",
+      "gpppggggggggggggpppg",
+      "gppppgggggggggggpppg",
+      "ggpppggggggggggppppg",
+      "ggppppggggggggppppgg",
+      "gggpppppggggpppppggg",
+      "ggggppppppppppppgggg",
+      "ggggggppppppppgggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "...111111111111111..",
+      "....1111111111111...",
+      "1...111111111111...1",
+      "1....11111111111...1",
+      "11...1111111111....1",
+      "11....11111111....11",
+      "111.....1111.....111",
+      "1111............1111",
+      "111111........111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111"
+    ]
+  }
+}

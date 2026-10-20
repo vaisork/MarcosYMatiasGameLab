@@ -144,3 +144,24 @@ Daro y Elva preservan su aspecto de las ilustracionesMUD: herrero de pelo/barba 
 | `sprites/sena.png` | 192×384 | 103053 | `592b020ea043d8788905033e7719e0470060ba496dbccad3790682025f7cc5fd` |
 
 Las seis escenas y sus fuentesTiled están integradas en el candidato. La revisión corrigió obstáculos omitidos, el ramal curvo O y la puerta interior E; las posiciones deNPC evitan solapes con el relato. Las12capturas finales recibieron revisión visual favorable, con lienzo dimensionado explícitamente durante QA de pestaña oculta. Resultados y límites en [RPG_VALDREN_02.md](RPG_VALDREN_02.md). No constituye integración a main ni despliegue.
+
+## Caminos de Edran01 — recursos preparados, 2026-10-18
+
+Seis fondos originales para senda de regreso, arboleda, cobertizo de estacas, camino de carros, refugio y era. Referencias client/art/places/<id>-anime-v1.webp y canoncontent sin cambios desdee679761. Se conservan curvaU de senda, tresárboles de arboleda, estacas con medidas (sin dibujos secretos), dosrodadas de carros, refugio de dosbancos y era de tierra firme. Era corrigió el ramalO que gira alS. Sin actores incorporados; fondos640×480 ampliados2× y WebP≤250000bytes. Prompts/originales externos entregas/equipo/rpg-edran-caminos-01/arte/, sidecars junto aWebP.
+
+Forajido y Negociante añaden mapa48×48 y batalla192×192 transparentes. El primero conserva persona de capaocre/palocorto de referenciaMUD. La negociante sigue su descripción propia: mujerjoven,sonrisa,cuchillocorto ybolsallena; la referenciaMUDgenérica masculina compartida encontent no representa su identidad. No se modifica esa referencia ni el canon. La veterana gris conserva sus sprites previos. Son adversarios canónicos, no nuevos jugadores/Vaisork/Númenes. Dosvistas originales se recortan por hueco transparente, normalizan proporciones sin deformar ni repintar; boundingbox ignora alfa≤32 solo al elegir el recorte porque originales tenían píxeles casiinvisibles dispersos. Se conserva alfa original dentro de recorte. Solo snapshotofrecido/combate lospresenta.
+
+| Recurso | Dimensiones | Bytes | SHA-256 |
+|---|---|---:|---|
+| `backgrounds/edran_sendero_regreso.webp` | 1280×960 | 248476 | `b202d3265871abd9d3a64b1997fb6ac863988663f15ff492e23fbca64f4ff7a5` |
+| `backgrounds/edran_arboleda.webp` | 1280×960 | 249664 | `3ce9b6e8c29976e53b8ae2d3db99ff7a197099927befa742b887b625bc2815a2` |
+| `backgrounds/edran_cobertizo_campo.webp` | 1280×960 | 242684 | `b44b87ce7484a5abb8e29fa7fd0ed8a08bcd84991839ef0e2a6d159e2c3eb2fa` |
+| `backgrounds/edran_camino_carros.webp` | 1280×960 | 249602 | `d97b9dd412f70f64eb9f459ac661cea0b96d88c316c94b03689ecc6282f329a4` |
+| `backgrounds/edran_reparo.webp` | 1280×960 | 249710 | `4e82ff2b64cb5afd80624678f0118d032698ec9c751fb3d8950a5636b4418de9` |
+| `backgrounds/edran_era.webp` | 1280×960 | 248148 | `5e64d8c8a1e524a3e8826d6a484c315664743cd3f24b6412064a60f8dcbf4468` |
+| `sprites/forajido.png` | 48×48 | 5216 | `87ecec366cdf9825c5658782546064abba46d5bf2fd922524532c14a04e3a0e1` |
+| `sprites/forajido-battle.png` | 192×192 | 45363 | `b3dfea8284db888ecc423876a24a7dcbb6d4fb1ab83aa37573c0e647b42137a0` |
+| `sprites/negociante.png` | 48×48 | 5035 | `def093583b390389574b10f2d227ffb57fec9160cc0d20478f5757437f9d23cd` |
+| `sprites/negociante-battle.png` | 192×192 | 42369 | `eda8d4157fc1949fe90bbf84d1dc31c70a538e3fc084fc388e96bbe69c7f4743` |
+
+Recursos, mapeo, seis escenas y sus Tiled incorporados al candidato. Navegación y capturas móvil/escritorio verificadas; la negociante se situó en(9,9) para evitar el relato en escritorio. Resultados y límites en [RPG_EDRAN_CAMINOS_01.md](RPG_EDRAN_CAMINOS_01.md). No constituye integración a main ni despliegue.

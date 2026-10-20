@@ -1,0 +1,121 @@
+{
+  "room": "edran_arboleda",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/edran_arboleda.webp",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        10,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        7,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        10,
+        14,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "oeste": [
+      1,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "este": [
+      12,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "espinajo_rastrojo",
+      "at": [
+        12,
+        8
+      ]
+    },
+    {
+      "id": "mordelinde",
+      "at": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "cornalomo",
+      "at": [
+        6,
+        7
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "ggggggggggppgggggggg",
+      "ggggggggggppgggggggg",
+      "gggggggggpppgggggggg",
+      "ggggggggpppppggggggg",
+      "ggggggggpppppggggggg",
+      "gggggggppppppggggggg",
+      "gggpppppppppppgggggg",
+      "pppppppppppppppggggg",
+      "ppppppppppppppgggggg",
+      "ggggpppppppppggggggg",
+      "ggggggpppppggggggggg",
+      "gggggggppppggggggggg",
+      "ggggggggppppgggggggg",
+      "gggggggggpppgggggggg",
+      "ggggggggggppgggggggg"
+    ],
+    "solid": [
+      "1111111111..11111111",
+      "1111111111..11111111",
+      "111111111...11111111",
+      "11111111.....1111111",
+      "11111111.....1111111",
+      "1111111......1111111",
+      "111...........111111",
+      "...............11111",
+      "..............111111",
+      "1111.........1111111",
+      "111111.....111111111",
+      "1111111....111111111",
+      "11111111....11111111",
+      "111111111...11111111",
+      "1111111111..11111111"
+    ]
+  }
+}
