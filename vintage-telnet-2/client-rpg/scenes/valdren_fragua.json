@@ -1,0 +1,89 @@
+{
+  "room": "valdren_fragua",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/valdren_fragua.webp",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      8
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "norte": [
+      10,
+      8
+    ],
+    "este": [
+      10,
+      8
+    ],
+    "oeste": [
+      10,
+      8
+    ]
+  },
+  "npcs": [
+    {
+      "id": "edran_daro",
+      "at": [
+        8,
+        9
+      ]
+    }
+  ],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "fffffffffffppfffffff",
+      "fffffffpppppppffffff",
+      "fffffppppppppppfffff",
+      "ffffffppppppppppffff",
+      "ffffffppppppppppffff",
+      "ffffpppppppppppfffff",
+      "ffffpppppppppppfffff",
+      "fffffffppppppfffffff",
+      "ffffffffppppffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111..1111111",
+      "1111111.......111111",
+      "11111..........11111",
+      "111111..........1111",
+      "111111..........1111",
+      "1111...........11111",
+      "1111...........11111",
+      "1111111......1111111",
+      "11111111....11111111",
+      "111111111..111111111",
+      "111111111..111111111"
+    ]
+  }
+}

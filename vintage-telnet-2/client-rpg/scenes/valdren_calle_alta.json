@@ -1,0 +1,99 @@
+{
+  "room": "valdren_calle_alta",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/valdren_calle_alta.webp",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        1,
+        4,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "oeste": [
+      3,
+      6
+    ],
+    "este": [
+      10,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffpppffffffff",
+      "ffpffffffpppffffffff",
+      "fppffffffpppffffffff",
+      "ffppfffffpppffffffff",
+      "fffpppfffpppffffffff",
+      "fffffpppppppffffffff",
+      "fffffffffpppffffffff",
+      "fffffffffpppffffffff",
+      "fffffffffpppffffffff",
+      "fffffffffpppffffffff",
+      "fffffffffpppffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "111111111..111111111",
+      "111111111...11111111",
+      "11.111111...11111111",
+      "1..111111...11111111",
+      "11..11111...11111111",
+      "111...111...11111111",
+      "11111.......11111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111..111111111",
+      "111111111..111111111"
+    ]
+  }
+}
