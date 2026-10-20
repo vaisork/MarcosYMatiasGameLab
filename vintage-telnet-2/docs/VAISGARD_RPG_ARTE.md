@@ -81,3 +81,38 @@ arquitecto/Javier, revisión visual, traslado externo y commit; sin autorizació
 
 El Salteador veterano que puede ofrecer la partida aislada conserva el símbolo `?`
 del piloto: no se creó arte para criaturas fuera del Espinajo encargado.
+
+## Edran Campos 01 — 2026-10-17
+
+Extensión del piloto con seis salas: estanque, lindero, parcela vieja, zanja seca, hondonada húmeda y sauces. Canon: `content/regions/edran.json` de `8b62492`; referencias visuales: `client/art/places/<id>-anime-v1.webp`. Fondos originales generados con imagegen integrado, sin actores incorporados, conservando vista superior 3/4, luz superior izquierda y paleta oliva/ocre. Geometría final y QA en [RPG_EDRAN_CAMPOS_01.md](RPG_EDRAN_CAMPOS_01.md).
+
+| Archivo en client-rpg | Dimensiones | Bytes | SHA-256 |
+|---|---|---:|---|
+| `backgrounds/edran_bajo_humedo.webp` | 1280×960 | 213612 | `6772468ee5eda6751e2f6169d0eeec14e3ab1d8b5566bc2b3695b1f074afaea7` |
+| `backgrounds/edran_estanque.webp` | 1280×960 | 232790 | `ed7c455c359a128448f1cffde5d913f6d8eeb150a4c0e2dd6c2d77adfd0113e2` |
+| `backgrounds/edran_lindero.webp` | 1280×960 | 244538 | `db60b0f964dfed7ed9f8de3042603492f825ba7bed1dfb73da4b3692dd419c0d` |
+| `backgrounds/edran_parcela_vieja.webp` | 1280×960 | 239454 | `9904cea70697b7001fef037979274d5c9a4257d52245d004ab37e43b3d53beb7` |
+| `backgrounds/edran_sauces.webp` | 1280×960 | 223154 | `03d62a347ffa25af62c1b6408098d6c475e8f7ea35541c088237de9a4bc3f89c` |
+| `backgrounds/edran_zanja_antigua.webp` | 1280×960 | 218482 | `57f0dcaf3c5d6ef3f4d115da894a228fbe4161fe4ea08aa89acd9108ab9f8dcc` |
+| `sprites/cornalomo-battle.png` | 192×192 | 32339 | `cd74bfb8306fcdb96f12e075c6aa95b5010ca92490b5c48267a6fe704077ad5b` |
+| `sprites/cornalomo.png` | 48×48 | 2052 | `ad76e92d98400491fd02de8d4d28bd9156ad763d9ad89a700b81499238eba4cb` |
+| `sprites/mordelinde-battle.png` | 192×192 | 29486 | `7ec90eb3ec9554b05b2e6fccac0b5b611aa64d9bf37fdcd5488b4c0e72432851` |
+| `sprites/mordelinde.png` | 48×48 | 1707 | `772a2f82304a602e79789c603010c83cbfb17a0ed31ef9c77cb4c91f0afa8b63` |
+| `sprites/salteador-battle.png` | 192×192 | 30917 | `35e8a5fe3210461ec98b381744c7ae3fac4d87fad9f27506bb0a914d2bfd04ad` |
+| `sprites/salteador.png` | 48×48 | 1728 | `dc704f3f2f7cc62cc26f12ca3bfdbe505b8ef4e248c9761baec24b2634d913aa` |
+
+Mordelinde y Cornalomo conservan la anatomía de sus referencias de bestiario MUD. La salteadora sigue la descripción específica de `salteador_veterano` en `content/world.json`: mujer de pelo gris con cota cuidada y espada corta; la ilustración MUD genérica de un forajido varón con garrote no representa esa descripción. No se modifica el canon ni la referencia MUD.
+
+Los atlas originales tienen dos vistas con transparencia real: mapa superior y batalla 3/4. Se separan y normalizan a PNG RGBA de 48×48 y 192×192, respectivamente. El cliente asigna arte a los cuatro IDs conocidos y mantiene el símbolo de reserva para criaturas sin sprite. La existencia del arte no revela ninguna criatura: su presencia procede únicamente de las acciones o el combate del snapshot. No se añaden NPC, acciones, recompensas, fórmulas ni balance.
+
+## Piloto de nueva dirección visual — 2026-10-17
+
+Las tres referencias conceptuales de Javier sustituyen el objetivo visual anterior por fantasía luminosa con interfaz azul y oro. `client-rpg/PRODUCT.md` y `DESIGN.md` documentan el alcance. Los fondos `ui_title.webp` (vertical) y `ui_title_wide.webp` (horizontal) representan una vista ilustrativa rural de Edran; `ui_battle.webp` es un claro de bosque sin actores. Son imágenes originales de imagegen, sin texto o controles incorporados. No definen salas, edificios o mecánicas nuevas. Se conserva la relación de aspecto; el recorte depende del viewport. Estas láminas de interfaz se cargan de forma independiente de los fondos navegables de sala, cuyo límite sigue siendo250000 bytes.
+
+`sprites/avatar-battle.png` añade una pose de combate de512×512 con transparencia real: conserva pelo castaño, túnica azul petróleo, mangas crema, bufanda ocre, mochila, guantes y botas marrones. No añade arma o equipo. La referencia anime de impresión3D asociada sigue fuera del repositorio en `entregas/equipo/impresion-3d/vaisgard-rpg-avatar/vaisgard-rpg-avatar-3d-turnaround.png`, con sus cuatro vistas individuales. La hoja existente se utilizó expresamente para preservar identidad y vestuario de esta pose.
+
+Los prompts exactos y originales se conservan en `entregas/equipo/rpg-visual-piloto/arte/`. El PNG incluye el prompt en metadatos; cada WebP incluye sidecar de procedencia `.webp.json`. La tipografía de títulos es Cinzel, obtenida del repositorio oficial Google Fonts y alojada localmente en `client-rpg/fonts/cinzel.ttf`; su licencia SIL OFL acompaña el archivo en `fonts/OFL.txt`. No se requieren fuentes o scripts remotos en ejecución.
+
+La generación de arte no prueba la interfaz: los resultados de integración y QA se documentarán con la entrega del piloto, sin atribuirle las pruebas de la base anterior.
+
+El marco `sprites/ui-frame.png` es un borde ornamental original con transparencia, reutilizado mediante nine-slice. El piloto añade aproximadamente1,6MB de recursos de ejecución y1,4MB de capturas documentales. Resultados y límites de pruebas: [RPG_VISUAL_PILOTO.md](RPG_VISUAL_PILOTO.md).
