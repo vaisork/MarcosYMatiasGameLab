@@ -44,7 +44,7 @@ function svgNode(name){
 }
 
 const keys=new Set(), images={};
-const npcSprites={edran_bren:'bren',edran_daro:'daro',edran_iria:'iria',edran_elva:'elva',edran_sena:'sena'};
+const npcSprites={edran_bren:'bren',edran_daro:'daro',edran_iria:'iria',edran_elva:'elva',edran_sena:'sena',edran_nela:'nela',edran_oren:'oren'};
 const npcSpriteNames=new Set(Object.values(npcSprites));
 const creatureSprites={espinajo_rastrojo:'espinajo',mordelinde:'mordelinde',cornalomo:'cornalomo',salteador_veterano:'salteador',forajido_camino:'forajido',salteadora_negociante:'negociante'};
 for(const name of ['avatar','avatar-battle','lina',...Object.values(npcSprites),...Object.values(creatureSprites).flatMap(name=>[name,`${name}-battle`])]){
@@ -56,6 +56,26 @@ function backgroundImage(path){
  if(!path||!/^backgrounds\/[a-z0-9_]+(?:-front)?\.webp$/.test(path))return null;
  if(!backgrounds[path]){const img=new Image();img.src=`/client-rpg/${path}`;backgrounds[path]=img;}
  const img=backgrounds[path];return img.complete&&img.naturalWidth?img:null;
+}
+function sceneBackgroundImage(sc=scene){
+ sc=sc||scene;
+ if(!sc)return null;
+ if(sc.background_actions&&typeof sc.background_actions==='object'&&Array.isArray(snapshot?.actions)){
+  for(const [id,path] of Object.entries(sc.background_actions)){
+   if(snapshot.actions.some(a=>a?.id===id)){
+    const img=backgroundImage(path);
+    return img||backgroundImage(sc.background);
+   }
+  }
+ }
+ return backgroundImage(sc.background);
+}
+function battleBackgroundImage(sc=scene){
+ sc=sc||scene;
+ if(sc&&'battle_background' in sc){
+  return typeof sc.battle_background==='string'?backgroundImage(sc.battle_background):null;
+ }
+ return (snapshot?.room?.region==='edran'?backgroundImage('backgrounds/ui_battle.webp'):null)||backgroundImage('backgrounds/edran_battle.webp');
 }
 const tilesetData={};
 async function loadTileset(name='edran'){
@@ -254,7 +274,7 @@ function battleDraw(time){
 
  const layout=getBattleLayout(canvas.width,canvas.height);
 
- const backdrop=(snapshot.room?.region==='edran'?backgroundImage('backgrounds/ui_battle.webp'):null)||backgroundImage('backgrounds/edran_battle.webp');
+ const backdrop=battleBackgroundImage();
  if(backdrop)drawCover(ctx,backdrop,canvas.width,canvas.height);
  else{
   ctx.fillStyle='#0f1c2d';ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -729,7 +749,7 @@ function drawMinimap(){
  mCtx.fillStyle='#0b1420';
  mCtx.fillRect(0,0,mw,mh);
 
- const backdrop=backgroundImage(scene.background);
+ const backdrop=sceneBackgroundImage(scene);
  if(backdrop&&backdrop.complete&&backdrop.naturalWidth){
   mCtx.drawImage(backdrop,0,0,mw,mh);
  }else if(scene.layers?.ground){
@@ -948,7 +968,7 @@ function draw(time){
   const hasTiles=tsMeta&&tsImg?.complete&&tsImg.naturalWidth;
   const tileSz=tsMeta?.tile||16;
   const tileCols=hasTiles?Math.floor(tsImg.naturalWidth/tileSz):0;
-  const backdrop=backgroundImage(scene.background);
+  const backdrop=sceneBackgroundImage(scene);
   if(backdrop)ctx.drawImage(backdrop,-camX,-camY,worldW,worldH);else scene.layers.ground.forEach((row,y)=>[...row].forEach((tile,x)=>{
    const idx=tsMeta?.map?.[tile];
    if(hasTiles&&typeof idx==='number'&&tileCols>0){

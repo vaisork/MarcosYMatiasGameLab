@@ -45,6 +45,70 @@ vm.runInContext(`draws=[];fills=[];delete scene.background;delete scene.foregrou
 assert.equal(vm.runInContext('fills.length',context),300,'Generic rooms retain all tile cells');
 assert.equal(vm.runInContext("backgroundImage('../server/app.py')",context),null);
 console.log('RPG drawing: background, foreground order, sprite frame, tile fallback and path restriction OK');
+
+// Background variant contract: background_actions chooses variant only when action is offered, fallback to base.
+vm.runInContext(`
+scene.background = 'backgrounds/edran_canal_repisa.webp';
+scene.background_actions = {'edran_recoger_caja': 'backgrounds/edran_canal_repisa_caja.webp'};
+backgrounds['backgrounds/edran_canal_repisa.webp'] = {complete: true, naturalWidth: 1280};
+backgrounds['backgrounds/edran_canal_repisa_caja.webp'] = {complete: true, naturalWidth: 1280};
+`, context);
+
+// 1. Presencia: action offered in snapshot.actions selects variant
+vm.runInContext(`snapshot.actions = [{id: 'edran_recoger_caja', label: 'Recoger caja'}]; draws = []; draw(1040);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa_caja.webp"]', context), true, 'Offered action selects variant background');
+assert.equal(vm.runInContext('sceneBackgroundImage(scene) === backgrounds["backgrounds/edran_canal_repisa_caja.webp"]', context), true, 'sceneBackgroundImage helper returns variant');
+
+// 2. Disabled: action present but disabled still selects variant (must not infer presence from enabled)
+vm.runInContext(`snapshot.actions = [{id: 'edran_recoger_caja', label: 'Recoger caja', disabled: true}]; draws = []; draw(1050);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa_caja.webp"]', context), true, 'Disabled action still selects variant background');
+assert.equal(vm.runInContext('sceneBackgroundImage(scene) === backgrounds["backgrounds/edran_canal_repisa_caja.webp"]', context), true);
+
+// 3. Ausencia: other actions offered, but not edran_recoger_caja -> base background
+vm.runInContext(`snapshot.actions = [{id: 'mirar', label: 'Mirar repisa'}]; draws = []; draw(1060);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true, 'Absence of target action selects base background');
+assert.equal(vm.runInContext('sceneBackgroundImage(scene) === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true);
+
+// 4. Sin snapshot acciones: empty actions must not reveal variant (e.g. box already collected)
+vm.runInContext(`snapshot.actions = []; draws = []; draw(1070);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true, 'Empty actions does not reveal variant box');
+assert.equal(vm.runInContext('sceneBackgroundImage(scene) === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true);
+
+// 5. Fallback a base mientras variante carga o falla
+vm.runInContext(`
+snapshot.actions = [{id: 'edran_recoger_caja'}];
+backgrounds['backgrounds/edran_canal_repisa_caja.webp'].complete = false;
+draws = []; draw(1080);
+`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true, 'Variant not yet loaded falls back to base background');
+assert.equal(vm.runInContext('sceneBackgroundImage(scene) === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true);
+vm.runInContext(`backgrounds['backgrounds/edran_canal_repisa_caja.webp'].complete = true;`, context);
+
+// 6. Escena sin campo background_actions mantiene comportamiento base
+vm.runInContext(`delete scene.background_actions; snapshot.actions = [{id: 'edran_recoger_caja'}]; draws = []; draw(1090);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true, 'Scene without background_actions maintains base background');
+assert.equal(vm.runInContext('sceneBackgroundImage(scene) === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true);
+
+// 7. Whitelist local: variant path outside whitelist is rejected and falls back to base
+vm.runInContext(`
+scene.background_actions = {'edran_recoger_caja': '../malicious.webp'};
+draws = []; draw(1100);
+`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true, 'Unwhitelisted variant path falls back to base');
+vm.runInContext(`delete scene.background_actions;`, context);
+
+// 8. Minimap also uses sceneBackgroundImage selector
+nodes.get('minimap-canvas').getContext = () => ({fillRect(){}, drawImage:(...args)=>vm.runInContext(`mDraws.push(args)`, Object.assign(context, {args})), beginPath(){}, arc(){}, fill(){}, stroke(){}});
+vm.runInContext(`
+scene.background_actions = {'edran_recoger_caja': 'backgrounds/edran_canal_repisa_caja.webp'};
+snapshot.actions = [{id: 'edran_recoger_caja'}];
+var mDraws = [];
+drawMinimap();
+`, context);
+assert.equal(vm.runInContext('mDraws[0][0] === backgrounds["backgrounds/edran_canal_repisa_caja.webp"]', context), true, 'Minimap uses matching variant');
+vm.runInContext(`delete scene.background_actions; snapshot.actions = [];`, context);
+nodes.get('minimap-canvas').getContext = () => ({});
+console.log('RPG background variants: presence, absence, disabled action, fallback, no field and minimap OK');
 // Scene placement must not reveal NPCs unless the authoritative room includes them.
 vm.runInContext(`
 scene.npcs=[
@@ -52,7 +116,9 @@ scene.npcs=[
  {id:'edran_daro',at:[12,6]},
  {id:'edran_iria',at:[10,5]},
  {id:'edran_elva',at:[5,5]},
- {id:'edran_sena',at:[10,6]}
+ {id:'edran_sena',at:[10,6]},
+ {id:'edran_nela',at:[8,6]},
+ {id:'edran_oren',at:[7,7]}
 ];
 snapshot.room.npcs=[];
 `,context);
@@ -62,7 +128,9 @@ const expectedNpcSprites={
  edran_daro:'daro',
  edran_iria:'iria',
  edran_elva:'elva',
- edran_sena:'sena'
+ edran_sena:'sena',
+ edran_nela:'nela',
+ edran_oren:'oren'
 };
 for(const [id,sprite] of Object.entries(expectedNpcSprites)){
  vm.runInContext(`snapshot.room.npcs=[{id:'${id}'}];`,context);
@@ -80,7 +148,7 @@ for(const sprite of Object.values(expectedNpcSprites)){
  assert.equal(atlas.readUInt32BE(20),384,`${sprite} atlas height`);
 }
 vm.runInContext('snapshot.room.npcs=[]',context);
-console.log('RPG NPCs: authoritative presence, dedicated map (Bren+4), Lina fallback, preloading and 64×96 atlas OK');
+console.log('RPG NPCs: authoritative presence, dedicated map (Bren+4, Nela, Oren), Lina fallback, preloading and 64×96 atlas OK');
 // Verify actual avatar collision geometry, not just point-cell flood fill.
 const regionFiles=fs.readdirSync(new URL('../content/regions/',import.meta.url)).filter(f=>f.endsWith('.json'));
 const rooms=Object.assign({},...regionFiles.map(f=>JSON.parse(fs.readFileSync(new URL('../content/regions/'+f,import.meta.url))).rooms||{}));
@@ -216,6 +284,66 @@ for(const [cw,ch] of [[390,844],[780,1688],[1366,768],[2732,1536]]){
  }
 }
 console.log('RPG battle layout: DPR1/DPR2 portrait and desktop rects visible inside viewport OK');
+
+// Battle background contract: optional scene battle_background overrides regional fallback;
+// loading state shows neutral background (never regional forest); absence preserves regional/legacy; whitelist rejects invalid paths.
+vm.runInContext(`
+canvas.width = 640; canvas.height = 480;
+draws = []; fills = [];
+snapshot.character = {combat: {creature: 'forajido_camino', name: 'Forajido · nivel 3', hp: 30, hp_max: 30, round: 1}};
+snapshot.room = {region: 'edran'};
+scene = {battle_background: 'backgrounds/edran_canal_battle.webp'};
+backgrounds['backgrounds/edran_canal_battle.webp'] = {complete: true, naturalWidth: 1280, naturalHeight: 720};
+backgrounds['backgrounds/ui_battle.webp'] = {complete: true, naturalWidth: 1280, naturalHeight: 720};
+backgrounds['backgrounds/edran_battle.webp'] = {complete: true, naturalWidth: 1280, naturalHeight: 720};
+`, context);
+
+// 1. Prioridad override: battle_background presente y cargado tiene prioridad sobre ui_battle
+assert.equal(vm.runInContext('battleBackgroundImage(scene) === backgrounds["backgrounds/edran_canal_battle.webp"]', context), true, 'battleBackgroundImage helper returns battle_background override');
+assert.equal(vm.runInContext('battleBackgroundImage() === backgrounds["backgrounds/edran_canal_battle.webp"]', context), true, 'battleBackgroundImage defaults to current scene');
+vm.runInContext(`draws = []; fills = []; battleDraw(1000);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_battle.webp"]', context), true, 'battleDraw renders battle_background override');
+
+// 2. Override cargando sin consultar bosque: devuelve null y dibuja fondo neutro (nunca ui_battle)
+vm.runInContext(`
+backgrounds['backgrounds/edran_canal_battle.webp'].complete = false;
+draws = []; fills = [];
+`, context);
+assert.equal(vm.runInContext('battleBackgroundImage(scene)', context), null, 'Loading battle_background returns null exclusively');
+vm.runInContext(`battleDraw(1010);`, context);
+assert.equal(vm.runInContext('draws.some(args => args[0] === backgrounds["backgrounds/ui_battle.webp"])', context), false, 'Interior with loading battle_background must NEVER draw regional forest');
+assert.equal(vm.runInContext('fills.some(args => args[0] === 0 && args[1] === 0 && args[2] === 640 && args[3] === 480)', context), true, 'Neutral background fill is used when battle_background is loading');
+
+// 3. Ausencia de campo: fallback regional (ui_battle para edran) y legado (edran_battle)
+vm.runInContext(`
+delete scene.battle_background;
+backgrounds['backgrounds/edran_canal_battle.webp'].complete = true;
+snapshot.room = {region: 'edran'};
+draws = []; fills = [];
+`, context);
+assert.equal(vm.runInContext('battleBackgroundImage(scene) === backgrounds["backgrounds/ui_battle.webp"]', context), true, 'Absence with edran region uses ui_battle.webp');
+vm.runInContext(`battleDraw(1020);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/ui_battle.webp"]', context), true, 'battleDraw uses regional ui_battle in edran');
+
+// 3b. Región distinta a edran preserva fallback edran_battle legado
+vm.runInContext(`
+snapshot.room = {region: 'valdren'};
+draws = []; fills = [];
+`, context);
+assert.equal(vm.runInContext('battleBackgroundImage(scene) === backgrounds["backgrounds/edran_battle.webp"]', context), true, 'Absence with non-edran region uses edran_battle.webp');
+vm.runInContext(`battleDraw(1030);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_battle.webp"]', context), true, 'battleDraw uses legacy edran_battle for non-edran');
+
+// 4. Whitelist: rutas con traversal, URL o tipos no string son rechazadas y devuelven null (no fallback bosque)
+for (const invalid of ['../malicious.webp', 'https://evil.com/bg.webp', '/client-rpg/backgrounds/bg.webp', 'backgrounds/invalid.png', 123, {}, null, undefined]) {
+ context.invalidPath = invalid;
+ vm.runInContext(`scene.battle_background = invalidPath; draws = []; fills = [];`, context);
+ assert.equal(vm.runInContext('battleBackgroundImage(scene)', context), null, `Invalid path rejected: ${invalid}`);
+ vm.runInContext(`battleDraw(1040);`, context);
+ assert.equal(vm.runInContext('draws.some(args => args[0] === backgrounds["backgrounds/ui_battle.webp"])', context), false, 'Invalid battle_background must not fallback to forest');
+}
+vm.runInContext(`delete scene.battle_background; snapshot.character.combat = null;`, context);
+console.log('RPG battle background: override priority, loading neutral, regional/legacy fallback and whitelist OK');
 
 // Returning from the welcome screen keeps the same room and character IDs.
 // It must still load a scene before movement and action navigation can render.

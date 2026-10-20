@@ -1,0 +1,91 @@
+{
+  "room": "edran_canal_compuerta",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/edran_canal_compuerta.webp",
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        9,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        9,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      9,
+      9
+    ],
+    "oeste": [
+      1,
+      9
+    ],
+    "este": [
+      18,
+      9
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "forajido_camino",
+      "at": [
+        13,
+        10
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffwwwwwwwwwwwwffff",
+      "ffffwwwwwwwwwwwwffff",
+      "fssssssssssssssssssf",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "....................",
+      "....................",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111"
+    ]
+  },
+  "battle_background": "backgrounds/edran_canal_battle.webp"
+}

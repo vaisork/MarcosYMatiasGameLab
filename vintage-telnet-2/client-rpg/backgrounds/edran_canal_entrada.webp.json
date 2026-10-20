@@ -1,0 +1,4 @@
+{
+  "prompt": "Edit only the EAST/right boundary of this pixel-art canal entrance. Preserve camera, visual style, exactly three west steps, west rope, north watercourse, dry central floor and SOUTH corridor. The canonical EAST walking exit must connect to the DRY FLOOR, not force a player into the stream. Make a clear broad human-width opening in right wall at approximately45-55% of image height, aligned with the central dry stone floor. Continue the dry paving through it all the way to RIGHT image edge, unobstructed by wall or pillar. Rework the current higher right water arch into a low small culvert for water only, too short for humans; it must not look like an additional human doorway. Keep dry path from west steps to east opening and south corridor continuous. No other changes, no people/text/UI/new props. Same4:3 steep overhead room cutaway.\n",
+  "createdAt": "2026-10-20T01:03:56.445Z"
+}
