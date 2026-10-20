@@ -13,6 +13,11 @@ import re
 BACKGROUND_PATH_RE = re.compile(r'^backgrounds/[a-z0-9_]+(-front)?\.webp$')
 
 
+def validate_battle_background(path):
+    if not isinstance(path, str) or not BACKGROUND_PATH_RE.match(path):
+        raise ValueError(f"Invalid battle_background path: {path!r}")
+
+
 def validate_background_actions(actions):
     if not isinstance(actions, dict):
         raise ValueError(f"background_actions must be a dict, got {type(actions).__name__}")
@@ -182,6 +187,13 @@ def scene_to_tiled(scene, tilesets_dir=DEFAULT_TILESETS_DIR):
     }
     tmj['properties'].extend({'name': key, 'type': 'string', 'value': scene[key]}
                              for key in ('background', 'foreground') if key in scene)
+    if 'battle_background' in scene:
+        validate_battle_background(scene['battle_background'])
+        tmj['properties'].append({
+            'name': 'battle_background',
+            'type': 'string',
+            'value': scene['battle_background'],
+        })
     if 'background_actions' in scene:
         validate_background_actions(scene['background_actions'])
         tmj['properties'].append({
@@ -280,6 +292,13 @@ def tiled_to_scene(tmj, tilesets_dir=DEFAULT_TILESETS_DIR, room_fallback=''):
         'npcs': npcs,
         'creatures': creatures,
     }
+    if 'battle_background' in props:
+        bb_prop = next((p for p in tmj.get('properties', []) if p.get('name') == 'battle_background'), None)
+        if bb_prop is not None and bb_prop.get('type') != 'string':
+            raise ValueError(f"battle_background property must have type 'string', got {bb_prop.get('type')!r}")
+        bb_val = props['battle_background']
+        validate_battle_background(bb_val)
+        res['battle_background'] = bb_val
     if 'background_actions' in props:
         bg_actions_val = props['background_actions']
         if isinstance(bg_actions_val, str):

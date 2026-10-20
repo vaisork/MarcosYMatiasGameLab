@@ -70,6 +70,13 @@ function sceneBackgroundImage(sc=scene){
  }
  return backgroundImage(sc.background);
 }
+function battleBackgroundImage(sc=scene){
+ sc=sc||scene;
+ if(sc&&'battle_background' in sc&&sc.battle_background!=null){
+  return typeof sc.battle_background==='string'?backgroundImage(sc.battle_background):null;
+ }
+ return (snapshot?.room?.region==='edran'?backgroundImage('backgrounds/ui_battle.webp'):null)||backgroundImage('backgrounds/edran_battle.webp');
+}
 const tilesetData={};
 async function loadTileset(name='edran'){
  if(tilesetData[name])return tilesetData[name];
@@ -267,7 +274,7 @@ function battleDraw(time){
 
  const layout=getBattleLayout(canvas.width,canvas.height);
 
- const backdrop=(snapshot.room?.region==='edran'?backgroundImage('backgrounds/ui_battle.webp'):null)||backgroundImage('backgrounds/edran_battle.webp');
+ const backdrop=battleBackgroundImage();
  if(backdrop)drawCover(ctx,backdrop,canvas.width,canvas.height);
  else{
   ctx.fillStyle='#0f1c2d';ctx.fillRect(0,0,canvas.width,canvas.height);
