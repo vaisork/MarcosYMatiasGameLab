@@ -238,6 +238,13 @@ class RpgSceneTests(unittest.TestCase):
         self.assertTrue(caja_bg.is_file(), f'Missing variant bg {caja_bg}')
         self.assertLessEqual(caja_bg.stat().st_size, 250000)
 
+        # The offered canal encounter must retain its underground environment.
+        compuerta = scenes['edran_canal_compuerta']
+        self.assertEqual(compuerta.get('battle_background'), 'backgrounds/edran_canal_battle.webp')
+        battle_bg = root / 'client-rpg' / compuerta['battle_background']
+        self.assertTrue(battle_bg.is_file())
+        self.assertLessEqual(battle_bg.stat().st_size, 250000)
+
         # Distinguishing obstacles and dry path points per room
         for room_id, free_pts, blocked_pts in (
             ('edran_canal_entrada', [(1, 4), (18, 6), (10, 13), (10, 7)], [(12, 4), (1, 1), (18, 12), (8, 8), (12, 8), (8, 5)]),

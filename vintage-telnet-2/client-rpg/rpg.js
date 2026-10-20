@@ -72,7 +72,7 @@ function sceneBackgroundImage(sc=scene){
 }
 function battleBackgroundImage(sc=scene){
  sc=sc||scene;
- if(sc&&'battle_background' in sc&&sc.battle_background!=null){
+ if(sc&&'battle_background' in sc){
   return typeof sc.battle_background==='string'?backgroundImage(sc.battle_background):null;
  }
  return (snapshot?.room?.region==='edran'?backgroundImage('backgrounds/ui_battle.webp'):null)||backgroundImage('backgrounds/edran_battle.webp');

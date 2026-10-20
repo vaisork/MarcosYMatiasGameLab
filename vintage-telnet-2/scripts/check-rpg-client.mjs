@@ -335,7 +335,7 @@ vm.runInContext(`battleDraw(1030);`, context);
 assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_battle.webp"]', context), true, 'battleDraw uses legacy edran_battle for non-edran');
 
 // 4. Whitelist: rutas con traversal, URL o tipos no string son rechazadas y devuelven null (no fallback bosque)
-for (const invalid of ['../malicious.webp', 'https://evil.com/bg.webp', '/client-rpg/backgrounds/bg.webp', 'backgrounds/invalid.png', 123, {}]) {
+for (const invalid of ['../malicious.webp', 'https://evil.com/bg.webp', '/client-rpg/backgrounds/bg.webp', 'backgrounds/invalid.png', 123, {}, null, undefined]) {
  context.invalidPath = invalid;
  vm.runInContext(`scene.battle_background = invalidPath; draws = []; fills = [];`, context);
  assert.equal(vm.runInContext('battleBackgroundImage(scene)', context), null, `Invalid path rejected: ${invalid}`);

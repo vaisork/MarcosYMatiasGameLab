@@ -225,6 +225,7 @@ class RpgTilesTests(unittest.TestCase):
 
         # 5. Validaciones de tipos no string, URLs y traversal en scene_to_tiled
         invalid_cases = [
+            None,
             123,
             ['backgrounds/edran_canal_battle.webp'],
             {'path': 'backgrounds/edran_canal_battle.webp'},

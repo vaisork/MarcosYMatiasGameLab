@@ -788,6 +788,11 @@
       "name": "background",
       "type": "string",
       "value": "backgrounds/edran_canal_compuerta.webp"
+    },
+    {
+      "name": "battle_background",
+      "type": "string",
+      "value": "backgrounds/edran_canal_battle.webp"
     }
   ],
   "tilesets": [
