@@ -148,6 +148,15 @@ for(const sprite of Object.values(expectedNpcSprites)){
  assert.equal(atlas.readUInt32BE(20),384,`${sprite} atlas height`);
 }
 vm.runInContext('snapshot.room.npcs=[]',context);
+// Phase 1 focal check: edran_aren mapping, preloads, 64x96 middle-frame mock draw and non-revelation.
+// Binary validation of client-rpg/sprites/aren.png (192×384) remains mandatory for Phase 2 once generated.
+assert.equal(vm.runInContext('entities().length',context),0,'Aren artwork alone must not reveal NPC');
+vm.runInContext("snapshot.room.npcs=[{id:'edran_aren'}];",context);
+assert.equal(vm.runInContext('entities()[0].sprite',context),'aren','edran_aren maps to sprite aren');
+assert.equal(vm.runInContext('images.aren.src',context),'/client-rpg/sprites/aren.png','aren preloads correct src');
+vm.runInContext('images.aren.complete=true;images.aren.naturalWidth=192;draws=[];draw(1067);',context);
+assert.equal(vm.runInContext('draws.some(a=>a[0]===images.aren&&a[1]===64&&a[3]===64&&a[4]===96)',context),true,'aren uses full middle frame of 64×96 atlas');
+vm.runInContext('snapshot.room.npcs=[]',context);
 console.log('RPG NPCs: authoritative presence, dedicated map (Bren+4, Nela, Oren), Lina fallback, preloading and 64×96 atlas OK');
 // Verify actual avatar collision geometry, not just point-cell flood fill.
 const regionFiles=fs.readdirSync(new URL('../content/regions/',import.meta.url)).filter(f=>f.endsWith('.json'));
@@ -250,6 +259,24 @@ draws=[];battleDraw(1000);
  assert.equal(vm.runInContext('draws.some(args=>args[0]===images[battleSprite])',context),true,'Battle draws the matching creature artwork');
  vm.runInContext('snapshot.actions=[];snapshot.character.combat=null;',context);
 }
+// Phase 1 focal check: salteador_bravucon mapping, preloading, map/battle mock draw, and non-revelation.
+// Binary validation of bravucon.png (48×48) and bravucon-battle.png (192×192) remains mandatory for Phase 2 once generated.
+context.creatureId='salteador_bravucon';
+context.battleSprite='bravucon-battle';
+assert.equal(vm.runInContext('entities().length',context),0,'Bravucon artwork alone must not reveal creature');
+vm.runInContext("snapshot.actions=[{id:'combatir',target:creatureId}];",context);
+assert.equal(vm.runInContext('entities()[0].sprite',context),'bravucon','salteador_bravucon maps to sprite bravucon');
+assert.equal(vm.runInContext("images['bravucon'].src",context),'/client-rpg/sprites/bravucon.png','bravucon preloads correct src');
+assert.equal(vm.runInContext("images['bravucon-battle'].src",context),'/client-rpg/sprites/bravucon-battle.png','bravucon-battle preloads correct src');
+vm.runInContext(`
+images[battleSprite].complete=true;images[battleSprite].naturalWidth=192;
+snapshot.character.combat={creature:creatureId,name:creatureId,round:0,hp:36,hp_max:36,next_round:0};
+snapshot.actions=[];
+draws=[];battleDraw(1000);
+`,context);
+assert.equal(vm.runInContext('entities()[0].sprite',context),'bravucon','Active combat presents bravucon without encounter actions');
+assert.equal(vm.runInContext('draws.some(args=>args[0]===images[battleSprite])',context),true,'Battle draws matching bravucon-battle artwork');
+vm.runInContext('snapshot.actions=[];snapshot.character.combat=null;',context);
 vm.runInContext("snapshot.actions=[{id:'combatir',target:'unknown_creature'}]",context);
 assert.equal(vm.runInContext('entities()[0].sprite',context),null,'Unmapped creatures retain the existing fallback');
 console.log('RPG creature artwork: server visibility, map/battle mapping, frame sizes and unknown fallback OK');
