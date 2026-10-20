@@ -45,6 +45,70 @@ vm.runInContext(`draws=[];fills=[];delete scene.background;delete scene.foregrou
 assert.equal(vm.runInContext('fills.length',context),300,'Generic rooms retain all tile cells');
 assert.equal(vm.runInContext("backgroundImage('../server/app.py')",context),null);
 console.log('RPG drawing: background, foreground order, sprite frame, tile fallback and path restriction OK');
+
+// Background variant contract: background_actions chooses variant only when action is offered, fallback to base.
+vm.runInContext(`
+scene.background = 'backgrounds/edran_canal_repisa.webp';
+scene.background_actions = {'edran_recoger_caja': 'backgrounds/edran_canal_repisa_caja.webp'};
+backgrounds['backgrounds/edran_canal_repisa.webp'] = {complete: true, naturalWidth: 1280};
+backgrounds['backgrounds/edran_canal_repisa_caja.webp'] = {complete: true, naturalWidth: 1280};
+`, context);
+
+// 1. Presencia: action offered in snapshot.actions selects variant
+vm.runInContext(`snapshot.actions = [{id: 'edran_recoger_caja', label: 'Recoger caja'}]; draws = []; draw(1040);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa_caja.webp"]', context), true, 'Offered action selects variant background');
+assert.equal(vm.runInContext('sceneBackgroundImage(scene) === backgrounds["backgrounds/edran_canal_repisa_caja.webp"]', context), true, 'sceneBackgroundImage helper returns variant');
+
+// 2. Disabled: action present but disabled still selects variant (must not infer presence from enabled)
+vm.runInContext(`snapshot.actions = [{id: 'edran_recoger_caja', label: 'Recoger caja', disabled: true}]; draws = []; draw(1050);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa_caja.webp"]', context), true, 'Disabled action still selects variant background');
+assert.equal(vm.runInContext('sceneBackgroundImage(scene) === backgrounds["backgrounds/edran_canal_repisa_caja.webp"]', context), true);
+
+// 3. Ausencia: other actions offered, but not edran_recoger_caja -> base background
+vm.runInContext(`snapshot.actions = [{id: 'mirar', label: 'Mirar repisa'}]; draws = []; draw(1060);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true, 'Absence of target action selects base background');
+assert.equal(vm.runInContext('sceneBackgroundImage(scene) === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true);
+
+// 4. Sin snapshot acciones: empty actions must not reveal variant (e.g. box already collected)
+vm.runInContext(`snapshot.actions = []; draws = []; draw(1070);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true, 'Empty actions does not reveal variant box');
+assert.equal(vm.runInContext('sceneBackgroundImage(scene) === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true);
+
+// 5. Fallback a base mientras variante carga o falla
+vm.runInContext(`
+snapshot.actions = [{id: 'edran_recoger_caja'}];
+backgrounds['backgrounds/edran_canal_repisa_caja.webp'].complete = false;
+draws = []; draw(1080);
+`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true, 'Variant not yet loaded falls back to base background');
+assert.equal(vm.runInContext('sceneBackgroundImage(scene) === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true);
+vm.runInContext(`backgrounds['backgrounds/edran_canal_repisa_caja.webp'].complete = true;`, context);
+
+// 6. Escena sin campo background_actions mantiene comportamiento base
+vm.runInContext(`delete scene.background_actions; snapshot.actions = [{id: 'edran_recoger_caja'}]; draws = []; draw(1090);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true, 'Scene without background_actions maintains base background');
+assert.equal(vm.runInContext('sceneBackgroundImage(scene) === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true);
+
+// 7. Whitelist local: variant path outside whitelist is rejected and falls back to base
+vm.runInContext(`
+scene.background_actions = {'edran_recoger_caja': '../malicious.webp'};
+draws = []; draw(1100);
+`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_canal_repisa.webp"]', context), true, 'Unwhitelisted variant path falls back to base');
+vm.runInContext(`delete scene.background_actions;`, context);
+
+// 8. Minimap also uses sceneBackgroundImage selector
+nodes.get('minimap-canvas').getContext = () => ({fillRect(){}, drawImage:(...args)=>vm.runInContext(`mDraws.push(args)`, Object.assign(context, {args})), beginPath(){}, arc(){}, fill(){}, stroke(){}});
+vm.runInContext(`
+scene.background_actions = {'edran_recoger_caja': 'backgrounds/edran_canal_repisa_caja.webp'};
+snapshot.actions = [{id: 'edran_recoger_caja'}];
+var mDraws = [];
+drawMinimap();
+`, context);
+assert.equal(vm.runInContext('mDraws[0][0] === backgrounds["backgrounds/edran_canal_repisa_caja.webp"]', context), true, 'Minimap uses matching variant');
+vm.runInContext(`delete scene.background_actions; snapshot.actions = [];`, context);
+nodes.get('minimap-canvas').getContext = () => ({});
+console.log('RPG background variants: presence, absence, disabled action, fallback, no field and minimap OK');
 // Scene placement must not reveal NPCs unless the authoritative room includes them.
 vm.runInContext(`
 scene.npcs=[

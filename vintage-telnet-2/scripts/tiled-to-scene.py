@@ -8,6 +8,19 @@ Round-trip lossless conversion:
 import argparse
 import json
 from pathlib import Path
+import re
+
+BACKGROUND_PATH_RE = re.compile(r'^backgrounds/[a-z0-9_]+(-front)?\.webp$')
+
+
+def validate_background_actions(actions):
+    if not isinstance(actions, dict):
+        raise ValueError(f"background_actions must be a dict, got {type(actions).__name__}")
+    for act_id, path in actions.items():
+        if not isinstance(act_id, str) or not act_id:
+            raise ValueError(f"background_actions action ID must be a non-empty string, got {act_id!r}")
+        if not isinstance(path, str) or not BACKGROUND_PATH_RE.match(path):
+            raise ValueError(f"Invalid background_actions path for {act_id!r}: {path!r}")
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_TILESETS_DIR = ROOT / 'client-rpg' / 'tilesets'
@@ -169,6 +182,13 @@ def scene_to_tiled(scene, tilesets_dir=DEFAULT_TILESETS_DIR):
     }
     tmj['properties'].extend({'name': key, 'type': 'string', 'value': scene[key]}
                              for key in ('background', 'foreground') if key in scene)
+    if 'background_actions' in scene:
+        validate_background_actions(scene['background_actions'])
+        tmj['properties'].append({
+            'name': 'background_actions',
+            'type': 'string',
+            'value': json.dumps(scene['background_actions'], ensure_ascii=False, sort_keys=True),
+        })
     return tmj
 
 
@@ -245,7 +265,7 @@ def tiled_to_scene(tmj, tilesets_dir=DEFAULT_TILESETS_DIR, room_fallback=''):
                 'at': [int(round(obj['x'] / tile)), int(round(obj['y'] / tile))],
             })
 
-    return {
+    res = {
         **{key: props[key] for key in ('background', 'foreground') if key in props},
         'room': props.get('room', room_fallback),
         'tile': tile,
@@ -260,6 +280,20 @@ def tiled_to_scene(tmj, tilesets_dir=DEFAULT_TILESETS_DIR, room_fallback=''):
         'npcs': npcs,
         'creatures': creatures,
     }
+    if 'background_actions' in props:
+        bg_actions_val = props['background_actions']
+        if isinstance(bg_actions_val, str):
+            try:
+                bg_actions = json.loads(bg_actions_val)
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"Invalid JSON in background_actions property: {exc}") from exc
+        elif isinstance(bg_actions_val, dict):
+            bg_actions = bg_actions_val
+        else:
+            raise ValueError(f"background_actions property must be a string or dict, got {type(bg_actions_val).__name__}")
+        validate_background_actions(bg_actions)
+        res['background_actions'] = bg_actions
+    return res
 
 
 def main():

@@ -123,6 +123,70 @@ class RpgTilesTests(unittest.TestCase):
                 self.assertEqual(width, expected_w)
                 self.assertEqual(height, expected_h)
 
+    def test_background_actions_roundtrip_and_validation(self):
+        """background_actions opcional se conserva en ida/vuelta y valida formato."""
+        base_scene_file = next(SCENES_DIR.glob('*.json'))
+        base_scene = json.loads(base_scene_file.read_text(encoding='utf-8'))
+        scene_with_actions = dict(base_scene)
+        scene_with_actions['background_actions'] = {
+            'edran_recoger_caja': 'backgrounds/edran_canal_repisa_caja.webp'
+        }
+
+        # 1. scene -> tmj -> scene
+        tmj = scene_to_tiled(scene_with_actions, tilesets_dir=TILESETS_DIR)
+        prop = next((p for p in tmj['properties'] if p['name'] == 'background_actions'), None)
+        self.assertIsNotNone(prop)
+        self.assertEqual(prop['type'], 'string')
+        self.assertEqual(json.loads(prop['value']), scene_with_actions['background_actions'])
+
+        restored_scene = tiled_to_scene(tmj, tilesets_dir=TILESETS_DIR, room_fallback=scene_with_actions['room'])
+        self.assertEqual(restored_scene, scene_with_actions)
+
+        # 2. tmj -> scene -> tmj
+        restored_tmj = scene_to_tiled(restored_scene, tilesets_dir=TILESETS_DIR)
+        self.assertEqual(tmj, restored_tmj)
+
+        # 3. Escena sin background_actions no añade la propiedad
+        tmj_plain = scene_to_tiled(base_scene, tilesets_dir=TILESETS_DIR)
+        self.assertNotIn('background_actions', [p['name'] for p in tmj_plain['properties']])
+        restored_plain = tiled_to_scene(tmj_plain, tilesets_dir=TILESETS_DIR, room_fallback=base_scene['room'])
+        self.assertNotIn('background_actions', restored_plain)
+        self.assertEqual(base_scene, restored_plain)
+
+        # 4. Validaciones de forma y rutas
+        invalid_cases = [
+            'not_a_dict',
+            [('edran_recoger_caja', 'backgrounds/edran_canal_repisa_caja.webp')],
+            {123: 'backgrounds/edran_canal_repisa_caja.webp'},
+            {'': 'backgrounds/edran_canal_repisa_caja.webp'},
+            {'edran_recoger_caja': 'bad_path.png'},
+            {'edran_recoger_caja': '../malicious.webp'},
+            {'edran_recoger_caja': '/client-rpg/backgrounds/edran_canal_repisa_caja.webp'},
+            {'edran_recoger_caja': 'backgrounds/edran_canal_repisa_caja.png'},
+        ]
+        for bad in invalid_cases:
+            with self.subTest(invalid=bad):
+                bad_scene = dict(base_scene, background_actions=bad)
+                with self.assertRaises(ValueError):
+                    scene_to_tiled(bad_scene, tilesets_dir=TILESETS_DIR)
+
+        # 5. Validación en tiled_to_scene con JSON corrupto o tipo inválido
+        bad_tmj = dict(tmj, properties=[
+            {'name': 'room', 'type': 'string', 'value': 'test'},
+            {'name': 'tileset', 'type': 'string', 'value': 'edran'},
+            {'name': 'background_actions', 'type': 'string', 'value': '{invalid_json'},
+        ])
+        with self.assertRaises(ValueError):
+            tiled_to_scene(bad_tmj, tilesets_dir=TILESETS_DIR)
+
+        bad_tmj_type = dict(tmj, properties=[
+            {'name': 'room', 'type': 'string', 'value': 'test'},
+            {'name': 'tileset', 'type': 'string', 'value': 'edran'},
+            {'name': 'background_actions', 'type': 'int', 'value': 42},
+        ])
+        with self.assertRaises(ValueError):
+            tiled_to_scene(bad_tmj_type, tilesets_dir=TILESETS_DIR)
+
 
 if __name__ == '__main__':
     unittest.main()
