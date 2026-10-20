@@ -157,3 +157,99 @@ class RpgSceneTests(unittest.TestCase):
                     self.assertEqual(solid[y][x], '.', (suffix,x,y))
                 for x, y in blocked:
                     self.assertEqual(solid[y][x], '1', (suffix,x,y))
+
+    def test_edran_canal_scenes_canonical_geometry_and_entities(self):
+        """Final artwork canal rooms retain canonical exits, NPCs, forajido and obstacles."""
+        import importlib.util
+        from collections import deque
+        root = Path(__file__).resolve().parents[1]
+        content = Content(root / 'content')
+        spec = importlib.util.spec_from_file_location('tiled_to_scene', root / 'scripts/tiled-to-scene.py')
+        converter = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(converter)
+
+        canal_rooms = [
+            'edran_canal_entrada', 'edran_canal_herramientas',
+            'edran_canal_bifurcacion', 'edran_canal_refugio',
+            'edran_canal_compuerta', 'edran_canal_repisa'
+        ]
+        scenes = {}
+        for room_id in canal_rooms:
+            scene_path = root / 'client-rpg/scenes' / f'{room_id}.json'
+            self.assertTrue(scene_path.is_file(), f'Missing scene file {scene_path}')
+            scene = json.loads(scene_path.read_text(encoding='utf-8'))
+            scenes[room_id] = scene
+            room = content.rooms[room_id]
+
+            with self.subTest(room=room_id):
+                # Canonical exits match content
+                self.assertEqual({e['direction'] for e in scene['exits']}, set(room.get('exits', {})))
+
+                # Tiled roundtrip lossless
+                tiled_path = root / 'client-rpg/tiled' / f'{room_id}.tmj'
+                self.assertTrue(tiled_path.is_file(), f'Missing tmj file {tiled_path}')
+                tiled = json.loads(tiled_path.read_text(encoding='utf-8'))
+                self.assertEqual(converter.tiled_to_scene(tiled), scene)
+                self.assertEqual(converter.scene_to_tiled(scene), tiled)
+
+                # Background file exists and is within 250 KB
+                bg_path = root / 'client-rpg' / scene['background']
+                self.assertTrue(bg_path.is_file(), f'Missing bg {bg_path}')
+                self.assertLessEqual(bg_path.stat().st_size, 250000)
+
+                # Connectivity: all spawns, npcs, creatures and exits reachable
+                start = tuple(scene['spawn']['default'])
+                queue = deque([start])
+                seen = {start}
+                while queue:
+                    x, y = queue.popleft()
+                    for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+                        if 0 <= nx < 20 and 0 <= ny < 15 and scene['layers']['solid'][ny][nx] == '.' and (nx, ny) not in seen:
+                            seen.add((nx, ny))
+                            queue.append((nx, ny))
+
+                for arrival, at in scene['spawn'].items():
+                    self.assertIn(tuple(at), seen, f'{room_id} spawn {arrival} unreachable')
+                for npc in scene.get('npcs', []):
+                    self.assertIn(tuple(npc['at']), seen, f'{room_id} npc {npc} unreachable')
+                for creature in scene.get('creatures', []):
+                    self.assertIn(tuple(creature['at']), seen, f'{room_id} creature {creature} unreachable')
+                for ex in scene['exits']:
+                    x, y, w, h = ex['rect']
+                    self.assertTrue(any((i, j) in seen for i in range(x, x + w) for j in range(y, y + h)),
+                                    f'{room_id} exit {ex} unreachable')
+
+        # Canonical NPCs: Nela only in entrada, Oren only in refugio
+        self.assertEqual(scenes['edran_canal_entrada']['npcs'], [{'id': 'edran_nela', 'at': [10, 7]}])
+        self.assertEqual(scenes['edran_canal_refugio']['npcs'], [{'id': 'edran_oren', 'at': [12, 8]}])
+        for r in ('edran_canal_herramientas', 'edran_canal_bifurcacion', 'edran_canal_compuerta', 'edran_canal_repisa'):
+            self.assertEqual(scenes[r]['npcs'], [], f'{r} should not have NPCs')
+
+        # Canonical creatures: forajido_camino only in compuerta
+        self.assertEqual(scenes['edran_canal_compuerta']['creatures'], [{'id': 'forajido_camino', 'at': [13, 10]}])
+        for r in ('edran_canal_entrada', 'edran_canal_herramientas', 'edran_canal_bifurcacion', 'edran_canal_refugio', 'edran_canal_repisa'):
+            self.assertEqual(scenes[r]['creatures'], [], f'{r} should not have creatures')
+
+        # Repisa background variant
+        repisa = scenes['edran_canal_repisa']
+        self.assertEqual(repisa['background'], 'backgrounds/edran_canal_repisa.webp')
+        self.assertEqual(repisa.get('background_actions'), {'edran_recoger_caja': 'backgrounds/edran_canal_repisa_caja.webp'})
+        caja_bg = root / 'client-rpg' / repisa['background_actions']['edran_recoger_caja']
+        self.assertTrue(caja_bg.is_file(), f'Missing variant bg {caja_bg}')
+        self.assertLessEqual(caja_bg.stat().st_size, 250000)
+
+        # Distinguishing obstacles and dry path points per room
+        for room_id, free_pts, blocked_pts in (
+            ('edran_canal_entrada', [(1, 4), (18, 6), (10, 13), (10, 7)], [(12, 4), (1, 1), (18, 12)]),
+            ('edran_canal_herramientas', [(10, 1), (10, 7)], [(4, 4), (16, 4), (10, 13)]),
+            ('edran_canal_bifurcacion', [(1, 6), (18, 6), (9, 13), (10, 7)], [(12, 4), (10, 2), (3, 11)]),
+            ('edran_canal_refugio', [(9, 1), (9, 7), (12, 8)], [(14, 5), (15, 6), (3, 7), (10, 13)]),
+            ('edran_canal_compuerta', [(1, 9), (18, 9), (9, 9), (13, 10)], [(10, 6), (10, 12), (0, 6)]),
+            ('edran_canal_repisa', [(1, 9), (6, 9), (10, 7)], [(13, 5), (8, 6), (18, 9)]),
+        ):
+            with self.subTest(geometry=room_id):
+                solid = scenes[room_id]['layers']['solid']
+                for x, y in free_pts:
+                    self.assertEqual(solid[y][x], '.', f'{room_id} point ({x},{y}) should be walkable')
+                for x, y in blocked_pts:
+                    self.assertEqual(solid[y][x], '1', f'{room_id} obstacle ({x},{y}) should be blocked')

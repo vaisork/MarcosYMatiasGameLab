@@ -1,0 +1,77 @@
+{
+  "room": "edran_canal_refugio",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/edran_canal_refugio.webp",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      9,
+      7
+    ],
+    "norte": [
+      9,
+      1
+    ]
+  },
+  "npcs": [
+    {
+      "id": "edran_oren",
+      "at": [
+        12,
+        8
+      ]
+    }
+  ],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "fffffffffppfffffffff",
+      "fffffffffssfffffffff",
+      "ffffffffpppfffffffff",
+      "ffffffffpppfffffffff",
+      "ffffffffpppfffffffff",
+      "ffffffffpppppfffffff",
+      "ffffffppppppppffffff",
+      "ffffffppppppppffffff",
+      "ffffffppppppppffffff",
+      "ffffffppppppppffffff",
+      "fffffffpppppffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "111111111..111111111",
+      "11111111...111111111",
+      "11111111...111111111",
+      "11111111...111111111",
+      "11111111.....1111111",
+      "111111........111111",
+      "111111........111111",
+      "111111........111111",
+      "111111........111111",
+      "1111111.....11111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111"
+    ]
+  }
+}

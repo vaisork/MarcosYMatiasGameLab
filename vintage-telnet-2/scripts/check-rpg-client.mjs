@@ -142,13 +142,11 @@ for(const [id,sprite] of Object.entries(expectedNpcSprites)){
 // Unmapped NPCs without dedicated art fall back to Lina.
 vm.runInContext(`snapshot.room.npcs=[{id:'edran_otro'}];`,context);
 assert.equal(vm.runInContext('entities()[0].sprite',context),'lina','NPC without art falls back to Lina');
-const existingAtlasSprites=['bren','daro','iria','elva','sena'];
-for(const sprite of existingAtlasSprites){
+for(const sprite of Object.values(expectedNpcSprites)){
  const atlas=fs.readFileSync(new URL(`../client-rpg/sprites/${sprite}.png`,import.meta.url));
  assert.equal(atlas.readUInt32BE(16),192,`${sprite} atlas width`);
  assert.equal(atlas.readUInt32BE(20),384,`${sprite} atlas height`);
 }
-// Validación binaria de nuevos atlas (nela.png, oren.png de 192×384) se incorporará obligatoriamente al integrar arte.
 vm.runInContext('snapshot.room.npcs=[]',context);
 console.log('RPG NPCs: authoritative presence, dedicated map (Bren+4, Nela, Oren), Lina fallback, preloading and 64×96 atlas OK');
 // Verify actual avatar collision geometry, not just point-cell flood fill.
