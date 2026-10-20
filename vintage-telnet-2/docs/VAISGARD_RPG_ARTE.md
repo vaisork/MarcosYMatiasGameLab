@@ -165,3 +165,26 @@ Forajido y Negociante añaden mapa48×48 y batalla192×192 transparentes. El pri
 | `sprites/negociante-battle.png` | 192×192 | 42369 | `eda8d4157fc1949fe90bbf84d1dc31c70a538e3fc084fc388e96bbe69c7f4743` |
 
 Recursos, mapeo, seis escenas y sus Tiled incorporados al candidato. Navegación y capturas móvil/escritorio verificadas; la negociante se situó en(9,9) para evitar el relato en escritorio. Resultados y límites en [RPG_EDRAN_CAMINOS_01.md](RPG_EDRAN_CAMINOS_01.md). No constituye integración a main ni despliegue.
+
+
+## Canal de Edran01 — candidato, 2026-10-19
+
+Seis fondos de sala y una variante de la repisa con caja; dos atlas propios para Nela y Oren. Canon verificado contra la base029bcf8 sin cambios de contenido. Fondos originales de imagegen, reducidos a640×480 y ampliados por vecino más cercano a1280×960, WebP de hasta250000bytes. Los atlas se normalizan a192×384, doce cuadros de64×96, con escala uniforme por personaje y recortes por cuadro para conservar las proporciones y todas las extremidades. El alfa solo se analiza para elegir recortes; los píxeles originales no se repintan ni se aplica umbral al archivo final.
+
+Nela conserva botas embarradas y tablilla de madera; Oren, ropa de viajero, cordones gastados y venda limpia. Son NPC canónicos, no jugadores/Vaisork/Númenes: no requieren nuevas hojas3D. Los fondos no incluyen actores ni revelan el conducto/anillo ocultos de la repisa. La compuerta conserva una posición para el forajido ya existente, solo visible mediante snapshot.
+
+La repisa base está vacía. La variante con caja se elige mediante background_actions cuando snapshot.actions contiene edran_recoger_caja, incluso si está deshabilitada; al desaparecer esa acción se vuelve al fondo vacío. Selector compartido por escena y minimapa, con fallback durante carga. No crea estado, reglas ni recompensas nuevas.
+
+| Recurso | Dimensiones | Bytes | SHA-256 |
+|---|---|---:|---|
+| `backgrounds/edran_canal_entrada.webp` | 1280×960 | 205900 | `211b33f771c0b71cd6a93c38363787b81719b3bd1a023275007e027237b55c8a` |
+| `backgrounds/edran_canal_herramientas.webp` | 1280×960 | 236848 | `742c36191289a3661779165827067f4a27e62b14fa4f09c7f64c1a352c3c9191` |
+| `backgrounds/edran_canal_bifurcacion.webp` | 1280×960 | 242890 | `ebd10479988d334c9064fd721a2f2fd82b59a42ca5bc867157e58ecd8840c7bc` |
+| `backgrounds/edran_canal_refugio.webp` | 1280×960 | 240082 | `afd065ef99add2798182b6b79917f24adb7f9feaa527059acd6bd7e14356d84f` |
+| `backgrounds/edran_canal_compuerta.webp` | 1280×960 | 183106 | `47991b92ae2b3847396499fa73789a204f869307f556b6cc7734db3500665e5c` |
+| `backgrounds/edran_canal_repisa.webp` | 1280×960 | 234810 | `fba2d2ca1187dca88a8a13d21378014d844be5d5f5cabbbce912b9629e5e3dd3` |
+| `backgrounds/edran_canal_repisa_caja.webp` | 1280×960 | 222572 | `8878cc2d893ae8db44aaf7189182c473ffbaf41a6900d0d2833064ec3422beaf` |
+| `sprites/nela.png` | 192×384 | 98879 | `4d3203dd3f0b6d1f2b615eec39695e8122df6fe13f4eb6cfe5f31cd4ec29f977` |
+| `sprites/oren.png` | 192×384 | 82491 | `69d00d9e57ba68d8648bd3c487fcae3c13d2f11cccc7276862ae8af989d31165` |
+
+Prompts, originales, manifiesto y normalización mecánica en entregas/equipo/rpg-edran-canal-01; sidecars de los fondos junto al recurso y prompt embebido en PNG. Revisión visual independiente de nueve recursos y cierre de geometría: SHIP. Seis escenas y fuentes Tiled reconciliadas; QA de móvil/escritorio, recogida/devolución/revisita de caja y rodeo canónico comprobados. Resultados y límites en [RPG_EDRAN_CANAL_01.md](RPG_EDRAN_CANAL_01.md). Este candidato no constituye merge ni despliegue.
