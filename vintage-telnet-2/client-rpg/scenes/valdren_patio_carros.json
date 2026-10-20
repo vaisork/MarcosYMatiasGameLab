@@ -1,0 +1,99 @@
+{
+  "room": "valdren_patio_carros",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/valdren_patio_carros.webp",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        3
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "este": [
+      18,
+      7
+    ],
+    "oeste": [
+      10,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "fffffffffppfffffffff",
+      "fppppfffsppsffffffff",
+      "fppppfffsppsffffffff",
+      "fppppfffsppsffffffff",
+      "fppppfffspppsfffffff",
+      "fppppfffspppsfffffff",
+      "ffssssssssssssssssss",
+      "ffssssssssssssssssss",
+      "ffssssssssssssssssss",
+      "fffffffspppsffffffff",
+      "fffffffspppsffffffff",
+      "fffffffspppsffffffff",
+      "fffffffsppsfffffffff",
+      "fffffffsppsfffffffff",
+      "fffffffffppfffffffff"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "111111111..111111111",
+      "111111111..111111111",
+      "111111111..111111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "11..................",
+      "11..................",
+      "11..................",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111..111111111",
+      "111111111..111111111",
+      "111111111..111111111",
+      "111111111..111111111"
+    ]
+  }
+}

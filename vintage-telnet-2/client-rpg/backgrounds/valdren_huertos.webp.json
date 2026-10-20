@@ -1,0 +1,4 @@
+{
+  "prompt": "Edit only the supplied top-down 3/4 pixel-art village garden image. Preserve the entire composition, camera, paths, buildings, fences, irrigation trough, lighting, pixel rendering, colors, and all exits exactly. Add ONE small inanimate scarecrow inside the already enclosed LOWER-RIGHT vegetable garden among the lettuces, centered approximately at x=79% and y=79% of the image. Its total height should be about 14% of the image, with its stake ending within the garden, never on a path or the water trough. Canonical design: straw dummy wearing an old coarse sackcloth garment, a bent carrot held like a pipe, and a straw hat with two holes and a tiny sparrow nest peeking through (no live birds). It must read as a garden prop, not a living human character. Match the existing finely detailed luminous warm pixel art and 3/4 perspective. Do not add text, UI, actors, items, new paths or change any other geometry.\n",
+  "createdAt": "2026-10-18T05:41:24.559Z"
+}
