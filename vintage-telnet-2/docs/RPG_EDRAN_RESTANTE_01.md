@@ -1,6 +1,6 @@
 # Edran Restante 01 — 2026-10-21 (CM-12)
 
-Seis salas ilustradas restantes de Edran, sus fuentes Tiled y siete recursos visuales aprobados. Conserva los personajes y criaturas canónicos; corrige el sprite de mapa del Cornalomo. El lote continúa el avance sobre la base `1bec001`. El conjunto candidato alcanza 44 salas ilustradas de 191 (235 mapas totales: 191 generados + 44 pintados). Estado: CANDIDATO de revisión, sin merge ni despliegue autorizados para este lote. Main contiene 33 salas; la Raspberry consultada el 21 de octubre conserva 3 en `8b62492`.
+Seis salas ilustradas restantes de Edran, sus fuentes Tiled y siete recursos visuales aprobados. Conserva los personajes y criaturas canónicos; corrige el sprite de mapa del Cornalomo. El lote continúa el avance sobre la base `1bec001`. El conjunto candidato alcanza 44 salas ilustradas de 191 (235 mapas totales: 191 generados + 44 pintados). Estado: CANDIDATO publicado para revisión en PR #750 (head `ac30829`), sin merge ni despliegue autorizados para este lote. GitHub main contiene 38 salas (tras PR #749); la Raspberry consultada el 21 de octubre conserva 3 en `8b62492`.
 
 ## Comportamiento
 
@@ -60,4 +60,4 @@ Total de salidas navegables en el conjunto: exactamente 14.
 
 ## Estado de integración
 
-44 salas ilustradas en el candidato local; quedan 147 de 191. GitHub `main` contiene 33 salas. La Raspberry consultada el 21 de octubre conserva el clon `8b62492` con 3 salas ilustradas y servicio activo. Depende del lote Norte de Edran (PR #748), que a su vez depende de la corrección de latencia (PR #747). El resultado requiere revisión y autorización por ciclo para merge y despliegue; la documentación y la CI no acreditan producción.
+44 salas ilustradas en el candidato publicado en PR #750 (`ac30829`); quedan 147 de 191. GitHub `main` contiene 38 salas (PR #747, #748 y #749 integrados). La Raspberry consultada el 21 de octubre conserva el clon `8b62492` con 3 salas ilustradas y servicio activo. El resultado requiere revisión y autorización para merge y despliegue; la documentación y la CI no acreditan producción.

@@ -1,6 +1,6 @@
 # Norte de Edran01 — 2026-10-21 (CM-12)
 
-Cinco salas ilustradas del norte de Edran, sus fuentes Tiled y recursos aprobados para Aren y Salteador Bravucón. El lote continúa el avance sobre la base `33bf41a`. El conjunto candidato alcanza 38 salas ilustradas de 191 (229 mapas totales: 191 generados + 38 pintados). Estado: CANDIDATO publicado para revisión en PR #748; sin merge ni despliegue de este lote.
+Cinco salas ilustradas del norte de Edran, sus fuentes Tiled y recursos aprobados para Aren y Salteador Bravucón. El lote continúa el avance sobre la base `33bf41a`. El conjunto alcanza 38 salas ilustradas de 191 (229 mapas totales: 191 generados + 38 pintados). Estado: INTEGRADO en GitHub main por PR #749 (tras merge de PR #748); sin despliegue aún.
 
 ## Comportamiento
 
@@ -51,7 +51,7 @@ Cinco salas ilustradas del norte de Edran, sus fuentes Tiled y recursos aprobado
 
 ## Estado de integración
 
-38 salas ilustradas en el candidato; quedan 153 de 191. GitHub main contiene 33. La Raspberry consultada el 21 de octubre conserva el clon `8b62492` con 3 salas ilustradas y servicio activo HTTP 200. Este lote no implica merge ni despliegue; requiere revisión y autorización por iteración.
+38 salas ilustradas ya integradas en GitHub main (`aab05d4b`); quedan 153 de 191. La Raspberry consultada el 21 de octubre conserva el clon `8b62492` con 3 salas ilustradas y servicio activo HTTP 200. Sin despliegue aún en producción.
 
 ## Recursos y hashes
 

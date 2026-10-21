@@ -206,7 +206,7 @@ Cinco fondos de sala ilustrados, un atlas para Aren y sprites de mapa/combate pa
 | `sprites/bravucon.png` | 48×48 | 3150 | `6ea54f068f2a1307d353729515800237f921b6345defc6572a43aa8860a35108` |
 | `sprites/bravucon-battle.png` | 192×192 | 40635 | `64a8f9fc9b1ee8e07f401cfb22916f98b4b044ba0eeb50aed5bd5ea579f79002` |
 
-Manifiesto y sidecars individuales en `entregas/equipo/cm-12/arte` y junto a cada asset en `client-rpg/`. Sin alteración de arte ni copias privadas fuera del manifiesto. Estado: CANDIDATO local, no sincronizado en GitHub aún ni desplegado. Ver [RPG_EDRAN_NORTE_01.md](RPG_EDRAN_NORTE_01.md).
+Manifiesto y sidecars individuales en `entregas/equipo/cm-12/arte` y junto a cada asset en `client-rpg/`. Sin alteración de arte ni copias privadas fuera del manifiesto. Estado: INTEGRADO en GitHub main (`aab05d4b`) mediante PR #749 (tras PR #748); no desplegado aún (Raspberry conserva `8b62492` con 3 salas). Ver [RPG_EDRAN_NORTE_01.md](RPG_EDRAN_NORTE_01.md).
 
 QA Norte: 18 recorridos y 14 capturas reales de escritorio/viewport móvil; Aren, Bravucón y ronda con desbloqueo comprobados en SQLite temporal. Arte y geometría con revisión independiente SHIP. Límites y evidencia en RPG_EDRAN_NORTE_01.md.
 
@@ -223,7 +223,7 @@ Seis fondos de sala ilustrados para completar las salas de Edran (loma, prado, l
 | `backgrounds/edran_puente_juncos.webp` | 1280×960 | 241462 | `9d379faf04c2caa04d372c1d768929cfba4282b73239097d8bc9845a1d9b9d0e` |
 | `backgrounds/edran_sendero_juncos.webp` | 1280×960 | 236786 | `6cc3739b999799762d7637338bee7a9390cff4e6894ea5eb64a94b92afa1af12` |
 
-Manifiesto en `entregas/equipo/cm-12/edran-restante-01/manifest-arte.json` y sidecars `.webp.json` junto a cada fondo en `client-rpg/backgrounds/`. Revisión visual independiente en `review-arte-1.md` y `review-arte-2.md`: dictamen SHIP para los seis fondos. Estado: CANDIDATO local (44 salas), no sincronizado en GitHub aún (main 33) ni desplegado (producción 3 en `8b62492`). Ver [RPG_EDRAN_RESTANTE_01.md](RPG_EDRAN_RESTANTE_01.md).
+Manifiesto en `entregas/equipo/cm-12/edran-restante-01/manifest-arte.json` y sidecars `.webp.json` junto a cada fondo en `client-rpg/backgrounds/`. Revisión visual independiente en `review-arte-1.md` y `review-arte-2.md`: dictamen SHIP para los seis fondos. Estado: CANDIDATO publicado en PR #750 (`ac30829`, 44 salas), no integrado en GitHub main aún (main 38 tras PR #749) ni desplegado (producción 3 en `8b62492`). Ver [RPG_EDRAN_RESTANTE_01.md](RPG_EDRAN_RESTANTE_01.md).
 
 QA Edran restante: 33recorridos/14salidas, 6exámenes yCornalomo/examen reales, 12capturas escritorio/móvil conrecaptura lateral dePrado. Falla inicial deCornalomo bajo relato móvil corregida; arte ygeometría conrevisiónindependienteSHIP. No teléfono físico/tacto/FPS. Ver RPG_EDRAN_RESTANTE_01.md.
 
