@@ -224,3 +224,7 @@ Seis fondos de sala ilustrados para completar las salas de Edran (loma, prado, l
 | `backgrounds/edran_sendero_juncos.webp` | 1280×960 | 236786 | `6cc3739b999799762d7637338bee7a9390cff4e6894ea5eb64a94b92afa1af12` |
 
 Manifiesto en `entregas/equipo/cm-12/edran-restante-01/manifest-arte.json` y sidecars `.webp.json` junto a cada fondo en `client-rpg/backgrounds/`. Revisión visual independiente en `review-arte-1.md` y `review-arte-2.md`: dictamen SHIP para los seis fondos. Estado: CANDIDATO local (44 salas), no sincronizado en GitHub aún (main 33) ni desplegado (producción 3 en `8b62492`). Ver [RPG_EDRAN_RESTANTE_01.md](RPG_EDRAN_RESTANTE_01.md).
+
+QA Edran restante: 33recorridos/14salidas, 6exámenes yCornalomo/examen reales, 12capturas escritorio/móvil conrecaptura lateral dePrado. Falla inicial deCornalomo bajo relato móvil corregida; arte ygeometría conrevisiónindependienteSHIP. No teléfono físico/tacto/FPS. Ver RPG_EDRAN_RESTANTE_01.md.
+
+Corrección visual heredada detectada en QA del Prado: `sprites/cornalomo.png` rehecho nativamente usando el diseño aprobado de bestiario y el sprite de batalla como referencias; torso, cuatro patas, cuernos y cola legibles. PNG48×48, 3608bytes, SHA256 `9078de2480073933ff506d4b2e447492ac81dcb5276bf04c0e8029280735c073`. Normalización mecánica uniforme y padding transparente; revisión independiente SHIP enreview-cornalomo.md. Escala1.6 sólo en mapa, anclaje de pies y batalla conservados, sin reglas nuevas.

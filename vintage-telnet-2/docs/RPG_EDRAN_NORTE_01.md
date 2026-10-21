@@ -1,6 +1,6 @@
 # Norte de Edran01 — 2026-10-21 (CM-12)
 
-Cinco salas ilustradas del norte de Edran, sus fuentes Tiled y recursos aprobados para Aren y Salteador Bravucón. El lote continúa el avance sobre la base `33bf41a`. El conjunto candidato alcanza 38 salas ilustradas de 191 (229 mapas totales: 191 generados + 38 pintados). Estado: CANDIDATO local, no sincronizado en GitHub aún ni desplegado.
+Cinco salas ilustradas del norte de Edran, sus fuentes Tiled y recursos aprobados para Aren y Salteador Bravucón. El lote continúa el avance sobre la base `33bf41a`. El conjunto candidato alcanza 38 salas ilustradas de 191 (229 mapas totales: 191 generados + 38 pintados). Estado: CANDIDATO publicado para revisión en PR #748; sin merge ni despliegue de este lote.
 
 ## Comportamiento
 
