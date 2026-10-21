@@ -189,3 +189,23 @@ La repisa base está vacía. La variante con caja se elige mediante background_a
 | `sprites/oren.png` | 192×384 | 82491 | `69d00d9e57ba68d8648bd3c487fcae3c13d2f11cccc7276862ae8af989d31165` |
 
 Prompts, originales, manifiesto y normalización mecánica en entregas/equipo/rpg-edran-canal-01; sidecars de los fondos junto al recurso y prompt embebido en PNG. Revisión visual independiente de diez recursos, cierre de geometría y dieciséis capturas: SHIP. Seis escenas y fuentes Tiled reconciliadas; QA de móvil/escritorio, recogida/devolución/revisita de caja, rodeo canónico y combate interior con reloj real comprobados. Resultados y límites en [RPG_EDRAN_CANAL_01.md](RPG_EDRAN_CANAL_01.md). Este candidato no constituye merge ni despliegue.
+
+
+## Norte de Edran01 — candidato, 2026-10-21 (CM-12)
+
+Cinco fondos de sala ilustrados, un atlas para Aren y sprites de mapa/combate para Salteador Bravucón. Base de integración `33bf41a`. Fondos WebP normalizados a 1280×960, todos ≤250000 bytes. Atlas de Aren normalizado a 192×384 (doce cuadros de 64×96), escala uniforme, sin tableta opcional y transparencia alfa preservada. Bravucón normalizado a 48×48 en mapa y 192×192 en combate.
+
+| Recurso | Dimensiones | Bytes | SHA-256 |
+|---|---|---:|---|
+| `backgrounds/edran_terraplen.webp` | 1280×960 | 243592 | `0cc6e54e90be12fde0df767733141923d18f871fe7db91baaa0aed1c6aee6b4b` |
+| `backgrounds/edran_casa_camino.webp` | 1280×960 | 243046 | `d2dd2a2c3e02631f1166c2e0a44211291714b3d36784ae4e5afa5750826c015a` |
+| `backgrounds/edran_calzada.webp` | 1280×960 | 236726 | `1766b1241188d64a2ab4b9c57f503ed21514040b6087c8b8e1bbd40f300a5531` |
+| `backgrounds/edran_hito_campos.webp` | 1280×960 | 240182 | `ae9e2c8d6a8fd900747d39884cb0c6e963ee1ff7d74f686a38739b81ced02230` |
+| `backgrounds/edran_vista_cuenca.webp` | 1280×960 | 243158 | `0b8af36aed3b50b0e4f786ba7f834713c27913b623f18ba0092546faa9162889` |
+| `sprites/aren.png` | 192×384 | 95916 | `7ddb3434a359b9a9b49d810385ab479f969c53d415f9383b4847b0f26fff688d` |
+| `sprites/bravucon.png` | 48×48 | 3150 | `6ea54f068f2a1307d353729515800237f921b6345defc6572a43aa8860a35108` |
+| `sprites/bravucon-battle.png` | 192×192 | 40635 | `64a8f9fc9b1ee8e07f401cfb22916f98b4b044ba0eeb50aed5bd5ea579f79002` |
+
+Manifiesto y sidecars individuales en `entregas/equipo/cm-12/arte` y junto a cada asset en `client-rpg/`. Sin alteración de arte ni copias privadas fuera del manifiesto. Estado: CANDIDATO local, no sincronizado en GitHub aún ni desplegado. Ver [RPG_EDRAN_NORTE_01.md](RPG_EDRAN_NORTE_01.md).
+
+QA Norte: 18 recorridos y 14 capturas reales de escritorio/viewport móvil; Aren, Bravucón y ronda con desbloqueo comprobados en SQLite temporal. Arte y geometría con revisión independiente SHIP. Límites y evidencia en RPG_EDRAN_NORTE_01.md.

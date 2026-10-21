@@ -1,0 +1,13 @@
+{
+  "asset_id": "aren-atlas-v2",
+  "generation_tool": "native image_gen edit",
+  "sha256": "7ddb3434a359b9a9b49d810385ab479f969c53d415f9383b4847b0f26fff688d",
+  "bytes": 95916,
+  "normalization": "Mechanical per-character crop, uniform nearest-neighbor resize and3x4packing. Alpha preserved. No painting.",
+  "review": "SHIP",
+  "dimensions": [
+    192,
+    384
+  ],
+  "source_original": "exec-01295bef-1be6-4e8e-994c-ba39059ad581.png"
+}

@@ -1,0 +1,13 @@
+{
+  "asset_id": "bravucon",
+  "generation_tool": "native image_gen",
+  "sha256": "6ea54f068f2a1307d353729515800237f921b6345defc6572a43aa8860a35108",
+  "bytes": 3150,
+  "normalization": "Mechanical resize/compression only; native alpha preserved",
+  "review": "SHIP",
+  "dimensions": [
+    48,
+    48
+  ],
+  "source_original": "exec-1d4706b9-6d34-477c-9052-a88532ee135a.png"
+}

@@ -1,0 +1,14 @@
+{
+  "generation_tool": "native image_gen",
+  "sha256": "0b8af36aed3b50b0e4f786ba7f834713c27913b623f18ba0092546faa9162889",
+  "bytes": 243158,
+  "normalization": "Mechanical resize/WebPcompression only",
+  "review": "SHIP",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-767811f6-53b3-440f-8731-c78e56119698.png",
+  "prompt": "Original Vaisgard RPG exploration background, landscape 4:3, 1280x960 resolution. Steep 65-degree overhead orthographic 3/4 cutaway camera showing the ENTIRE playable room. High-end handcrafted 16-bit JRPG pixel art with warm elevated sunlight, high ridge breeze, sweeping scenic vista framing. CANON: High scenic ridge overlook (mirador) gazing out across the vast green agricultural basin. Running horizontally across the room is a wide, well-trodden, dry dirt and stone trail connecting West to East. Adjacent to the trail is a comfortable, dry, short grass verge where travelers can safely stand to look out over the valley without blocking the path. In the upper background scenery between two rolling green hills, the distant, austere, ancient GREY STONE WALLS of Vaisgard are visible crowning the horizon, monumental yet muted and far away, appearing as a long weathered stone line with no visible city streets, gates, towers, or ornate fairytale castle structures. Below in the distant basin, a thin thread-like road winds across the fertile plain. EXITS: EXACTLY TWO open passages at canvas boundaries: WEST (left) returning to the Hito border post, and EAST (right) continuing high along the outer pastures of Veyra. NORTH and SOUTH edges are sealed by steep scenic hill slopes and ridge drop-offs, with NO paths or portals heading north or south. An ample open clearing along the trail is left unobstructed for the dynamic Salteador Bravucón encounter. CRITICAL NEGATIVES: No painted bandits, no travelers, no animals, no close-up city gates, no UI, no text, no chests.",
+  "asset_id": "edran_vista_cuenca"
+}
