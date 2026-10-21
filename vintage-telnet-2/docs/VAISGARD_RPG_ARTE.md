@@ -207,3 +207,5 @@ Cinco fondos de sala ilustrados, un atlas para Aren y sprites de mapa/combate pa
 | `sprites/bravucon-battle.png` | 192×192 | 40635 | `64a8f9fc9b1ee8e07f401cfb22916f98b4b044ba0eeb50aed5bd5ea579f79002` |
 
 Manifiesto y sidecars individuales en `entregas/equipo/cm-12/arte` y junto a cada asset en `client-rpg/`. Sin alteración de arte ni copias privadas fuera del manifiesto. Estado: CANDIDATO local, no sincronizado en GitHub aún ni desplegado. Ver [RPG_EDRAN_NORTE_01.md](RPG_EDRAN_NORTE_01.md).
+
+QA Norte: 18 recorridos y 14 capturas reales de escritorio/viewport móvil; Aren, Bravucón y ronda con desbloqueo comprobados en SQLite temporal. Arte y geometría con revisión independiente SHIP. Límites y evidencia en RPG_EDRAN_NORTE_01.md.

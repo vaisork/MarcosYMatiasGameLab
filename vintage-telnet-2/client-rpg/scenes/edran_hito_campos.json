@@ -30,7 +30,7 @@
       "direction": "este",
       "rect": [
         19,
-        5,
+        6,
         1,
         2
       ]
@@ -51,7 +51,7 @@
     ],
     "este": [
       18,
-      5
+      7
     ]
   },
   "npcs": [],
@@ -67,7 +67,7 @@
       "id": "espinajo_rastrojo",
       "at": [
         15,
-        6
+        8
       ]
     }
   ],
@@ -76,13 +76,13 @@
       "gggggggggpppgggggggg",
       "gggggggggpppgggggggg",
       "gggggggggpppgggggggg",
-      "wwwwwwwwwpppwwwwwwww",
-      "wwwwwwwwwpppwwwwwwww",
-      "gggggggggpppgggggppp",
-      "gggggggggppppppppppp",
-      "ggggggsspppppppggggg",
-      "gggggggpppppppgggggg",
-      "ggggggggpppppggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppgggggggpp",
+      "ggggggggpppppggggppp",
+      "ggggggggpppppppppppg",
+      "ggggggggpppppppggggg",
       "ggggggggpppppggggggg",
       "gggggggggppppggggggg",
       "gggggggggpppgggggggg",
@@ -93,13 +93,13 @@
       "111111111...11111111",
       "111111111...11111111",
       "111111111...11111111",
-      "111111111...11111111",
-      "111111111...11111111",
-      "111111111...11111...",
-      "111111111...........",
+      "111111111..111111111",
+      "111111111..111111111",
+      "111111111..111111111",
+      "111111111..1111111..",
+      "11111111.....1111...",
+      "11111111...........1",
       "11111111.......11111",
-      "1111111.......111111",
-      "11111111.....1111111",
       "11111111.....1111111",
       "111111111....1111111",
       "111111111...11111111",

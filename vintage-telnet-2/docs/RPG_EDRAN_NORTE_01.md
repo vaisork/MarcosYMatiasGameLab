@@ -25,14 +25,14 @@ Cinco salas ilustradas del norte de Edran, sus fuentes Tiled y recursos aprobado
 
 4. **Paso hacia Veyra (`edran_hito_campos`)**:
    - Salidas exactas: norte (`veyra_puerta_campos`), sur (`edran_calzada`) y este (`edran_vista_cuenca`). Sin salida oeste.
-   - Arroyo transversal bloqueado excepto en el cruce de las tres losas contiguas de piedra (`[9..11, 3..6]`). Agua adyacente a las losas bloqueada.
+   - Arroyo transversal bloqueado excepto en el cruce de las tres losas contiguas de piedra (`[9..10, 3..6]`). Agua adyacente a las losas bloqueada.
    - Desvío al este en ascenso transitable hacia la vista panorámica.
    - Poste y losa delimitadora marcados como obstáculos.
    - Fauna canónica: `salteador_veterano`, `espinajo_rastrojo`.
 
 5. **Mirador de la cuenca (`edran_vista_cuenca`)**:
    - Salidas exactas: oeste (`edran_hito_campos`) y este (`veyra_pastos_exteriores`). Sin salidas norte ni sur.
-   - Corredor transversal transitable E/O a lo largo de las filas 7-8 con terraza segura.
+   - Corredor transversal transitable E/O con entradas oeste/este en la fila 8 y terraza segura.
    - Panorámica lejana norte y precipicio sur bloqueados como no transitables.
    - Espacio despejado en el sendero para el encuentro con `salteador_bravucon` y `espinajo_rastrojo`.
 
@@ -44,7 +44,13 @@ Cinco salas ilustradas del norte de Edran, sus fuentes Tiled y recursos aprobado
 - `python scripts/qa-rpg-edran-norte.py --test-startup --port 0`: verificación de arranque efímero en puerto dinámico, comprobación de sesión CSRF en `/api/state` y `/api/action`, y parada limpia mediante POST `/__qa__/stop`.
 - `npm run check:client` y `node --check client-rpg/rpg.js`: sintaxis JS limpia.
 - `git diff --check`: sin espacios en blanco corruptos ni fallos de formato.
-- Sin capturas ni QA visual todavía en esta fase (reservado para fase de revisión visual posterior).
+- Chrome visible con SQLite temporal: PASS, 18 recorridos cubriendo las 11 salidas, acercamiento y conversación con Aren, lectura real de nota, acercamiento y conversación con Bravucón, ronda real de combate con bloqueo y desbloqueo tras 5,1 segundos. No se teletransportó el avatar.
+- [14 capturas del cliente](visual/edran-norte-01/): escritorio 1366×768 y viewport móvil 390×844. La pestaña estuvo oculta durante parte de la automatización: se comprobaron imágenes cargadas y render explícito; esto no acredita fluidez, tacto ni rendimiento de un teléfono físico.
+- Revisión independiente de arte y geometría: SHIP tras corregir roca del Terraplén, escalón/muebles de Casa, curva de Calzada, agua y desvío del Hito y entradas del Mirador.
+
+## Estado de integración
+
+38 salas ilustradas en el candidato; quedan 153 de 191. GitHub main contiene 33. La Raspberry consultada el 21 de octubre conserva el clon `8b62492` con 3 salas ilustradas y servicio activo HTTP 200. Este lote no implica merge ni despliegue; requiere revisión y autorización por iteración.
 
 ## Recursos y hashes
 

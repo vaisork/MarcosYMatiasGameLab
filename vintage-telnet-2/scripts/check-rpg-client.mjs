@@ -214,10 +214,10 @@ console.log('RPG regression: asymmetric Huertos→Graneros arrival can move imme
 
 // Edran Norte geometry regressions: obstacles, waterways, and open passages
 for(const [id,points] of Object.entries({
- edran_terraplen:[[6.5,6.5],[2.5,4.5],[17.5,4.5]],
- edran_casa_camino:[[2.5,2.5],[14.5,4.5],[16.5,6.5]],
- edran_hito_campos:[[8.5,3.5],[12.5,3.5],[6.5,7.5]],
- edran_vista_cuenca:[[10.5,2.5],[10.5,12.5]]
+ edran_terraplen:[[6.5,6.5],[7.5,6.5],[6.5,7.5],[7.5,7.5],[2.5,4.5],[17.5,4.5]],
+ edran_casa_camino:[[2.5,2.5],[14.5,4.5],[16.5,6.5],[6.5,13.5]],
+ edran_hito_campos:[[8.5,3.5],[12.5,3.5],[6.5,7.5],[12.5,6.5],[13.5,6.5],[14.5,6.5]],
+ edran_vista_cuenca:[[10.5,2.5],[10.5,12.5],[0.5,7.5],[19.5,7.5]]
 })){
  context.testMap=maps.find(([rid])=>rid===id)[1];vm.runInContext('scene=testMap',context);
  for(const [x,y] of points)assert.equal(vm.runInContext(`blocked(${x},${y})`,context),true,`${id}: reviewed obstacle at ${x},${y}`);
@@ -226,13 +226,15 @@ context.testMap=maps.find(([id])=>id==='edran_casa_camino')[1];
 vm.runInContext('scene=testMap',context);
 assert.equal(vm.runInContext('blocked(10.5,8.5)',context),false,'Casa del camino central step remains open');
 assert.equal(vm.runInContext('blocked(14.5,7.5)',context),false,'Aren position on raised floor remains open');
+assert.equal(vm.runInContext('blocked(8.5,6.5)',context),false,'Low wooden step connects left floor to central aisle');
+assert.equal(vm.runInContext('blocked(13.5,10.5)',context),false,'Lower stone floor on the right remains accessible');
 context.testMap=maps.find(([id])=>id==='edran_hito_campos')[1];
 vm.runInContext('scene=testMap',context);
 assert.equal(vm.runInContext('blocked(10.5,3.5)',context),false,'Bridge crossing remains open');
 context.testMap=maps.find(([id])=>id==='edran_vista_cuenca')[1];
 vm.runInContext('scene=testMap',context);
-assert.equal(vm.runInContext('blocked(1.5,7.5)',context),false,'Mirador west corridor remains open');
-assert.equal(vm.runInContext('blocked(18.5,7.5)',context),false,'Mirador east corridor remains open');
+assert.equal(vm.runInContext('blocked(1.5,8.5)',context),false,'Mirador west corridor remains open');
+assert.equal(vm.runInContext('blocked(18.5,8.5)',context),false,'Mirador east corridor remains open');
 console.log('RPG Edran Norte geometry: furniture, bridge slabs, cliff and corridors OK');
 
 // Refresh busy state without rebuilding preserved entry fields (autofill has no input event).
@@ -273,6 +275,7 @@ draws=[];battleDraw(1000);
 `,context);
  assert.equal(vm.runInContext('entities()[0].sprite',context),sprite,'Active combat still presents the creature without encounter actions');
  assert.equal(vm.runInContext('draws.some(args=>args[0]===images[battleSprite])',context),true,'Battle draws the matching creature artwork');
+ assert.equal(vm.runInContext('entities()[0].sprite',context),sprite,'Active combat preserves creature presence without encounter actions');
  vm.runInContext('snapshot.actions=[];snapshot.character.combat=null;',context);
 }
 vm.runInContext("snapshot.actions=[{id:'combatir',target:'unknown_creature'}]",context);
