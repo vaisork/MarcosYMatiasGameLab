@@ -209,3 +209,18 @@ Cinco fondos de sala ilustrados, un atlas para Aren y sprites de mapa/combate pa
 Manifiesto y sidecars individuales en `entregas/equipo/cm-12/arte` y junto a cada asset en `client-rpg/`. Sin alteración de arte ni copias privadas fuera del manifiesto. Estado: CANDIDATO local, no sincronizado en GitHub aún ni desplegado. Ver [RPG_EDRAN_NORTE_01.md](RPG_EDRAN_NORTE_01.md).
 
 QA Norte: 18 recorridos y 14 capturas reales de escritorio/viewport móvil; Aren, Bravucón y ronda con desbloqueo comprobados en SQLite temporal. Arte y geometría con revisión independiente SHIP. Límites y evidencia en RPG_EDRAN_NORTE_01.md.
+
+## Edran Restante 01 — candidato, 2026-10-21 (CM-12)
+
+Seis fondos de sala ilustrados para completar las salas de Edran (loma, prado, ladera de piedra, linde de piedra, sendero de juncos y vado/puente de juncos). Base de integración `1bec001`. Fondos WebP normalizados a 1280×960, todos ≤250000 bytes. Reutilización completa de los 8 atlas NPC y 7 criaturas existentes sin nuevos recursos de personaje. El conjunto candidato alcanza 44 salas ilustradas de 191 (235 mapas totales: 191 generados + 44 pintados).
+
+| Recurso | Dimensiones | Bytes | SHA-256 |
+|---|---|---:|---|
+| `backgrounds/edran_ladera_piedra.webp` | 1280×960 | 238182 | `326f57421adea2dc226beea0add0375c4250114c8b5449284742b41cfb0da091` |
+| `backgrounds/edran_linde_piedra.webp` | 1280×960 | 240160 | `6f0f21f8241fc4b629e463527bf04117178e5be93c7ef292dcc9613dbb0fdfe4` |
+| `backgrounds/edran_loma.webp` | 1280×960 | 238230 | `e578136824f1626b0cbe2d430debeb6fda6fff21c2791e421c27439090d258a1` |
+| `backgrounds/edran_prado.webp` | 1280×960 | 240298 | `2b02205c3601ba4f4c6c0aa1df19f08e6103df178fe5de8fd7bcbe09192b7155` |
+| `backgrounds/edran_puente_juncos.webp` | 1280×960 | 241462 | `9d379faf04c2caa04d372c1d768929cfba4282b73239097d8bc9845a1d9b9d0e` |
+| `backgrounds/edran_sendero_juncos.webp` | 1280×960 | 236786 | `6cc3739b999799762d7637338bee7a9390cff4e6894ea5eb64a94b92afa1af12` |
+
+Manifiesto en `entregas/equipo/cm-12/edran-restante-01/manifest-arte.json` y sidecars `.webp.json` junto a cada fondo en `client-rpg/backgrounds/`. Revisión visual independiente en `review-arte-1.md` y `review-arte-2.md`: dictamen SHIP para los seis fondos. Estado: CANDIDATO local (44 salas), no sincronizado en GitHub aún (main 33) ni desplegado (producción 3 en `8b62492`). Ver [RPG_EDRAN_RESTANTE_01.md](RPG_EDRAN_RESTANTE_01.md).

@@ -1,0 +1,111 @@
+{
+  "room": "edran_sendero_juncos",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/edran_sendero_juncos.webp",
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "oeste": [
+      1,
+      6
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "espinajo_rastrojo",
+      "at": [
+        8,
+        6
+      ]
+    },
+    {
+      "id": "mordelinde",
+      "at": [
+        12,
+        6
+      ]
+    },
+    {
+      "id": "cornalomo",
+      "at": [
+        10,
+        8
+      ]
+    },
+    {
+      "id": "forajido_camino",
+      "at": [
+        13,
+        8
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "wwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwpppppwwwwwwww",
+      "wwwwwpppppppppwwwwww",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "wwwwwwppppppppppwwww",
+      "wwwwwwwwpppppwwwwwww",
+      "wwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwww"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "1111111.....11111111",
+      "11111.........111111",
+      "....................",
+      "....................",
+      "111111..........1111",
+      "11111111.....1111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111"
+    ]
+  }
+}

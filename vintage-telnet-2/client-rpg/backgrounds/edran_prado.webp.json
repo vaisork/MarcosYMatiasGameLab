@@ -1,0 +1,14 @@
+{
+  "asset_id": "edran_prado",
+  "generation_tool": "native image_gen",
+  "sha256": "2b02205c3601ba4f4c6c0aa1df19f08e6103df178fe5de8fd7bcbe09192b7155",
+  "bytes": 240298,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-361a0fb2-1131-4a9e-a222-5862cc2deeb6.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SHIP",
+  "prompt": "Single finished game environment background, no text, no HUD, no people, no animals, no sprites. Bright lush high craft fantasy JRPG painted pixel art, warm natural sunlight, blue sky, rich vegetation, readable detailed terrain, matching Vaisgard RPG Edran countryside. Fixed high three-quarter top-down camera, continuous explorable ground rather than scenic postcard. Landscape 4:3 composition for a 20x15 walkability grid. Keep exits clearly grounded and wide enough for a walking character, avoid deceptive walkable water or cliff edges. Waist-high tall grass meadow. Large circle of crushed grass and broad cloven hoof impressions in earth in center-right, but NO creature painted. A safely walkable dirt trail skirts around outside this circle, connecting south center entry to west center exit into stone ground. North and east edges close with dense tall grass and natural embankment. Leave clear side stopping ground to inspect prints without crossing occupied grass."
+}

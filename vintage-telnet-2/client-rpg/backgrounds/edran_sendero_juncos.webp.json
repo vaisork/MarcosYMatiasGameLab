@@ -1,0 +1,14 @@
+{
+  "asset_id": "edran_sendero_juncos",
+  "generation_tool": "native image_gen",
+  "sha256": "6cc3739b999799762d7637338bee7a9390cff4e6894ea5eb64a94b92afa1af12",
+  "bytes": 236786,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-de430d19-df46-4e75-a9bc-60bc220ef8c1.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SHIP",
+  "prompt": "Single finished game environment background, no text, no HUD, no people, no animals, no sprites. Bright lush high craft fantasy JRPG painted pixel art, warm natural sunlight, blue sky, rich vegetation, readable detailed terrain, matching Vaisgard RPG Edran countryside. Fixed high three-quarter top-down camera, continuous explorable ground rather than scenic postcard. Landscape 4:3 composition for a 20x15 walkability grid. Keep exits clearly grounded and wide enough for a walking character, avoid deceptive walkable water or cliff edges. Firm dry earth walking strip winding through reeds taller than a person. Nearby hidden flowing water glimpsed only beyond thick reeds, never covering route. A central stopping clearing has worn ground markings from unloaded burdens, comfortably wide for two people. Ground path connects west center to east center only; eastern approach narrows gradually to a single-file bridge direction but remains safely walkable. North and south dense reeds and wet banks close exits. No bridge yet in this room."
+}

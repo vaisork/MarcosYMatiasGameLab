@@ -160,7 +160,7 @@ def run_checks():
         assert _text_has(res_loma, 'parcela'), "Fallo al examinar parcelas en edran_loma"
 
         navigate_to(fixture, content, 'edran_prado')
-        res_prado = fixture.act({'id': 'examinar_criatura', 'target': 'cornalomo'})
+        res_prado = fixture.act(fixture.offered('examinar_criatura', 'cornalomo'))
         assert _text_has(res_prado, 'cornalomo'), "Fallo al examinar cornalomo en edran_prado"
 
         navigate_to(fixture, content, 'edran_ladera_piedra')

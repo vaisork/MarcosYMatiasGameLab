@@ -1,0 +1,15 @@
+{
+  "asset_id": "edran_loma",
+  "generation_tool": "native image_gen",
+  "sha256": "e578136824f1626b0cbe2d430debeb6fda6fff21c2791e421c27439090d258a1",
+  "bytes": 238230,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-d200710f-b841-4aba-af1e-6c76abf41d40.png",
+  "normalization": "Mechanical proportional resize (both 4:3) and WebP compression only",
+  "review": "SHIP",
+  "prompt": "Single finished game environment background, no text, no HUD, no people, no animals, no sprites. Bright lush high craft fantasy JRPG painted pixel art, warm natural sunlight, blue sky, rich vegetation, readable detailed terrain, matching Vaisgard RPG Edran countryside. Fixed high three-quarter top-down camera, continuous explorable ground rather than scenic postcard. Landscape 4:3 composition for a 20x15 walkability grid. Keep exits clearly grounded and wide enough for a walking character, avoid deceptive walkable water or cliff edges. Rounded hill covered in newly cut short grass. Three different-height cultivated plots visible at distance with warm village roofs of Valdren and a shining river bend beyond. Wide central safe stopping space beside the path, not obstructing it. Exactly three ground-level paths: east center toward field boundary, north center toward waist-high meadow, south center toward old plot. West edge closes with a natural low rock and shrub bank. Distant roofs are scenery, not entrances.",
+  "revision": "v2 north path reaches upper boundary; upper-right distant village only"
+}

@@ -1,0 +1,14 @@
+{
+  "asset_id": "edran_puente_juncos",
+  "generation_tool": "native image_gen",
+  "sha256": "9d379faf04c2caa04d372c1d768929cfba4282b73239097d8bc9845a1d9b9d0e",
+  "bytes": 241462,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-66865249-fc58-4bcf-88d0-7524c73a2cad.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SHIP",
+  "prompt": "Single finished game environment background, no text, no HUD, no people, no animals, no sprites. Bright lush high craft fantasy JRPG painted pixel art, warm natural sunlight, blue sky, rich vegetation, readable detailed terrain, matching Vaisgard RPG Edran countryside. Fixed high three-quarter top-down camera, continuous explorable ground rather than scenic postcard. Landscape 4:3 composition for a 20x15 walkability grid. Keep exits clearly grounded and wide enough for a walking character, avoid deceptive walkable water or cliff edges. Sturdy rustic plank bridge spanning visible flowing river from west center reed bank to east center higher bank leading to Lethra. Small gaps BETWEEN sound planks show water but continuous structurally safe crossing, strong visible supporting posts. High east bank includes worn broad load-resting plank and old simple notch mark on a post, no readable text. A dry bank trail branches south center toward willows. Exactly west/east/south ground exits, north blocked by river/reeds. No people or load props on bridge."
+}

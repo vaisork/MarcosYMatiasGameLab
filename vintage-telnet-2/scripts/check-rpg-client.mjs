@@ -237,6 +237,47 @@ assert.equal(vm.runInContext('blocked(1.5,8.5)',context),false,'Mirador west cor
 assert.equal(vm.runInContext('blocked(18.5,8.5)',context),false,'Mirador east corridor remains open');
 console.log('RPG Edran Norte geometry: furniture, bridge slabs, cliff and corridors OK');
 
+// Edran Restante geometry regressions: obstacles, waterways, dry decks and open corridors
+for(const [id,points] of Object.entries({
+ edran_loma:[[14.5,2.5],[16.5,3.5],[1.5,5.5],[15.5,12.5]],
+ edran_prado:[[10.5,0.5],[18.5,4.5],[1.5,12.5]],
+ edran_ladera_piedra:[[5.5,2.5],[5.5,6.5],[5.5,9.5],[6.5,10.5],[10.5,13.5]],
+ edran_linde_piedra:[[6.5,6.5],[1.5,7.5],[18.5,7.5]],
+ edran_sendero_juncos:[[10.5,1.5],[10.5,12.5]],
+ edran_puente_juncos:[[10.5,1.5],[10.5,6.5],[14.5,10.5]]
+})){
+ context.testMap=maps.find(([rid])=>rid===id)[1];vm.runInContext('scene=testMap',context);
+ for(const [x,y] of points)assert.equal(vm.runInContext(`blocked(${x},${y})`,context),true,`${id}: reviewed obstacle at ${x},${y}`);
+}
+context.testMap=maps.find(([id])=>id==='edran_loma')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(6.5,1.5)',context),false,'Loma north route remains open');
+assert.equal(vm.runInContext('blocked(18.5,7.5)',context),false,'Loma east route remains open');
+assert.equal(vm.runInContext('blocked(9.5,13.5)',context),false,'Loma south route remains open');
+context.testMap=maps.find(([id])=>id==='edran_prado')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(12.5,5.5)',context),false,'Prado flattened circle ground remains open for Cornalomo');
+assert.equal(vm.runInContext('blocked(1.5,5.5)',context),false,'Prado west stone path remains open');
+context.testMap=maps.find(([id])=>id==='edran_ladera_piedra')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(9.5,1.5)',context),false,'Ladera north path remains open');
+assert.equal(vm.runInContext('blocked(18.5,7.5)',context),false,'Ladera east path remains open');
+context.testMap=maps.find(([id])=>id==='edran_linde_piedra')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(10.5,7.5)',context),false,'Linde clearing remains accessible around supports');
+assert.equal(vm.runInContext('blocked(10.5,1.5)',context),false,'Linde north rock pass remains open');
+context.testMap=maps.find(([id])=>id==='edran_sendero_juncos')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(10.5,7.5)',context),false,'Sendero wide dry central clearing remains open');
+assert.equal(vm.runInContext('blocked(1.5,6.5)',context),false,'Sendero west path remains open');
+assert.equal(vm.runInContext('blocked(18.5,7.5)',context),false,'Sendero east path remains open');
+context.testMap=maps.find(([id])=>id==='edran_puente_juncos')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(10.5,4.5)',context),false,'Bridge deck allows crossing the river');
+assert.equal(vm.runInContext('blocked(17.5,5.5)',context),false,'Raised eastern riverbank remains open for Veterana');
+assert.equal(vm.runInContext('blocked(8.5,13.5)',context),false,'Western riverbank path down to Sauces remains dry');
+console.log('RPG Edran Restante geometry: panorama, circle, ledges, supports, reeds and bridge deck OK');
+
 // Refresh busy state without rebuilding preserved entry fields (autofill has no input event).
 const entrySubmit={disabled:true};
 nodes.set('entry',element());

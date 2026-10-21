@@ -1,0 +1,103 @@
+{
+  "room": "edran_loma",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/edran_loma.webp",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        6,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        7,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      8,
+      8
+    ],
+    "norte": [
+      6,
+      1
+    ],
+    "sur": [
+      9,
+      13
+    ],
+    "este": [
+      18,
+      8
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "espinajo_rastrojo",
+      "at": [
+        11,
+        7
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "ggggggppgggggggggggg",
+      "ggggggppgggggggggggg",
+      "ggggggpppggggggggggg",
+      "ggggggpppggggggggggg",
+      "ggggggppppgggggggggg",
+      "gggggppppppggggggggg",
+      "ggggpppppppppggggggg",
+      "ggggpppppppppppppppp",
+      "gggppppppppppppppppp",
+      "gggppppppppppppppggg",
+      "ggggpppppppppggggggg",
+      "gggggppppppppggggggg",
+      "gggggggpppppgggggggg",
+      "gggggggggpppgggggggg",
+      "gggggggggppggggggggg"
+    ],
+    "solid": [
+      "111111..111111111111",
+      "111111..111111111111",
+      "111111...11111111111",
+      "111111...11111111111",
+      "111111....1111111111",
+      "11111......111111111",
+      "1111.........1111111",
+      "1111................",
+      "111.................",
+      "111...............11",
+      "1111.........1111111",
+      "11111........1111111",
+      "1111111.....11111111",
+      "111111111...11111111",
+      "111111111..111111111"
+    ]
+  }
+}
