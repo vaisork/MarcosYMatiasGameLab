@@ -1,0 +1,13 @@
+{
+  "asset_id": "bravucon-battle",
+  "generation_tool": "native image_gen",
+  "sha256": "64a8f9fc9b1ee8e07f401cfb22916f98b4b044ba0eeb50aed5bd5ea579f79002",
+  "bytes": 40635,
+  "normalization": "Mechanical resize/compression only; native alpha preserved",
+  "review": "SHIP",
+  "dimensions": [
+    192,
+    192
+  ],
+  "source_original": "exec-c7bbf7d0-550f-4041-8514-98ea4989d691.png"
+}

@@ -244,6 +244,7 @@ def run_startup_test(port=8776):
     fixture.setUp()
     content = Content(ROOT / 'content')
     server = None
+    server_thread = None
     try:
         navigate_to(fixture, content, 'edran_terraplen')
         fixture.clock.side_effect = time.time
@@ -270,6 +271,19 @@ def run_startup_test(port=8776):
             assert res.status == 200, f"GET /rpg status {res.status}"
             assert 'text/html' in res.headers.get('Content-Type', '')
 
+        # The browser fixture must carry the same authenticated CSRF session
+        # through both a state read and an actual decision, not just serve HTML.
+        base = f'http://127.0.0.1:{actual_port}'
+        with urllib.request.urlopen(base + '/api/state', timeout=5) as res:
+            snapshot = json.load(res)
+        assert snapshot['authenticated'] and snapshot['character']['id'] == fixture.cid
+        decision = urllib.request.Request(base + '/api/action',
+            data=json.dumps({'id': 'mirar', 'request_id': 'norte-startup-check'}).encode(),
+            headers={'Content-Type': 'application/json', 'X-CSRF-Token': snapshot['csrf_token']},
+            method='POST')
+        with urllib.request.urlopen(decision, timeout=5) as res:
+            assert json.load(res)['character']['id'] == fixture.cid
+
         # Probar POST /__qa__/stop
         stop_req = urllib.request.Request(
             f'http://127.0.0.1:{actual_port}/__qa__/stop',
@@ -287,6 +301,9 @@ def run_startup_test(port=8776):
         print(f"[QA] Prueba de arranque en puerto {actual_port} superada: GET 200 y POST /__qa__/stop 200 OK.")
     finally:
         if server:
+            if server_thread and server_thread.is_alive():
+                server.shutdown()
+                server_thread.join(timeout=5)
             server.server_close()
         fixture.doCleanups()
         print("[QA] Teardown completado: SQLite efímero y servidor cerrados.")

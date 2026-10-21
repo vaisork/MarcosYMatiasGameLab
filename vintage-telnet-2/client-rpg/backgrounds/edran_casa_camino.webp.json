@@ -1,0 +1,13 @@
+{
+  "generation_tool": "native image_gen",
+  "sha256": "d2dd2a2c3e02631f1166c2e0a44211291714b3d36784ae4e5afa5750826c015a",
+  "bytes": 243046,
+  "normalization": "Mechanical resize/WebPcompression only",
+  "review": "SHIP",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-dccfd37b-bed8-4a9d-a633-7733b232cb42.png",
+  "prompt": "Original Vaisgard RPG exploration background, landscape 4:3, 1280x960 resolution. Steep 65-degree overhead orthographic 3/4 cutaway interior camera showing the entire room with roof removed for clear gameplay visibility. High-end handcrafted 16-bit JRPG pixel art with warm indoor lighting, luminous daylight through small high stone-framed windows, and gentle glowing hearth embers. CANON: Roadside stone house for sorting travelers' messages and staging hill loads. Lower stone floor near the south entrance is rugged flagstone built to endure damp boots and mud, with a designated corner for resting wet packs. A single low stone step leads up to a raised, dry, clean wooden-plank floor area. On this raised dry floor, set strictly off to one side (away from the central transit axis), sits a wide sturdy wooden work table with rolled parchments, small wooden message tablets, and ink pots. Along the back stone wall, organized wooden pigeonhole shelves and cubbies hold sorted destination tablets for Vaisgard. A stone hearth fire with a simmering cooking pot provides warmth. Windows show hints of the sunny threshing floor below to the south and the rising cobbled road to the north. EXITS: EXACTLY TWO open doorways: SOUTH doorway (bottom boundary) leading down to the Terraplén, and NORTH doorway (top boundary) leading out onto the stone Calzada. Both doors are clearly open and passable, connected by an unobstructed, continuous walking aisle at least 2 grid cells wide (64 pixels) running north-to-south through the center of the room. The table, hearth, and resting packs are arranged neatly outside this central walking corridor. CRITICAL NEGATIVES: No painted NPCs, message readers, travelers, animals, UI, text labels, or chests. Aren's sprite will be placed dynamically."
+}

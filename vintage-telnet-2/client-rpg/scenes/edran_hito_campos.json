@@ -1,0 +1,110 @@
+{
+  "room": "edran_hito_campos",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/edran_hito_campos.webp",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        3,
+        1
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        3,
+        1
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        5,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      8
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "este": [
+      18,
+      5
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "salteador_veterano",
+      "at": [
+        8,
+        7
+      ]
+    },
+    {
+      "id": "espinajo_rastrojo",
+      "at": [
+        15,
+        6
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "gggggggggpppgggggggg",
+      "gggggggggpppgggggggg",
+      "gggggggggpppgggggggg",
+      "wwwwwwwwwpppwwwwwwww",
+      "wwwwwwwwwpppwwwwwwww",
+      "gggggggggpppgggggppp",
+      "gggggggggppppppppppp",
+      "ggggggsspppppppggggg",
+      "gggggggpppppppgggggg",
+      "ggggggggpppppggggggg",
+      "ggggggggpppppggggggg",
+      "gggggggggppppggggggg",
+      "gggggggggpppgggggggg",
+      "gggggggggpppgggggggg",
+      "gggggggggpppgggggggg"
+    ],
+    "solid": [
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111...11111...",
+      "111111111...........",
+      "11111111.......11111",
+      "1111111.......111111",
+      "11111111.....1111111",
+      "11111111.....1111111",
+      "111111111....1111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111...11111111"
+    ]
+  }
+}

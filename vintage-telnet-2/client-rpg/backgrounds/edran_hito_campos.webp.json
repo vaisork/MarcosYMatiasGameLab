@@ -1,0 +1,14 @@
+{
+  "asset_id": "edran_hito_campos",
+  "generation_tool": "native image_gen",
+  "sha256": "ae9e2c8d6a8fd900747d39884cb0c6e963ee1ff7d74f686a38739b81ced02230",
+  "bytes": 240182,
+  "normalization": "Mechanical resize/compression only; native alpha preserved",
+  "review": "SHIP",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-d010da83-24b0-46af-acf9-94207d3af847.png",
+  "prompt": "Native edit: broaden exactly3contiguous stepping slabs while preserving full scene."
+}

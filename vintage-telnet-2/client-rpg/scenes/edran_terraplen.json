@@ -1,0 +1,104 @@
+{
+  "room": "edran_terraplen",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/edran_terraplen.webp",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        3,
+        1
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        3,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "sur": [
+      10,
+      13
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "espinajo_rastrojo",
+      "at": [
+        5,
+        7
+      ]
+    },
+    {
+      "id": "mordelinde",
+      "at": [
+        8,
+        4
+      ]
+    },
+    {
+      "id": "cornalomo",
+      "at": [
+        10,
+        11
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "gggggggggpppgggggggg",
+      "gggggggggpppgggggggg",
+      "gggggggggppppggggggg",
+      "gggggggggppppggggggg",
+      "ggggggggpppppggggggg",
+      "gggggpppppppgggggggg",
+      "gggggsppppppgggggggg",
+      "gggggpppppppgggggggg",
+      "ggggggppppppgggggggg",
+      "ggggggggppppgggggggg",
+      "ggggggggpppppggggggg",
+      "ggggggggpppppggggggg",
+      "ggggggggpppppggggggg",
+      "ggggggggppppgggggggg",
+      "gggggggggpppgggggggg"
+    ],
+    "solid": [
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111....1111111",
+      "111111111....1111111",
+      "11111111.....1111111",
+      "11111.......11111111",
+      "11111.1.....11111111",
+      "11111.......11111111",
+      "111111......11111111",
+      "11111111....11111111",
+      "11111111.....1111111",
+      "11111111.....1111111",
+      "11111111.....1111111",
+      "11111111....11111111",
+      "111111111...11111111"
+    ]
+  }
+}

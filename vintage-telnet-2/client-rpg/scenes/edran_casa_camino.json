@@ -1,0 +1,90 @@
+{
+  "room": "edran_casa_camino",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/edran_casa_camino.webp",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        3,
+        1
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        3,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      9
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "sur": [
+      10,
+      13
+    ]
+  },
+  "npcs": [
+    {
+      "id": "edran_aren",
+      "at": [
+        14,
+        7
+      ]
+    }
+  ],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "ssssssssspppssssssss",
+      "swwwwwwwwpppssssssss",
+      "swwwwwwwwpppssssssss",
+      "swwwwwwwwpppssssssss",
+      "swwwwwwwwpppssssssss",
+      "swwwwwwwwpppssssssss",
+      "swwwwwwwwpppssssssss",
+      "swwwwwwwwpppssssssss",
+      "ssssssssspppssssssss",
+      "ssssssssspppssssssss",
+      "spppppppppppppppppss",
+      "spppppppppppppppppss",
+      "spppppppppppppppppss",
+      "spppppppppppppppppss",
+      "ssssssssspppssssssss"
+    ],
+    "solid": [
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "11111...1...11111111",
+      "11111...1...11111111",
+      "1111....1......11111",
+      "1111....1......11111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "1111........11111111",
+      "1111........11111111",
+      "1...........11111111",
+      "1...........11111111",
+      "111111111...11111111"
+    ]
+  }
+}

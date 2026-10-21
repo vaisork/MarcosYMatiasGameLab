@@ -1,0 +1,97 @@
+{
+  "room": "edran_vista_cuenca",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/edran_vista_cuenca.webp",
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        7,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        7,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      8
+    ],
+    "oeste": [
+      1,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "salteador_bravucon",
+      "at": [
+        10,
+        8
+      ]
+    },
+    {
+      "id": "espinajo_rastrojo",
+      "at": [
+        6,
+        8
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggpppppppppgggggg",
+      "ggggpppppppppppggggg",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "gggpppppppppppppgggg",
+      "gggggpppppppppgggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111.........111111",
+      "1111...........11111",
+      "....................",
+      "....................",
+      "111.............1111",
+      "11111.........111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111"
+    ]
+  }
+}
