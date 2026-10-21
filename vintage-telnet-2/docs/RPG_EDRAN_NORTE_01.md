@@ -27,7 +27,7 @@ Cinco salas ilustradas del norte de Edran, sus fuentes Tiled y recursos aprobado
    - Salidas exactas: norte (`veyra_puerta_campos`), sur (`edran_calzada`) y este (`edran_vista_cuenca`). Sin salida oeste.
    - Arroyo transversal bloqueado excepto en el cruce de las tres losas contiguas de piedra (`[9..10, 3..6]`). Agua adyacente a las losas bloqueada.
    - Desvío al este en ascenso transitable hacia la vista panorámica.
-   - Poste y losa delimitadora marcados como obstáculos.
+   - Poste y losa delimitadora marcados como obstáculos. Veterana en `[12,9]`, sobre suelo firme y fuera del relato de escritorio.
    - Fauna canónica: `salteador_veterano`, `espinajo_rastrojo`.
 
 5. **Mirador de la cuenca (`edran_vista_cuenca`)**:
@@ -46,6 +46,7 @@ Cinco salas ilustradas del norte de Edran, sus fuentes Tiled y recursos aprobado
 - `git diff --check`: sin espacios en blanco corruptos ni fallos de formato.
 - Chrome visible con SQLite temporal: PASS, 18 recorridos cubriendo las 11 salidas, acercamiento y conversación con Aren, lectura real de nota, acercamiento y conversación con Bravucón, ronda real de combate con bloqueo y desbloqueo tras 5,1 segundos. No se teletransportó el avatar.
 - [14 capturas del cliente](visual/edran-norte-01/): escritorio 1366×768 y viewport móvil 390×844. La pestaña estuvo oculta durante parte de la automatización: se comprobaron imágenes cargadas y render explícito; esto no acredita fluidez, tacto ni rendimiento de un teléfono físico.
+- Recaptura focal del Hito tras mover a la veterana: tres recorridos adicionales, acercamiento real y límites del sprite fuera de HUD/relato PASS en ambos viewports.
 - Revisión independiente de arte y geometría: SHIP tras corregir roca del Terraplén, escalón/muebles de Casa, curva de Calzada, agua y desvío del Hito y entradas del Mirador.
 
 ## Estado de integración
