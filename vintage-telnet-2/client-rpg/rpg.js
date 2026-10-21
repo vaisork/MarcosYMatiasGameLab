@@ -51,6 +51,7 @@ for(const name of ['avatar','avatar-battle','lina',...Object.values(npcSprites),
  images[name]=new Image();
  images[name].src=`/client-rpg/sprites/${name}.png`;
 }
+function mapSpriteScale(sprite){return sprite==='cornalomo'?1.6:1;}
 const backgrounds={};
 function backgroundImage(path){
  if(!path||!/^backgrounds\/[a-z0-9_]+(?:-front)?\.webp$/.test(path))return null;
@@ -1011,12 +1012,13 @@ function draw(time){
   const actors=[...entities().map(e=>({...e,x:e.at[0],y:e.at[1]})),{...player,sprite:'avatar',id:'player'}].sort((a,b)=>a.y-b.y);
   for(const a of actors){
    const im=images[a.sprite],sheet=a.sprite==='avatar'||a.sprite==='lina'||npcSpriteNames.has(a.sprite);
-   const width=sheet?Math.round(40*S/32):Math.round(48*S/32);
-   const height=sheet?Math.round(60*S/32):Math.round(48*S/32);
+   const scale=mapSpriteScale(a.sprite);
+   const width=Math.round((sheet?40:48)*scale*S/32);
+   const height=Math.round((sheet?60:48)*scale*S/32);
    const screenX=a.x*S-camX, screenY=a.y*S-camY;
    ctx.fillStyle='rgba(6, 11, 19, 0.45)';
    ctx.beginPath();
-   ctx.ellipse(screenX,screenY+Math.round(8*S/32),Math.round(12*S/32),Math.round(5*S/32),0,0,7);
+   ctx.ellipse(screenX,screenY+Math.round(8*S/32),Math.round(12*scale*S/32),Math.round(5*scale*S/32),0,0,7);
    ctx.fill();
    if(im?.complete&&im.naturalWidth){
     const frame=a.id==='player'&&moving?Math.floor(walk)%3:1;
