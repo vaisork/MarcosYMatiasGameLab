@@ -252,7 +252,7 @@ for(const [id,points] of Object.entries({
 context.testMap=maps.find(([id])=>id==='edran_loma')[1];
 vm.runInContext('scene=testMap',context);
 assert.equal(vm.runInContext('blocked(6.5,1.5)',context),false,'Loma north route remains open');
-assert.equal(vm.runInContext('blocked(18.5,7.5)',context),false,'Loma east route remains open');
+assert.equal(vm.runInContext('blocked(18.5,8.5)',context),false,'Loma east route remains open');
 assert.equal(vm.runInContext('blocked(9.5,13.5)',context),false,'Loma south route remains open');
 context.testMap=maps.find(([id])=>id==='edran_prado')[1];
 vm.runInContext('scene=testMap',context);
@@ -261,7 +261,7 @@ assert.equal(vm.runInContext('blocked(1.5,5.5)',context),false,'Prado west stone
 context.testMap=maps.find(([id])=>id==='edran_ladera_piedra')[1];
 vm.runInContext('scene=testMap',context);
 assert.equal(vm.runInContext('blocked(9.5,1.5)',context),false,'Ladera north path remains open');
-assert.equal(vm.runInContext('blocked(18.5,7.5)',context),false,'Ladera east path remains open');
+assert.equal(vm.runInContext('blocked(18.5,8.5)',context),false,'Ladera east path remains open');
 context.testMap=maps.find(([id])=>id==='edran_linde_piedra')[1];
 vm.runInContext('scene=testMap',context);
 assert.equal(vm.runInContext('blocked(10.5,7.5)',context),false,'Linde clearing remains accessible around supports');
@@ -270,7 +270,7 @@ context.testMap=maps.find(([id])=>id==='edran_sendero_juncos')[1];
 vm.runInContext('scene=testMap',context);
 assert.equal(vm.runInContext('blocked(10.5,7.5)',context),false,'Sendero wide dry central clearing remains open');
 assert.equal(vm.runInContext('blocked(1.5,6.5)',context),false,'Sendero west path remains open');
-assert.equal(vm.runInContext('blocked(18.5,7.5)',context),false,'Sendero east path remains open');
+assert.equal(vm.runInContext('blocked(18.5,6.5)',context),false,'Sendero east path remains open');
 context.testMap=maps.find(([id])=>id==='edran_puente_juncos')[1];
 vm.runInContext('scene=testMap',context);
 assert.equal(vm.runInContext('blocked(10.5,4.5)',context),false,'Bridge deck allows crossing the river');
@@ -278,6 +278,48 @@ assert.equal(vm.runInContext('blocked(17.5,5.5)',context),false,'Raised eastern 
 assert.equal(vm.runInContext('blocked(8.5,13.5)',context),false,'Western riverbank path down to Sauces remains dry');
 console.log('RPG Edran Restante geometry: panorama, circle, ledges, supports, reeds and bridge deck OK');
 
+
+// Independent artwork review: previously walkable rocks, supports, bank and reeds.
+context.testMap=maps.find(([id])=>id==='edran_loma')[1];vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(10.5,8.5)',context),false,'edran_loma: reviewed free cell 10,8');
+assert.equal(vm.runInContext('blocked(18.5,8.5)',context),false,'edran_loma: reviewed free cell 18,8');
+assert.equal(vm.runInContext('blocked(6.5,1.5)',context),false,'edran_loma: reviewed free cell 6,1');
+assert.equal(vm.runInContext('blocked(16.5,7.5)',context),true,'edran_loma: reviewed blocked cell 16,7');
+assert.equal(vm.runInContext('blocked(17.5,9.5)',context),true,'edran_loma: reviewed blocked cell 17,9');
+assert.equal(vm.runInContext('blocked(10.5,10.5)',context),true,'edran_loma: reviewed blocked cell 10,10');
+context.testMap=maps.find(([id])=>id==='edran_prado')[1];vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(12.5,5.5)',context),false,'edran_prado: reviewed free cell 12,5');
+assert.equal(vm.runInContext('blocked(5.5,6.5)',context),false,'edran_prado: reviewed free cell 5,6');
+assert.equal(vm.runInContext('blocked(8.5,9.5)',context),false,'edran_prado: reviewed free cell 8,9');
+assert.equal(vm.runInContext('blocked(10.5,2.5)',context),true,'edran_prado: reviewed blocked cell 10,2');
+assert.equal(vm.runInContext('blocked(4.5,3.5)',context),true,'edran_prado: reviewed blocked cell 4,3');
+context.testMap=maps.find(([id])=>id==='edran_ladera_piedra')[1];vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(9.5,4.5)',context),false,'edran_ladera_piedra: reviewed free cell 9,4');
+assert.equal(vm.runInContext('blocked(10.5,5.5)',context),false,'edran_ladera_piedra: reviewed free cell 10,5');
+assert.equal(vm.runInContext('blocked(18.5,8.5)',context),false,'edran_ladera_piedra: reviewed free cell 18,8');
+assert.equal(vm.runInContext('blocked(13.5,4.5)',context),true,'edran_ladera_piedra: reviewed blocked cell 13,4');
+assert.equal(vm.runInContext('blocked(7.5,6.5)',context),true,'edran_ladera_piedra: reviewed blocked cell 7,6');
+assert.equal(vm.runInContext('blocked(5.5,8.5)',context),true,'edran_ladera_piedra: reviewed blocked cell 5,8');
+context.testMap=maps.find(([id])=>id==='edran_linde_piedra')[1];vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(10.5,5.5)',context),false,'edran_linde_piedra: reviewed free cell 10,5');
+assert.equal(vm.runInContext('blocked(10.5,8.5)',context),false,'edran_linde_piedra: reviewed free cell 10,8');
+assert.equal(vm.runInContext('blocked(6.5,5.5)',context),true,'edran_linde_piedra: reviewed blocked cell 6,5');
+assert.equal(vm.runInContext('blocked(7.5,5.5)',context),true,'edran_linde_piedra: reviewed blocked cell 7,5');
+context.testMap=maps.find(([id])=>id==='edran_puente_juncos')[1];vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(10.5,4.5)',context),false,'edran_puente_juncos: reviewed free cell 10,4');
+assert.equal(vm.runInContext('blocked(10.5,5.5)',context),false,'edran_puente_juncos: reviewed free cell 10,5');
+assert.equal(vm.runInContext('blocked(8.5,10.5)',context),false,'edran_puente_juncos: reviewed free cell 8,10');
+assert.equal(vm.runInContext('blocked(8.5,13.5)',context),false,'edran_puente_juncos: reviewed free cell 8,13');
+assert.equal(vm.runInContext('blocked(17.5,6.5)',context),true,'edran_puente_juncos: reviewed blocked cell 17,6');
+assert.equal(vm.runInContext('blocked(5.5,10.5)',context),true,'edran_puente_juncos: reviewed blocked cell 5,10');
+assert.equal(vm.runInContext('blocked(10.5,6.5)',context),true,'edran_puente_juncos: reviewed blocked cell 10,6');
+context.testMap=maps.find(([id])=>id==='edran_sendero_juncos')[1];vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(1.5,6.5)',context),false,'edran_sendero_juncos: reviewed free cell 1,6');
+assert.equal(vm.runInContext('blocked(18.5,6.5)',context),false,'edran_sendero_juncos: reviewed free cell 18,6');
+assert.equal(vm.runInContext('blocked(10.5,7.5)',context),false,'edran_sendero_juncos: reviewed free cell 10,7');
+assert.equal(vm.runInContext('blocked(7.5,4.5)',context),true,'edran_sendero_juncos: reviewed blocked cell 7,4');
+assert.equal(vm.runInContext('blocked(1.5,7.5)',context),true,'edran_sendero_juncos: reviewed blocked cell 1,7');
+assert.equal(vm.runInContext('blocked(19.5,7.5)',context),true,'edran_sendero_juncos: reviewed blocked cell 19,7');
 // Refresh busy state without rebuilding preserved entry fields (autofill has no input event).
 const entrySubmit={disabled:true};
 nodes.set('entry',element());
@@ -316,7 +358,6 @@ draws=[];battleDraw(1000);
 `,context);
  assert.equal(vm.runInContext('entities()[0].sprite',context),sprite,'Active combat still presents the creature without encounter actions');
  assert.equal(vm.runInContext('draws.some(args=>args[0]===images[battleSprite])',context),true,'Battle draws the matching creature artwork');
- assert.equal(vm.runInContext('entities()[0].sprite',context),sprite,'Active combat preserves creature presence without encounter actions');
  vm.runInContext('snapshot.actions=[];snapshot.character.combat=null;',context);
 }
 vm.runInContext("snapshot.actions=[{id:'combatir',target:'unknown_creature'}]",context);

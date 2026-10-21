@@ -21,9 +21,9 @@
       "direction": "este",
       "rect": [
         19,
-        7,
+        8,
         1,
-        2
+        1
       ]
     }
   ],
@@ -46,24 +46,24 @@
     {
       "id": "espinajo_rastrojo",
       "at": [
-        14,
-        8
+        15,
+        7
       ]
     }
   ],
   "layers": {
     "ground": [
       "sssssssspppggggggggg",
-      "sssssssspppggggggggg",
-      "ssssssssppppgggggggg",
+      "ssssssssspppgggggggg",
+      "sssssssssspppggggggg",
       "sssssssssppppggggggg",
-      "ssssssssssppppgggggg",
-      "sssssssssssppppggggg",
-      "ssssssssssspppppgggg",
-      "sssssssssssspppppppp",
-      "sssssssssssspppppppp",
-      "ssssssssssssspppppgg",
-      "ssssssssssssssppppgg",
+      "ssssssssppppssgggggg",
+      "sssssssssppppssggggg",
+      "sssssssssssppppsgggg",
+      "ssssssssssssspppppss",
+      "sssssssssssssssppppp",
+      "ssssssssssssssssssgg",
+      "ssssssssssssssssssgg",
       "ssssssssssssssssgggg",
       "ssssssssssssssssgggg",
       "ssssssssssssssssgggg",
@@ -71,16 +71,16 @@
     ],
     "solid": [
       "11111111...111111111",
-      "11111111...111111111",
+      "111111111...11111111",
+      "1111111111...1111111",
+      "111111111....1111111",
       "11111111....11111111",
       "111111111....1111111",
-      "1111111111....111111",
       "11111111111....11111",
-      "11111111111.....1111",
-      "111111111111........",
-      "111111111111........",
       "1111111111111.....11",
-      "11111111111111....11",
+      "111111111111111.....",
+      "11111111111111111111",
+      "11111111111111111111",
       "11111111111111111111",
       "11111111111111111111",
       "11111111111111111111",

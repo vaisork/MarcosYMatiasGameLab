@@ -14,7 +14,7 @@
         0,
         6,
         1,
-        2
+        1
       ]
     },
     {
@@ -23,7 +23,7 @@
         19,
         6,
         1,
-        2
+        1
       ]
     }
   ],
@@ -38,7 +38,7 @@
     ],
     "este": [
       18,
-      7
+      6
     ]
   },
   "npcs": [],
@@ -78,12 +78,12 @@
       "wwwwwwwwwwwwwwwwwwww",
       "wwwwwwwwwwwwwwwwwwww",
       "wwwwwwwwwwwwwwwwwwww",
-      "wwwwwwwpppppwwwwwwww",
-      "wwwwwpppppppppwwwwww",
+      "wwwwwwwggpppwwwwwwww",
+      "wwwwwgggpppppgwwwwww",
       "pppppppppppppppppppp",
-      "pppppppppppppppppppp",
-      "wwwwwwppppppppppwwww",
-      "wwwwwwwwpppppwwwwwww",
+      "ggggpppppppppppppggg",
+      "wwwwwwgpppppppggwwww",
+      "wwwwwwwwgpppgwwwwwww",
       "wwwwwwwwwwwwwwwwwwww",
       "wwwwwwwwwwwwwwwwwwww",
       "wwwwwwwwwwwwwwwwwwww",
@@ -95,12 +95,12 @@
       "11111111111111111111",
       "11111111111111111111",
       "11111111111111111111",
-      "1111111.....11111111",
-      "11111.........111111",
-      "....................",
-      "....................",
-      "111111..........1111",
+      "111111111...11111111",
       "11111111.....1111111",
+      "....................",
+      "1111.............111",
+      "1111111.......111111",
+      "111111111...11111111",
       "11111111111111111111",
       "11111111111111111111",
       "11111111111111111111",
