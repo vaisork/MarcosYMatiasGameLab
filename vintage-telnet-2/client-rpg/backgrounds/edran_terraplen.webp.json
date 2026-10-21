@@ -1,0 +1,14 @@
+{
+  "asset_id": "edran-terraplen-background-v1",
+  "generation_tool": "native image_gen",
+  "sha256": "0cc6e54e90be12fde0df767733141923d18f871fe7db91baaa0aed1c6aee6b4b",
+  "bytes": 243592,
+  "normalization": "ImageMagick resize1280x960/WebPmethod6 target245000 bytes only",
+  "review": "SHIP",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "edran_terraplen-original.png",
+  "prompt": "Original Vaisgard RPG exploration background, landscape 4:3, 1280x960 resolution. Steep 65-degree overhead orthographic 3/4 cutaway camera showing the ENTIRE playable room, not first-person or perspective vanishing corridor. High-end handcrafted 16-bit JRPG pixel art with crisp small pixel clusters, warm natural daytime lighting matching Edran agricultural fields, rich earthen palette with warm ochres, dry dust, and lush field grasses along the upper embankments. CANON: Sunken dirt road climb between high earthen walls held together by exposed twisting roots. Deep cart wheel ruts run closely parallel along the dry hollow-sounding road. At mid-climb there is a distinct wider shoulder (ensanchamiento) on one side with a large flat rest stone (piedra de apoyo) to set heavy packs down without sliding. High up to the north edge, the rough stone outline of a roadside house begins to appear at the crest, framing the path but leaving the northern opening completely passable. EXITS: EXACTLY TWO open passages at canvas boundaries: SOUTH (bottom) leading down to the threshing floor (Era), and NORTH (top) leading up into the roadside house. EAST and WEST boundaries are completely sealed by tall impassable dirt embankments with exposed root clusters. Walking corridors maintain at least 2 grid cells width (64 pixels). CRITICAL NEGATIVES: No painted characters, carters, animals, creatures, UI, text, icons, chests, or fantasy ruins. Completely uninhabited environment ready for sprite compositing."
+}

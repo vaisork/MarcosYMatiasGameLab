@@ -44,9 +44,9 @@ function svgNode(name){
 }
 
 const keys=new Set(), images={};
-const npcSprites={edran_bren:'bren',edran_daro:'daro',edran_iria:'iria',edran_elva:'elva',edran_sena:'sena',edran_nela:'nela',edran_oren:'oren'};
+const npcSprites={edran_bren:'bren',edran_daro:'daro',edran_iria:'iria',edran_elva:'elva',edran_sena:'sena',edran_nela:'nela',edran_oren:'oren',edran_aren:'aren'};
 const npcSpriteNames=new Set(Object.values(npcSprites));
-const creatureSprites={espinajo_rastrojo:'espinajo',mordelinde:'mordelinde',cornalomo:'cornalomo',salteador_veterano:'salteador',forajido_camino:'forajido',salteadora_negociante:'negociante'};
+const creatureSprites={espinajo_rastrojo:'espinajo',mordelinde:'mordelinde',cornalomo:'cornalomo',salteador_veterano:'salteador',forajido_camino:'forajido',salteadora_negociante:'negociante',salteador_bravucon:'bravucon'};
 for(const name of ['avatar','avatar-battle','lina',...Object.values(npcSprites),...Object.values(creatureSprites).flatMap(name=>[name,`${name}-battle`])]){
  images[name]=new Image();
  images[name].src=`/client-rpg/sprites/${name}.png`;
