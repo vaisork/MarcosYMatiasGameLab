@@ -3,6 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Senku 2">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1a1614">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icon/senku-icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="../../assets/icon/senku-icon-192.png">
   <title>Senku 2 — Taquería</title>
   <style>
     * {
@@ -27,11 +35,13 @@
       position: relative;
       width: 100vw;
       height: 100vh;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       overflow: hidden;
+      padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
     }
 
     .lienzo-envoltura {
@@ -54,8 +64,8 @@
     /* HUD Superior */
     .hud-superior {
       position: absolute;
-      top: 16px;
-      left: 16px;
+      top: max(16px, env(safe-area-inset-top, 16px));
+      left: max(16px, env(safe-area-inset-left, 16px));
       display: flex;
       align-items: center;
       gap: 8px;
@@ -92,10 +102,11 @@
     /* Controles Táctiles en Pantalla */
     .zona-controles {
       position: absolute;
-      bottom: 20px;
+      bottom: max(20px, env(safe-area-inset-bottom, 20px));
       left: 0;
       width: 100%;
-      padding: 0 24px;
+      padding-left: max(24px, env(safe-area-inset-left, 24px));
+      padding-right: max(24px, env(safe-area-inset-right, 24px));
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
@@ -173,8 +184,9 @@
     /* Adaptación a dispositivos móviles compactos (vista móvil ej: 390x844) */
     @media (max-width: 600px) {
       .zona-controles {
-        bottom: 16px;
-        padding: 0 16px;
+        bottom: max(16px, env(safe-area-inset-bottom, 16px));
+        padding-left: max(16px, env(safe-area-inset-left, 16px));
+        padding-right: max(16px, env(safe-area-inset-right, 16px));
       }
 
       .btn-control {
@@ -190,8 +202,8 @@
       }
 
       .hud-superior {
-        top: 12px;
-        left: 12px;
+        top: max(12px, env(safe-area-inset-top, 12px));
+        left: max(12px, env(safe-area-inset-left, 12px));
       }
 
       .hud-pildora {

@@ -31,6 +31,17 @@ import {
   renderizarEscena,
 } from './render/canvas.mjs';
 
+// Registro de Service Worker para soporte PWA y juego sin conexión
+export function registrarServiceWorker(navegador = typeof navigator !== 'undefined' ? navigator : null) {
+  if (!navegador || !('serviceWorker' in navegador)) {
+    return Promise.resolve({ registrado: false, motivo: 'no_soportado' });
+  }
+  return navegador.serviceWorker
+    .register('./sw.js')
+    .then((registro) => ({ registrado: true, registro }))
+    .catch((error) => ({ registrado: false, error }));
+}
+
 export function arrancarSenku2({
   documento = typeof document !== 'undefined' ? document : null,
   ventana = typeof window !== 'undefined' ? window : null,
@@ -61,6 +72,11 @@ export function arrancarSenku2({
     } catch {
       // Ignorar fallo en parseo de URL
     }
+  }
+
+  // 1c. Registro de Service Worker para PWA (sin bloquear arranque)
+  if (ventana?.navigator) {
+    registrarServiceWorker(ventana.navigator).catch(() => {});
   }
 
   // 2. HUD: saldo de Churus y botón/indicador de traje activo

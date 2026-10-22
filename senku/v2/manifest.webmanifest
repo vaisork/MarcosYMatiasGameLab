@@ -1,0 +1,33 @@
+{
+  "name": "Senku 2",
+  "short_name": "Senku 2",
+  "description": "Senku 2 — Aventura 2D de un gato por Latinoamérica",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": [
+    "fullscreen",
+    "standalone"
+  ],
+  "orientation": "landscape",
+  "background_color": "#1a1614",
+  "theme_color": "#1a1614",
+  "categories": [
+    "games",
+    "entertainment"
+  ],
+  "icons": [
+    {
+      "src": "../../assets/icon/senku-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../../assets/icon/matiasgamelab-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
