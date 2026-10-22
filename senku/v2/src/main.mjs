@@ -2,7 +2,17 @@
 // Conecta guardado/migración, escena, física, entrada y renderizado canvas letterbox.
 
 import { iniciar } from './core/migracion.mjs';
-import { almacenDelNavegador } from './core/store.mjs';
+import { almacenDelNavegador, guardar } from './core/store.mjs';
+import {
+  ID_ORIGINAL,
+  ID_RATA,
+  ID_SECRETO_LEGACY,
+  obtenerTrajeActivo,
+  tieneTraje,
+  equiparTraje,
+  alternarTraje,
+  desbloquearTraje,
+} from './core/trajes_activo.mjs';
 import { crearCuerpo, actualizarCuerpo } from './core/fisica.mjs';
 import { crearRegistroEscenas } from './core/escenas.mjs';
 import { escenaTaqueria } from './data/escenas/taqueria.mjs';
@@ -32,12 +42,79 @@ export function arrancarSenku2({
   // 1. Cargar o migrar guardado tolerante
   const almacen = almacenDelNavegador(ventana);
   const resultadoInicio = iniciar(almacen);
-  const estadoJugador = resultadoInicio.estado;
+  let estadoJugador = resultadoInicio.estado;
 
-  // 2. HUD: saldo de Churus (solo número)
+  // 1b. Parámetro URL opcional (?traje=rata, ?skin=secret o ?secreto=1) para pruebas directas
+  if (ventana?.location?.search) {
+    try {
+      const params = new URLSearchParams(ventana.location.search);
+      if (params.get('traje') === 'rata' || params.get('skin') === 'secret' || params.get('secreto') === '1') {
+        if (!tieneTraje(estadoJugador, ID_RATA)) {
+          estadoJugador = desbloquearTraje(estadoJugador, ID_SECRETO_LEGACY).estado;
+        }
+        const resUrl = equiparTraje(estadoJugador, ID_RATA);
+        if (resUrl.exito) {
+          estadoJugador = resUrl.estado;
+          if (almacen) guardar(almacen, estadoJugador);
+        }
+      }
+    } catch {
+      // Ignorar fallo en parseo de URL
+    }
+  }
+
+  // 2. HUD: saldo de Churus y botón/indicador de traje activo
   const elChurus = documento.getElementById('saldo-churus');
   if (elChurus) {
     elChurus.textContent = String(estadoJugador.churus);
+  }
+
+  let btnTraje = documento.getElementById('hud-traje');
+  if (!btnTraje && documento.querySelector('.hud-superior')) {
+    btnTraje = documento.createElement('button');
+    btnTraje.id = 'hud-traje';
+    btnTraje.className = 'hud-pildora';
+    btnTraje.style.pointerEvents = 'auto';
+    btnTraje.style.cursor = 'pointer';
+    btnTraje.style.border = '2px solid rgba(255, 255, 255, 0.35)';
+    btnTraje.style.background = 'rgba(30, 20, 15, 0.85)';
+    btnTraje.style.color = '#fff';
+    btnTraje.setAttribute('aria-label', 'Traje equipado');
+    documento.querySelector('.hud-superior').appendChild(btnTraje);
+  }
+
+  let trajeActivo = obtenerTrajeActivo(estadoJugador);
+
+  function refrescarVistaTraje() {
+    trajeActivo = obtenerTrajeActivo(estadoJugador);
+    if (senku) {
+      senku.trajeId = trajeActivo.id;
+      senku.color = trajeActivo.color;
+      senku.colorBorde = trajeActivo.colorBorde;
+      senku.etiqueta = trajeActivo.etiqueta;
+    }
+    if (btnTraje) {
+      const poseeRata = tieneTraje(estadoJugador, ID_RATA);
+      const icono = trajeActivo.id === ID_RATA ? '🐭' : '🐱';
+      btnTraje.innerHTML = `<span class="icono">${icono}</span><span>${trajeActivo.etiqueta}</span>`;
+      btnTraje.title = poseeRata
+        ? 'Clic o pulsa T para cambiar de traje'
+        : 'Traje Rata bloqueado (secreto Legacy no desbloqueado; precio: null)';
+    }
+  }
+
+  function alternarTrajeJugador() {
+    const res = alternarTraje(estadoJugador);
+    if (res.exito) {
+      estadoJugador = res.estado;
+      if (almacen) guardar(almacen, estadoJugador);
+      refrescarVistaTraje();
+    }
+    return res;
+  }
+
+  if (btnTraje) {
+    btnTraje.onclick = () => alternarTrajeJugador();
   }
 
   // 3. Registro y carga de escenas
@@ -54,6 +131,14 @@ export function arrancarSenku2({
     w: 54,
     h: 42,
   });
+  refrescarVistaTraje();
+
+  function alPulsarTecla(e) {
+    if (e.key === 't' || e.key === 'T') {
+      alternarTrajeJugador();
+    }
+  }
+  ventana.addEventListener('keydown', alPulsarTecla);
 
   // 4b. Sistema de combate y enemigos provisionales
   const estadoCombate = crearEstadoCombate({
@@ -134,17 +219,70 @@ export function arrancarSenku2({
       resolverContactoEnemigo(senku, enemigo, estadoCombate);
     }
 
-    // Dibujado de escena base y Senku
-    // Si Senku está invulnerable, parpadeo sutil
-    const dibujarSenku = !estadoCombate.invulnerable || Math.floor(tiempoAcumulado * 16) % 2 === 0;
-
+    // Dibujado de escena base
     renderizarEscena({
       ctx,
       escena: escenaActual,
-      cuerpoJugador: dibujarSenku ? senku : null,
+      cuerpoJugador: null, // Dibujado con traje activo y etiqueta a continuación
       catalogoArte,
       tiempo: tiempoAcumulado,
     });
+
+    // Dibujado de Senku con color y etiqueta del traje activo
+    if (ctx && dibujarSenku) {
+      ctx.save();
+
+      // Sombra en el suelo
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+      ctx.beginPath();
+      ctx.ellipse(
+        senku.x + senku.w / 2,
+        senku.y + senku.h + 2,
+        senku.w * 0.45,
+        5,
+        0,
+        0,
+        Math.PI * 2
+      );
+      ctx.fill();
+
+      // Rectángulo principal del Senku provisional (color del traje activo)
+      ctx.fillStyle = trajeActivo.color;
+      ctx.fillRect(senku.x, senku.y, senku.w, senku.h);
+
+      // Borde según traje activo
+      ctx.strokeStyle = trajeActivo.colorBorde;
+      ctx.lineWidth = 3;
+      ctx.strokeRect(senku.x, senku.y, senku.w, senku.h);
+
+      // Si es traje de rata, detalle provisional limpio de orejitas (sin inventar arte complejo)
+      if (trajeActivo.id === ID_RATA) {
+        ctx.fillStyle = trajeActivo.colorDetalle || '#f1948a';
+        ctx.fillRect(senku.x + 6, senku.y - 4, 8, 5);
+        ctx.fillRect(senku.x + senku.w - 14, senku.y - 4, 8, 5);
+      }
+
+      // Ojo según orientación y traje activo
+      const ojoX = senku.mirando === 1
+        ? senku.x + senku.w - 12
+        : senku.x + 6;
+      ctx.fillStyle = trajeActivo.colorOjo || '#2c3e50';
+      ctx.fillRect(ojoX, senku.y + 8, 6, 6);
+
+      // Etiqueta flotante sobre Senku indicando el traje activo
+      ctx.font = 'bold 12px sans-serif';
+      ctx.textAlign = 'center';
+      const anchoEtiqueta = ctx.measureText(trajeActivo.etiqueta).width;
+      const centroX = senku.x + senku.w / 2;
+      const posY = senku.y - (trajeActivo.id === ID_RATA ? 8 : 6);
+
+      ctx.fillStyle = 'rgba(20, 15, 10, 0.75)';
+      ctx.fillRect(centroX - anchoEtiqueta / 2 - 5, posY - 14, anchoEtiqueta + 10, 16);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(trajeActivo.etiqueta, centroX, posY - 2);
+
+      ctx.restore();
+    }
 
     // Dibujado de enemigos con rectángulos provisionales limpios (sin inventar arte)
     if (ctx) {
@@ -197,16 +335,31 @@ export function arrancarSenku2({
     }
     entrada.destruir();
     ventana.removeEventListener('resize', redimensionar);
+    ventana.removeEventListener('keydown', alPulsarTecla);
+    if (btnTraje) {
+      btnTraje.onclick = null;
+    }
   }
 
   return {
     iniciado: true,
     senku,
     escena: escenaActual,
-    estadoJugador,
+    estadoJugador: () => estadoJugador,
     estadoCombate,
     enemigos,
     entrada,
+    obtenerTrajeActivo: () => trajeActivo,
+    equiparTraje: (id) => {
+      const res = equiparTraje(estadoJugador, id);
+      if (res.exito) {
+        estadoJugador = res.estado;
+        if (almacen) guardar(almacen, estadoJugador);
+        refrescarVistaTraje();
+      }
+      return res;
+    },
+    alternarTraje: alternarTrajeJugador,
     detener,
   };
 }
