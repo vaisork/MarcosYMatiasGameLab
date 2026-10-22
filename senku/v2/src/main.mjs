@@ -2,7 +2,8 @@
 // Conecta guardado/migración, escena, física, entrada y renderizado canvas letterbox.
 
 import { iniciar } from './core/migracion.mjs';
-import { almacenDelNavegador, guardar } from './core/store.mjs';
+import { guardar } from './core/store.mjs';
+import { obtenerAlmacen } from './core/almacen.mjs';
 import {
   ID_ORIGINAL,
   ID_RATA,
@@ -116,7 +117,7 @@ export function arrancarSenku2({
   }
 
   // 1. Cargar o migrar guardado tolerante
-  const almacen = almacenDelNavegador(ventana);
+  const almacen = obtenerAlmacen(ventana);
   const resultadoInicio = iniciar(almacen);
   let estadoJugador = resultadoInicio.estado;
 
