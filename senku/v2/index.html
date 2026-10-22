@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Senku 2 — Taquería</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #1a1614;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #fff;
+    }
+
+    #app {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .lienzo-envoltura {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    #lienzo-juego {
+      display: block;
+      background-color: #000;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    /* HUD Superior */
+    .hud-superior {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .hud-pildora {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(30, 20, 15, 0.85);
+      border: 2px solid #e67e22;
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-weight: 700;
+      font-size: 18px;
+      color: #ffd8a8;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+    }
+
+    .hud-pildora .icono {
+      font-size: 20px;
+    }
+
+    .hud-escena {
+      background: rgba(20, 20, 20, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 14px;
+      color: #eee;
+    }
+
+    /* Controles Táctiles en Pantalla */
+    .zona-controles {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      z-index: 30;
+      pointer-events: none;
+    }
+
+    .grupo-direccion {
+      display: flex;
+      gap: 16px;
+      pointer-events: auto;
+    }
+
+    .grupo-accion {
+      display: flex;
+      pointer-events: auto;
+    }
+
+    .btn-control {
+      touch-action: none;
+      border: none;
+      outline: none;
+      background: rgba(35, 25, 20, 0.8);
+      border: 2px solid rgba(230, 126, 34, 0.7);
+      border-radius: 16px;
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+      width: 64px;
+      height: 64px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      transition: transform 0.08s ease, background-color 0.08s ease, border-color 0.08s ease;
+      cursor: pointer;
+    }
+
+    .btn-control:active {
+      transform: scale(0.92);
+      background: #e67e22;
+      border-color: #ffd8a8;
+    }
+
+    .btn-salto {
+      width: 80px;
+      height: 64px;
+      font-size: 16px;
+      background: rgba(45, 30, 20, 0.85);
+      border-color: #f39c12;
+      gap: 4px;
+      flex-direction: column;
+    }
+
+    .btn-salto .flecha-arriba {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    /* Ayuda visual teclado en escritorio */
+    .ayuda-teclado {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 4px 10px;
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    /* Adaptación a dispositivos móviles compactos (vista móvil ej: 390x844) */
+    @media (max-width: 600px) {
+      .zona-controles {
+        bottom: 16px;
+        padding: 0 16px;
+      }
+
+      .btn-control {
+        width: 58px;
+        height: 58px;
+        font-size: 20px;
+      }
+
+      .btn-salto {
+        width: 72px;
+        height: 58px;
+        font-size: 14px;
+      }
+
+      .hud-superior {
+        top: 12px;
+        left: 12px;
+      }
+
+      .hud-pildora {
+        font-size: 16px;
+        padding: 4px 10px;
+      }
+
+      .ayuda-teclado {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- HUD Superior -->
+    <header class="hud-superior" aria-label="Indicadores del juego">
+      <div class="hud-pildora" title="Saldo de Churus">
+        <span class="icono" aria-hidden="true">🧃</span>
+        <span id="saldo-churus">0</span>
+      </div>
+      <div class="hud-pildora hud-escena">
+        <span>Taquería</span>
+      </div>
+    </header>
+
+    <!-- Contenedor del Lienzo -->
+    <main class="lienzo-envoltura">
+      <canvas id="lienzo-juego" width="1280" height="720" role="img" aria-label="Pantalla de juego de Senku 2 en la Taquería"></canvas>
+    </main>
+
+    <!-- Ayuda para teclado (escritorio) -->
+    <div class="ayuda-teclado">
+      ◀ ▶ o A / D: Moverse · Espacio / ▲ / W: Saltar
+    </div>
+
+    <!-- Controles Táctiles en Pantalla -->
+    <nav class="zona-controles" aria-label="Controles táctiles">
+      <div class="grupo-direccion">
+        <button id="btn-izq" class="btn-control" aria-label="Mover a la izquierda">◀</button>
+        <button id="btn-der" class="btn-control" aria-label="Mover a la derecha">▶</button>
+      </div>
+      <div class="grupo-accion">
+        <button id="btn-salto" class="btn-control btn-salto" aria-label="Saltar">
+          <span class="flecha-arriba">▲</span>
+          <span>Salto</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <script type="module" src="./src/main.mjs"></script>
+</body>
+</html>
