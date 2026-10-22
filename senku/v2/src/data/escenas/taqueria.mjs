@@ -74,4 +74,37 @@ export const escenaTaqueria = {
   ],
   // Objetos y coleccionables con valores creativos pendientes en null
   objetos: [],
+  // 1-2 enemigos con rectángulos provisionales y valores creativos pendientes en null
+  enemigos: [
+    {
+      id: 'cucaracha-suelo-1',
+      tipo: 'cucaracha',
+      x: 480,
+      y: 600, // Sobre el suelo principal (y=620, h=20)
+      w: 36,
+      h: 20,
+      velocidad: 70,
+      patrulla: { minX: 380, maxX: 750 },
+      hp: null,
+      dano: null,
+      pisable: true,
+      color: '#6e4720',
+      colorDetalle: '#3a200a',
+    },
+    {
+      id: 'cucaracha-barra-2',
+      tipo: 'cucaracha',
+      x: 270,
+      y: 480, // Sobre la barra de tacos (y=500, h=20)
+      w: 36,
+      h: 20,
+      velocidad: 50,
+      patrulla: { minX: 250, maxX: 430 },
+      hp: null,
+      dano: null,
+      pisable: true,
+      color: '#6e4720',
+      colorDetalle: '#3a200a',
+    },
+  ],
 };

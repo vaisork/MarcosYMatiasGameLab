@@ -7,6 +7,12 @@ import { crearCuerpo, actualizarCuerpo } from './core/fisica.mjs';
 import { crearRegistroEscenas } from './core/escenas.mjs';
 import { escenaTaqueria } from './data/escenas/taqueria.mjs';
 import { crearManejadorEntrada } from './core/entrada.mjs';
+import { crearEnemigo, actualizarEnemigos } from './core/enemigos.mjs';
+import {
+  crearEstadoCombate,
+  actualizarCombate,
+  resolverContactoEnemigo,
+} from './core/combate.mjs';
 import {
   ANCHO_LOGICO,
   ALTO_LOGICO,
@@ -48,6 +54,16 @@ export function arrancarSenku2({
     w: 54,
     h: 42,
   });
+
+  // 4b. Sistema de combate y enemigos provisionales
+  const estadoCombate = crearEstadoCombate({
+    hpMax: null,          // Tolerante: política neutra hasta decidir D5
+    vidasIniciales: null, // Sin pérdida numérica de vidas
+  });
+
+  // Instanciar enemigos de la escena Taquería
+  const definicionEnemigos = Array.isArray(escenaTaqueria.enemigos) ? escenaTaqueria.enemigos : [];
+  const enemigos = definicionEnemigos.map(crearEnemigo);
 
   // 5. Canvas y contexto de renderizado
   const canvas = documento.getElementById('lienzo-juego');
@@ -99,7 +115,7 @@ export function arrancarSenku2({
     ultimoTiempo = ahora;
     tiempoAcumulado += dt;
 
-    // Física
+    // Física del jugador
     const estadoEntrada = entrada.obtenerEstado();
     actualizarCuerpo(
       senku,
@@ -109,14 +125,65 @@ export function arrancarSenku2({
       dt
     );
 
-    // Dibujado
+    // Combate y actualización de enemigos
+    actualizarCombate(estadoCombate, dt);
+    actualizarEnemigos(enemigos, dt, escenaActual.limites);
+
+    for (const enemigo of enemigos) {
+      if (!enemigo.vivo) continue;
+      resolverContactoEnemigo(senku, enemigo, estadoCombate);
+    }
+
+    // Dibujado de escena base y Senku
+    // Si Senku está invulnerable, parpadeo sutil
+    const dibujarSenku = !estadoCombate.invulnerable || Math.floor(tiempoAcumulado * 16) % 2 === 0;
+
     renderizarEscena({
       ctx,
       escena: escenaActual,
-      cuerpoJugador: senku,
+      cuerpoJugador: dibujarSenku ? senku : null,
       catalogoArte,
       tiempo: tiempoAcumulado,
     });
+
+    // Dibujado de enemigos con rectángulos provisionales limpios (sin inventar arte)
+    if (ctx) {
+      ctx.save();
+      for (const enemigo of enemigos) {
+        if (!enemigo.vivo) continue;
+
+        // Sombra suave en suelo
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+        ctx.beginPath();
+        ctx.ellipse(
+          enemigo.x + enemigo.w / 2,
+          enemigo.y + enemigo.h + 2,
+          enemigo.w * 0.45,
+          4,
+          0,
+          0,
+          Math.PI * 2
+        );
+        ctx.fill();
+
+        // Rectángulo principal del enemigo
+        ctx.fillStyle = enemigo.color || '#6e4720';
+        ctx.fillRect(enemigo.x, enemigo.y, enemigo.w, enemigo.h);
+
+        // Borde
+        ctx.strokeStyle = enemigo.colorDetalle || '#3a200a';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(enemigo.x, enemigo.y, enemigo.w, enemigo.h);
+
+        // Indicador provisional de dirección
+        const ojoX = enemigo.mirando === 1
+          ? enemigo.x + enemigo.w - 8
+          : enemigo.x + 3;
+        ctx.fillStyle = '#ff4444';
+        ctx.fillRect(ojoX, enemigo.y + 4, 5, 5);
+      }
+      ctx.restore();
+    }
 
     animacionId = ventana.requestAnimationFrame(ciclo);
   }
@@ -137,6 +204,8 @@ export function arrancarSenku2({
     senku,
     escena: escenaActual,
     estadoJugador,
+    estadoCombate,
+    enemigos,
     entrada,
     detener,
   };
