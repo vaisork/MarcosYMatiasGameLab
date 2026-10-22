@@ -1,0 +1,111 @@
+{
+  "room": "korven_cisterna_comun",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/korven_cisterna_comun.webp",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      3
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "oeste": [
+      1,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "cascapedernal",
+      "at": [
+        5,
+        10
+      ]
+    },
+    {
+      "id": "salteador_desesperado",
+      "at": [
+        14,
+        10
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "gggggggggppggggggggg",
+      "ggggggggppppgggggggg",
+      "gggggggppppppggggggg",
+      "gggggggppppppggggggg",
+      "ggggppppppppppppgggg",
+      "ggpppppggggggpppppgg",
+      "pppppppggggggppppppp",
+      "pppppppggggggppppppp",
+      "ggpppppggggggpppppgg",
+      "gggppppppppppppppggg",
+      "ggggppppppppppppgggg",
+      "gggggppppppppppggggg",
+      "gggggggppppppggggggg",
+      "ggggggggppppgggggggg",
+      "gggggggggggggggggggg"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "11111111....11111111",
+      "1111111......1111111",
+      "1111111......1111111",
+      "1111............1111",
+      "11.....111111.....11",
+      ".......111111.......",
+      ".......111111.......",
+      "11.....111111.....11",
+      "111..............111",
+      "1111............1111",
+      "11111..........11111",
+      "1111111......1111111",
+      "11111111....11111111",
+      "11111111111111111111"
+    ]
+  },
+  "battle_background": "backgrounds/korven_battle.webp"
+}

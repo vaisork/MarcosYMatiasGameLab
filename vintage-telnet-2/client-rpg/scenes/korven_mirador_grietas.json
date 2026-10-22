@@ -1,0 +1,98 @@
+{
+  "room": "korven_mirador_grietas",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/korven_mirador_grietas.webp",
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "oeste": [
+      1,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "cascapedernal",
+      "at": [
+        14,
+        6
+      ]
+    },
+    {
+      "id": "salteador_desesperado",
+      "at": [
+        6,
+        10
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "ggggggpppppppggggggg",
+      "gggggpppppppppgggggg",
+      "ggggpppppppppppggggg",
+      "gggpppppppppppppgggg",
+      "ggpppppppppppppppggg",
+      "pppppppppppppppppggg",
+      "pppppppppppppppppggg",
+      "ggpppppppppppppppggg",
+      "ggggppppppppppppgggg",
+      "gggggppppppppppggggg",
+      "ggggggppppppppgggggg",
+      "gggggggppppppggggggg",
+      "ggggggggppppgggggggg",
+      "gggggggggppggggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "111111.......1111111",
+      "11111.........111111",
+      "1111...........11111",
+      "111.............1111",
+      "11...............111",
+      ".................111",
+      ".................111",
+      "11...............111",
+      "1111............1111",
+      "11111..........11111",
+      "111111........111111",
+      "1111111......1111111",
+      "11111111....11111111",
+      "111111111..111111111"
+    ]
+  },
+  "battle_background": "backgrounds/korven_battle.webp"
+}

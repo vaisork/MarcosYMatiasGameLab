@@ -1,0 +1,77 @@
+{
+  "room": "korven_registro_cauce",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/korven_registro_cauce.webp",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ]
+  },
+  "npcs": [
+    {
+      "id": "korven_oma",
+      "at": [
+        13,
+        6
+      ]
+    }
+  ],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "gggggggppppppggggggg",
+      "ggggggppppppppgggggg",
+      "gggggppppppppppggggg",
+      "ggggppppppppppppgggg",
+      "ggggppppppppppppgggg",
+      "ggggppppppppppppgggg",
+      "ggggppppppppppppgggg",
+      "gggggppppppppppggggg",
+      "gggggppppppppppggggg",
+      "ggggggppppppppgggggg",
+      "ggggggppppppppgggggg",
+      "gggggggppppppggggggg",
+      "ggggggggppppgggggggg",
+      "gggggggggppggggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "1111111......1111111",
+      "111111........111111",
+      "11111..........11111",
+      "1111............1111",
+      "1111............1111",
+      "1111............1111",
+      "1111............1111",
+      "11111..........11111",
+      "11111..........11111",
+      "111111........111111",
+      "111111........111111",
+      "1111111......1111111",
+      "11111111....11111111",
+      "111111111..111111111"
+    ]
+  }
+}

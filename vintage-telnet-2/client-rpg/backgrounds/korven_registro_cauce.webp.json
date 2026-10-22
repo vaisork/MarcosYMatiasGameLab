@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_registro_cauce",
+  "generation_tool": "native image_gen",
+  "sha256": "07952f6a67ccfdf3f38711e9e732a45090951d3a8e3f4f4643c0514443269783",
+  "bytes": 236408,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "korven_registro_cauce-original.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view, 4:3 landscape, readable walkable terrain for a 20x15 room. NO people, creatures, text, HUD or baked-in actors. Korven/Brumak is a surface community of short compact Dravak with small stone plates, work in stone, measures and functional supports; never underground dwarf city, no dragons, no magic crystals or runes. Warm dry daylight and grey stone, practical modest structures, visual continuity with lush Edran but drier rocky terrain. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff or furniture interrupting them. Low sheltered record-office of the wash observer. Thick stone walls and low wooden roof beams protect worn leather pouches and stone tablets arranged on wooden shelves. A small observation slit window in the rock wall looks out toward the dry creek below. A simple low desk with blank comparison slates, ink and a smooth paperweight stone. Calm, shaded and dust-free interior. Exactly ONE opening: SOUTH doorway reaching the bottom image boundary out to the listening platform. North, east and west sides are enclosed stone walls. Clear floor space in front of the desk for a standing observer NPC overlay."
+}

@@ -1,0 +1,82 @@
+{
+  "room": "korven_patio_lavado",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/korven_patio_lavado.webp",
+  "exits": [
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ]
+  },
+  "npcs": [],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "ggggggggpppppggggggg",
+      "gggggggpppppppgggggg",
+      "ggggggpppppppppggggg",
+      "gggggpppppppppppgggg",
+      "ggggpppppppppppppggg",
+      "gggppppppppppppppppp",
+      "gggppppppppppppppppp",
+      "ggggpppppppppppppggg",
+      "gggggpppppppppppgggg",
+      "ggggggpppppppppggggg",
+      "gggggggpppppppgggggg",
+      "ggggggggpppppggggggg",
+      "ggggggggppppgggggggg",
+      "gggggggggppggggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111.....1111111",
+      "1111111.......111111",
+      "111111.........11111",
+      "11111...........1111",
+      "1111.............111",
+      "111.................",
+      "111.................",
+      "1111.............111",
+      "11111...........1111",
+      "111111.........11111",
+      "1111111.......111111",
+      "11111111.....1111111",
+      "11111111....11111111",
+      "111111111..111111111"
+    ]
+  }
+}

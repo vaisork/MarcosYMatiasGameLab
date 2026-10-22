@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_cauce_observacion",
+  "generation_tool": "native image_gen",
+  "sha256": "913ad8227924b9aab57b6581e25fda473f80949827cece680a449bfb124f641e",
+  "bytes": 206504,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "korven_cauce_observacion-original.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view, 4:3 landscape, readable walkable terrain for a 20x15 room. NO people, creatures, text, HUD or baked-in actors. Korven/Brumak is a surface community of short compact Dravak with small stone plates, work in stone, measures and functional supports; never underground dwarf city, no dragons, no magic crystals or runes. Warm dry daylight and grey stone, practical modest structures, visual continuity with lush Edran but drier rocky terrain. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff or furniture interrupting them. Dry creek bed of shifted rocks. A winding wash filled with pale dust and tumbled boulders between low rocky embankments. Several massive square stone blocks have clearly been moved or tilted, revealing pale clean unweathered faces contrasting with dusty aged stone. Dry air, desert gravel and smooth weathered bedrock. Exactly TWO openings reaching the image boundary: NORTH trail climbing toward the fissure lookout, and EAST path leading onto the listening platform. South and west sides are rugged dry canyon banks. Clear walkable gravel path winding between the large shifted stone blocks."
+}
