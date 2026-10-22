@@ -27,7 +27,7 @@ export function montarMenu(contenedor, opciones = {}) {
     comprarTraje(st, id) { return { ...st, trajes: [...st.trajes, id] }; },
   };
   const onCambioEstado = opciones.onCambioEstado || null;
-  const rutaChuru = opciones.rutaChuru || 'senku/v2/assets/objetos/churu.png';
+  const rutaChuru = opciones.rutaChuru ?? null;
 
   let mensajeTimeout = null;
 
@@ -57,9 +57,9 @@ export function montarMenu(contenedor, opciones = {}) {
           <div class="menu-saldo" aria-label="Saldo de Churus: ${saldo}">
             <span class="saldo-etiqueta">Churus</span>
             <div class="saldo-valor-grupo">
-              <img class="saldo-icono" src="${rutaChuru}" alt="" aria-hidden="true"
-                   onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-              <span class="saldo-icono-texto" style="display:none;" aria-hidden="true">🐟</span>
+              ${rutaChuru ? `<img class="saldo-icono" src="${rutaChuru}" alt="" aria-hidden="true"
+                   onerror="this.style.display='none'; if (this.nextElementSibling) this.nextElementSibling.style.display='inline';">
+              <span class="saldo-icono-texto" style="display:none;" aria-hidden="true">🧃</span>` : `<span class="saldo-icono-texto" aria-hidden="true">🧃</span>`}
               <span class="saldo-cantidad">${saldo}</span>
             </div>
           </div>
@@ -153,7 +153,7 @@ export function montarMenu(contenedor, opciones = {}) {
           ${badgeTexto}
         </div>
         <div class="tarjeta-preview">
-          <img class="tarjeta-imagen" src="${t.menu || ''}" alt="Ilustración de ${t.nombre}" loading="lazy">
+          ${t.menu ? `<img class="tarjeta-imagen" src="${t.menu}" alt="Ilustración de ${t.nombre}" loading="lazy">` : ''}
           <div class="tarjeta-placeholder" style="display: ${t.menu ? 'none' : 'flex'};">
             <span class="placeholder-icono" aria-hidden="true">🐱</span>
             <span class="placeholder-nombre">${t.nombre}</span>

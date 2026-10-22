@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Senku 2 — Taquería</title>
+  <link rel="stylesheet" href="./src/ui/menu.css">
   <style>
     * {
       box-sizing: border-box;
@@ -60,7 +61,7 @@
       align-items: center;
       gap: 8px;
       z-index: 20;
-      pointer-events: none;
+      pointer-events: auto;
     }
 
     .hud-pildora {
@@ -76,6 +77,11 @@
       color: #ffd8a8;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(4px);
+      pointer-events: auto;
+    }
+
+    .hud-pildora * {
+      pointer-events: none;
     }
 
     .hud-pildora .icono {
@@ -87,6 +93,41 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
       font-size: 14px;
       color: #eee;
+    }
+
+    .hud-btn {
+      pointer-events: auto;
+      cursor: pointer;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      background: rgba(30, 20, 15, 0.85);
+      color: #fff;
+      font-family: inherit;
+      transition: transform 0.08s ease, background-color 0.08s ease, border-color 0.08s ease;
+    }
+
+    .hud-btn:hover {
+      background: rgba(50, 32, 22, 0.95);
+      border-color: #f39c12;
+    }
+
+    .hud-btn:active {
+      transform: scale(0.94);
+    }
+
+    .hud-btn:focus-visible {
+      outline: 3px solid #fbbf24;
+      outline-offset: 2px;
+    }
+
+    .hud-btn-menu {
+      border-color: #f59e0b;
+      color: #fef3c7;
+      background: rgba(45, 26, 14, 0.9);
+    }
+
+    .hud-btn-menu:hover {
+      background: rgba(70, 38, 18, 0.95);
+      border-color: #fbbf24;
     }
 
     /* Controles Táctiles en Pantalla */
@@ -190,13 +231,20 @@
       }
 
       .hud-superior {
-        top: 12px;
-        left: 12px;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        flex-wrap: wrap;
+        gap: 6px;
       }
 
       .hud-pildora {
-        font-size: 16px;
+        font-size: 14px;
         padding: 4px 10px;
+      }
+
+      .hud-pildora .icono {
+        font-size: 16px;
       }
 
       .ayuda-teclado {
@@ -216,7 +264,24 @@
       <div class="hud-pildora hud-escena">
         <span>Taquería</span>
       </div>
+      <button id="hud-traje" class="hud-pildora hud-btn hud-btn-traje" aria-label="Traje equipado" title="Clic o pulsa T para cambiar de traje">
+        <span class="icono" aria-hidden="true">🐱</span>
+        <span>Senku</span>
+      </button>
+      <button id="btn-menu" class="hud-pildora hud-btn hud-btn-menu" aria-label="Abrir menú de trajes" title="Abrir armario de trajes (M)">
+        <span class="icono" aria-hidden="true">👗</span>
+        <span>Armario</span>
+      </button>
     </header>
+
+    <!-- Diálogo Modal del Menú de Trajes (Armario) -->
+    <div id="modal-menu" class="modal-menu" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú de trajes de Senku">
+      <div id="modal-menu-fondo" class="modal-menu-fondo" tabindex="-1"></div>
+      <div class="modal-menu-contenido">
+        <button id="btn-cerrar-menu" class="btn-cerrar-menu" aria-label="Cerrar menú de trajes" title="Cerrar menú (Esc)">✕</button>
+        <div id="contenedor-menu"></div>
+      </div>
+    </div>
 
     <!-- Contenedor del Lienzo -->
     <main class="lienzo-envoltura">
@@ -225,7 +290,7 @@
 
     <!-- Ayuda para teclado (escritorio) -->
     <div class="ayuda-teclado">
-      ◀ ▶ o A / D: Moverse · Espacio / ▲ / W: Saltar
+      ◀ ▶ o A / D: Moverse · Espacio / ▲ / W: Saltar · M: Menú · T: Traje
     </div>
 
     <!-- Controles Táctiles en Pantalla -->

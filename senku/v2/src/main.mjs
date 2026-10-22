@@ -30,6 +30,71 @@ import {
   crearCatalogoArte,
   renderizarEscena,
 } from './render/canvas.mjs';
+import { montarMenu } from './ui/menu.mjs';
+
+// Catálogo representativo de trajes para el Menú de Selección en Senku 2
+// REGLA: Precios creativos pendientes van como null (etiqueta 'Próximamente'); no inventar cifras ni arte.
+export const CATALOGO_MENU = [
+  {
+    id: ID_ORIGINAL,
+    nombre: 'Senku Original',
+    precio: null,
+    menu: '../../assets/senku/menu-base.jpg',
+    sprite: '../../assets/senku/senku-sprites.png',
+  },
+  {
+    id: ID_RATA,
+    nombre: 'Senku Rata',
+    precio: null, // Pendiente creativo D2 (regla: etiqueta 'Próximamente', sin compra)
+    equivaleA: [ID_SECRETO_LEGACY],
+    menu: '../../assets/trajes/rata/menu.webp',
+    sprite: '../../assets/rata/white-rat-sprite-v2.png',
+  },
+];
+
+// TODO: Reemplazar con core/economia.mjs cuando Codex lo integre en origin/main
+export const stubEconomia = {
+  /**
+   * Equipa un traje si el jugador lo posee en el estado.
+   * Conecta con trajes_activo.mjs para resolver equivalencias (rata <-> secreto_legacy).
+   */
+  equipar(estado, idTraje) {
+    const res = equiparTraje(estado, idTraje);
+    if (!res.exito) {
+      return { error: res.motivo || 'error_al_equipar' };
+    }
+    return res.estado;
+  },
+
+  /**
+   * Compra un traje si el saldo de Churus alcanza.
+   * Regla: Precios en null no se pueden comprar ('precio_no_definido').
+   */
+  comprarTraje(estado, idTraje, catalogo) {
+    // TODO: Conectar con libro de economía real una vez disponible
+    const items = Array.isArray(catalogo) ? catalogo : Object.values(catalogo || {});
+    const item = items.find((t) => t && (t.id === idTraje || (Array.isArray(t.equivaleA) && t.equivaleA.includes(idTraje))));
+    if (!item) {
+      return { error: 'traje_desconocido' };
+    }
+    if (item.precio === null || item.precio === undefined) {
+      return { error: 'precio_no_definido' };
+    }
+    const saldo = typeof estado?.churus === 'number' ? estado.churus : 0;
+    if (saldo < item.precio) {
+      return { error: 'saldo_insuficiente' };
+    }
+    const trajes = Array.isArray(estado?.trajes) ? [...estado.trajes] : ['original'];
+    if (!trajes.includes(idTraje)) {
+      trajes.push(idTraje);
+    }
+    return {
+      ...estado,
+      churus: saldo - item.precio,
+      trajes,
+    };
+  },
+};
 
 export function arrancarSenku2({
   documento = typeof document !== 'undefined' ? document : null,
@@ -66,7 +131,7 @@ export function arrancarSenku2({
   // 2. HUD: saldo de Churus y botón/indicador de traje activo
   const elChurus = documento.getElementById('saldo-churus');
   if (elChurus) {
-    elChurus.textContent = String(estadoJugador.churus);
+    elChurus.textContent = String(estadoJugador.churus ?? 0);
   }
 
   let btnTraje = documento.getElementById('hud-traje');
@@ -81,6 +146,74 @@ export function arrancarSenku2({
     btnTraje.style.color = '#fff';
     btnTraje.setAttribute('aria-label', 'Traje equipado');
     documento.querySelector('.hud-superior').appendChild(btnTraje);
+  }
+
+  // 2b. Menú de trajes modal integrado en index.html
+  const modalMenu = documento.getElementById('modal-menu');
+  const modalMenuFondo = documento.getElementById('modal-menu-fondo');
+  const btnCerrarMenu = documento.getElementById('btn-cerrar-menu');
+  const btnMenu = documento.getElementById('btn-menu');
+  const contenedorMenu = documento.getElementById('contenedor-menu');
+  let menuAbierto = false;
+  let instanciaMenu = null;
+
+  if (contenedorMenu) {
+    instanciaMenu = montarMenu(contenedorMenu, {
+      estado: estadoJugador,
+      catalogo: CATALOGO_MENU,
+      economia: stubEconomia,
+      rutaChuru: null,
+      onCambioEstado(nuevoEstado) {
+        estadoJugador = nuevoEstado;
+        if (almacen) guardar(almacen, estadoJugador);
+        refrescarVistaTraje();
+      },
+    });
+  }
+
+  function abrirMenu() {
+    if (menuAbierto) return;
+    menuAbierto = true;
+    if (modalMenu) {
+      modalMenu.hidden = false;
+      modalMenu.setAttribute('aria-hidden', 'false');
+    }
+    if (instanciaMenu) {
+      instanciaMenu.actualizar(estadoJugador);
+    }
+    if (btnCerrarMenu) {
+      btnCerrarMenu.focus();
+    }
+  }
+
+  function cerrarMenu() {
+    if (!menuAbierto) return;
+    menuAbierto = false;
+    if (modalMenu) {
+      modalMenu.hidden = true;
+      modalMenu.setAttribute('aria-hidden', 'true');
+    }
+    if (btnMenu) {
+      btnMenu.focus();
+    }
+  }
+
+  function alternarMenu() {
+    if (menuAbierto) {
+      cerrarMenu();
+    } else {
+      abrirMenu();
+    }
+  }
+
+  if (btnMenu) {
+    btnMenu.onclick = () => alternarMenu();
+  }
+  if (btnCerrarMenu) {
+    btnCerrarMenu.onclick = () => cerrarMenu();
+  }
+  if (modalMenuFondo) {
+    modalMenuFondo.onclick = () => cerrarMenu();
   }
 
   let trajeActivo = obtenerTrajeActivo(estadoJugador);
@@ -101,6 +234,9 @@ export function arrancarSenku2({
         ? 'Clic o pulsa T para cambiar de traje'
         : 'Traje Rata bloqueado (secreto Legacy no desbloqueado; precio: null)';
     }
+    if (elChurus) {
+      elChurus.textContent = String(estadoJugador.churus ?? 0);
+    }
   }
 
   function alternarTrajeJugador() {
@@ -109,6 +245,9 @@ export function arrancarSenku2({
       estadoJugador = res.estado;
       if (almacen) guardar(almacen, estadoJugador);
       refrescarVistaTraje();
+      if (instanciaMenu) {
+        instanciaMenu.actualizar(estadoJugador);
+      }
     }
     return res;
   }
@@ -134,8 +273,18 @@ export function arrancarSenku2({
   refrescarVistaTraje();
 
   function alPulsarTecla(e) {
-    if (e.key === 't' || e.key === 'T') {
-      alternarTrajeJugador();
+    if (e.key === 'Escape') {
+      if (menuAbierto) {
+        cerrarMenu();
+        e.preventDefault();
+      }
+    } else if (e.key === 'm' || e.key === 'M') {
+      alternarMenu();
+      e.preventDefault();
+    } else if (e.key === 't' || e.key === 'T') {
+      if (!menuAbierto) {
+        alternarTrajeJugador();
+      }
     }
   }
   ventana.addEventListener('keydown', alPulsarTecla);
@@ -200,23 +349,26 @@ export function arrancarSenku2({
     ultimoTiempo = ahora;
     tiempoAcumulado += dt;
 
-    // Física del jugador
-    const estadoEntrada = entrada.obtenerEstado();
-    actualizarCuerpo(
-      senku,
-      estadoEntrada,
-      escenaActual.plataformas,
-      escenaActual.limites,
-      dt
-    );
+    // Si el menú está abierto, se pausa el avance de física y combate para que Senku no se mueva
+    if (!menuAbierto) {
+      // Física del jugador
+      const estadoEntrada = entrada.obtenerEstado();
+      actualizarCuerpo(
+        senku,
+        estadoEntrada,
+        escenaActual.plataformas,
+        escenaActual.limites,
+        dt
+      );
 
-    // Combate y actualización de enemigos
-    actualizarCombate(estadoCombate, dt);
-    actualizarEnemigos(enemigos, dt, escenaActual.limites);
+      // Combate y actualización de enemigos
+      actualizarCombate(estadoCombate, dt);
+      actualizarEnemigos(enemigos, dt, escenaActual.limites);
 
-    for (const enemigo of enemigos) {
-      if (!enemigo.vivo) continue;
-      resolverContactoEnemigo(senku, enemigo, estadoCombate);
+      for (const enemigo of enemigos) {
+        if (!enemigo.vivo) continue;
+        resolverContactoEnemigo(senku, enemigo, estadoCombate);
+      }
     }
 
     // Dibujado de escena base
@@ -229,7 +381,7 @@ export function arrancarSenku2({
     });
 
     // Dibujado de Senku con color y etiqueta del traje activo
-    if (ctx && dibujarSenku) {
+    if (ctx && senku) {
       ctx.save();
 
       // Sombra en el suelo
@@ -339,6 +491,19 @@ export function arrancarSenku2({
     if (btnTraje) {
       btnTraje.onclick = null;
     }
+    if (btnMenu) {
+      btnMenu.onclick = null;
+    }
+    if (btnCerrarMenu) {
+      btnCerrarMenu.onclick = null;
+    }
+    if (modalMenuFondo) {
+      modalMenuFondo.onclick = null;
+    }
+    if (instanciaMenu) {
+      instanciaMenu.destruir();
+      instanciaMenu = null;
+    }
   }
 
   return {
@@ -356,10 +521,20 @@ export function arrancarSenku2({
         estadoJugador = res.estado;
         if (almacen) guardar(almacen, estadoJugador);
         refrescarVistaTraje();
+        if (instanciaMenu) {
+          instanciaMenu.actualizar(estadoJugador);
+        }
       }
       return res;
     },
     alternarTraje: alternarTrajeJugador,
+    abrirMenu,
+    cerrarMenu,
+    alternarMenu,
+    esMenuAbierto: () => menuAbierto,
+    instanciaMenu: () => instanciaMenu,
+    stubEconomia,
+    catalogoMenu: CATALOGO_MENU,
     detener,
   };
 }
@@ -367,8 +542,10 @@ export function arrancarSenku2({
 // Auto-arranque al cargar en navegador
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => arrancarSenku2());
+    document.addEventListener('DOMContentLoaded', () => {
+      window.__senku2 = arrancarSenku2();
+    });
   } else {
-    arrancarSenku2();
+    window.__senku2 = arrancarSenku2();
   }
 }

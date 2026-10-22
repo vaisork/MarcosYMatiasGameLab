@@ -406,4 +406,110 @@
   .tarjeta-preview {
     height: 190px;
   }
+
+  .modal-menu {
+    padding: 8px;
+    align-items: flex-start;
+  }
+
+  .modal-menu-contenido {
+    max-height: 96vh;
+    border-radius: 12px;
+  }
+
+  .btn-cerrar-menu {
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+
+  .modal-menu .menu-cabecera {
+    padding-right: 48px;
+  }
+}
+
+/* ==========================================================================
+   Contenedor Modal / Overlay para integración en el juego (Senku 2)
+   ========================================================================== */
+
+.modal-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background-color: rgba(12, 7, 4, 0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  overflow-y: auto;
+}
+
+.modal-menu[hidden] {
+  display: none !important;
+}
+
+.modal-menu-fondo {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.modal-menu-contenido {
+  position: relative;
+  z-index: 101;
+  width: 100%;
+  max-width: 960px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  border-radius: var(--senku-radio, 16px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
+}
+
+.btn-cerrar-menu {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 110;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--senku-fondo-elevado, #341d11);
+  border: 2px solid var(--senku-tarjeta-borde, #6b3e24);
+  border-radius: 50%;
+  color: var(--senku-oro-claro, #fde68a);
+  font-size: 1.25rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-cerrar-menu:hover {
+  background: var(--senku-tarjeta-bg, #422618);
+  border-color: var(--senku-oro, #f59e0b);
+  transform: scale(1.08);
+}
+
+.btn-cerrar-menu:active {
+  transform: scale(0.95);
+}
+
+.btn-cerrar-menu:focus-visible {
+  outline: 3px solid var(--senku-tarjeta-borde-activa, #fbbf24);
+  outline-offset: 2px;
+}
+
+.modal-menu .menu-cabecera {
+  padding-right: 56px;
 }
