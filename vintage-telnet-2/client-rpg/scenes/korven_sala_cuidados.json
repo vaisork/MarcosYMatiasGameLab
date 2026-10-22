@@ -1,0 +1,77 @@
+{
+  "room": "korven_sala_cuidados",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/korven_sala_cuidados.webp",
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      8,
+      7
+    ],
+    "oeste": [
+      1,
+      7
+    ]
+  },
+  "npcs": [
+    {
+      "id": "korven_neru",
+      "at": [
+        13,
+        6
+      ]
+    }
+  ],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "ppppppppppppppppgggg",
+      "ppppppppppppppppgggg",
+      "ppppppppppppppppgggg",
+      "ppppppppppppppppgggg",
+      "ppppppppppppppppgggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "1..............11111",
+      "...............11111",
+      "...............11111",
+      "1..............11111",
+      "1..............11111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111"
+    ]
+  }
+}

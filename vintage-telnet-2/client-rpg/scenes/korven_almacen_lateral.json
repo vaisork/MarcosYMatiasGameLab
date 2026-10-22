@@ -1,0 +1,82 @@
+{
+  "room": "korven_almacen_lateral",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/korven_almacen_lateral.webp",
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      9,
+      7
+    ],
+    "oeste": [
+      1,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ]
+  },
+  "npcs": [],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "ppppppppppppgggggggg",
+      "ppppppppppppgggggggg",
+      "ppppppppppppgggggggg",
+      "gggggggggpppgggggggg",
+      "gggggggggpppgggggggg",
+      "gggggggggpppgggggggg",
+      "gggggggggpppgggggggg",
+      "gggggggggpppgggggggg",
+      "gggggggggpppgggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "............11111111",
+      "............11111111",
+      "1...........11111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111...11111111",
+      "111111111..111111111"
+    ]
+  }
+}

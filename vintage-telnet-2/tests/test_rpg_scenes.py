@@ -508,3 +508,69 @@ class RpgSceneTests(unittest.TestCase):
                     self.assertEqual(meta['bytes'], asset.stat().st_size)
                     self.assertLessEqual(asset.stat().st_size, 250000)
         self.assertEqual(exits_total, 14)
+
+    def test_korven_02_sources_borders_and_art_footprints(self):
+        """Only canonical portals cross borders; sacks, tables and stone stay solid."""
+        import importlib.util
+        import hashlib
+        root = Path(__file__).resolve().parents[1]
+        content = Content(root / 'content')
+        spec = importlib.util.spec_from_file_location('tiled', root / 'scripts/tiled-to-scene.py')
+        converter = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(converter)
+        footprints = {
+            'korven_almacen_entrada': ([(10, 7), (1, 7), (14, 6)], [(4, 3), (17, 3), (4, 11)]),
+            'korven_almacen_balanzas': ([(14, 7), (18, 7), (6, 7)], [(3, 3), (17, 3), (5, 11)]),
+            'korven_almacen_cruce': ([(10, 5), (10, 9), (18, 7)], [(4, 3), (16, 3), (4, 11)]),
+            'korven_almacen_lateral': ([(9, 7), (1, 7), (10, 12)], [(4, 3), (16, 3), (16, 11)]),
+            'korven_almacen_fondo': ([(10, 7), (10, 2), (18, 7)], [(4, 3), (16, 3), (10, 12)]),
+            'korven_calle_fachadas': ([(10, 7), (10, 2), (18, 7)], [(3, 3), (16, 3), (3, 11)]),
+            'korven_sala_cuidados': ([(8, 7), (1, 7), (13, 6)], [(4, 3), (17, 3), (17, 11)]),
+        }
+        exits_total = 0
+        for room_id, (free, blocked) in footprints.items():
+            with self.subTest(room=room_id):
+                scene = json.loads((root / 'client-rpg/scenes' / f'{room_id}.json').read_text())
+                tiled = json.loads((root / 'client-rpg/tiled' / f'{room_id}.tmj').read_text())
+                self.assertEqual(converter.tiled_to_scene(tiled), scene)
+                self.assertEqual(converter.scene_to_tiled(scene), tiled)
+                room = content.rooms[room_id]
+                self.assertEqual({e['direction'] for e in scene['exits']}, set(room['exits']))
+                self.assertEqual(len(scene['exits']), len(room['exits']))
+                exits_total += len(scene['exits'])
+                self.assertEqual({n['id'] for n in scene['npcs']}, set(room.get('npcs', [])))
+                fauna = {s['creature'] for s in room.get('signals', []) + room.get('wildlife_pool', [])}
+                self.assertEqual({c['id'] for c in scene['creatures']}, fauna)
+                actors = [tuple(a['at']) for a in scene['npcs'] + scene['creatures']]
+                self.assertEqual(len(actors), len(set(actors)))
+                self.assertFalse(set(actors) & {tuple(a) for a in scene['spawn'].values()})
+                solid = scene['layers']['solid']
+                portals = {(x, y) for e in scene['exits']
+                           for x in range(e['rect'][0], e['rect'][0] + e['rect'][2])
+                           for y in range(e['rect'][1], e['rect'][1] + e['rect'][3])}
+                for y in range(15):
+                    for x in range(20):
+                        if x in (0, 19) or y in (0, 14):
+                            self.assertEqual(solid[y][x] == '.', (x, y) in portals, (x, y))
+                for x, y in free:
+                    self.assertEqual(solid[y][x], '.', (x, y))
+                for x, y in blocked:
+                    self.assertEqual(solid[y][x], '1', (x, y))
+                paths = [scene['background']]
+                if fauna:
+                    self.assertEqual(scene['battle_background'], 'backgrounds/korven_battle.webp')
+                    paths.append(scene['battle_background'])
+                for relative in paths:
+                    asset = root / 'client-rpg' / relative
+                    meta = json.loads(asset.with_suffix('.webp.json').read_text())
+                    self.assertEqual(meta['dimensions'], [1280, 960])
+                    self.assertEqual(meta['sha256'], hashlib.sha256(asset.read_bytes()).hexdigest())
+                    self.assertEqual(meta['bytes'], asset.stat().st_size)
+                    self.assertLessEqual(asset.stat().st_size, 250000)
+        self.assertEqual(exits_total, 15)
+        for sprite_name in ('ruma', 'neru'):
+            asset = root / 'client-rpg/sprites' / f'{sprite_name}.png'
+            meta = json.loads(asset.with_suffix('.png.json').read_text())
+            self.assertEqual(meta['dimensions'], [192, 384])
+            self.assertEqual(meta['sha256'], hashlib.sha256(asset.read_bytes()).hexdigest())
+            self.assertEqual(meta['bytes'], asset.stat().st_size)

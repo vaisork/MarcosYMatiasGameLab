@@ -254,3 +254,23 @@ Siete fondos 1280×960 de hasta 250000 bytes, dos atlas NPC 192×384 (celdas 64�
 | `sprites/ved.png` | 192×384 | 68533 | `998c404b48d1e236744373be99a09ba87660e65da6d408776f83603887328980` |
 
 Generación nativa `image_gen`; los dos primeros fondos reutilizan el SHIP de CM-12. Normalización mecánica, extracción por alfa, escala proporcional y padding. Se corrigió con `image_gen` la abertura norte accidental de Escalones bajos. Originales, prompts, manifiesto y QA en `entregas/equipo/cm-20/`; sidecars junto a cada recurso final. Autorrevisión de coherencia con Edran y canon, pendiente de revisión del arquitecto. Ver [RPG_KORVEN_01.md](RPG_KORVEN_01.md).
+
+## Korven 02 — candidato local, 2026-10-22 (CM-20)
+
+Siete salas nuevas sobre `05ec5eb`: Puerta del almacén viejo, Mesa de pesaje, Cruce de los sacos vacíos, Pasillo detrás de los sacos, Depósito del fondo, Calle de las casas y Casa de cuidados de Brumak. El conjunto candidato alcanza **57/191** salas ilustradas (248 mapas comprobables: 191 generados y 57 pintados); quedan 134. Este lote no está publicado, integrado ni desplegado.
+
+Siete fondos 1280×960 de hasta 250000 bytes y dos atlas NPC 192×384 (celdas 64×96, escala proporcional Dravak con altura útil de hasta 68 px y pie común en y=92). Ruma (`korven_ruma`) y Neru (`korven_neru`) usan el estándar canónico de Aren y Ved. Cruce de los sacos vacíos utiliza `backgrounds/korven_battle.webp` para el slot de combate del forajido de caminos.
+
+| Recurso | Dimensiones | Bytes | SHA-256 |
+|---|---|---:|---|
+| `backgrounds/korven_almacen_balanzas.webp` | 1280×960 | 123880 | `7d245762bd1574ce31e6435d0d6a4bf14064867d33341fcbf6a4fbfd5693838e` |
+| `backgrounds/korven_almacen_cruce.webp` | 1280×960 | 128994 | `d6df70b960d8b0f11c2922af5dfdf821021dfe5a38a5c9c7b5a5f20379cda592` |
+| `backgrounds/korven_almacen_entrada.webp` | 1280×960 | 239554 | `1f5526542cdc55561dab7dfbc3547da50bf20d43de8210681925ab3e686475e7` |
+| `backgrounds/korven_almacen_fondo.webp` | 1280×960 | 205316 | `d1fe9ef50f38191cc7cbbc394eb31aa70eb22fd7db20a887cfce2a36a63f8fd7` |
+| `backgrounds/korven_almacen_lateral.webp` | 1280×960 | 245322 | `76ad351e2cf3006355268621ceca6ce8c254872fc653fbcb4fa28acfdd860431` |
+| `backgrounds/korven_calle_fachadas.webp` | 1280×960 | 244158 | `3698be8decd6e8439c46e2df3bb284beb09a692ddc56ced6d8f5d28846926cbd` |
+| `backgrounds/korven_sala_cuidados.webp` | 1280×960 | 92682 | `aeea7929a0a1480c6a9dd9c214544ab6f555f732271717cfe780bfbb5d45f6b7` |
+| `sprites/neru.png` | 192×384 | 68085 | `dba898d697ce9c00e9b1cfe4777bfa104d5dfd391270a29257a1942f250b2d67` |
+| `sprites/ruma.png` | 192×384 | 67655 | `7797af82693ddfc64426f6db3f0f2cd00f2f9e42133c6404044c4fdc54d6b9d6` |
+
+Generación nativa `image_gen` (subagente AGY); normalización mecánica, extracción por canal alfa sobre croma verde, escala proporcional y pie en baseline y=92. Originales, prompts y manifiesto en `/home/jdiaz/proyectos/entregas/equipo/cm-20/korven-02/arte/`; sidecars junto a cada recurso final. Autorrevisión de coherencia con Brumak, Edran y canon, pendiente de revisión del arquitecto. Ver [RPG_KORVEN_02.md](RPG_KORVEN_02.md).

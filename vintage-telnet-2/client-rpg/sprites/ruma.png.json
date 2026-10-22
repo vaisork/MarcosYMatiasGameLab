@@ -1,0 +1,14 @@
+{
+  "asset_id": "ruma",
+  "generation_tool": "native image_gen",
+  "source_original": "ruma-original.png",
+  "dimensions": [
+    192,
+    384
+  ],
+  "bytes": 67655,
+  "sha256": "7797af82693ddfc64426f6db3f0f2cd00f2f9e42133c6404044c4fdc54d6b9d6",
+  "normalization": "12 alpha-isolated cells; one uniform scale; 64x96 cells, baseline y=92; shorter Dravak stature (68px maximum body height).",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Use case: stylized-concept. Create a 3-column by 4-row RPG walking sprite atlas, each figure isolated in its cell with a generous gutter, equal cells, no grid lines or text, on a perfectly FLAT uniform pure green #00FF00 background (chroma key; no gradients, no shadows on the background). Match the crisp hand-painted pixel JRPG style and atlas structure of the reference Ved sprite. Four rows face down/front, up/back, left, right respectively; each row three poses left step, neutral, right step; consistent identity, size and ground baseline, whole body visible, feet near cell bottom. 3:4 overall portrait sheet. Short and compact Dravak adult with small natural grey stone plates on temples and forearms, no horns, scales, dragon traits or dwarf beard. No scenery, furniture, weapons, letters, glow or HUD. Do not use green in the character. Character: Ruma (korven_ruma), Dravak keeper of the old storehouse. Practical dusty work clothes in muted brown and grey, sturdy boots, a small bent metal clasp held in one hand, attentive careful expression."
+}

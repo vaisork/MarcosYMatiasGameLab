@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_almacen_cruce",
+  "generation_tool": "native image_gen",
+  "sha256": "d6df70b960d8b0f11c2922af5dfdf821021dfe5a38a5c9c7b5a5f20379cda592",
+  "bytes": 128994,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "korven_almacen_cruce-original.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view, 4:3 landscape, readable walkable terrain for a 20x15 room. NO people, creatures, text, HUD or baked-in actors. Korven/Brumak is a surface community of short compact Dravak with small stone plates, work in stone, measures and functional supports; never underground dwarf city, no dragons, no magic crystals or runes. Warm dry daylight and grey stone, practical modest structures, visual continuity with lush Edran but drier rocky terrain. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff or furniture interrupting them. Old modest storeroom cut shallowly into a grey hillside, low practical rock walls and wooden supports, cool still air, fine dust on a smooth stone floor, empty folded cloth sacks; plain and functional, not a cavern hall. Crossing inside the store surrounded by piles of empty sacks taller than a person, stacked on supports against the walls. Dust hangs in the still air. Two drag streaks cross the floor toward a NARROW passage on the EAST edge. Exactly three openings, each reaching the image boundary: NORTH back toward the entrance, SOUTH corridor toward the back depot, and narrow EAST passage between sack piles. West side closed wall. Open central floor with room to step back toward the north door."
+}

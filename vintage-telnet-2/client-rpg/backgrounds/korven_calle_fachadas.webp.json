@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_calle_fachadas",
+  "generation_tool": "native image_gen",
+  "sha256": "3698be8decd6e8439c46e2df3bb284beb09a692ddc56ced6d8f5d28846926cbd",
+  "bytes": 244158,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "korven_calle_fachadas-original.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view, 4:3 landscape, readable walkable terrain for a 20x15 room. NO people, creatures, text, HUD or baked-in actors. Korven/Brumak is a surface community of short compact Dravak with small stone plates, work in stone, measures and functional supports; never underground dwarf city, no dragons, no magic crystals or runes. Warm dry daylight and grey stone, practical modest structures, visual continuity with lush Edran but drier rocky terrain. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff or furniture interrupting them. Open-air wide street of Brumak lined with modest houses set into grey rock at different depths, each with a low closed door sized for short inhabitants. Small stone ledges beside the doors hold a cup, a hand tool and a pretty pebble. Some houses have added wooden covers on the windward side. Fresh stone paving, wide clear street to cross without touching doors or loads. One door on the EAST side is the open public doorway of the care house. Exactly three public routes reaching the image boundary: NORTH toward the central courtyard, SOUTH toward the common cistern, EAST through the care-house doorway. West side is house facades with closed doors. Domestic doors stay visibly closed and decorative."
+}
