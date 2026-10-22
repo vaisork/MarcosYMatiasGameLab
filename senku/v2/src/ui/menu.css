@@ -1,0 +1,409 @@
+/* Estilo cálido de videojuego para el Menú de Selección de Senkus */
+/* Senku 2 — Accesible, responsivo (iPad, teléfono, escritorio), sin librerías */
+
+:root {
+  --senku-fondo: #211209;
+  --senku-fondo-elevado: #341d11;
+  --senku-tarjeta-bg: #422618;
+  --senku-tarjeta-borde: #6b3e24;
+  --senku-tarjeta-borde-activa: #fbbf24;
+  
+  --senku-oro: #f59e0b;
+  --senku-oro-claro: #fde68a;
+  --senku-oro-brillo: #fef3c7;
+  --senku-oro-oscuro: #b45309;
+
+  --senku-texto-principal: #fffbeb;
+  --senku-texto-secundario: #fcd34d;
+  --senku-texto-apagado: #a89f91;
+
+  --senku-exito-bg: #14532d;
+  --senku-exito-texto: #bbf7d0;
+  --senku-error-bg: #7f1d1d;
+  --senku-error-texto: #fecaca;
+
+  --senku-radio: 16px;
+  --senku-radio-sm: 8px;
+  --senku-sombra: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --senku-transicion: 0.18s ease-in-out;
+}
+
+/* Reset de caja accesible */
+.senku-menu,
+.senku-menu * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Contenedor principal */
+.senku-menu {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 20px 36px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--senku-texto-principal);
+  background: var(--senku-fondo);
+  border-radius: var(--senku-radio);
+  box-shadow: var(--senku-sombra);
+}
+
+/* Cabecera */
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--senku-tarjeta-borde);
+  margin-bottom: 20px;
+}
+
+.menu-titulo {
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--senku-oro-claro);
+  text-shadow: 2px 2px 0 #000;
+}
+
+.menu-subtitulo {
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  color: var(--senku-texto-apagado);
+  margin-top: 4px;
+}
+
+/* Contador de Saldo de Churus */
+.menu-saldo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--senku-fondo-elevado);
+  border: 2px solid var(--senku-oro-oscuro);
+  border-radius: 999px;
+  padding: 8px 18px;
+  min-height: 48px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.saldo-etiqueta {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--senku-oro);
+}
+
+.saldo-valor-grupo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.saldo-icono {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.saldo-icono-texto {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.saldo-cantidad {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--senku-oro-brillo);
+}
+
+/* Notificaciones / Mensajes */
+.menu-mensaje {
+  min-height: 0;
+  margin-bottom: 0;
+  padding: 0 16px;
+  border-radius: var(--senku-radio-sm);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  transition: all var(--senku-transicion);
+  opacity: 0;
+}
+
+.menu-mensaje.visible {
+  min-height: 44px;
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-mensaje.mensaje-exito {
+  background: var(--senku-exito-bg);
+  color: var(--senku-exito-texto);
+  border: 1px solid #22c55e;
+}
+
+.menu-mensaje.mensaje-error {
+  background: var(--senku-error-bg);
+  color: var(--senku-error-texto);
+  border: 1px solid #ef4444;
+}
+
+/* Cuadrícula de tarjetas */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+/* Tarjeta individual */
+.tarjeta-traje {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--senku-tarjeta-bg);
+  border: 2px solid var(--senku-tarjeta-borde);
+  border-radius: var(--senku-radio);
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform var(--senku-transicion), border-color var(--senku-transicion);
+}
+
+.tarjeta-traje:hover {
+  transform: translateY(-2px);
+  border-color: var(--senku-oro-oscuro);
+}
+
+.tarjeta-traje.estado-equipado {
+  border-color: var(--senku-tarjeta-borde-activa);
+  box-shadow: 0 0 16px rgba(251, 191, 36, 0.25);
+}
+
+/* Badge de estado */
+.tarjeta-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+.badge-equipado {
+  background: var(--senku-oro);
+  color: #1c0e07;
+}
+
+.badge-desbloqueado {
+  background: #0284c7;
+  color: #fff;
+}
+
+.badge-bloqueado {
+  background: rgba(0, 0, 0, 0.65);
+  color: var(--senku-oro-claro);
+  border: 1px solid var(--senku-tarjeta-borde);
+}
+
+/* Preview / Ilustración grande */
+.tarjeta-preview {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  background: radial-gradient(circle, #523121 20%, #2f190e 90%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 2px solid var(--senku-tarjeta-borde);
+}
+
+.tarjeta-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+  transition: transform var(--senku-transicion);
+}
+
+.tarjeta-traje:hover .tarjeta-imagen {
+  transform: scale(1.04);
+}
+
+/* Recuadro de respaldo si la imagen falta (no se rompe la maquetación) */
+.tarjeta-placeholder {
+  width: 85%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--senku-oro-oscuro);
+  border-radius: var(--senku-radio-sm);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 16px;
+  text-align: center;
+}
+
+.placeholder-icono {
+  font-size: 3rem;
+  margin-bottom: 8px;
+}
+
+.placeholder-nombre {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--senku-oro-claro);
+}
+
+/* Cuerpo y acciones */
+.tarjeta-cuerpo {
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.tarjeta-nombre {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--senku-oro-brillo);
+}
+
+.tarjeta-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Botones accesibles (tamaño táctil mínimo >= 44px) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  min-width: 44px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 800;
+  border-radius: var(--senku-radio-sm);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: all var(--senku-transicion);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Foco visible indispensable para accesibilidad y navegación con teclado */
+.btn:focus-visible {
+  outline: 3px solid var(--senku-tarjeta-borde-activa);
+  outline-offset: 3px;
+}
+
+/* Botón Equipar */
+.btn-equipar {
+  background: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 4px 0 #0369a1;
+}
+
+.btn-equipar:hover {
+  background: #0369a1;
+}
+
+.btn-equipar:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #0369a1;
+}
+
+/* Botón Comprar */
+.btn-comprar {
+  background: var(--senku-oro);
+  color: #211209;
+  box-shadow: 0 4px 0 var(--senku-oro-oscuro);
+}
+
+.btn-comprar:hover:not(:disabled) {
+  background: #f59e0b;
+  filter: brightness(1.1);
+}
+
+.btn-comprar:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--senku-oro-oscuro);
+}
+
+/* Botón Equipado / En Uso */
+.btn-equipado {
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--senku-oro-claro);
+  border: 1px solid var(--senku-oro-oscuro);
+  cursor: default;
+}
+
+/* Estado deshabilitado */
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  background: #373330;
+  color: #79716b;
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Aviso de bloqueado / próximamente */
+.bloqueado-aviso {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px dashed var(--senku-tarjeta-borde);
+  border-radius: var(--senku-radio-sm);
+  color: var(--senku-texto-apagado);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Adaptabilidad móvil (teléfonos, 390x844) */
+@media (max-width: 600px) {
+  .senku-menu {
+    padding: 16px 12px 24px;
+    border-radius: 0;
+  }
+
+  .menu-cabecera {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu-saldo {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .tarjeta-preview {
+    height: 190px;
+  }
+}
