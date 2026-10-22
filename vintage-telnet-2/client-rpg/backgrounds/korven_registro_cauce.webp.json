@@ -1,8 +1,8 @@
 {
   "asset_id": "korven_registro_cauce",
   "generation_tool": "native image_gen",
-  "sha256": "07952f6a67ccfdf3f38711e9e732a45090951d3a8e3f4f4643c0514443269783",
-  "bytes": 236408,
+  "sha256": "ed30c135b00cc7a6f41d83b1b4fcc45bfdc5b6a1204cd2e268e7173269cb28ed",
+  "bytes": 241398,
   "dimensions": [
     1280,
     960
@@ -10,5 +10,5 @@
   "source_original": "korven_registro_cauce-original.png",
   "normalization": "Mechanical proportional resize and WebP compression only",
   "review": "SELF_REVIEW_PASS",
-  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view, 4:3 landscape, readable walkable terrain for a 20x15 room. NO people, creatures, text, HUD or baked-in actors. Korven/Brumak is a surface community of short compact Dravak with small stone plates, work in stone, measures and functional supports; never underground dwarf city, no dragons, no magic crystals or runes. Warm dry daylight and grey stone, practical modest structures, visual continuity with lush Edran but drier rocky terrain. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff or furniture interrupting them. Low sheltered record-office of the wash observer. Thick stone walls and low wooden roof beams protect worn leather pouches and stone tablets arranged on wooden shelves. A small observation slit window in the rock wall looks out toward the dry creek below. A simple low desk with blank comparison slates, ink and a smooth paperweight stone. Calm, shaded and dust-free interior. Exactly ONE opening: SOUTH doorway reaching the bottom image boundary out to the listening platform. North, east and west sides are enclosed stone walls. Clear floor space in front of the desk for a standing observer NPC overlay."
+  "prompt": "Use case: precise-object-edit. Image 1 target record office, image 2 approved workshop style. Rebuild target with rich painted JRPG finish, textured warm grey stone and aged wood matching workshop, 1280x960 4:3. Original brief: low sheltered wash observer record office, thick stone walls and low beams, leather pouches, blank stone tablets on shelves, observation slit window, small low desk with blank comparison slates ink and paperweight, calm shaded dust free interior. No text, writing or symbols. Exactly ONE exit SOUTH at bottom center x45-55%, continuous stone floor to actual bottom boundary. Closed north east west. Gameplay floor must remain clear central area x35-65% y7-93%, widening x20-80% y27-53%; put desk and shelves on side periphery, leave x65% y40% free for NPC. Axis aligned overhead perspective, not rotated diamond room. Replace ALL black empty exterior triangles with actual rock foundations, dry rocky soil, fitted masonry and terrain up to every border; no void or black background. No people, creatures, magic or UI. Detailed wear and daylight as approved workshop.\nTARGETED MASK CORRECTION: create narrow clear floor aisle from top center x45-55% y0 through room to bottom center x45-55% y100. At top it is enclosed by wall ONLY in very top edge y0-6%, floor begins y7%; relocate back shelves to upper left and upper right sides, never across center aisle. Leave center x35-65% y7-93% free of shelves/walls/desk, and broad middle x20-80% y27-53% free floor. Retain single south doorway exact bottom center and real terrain in all corners."
 }
