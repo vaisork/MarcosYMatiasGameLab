@@ -228,3 +228,29 @@ Manifiesto en `entregas/equipo/cm-12/edran-restante-01/manifest-arte.json` y sid
 QA Edran restante: 33recorridos/14salidas, 6exámenes yCornalomo/examen reales, 12capturas escritorio/móvil conrecaptura lateral dePrado. Falla inicial deCornalomo bajo relato móvil corregida; arte ygeometría conrevisiónindependienteSHIP. No teléfono físico/tacto/FPS. Ver RPG_EDRAN_RESTANTE_01.md.
 
 Corrección visual heredada detectada en QA del Prado: `sprites/cornalomo.png` rehecho nativamente usando el diseño aprobado de bestiario y el sprite de batalla como referencias; torso, cuatro patas, cuernos y cola legibles. PNG48×48, 3608bytes, SHA256 `9078de2480073933ff506d4b2e447492ac81dcb5276bf04c0e8029280735c073`. Normalización mecánica uniforme y padding transparente; revisión independiente SHIP enreview-cornalomo.md. Escala1.6 sólo en mapa, anclaje de pies y batalla conservados, sin reglas nuevas.
+
+## Korven 01 — candidato local, 2026-10-22 (CM-20)
+
+Seis salas nuevas sobre `ec425a4`: Parada de los Cardos, Senda del viento, Almacén de grano, Patio de Brumak, Escalones bajos y Taller de Brumak. El conjunto candidato alcanza **50/191** salas ilustradas (241 mapas comprobables: 191 generados y 50 pintados); quedan 141. Este lote no está publicado, integrado ni desplegado. La base ya contiene el candidato Edran restante; el `main` remoto consultado continúa en `aab05d4b` (38 salas).
+
+Siete fondos 1280×960 de hasta 250000 bytes, dos atlas NPC 192×384 (celdas 64×96) y tres parejas de fauna 48×48/192×192. Ved y Beran usan cuerpo compacto de hasta 68 px por celda y pie común en y=92; no se añaden combates para NPC. Quebrarrocas comparte la escala de mapa 1.6 de Cornalomo, conservando anclaje y tamaño de batalla. Su presencia sigue dependiendo del snapshot autoritativo.
+
+| Recurso | Dimensiones | Bytes | SHA-256 |
+|---|---|---:|---|
+| `sprites/beran.png` | 192×384 | 71387 | `da258cba75d6edcc735cafab2838395b5d72fae27bc4f8378ad51abcaa4a2309` |
+| `backgrounds/brumak_centro.webp` | 1280×960 | 236006 | `988364fa2056e302deb85bd274513508cfa022cc627475c7db837991e28209bb` |
+| `sprites/cascapedernal-battle.png` | 192×192 | 45759 | `8e4c8492a4f65165367b480215c3071bec9e48407c8f51d0c24a772df2c90709` |
+| `sprites/cascapedernal.png` | 48×48 | 3905 | `d7b111e0faa27e6a526766dc2816691c116b8991f9e103a9063ace551d29caa3` |
+| `sprites/colagrieta-battle.png` | 192×192 | 44464 | `e8ff6f0e36efdea0932921fe365bbf2c25ad15df12d05333586e90755e1f5639` |
+| `sprites/colagrieta.png` | 48×48 | 3856 | `4cbc96ffd67bd4ea6926a576c5ce407fa65559930f275da2fa940ca156fdfd74` |
+| `backgrounds/korven_almacen_grano.webp` | 1280×960 | 205878 | `f4078bc180dc5cadeaa3a6afbbb0630eea72ea1e02c113e00264c48b03f33522` |
+| `backgrounds/korven_battle.webp` | 1280×960 | 249158 | `4e24c4c248148f7777e8697de129202d0e8e42117e8d37b567a69295f120871d` |
+| `backgrounds/korven_borde_tierra.webp` | 1280×960 | 241302 | `e93ec42ae945d710f7e1dd9754ccd3ab6cfd3ce95bc92aef8fcb7590c9a82e94` |
+| `backgrounds/korven_peldanos_cortos.webp` | 1280×960 | 247978 | `a2ed129ec188307e0a678dd9ee1f412c63b88ce3e5c78124411353cb82e3fc0c` |
+| `backgrounds/korven_senda_viento.webp` | 1280×960 | 236932 | `2c4a83a69770617c941dda287d979fb83e1cc8924255a3ada88018f37e86fb3a` |
+| `backgrounds/korven_taller_juntas.webp` | 1280×960 | 176512 | `a85c29641b7cd20ed914cc64cf60d44b1300d4c42dd23df8967417e3fd13642c` |
+| `sprites/quebrarrocas-battle.png` | 192×192 | 44755 | `cd9a733d55869004b04db35f2031881ca9b450c6e8e861d09ef1bd2ada580ceb` |
+| `sprites/quebrarrocas.png` | 48×48 | 4145 | `09accaf01aa5e1a3bb2ad32f633d012998b9ebff18403c17b482517c43ed1080` |
+| `sprites/ved.png` | 192×384 | 68533 | `998c404b48d1e236744373be99a09ba87660e65da6d408776f83603887328980` |
+
+Generación nativa `image_gen`; los dos primeros fondos reutilizan el SHIP de CM-12. Normalización mecánica, extracción por alfa, escala proporcional y padding. Se corrigió con `image_gen` la abertura norte accidental de Escalones bajos. Originales, prompts, manifiesto y QA en `entregas/equipo/cm-20/`; sidecars junto a cada recurso final. Autorrevisión de coherencia con Edran y canon, pendiente de revisión del arquitecto. Ver [RPG_KORVEN_01.md](RPG_KORVEN_01.md).

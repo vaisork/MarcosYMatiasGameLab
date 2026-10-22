@@ -1,0 +1,14 @@
+{
+  "asset_id": "beran",
+  "generation_tool": "native image_gen",
+  "source_original": "beran-original.png",
+  "dimensions": [
+    192,
+    384
+  ],
+  "bytes": 71387,
+  "sha256": "da258cba75d6edcc735cafab2838395b5d72fae27bc4f8378ad51abcaa4a2309",
+  "normalization": "12 alpha-isolated cells; one uniform scale; 64x96 cells, baseline y=92; shorter Dravak stature (68px maximum body height).",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Use case: stylized-concept. Original Vaisgard RPG Beran (korven_beran), Dravak smith of practical road fittings. Create a 3-column by 4-row RPG walking sprite atlas on TRUE TRANSPARENT background, each figure isolated in its cell, equal cells, no grid or text. Match the crisp painted pixel JRPG rendering and atlas structure of reference Aren, but Beran is short, broad and compact, small natural grey stone plates on brow and forearms, no horns, scales, dragons or dwarf beard. Dark cropped hair, charcoal work shirt, brown leather work apron, simple boots, small ordinary hand file safely held down. No magic forge or giant weapon. Four rows face down/front, up/back, left, right respectively; three poses left step, neutral, right step. Consistent identity and scale, whole body visible and feet aligned, generous transparent gutter around EACH figure. 3:4 overall portrait sheet. Sturdy adult short worker with readable silhouette, calm concentrated expression. No scenery, ground shadow, text or HUD."
+}

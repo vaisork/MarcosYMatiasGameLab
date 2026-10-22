@@ -44,14 +44,14 @@ function svgNode(name){
 }
 
 const keys=new Set(), images={};
-const npcSprites={edran_bren:'bren',edran_daro:'daro',edran_iria:'iria',edran_elva:'elva',edran_sena:'sena',edran_nela:'nela',edran_oren:'oren',edran_aren:'aren'};
+const npcSprites={edran_bren:'bren',edran_daro:'daro',edran_iria:'iria',edran_elva:'elva',edran_sena:'sena',edran_nela:'nela',edran_oren:'oren',edran_aren:'aren',korven_ved:'ved',korven_beran:'beran'};
 const npcSpriteNames=new Set(Object.values(npcSprites));
-const creatureSprites={espinajo_rastrojo:'espinajo',mordelinde:'mordelinde',cornalomo:'cornalomo',salteador_veterano:'salteador',forajido_camino:'forajido',salteadora_negociante:'negociante',salteador_bravucon:'bravucon'};
+const creatureSprites={espinajo_rastrojo:'espinajo',mordelinde:'mordelinde',cornalomo:'cornalomo',salteador_veterano:'salteador',forajido_camino:'forajido',salteadora_negociante:'negociante',salteador_bravucon:'bravucon',cascapedernal:'cascapedernal',colagrieta:'colagrieta',quebrarrocas:'quebrarrocas'};
 for(const name of ['avatar','avatar-battle','lina',...Object.values(npcSprites),...Object.values(creatureSprites).flatMap(name=>[name,`${name}-battle`])]){
  images[name]=new Image();
  images[name].src=`/client-rpg/sprites/${name}.png`;
 }
-function mapSpriteScale(sprite){return sprite==='cornalomo'?1.6:1;}
+function mapSpriteScale(sprite){return sprite==='cornalomo'||sprite==='quebrarrocas'?1.6:1;}
 const backgrounds={};
 function backgroundImage(path){
  if(!path||!/^backgrounds\/[a-z0-9_]+(?:-front)?\.webp$/.test(path))return null;

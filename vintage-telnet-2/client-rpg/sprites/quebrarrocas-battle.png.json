@@ -1,0 +1,14 @@
+{
+  "asset_id": "quebrarrocas-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "quebrarrocas-original.png",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 44755,
+  "sha256": "cd9a733d55869004b04db35f2031881ca9b450c6e8e861d09ef1bd2ada580ceb",
+  "normalization": "Alpha-isolated view, proportional resize and transparent padding; feet at size-2; no repainting.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Use case: stylized-concept. ONE transparent sprite sheet with TWO separate whole-body versions of Quebrarrocas, faithfully matching the supplied canonical creature design. LEFT HALF: high overhead three-quarter map view. RIGHT HALF: lower three-quarter battle view facing lower-left. Massive compact quadruped, ochre golden body, angular dark grey natural rock armor plates on head, back and forelegs, thick tail, huge broad shovel-like forelimbs for pushing blocks, amber eyes. Keep canonical animal anatomy, no wings, no magic, no dragon or humanoid. Crisp hand-painted pixel JRPG style, strong readable silhouette for 48px map and 192px battle. Two equal square cells in a 2:1 landscape sheet, entire animal including feet and tail contained in each half, generous transparent padding and central gutter. TRUE transparent alpha, no ground or scenery, no blocks being pushed, no shadow, no text, HUD or extra creatures."
+}

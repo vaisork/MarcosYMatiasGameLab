@@ -131,7 +131,9 @@ const expectedNpcSprites={
  edran_sena:'sena',
  edran_nela:'nela',
  edran_oren:'oren',
- edran_aren:'aren'
+ edran_aren:'aren',
+ korven_ved:'ved',
+ korven_beran:'beran'
 };
 for(const [id,sprite] of Object.entries(expectedNpcSprites)){
  vm.runInContext(`snapshot.room.npcs=[{id:'${id}'}];`,context);
@@ -183,6 +185,21 @@ for(const [id,map] of maps){
  }
 }
 console.log(`RPG navigation: ${maps.length} painted/generated maps, every spawn and exit reachable with avatar bounds OK`);
+// Korven art must keep the real collision footprint clear at every actor anchor.
+for(const [id,map] of maps.filter(([id,map])=>map.background&&(id.startsWith('korven_')||id==='brumak_centro'))){
+ context.testMap=map;vm.runInContext('scene=testMap',context);
+ for(const actor of [...map.npcs,...map.creatures]){
+  context.actor=actor;
+  assert.equal(vm.runInContext('blocked(...actor.at)',context),false,`${id}: ${actor.id} feet overlap obstacle`);
+ }
+ if(map.creatures.length){
+  assert.equal(map.battle_background,'backgrounds/korven_battle.webp');
+  vm.runInContext('backgrounds[scene.battle_background]={complete:true,naturalWidth:1280}',context);
+  assert.equal(vm.runInContext('battleBackgroundImage()===backgrounds[scene.battle_background]',context),true);
+ }
+}
+assert.equal(vm.runInContext("mapSpriteScale('quebrarrocas')",context),1.6);
+console.log('RPG Korven: actor feet, large Quebrarrocas and dry battle background OK');
 // Reviewed image footprints: reachability alone must not allow crossing furniture.
 for(const [id,points] of Object.entries({
  valdren_cuidado:[[5.5,4.5],[10.5,4.5]],
@@ -336,7 +353,7 @@ scene={size:[20,15],npcs:[],creatures:[]};animation=null;
 snapshot={character:{name:'QA',level:1,hp:100,hp_max:100,combat:null},room:{npcs:[]},actions:[]};
 Object.assign(ctx,{strokeRect(){}});
 `,context);
-for(const [id,sprite] of [['espinajo_rastrojo','espinajo'],['mordelinde','mordelinde'],['cornalomo','cornalomo'],['salteador_veterano','salteador'],['forajido_camino','forajido'],['salteadora_negociante','negociante'],['salteador_bravucon','bravucon']]){
+for(const [id,sprite] of [['espinajo_rastrojo','espinajo'],['mordelinde','mordelinde'],['cornalomo','cornalomo'],['salteador_veterano','salteador'],['forajido_camino','forajido'],['salteadora_negociante','negociante'],['salteador_bravucon','bravucon'],['cascapedernal','cascapedernal'],['colagrieta','colagrieta'],['quebrarrocas','quebrarrocas']]){
  context.creatureId=id;
  assert.equal(vm.runInContext('entities().length',context),0,'Artwork alone must not reveal a creature');
  vm.runInContext(`snapshot.actions=[{id:'combatir',target:creatureId}];`,context);
