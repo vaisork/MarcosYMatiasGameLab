@@ -352,3 +352,99 @@ class RpgSceneTests(unittest.TestCase):
                     self.assertEqual(solid[y][x], '.', f'{room_id} point ({x},{y}) should be walkable')
                 for x, y in blocked_pts:
                     self.assertEqual(solid[y][x], '1', f'{room_id} obstacle ({x},{y}) should be blocked')
+
+    def test_edran_restante_scenes_canonical_geometry_and_entities(self):
+        """Final artwork Edran Restante rooms retain canonical exits, fauna, obstacles and Tiled roundtrip."""
+        import importlib.util
+        from collections import deque
+        root = Path(__file__).resolve().parents[1]
+        content = Content(root / 'content')
+        spec = importlib.util.spec_from_file_location('tiled_to_scene', root / 'scripts/tiled-to-scene.py')
+        converter = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(converter)
+
+        restante_rooms = [
+            'edran_loma', 'edran_prado', 'edran_ladera_piedra',
+            'edran_linde_piedra', 'edran_sendero_juncos', 'edran_puente_juncos'
+        ]
+        scenes = {}
+        total_exits = 0
+        for room_id in restante_rooms:
+            scene_path = root / 'client-rpg/scenes' / f'{room_id}.json'
+            self.assertTrue(scene_path.is_file(), f'Missing scene file {scene_path}')
+            scene = json.loads(scene_path.read_text(encoding='utf-8'))
+            scenes[room_id] = scene
+            room = content.rooms[room_id]
+
+            with self.subTest(room=room_id):
+                # Canonical exits match content
+                room_exits = set(room.get('exits', {}))
+                self.assertEqual({e['direction'] for e in scene['exits']}, room_exits)
+                total_exits += len(scene['exits'])
+
+                # Tiled roundtrip lossless
+                tiled_path = root / 'client-rpg/tiled' / f'{room_id}.tmj'
+                self.assertTrue(tiled_path.is_file(), f'Missing tmj file {tiled_path}')
+                tiled = json.loads(tiled_path.read_text(encoding='utf-8'))
+                self.assertEqual(converter.tiled_to_scene(tiled), scene)
+                self.assertEqual(converter.scene_to_tiled(scene), tiled)
+
+                # Background file exists and is within 250 KB
+                bg_path = root / 'client-rpg' / scene['background']
+                self.assertTrue(bg_path.is_file(), f'Missing bg {bg_path}')
+                self.assertLessEqual(bg_path.stat().st_size, 250000)
+
+                # Connectivity: all spawns, creatures and exits reachable
+                start = tuple(scene['spawn']['default'])
+                queue = deque([start])
+                seen = {start}
+                while queue:
+                    x, y = queue.popleft()
+                    for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+                        if 0 <= nx < 20 and 0 <= ny < 15 and scene['layers']['solid'][ny][nx] == '.' and (nx, ny) not in seen:
+                            seen.add((nx, ny))
+                            queue.append((nx, ny))
+
+                for arrival, at in scene['spawn'].items():
+                    self.assertIn(tuple(at), seen, f'{room_id} spawn {arrival} unreachable')
+                for npc in scene.get('npcs', []):
+                    self.assertIn(tuple(npc['at']), seen, f'{room_id} npc {npc} unreachable')
+                for creature in scene.get('creatures', []):
+                    self.assertIn(tuple(creature['at']), seen, f'{room_id} creature {creature} unreachable')
+                for ex in scene['exits']:
+                    x, y, w, h = ex['rect']
+                    self.assertTrue(any((i, j) in seen for i in range(x, x + w) for j in range(y, y + h)),
+                                    f'{room_id} exit {ex} unreachable')
+
+        # Total exits across the 6 restante rooms is exactly 14
+        self.assertEqual(total_exits, 14)
+
+        # No NPCs in these 6 rooms
+        for r in restante_rooms:
+            self.assertEqual(scenes[r]['npcs'], [], f'{r} should not have NPCs')
+
+        # Complete wildlife pools and signals match content
+        for room_id in restante_rooms:
+            expected_creatures = {s['creature'] for s in content.rooms[room_id].get('signals', []) + content.rooms[room_id].get('wildlife_pool', [])}
+            actual_creatures = {c['id'] for c in scenes[room_id]['creatures']}
+            self.assertEqual(actual_creatures, expected_creatures, f'Creature pool mismatch in {room_id}')
+            # Creatures must not occupy spawn cells
+            spawn_cells = {tuple(at) for at in scenes[room_id]['spawn'].values()}
+            for c in scenes[room_id]['creatures']:
+                self.assertNotIn(tuple(c['at']), spawn_cells, f'Creature {c} on spawn in {room_id}')
+
+        # Distinguishing obstacles and walkable path points per room
+        for room_id, free_pts, blocked_pts in (
+            ('edran_loma', [(6, 1), (9, 13), (18, 8), (8, 8), (10, 8)], [(14, 2), (16, 3), (1, 5), (15, 12), (16, 7), (17, 9), (10, 10)]),
+            ('edran_prado', [(12, 5), (1, 5), (10, 13), (9, 11), (5, 6), (8, 9)], [(10, 0), (18, 4), (1, 12), (10, 2), (4, 3)]),
+            ('edran_ladera_piedra', [(9, 1), (18, 8), (12, 6), (9, 4), (10, 5)], [(5, 2), (5, 6), (5, 9), (6, 10), (10, 13), (13, 4), (7, 6), (5, 8)]),
+            ('edran_linde_piedra', [(10, 7), (10, 1), (10, 13), (10, 5), (10, 8)], [(6, 6), (1, 7), (18, 7), (6, 5), (7, 5)]),
+            ('edran_sendero_juncos', [(10, 7), (1, 6), (18, 6)], [(10, 1), (10, 12), (7, 4), (1, 7), (19, 7)]),
+            ('edran_puente_juncos', [(10, 4), (4, 5), (17, 5), (8, 13), (10, 5), (8, 10)], [(10, 1), (10, 6), (14, 10), (17, 6), (5, 10)]),
+        ):
+            with self.subTest(geometry=room_id):
+                solid = scenes[room_id]['layers']['solid']
+                for x, y in free_pts:
+                    self.assertEqual(solid[y][x], '.', f'{room_id} point ({x},{y}) should be walkable')
+                for x, y in blocked_pts:
+                    self.assertEqual(solid[y][x], '1', f'{room_id} obstacle ({x},{y}) should be blocked')

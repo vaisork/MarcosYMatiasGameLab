@@ -1,0 +1,14 @@
+{
+  "asset_id": "edran_ladera_piedra",
+  "generation_tool": "native image_gen",
+  "sha256": "326f57421adea2dc226beea0add0375c4250114c8b5449284742b41cfb0da091",
+  "bytes": 238182,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-4deca6cf-0a2c-44de-ac77-c644eb82ce6c.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SHIP",
+  "prompt": "Single finished game environment background, no text, no HUD, no people, no animals, no sprites. Bright lush high craft fantasy JRPG painted pixel art, warm natural sunlight, blue sky, rich vegetation, readable detailed terrain, matching Vaisgard RPG Edran countryside. Fixed high three-quarter top-down camera, continuous explorable ground rather than scenic postcard. Landscape 4:3 composition for a 20x15 walkability grid. Keep exits clearly grounded and wide enough for a walking character, avoid deceptive walkable water or cliff edges. Earth and rock hillside with exactly three flat projecting rock shelves at different heights, used by porters to rest baskets. Shelves are environmental obstacles, not floating platforms. Dense bush protects the lowest shelf, a broken rope lies underneath away from the walking route. Continuous clearly graded dirt switchback connects east center arrival from meadow to north center departure toward rocky boundary. No west or south exit, closed by hillside rocks. No climbing/jumping required."
+}

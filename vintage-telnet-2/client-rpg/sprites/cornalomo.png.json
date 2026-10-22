@@ -1,0 +1,15 @@
+{
+  "asset_id": "cornalomo-map-v2",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-5434f288-47d6-4d5e-af5e-517af28587f1.png",
+  "reference_design": "client/art/bestiary/cornalomo-anime-v1.webp and existing cornalomo-battle.png",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 3608,
+  "sha256": "9078de2480073933ff506d4b2e447492ac81dcb5276bf04c0e8029280735c073",
+  "normalization": "Mechanical transparent trim, uniform nearest resize, transparent square padding only",
+  "review": "SHIP",
+  "purpose": "Full body and feet discernible; inherited map sprite was too small and narrow. Pure presentation, no gameplay change."
+}

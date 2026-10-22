@@ -237,6 +237,89 @@ assert.equal(vm.runInContext('blocked(1.5,8.5)',context),false,'Mirador west cor
 assert.equal(vm.runInContext('blocked(18.5,8.5)',context),false,'Mirador east corridor remains open');
 console.log('RPG Edran Norte geometry: furniture, bridge slabs, cliff and corridors OK');
 
+// Edran Restante geometry regressions: obstacles, waterways, dry decks and open corridors
+for(const [id,points] of Object.entries({
+ edran_loma:[[14.5,2.5],[16.5,3.5],[1.5,5.5],[15.5,12.5]],
+ edran_prado:[[10.5,0.5],[18.5,4.5],[1.5,12.5]],
+ edran_ladera_piedra:[[5.5,2.5],[5.5,6.5],[5.5,9.5],[6.5,10.5],[10.5,13.5]],
+ edran_linde_piedra:[[6.5,6.5],[1.5,7.5],[18.5,7.5]],
+ edran_sendero_juncos:[[10.5,1.5],[10.5,12.5]],
+ edran_puente_juncos:[[10.5,1.5],[10.5,6.5],[14.5,10.5]]
+})){
+ context.testMap=maps.find(([rid])=>rid===id)[1];vm.runInContext('scene=testMap',context);
+ for(const [x,y] of points)assert.equal(vm.runInContext(`blocked(${x},${y})`,context),true,`${id}: reviewed obstacle at ${x},${y}`);
+}
+context.testMap=maps.find(([id])=>id==='edran_loma')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(6.5,1.5)',context),false,'Loma north route remains open');
+assert.equal(vm.runInContext('blocked(18.5,8.5)',context),false,'Loma east route remains open');
+assert.equal(vm.runInContext('blocked(9.5,13.5)',context),false,'Loma south route remains open');
+context.testMap=maps.find(([id])=>id==='edran_prado')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(12.5,5.5)',context),false,'Prado flattened circle ground remains open for Cornalomo');
+assert.equal(vm.runInContext('blocked(1.5,5.5)',context),false,'Prado west stone path remains open');
+context.testMap=maps.find(([id])=>id==='edran_ladera_piedra')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(9.5,1.5)',context),false,'Ladera north path remains open');
+assert.equal(vm.runInContext('blocked(18.5,8.5)',context),false,'Ladera east path remains open');
+context.testMap=maps.find(([id])=>id==='edran_linde_piedra')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(10.5,7.5)',context),false,'Linde clearing remains accessible around supports');
+assert.equal(vm.runInContext('blocked(10.5,1.5)',context),false,'Linde north rock pass remains open');
+context.testMap=maps.find(([id])=>id==='edran_sendero_juncos')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(10.5,7.5)',context),false,'Sendero wide dry central clearing remains open');
+assert.equal(vm.runInContext('blocked(1.5,6.5)',context),false,'Sendero west path remains open');
+assert.equal(vm.runInContext('blocked(18.5,6.5)',context),false,'Sendero east path remains open');
+context.testMap=maps.find(([id])=>id==='edran_puente_juncos')[1];
+vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(10.5,4.5)',context),false,'Bridge deck allows crossing the river');
+assert.equal(vm.runInContext('blocked(17.5,5.5)',context),false,'Raised eastern riverbank remains open for Veterana');
+assert.equal(vm.runInContext('blocked(8.5,13.5)',context),false,'Western riverbank path down to Sauces remains dry');
+console.log('RPG Edran Restante geometry: panorama, circle, ledges, supports, reeds and bridge deck OK');
+
+
+// Independent artwork review: previously walkable rocks, supports, bank and reeds.
+context.testMap=maps.find(([id])=>id==='edran_loma')[1];vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(10.5,8.5)',context),false,'edran_loma: reviewed free cell 10,8');
+assert.equal(vm.runInContext('blocked(18.5,8.5)',context),false,'edran_loma: reviewed free cell 18,8');
+assert.equal(vm.runInContext('blocked(6.5,1.5)',context),false,'edran_loma: reviewed free cell 6,1');
+assert.equal(vm.runInContext('blocked(16.5,7.5)',context),true,'edran_loma: reviewed blocked cell 16,7');
+assert.equal(vm.runInContext('blocked(17.5,9.5)',context),true,'edran_loma: reviewed blocked cell 17,9');
+assert.equal(vm.runInContext('blocked(10.5,10.5)',context),true,'edran_loma: reviewed blocked cell 10,10');
+context.testMap=maps.find(([id])=>id==='edran_prado')[1];vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(12.5,5.5)',context),false,'edran_prado: reviewed free cell 12,5');
+assert.equal(vm.runInContext('blocked(5.5,6.5)',context),false,'edran_prado: reviewed free cell 5,6');
+assert.equal(vm.runInContext('blocked(8.5,9.5)',context),false,'edran_prado: reviewed free cell 8,9');
+assert.equal(vm.runInContext('blocked(10.5,2.5)',context),true,'edran_prado: reviewed blocked cell 10,2');
+assert.equal(vm.runInContext('blocked(4.5,3.5)',context),true,'edran_prado: reviewed blocked cell 4,3');
+context.testMap=maps.find(([id])=>id==='edran_ladera_piedra')[1];vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(9.5,4.5)',context),false,'edran_ladera_piedra: reviewed free cell 9,4');
+assert.equal(vm.runInContext('blocked(10.5,5.5)',context),false,'edran_ladera_piedra: reviewed free cell 10,5');
+assert.equal(vm.runInContext('blocked(18.5,8.5)',context),false,'edran_ladera_piedra: reviewed free cell 18,8');
+assert.equal(vm.runInContext('blocked(13.5,4.5)',context),true,'edran_ladera_piedra: reviewed blocked cell 13,4');
+assert.equal(vm.runInContext('blocked(7.5,6.5)',context),true,'edran_ladera_piedra: reviewed blocked cell 7,6');
+assert.equal(vm.runInContext('blocked(5.5,8.5)',context),true,'edran_ladera_piedra: reviewed blocked cell 5,8');
+context.testMap=maps.find(([id])=>id==='edran_linde_piedra')[1];vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(10.5,5.5)',context),false,'edran_linde_piedra: reviewed free cell 10,5');
+assert.equal(vm.runInContext('blocked(10.5,8.5)',context),false,'edran_linde_piedra: reviewed free cell 10,8');
+assert.equal(vm.runInContext('blocked(6.5,5.5)',context),true,'edran_linde_piedra: reviewed blocked cell 6,5');
+assert.equal(vm.runInContext('blocked(7.5,5.5)',context),true,'edran_linde_piedra: reviewed blocked cell 7,5');
+context.testMap=maps.find(([id])=>id==='edran_puente_juncos')[1];vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(10.5,4.5)',context),false,'edran_puente_juncos: reviewed free cell 10,4');
+assert.equal(vm.runInContext('blocked(10.5,5.5)',context),false,'edran_puente_juncos: reviewed free cell 10,5');
+assert.equal(vm.runInContext('blocked(8.5,10.5)',context),false,'edran_puente_juncos: reviewed free cell 8,10');
+assert.equal(vm.runInContext('blocked(8.5,13.5)',context),false,'edran_puente_juncos: reviewed free cell 8,13');
+assert.equal(vm.runInContext('blocked(17.5,6.5)',context),true,'edran_puente_juncos: reviewed blocked cell 17,6');
+assert.equal(vm.runInContext('blocked(5.5,10.5)',context),true,'edran_puente_juncos: reviewed blocked cell 5,10');
+assert.equal(vm.runInContext('blocked(10.5,6.5)',context),true,'edran_puente_juncos: reviewed blocked cell 10,6');
+context.testMap=maps.find(([id])=>id==='edran_sendero_juncos')[1];vm.runInContext('scene=testMap',context);
+assert.equal(vm.runInContext('blocked(1.5,6.5)',context),false,'edran_sendero_juncos: reviewed free cell 1,6');
+assert.equal(vm.runInContext('blocked(18.5,6.5)',context),false,'edran_sendero_juncos: reviewed free cell 18,6');
+assert.equal(vm.runInContext('blocked(10.5,7.5)',context),false,'edran_sendero_juncos: reviewed free cell 10,7');
+assert.equal(vm.runInContext('blocked(7.5,4.5)',context),true,'edran_sendero_juncos: reviewed blocked cell 7,4');
+assert.equal(vm.runInContext('blocked(1.5,7.5)',context),true,'edran_sendero_juncos: reviewed blocked cell 1,7');
+assert.equal(vm.runInContext('blocked(19.5,7.5)',context),true,'edran_sendero_juncos: reviewed blocked cell 19,7');
 // Refresh busy state without rebuilding preserved entry fields (autofill has no input event).
 const entrySubmit={disabled:true};
 nodes.set('entry',element());
@@ -275,12 +358,99 @@ draws=[];battleDraw(1000);
 `,context);
  assert.equal(vm.runInContext('entities()[0].sprite',context),sprite,'Active combat still presents the creature without encounter actions');
  assert.equal(vm.runInContext('draws.some(args=>args[0]===images[battleSprite])',context),true,'Battle draws the matching creature artwork');
- assert.equal(vm.runInContext('entities()[0].sprite',context),sprite,'Active combat preserves creature presence without encounter actions');
  vm.runInContext('snapshot.actions=[];snapshot.character.combat=null;',context);
 }
 vm.runInContext("snapshot.actions=[{id:'combatir',target:'unknown_creature'}]",context);
 assert.equal(vm.runInContext('entities()[0].sprite',context),null,'Unmapped creatures retain the existing fallback');
 console.log('RPG creature artwork: server visibility, map/battle mapping, frame sizes and unknown fallback OK');
+
+// Map sprite scale and anchor regression: Cornalomo 1.6 visual scale, regular actors equal, battle unchanged
+assert.equal(vm.runInContext("mapSpriteScale('cornalomo')", context), 1.6, 'Cornalomo map sprite scale must be 1.6');
+assert.equal(vm.runInContext("mapSpriteScale('espinajo')", context), 1, 'Regular creature scale must be 1');
+assert.equal(vm.runInContext("mapSpriteScale('avatar')", context), 1, 'Avatar scale must be 1');
+assert.equal(vm.runInContext("mapSpriteScale('bren')", context), 1, 'NPC scale must be 1');
+
+vm.runInContext(`
+outcome=null;animation=null;
+snapshot={character:{name:'QA',level:1,hp:100,hp_max:100,combat:null},room:{npcs:[{id:'edran_bren',name:'Bren'}]},actions:[{id:'combatir',target:'cornalomo'},{id:'combatir',target:'espinajo_rastrojo'}]};
+scene={size:[20,15],layers:{ground:Array(15).fill('g'.repeat(20)),solid:Array(15).fill('.'.repeat(20))},exits:[],npcs:[{id:'edran_bren',at:[4,5]}],creatures:[{id:'cornalomo',at:[12,5]},{id:'espinajo_rastrojo',at:[10,5]}]};
+player.x=8;player.y=5;
+canvas.width=640;canvas.height=480;
+images.avatar.complete=true;images.avatar.naturalWidth=192;
+images.bren.complete=true;images.bren.naturalWidth=192;
+images.cornalomo.complete=true;images.cornalomo.naturalWidth=48;
+images.espinajo.complete=true;images.espinajo.naturalWidth=48;
+draws=[];fills=[];var mapEllipses=[];
+Object.assign(ctx,{
+ drawImage:(...args)=>draws.push(args),
+ fillRect:(...args)=>fills.push(args),
+ ellipse:(...args)=>mapEllipses.push(args),
+ measureText:(text)=>({width:(text||'').length*8}),
+ strokeRect(){},beginPath(){},fill(){},fillText(){}
+});
+draw(1000);
+`, context);
+
+const corDraw = vm.runInContext("draws.find(d => d[0] === images.cornalomo)", context);
+const espDraw = vm.runInContext("draws.find(d => d[0] === images.espinajo)", context);
+const avaDraw = vm.runInContext("draws.find(d => d[0] === images.avatar)", context);
+const npcDraw = vm.runInContext("draws.find(d => d[0] === images.bren)", context);
+
+assert.ok(corDraw && espDraw && avaDraw && npcDraw, 'All actors must be drawn on map');
+
+// Source frame coords: 48x48 preserved for creatures, 64x96 for sheet actors
+assert.equal(corDraw[3], 48, 'Cornalomo source width must stay 48');
+assert.equal(corDraw[4], 48, 'Cornalomo source height must stay 48');
+assert.equal(espDraw[3], 48, 'Espinajo source width must stay 48');
+assert.equal(espDraw[4], 48, 'Espinajo source height must stay 48');
+assert.equal(avaDraw[3], 64, 'Avatar source width must stay 64');
+assert.equal(avaDraw[4], 96, 'Avatar source height must stay 96');
+assert.equal(npcDraw[3], 64, 'NPC source width must stay 64');
+assert.equal(npcDraw[4], 96, 'NPC source height must stay 96');
+
+// Drawn dimensions on map: Cornalomo scaled 1.6x (Math.round(48 * 1.6) = 77), others regular (48 or 40x60)
+assert.equal(corDraw[7], 77, 'Cornalomo drawn width must be 77 (48 * 1.6 at S=32)');
+assert.equal(corDraw[8], 77, 'Cornalomo drawn height must be 77 (48 * 1.6 at S=32)');
+assert.equal(espDraw[7], 48, 'Espinajo drawn width must be 48');
+assert.equal(espDraw[8], 48, 'Espinajo drawn height must be 48');
+assert.equal(avaDraw[7], 40, 'Avatar drawn width must be 40');
+assert.equal(avaDraw[8], 60, 'Avatar drawn height must be 60');
+assert.equal(npcDraw[7], 40, 'NPC drawn width must be 40');
+assert.equal(npcDraw[8], 60, 'NPC drawn height must be 60');
+
+// Foot/anchor alignment: dy + height must equal screenY + 8 for all actors at y=5 (160 + 8 = 168)
+const expectedAnchorY = 168;
+assert.equal(corDraw[6] + corDraw[8], expectedAnchorY, 'Cornalomo foot anchor must match base anchor line');
+assert.equal(espDraw[6] + espDraw[8], expectedAnchorY, 'Espinajo foot anchor must match base anchor line');
+assert.equal(avaDraw[6] + avaDraw[8], expectedAnchorY, 'Avatar foot anchor must match base anchor line');
+assert.equal(npcDraw[6] + npcDraw[8], expectedAnchorY, 'NPC foot anchor must match base anchor line');
+
+// Shadow ellipses: same center Y anchor, 1.6 scaled radii for Cornalomo
+const corEllipse = vm.runInContext("mapEllipses.find(e => e[0] === 12 * 32)", context);
+const espEllipse = vm.runInContext("mapEllipses.find(e => e[0] === 10 * 32)", context);
+assert.ok(corEllipse && espEllipse, 'Shadow ellipses must be drawn for creatures');
+assert.equal(corEllipse[1], expectedAnchorY, 'Cornalomo shadow center Y must match foot anchor');
+assert.equal(espEllipse[1], expectedAnchorY, 'Espinajo shadow center Y must match foot anchor');
+assert.equal(corEllipse[2], 19, 'Cornalomo shadow rx scaled 1.6 (Math.round(12 * 1.6) = 19)');
+assert.equal(corEllipse[3], 8, 'Cornalomo shadow ry scaled 1.6 (Math.round(5 * 1.6) = 8)');
+assert.equal(espEllipse[2], 12, 'Espinajo shadow rx standard 12');
+assert.equal(espEllipse[3], 5, 'Espinajo shadow ry standard 5');
+
+// Battle unchanged: Cornalomo in combat uses battle layout size, unaffected by mapSpriteScale
+vm.runInContext(`
+snapshot.character.combat={creature:'cornalomo',name:'Cornalomo',round:0,hp:40,hp_max:40,next_round:0};
+snapshot.actions=[];
+draws=[];fills=[];
+images['cornalomo-battle'].complete=true;images['cornalomo-battle'].naturalWidth=192;
+battleDraw(1000);
+`, context);
+const cornalomoBattleDraw = vm.runInContext("draws.find(d => d[0] === images['cornalomo-battle'])", context);
+assert.ok(cornalomoBattleDraw, 'Battle draws cornalomo-battle image');
+const layoutEnemyW = vm.runInContext("getBattleLayout(canvas.width, canvas.height).enemy.w", context);
+assert.equal(cornalomoBattleDraw[3], layoutEnemyW, 'Battle enemy width unchanged by map scale');
+assert.equal(cornalomoBattleDraw[4], layoutEnemyW, 'Battle enemy height unchanged by map scale');
+vm.runInContext('snapshot.actions=[];snapshot.character.combat=null;draws=[];fills=[];', context);
+console.log('RPG map sprite scaling: Cornalomo 1.6 visual scale, anchor and battle unchanged OK');
 
 // Verification: getCamera in portrait (mobile 390×844) and desktop (1366×768)
 // Check corners (0,0), (19,0), (0,14), (19,14) and center (10,7), aspect proportion, and actor screen position within viewport.

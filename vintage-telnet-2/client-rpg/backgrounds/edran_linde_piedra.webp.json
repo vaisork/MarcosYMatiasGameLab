@@ -1,0 +1,14 @@
+{
+  "asset_id": "edran_linde_piedra",
+  "generation_tool": "native image_gen",
+  "sha256": "6f0f21f8241fc4b629e463527bf04117178e5be93c7ef292dcc9613dbb0fdfe4",
+  "bytes": 240160,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-964bd085-6298-4cbb-b871-73c7ec81e71a.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SHIP",
+  "prompt": "Single finished game environment background, no text, no HUD, no people, no animals, no sprites. Bright lush high craft fantasy JRPG painted pixel art, warm natural sunlight, blue sky, rich vegetation, readable detailed terrain, matching Vaisgard RPG Edran countryside. Fixed high three-quarter top-down camera, continuous explorable ground rather than scenic postcard. Landscape 4:3 composition for a 20x15 walkability grid. Keep exits clearly grounded and wide enough for a walking character, avoid deceptive walkable water or cliff edges. Dry grey rocky boundary toward Korven. Wide cart wheel ruts enter from south center and terminate abruptly on firm transfer clearing. A few narrow empty carrying supports rest beside clearing, not blocking path. Two smooth rounded rock ridges frame a narrow continuous walking passage departing north center. East and west solid rocky slopes close exits. Warm dry dust and grey gravel, little vegetation, green Edran terrain visible at south."
+}
