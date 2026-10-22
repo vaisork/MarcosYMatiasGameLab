@@ -1,0 +1,14 @@
+{
+  "asset_id": "colagrieta-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "colagrieta-original.png",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 44464,
+  "sha256": "e8ff6f0e36efdea0932921fe365bbf2c25ad15df12d05333586e90755e1f5639",
+  "normalization": "Alpha-isolated view, proportional resize and transparent padding; feet at size-2; no repainting.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Use case: stylized-concept. ONE transparent sprite sheet with TWO separate whole-body versions of Colagrieta, matching supplied canonical creature identity. LEFT HALF: overhead three-quarter map view. RIGHT HALF: lower three-quarter battle view facing lower-left. Long low grey mottled reptile, four short legs, broad rounded head, amber eyes, very thick long tapering tail used for backing into cracks. Preserve reference anatomy, no horns/wings/dragon features. Crisp high craft painted pixel JRPG rendering, simplified readable silhouette for 48px map and 192px battle. Two equally sized square cells in a 2:1 landscape sheet, each entire creature including tail inside its own cell with generous gutter and padding. TRUE TRANSPARENT background, no scenery, ground, shadow, rocks, text, HUD or additional creatures."
+}

@@ -1,0 +1,14 @@
+{
+  "asset_id": "ved",
+  "generation_tool": "native image_gen",
+  "source_original": "ved-original.png",
+  "dimensions": [
+    192,
+    384
+  ],
+  "bytes": 68533,
+  "sha256": "998c404b48d1e236744373be99a09ba87660e65da6d408776f83603887328980",
+  "normalization": "12 alpha-isolated cells; one uniform scale; 64x96 cells, baseline y=92; shorter Dravak stature (68px maximum body height).",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Use case: stylized-concept. Original Vaisgard RPG Ved (korven_ved), Dravak NPC who receives travelers beside low steps. Create a 3-column by 4-row RPG walking sprite atlas on TRUE TRANSPARENT background, each figure isolated in its cell, equal cells, no grid lines or text. Match the crisp hand-painted pixel JRPG style and atlas structure of the reference Aren, but Ved is short and compact, with small natural stone plates on temples and forearms, no horns/scales/dragon traits, no dwarf beard. Practical muted ochre/grey work clothing and boots, holds a small plain slate tablet, neutral welcoming expression. Four rows face down/front, up/back, left, right respectively; each row three poses left step, neutral, right step, consistent identity, size and ground baseline, whole body visible. 3:4 overall portrait sheet. The person occupies only about 70 percent of each cell height to convey short stature compared with Aren, feet near cell bottom. No scenery, chair, shadows, weapons, letters, glow or HUD."
+}

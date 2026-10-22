@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_battle",
+  "generation_tool": "native image_gen",
+  "sha256": "4e24c4c248148f7777e8697de129202d0e8e42117e8d37b567a69295f120871d",
+  "bytes": 249158,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-b21aaae1-8829-4aeb-9299-a6f13686d208.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view, 4:3 landscape, readable walkable terrain for a20x15room. NO people, creatures, text, HUD or baked-in actors. Korven/Brumak is a surface community of short compact Dravak with small stone plates, work in stone, measures and functional supports; never underground dwarf city, no dragons, no magic crystals or runes. Warm dry daylight and grey stone, practical modest structures, visual continuity with lush Edran but drier rocky terrain. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff or furniture interrupting them. Outdoor side-view battle clearing in dry grey fractured-stone terrain of Korven, pale dust, modest low rock shelves and sparse thistles at margins, surface daylight. Broad flat unobstructed central foreground arena with safe continuous stone footing, rocky slopes and low surface community walls far behind. No characters, creatures, HUD, text, crystals, magic, underground mine or forest. Slight low three-quarter camera suitable for large foreground player sprite and rear enemy sprite, 4:3."
+}
