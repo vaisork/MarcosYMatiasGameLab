@@ -723,8 +723,9 @@ html body .numen-art-img{max-width:100%;max-height:260px;width:auto;height:auto;
 html body .numen-response-badge{position:absolute;top:10px;right:12px;z-index:2;padding:4px 10px;border-radius:999px;background:#fff4cc;border:2px solid #f0a020;color:#3a2300;font-weight:700;font-size:0.85rem;box-shadow:0 3px 8px rgba(0,0,0,0.15)}
 html body .numen-reaction-box{margin:0;padding:12px 14px;border-left:4px solid var(--night-2,#2f86e8);background:#eef6ff;border-radius:10px;font-style:italic;color:var(--ink)}
 html body .numen-feeling-panel p{margin:4px 0}
-html body .numen-care-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 html body .numen-roster-item{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:10px 12px}
+html body .numen-roster-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+html body .numen-home-safe-note{font-size:0.86rem;color:#3b6e3f;margin:6px 0 0;font-style:italic}
 @keyframes numen-breathe-happy{
  0%,100%{transform:translateY(0) scale(1)}
  50%{transform:translateY(-6px) scale(1.03)}

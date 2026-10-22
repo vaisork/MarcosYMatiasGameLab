@@ -195,8 +195,8 @@ function classSelector(){
  return fieldContainer;
 }
 function creationScreen(){const form=el('form',{class:'stack',onsubmit:e=>{e.preventDefault();const data=new FormData(e.currentTarget);mutate('/api/character/create',{name:String(data.get('name')),species:String(data.get('species')),class_id:String(data.get('class_id')),gender:String(data.get('gender'))});}},field('Nombre de tu personaje','text','name','nickname'),speciesSelector(),classSelector(),genderField(),el('button',{type:'submit',class:'primary',disabled:busy},'Presentar mi personaje'));const characters=list(state.characters),pending=characters.filter(c=>c.status!=='approved');main.replaceChildren(card(title('Un lugar en el mundo','Tu personaje'),subtitle('Elige su nombre, especie, clase y género. El director revisará la solicitud.'),state.character?.status==='approved'?button('Volver a la aventura',()=>{view='adventure';render();}):null,...pending.map(c=>el('div',{class:'tile'},el('h3',{},c.name),subtitle(`${speciesNames[c.species]||c.species} · ${classNames[c.class_id]||c.class_id}`),el('span',{class:'pill'},'Pendiente de aprobación'))),state.pending_approval||pending.length?button('Comprobar aprobación',async()=>{try{await refresh();if(state?.pending_approval||list(state?.characters).some(c=>c.status!=='approved')||!state?.character||state?.character?.status!=='approved'){message('El director aún está revisando tu personaje.');}}catch(e){message(e.message,true);}}):form,...characters.filter(c=>c.status==='approved').map(c=>button(`Entrar con ${c.name}`,async()=>{view='adventure';await mutate('/api/character/select',{character_id:c.id});}))));}
-const actionIcons={guardia_comprometida:'shield',paso_ruptura:'swords',impulso_arcano:'bolt',velo_contencion:'shield',destello_frio:'star',borrar_foco:'eye',golpe_apertura:'weapon',distraccion:'talk',tiro_interrupcion:'weapon',traba_campo:'armor',balsamo_campo:'heart',mirar:'eye',observar:'search',buscar:'search',examinar:'search',evaluar:'search',atacar:'swords',combatir:'swords',acercarse:'eye',retirarse:'↗',defender:'shield',proteger:'shield',huir:'↗',descansar:'fire',descansar_juntos:'fire',hablar:'talk',conversar:'talk',hablar_adversario:'talk',comprar:'coin',vender:'coin',equipar:'armor',usar:'potion',mover:'→',mirar_direccion:'eye',capacidad:'bolt',examinar_criatura:'paw',aceptar:'star',cobrar:'star',afinar:'weapon',reparar:'weapon',recuperacion:'heart',fusionar:'swords',cuidar_numen:'heart',alimentar_numen:'ration',nombrar_numen:'paw',descansar_numen:'fire',activar_numen:'paw',apoyo_numen:'star',observar_numen:'eye',aproximar_numen:'eye',confiar_numen:'talk',forzar_numen:'talk',calmar_numen:'talk',vincular_numen:'star'};
-const actionTone=id=>['atacar','combatir','defender','proteger','huir','capacidad','apoyo_numen'].includes(id)?'fight':['comprar','vender','afinar','reparar','cobrar','fusionar'].includes(id)?'trade':['hablar','conversar','hablar_adversario','aceptar','confiar_numen','forzar_numen','calmar_numen'].includes(id)?'talk':['usar','descansar','recuperacion','equipar','cuidar_numen','alimentar_numen','nombrar_numen','descansar_numen','descansar_juntos'].includes(id)?'care':['mirar','observar','buscar','examinar','evaluar','examinar_criatura','acercarse','retirarse','observar_numen','aproximar_numen'].includes(id)?'explore':'story';
+const actionIcons={guardia_comprometida:'shield',paso_ruptura:'swords',impulso_arcano:'bolt',velo_contencion:'shield',destello_frio:'star',borrar_foco:'eye',golpe_apertura:'weapon',distraccion:'talk',tiro_interrupcion:'weapon',traba_campo:'armor',balsamo_campo:'heart',mirar:'eye',observar:'search',buscar:'search',examinar:'search',evaluar:'search',atacar:'swords',combatir:'swords',acercarse:'eye',retirarse:'↗',defender:'shield',proteger:'shield',huir:'↗',descansar:'fire',descansar_juntos:'fire',hablar:'talk',conversar:'talk',hablar_adversario:'talk',comprar:'coin',vender:'coin',equipar:'armor',usar:'potion',mover:'→',mirar_direccion:'eye',capacidad:'bolt',examinar_criatura:'paw',aceptar:'star',cobrar:'star',afinar:'weapon',reparar:'weapon',recuperacion:'heart',fusionar:'swords',cuidar_numen:'heart',alimentar_numen:'ration',nombrar_numen:'paw',descansar_numen:'fire',activar_numen:'paw',traer_numen:'paw',alimentar_lejos:'heart',apoyo_numen:'star',observar_numen:'eye',aproximar_numen:'eye',confiar_numen:'talk',forzar_numen:'talk',calmar_numen:'talk',vincular_numen:'star'};
+const actionTone=id=>['atacar','combatir','defender','proteger','huir','capacidad','apoyo_numen'].includes(id)?'fight':['comprar','vender','afinar','reparar','cobrar','fusionar'].includes(id)?'trade':['hablar','conversar','hablar_adversario','aceptar','confiar_numen','forzar_numen','calmar_numen'].includes(id)?'talk':['usar','descansar','recuperacion','equipar','cuidar_numen','alimentar_numen','nombrar_numen','descansar_numen','descansar_juntos','traer_numen','alimentar_lejos'].includes(id)?'care':['mirar','observar','buscar','examinar','evaluar','examinar_criatura','acercarse','retirarse','observar_numen','aproximar_numen'].includes(id)?'explore':'story';
 let namingNumen=null;
 function numenNameForm(action,initialName=''){
  const key=`${action.id}:${action.target||''}`;
@@ -347,6 +347,7 @@ function numenCard(numen,isActive,availableActions){
  const stageName=trustStageNames[numen.trust_stage]||numen.trust_stage||`Etapa ${trustLevel}`;
  const stars='★'.repeat(trustLevel)+'☆'.repeat(Math.max(0,3-trustLevel));
  const moodTone=mood==='contento'?'care-good':mood==='con hambre'?'care-hungry':'care-need';
+ const displayMood=mood;
  const cardEl=el('article',{class:`tile numen-card${isActive?' numen-active':''}`},
   el('div',{class:'numen-heading'},
    numenArt(numen,{class:'species-thumbnail'}),
@@ -357,7 +358,7 @@ function numenCard(numen,isActive,availableActions){
    el('span',{class:`pill${isActive?' numen-pill-active':''}`},isActive?'En viaje':'En el refugio')
   ),
   el('div',{class:'numen-details'},
-   el('div',{class:'numen-row numen-line'},el('strong',{},'Estado: '),el('span',{class:`pill ${moodTone} numen-mood-text`},mood)),
+   el('div',{class:'numen-row numen-line'},el('strong',{},'Estado: '),el('span',{class:`pill ${moodTone} numen-mood-text`},displayMood)),
    el('div',{class:'numen-row'},el('strong',{},'Confianza: '),el('span',{class:'numen-trust'},`${stageName} `),el('span',{class:'numen-stars','aria-label':`${trustLevel} de 3 estrellas`},stars)),
    el('div',{class:'numen-row'},el('strong',{},'Apoyo: '),el('span',{},numen.power_name||'Apoyo sutil con recarga')),
    numen.last_reaction?el('p',{class:'muted numen-last-reaction'},numen.last_reaction):null
@@ -368,8 +369,15 @@ function numenCard(numen,isActive,availableActions){
   const careActions=[...availableActions.filter(a=>['cuidar_numen','alimentar_numen','descansar_numen'].includes(a.id)),renameAction];
   cardEl.append(el('div',{class:'numen-actions'},el('h4',{class:'numen-actions-title'},'Cuidados disponibles aquí:'),...careActions.map(actionButton),button([controlIcon('paw'),' Ver pantalla del compañero'],()=>navigate('numen'),{class:'primary numen-open-screen'})));
  }else{
-  const activateAction=availableActions.find(a=>a.id==='activar_numen'&&a.target===numen.id)||{id:'activar_numen',target:numen.id,label:`Viajar con ${numen.name}`,reason:`Elegir a ${numen.name} como tu compañero activo.`};
-  cardEl.append(el('div',{class:'numen-actions'},actionButton(activateAction),actionButton(renameAction)));
+  const activateAction=availableActions.find(a=>a.id==='activar_numen'&&a.target===numen.id);
+  const callAction=availableActions.find(a=>a.id==='traer_numen'&&a.target===numen.id);
+  const feedRemoteAction=availableActions.find(a=>a.id==='alimentar_lejos'&&a.target===numen.id);
+  const cardBtns=[];
+  if(activateAction)cardBtns.push(actionButton(activateAction));
+  if(callAction)cardBtns.push(actionButton(callAction));
+  if(feedRemoteAction)cardBtns.push(actionButton(feedRemoteAction));
+  cardBtns.push(actionButton(renameAction));
+  cardEl.append(el('div',{class:'numen-actions'},...cardBtns));
  }
  if(namingNumen===`nombrar_numen:${numen.id}`)cardEl.append(numenNameForm(renameAction,numen.name));
  return cardEl;
@@ -712,12 +720,35 @@ function numenView(){
   el('h2',{class:'panel-title'},'¿Quién viaja contigo?'),
   ...bonded.map(entry=>{
    const traveling=entry.id===active.id;
+   const isHome=state.room?.kind==='home';
+   const seals=Number(state.character?.seals||0);
+   const callAct=available.find(a=>a.id==='traer_numen'&&a.target===entry.id)||{id:'traer_numen',target:entry.id,label:`Llamar a ${entry.name} · 15 sellos`,cost:15,disabled:seals<15||inCombat,reason:seals<15?`Te faltan ${15-seals} sellos para pagar al mensajero.`:`Pagar 15 sellos a un mensajero para que traiga a ${entry.name}.`};
+   const feedRemoteAct=available.find(a=>a.id==='alimentar_lejos'&&a.target===entry.id)||{id:'alimentar_lejos',target:entry.id,label:`Enviar comida a ${entry.name} · 4 sellos`,cost:4,disabled:seals<4||inCombat,reason:seals<4?`Te faltan ${4-seals} sellos para enviar comida.`:`Pagar 4 sellos (comida y mensajero) para alimentar a ${entry.name} en casa.`};
+   const activateAct=available.find(a=>a.id==='activar_numen'&&a.target===entry.id)||{id:'activar_numen',target:entry.id,label:`Viajar con ${entry.name}`,disabled:inCombat,reason:`Elegir a ${entry.name} como tu compañero activo.`};
+
+   let actionsRow=null;
+   if(traveling){
+    actionsRow=el('span',{class:'pill numen-pill-active'},'Viaja contigo');
+   }else if(isHome){
+    actionsRow=el('div',{class:'numen-roster-actions'},
+     button([controlIcon('paw'),` Viajar con ${entry.name}`],()=>perform(activateAct),{disabled:busy||Boolean(pendingRetry)||inCombat||Boolean(activateAct.disabled),title:activateAct.reason}),
+     button([controlIcon('heart'),` Enviar comida · 4 sellos`],()=>perform(feedRemoteAct),{disabled:busy||Boolean(pendingRetry)||inCombat||Boolean(feedRemoteAct.disabled),title:feedRemoteAct.reason})
+    );
+   }else{
+    actionsRow=el('div',{class:'numen-roster-actions'},
+     button([controlIcon('paw'),` Llamar · 15 sellos`],()=>perform(callAct),{disabled:busy||Boolean(pendingRetry)||inCombat||Boolean(callAct.disabled),title:callAct.reason}),
+     button([controlIcon('heart'),` Enviar comida · 4 sellos`],()=>perform(feedRemoteAct),{disabled:busy||Boolean(pendingRetry)||inCombat||Boolean(feedRemoteAct.disabled),title:feedRemoteAct.reason})
+    );
+   }
+
+   const gentleMoodText=entry.mood||'contento';
+
    return el('div',{class:`tile numen-roster-item${traveling?' numen-active':''}`},
     el('div',{class:'numen-roster-info'},
      el('strong',{},entry.name),
-     el('span',{class:'muted'},` · ${entry.species_name||'Númen'} · ${entry.mood||'contento'}`)
+     el('span',{class:'muted'},` · ${entry.species_name||'Númen'} · ${gentleMoodText}`)
     ),
-    traveling?el('span',{class:'pill numen-pill-active'},'Viaja contigo'):button([controlIcon('paw'),` Viajar con ${entry.name}`],()=>mutate('/api/action',actionPayload({id:'activar_numen',target:entry.id,label:`Viajar con ${entry.name}`},requestId())),{disabled:busy||Boolean(pendingRetry)||inCombat})
+    actionsRow
    );
   })
  ):null;

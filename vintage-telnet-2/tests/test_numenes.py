@@ -406,6 +406,110 @@ class NumenesPilotTests(unittest.TestCase):
         self.engine.apply(self.character, self.world, {'id': 'nombrar_numen', 'target': n2['id'], 'name': 'Sombra Azul'})
         self.assertEqual(n2['name'], 'Sombra Azul')
 
+    def test_remote_numenes_actions_and_care(self):
+        """Rule R06: remote numen retrieval (traer_numen, 15 seals) and remote feeding (alimentar_lejos, 4 seals).
+        Covers: correct seal deduction, rejection without enough seals, rejection in combat,
+        correct active/home swap, remote food updating care without needing food in backpack,
+        and home free swap."""
+        from server.engine import RuleError
+
+        # Start with 20 seals, outside home (edran_camino_carros)
+        self.state['seals'] = 20
+        self.state['home'] = 'valdren_casa_humano'
+        self.state['location'] = 'edran_camino_carros'
+
+        # Bond two companions: n1 active (travel), n2 in home
+        n1 = m.bond_numen(self.state, 'a', 'Primero', self.now)
+        n2 = m.bond_numen(self.state, 'b', 'Segundo', self.now)
+        self.assertEqual(self.state['numenes']['active'], n1['id'])
+        self.assertEqual(n1['location'], 'travel')
+        self.assertEqual(n2['location'], 'home')
+
+        # 1. Available actions check: outside home, traer_numen and alimentar_lejos are listed
+        actions = self.engine.actions(self.character, self.world)
+        traer_act = next((a for a in actions if a['id'] == 'traer_numen' and a.get('target') == n2['id']), None)
+        alimentar_act = next((a for a in actions if a['id'] == 'alimentar_lejos' and a.get('target') == n2['id']), None)
+        self.assertIsNotNone(traer_act)
+        self.assertIsNotNone(alimentar_act)
+        self.assertEqual(traer_act['cost'], 15)
+        self.assertEqual(alimentar_act['cost'], 4)
+        self.assertFalse(traer_act.get('disabled', False))
+        self.assertFalse(alimentar_act.get('disabled', False))
+
+        # 2. Cobro correcto y swap del activo con traer_numen:
+        # Cost 15 seals -> seals 20 -> 5
+        self.engine.apply(self.character, self.world, {'id': 'traer_numen', 'target': n2['id']})
+        self.assertEqual(self.state['seals'], 5)
+        self.assertEqual(self.state['numenes']['active'], n2['id'])
+        self.assertEqual(n2['location'], 'travel')
+        self.assertEqual(n1['location'], 'home')
+        events = self.state.get('events', [])
+        self.assertTrue(any('Segundo' in e['text'] and 'Primero' in e['text'] for e in events))
+
+        # 3. Cobro correcto con alimentar_lejos:
+        # Cost 4 seals (2 bocado + 2 envío) -> seals 5 -> 1
+        self.engine.apply(self.character, self.world, {'id': 'alimentar_lejos', 'target': n1['id']})
+        self.assertEqual(self.state['seals'], 1)
+        self.assertEqual(n1['care']['last_fed'], self.now)
+        self.assertTrue(n1['care']['fed_today'])
+        self.assertTrue(n1['care']['well_cared'])
+        self.assertEqual(n1['mood'], 'contento')
+        feed_events = self.state.get('events', [])
+        self.assertTrue(any('Primero' in e['text'] and '4 sellos' in e['text'] for e in feed_events))
+
+        # 4. Sin sellos se rechaza (con razón clara):
+        # Now character has 1 seal. Neither traer_numen (15) nor alimentar_lejos (4) can be afforded.
+        with self.assertRaises(RuleError) as ctx:
+            self.engine.apply(self.character, self.world, {'id': 'traer_numen', 'target': n1['id']})
+        self.assertIn('sellos', str(ctx.exception).lower())
+        self.assertIn('14', str(ctx.exception))
+
+        with self.assertRaises(RuleError) as ctx:
+            self.engine.apply(self.character, self.world, {'id': 'alimentar_lejos', 'target': n1['id']})
+        self.assertIn('sellos', str(ctx.exception).lower())
+        self.assertIn('3', str(ctx.exception))
+        self.assertEqual(self.state['seals'], 1)
+
+        # 5. En combate se rechaza:
+        self.state['seals'] = 50
+        self.state['combat'] = {'creature': 'espinajo_rastrojo', 'round': 1}
+        with self.assertRaises(RuleError) as ctx:
+            self.engine.apply(self.character, self.world, {'id': 'traer_numen', 'target': n1['id']})
+        self.assertIn('combate', str(ctx.exception).lower())
+
+        with self.assertRaises(RuleError) as ctx:
+            self.engine.apply(self.character, self.world, {'id': 'alimentar_lejos', 'target': n1['id']})
+        self.assertIn('combate', str(ctx.exception).lower())
+        self.assertEqual(self.state['seals'], 50)
+        self.state['combat'] = None
+
+        # 6. Comida a distancia actualiza el cuidado y ánimo cuando tiene hambre, sin bocado en mochila:
+        # Advance time by 10h -> n1 at home gets hungry
+        self.now += 10 * 3600
+        m.sync_numenes(self.state, self.now)
+        self.assertEqual(n1['mood'], 'con hambre')
+        # Ensure no bocado_numen in inventory
+        self.state['inventory'] = [i for i in self.state['inventory'] if i.get('id') != 'bocado_numen']
+        self.assertFalse(any(i.get('id') == 'bocado_numen' for i in self.state['inventory']))
+
+        self.engine.apply(self.character, self.world, {'id': 'alimentar_lejos', 'target': n1['id']})
+        self.assertEqual(self.state['seals'], 46)
+        self.assertEqual(n1['care']['last_fed'], self.now)
+        self.assertTrue(n1['care']['fed_today'])
+        self.assertTrue(n1['care']['well_cared'])
+        self.assertEqual(n1['mood'], 'contento')
+        self.assertEqual(n1['trust'], 3)
+
+        # 7. En el hogar: cambio gratis (R06) y traer_numen se rechaza
+        self.state['location'] = self.state['home']
+        self.engine.apply(self.character, self.world, {'id': 'activar_numen', 'target': n1['id']})
+        self.assertEqual(self.state['numenes']['active'], n1['id'])
+        self.assertEqual(self.state['seals'], 46)  # free!
+
+        with self.assertRaises(RuleError) as ctx:
+            self.engine.apply(self.character, self.world, {'id': 'traer_numen', 'target': n2['id']})
+        self.assertIn('hogar', str(ctx.exception).lower())
+
 
 if __name__ == '__main__':
     unittest.main()

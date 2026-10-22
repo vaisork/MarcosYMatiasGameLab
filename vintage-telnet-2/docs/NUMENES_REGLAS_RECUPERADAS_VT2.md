@@ -49,9 +49,13 @@ En VT1 se aprobaron incompatibilidades **sólo con poderes concretos ya adquirid
 
 Aprender posteriormente un poder que habría impedido un vínculo nuevo **no destruye** una relación ya formada. Cualquier excepción requiere historia y norma expresamente aprobadas. El cambio de equipo o menú tampoco debe deshacer el vínculo.
 
-### R06 — Tres vinculados, uno activo
+### R06 — Seis vinculados, uno activo; gestión en hogar y a distancia
 
-Límite **6 Númenes vinculados por personaje; 1 activo en viaje** (el histórico era 3; Javier lo subió a 6 el 2026-10-16 para que Marcos pudiera vincular al gato de dos colas). Los otros permanecen en el hogar, y mientras estén allí no prestan su poder. La existencia actual de hogares en VT2 no significa que exista el almacenamiento o panel de Númenes. Su implementación requiere contrato de persistencia y UI.
+Límite **6 Númenes vinculados por personaje; 1 activo en viaje** (el histórico era 3; Javier lo subió a 6 el 2026-10-16 para que Marcos pudiera vincular al gato de dos colas). Los otros permanecen en el hogar, y mientras estén allí no prestan su poder.
+- **Cambio en el hogar:** el cambio de compañero activo dentro del hogar es libre y sin costo alguno (`activar_numen`).
+- **Llamar a distancia (mensajero pagado):** fuera del hogar y fuera de combate, el jugador puede pagar 15 sellos a un mensajero del camino para que traslade al Númen elegido hasta su posición (`traer_numen`); el compañero activo previo regresa seguro a descansar al hogar. Sin sellos suficientes o durante combate, la opción queda deshabilitada o se rechaza con explicación clara.
+- **Comida y cuidados a distancia:** para atender a los compañeros en casa, se dispone de la acción «Enviar comida» (`alimentar_lejos`). Cuesta el precio del Bocado de Númen (2 sellos) + 2 sellos de envío (4 sellos en total; no requiere tener Bocado en la mochila). Produce el mismo efecto que alimentarlo en persona (`care.last_fed`, `care.fed_today`, ánimo `contento` y avance de confianza hasta la etapa 3).
+- **Hambre en el hogar (decisión de Javier, 2026-10-17):** los Númenes en casa sí muestran hambre y decaimiento con el mismo tono que en viaje. Nunca mueren, pero la urgencia es intencional: es un gasto recurrente de sellos (comida a distancia).
 
 ### R07 — Un poder único fijo más compañía
 
