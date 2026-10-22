@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_hendidura_transito",
+  "generation_tool": "native image_gen",
+  "sha256": "c31e6b9cccd1feb8d0d00e6677b5851b248a916dd50df1ff2e6a937ffb0d8d4e",
+  "bytes": 162922,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "korven_hendidura_transito-original.jpg",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view, 4:3 landscape, readable walkable terrain for a 20x15 room. NO people, creatures, text, HUD or baked-in actors. Korven/Brumak is a surface community of short compact Dravak with small stone plates, work in stone, measures and functional supports; never underground dwarf city, no dragons, no magic crystals or runes. Warm dry daylight and grey stone, practical modest structures, visual continuity with lush Edran but drier rocky terrain. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff or furniture interrupting them. Narrow shaded transit cleft. Towering sheer canyon walls of pale grey bedrock on north and south sides flank a narrow cool stone road. High rock fissures overhead let in slanting daylight beams. A sturdy worn thick wooden plank bridges a deep longitudinal rock fissure in the roadbed where cart wheels pass. Dry gravel and shaded bedrock floor. Exactly TWO openings reaching the image boundary: WEST portal opening back toward the inspection bench, and EAST opening leading out toward the trail of stone cairns. North and south sides are high vertical canyon rock faces. Clear walkable straight path along the stone cleft floor and wooden plank."
+}

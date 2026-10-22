@@ -293,3 +293,20 @@ Siete fondos 1280×960 de hasta 250000 bytes y un atlas NPC 192×384 (celdas 64�
 | `sprites/oma.png` | 192×384 | 75213 | `68c0a40b18e939f30df8d28396ccff3b3ad0afabf392a2ab921fadc4de1fd5d7` |
 
 Generación nativa `image_gen` (subagente AGY); normalización mecánica, extracción por canal alfa sobre croma verde, escala proporcional y pie en baseline y=92. Originales, prompts y manifiesto en `/home/jdiaz/proyectos/entregas/equipo/cm-20/korven-03/arte/`; sidecars junto a cada recurso final. Autorrevisión de coherencia con Brumak, Edran y canon, pendiente de revisión del arquitecto. Ver [RPG_KORVEN_03.md](RPG_KORVEN_03.md).
+
+## Korven 04 — candidato local, 2026-10-22 (CM-20)
+
+Seis salas nuevas sobre `4fe925b`: Banco de revisión, Refugio de Lajas, Paso estrecho, Camino de los mojones, Pared que corta el viento y Meseta de las dos piedras. El conjunto candidato alcanza **70/191** salas ilustradas (261 mapas comprobables: 191 generados y 70 pintados); quedan 121 salas sin ilustrar (de las cuales 6 en Korven). Este lote no está publicado, integrado ni desplegado.
+
+Seis fondos 1280×960 de hasta 250000 bytes. Este lote no introduce NPCs fijos nuevos; la fauna y salteadores canónicos reutilizan los atlas y sprites existentes. Las seis salas con fauna utilizan `backgrounds/korven_battle.webp` para los encuentros de combate.
+
+| Recurso | Dimensiones | Bytes | SHA-256 |
+|---|---|---:|---|
+| `backgrounds/korven_asiento_revision.webp` | 1280×960 | 226842 | `50cb583e585889f2a8c0a245ec0f3e911bbc296b9f9b1fb111143baa35e93217` |
+| `backgrounds/korven_hendidura_transito.webp` | 1280×960 | 162922 | `c31e6b9cccd1feb8d0d00e6677b5851b248a916dd50df1ff2e6a937ffb0d8d4e` |
+| `backgrounds/korven_hitos_paso.webp` | 1280×960 | 192442 | `e322e549b5cbd2fa75ebd5f8a8079fa474285111ea6cc5580ba9d248a994a75b` |
+| `backgrounds/korven_meseta_baja.webp` | 1280×960 | 238808 | `d1f7f6d378234ad0775d52d2d499615ca40ec5fae4d3b47f632fd5b898caaa5b` |
+| `backgrounds/korven_meseta_relevo.webp` | 1280×960 | 238890 | `ca250e41d0219b303c843e3c0f5cff5c746ab2afcb2a465713d16593be5fee45` |
+| `backgrounds/korven_pared_sotavento.webp` | 1280×960 | 220052 | `93352232219ea5dd3ae075bd60f40e9d6392eab4a93e944955fc082f2ebf6bf8` |
+
+Generación nativa `image_gen` (subagente AGY); normalización mecánica, redimensionado proporcional a 1280×960 y compresión WebP. Originales, prompts y manifiesto en `/home/jdiaz/proyectos/entregas/equipo/cm-20/korven-04/arte/`; sidecars junto a cada recurso final. Autorrevisión de coherencia con Brumak, Edran y canon, pendiente de revisión del arquitecto. Ver [RPG_KORVEN_04.md](RPG_KORVEN_04.md).

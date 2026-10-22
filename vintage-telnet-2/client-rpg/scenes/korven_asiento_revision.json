@@ -1,0 +1,111 @@
+{
+  "room": "korven_asiento_revision",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "background": "backgrounds/korven_asiento_revision.webp",
+  "battle_background": "backgrounds/korven_battle.webp",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "oeste": [
+      1,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "cascapedernal",
+      "at": [
+        6,
+        10
+      ]
+    },
+    {
+      "id": "salteador_veterano",
+      "at": [
+        14,
+        10
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "gggggggggppggggggggg",
+      "ggggggggppppgggggggg",
+      "gggggggppppppggggggg",
+      "ggggggppppppppgggggg",
+      "gggggppppppppppggggg",
+      "gggppppppppppppppggg",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "ggppppppppppppppppgg",
+      "gggppppppppppppppggg",
+      "ggggppppppppppppgggg",
+      "gggggppppppppppggggg",
+      "ggggggppppppppgggggg",
+      "gggggggppppppggggggg",
+      "gggggggggggggggggggg"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "11111111....11111111",
+      "1111111......1111111",
+      "111111........111111",
+      "1111............1111",
+      "111..............111",
+      "....................",
+      "....................",
+      "11................11",
+      "111..............111",
+      "1111............1111",
+      "11111..........11111",
+      "111111........111111",
+      "1111111......1111111",
+      "11111111111111111111"
+    ]
+  }
+}

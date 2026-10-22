@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_meseta_relevo",
+  "generation_tool": "native image_gen",
+  "sha256": "ca250e41d0219b303c843e3c0f5cff5c746ab2afcb2a465713d16593be5fee45",
+  "bytes": 238890,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "korven_meseta_relevo-original.jpg",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view, 4:3 landscape, readable walkable terrain for a 20x15 room. NO people, creatures, text, HUD or baked-in actors. Korven/Brumak is a surface community of short compact Dravak with small stone plates, work in stone, measures and functional supports; never underground dwarf city, no dragons, no magic crystals or runes. Warm dry daylight and grey stone, practical modest structures, visual continuity with lush Edran but drier rocky terrain. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff or furniture interrupting them. High stone slab plateau refuge. Pale Korven limestone rocks mingle with dark sharp scree stones brought down from the Hoshai mountains. A low dry-stone windbreak wall protects a heavy wooden table sheltered by a coarse taut canvas cover, with stone paperweights and two low stone resting benches. Cool mountain wind, dry gritty ground. Exactly TWO openings reaching the image boundary: SOUTH trail descending down to the inspection bench, and NORTH open mountain pass path heading up toward the dark western gorge of Hoshai. East and west sides are bounded by the low windbreak walls and craggy plateau edges. Clear central walkable path crossing the plateau."
+}
