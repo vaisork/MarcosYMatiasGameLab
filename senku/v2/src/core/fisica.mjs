@@ -1,10 +1,15 @@
-// Motor de física 2D para Senku 2: movimiento lateral, gravedad, salto y colisión AABB con plataformas.
+// Motor de física 2D para Senku 2: movimiento lateral, gravedad, salto variable y colisión AABB con plataformas.
 // Lógica pura: sin dependencias de DOM ni navegador.
 
 export const GRAVEDAD_DEFECTO = 1500; // px/s²
 export const VELOCIDAD_HORIZONTAL_DEFECTO = 360; // px/s
 export const FUERZA_SALTO_DEFECTO = 620; // px/s
 export const SUAVIDAD_DEFECTO = 14;
+
+// Constantes configurables para salto variable (decisiones de diseño de Matías)
+export const TIEMPO_SALTO_MAX_DEFECTO = 0.25; // s: tiempo máximo de mantenimiento de impulso
+export const VELOCIDAD_CORTE_SALTO_DEFECTO = 260; // px/s: velocidad ascendente máxima al soltar antes
+export const FACTOR_CORTE_SALTO_DEFECTO = 0.5; // factor reductor de velocidad vertical al cortar
 
 export function crearCuerpo({
   x = 0,
@@ -15,8 +20,10 @@ export function crearCuerpo({
   vy = 0,
   enSuelo = false,
   mirando = 1, // 1: derecha, -1: izquierda
+  saltando = false,
+  tiempoSalto = 0,
 } = {}) {
-  return { x, y, w, h, vx, vy, enSuelo, mirando };
+  return { x, y, w, h, vx, vy, enSuelo, mirando, saltando, tiempoSalto };
 }
 
 // Comprueba solapamiento AABB simple entre dos rectángulos {x, y, w, h}
@@ -45,6 +52,16 @@ export function actualizarCuerpo(
   const fuerzaSalto = config.fuerzaSalto ?? FUERZA_SALTO_DEFECTO;
   const gravedad = config.gravedad ?? GRAVEDAD_DEFECTO;
   const suavidad = config.suavidadHorizontal ?? SUAVIDAD_DEFECTO;
+  const tiempoSaltoMax = config.tiempoSaltoMax ?? TIEMPO_SALTO_MAX_DEFECTO;
+  const velocidadCorte = config.velocidadCorteSalto ?? VELOCIDAD_CORTE_SALTO_DEFECTO;
+  const factorCorte = config.factorCorteSalto ?? FACTOR_CORTE_SALTO_DEFECTO;
+  const saltoVariableHabilitado = config.saltoVariable !== false;
+
+  // Inicializar propiedades de salto si no existen
+  if (cuerpo.saltando === undefined) {
+    cuerpo.saltando = false;
+    cuerpo.tiempoSalto = 0;
+  }
 
   // 1. Entrada horizontal
   const dir = (entrada.derecha ? 1 : 0) - (entrada.izquierda ? 1 : 0);
@@ -57,10 +74,23 @@ export function actualizarCuerpo(
     cuerpo.vx = 0;
   }
 
-  // 2. Salto (solo si está firmemente en el suelo o sobre plataforma)
+  // 2. Salto y control de salto variable
   if (entrada.salto && cuerpo.enSuelo) {
     cuerpo.vy = -fuerzaSalto;
     cuerpo.enSuelo = false;
+    cuerpo.saltando = true;
+    cuerpo.tiempoSalto = 0;
+  } else if (cuerpo.saltando && saltoVariableHabilitado) {
+    cuerpo.tiempoSalto += paso;
+    if (!entrada.salto) {
+      // Soltar antes corta el salto (toque rápido = salto pequeño)
+      cuerpo.saltando = false;
+      if (cuerpo.vy < -velocidadCorte) {
+        cuerpo.vy = Math.max(cuerpo.vy * factorCorte, -velocidadCorte);
+      }
+    } else if (cuerpo.tiempoSalto >= tiempoSaltoMax || cuerpo.vy >= 0) {
+      cuerpo.saltando = false;
+    }
   }
 
   // 3. Aplicar gravedad
@@ -102,6 +132,8 @@ export function actualizarCuerpo(
         cuerpo.y = plat.y - cuerpo.h;
         cuerpo.vy = 0;
         cuerpo.enSuelo = true;
+        cuerpo.saltando = false;
+        cuerpo.tiempoSalto = 0;
         break;
       }
     }
@@ -117,6 +149,8 @@ export function actualizarCuerpo(
       cuerpo.y = limites.maxY - cuerpo.h;
       cuerpo.vy = 0;
       cuerpo.enSuelo = true;
+      cuerpo.saltando = false;
+      cuerpo.tiempoSalto = 0;
     }
   }
 

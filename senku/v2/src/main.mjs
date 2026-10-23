@@ -23,7 +23,14 @@ import {
   crearEstadoCombate,
   actualizarCombate,
   resolverContactoEnemigo,
+  reiniciarCombate,
+  HP_INICIAL_SENKU,
+  TIEMPO_INVULNERABILIDAD_DEFECTO,
 } from './core/combate.mjs';
+
+// Decisión de diseño: Senku inicia con 100 HP y 1 s de invulnerabilidad tras ser golpeado
+export const HP_INICIAL_DEFECTO = HP_INICIAL_SENKU;
+export const TIEMPO_INVULNERABILIDAD_JUEGO = TIEMPO_INVULNERABILIDAD_DEFECTO;
 import {
   ANCHO_LOGICO,
   ALTO_LOGICO,
@@ -200,6 +207,37 @@ export function arrancarSenku2({
     elChurus.textContent = String(estadoJugador.churus ?? 0);
   }
 
+  // Elementos de la barra de vida en el HUD
+  const elTextoVida = documento.getElementById('texto-vida');
+  const elBarraVida = documento.getElementById('barra-vida-relleno');
+  const elContenedorVida = documento.querySelector?.('.barra-vida-contenedor');
+
+  function actualizarHUDVida() {
+    if (estadoCombate && estadoCombate.hpMax !== null && estadoCombate.hp !== null) {
+      const hp = Math.max(0, estadoCombate.hp);
+      const hpMax = Math.max(1, estadoCombate.hpMax);
+      const porcentaje = Math.max(0, Math.min(100, (hp / hpMax) * 100));
+
+      if (elTextoVida) {
+        elTextoVida.textContent = String(hp);
+      }
+      if (elBarraVida) {
+        elBarraVida.style.width = `${porcentaje}%`;
+        if (porcentaje <= 25) {
+          elBarraVida.style.background = '#ef4444';
+        } else if (porcentaje <= 50) {
+          elBarraVida.style.background = '#f59e0b';
+        } else {
+          elBarraVida.style.background = '#22c55e';
+        }
+      }
+      if (elContenedorVida) {
+        elContenedorVida.setAttribute('aria-valuenow', String(hp));
+        elContenedorVida.setAttribute('aria-valuemax', String(hpMax));
+      }
+    }
+  }
+
   let btnTraje = documento.getElementById('hud-traje');
   if (!btnTraje && documento.querySelector('.hud-superior')) {
     btnTraje = documento.createElement('button');
@@ -355,15 +393,39 @@ export function arrancarSenku2({
   }
   ventana.addEventListener('keydown', alPulsarTecla);
 
-  // 4b. Sistema de combate y enemigos provisionales
+  // 4b. Sistema de combate: Senku empieza con 100 de vida e invencibilidad de 1 s tras recibir daño
   const estadoCombate = crearEstadoCombate({
-    hpMax: null,          // Tolerante: política neutra hasta decidir D5
-    vidasIniciales: null, // Sin pérdida numérica de vidas
+    hpMax: HP_INICIAL_DEFECTO,
+    hpInicial: HP_INICIAL_DEFECTO,
+    tiempoInvulnerabilidad: TIEMPO_INVULNERABILIDAD_JUEGO,
   });
 
   // Instanciar enemigos de la escena Taquería
   const definicionEnemigos = Array.isArray(escenaTaqueria.enemigos) ? escenaTaqueria.enemigos : [];
-  const enemigos = definicionEnemigos.map(crearEnemigo);
+  let enemigos = definicionEnemigos.map(crearEnemigo);
+
+  actualizarHUDVida();
+
+  // Reinicia la escena al llegar a 0 de vida con vida llena y enemigos restaurados
+  function reiniciarEscena() {
+    senku.x = escenaActual.puntoEntrada.x;
+    senku.y = escenaActual.puntoEntrada.y;
+    senku.vx = 0;
+    senku.vy = 0;
+    senku.enSuelo = false;
+    senku.saltando = false;
+    senku.tiempoSalto = 0;
+
+    // Restaurar enemigos de la escena vivos y en posición original
+    enemigos.length = 0;
+    for (const def of definicionEnemigos) {
+      enemigos.push(crearEnemigo(def));
+    }
+
+    // Restaurar salud completa (100) y limpiar combate
+    reiniciarCombate(estadoCombate);
+    actualizarHUDVida();
+  }
 
   // 5. Canvas y contexto de renderizado
   const canvas = documento.getElementById('lienzo-juego');
@@ -440,7 +502,15 @@ export function arrancarSenku2({
 
       for (const enemigo of enemigos) {
         if (!enemigo.vivo) continue;
-        resolverContactoEnemigo(senku, enemigo, estadoCombate);
+        const resContacto = resolverContactoEnemigo(senku, enemigo, estadoCombate);
+        if (resContacto.contacto && resContacto.tipo === 'golpe') {
+          actualizarHUDVida();
+          // Al llegar a 0 de vida, reiniciar la escena con vida llena
+          if (estadoCombate.hp === 0 || resContacto.muerto || estadoCombate.derrotado) {
+            reiniciarEscena();
+            break;
+          }
+        }
       }
     }
   }
@@ -486,7 +556,10 @@ export function arrancarSenku2({
         combate: estadoCombate,
         tiempo: tiempoAcumulado,
       })) {
-        // Respaldo sin arte: rectángulo provisional
+        // Respaldo sin arte: parpadeo durante invulnerabilidad
+        const invulnerable = Boolean(estadoCombate?.invulnerable) && (estadoCombate?.tiempoInvulnerable ?? 0) > 0;
+        ctx.globalAlpha = invulnerable && Math.floor(tiempoAcumulado * 14) % 2 === 1 ? 0.45 : 1;
+
         // Rectángulo principal del Senku provisional (color del traje activo)
         ctx.fillStyle = trajeActivo.color;
         ctx.fillRect(senku.x, senku.y, senku.w, senku.h);
@@ -616,6 +689,8 @@ export function arrancarSenku2({
     enemigos,
     entrada,
     avanzarPaso,
+    reiniciarEscena,
+    actualizarHUDVida,
     obtenerTrajeActivo: () => trajeActivo,
     equiparTraje: (id) => {
       const res = equiparTraje(estadoJugador, id);

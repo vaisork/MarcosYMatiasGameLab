@@ -43,7 +43,7 @@ function simular(p, x, { dir, salto }) {
   const c = crearCuerpo({ x, y: p.y - JUGADOR.h, ...JUGADOR, enSuelo: true });
   const entrada = { derecha: dir > 0, izquierda: dir < 0, salto };
   for (let i = 0; i < 240; i++) {
-    actualizarCuerpo(c, { ...entrada, salto: salto && i === 0 }, PLATS, escena.limites, DT);
+    actualizarCuerpo(c, { ...entrada, salto: salto && (c.vy <= 0 || i === 0) }, PLATS, escena.limites, DT);
     if (i > 0 && c.enSuelo) {
       const aterrizaje = plataformaBajo(c);
       if (aterrizaje && aterrizaje !== p) return aterrizaje;

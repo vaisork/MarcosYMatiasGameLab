@@ -28,7 +28,7 @@ export function crearEnemigo({
   const altoFinal = h ?? plantilla?.alto ?? 32;
   const velocidadFinal = velocidad ?? plantilla?.velocidadPatrulla ?? 0;
   const hpFinal = hp !== undefined ? hp : (plantilla?.hp ?? null);
-  const danoFinal = dano !== undefined ? dano : (plantilla?.dano ?? null);
+  const danoFinal = (dano !== undefined && dano !== null) ? dano : (plantilla?.dano ?? null);
   const pisableFinal = pisable !== undefined ? Boolean(pisable) : (plantilla?.pisable ?? true);
   const colorFinal = color ?? plantilla?.color ?? '#888888';
   const colorDetalleFinal = colorDetalle ?? plantilla?.colorDetalle ?? '#444444';

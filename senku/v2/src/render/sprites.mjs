@@ -30,6 +30,8 @@ export const FONDOS_ESCENA = Object.freeze({
 export const HOJAS_ENEMIGO = Object.freeze({
   cucaracha: { ruta: 'assets/enemigos/hamster_cafe.png', escala: 0.62 },
   rata_menor: { ruta: 'assets/enemigos/raton_negro.png', escala: 0.66 },
+  raton: { ruta: 'assets/enemigos/raton_negro.png', escala: 0.66 },
+  hamster: { ruta: 'assets/enemigos/hamster_cafe.png', escala: 0.66 },
 });
 const HOJA_ENEMIGO_DEFECTO = HOJAS_ENEMIGO.cucaracha;
 
