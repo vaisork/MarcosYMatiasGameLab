@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Senku 2 — Menú de Selección de Senkus (QA)</title>
+  <link rel="stylesheet" href="src/ui/menu.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #150a04;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    /* Barra de QA solo para pruebas en memoria */
+    .qa-panel {
+      width: 100%;
+      max-width: 1100px;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: #2a160c;
+      border: 1px solid #78350f;
+      border-radius: 8px;
+      color: #fde68a;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.85rem;
+    }
+
+    .qa-botones {
+      display: flex;
+      gap: 8px;
+    }
+
+    .qa-btn {
+      min-height: 36px;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 6px;
+      border: 1px solid #d97706;
+      background: #451a03;
+      color: #fef3c7;
+      cursor: pointer;
+    }
+
+    .qa-btn:hover {
+      background: #78350f;
+    }
+
+    .qa-estado-json {
+      font-family: monospace;
+      color: #bbf7d0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Panel de control para QA en memoria (no guarda en localStorage) -->
+  <aside class="qa-panel" aria-label="Controles de QA">
+    <div>
+      <strong>Panel de QA (Memoria):</strong>
+      Estado actual: <span id="qa-estado" class="qa-estado-json"></span>
+    </div>
+    <div class="qa-botones">
+      <button type="button" id="qa-sumar-churus" class="qa-btn">+50 Churus</button>
+      <button type="button" id="qa-restablecer" class="qa-btn">Restablecer</button>
+    </div>
+  </aside>
+
+  <!-- Contenedor del Menú de Senku 2 -->
+  <main id="contenedor-menu" style="width: 100%; max-width: 1100px;"></main>
+
+  <script type="module">
+    import { montarMenu } from './src/ui/menu.mjs';
+
+    // Catálogo representativo de trajes para Senku 2
+    // original: siempre disponible
+    // rata: D2 traje secreto de rata; precio null por decisión creativa pendiente (regla: etiqueta 'Próximamente', sin compra)
+    // callejero: traje de prueba con precio (80 Churus) para verificar compra y validación de saldo
+    const catalogo = [
+      {
+        id: 'original',
+        nombre: 'Senku Original',
+        precio: null,
+        menu: '../../assets/senku/menu-base.jpg',
+        sprite: '../../assets/senku/senku-sprites.png',
+      },
+      {
+        id: 'rata',
+        nombre: 'Senku Rata',
+        precio: null, // Pendiente creativo: regla 'Próximamente', sin botón de compra
+        equivaleA: ['secreto_legacy'],
+        menu: '../../assets/trajes/rata/menu.webp',
+        sprite: '../../assets/rata/white-rat-sprite-v2.png',
+      },
+      {
+        id: 'callejero',
+        nombre: 'Senku Callejero',
+        precio: 80,
+        menu: 'assets/inexistente.png', // Prueba deliberada del recuadro con nombre de respaldo
+        sprite: null,
+      },
+    ];
+
+    // Estado inicial en memoria para QA (no toca localStorage)
+    const estadoInicial = {
+      version: 1,
+      churus: 100,
+      trajes: ['original'],
+      equipado: 'original',
+      coleccionados: [],
+      progreso: { escena: 'taqueria' },
+      origen: { legacy: false },
+    };
+
+    let estado = { ...estadoInicial };
+
+    // Simulación del contrato de economía implementado por Codex
+    const economia = {
+      comprarTraje(st, idTraje, cat) {
+        const item = (Array.isArray(cat) ? cat : Object.values(cat || {})).find((t) => t.id === idTraje);
+        if (!item) return { error: 'traje_desconocido' };
+        if (item.precio === null || item.precio === undefined) return { error: 'precio_no_definido' };
+        if (st.churus < item.precio) return { error: 'saldo_insuficiente' };
+        if (st.trajes.includes(idTraje)) return st;
+        return {
+          ...st,
+          churus: st.churus - item.precio,
+          trajes: [...st.trajes, idTraje],
+        };
+      },
+      equipar(st, idTraje) {
+        if (!st.trajes.includes(idTraje)) return { error: 'traje_bloqueado' };
+        return { ...st, equipado: idTraje };
+      },
+    };
+
+    function actualizarIndicadorQA(st) {
+      const el = document.getElementById('qa-estado');
+      if (el) {
+        el.textContent = `Churus: ${st.churus} | Equipado: ${st.equipado} | Trajes: [${st.trajes.join(', ')}]`;
+      }
+    }
+
+    const instanciaMenu = montarMenu(document.getElementById('contenedor-menu'), {
+      estado,
+      catalogo,
+      economia,
+      rutaChuru: 'assets/objetos/churu.png',
+      onCambioEstado(nuevoEstado) {
+        estado = nuevoEstado;
+        actualizarIndicadorQA(estado);
+      },
+    });
+
+    actualizarIndicadorQA(estado);
+
+    document.getElementById('qa-sumar-churus')?.addEventListener('click', () => {
+      estado = { ...estado, churus: estado.churus + 50 };
+      instanciaMenu.actualizar(estado);
+      actualizarIndicadorQA(estado);
+    });
+
+    document.getElementById('qa-restablecer')?.addEventListener('click', () => {
+      estado = { ...estadoInicial };
+      instanciaMenu.actualizar(estado);
+      actualizarIndicadorQA(estado);
+    });
+  </script>
+</body>
+</html>

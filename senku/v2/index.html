@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Senku 2">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1a1614">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icon/senku-icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="../../assets/icon/senku-icon-192.png">
+  <title>Senku 2 — Taquería</title>
+  <link rel="stylesheet" href="./src/ui/menu.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #1a1614;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #fff;
+    }
+
+    #app {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+    }
+
+    .lienzo-envoltura {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    #lienzo-juego {
+      display: block;
+      background-color: #000;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    /* HUD Superior */
+    .hud-superior {
+      position: absolute;
+      top: max(16px, env(safe-area-inset-top, 16px));
+      left: max(16px, env(safe-area-inset-left, 16px));
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 20;
+      pointer-events: auto;
+    }
+
+    .hud-pildora {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(30, 20, 15, 0.85);
+      border: 2px solid #e67e22;
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-weight: 700;
+      font-size: 18px;
+      color: #ffd8a8;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      pointer-events: auto;
+    }
+
+    .hud-pildora * {
+      pointer-events: none;
+    }
+
+    .hud-pildora .icono {
+      font-size: 20px;
+    }
+
+    .hud-escena {
+      background: rgba(20, 20, 20, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 14px;
+      color: #eee;
+    }
+
+    .hud-btn {
+      pointer-events: auto;
+      cursor: pointer;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      background: rgba(30, 20, 15, 0.85);
+      color: #fff;
+      font-family: inherit;
+      transition: transform 0.08s ease, background-color 0.08s ease, border-color 0.08s ease;
+    }
+
+    .hud-btn:hover {
+      background: rgba(50, 32, 22, 0.95);
+      border-color: #f39c12;
+    }
+
+    .hud-btn:active {
+      transform: scale(0.94);
+    }
+
+    .hud-btn:focus-visible {
+      outline: 3px solid #fbbf24;
+      outline-offset: 2px;
+    }
+
+    .hud-btn-menu {
+      border-color: #f59e0b;
+      color: #fef3c7;
+      background: rgba(45, 26, 14, 0.9);
+    }
+
+    .hud-btn-menu:hover {
+      background: rgba(70, 38, 18, 0.95);
+      border-color: #fbbf24;
+    }
+
+    /* Controles Táctiles en Pantalla */
+    .zona-controles {
+      position: absolute;
+      bottom: max(20px, env(safe-area-inset-bottom, 20px));
+      left: 0;
+      width: 100%;
+      padding-left: max(24px, env(safe-area-inset-left, 24px));
+      padding-right: max(24px, env(safe-area-inset-right, 24px));
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      z-index: 30;
+      pointer-events: none;
+    }
+
+    .grupo-direccion {
+      display: flex;
+      gap: 16px;
+      pointer-events: auto;
+    }
+
+    .grupo-accion {
+      display: flex;
+      pointer-events: auto;
+    }
+
+    .btn-control {
+      touch-action: none;
+      border: none;
+      outline: none;
+      background: rgba(35, 25, 20, 0.8);
+      border: 2px solid rgba(230, 126, 34, 0.7);
+      border-radius: 16px;
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+      width: 64px;
+      height: 64px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      transition: transform 0.08s ease, background-color 0.08s ease, border-color 0.08s ease;
+      cursor: pointer;
+    }
+
+    .btn-control:active {
+      transform: scale(0.92);
+      background: #e67e22;
+      border-color: #ffd8a8;
+    }
+
+    .btn-salto {
+      width: 80px;
+      height: 64px;
+      font-size: 16px;
+      background: rgba(45, 30, 20, 0.85);
+      border-color: #f39c12;
+      gap: 4px;
+      flex-direction: column;
+    }
+
+    .btn-salto .flecha-arriba {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    /* Ayuda visual teclado en escritorio */
+    .ayuda-teclado {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 4px 10px;
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    /* Adaptación a dispositivos móviles compactos (vista móvil ej: 390x844) */
+    @media (max-width: 600px) {
+      .zona-controles {
+        bottom: max(16px, env(safe-area-inset-bottom, 16px));
+        padding-left: max(16px, env(safe-area-inset-left, 16px));
+        padding-right: max(16px, env(safe-area-inset-right, 16px));
+      }
+
+      .btn-control {
+        width: 58px;
+        height: 58px;
+        font-size: 20px;
+      }
+
+      .btn-salto {
+        width: 72px;
+        height: 58px;
+        font-size: 14px;
+      }
+
+      .hud-superior {
+        top: max(10px, env(safe-area-inset-top, 10px));
+        left: max(10px, env(safe-area-inset-left, 10px));
+        right: max(10px, env(safe-area-inset-right, 10px));
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .hud-pildora {
+        font-size: 14px;
+        padding: 4px 10px;
+      }
+
+      .hud-pildora .icono {
+        font-size: 16px;
+      }
+
+      .ayuda-teclado {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- HUD Superior -->
+    <header class="hud-superior" aria-label="Indicadores del juego">
+      <div class="hud-pildora" title="Saldo de Churus">
+        <span class="icono" aria-hidden="true">🧃</span>
+        <span id="saldo-churus">0</span>
+      </div>
+      <div class="hud-pildora hud-escena">
+        <span>Taquería</span>
+      </div>
+      <button id="hud-traje" class="hud-pildora hud-btn hud-btn-traje" aria-label="Traje equipado" title="Clic o pulsa T para cambiar de traje">
+        <span class="icono" aria-hidden="true">🐱</span>
+        <span>Senku</span>
+      </button>
+      <button id="btn-menu" class="hud-pildora hud-btn hud-btn-menu" aria-label="Abrir menú de trajes" title="Abrir armario de trajes (M)">
+        <span class="icono" aria-hidden="true">👗</span>
+        <span>Armario</span>
+      </button>
+    </header>
+
+    <!-- Diálogo Modal del Menú de Trajes (Armario) -->
+    <div id="modal-menu" class="modal-menu" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú de trajes de Senku">
+      <div id="modal-menu-fondo" class="modal-menu-fondo" tabindex="-1"></div>
+      <div class="modal-menu-contenido">
+        <button id="btn-cerrar-menu" class="btn-cerrar-menu" aria-label="Cerrar menú de trajes" title="Cerrar menú (Esc)">✕</button>
+        <div id="contenedor-menu"></div>
+      </div>
+    </div>
+
+    <!-- Contenedor del Lienzo -->
+    <main class="lienzo-envoltura">
+      <canvas id="lienzo-juego" width="1280" height="720" role="img" aria-label="Pantalla de juego de Senku 2 en la Taquería"></canvas>
+    </main>
+
+    <!-- Ayuda para teclado (escritorio) -->
+    <div class="ayuda-teclado">
+      ◀ ▶ o A / D: Moverse · Espacio / ▲ / W: Saltar · M: Menú · T: Traje
+    </div>
+
+    <!-- Controles Táctiles en Pantalla -->
+    <nav class="zona-controles" aria-label="Controles táctiles">
+      <div class="grupo-direccion">
+        <button id="btn-izq" class="btn-control" aria-label="Mover a la izquierda">◀</button>
+        <button id="btn-der" class="btn-control" aria-label="Mover a la derecha">▶</button>
+      </div>
+      <div class="grupo-accion">
+        <button id="btn-salto" class="btn-control btn-salto" aria-label="Saltar">
+          <span class="flecha-arriba">▲</span>
+          <span>Salto</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <script type="module" src="./src/main.mjs"></script>
+</body>
+</html>
