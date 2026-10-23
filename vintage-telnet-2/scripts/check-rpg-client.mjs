@@ -133,7 +133,10 @@ const expectedNpcSprites={
  edran_oren:'oren',
  edran_aren:'aren',
  korven_ved:'ved',
- korven_beran:'beran'
+ korven_beran:'beran',
+ korven_ruma:'ruma',
+ korven_neru:'neru',
+ korven_oma:'oma'
 };
 for(const [id,sprite] of Object.entries(expectedNpcSprites)){
  vm.runInContext(`snapshot.room.npcs=[{id:'${id}'}];`,context);

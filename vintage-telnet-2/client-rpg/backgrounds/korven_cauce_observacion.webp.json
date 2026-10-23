@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_cauce_observacion",
+  "generation_tool": "native image_gen",
+  "sha256": "79b6e716d5efe7d4075c425474bee778682c0ea6bfa48c6e4289d8545325785b",
+  "bytes": 239040,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "korven_cauce_observacion-original.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Use case: precise-object-edit. Edit target image 1, style reference image 2. Preserve target composition, all rocks, paths and openings in exactly the same positions. Remove all NORTH and EAST lettering entirely replacing with continuous underlying natural textures, no letters anywhere. Improve painted texture and lighting to match approved workshop reference, retaining original terrain geometry and walkable area. Original brief: dry creek bed shifted massive square rocks with clean pale faces, dusty gravel, warm dry daylight, modest Dravak surface community. Exactly two ground exits: top centered x45-55%, and right y40-53%; no other exits. No people, creatures, text, symbols, HUD. 1280x960 4:3."
+}

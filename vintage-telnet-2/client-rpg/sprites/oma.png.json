@@ -1,0 +1,14 @@
+{
+  "asset_id": "oma",
+  "generation_tool": "native image_gen",
+  "source_original": "oma-original.png",
+  "dimensions": [
+    192,
+    384
+  ],
+  "bytes": 75213,
+  "sha256": "68c0a40b18e939f30df8d28396ccff3b3ad0afabf392a2ab921fadc4de1fd5d7",
+  "normalization": "12 alpha-isolated cells; one uniform scale; 64x96 cells, baseline y=92; shorter Dravak stature (68px maximum body height).",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Use case: stylized-concept. Create a 3-column by 4-row RPG walking sprite atlas, each figure isolated in its cell with a generous gutter, equal cells, no grid lines or text, on a perfectly FLAT uniform pure green #00FF00 background (chroma key; no gradients, no shadows on the background). Match the crisp hand-painted pixel JRPG style and atlas structure of the reference Ved and Ruma sprites. Four rows face down/front, up/back, left, right respectively; each row three poses left step, neutral, right step; consistent identity, size and ground baseline, whole body visible, feet near cell bottom. 3:4 overall portrait sheet. Short and compact Dravak adult female with small natural grey stone plates on temples and forearms, no horns, scales, dragon traits or dwarf beard. No scenery, furniture, weapons, letters, glow or HUD. Do not use green in the character. Character: Oma (korven_oma), Dravak channel observer and record keeper. Practical sturdy clothes in muted sandstone grey and russet brown, carrying a small notched comparison rod and a worn leather record folder, thoughtful and precise expression."
+}

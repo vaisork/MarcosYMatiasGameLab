@@ -1,0 +1,14 @@
+{
+  "asset_id": "neru",
+  "generation_tool": "native image_gen",
+  "source_original": "neru-original.png",
+  "dimensions": [
+    192,
+    384
+  ],
+  "bytes": 68085,
+  "sha256": "dba898d697ce9c00e9b1cfe4777bfa104d5dfd391270a29257a1942f250b2d67",
+  "normalization": "12 alpha-isolated cells; one uniform scale; 64x96 cells, baseline y=92; shorter Dravak stature (68px maximum body height).",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Use case: stylized-concept. Create a 3-column by 4-row RPG walking sprite atlas, each figure isolated in its cell with a generous gutter, equal cells, no grid lines or text, on a perfectly FLAT uniform pure green #00FF00 background (chroma key; no gradients, no shadows on the background). Match the crisp hand-painted pixel JRPG style and atlas structure of the reference Ved sprite. Four rows face down/front, up/back, left, right respectively; each row three poses left step, neutral, right step; consistent identity, size and ground baseline, whole body visible, feet near cell bottom. 3:4 overall portrait sheet. Short and compact Dravak adult with small natural grey stone plates on temples and forearms, no horns, scales, dragon traits or dwarf beard. No scenery, furniture, weapons, letters, glow or HUD. Do not use green in the character. Character: Neru (korven_neru), Dravak caregiver of travelers. Clean simple light-grey tunic with a plain cloth apron, a folded clean cloth over one forearm, calm attentive expression."
+}
