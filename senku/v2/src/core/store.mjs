@@ -7,6 +7,7 @@ export function estadoNuevo() {
   return {
     version: VERSION,
     churus: 0,
+    habilidades: { disparar: false, lanzagranadas: false },
     trajes: ['original'],
     equipado: 'original',
     coleccionados: [],
@@ -30,6 +31,10 @@ export function normalizar(datos) {
   const escena = datos.progreso && texto(datos.progreso.escena) ? datos.progreso.escena : base.progreso.escena;
   return {
     version: VERSION, churus, trajes, equipado, coleccionados,
+    habilidades: {
+      disparar: datos.habilidades?.disparar === true,
+      lanzagranadas: datos.habilidades?.lanzagranadas === true,
+    },
     progreso: { escena },
     origen: { legacy: !!(datos.origen && datos.origen.legacy) },
   };
