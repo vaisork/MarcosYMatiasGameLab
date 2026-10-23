@@ -168,6 +168,41 @@ function dibujarCargando(ctx, progreso) {
   ctx.restore();
 }
 
+// Modo depuración: `?debug=1` en la URL. Seguro fuera del navegador (Node).
+export function modoDebugActivo(ubicacion = typeof location !== 'undefined' ? location : null) {
+  try {
+    return new URLSearchParams(ubicacion?.search || '').get('debug') === '1';
+  } catch {
+    return false;
+  }
+}
+
+// Rectángulos de colisión (plataformas) y de recogibles, sólo para depuración.
+export function dibujarDebugColisiones(ctx, escena) {
+  if (!ctx || !escena) return;
+  ctx.save();
+  ctx.lineWidth = 2;
+  ctx.font = '11px monospace';
+  ctx.textAlign = 'left';
+  for (const plat of escena.plataformas || []) {
+    const suelo = plat.tipo === 'suelo';
+    ctx.fillStyle = suelo ? 'rgba(0, 200, 255, 0.12)' : 'rgba(0, 255, 120, 0.22)';
+    ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
+    ctx.strokeStyle = suelo ? 'rgba(0, 200, 255, 0.9)' : 'rgba(0, 255, 120, 0.95)';
+    ctx.strokeRect(plat.x, plat.y, plat.w, plat.h);
+    if (!suelo) {
+      ctx.fillStyle = '#fff';
+      ctx.fillText(plat.id, plat.x + 3, plat.y - 3);
+    }
+  }
+  ctx.strokeStyle = 'rgba(255, 220, 0, 0.95)';
+  for (const objeto of escena.objetos || []) {
+    if (!objeto || objeto.recogido) continue;
+    ctx.strokeRect(objeto.x, objeto.y, objeto.w || 24, objeto.h || 24);
+  }
+  ctx.restore();
+}
+
 // Dibuja la escena y entidades sobre el contexto 2D lógico
 export function renderizarEscena({
   ctx,
@@ -176,6 +211,7 @@ export function renderizarEscena({
   catalogoArte = null,
   rutaFondo = null,
   tiempo = 0,
+  debug = modoDebugActivo(),
 }) {
   if (!ctx || !escena) return;
 
@@ -225,14 +261,13 @@ export function renderizarEscena({
   }
 
   // 3. Plataformas y suelo
-  const colorSuelo = fondoCfg.colorSuelo || '#543d2b';
-  const colorPlat = fondoCfg.colorPlataforma || '#8c593a';
-
-  if (Array.isArray(escena.plataformas)) {
+  // Con arte de fondo las plataformas son invisibles (se apoyan en elementos del dibujo);
+  // sin arte se pintan de forma plana como respaldo.
+  if (Array.isArray(escena.plataformas) && !imagenFondo) {
+    const colorSuelo = fondoCfg.colorSuelo || '#543d2b';
+    const colorPlat = fondoCfg.colorPlataforma || '#8c593a';
     for (const plat of escena.plataformas) {
       if (plat.tipo === 'suelo') {
-        // Con arte de fondo el suelo ya está dibujado en la imagen
-        if (imagenFondo) continue;
         // Suelo principal
         ctx.fillStyle = colorSuelo;
         ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
@@ -240,16 +275,6 @@ export function renderizarEscena({
         ctx.fillStyle = '#3e2c1e';
         ctx.fillRect(plat.x, plat.y, plat.w, 10);
       } else {
-        // Con arte de fondo: tablón fino y translúcido, sólo para ver dónde se puede aterrizar
-        if (imagenFondo) {
-          ctx.globalAlpha = 0.8;
-          ctx.fillStyle = '#b3774f';
-          ctx.fillRect(plat.x, plat.y, plat.w, 8);
-          ctx.fillStyle = '#5c3822';
-          ctx.fillRect(plat.x, plat.y + 8, plat.w, 3);
-          ctx.globalAlpha = 1;
-          continue;
-        }
         // Plataformas intermedias (barras, repisas, toldo)
         ctx.fillStyle = colorPlat;
         ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
@@ -272,6 +297,8 @@ export function renderizarEscena({
       ctx.fillRect(objeto.x, objeto.y, objeto.w || 24, objeto.h || 24);
     }
   }
+
+  if (debug) dibujarDebugColisiones(ctx, escena);
 
   // 4. Senku provisional: rectángulo limpio sin inventar arte
   if (cuerpoJugador) {
