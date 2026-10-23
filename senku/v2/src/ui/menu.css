@@ -231,6 +231,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  image-rendering: pixelated; /* retratos de pixel art nítidos */
   padding: 12px;
   transition: transform var(--senku-transicion);
 }

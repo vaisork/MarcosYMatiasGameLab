@@ -2,6 +2,8 @@
 // Resolución lógica fija 16:9 (1280x720) escalada a la ventana con letterbox sin deformar.
 // Catálogo desacoplado de assets para cambiar estilos gráficos sin alterar la física ni la lógica.
 
+import { dibujarObjeto } from './sprites.mjs';
+
 export const ANCHO_LOGICO = 1280;
 export const ALTO_LOGICO = 720;
 export const RELACION_ASPECTO = 16 / 9;
@@ -40,52 +42,130 @@ export function ajustarLienzoLetterbox(canvas, anchoContenedor, altoContenedor) 
   return dims;
 }
 
-// Catálogo de assets gráficos con respaldo tolerante si falta un recurso
-export function crearCatalogoArte() {
+// Catálogo de assets gráficos con carga única, precarga y respaldo tolerante si falta un recurso.
+// `crearImagen` es inyectable para probar sin DOM.
+export function crearCatalogoArte({ crearImagen = null, aviso = null } = {}) {
   const cache = new Map();
   const avisados = new Set();
+  const fabrica = crearImagen || (typeof Image !== 'undefined' ? () => new Image() : null);
+  const avisar = aviso || ((msg) => console.warn(msg));
+  let precargando = 0;
+
+  function fallar(entrada, resolver) {
+    entrada.error = true;
+    entrada.cargada = false;
+    if (!avisados.has(entrada.ruta)) {
+      avisados.add(entrada.ruta);
+      avisar(`[Senku 2 / Arte] No se pudo cargar el asset: "${entrada.ruta}". Usando respaldo gráfico plano.`);
+    }
+    resolver(entrada);
+  }
 
   function cargar(ruta) {
     if (!ruta || typeof ruta !== 'string') return null;
     if (cache.has(ruta)) return cache.get(ruta);
 
-    const entrada = {
-      ruta,
-      cargada: false,
-      error: false,
-      imagen: null,
-    };
+    const entrada = { ruta, cargada: false, error: false, imagen: null, promesa: null };
     cache.set(ruta, entrada);
-
-    if (typeof Image !== 'undefined') {
-      const img = new Image();
+    entrada.promesa = new Promise((resolver) => {
+      let img = null;
+      try {
+        img = fabrica ? fabrica() : null;
+      } catch {
+        img = null;
+      }
+      if (!img) {
+        fallar(entrada, resolver);
+        return;
+      }
       img.onload = () => {
         entrada.cargada = true;
+        entrada.error = false;
         entrada.imagen = img;
+        resolver(entrada);
       };
-      img.onerror = () => {
-        entrada.error = true;
-        if (!avisados.has(ruta)) {
-          avisados.add(ruta);
-          console.warn(`[Senku 2 / Arte] No se pudo cargar el asset: "${ruta}". Usando respaldo gráfico plano.`);
-        }
-      };
+      img.onerror = () => fallar(entrada, resolver);
       img.src = ruta;
-    }
-
+    });
     return entrada;
   }
 
   function obtener(ruta) {
     if (!ruta) return null;
-    if (!cache.has(ruta)) {
-      cargar(ruta);
-    }
-    const entrada = cache.get(ruta);
+    const entrada = cache.get(ruta) || cargar(ruta);
     return entrada && entrada.cargada ? entrada.imagen : null;
   }
 
-  return { cargar, obtener, cache };
+  function estado() {
+    let listas = 0;
+    let fallidas = 0;
+    for (const e of cache.values()) {
+      if (e.cargada) listas += 1;
+      else if (e.error) fallidas += 1;
+    }
+    const total = cache.size;
+    const pendientes = total - listas - fallidas;
+    return {
+      total,
+      listas,
+      fallidas,
+      pendientes,
+      progreso: total === 0 ? 1 : (listas + fallidas) / total,
+      precargando: precargando > 0,
+    };
+  }
+
+  // Lanza la carga de todas las rutas; nunca rechaza. Una imagen que no responde a tiempo cuenta como fallida.
+  function precargar(rutas, { timeoutMs = 8000 } = {}) {
+    precargando += 1;
+    const esperas = (Array.isArray(rutas) ? rutas : []).map((ruta) => {
+      const entrada = cargar(ruta);
+      if (!entrada) return Promise.resolve(null);
+      if (!(timeoutMs > 0) || typeof setTimeout !== 'function') return entrada.promesa;
+      let temporizador = null;
+      const limite = new Promise((resolver) => {
+        temporizador = setTimeout(() => {
+          if (!entrada.cargada && !entrada.error) fallar(entrada, resolver);
+          resolver(entrada);
+        }, timeoutMs);
+      });
+      return Promise.race([entrada.promesa, limite]).then((e) => {
+        clearTimeout(temporizador);
+        return e;
+      });
+    });
+    return Promise.all(esperas).then(() => {
+      precargando -= 1;
+      return estado();
+    });
+  }
+
+  return { cargar, obtener, precargar, estado, cache };
+}
+
+// Aviso breve «Cargando arte» (barra de progreso) mientras dura la precarga; llamar al final del fotograma.
+export function dibujarAvisoCarga(ctx, catalogoArte) {
+  const est = catalogoArte?.estado?.();
+  if (!ctx || !est || !est.precargando) return false;
+  dibujarCargando(ctx, est.progreso);
+  return true;
+}
+
+function dibujarCargando(ctx, progreso) {
+  const ancho = 360;
+  const x = (ANCHO_LOGICO - ancho) / 2;
+  ctx.save();
+  ctx.fillStyle = 'rgba(20, 12, 6, 0.8)';
+  ctx.fillRect(x - 24, ALTO_LOGICO / 2 - 48, ancho + 48, 96);
+  ctx.fillStyle = '#fde68a';
+  ctx.font = 'bold 22px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Cargando arte…', ANCHO_LOGICO / 2, ALTO_LOGICO / 2 - 8);
+  ctx.fillStyle = '#4a2c17';
+  ctx.fillRect(x, ALTO_LOGICO / 2 + 12, ancho, 14);
+  ctx.fillStyle = '#e67e22';
+  ctx.fillRect(x, ALTO_LOGICO / 2 + 12, Math.round(ancho * Math.max(0, Math.min(1, progreso))), 14);
+  ctx.restore();
 }
 
 // Dibuja la escena y entidades sobre el contexto 2D lógico
@@ -94,11 +174,13 @@ export function renderizarEscena({
   escena,
   cuerpoJugador,
   catalogoArte = null,
+  rutaFondo = null,
   tiempo = 0,
 }) {
   if (!ctx || !escena) return;
 
   ctx.save();
+  ctx.imageSmoothingEnabled = false; // pixel art nítido (un resize del lienzo restablece el contexto)
 
   // 1. Limpieza de resolución lógica
   ctx.clearRect(0, 0, ANCHO_LOGICO, ALTO_LOGICO);
@@ -106,8 +188,9 @@ export function renderizarEscena({
   // 2. Fondo (imagen o color plano de respaldo con siluetas de taquería)
   const fondoCfg = escena.fondo || {};
   let imagenFondo = null;
-  if (fondoCfg.ruta && catalogoArte) {
-    imagenFondo = catalogoArte.obtener(fondoCfg.ruta);
+  const rutaImagenFondo = rutaFondo || fondoCfg.ruta;
+  if (rutaImagenFondo && catalogoArte) {
+    imagenFondo = catalogoArte.obtener(rutaImagenFondo);
   }
 
   if (imagenFondo) {
@@ -148,6 +231,8 @@ export function renderizarEscena({
   if (Array.isArray(escena.plataformas)) {
     for (const plat of escena.plataformas) {
       if (plat.tipo === 'suelo') {
+        // Con arte de fondo el suelo ya está dibujado en la imagen
+        if (imagenFondo) continue;
         // Suelo principal
         ctx.fillStyle = colorSuelo;
         ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
@@ -155,6 +240,16 @@ export function renderizarEscena({
         ctx.fillStyle = '#3e2c1e';
         ctx.fillRect(plat.x, plat.y, plat.w, 10);
       } else {
+        // Con arte de fondo: tablón fino y translúcido, sólo para ver dónde se puede aterrizar
+        if (imagenFondo) {
+          ctx.globalAlpha = 0.8;
+          ctx.fillStyle = '#b3774f';
+          ctx.fillRect(plat.x, plat.y, plat.w, 8);
+          ctx.fillStyle = '#5c3822';
+          ctx.fillRect(plat.x, plat.y + 8, plat.w, 3);
+          ctx.globalAlpha = 1;
+          continue;
+        }
         // Plataformas intermedias (barras, repisas, toldo)
         ctx.fillStyle = colorPlat;
         ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
@@ -165,6 +260,16 @@ export function renderizarEscena({
         ctx.fillStyle = '#5c3822';
         ctx.fillRect(plat.x, plat.y + plat.h - 4, plat.w, 4);
       }
+    }
+  }
+
+  // 3b. Objetos recogibles: imagen del catálogo o cajita de respaldo
+  if (Array.isArray(escena.objetos)) {
+    for (const objeto of escena.objetos) {
+      if (!objeto || objeto.recogido) continue;
+      if (dibujarObjeto(ctx, catalogoArte, objeto, tiempo)) continue;
+      ctx.fillStyle = '#f1c40f';
+      ctx.fillRect(objeto.x, objeto.y, objeto.w || 24, objeto.h || 24);
     }
   }
 

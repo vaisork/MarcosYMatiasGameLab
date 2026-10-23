@@ -29,8 +29,20 @@ import {
   ALTO_LOGICO,
   ajustarLienzoLetterbox,
   crearCatalogoArte,
+  dibujarAvisoCarga,
   renderizarEscena,
 } from './render/canvas.mjs';
+import {
+  HOJAS_JUGADOR,
+  IMAGENES_OBJETO,
+  RETRATOS_MENU,
+  crearAnimadorEnemigos,
+  dibujarEnemigo,
+  dibujarJugador,
+  resolverRutaArte,
+  rutaFondoEscena,
+  rutasPrecargaArte,
+} from './render/sprites.mjs';
 import { montarMenu } from './ui/menu.mjs';
 
 // Catálogo representativo de trajes para el Menú de Selección en Senku 2
@@ -40,16 +52,16 @@ export const CATALOGO_MENU = [
     id: ID_ORIGINAL,
     nombre: 'Senku Original',
     precio: null,
-    menu: '../../assets/senku/menu-base.jpg',
-    sprite: '../../assets/senku/senku-sprites.png',
+    menu: resolverRutaArte(RETRATOS_MENU.original),
+    sprite: resolverRutaArte(HOJAS_JUGADOR.original),
   },
   {
     id: ID_RATA,
     nombre: 'Senku Rata',
     precio: null, // Pendiente creativo D2 (regla: etiqueta 'Próximamente', sin compra)
     equivaleA: [ID_SECRETO_LEGACY],
-    menu: '../../assets/trajes/rata/menu.webp',
-    sprite: '../../assets/rata/white-rat-sprite-v2.png',
+    menu: resolverRutaArte(RETRATOS_MENU.rata),
+    sprite: resolverRutaArte(HOJAS_JUGADOR.rata),
   },
 ];
 
@@ -179,7 +191,7 @@ export function arrancarSenku2({
       estado: estadoJugador,
       catalogo: CATALOGO_MENU,
       economia: stubEconomia,
-      rutaChuru: null,
+      rutaChuru: resolverRutaArte(IMAGENES_OBJETO.churu),
       onCambioEstado(nuevoEstado) {
         estadoJugador = nuevoEstado;
         if (almacen) guardar(almacen, estadoJugador);
@@ -351,10 +363,14 @@ export function arrancarSenku2({
   });
 
   // 7. Catálogo de arte desacoplado
+  // Precarga única; mientras tanto (o si una imagen falla) se dibujan los rectángulos de respaldo
   const catalogoArte = crearCatalogoArte();
-  if (escenaActual.fondo?.ruta) {
-    catalogoArte.cargar(escenaActual.fondo.ruta);
-  }
+  const rutaFondo = rutaFondoEscena(escenaActual.id);
+  catalogoArte.precargar(rutasPrecargaArte({
+    escenaId: escenaActual.id,
+    tiposEnemigo: enemigos.map((e) => e.tipo),
+  }));
+  const animadorEnemigos = crearAnimadorEnemigos();
 
   // 8. Bucle principal de juego
   let animacionId = null;
@@ -394,6 +410,7 @@ export function arrancarSenku2({
       escena: escenaActual,
       cuerpoJugador: null, // Dibujado con traje activo y etiqueta a continuación
       catalogoArte,
+      rutaFondo,
       tiempo: tiempoAcumulado,
     });
 
@@ -415,63 +432,76 @@ export function arrancarSenku2({
       );
       ctx.fill();
 
-      // Rectángulo principal del Senku provisional (color del traje activo)
-      ctx.fillStyle = trajeActivo.color;
-      ctx.fillRect(senku.x, senku.y, senku.w, senku.h);
+      if (!dibujarJugador(ctx, catalogoArte, {
+        cuerpo: senku,
+        trajeId: trajeActivo.id,
+        combate: estadoCombate,
+        tiempo: tiempoAcumulado,
+      })) {
+        // Respaldo sin arte: rectángulo provisional
+        // Rectángulo principal del Senku provisional (color del traje activo)
+        ctx.fillStyle = trajeActivo.color;
+        ctx.fillRect(senku.x, senku.y, senku.w, senku.h);
 
-      // Borde según traje activo
-      ctx.strokeStyle = trajeActivo.colorBorde;
-      ctx.lineWidth = 3;
-      ctx.strokeRect(senku.x, senku.y, senku.w, senku.h);
+        // Borde según traje activo
+        ctx.strokeStyle = trajeActivo.colorBorde;
+        ctx.lineWidth = 3;
+        ctx.strokeRect(senku.x, senku.y, senku.w, senku.h);
 
-      // Si es traje de rata, detalle provisional limpio de orejitas (sin inventar arte complejo)
-      if (trajeActivo.id === ID_RATA) {
-        ctx.fillStyle = trajeActivo.colorDetalle || '#f1948a';
-        ctx.fillRect(senku.x + 6, senku.y - 4, 8, 5);
-        ctx.fillRect(senku.x + senku.w - 14, senku.y - 4, 8, 5);
+        // Si es traje de rata, detalle provisional limpio de orejitas (sin inventar arte complejo)
+        if (trajeActivo.id === ID_RATA) {
+          ctx.fillStyle = trajeActivo.colorDetalle || '#f1948a';
+          ctx.fillRect(senku.x + 6, senku.y - 4, 8, 5);
+          ctx.fillRect(senku.x + senku.w - 14, senku.y - 4, 8, 5);
+        }
+
+        // Ojo según orientación y traje activo
+        const ojoX = senku.mirando === 1
+          ? senku.x + senku.w - 12
+          : senku.x + 6;
+        ctx.fillStyle = trajeActivo.colorOjo || '#2c3e50';
+        ctx.fillRect(ojoX, senku.y + 8, 6, 6);
+
+        // Etiqueta flotante sobre Senku indicando el traje activo
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        const anchoEtiqueta = ctx.measureText(trajeActivo.etiqueta).width;
+        const centroX = senku.x + senku.w / 2;
+        const posY = senku.y - (trajeActivo.id === ID_RATA ? 8 : 6);
+
+        ctx.fillStyle = 'rgba(20, 15, 10, 0.75)';
+        ctx.fillRect(centroX - anchoEtiqueta / 2 - 5, posY - 14, anchoEtiqueta + 10, 16);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(trajeActivo.etiqueta, centroX, posY - 2);
+
       }
-
-      // Ojo según orientación y traje activo
-      const ojoX = senku.mirando === 1
-        ? senku.x + senku.w - 12
-        : senku.x + 6;
-      ctx.fillStyle = trajeActivo.colorOjo || '#2c3e50';
-      ctx.fillRect(ojoX, senku.y + 8, 6, 6);
-
-      // Etiqueta flotante sobre Senku indicando el traje activo
-      ctx.font = 'bold 12px sans-serif';
-      ctx.textAlign = 'center';
-      const anchoEtiqueta = ctx.measureText(trajeActivo.etiqueta).width;
-      const centroX = senku.x + senku.w / 2;
-      const posY = senku.y - (trajeActivo.id === ID_RATA ? 8 : 6);
-
-      ctx.fillStyle = 'rgba(20, 15, 10, 0.75)';
-      ctx.fillRect(centroX - anchoEtiqueta / 2 - 5, posY - 14, anchoEtiqueta + 10, 16);
-      ctx.fillStyle = '#ffffff';
-      ctx.fillText(trajeActivo.etiqueta, centroX, posY - 2);
 
       ctx.restore();
     }
 
-    // Dibujado de enemigos con rectángulos provisionales limpios (sin inventar arte)
+    // Dibujado de enemigos: hoja de sprites o, sin arte, rectángulos provisionales
     if (ctx) {
       ctx.save();
       for (const enemigo of enemigos) {
-        if (!enemigo.vivo) continue;
+        // Sombra suave en suelo (sólo mientras vive)
+        if (enemigo.vivo) {
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+          ctx.beginPath();
+          ctx.ellipse(
+            enemigo.x + enemigo.w / 2,
+            enemigo.y + enemigo.h + 2,
+            enemigo.w * 0.45,
+            4,
+            0,
+            0,
+            Math.PI * 2
+          );
+          ctx.fill();
+        }
 
-        // Sombra suave en suelo
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-        ctx.beginPath();
-        ctx.ellipse(
-          enemigo.x + enemigo.w / 2,
-          enemigo.y + enemigo.h + 2,
-          enemigo.w * 0.45,
-          4,
-          0,
-          0,
-          Math.PI * 2
-        );
-        ctx.fill();
+        // Con arte: caminar/daño/derrota animados; true también cuando ya terminó la derrota
+        if (dibujarEnemigo(ctx, catalogoArte, animadorEnemigos, enemigo, tiempoAcumulado)) continue;
+        if (!enemigo.vivo) continue;
 
         // Rectángulo principal del enemigo
         ctx.fillStyle = enemigo.color || '#6e4720';
@@ -491,6 +521,8 @@ export function arrancarSenku2({
       }
       ctx.restore();
     }
+
+    dibujarAvisoCarga(ctx, catalogoArte);
 
     animacionId = ventana.requestAnimationFrame(ciclo);
   }
