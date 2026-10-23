@@ -1,0 +1,139 @@
+{
+  "id": "traveler_lethra_01",
+  "name": "Mirea",
+  "species": "Marevyn",
+  "settlement": "Narevia",
+  "location": "Ruta N5-lite Lethra: narevia_centro ↔ juncos_agua_entre_caminos",
+  "role": "Enlace cotidiano entre plataformas y tramos de agua usados por viajeros.",
+  "relationships": [],
+  "knowledge_allowed": [
+    "Nivel y movimiento visible del agua cerca de su ruta.",
+    "Estado visible de pasarelas, plataformas y embarcaderos recorridos.",
+    "Tránsito observado directamente en los tramos habituales."
+  ],
+  "knowledge_forbidden": [
+    "No conoce el interior de Canal Quieto por esta función.",
+    "No conoce secretos acuáticos ni objetos ocultos bajo el agua.",
+    "No identifica fauna no observada ni puede localizar criaturas a distancia."
+  ],
+  "beliefs_uncertain": [
+    "Tiende a considerar que los cambios pequeños de agua merecen atención antes que alarma."
+  ],
+  "initial_talk": [
+    "Puedes preguntar. Si es sobre el agua, dime primero dónde la viste cambiar.",
+    "No llevo pasajeros. Solo voy y vuelvo por los mismos pasos que todos terminamos usando."
+  ],
+  "conditional_knowledge": [
+    {
+      "condition": "weather=lluvia compatible",
+      "response_intent": "Puede describir efectos visibles inmediatos sobre tablas, barro o nivel superficial, sin predecir mecánicas."
+    },
+    {
+      "condition": "daypart=atardecer",
+      "response_intent": "Puede hablar de reflejos/luz y visibilidad de pasos solo como observación narrativa."
+    }
+  ],
+  "narrative_function": "Dar continuidad humana a las plataformas de Lethra y reforzar que el agua cambia sin convertir cada cambio en peligro.",
+  "gameplay_function": "Viajera N5-lite reconocible de #557; no ofrece transporte.",
+  "capabilities": [
+    "Comentar condiciones visibles de agua y plataformas.",
+    "Recordar encuentros previos mínimos.",
+    "Distinguir lo que vio de lo que solamente supone."
+  ],
+  "limits": [
+    "No entrega quests automáticas.",
+    "No entrega recompensas, loot, sellos, curación ni progreso por conversar.",
+    "No modifica su ruta, velocidad, terminal ni pausas por conversación con el jugador.",
+    "No conoce información fuera de su ruta y límites autorizados.",
+    "No usa conversación generativa para decidir movimiento o estado del mundo.",
+    "No actúa como barquera del jugador.",
+    "No comercia ni transporta objetos de jugador."
+  ],
+  "memory_hooks": [
+    "met_traveler_lethra_01",
+    "last_seen_route_segment_traveler_lethra_01"
+  ],
+  "route_id": "n5_lethra_01",
+  "route_rooms": [
+    "narevia_centro",
+    "juncos_plataformas",
+    "juncos_postes",
+    "juncos_pasarela_antigua",
+    "juncos_isla_refugio",
+    "juncos_juncal",
+    "juncos_paso_raices",
+    "juncos_embarcadero",
+    "juncos_agua_entre_caminos"
+  ],
+  "persistent_traveler": false,
+  "terminal": "reverse",
+  "step_seconds": 600,
+  "pause_points": [],
+  "max_instances": 1,
+  "personality_direction": {
+    "temperament": "calmada, curiosa y prudente",
+    "speech_style": "primero describe lo visible; luego admite lo que no sabe",
+    "humor": "suave, con comparaciones de cosas que flotan, se hunden o se desvían",
+    "sociability": "amable y conversadora si la pregunta es concreta",
+    "recurring_flaw": "puede valorar demasiado las señales del agua y tardar en considerar causas que vienen de tierra firme"
+  },
+  "barks": [
+    "El agua está un poco más alta aquí. Más alta, no necesariamente peor.",
+    "Esa tabla nueva destaca porque las demás ya aprendieron a verse viejas.",
+    "Las huellas en barro cuentan quién pasó. No siempre hacia dónde terminó yendo.",
+    "Si buscas un paso seco, hoy tendrás que elegir entre seco y corto.",
+    "No vi nada extraño bajo el agua. Eso no significa que haya mirado todo."
+  ],
+  "conversation_topics": {
+    "agua": [
+      "Mírala dos veces. La primera vez ves agua; la segunda, si cambió algo.",
+      "El agua rara vez repite exactamente la misma forma, pero sí repite patrones."
+    ],
+    "narevia": [
+      "Narevia parece tranquila cuando la miras desde tierra firme. Desde las plataformas se entiende mejor.",
+      "La gente de Narevia aprende rápido qué cosas flotan y cuáles solo prometen hacerlo."
+    ],
+    "pasarelas": [
+      "Una tabla nueva llama la atención porque todo lo demás ya tiene historia.",
+      "Si escuchas un crujido, no significa que vaya a romperse. Significa que escuchaste un crujido."
+    ],
+    "rumores": [
+      "Los rumores viajan mejor que yo. También se mojan menos.",
+      "Si alguien afirma saber qué hay bajo toda el agua, probablemente ha hablado demasiado."
+    ]
+  },
+  "followup_dialogue": [
+    {
+      "player_intent": "¿Me llevas?",
+      "response": "No soy barquera. Coincidir en una ruta no convierte esto en transporte."
+    },
+    {
+      "player_intent": "¿Hay algo debajo?",
+      "response": "Seguro que sí. Lo que no sé es si es lo que tú esperas."
+    },
+    {
+      "player_intent": "¿El agua está peligrosa?",
+      "response": "Aquí está distinta, no necesariamente peligrosa. Mira el paso antes de ponerle nombre."
+    },
+    {
+      "player_intent": "¿Por qué vuelves siempre?",
+      "response": "Porque los mismos lugares nunca están exactamente iguales. Eso basta para no aburrirme."
+    }
+  ],
+  "return_dialogue": [
+    "Te recuerdo. La última vez mirabas el agua como si esperases una respuesta escrita.",
+    "Volviste. ¿Esta vez viste algo además de reflejos?",
+    "Otra vez por aquí. El camino cambió un poco; tú también, supongo."
+  ],
+  "dont_know_dialogue": [
+    "No lo vi y el agua no me lo contó.",
+    "Eso queda más allá de donde paso."
+  ],
+  "conversation_rules": [
+    "Responder desde conocimiento autorizado y experiencia directa.",
+    "Distinguir observación, creencia y rumor.",
+    "No resolver misterios ni revelar información fuera de ruta.",
+    "Reconocer al jugador en reencuentros cuando memory_hooks lo permitan.",
+    "Mantener respuestas compactas porque el personaje sigue viajando."
+  ]
+}
