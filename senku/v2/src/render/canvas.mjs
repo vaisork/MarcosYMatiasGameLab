@@ -263,7 +263,7 @@ export function renderizarEscena({
   // 3. Plataformas y suelo
   // Con arte de fondo las plataformas son invisibles (se apoyan en elementos del dibujo);
   // sin arte se pintan de forma plana como respaldo.
-  if (Array.isArray(escena.plataformas) && !imagenFondo) {
+  if (Array.isArray(escena.plataformas) && (!imagenFondo || fondoCfg.plataformasVisibles)) {
     const colorSuelo = fondoCfg.colorSuelo || '#543d2b';
     const colorPlat = fondoCfg.colorPlataforma || '#8c593a';
     for (const plat of escena.plataformas) {
@@ -292,6 +292,19 @@ export function renderizarEscena({
   if (Array.isArray(escena.objetos)) {
     for (const objeto of escena.objetos) {
       if (!objeto || objeto.recogido) continue;
+      if (objeto.tipo === 'llave') {
+        ctx.save();
+        ctx.strokeStyle = '#ffe169';
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.arc(objeto.x + 9, objeto.y + 9, 7, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = '#ffe169';
+        ctx.fillRect(objeto.x + 14, objeto.y + 7, 20, 5);
+        ctx.fillRect(objeto.x + 25, objeto.y + 10, 5, 9);
+        ctx.restore();
+        continue;
+      }
       if (dibujarObjeto(ctx, catalogoArte, objeto, tiempo)) continue;
       ctx.fillStyle = '#f1c40f';
       ctx.fillRect(objeto.x, objeto.y, objeto.w || 24, objeto.h || 24);

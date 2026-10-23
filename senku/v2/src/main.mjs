@@ -14,9 +14,10 @@ import {
   alternarTraje,
   desbloquearTraje,
 } from './core/trajes_activo.mjs';
-import { crearCuerpo, actualizarCuerpo } from './core/fisica.mjs';
+import { crearCuerpo, actualizarCuerpo, solapanAABB } from './core/fisica.mjs';
 import { crearRegistroEscenas } from './core/escenas.mjs';
 import { escenaTaqueria } from './data/escenas/taqueria.mjs';
+import { escenaDesierto } from './data/escenas/desierto.mjs';
 import { crearManejadorEntrada } from './core/entrada.mjs';
 import { crearEnemigo, actualizarEnemigos } from './core/enemigos.mjs';
 import {
@@ -363,9 +364,19 @@ export function arrancarSenku2({
   // 3. Registro y carga de escenas
   const registro = crearRegistroEscenas();
   registro.registrar(escenaTaqueria);
+  registro.registrar(escenaDesierto);
 
   const escenaId = estadoJugador.progreso?.escena || 'taqueria';
-  const escenaActual = registro.obtener(escenaId) || registro.obtener('taqueria');
+  let escenaActual = registro.obtener(escenaId) || registro.obtener('taqueria');
+
+  function actualizarNombreEscena() {
+    const nombre = documento.getElementById('nombre-escena');
+    if (nombre) nombre.textContent = escenaActual.nombre;
+    documento.title = `Senku 2 — ${escenaActual.nombre}`;
+    documento.getElementById('lienzo-juego')?.setAttribute?.(
+      'aria-label', `Pantalla de juego de Senku 2 en ${escenaActual.nombre}`);
+  }
+  actualizarNombreEscena();
 
   // 4. Inicializar entidad provisional Senku
   const senku = crearCuerpo({
@@ -385,6 +396,9 @@ export function arrancarSenku2({
     } else if (e.key === 'm' || e.key === 'M') {
       alternarMenu();
       e.preventDefault();
+    } else if (e.code === 'KeyE' && !e.repeat) {
+      intentarSubir();
+      e.preventDefault();
     } else if (e.key === 't' || e.key === 'T') {
       if (!menuAbierto) {
         alternarTrajeJugador();
@@ -400,13 +414,82 @@ export function arrancarSenku2({
     tiempoInvulnerabilidad: TIEMPO_INVULNERABILIDAD_JUEGO,
   });
 
-  // Instanciar enemigos de la escena Taquería
-  const definicionEnemigos = Array.isArray(escenaTaqueria.enemigos) ? escenaTaqueria.enemigos : [];
-  let enemigos = definicionEnemigos.map(crearEnemigo);
+  // Instanciar enemigos de la escena guardada
+  const idDerrota = (id) => `${escenaActual.id}:derrotado:${id}`;
+  let definicionEnemigos = escenaActual.enemigos;
+  // Mantener la misma lista pública al cambiar de escena.
+  const enemigos = [];
+  function restaurarEnemigos() {
+    enemigos.splice(0, enemigos.length, ...definicionEnemigos.map((def) => crearEnemigo({
+      ...def, vivo: !estadoJugador.coleccionados.includes(idDerrota(def.id)),
+    })));
+  }
+  restaurarEnemigos();
+  const btnSubir = documento.getElementById('btn-subir');
+  const elAvisoViaje = documento.getElementById('aviso-viaje');
+  let aviso = '';
+  let avisoRestante = 0;
+  let viaje = null;
+
+  function mostrarAviso(texto, segundos = 3) {
+    aviso = texto;
+    avisoRestante = segundos;
+    if (elAvisoViaje) {
+      elAvisoViaje.textContent = texto;
+      elAvisoViaje.hidden = !texto;
+    }
+  }
+
+  function guardarProgreso() {
+    if (almacen) guardar(almacen, estadoJugador);
+  }
+
+  function zonaCamioneta() {
+    return escenaActual.disparadores.find((d) => d.accion === 'subir' && solapanAABB(senku, d));
+  }
+
+  function actualizarCamioneta() {
+    const zona = zonaCamioneta();
+    if (btnSubir) btnSubir.hidden = !zona || !!viaje || menuAbierto;
+    if (zona && !viaje && !avisoRestante) {
+      mostrarAviso(estadoJugador.coleccionados.includes(zona.requiere)
+        ? '¡Ya tienes la llave! Pulsa E o Subir.'
+        : 'La camioneta no arranca… ¡busca la llave!', 0.5);
+    }
+  }
+
+  function intentarSubir() {
+    const zona = zonaCamioneta();
+    if (!zona || menuAbierto || viaje) return false;
+    if (!estadoJugador.coleccionados.includes(zona.requiere)) {
+      mostrarAviso('La camioneta no arranca… ¡busca la llave!');
+      return false;
+    }
+    entrada.soltarTodo();
+    viaje = { destino: zona.destino, tiempo: 0 };
+    mostrarAviso('Arrancando…', 2);
+    actualizarCamioneta();
+    return true;
+  }
+  if (btnSubir) btnSubir.onclick = intentarSubir;
+
+  function soltarLlave(ultimo = null) {
+    const recompensa = escenaActual.recompensaFinal;
+    if (!recompensa || estadoJugador.coleccionados.includes(recompensa.id)
+      || enemigos.some((e) => e.vivo) || escenaActual.objetos.some((o) => o.id === recompensa.id)) return;
+    escenaActual.objetos.push({ ...recompensa,
+      x: ultimo ? Math.min(1246, Math.max(0, ultimo.x - 60)) : recompensa.x,
+      y: ultimo ? ultimo.y + ultimo.h - recompensa.h : recompensa.y,
+    });
+    mostrarAviso('¡La llave de la camioneta!');
+  }
+  // Copias de objetos por partida: nunca mutar las definiciones del registro.
+  escenaActual = { ...escenaActual, objetos: escenaActual.objetos.map((o) => ({ ...o })) };
+  soltarLlave();
 
   actualizarHUDVida();
 
-  // Reinicia la escena al llegar a 0 de vida con vida llena y enemigos restaurados
+  // Reinicia la escena al llegar a 0 de vida, conservando el progreso guardado
   function reiniciarEscena() {
     senku.x = escenaActual.puntoEntrada.x;
     senku.y = escenaActual.puntoEntrada.y;
@@ -416,11 +499,9 @@ export function arrancarSenku2({
     senku.saltando = false;
     senku.tiempoSalto = 0;
 
-    // Restaurar enemigos de la escena vivos y en posición original
-    enemigos.length = 0;
-    for (const def of definicionEnemigos) {
-      enemigos.push(crearEnemigo(def));
-    }
+    // Restaurar posiciones sin revivir enemigos ya derrotados
+    restaurarEnemigos();
+    soltarLlave();
 
     // Restaurar salud completa (100) y limpiar combate
     reiniciarCombate(estadoCombate);
@@ -472,11 +553,12 @@ export function arrancarSenku2({
   // 7. Catálogo de arte desacoplado
   // Precarga única; mientras tanto (o si una imagen falla) se dibujan los rectángulos de respaldo
   const catalogoArte = crearCatalogoArte();
-  const rutaFondo = rutaFondoEscena(escenaActual.id);
+  let rutaFondo = rutaFondoEscena(escenaActual.id);
   catalogoArte.precargar(rutasPrecargaArte({
     escenaId: escenaActual.id,
     tiposEnemigo: enemigos.map((e) => e.tipo),
   }));
+  catalogoArte.cargar(resolverRutaArte('assets/fondos/camioneta_reja.webp'));
   const animadorEnemigos = crearAnimadorEnemigos();
 
   // 8. Bucle principal de juego
@@ -485,6 +567,30 @@ export function arrancarSenku2({
   let tiempoAcumulado = 0;
 
   function avanzarPaso(dt = 1 / 60) {
+    if (menuAbierto) return;
+    if (avisoRestante > 0) {
+      avisoRestante = Math.max(0, avisoRestante - dt);
+      if (!avisoRestante) mostrarAviso('', 0);
+    }
+    if (viaje) {
+      viaje.tiempo += dt;
+      if (viaje.tiempo < 2) return;
+      if (viaje.tiempo < 5) {
+        mostrarAviso('Niño: «Mamá, mamá, ¿podemos ir al parque del desierto?» Madre: «Sí, ahorita vamos»', 0);
+        return;
+      }
+      escenaActual = { ...registro.obtener(viaje.destino), objetos: [] };
+      estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: escenaActual.id } };
+      guardarProgreso();
+      definicionEnemigos = escenaActual.enemigos;
+      rutaFondo = rutaFondoEscena(escenaActual.id);
+      catalogoArte.precargar(rutasPrecargaArte({ escenaId: escenaActual.id }));
+      viaje = null;
+      mostrarAviso('', 0);
+      reiniciarEscena();
+      actualizarNombreEscena();
+      return;
+    }
     if (!menuAbierto) {
       // Física del jugador
       const estadoEntrada = entrada.obtenerEstado();
@@ -503,6 +609,12 @@ export function arrancarSenku2({
       for (const enemigo of enemigos) {
         if (!enemigo.vivo) continue;
         const resContacto = resolverContactoEnemigo(senku, enemigo, estadoCombate);
+        if (resContacto.enemigoDerrotado) {
+          estadoJugador = { ...estadoJugador,
+            coleccionados: [...new Set([...estadoJugador.coleccionados, idDerrota(enemigo.id)])] };
+          guardarProgreso();
+          soltarLlave(enemigo);
+        }
         if (resContacto.contacto && resContacto.tipo === 'golpe') {
           actualizarHUDVida();
           // Al llegar a 0 de vida, reiniciar la escena con vida llena
@@ -512,6 +624,15 @@ export function arrancarSenku2({
           }
         }
       }
+      for (const objeto of escenaActual.objetos) {
+        if (objeto.tipo !== 'llave' || objeto.recogido || !solapanAABB(senku, objeto)) continue;
+        objeto.recogido = true;
+        estadoJugador = { ...estadoJugador,
+          coleccionados: [...new Set([...estadoJugador.coleccionados, objeto.id])] };
+        guardarProgreso();
+        mostrarAviso('¡La llave de la camioneta!');
+      }
+      actualizarCamioneta();
     }
   }
 
@@ -643,6 +764,14 @@ export function arrancarSenku2({
       ctx.restore();
     }
 
+    if (ctx && viaje) {
+      ctx.save();
+      const imagen = catalogoArte.obtener(resolverRutaArte('assets/fondos/camioneta_reja.webp'));
+      if (imagen) ctx.drawImage(imagen, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
+      ctx.fillStyle = 'rgba(20, 12, 6, 0.45)';
+      ctx.fillRect(0, 0, ANCHO_LOGICO, ALTO_LOGICO);
+      ctx.restore();
+    }
     dibujarAvisoCarga(ctx, catalogoArte);
 
     animacionId = ventana.requestAnimationFrame(ciclo);
@@ -662,6 +791,7 @@ export function arrancarSenku2({
       ventana.visualViewport.removeEventListener('resize', redimensionar);
     }
     ventana.removeEventListener('keydown', alPulsarTecla);
+    if (btnSubir) btnSubir.onclick = null;
     if (btnTraje) {
       btnTraje.onclick = null;
     }
@@ -683,12 +813,14 @@ export function arrancarSenku2({
   return {
     iniciado: true,
     senku,
-    escena: escenaActual,
+    get escena() { return escenaActual; },
     estadoJugador: () => estadoJugador,
     estadoCombate,
     enemigos,
     entrada,
     avanzarPaso,
+    intentarSubir,
+    avisoViaje: () => aviso,
     reiniciarEscena,
     actualizarHUDVida,
     obtenerTrajeActivo: () => trajeActivo,

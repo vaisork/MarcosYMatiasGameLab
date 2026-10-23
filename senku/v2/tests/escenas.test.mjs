@@ -67,7 +67,7 @@ test('crearRegistroEscenas lanza error si se intenta registrar una escena invál
   );
 });
 
-test('escena taquería cumple con proporciones 16:9 y valores creativos pendientes en null', () => {
+test('escena taquería cumple proporciones 16:9 y salida aprobada hacia desierto', () => {
   const resultado = validarEscena(escenaTaqueria);
   assert.equal(resultado.valida, true);
   const escena = resultado.escena;
@@ -76,9 +76,8 @@ test('escena taquería cumple con proporciones 16:9 y valores creativos pendient
   assert.ok(escena.plataformas.some((p) => p.tipo === 'suelo'), 'debe tener un suelo');
   assert.ok(escena.plataformas.filter((p) => p.tipo === 'plataforma').length >= 2, 'debe tener al menos 2-3 plataformas');
 
-  // Comprobar que los valores no decididos son null
-  for (const d of escena.disparadores) {
-    assert.equal(d.accion, null);
-    assert.equal(d.destino, null);
-  }
+  const salida = escena.disparadores.find((d) => d.id === 'camioneta');
+  assert.equal(salida.accion, 'subir');
+  assert.equal(salida.destino, 'desierto');
+  assert.equal(salida.requiere, 'llave-camioneta');
 });

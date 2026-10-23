@@ -381,6 +381,8 @@
         display: none !important;
       }
     }
+    #btn-subir { width: 82px; font-size: 18px; margin-right: 10px; }
+    #btn-subir[hidden], #aviso-viaje[hidden] { display: none; }
   </style>
 </head>
 <body>
@@ -400,7 +402,7 @@
         <span id="saldo-churus">0</span>
       </div>
       <div class="hud-pildora hud-escena">
-        <span>Taquería</span>
+        <span id="nombre-escena">Taquería</span>
       </div>
       <button id="hud-traje" class="hud-pildora hud-btn hud-btn-traje" aria-label="Traje equipado" title="Clic o pulsa T para cambiar de traje">
         <span class="icono" aria-hidden="true">🐱</span>
@@ -431,9 +433,11 @@
       <canvas id="lienzo-juego" width="1280" height="720" role="img" aria-label="Pantalla de juego de Senku 2 en la Taquería"></canvas>
     </main>
 
+    <p id="aviso-viaje" role="status" aria-live="polite" style="position:absolute;top:18%;left:5%;right:5%;text-align:center;color:white;background:#24180ddd;pointer-events:none" hidden></p>
+
     <!-- Ayuda para teclado (escritorio) -->
     <div class="ayuda-teclado">
-      ◀ ▶ o A / D: Moverse · Espacio / ▲ / W: Saltar · M: Menú · T: Traje
+      ◀ ▶ o A / D: Moverse · Espacio / ▲ / W: Saltar · E: Subir · M: Menú · T: Traje
     </div>
 
     <!-- Controles Táctiles en Pantalla -->
@@ -443,6 +447,7 @@
         <button id="btn-der" class="btn-control" aria-label="Mover a la derecha">▶</button>
       </div>
       <div class="grupo-accion">
+        <button id="btn-subir" class="btn-control" aria-label="Subir a la camioneta" hidden>Subir</button>
         <button id="btn-salto" class="btn-control btn-salto" aria-label="Saltar">
           <span class="flecha-arriba">▲</span>
           <span>Salto</span>

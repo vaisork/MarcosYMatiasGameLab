@@ -55,6 +55,7 @@ export function validarEscena(escena) {
 
   const fondo = escena.fondo && typeof escena.fondo === 'object'
     ? {
+        plataformasVisibles: escena.fondo.plataformasVisibles === true,
         ruta: typeof escena.fondo.ruta === 'string' ? escena.fondo.ruta : null,
         colorRespaldo: typeof escena.fondo.colorRespaldo === 'string' ? escena.fondo.colorRespaldo : '#d6a87c',
         colorSuelo: typeof escena.fondo.colorSuelo === 'string' ? escena.fondo.colorSuelo : '#5c4033',
@@ -92,6 +93,8 @@ export function validarEscena(escena) {
       tipo: p.tipo || 'plataforma',
     })),
     disparadores,
+    enemigos: Array.isArray(escena.enemigos) ? escena.enemigos : [],
+    recompensaFinal: escena.recompensaFinal || null,
     fondo,
     objetos: Array.isArray(escena.objetos) ? escena.objetos : [],
   };
