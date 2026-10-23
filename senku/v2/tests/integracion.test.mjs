@@ -194,3 +194,65 @@ test('arrancarSenku2 sin entorno DOM devuelve fallo limpio sin lanzar excepcione
   assert.equal(res.iniciado, false);
   assert.equal(res.motivo, 'sin_entorno_dom');
 });
+
+test('arrancarSenku2 con DOM simulado: inicializa con 100 HP, HUD de vida y reinicio de escena', () => {
+  const elementos = {
+    'saldo-churus': { textContent: '0' },
+    'texto-vida': { textContent: '' },
+    'barra-vida-relleno': { style: { width: '', background: '' } },
+    'lienzo-juego': {
+      getContext: () => ({
+        fillRect: () => {},
+        strokeRect: () => {},
+        drawImage: () => {},
+        save: () => {},
+        restore: () => {},
+        beginPath: () => {},
+        ellipse: () => {},
+        fill: () => {},
+        fillText: () => {},
+        measureText: () => ({ width: 40 }),
+      }),
+      parentElement: { clientWidth: 1280, clientHeight: 720 },
+      style: {},
+    },
+  };
+
+  const doc = {
+    getElementById: (id) => elementos[id] || null,
+    querySelector: () => null,
+    querySelectorAll: () => [],
+    createElement: () => ({ setAttribute: () => {}, style: {}, addEventListener: () => {} }),
+    body: { clientWidth: 1280, clientHeight: 720 },
+  };
+
+  const win = {
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    requestAnimationFrame: () => 1,
+    cancelAnimationFrame: () => {},
+    localStorage: crearAlmacenEnMemoria(),
+    location: { search: '' },
+    innerWidth: 1280,
+    innerHeight: 720,
+  };
+
+  const juego = arrancarSenku2({ documento: doc, ventana: win });
+  assert.equal(juego.iniciado, true);
+  assert.equal(juego.estadoCombate.hpMax, 100);
+  assert.equal(juego.estadoCombate.hp, 100);
+  assert.equal(elementos['texto-vida'].textContent, '100');
+  assert.equal(elementos['barra-vida-relleno'].style.width, '100%');
+
+  // Mover a Senku lejos del punto de entrada y herirlo
+  juego.senku.x = 800;
+  juego.estadoCombate.hp = 0;
+  juego.reiniciarEscena();
+
+  // Reinicio restaura posición de entrada y vida a 100
+  assert.equal(juego.senku.x, juego.escena.puntoEntrada.x);
+  assert.equal(juego.estadoCombate.hp, 100);
+  assert.equal(elementos['texto-vida'].textContent, '100');
+
+  juego.detener();
+});

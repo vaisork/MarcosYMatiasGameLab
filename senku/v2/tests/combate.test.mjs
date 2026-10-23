@@ -8,10 +8,19 @@ import {
   aplicarPisoton,
   aplicarGolpeJugador,
   resolverContactoEnemigo,
+  reiniciarCombate,
+  HP_INICIAL_SENKU,
   TIEMPO_INVULNERABILIDAD_DEFECTO,
 } from '../src/core/combate.mjs';
 import { crearCuerpo } from '../src/core/fisica.mjs';
 import { crearEnemigo } from '../src/core/enemigos.mjs';
+import {
+  DANO_CUCARACHA,
+  DANO_RATA,
+  DANO_RATON,
+  DANO_HAMSTER,
+} from '../src/data/enemigos.mjs';
+import { estadoVisualJugador } from '../src/render/sprites.mjs';
 
 test('crearEstadoCombate inicializa con valores por defecto tolerantes a null', () => {
   const estado = crearEstadoCombate();
@@ -199,4 +208,109 @@ test('resolverContactoEnemigo: enemigo derrotado no genera contacto', () => {
 
   const res = resolverContactoEnemigo(senku, enemigoMuerto, estado);
   assert.equal(res.contacto, false);
+});
+
+test('daño por tipo: ratón/rata = 1, cucaracha = 1, hamster = 2', () => {
+  assert.equal(DANO_CUCARACHA, 1);
+  assert.equal(DANO_RATA, 1);
+  assert.equal(DANO_RATON, 1);
+  assert.equal(DANO_HAMSTER, 2);
+
+  const cucaracha = crearEnemigo({ tipo: 'cucaracha', x: 220, y: 300 });
+  const rata = crearEnemigo({ tipo: 'rata_menor', x: 220, y: 300 });
+  const raton = crearEnemigo({ tipo: 'raton', x: 220, y: 300 });
+  const hamster = crearEnemigo({ tipo: 'hamster', x: 220, y: 300 });
+
+  assert.equal(cucaracha.dano, 1);
+  assert.equal(rata.dano, 1);
+  assert.equal(raton.dano, 1);
+  assert.equal(hamster.dano, 2);
+
+  // Daño de cucaracha a Senku con 100 HP
+  const estado1 = crearEstadoCombate({ hpMax: HP_INICIAL_SENKU });
+  const senku1 = crearCuerpo({ x: 200, y: 300, w: 48, h: 36 });
+  const resCuc = resolverContactoEnemigo(senku1, cucaracha, estado1);
+  assert.equal(resCuc.golpeado, true);
+  assert.equal(estado1.hp, 99, 'cucaracha resta 1 de HP');
+
+  // Daño de rata/ratón a Senku con 100 HP
+  const estado2 = crearEstadoCombate({ hpMax: HP_INICIAL_SENKU });
+  const senku2 = crearCuerpo({ x: 200, y: 300, w: 48, h: 36 });
+  const resRata = resolverContactoEnemigo(senku2, rata, estado2);
+  assert.equal(resRata.golpeado, true);
+  assert.equal(estado2.hp, 99, 'rata resta 1 de HP');
+
+  const estado3 = crearEstadoCombate({ hpMax: HP_INICIAL_SENKU });
+  const senku3 = crearCuerpo({ x: 200, y: 300, w: 48, h: 36 });
+  const resRaton = resolverContactoEnemigo(senku3, raton, estado3);
+  assert.equal(resRaton.golpeado, true);
+  assert.equal(estado3.hp, 99, 'ratón resta 1 de HP');
+
+  // Daño de hámster a Senku con 100 HP
+  const estado4 = crearEstadoCombate({ hpMax: HP_INICIAL_SENKU });
+  const senku4 = crearCuerpo({ x: 200, y: 300, w: 48, h: 36 });
+  const resHam = resolverContactoEnemigo(senku4, hamster, estado4);
+  assert.equal(resHam.golpeado, true);
+  assert.equal(estado4.hp, 98, 'hamster resta 2 de HP');
+});
+
+test('invencibilidad: dura 1 s tras golpe, previene daño sucesivo y activa parpadeo', () => {
+  const estado = crearEstadoCombate({
+    hpMax: 100,
+    tiempoInvulnerabilidad: TIEMPO_INVULNERABILIDAD_DEFECTO,
+  });
+  assert.equal(estado.duracionInvulnerabilidad, 1.0, 'invencibilidad configurada a 1 s');
+
+  // 1. Recibir primer golpe
+  const res1 = aplicarGolpeJugador(estado, 1);
+  assert.equal(res1.golpeado, true);
+  assert.equal(estado.hp, 99);
+  assert.equal(estado.invulnerable, true);
+  assert.equal(estado.tiempoInvulnerable, 1.0);
+
+  // 2. Comprobar parpadeo visual del sprite (alpha cambia alternadamente)
+  const cuerpo = crearCuerpo({ enSuelo: true });
+  const v1 = estadoVisualJugador(cuerpo, estado, 0.0);
+  const v2 = estadoVisualJugador(cuerpo, estado, 0.08);
+  assert.ok(v1.alpha !== v2.alpha, 'sprite debe alternar alpha durante parpadeo');
+
+  // 3. Golpes durante el segundo de invulnerabilidad son ignorados
+  const res2 = aplicarGolpeJugador(estado, 2);
+  assert.equal(res2.golpeado, false);
+  assert.equal(res2.motivo, 'invulnerable');
+  assert.equal(estado.hp, 99, 'vida no disminuye mientras dura la invulnerabilidad');
+
+  // 4. Tras 0.6 s sigue invulnerable
+  actualizarCombate(estado, 0.6);
+  assert.equal(estado.invulnerable, true);
+  assert.ok(Math.abs(estado.tiempoInvulnerable - 0.4) < 0.001);
+
+  // 5. Tras completar el segundo (0.41 s más), invulnerabilidad se desactiva
+  actualizarCombate(estado, 0.41);
+  assert.equal(estado.invulnerable, false);
+  assert.equal(estado.tiempoInvulnerable, 0);
+
+  // 6. Ahora sí recibe daño nuevamente
+  const res3 = aplicarGolpeJugador(estado, 2);
+  assert.equal(res3.golpeado, true);
+  assert.equal(estado.hp, 97);
+});
+
+test('muerte al llegar a 0 de vida y reinicio con vida llena', () => {
+  const estado = crearEstadoCombate({ hpMax: 100 });
+  assert.equal(estado.hp, 100);
+
+  // Reducir vida hasta 0
+  const golpeLethal = aplicarGolpeJugador(estado, 100);
+  assert.equal(golpeLethal.golpeado, true);
+  assert.equal(golpeLethal.muerto, true);
+  assert.equal(estado.hp, 0);
+  assert.equal(estado.derrotado, true);
+
+  // Reiniciar combate (restaura vida llena y limpia flags)
+  reiniciarCombate(estado);
+  assert.equal(estado.hp, 100, 'reinicio restaura vida llena a 100');
+  assert.equal(estado.derrotado, false);
+  assert.equal(estado.invulnerable, false);
+  assert.equal(estado.tiempoInvulnerable, 0);
 });

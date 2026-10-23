@@ -151,7 +151,7 @@ test('sw.js: simulación de ciclo de vida en ServiceWorkerGlobalScope (install, 
   };
 
   const cachesEliminados = [];
-  const cachesKeys = ['senku2-v0', 'senku2-v1', 'ajeno-cache'];
+  const cachesKeys = ['senku2-v0', VERSION_CACHE, 'ajeno-cache'];
 
   const cachesMock = {
     open(nombre) {

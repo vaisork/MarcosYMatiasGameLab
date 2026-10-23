@@ -6,9 +6,10 @@
 import { solapanAABB } from './fisica.mjs';
 import { daniarEnemigo } from './enemigos.mjs';
 
-export const TIEMPO_INVULNERABILIDAD_DEFECTO = 1.2; // Segundos de invulnerabilidad tras ser golpeado
+export const TIEMPO_INVULNERABILIDAD_DEFECTO = 1.0; // 1 s de invulnerabilidad tras cada golpe
 export const FUERZA_REBOTE_PISOTON_DEFECTO = 500;   // Impulso hacia arriba (px/s) tras pisotón
 export const DANO_GOLPE_DEFECTO = 1;
+export const HP_INICIAL_SENKU = 100;                // Senku empieza con 100 de vida por defecto
 
 export function crearEstadoCombate({
   hpMax = null,
@@ -120,12 +121,13 @@ export function aplicarGolpeJugador(estadoCombate, dano = null) {
     return { golpeado: false, motivo: 'invulnerable' };
   }
 
-  // Activa invulnerabilidad breve
+  // Activa invulnerabilidad de 1 s tras el golpe
   estadoCombate.invulnerable = true;
   estadoCombate.tiempoInvulnerable = estadoCombate.duracionInvulnerabilidad;
   estadoCombate.totalGolpesRecibidos = (estadoCombate.totalGolpesRecibidos || 0) + 1;
 
   const danoEfectivo = dano !== null && dano !== undefined ? dano : DANO_GOLPE_DEFECTO;
+  let murio = false;
 
   // Política A: Barra de HP activa (hpMax !== null)
   if (estadoCombate.hpMax !== null) {
@@ -133,6 +135,7 @@ export function aplicarGolpeJugador(estadoCombate, dano = null) {
     estadoCombate.hp = Math.max(0, hpActual - danoEfectivo);
 
     if (estadoCombate.hp === 0) {
+      murio = true;
       if (estadoCombate.vidas !== null) {
         estadoCombate.vidas -= 1;
         if (estadoCombate.vidas <= 0) {
@@ -143,8 +146,8 @@ export function aplicarGolpeJugador(estadoCombate, dano = null) {
           estadoCombate.hp = estadoCombate.hpMax;
         }
       } else {
-        // Vidas infinitas: reinicia HP
-        estadoCombate.hp = estadoCombate.hpMax;
+        // Al llegar a 0 de vida: derrotado para reiniciar escena con vida llena
+        estadoCombate.derrotado = true;
       }
     }
   }
@@ -154,6 +157,7 @@ export function aplicarGolpeJugador(estadoCombate, dano = null) {
     if (estadoCombate.vidas <= 0) {
       estadoCombate.vidas = 0;
       estadoCombate.derrotado = true;
+      murio = true;
     }
   }
   // Política C: Todo en null (sin barra ni vidas limitadas; decisión D5 pendiente)
@@ -164,7 +168,20 @@ export function aplicarGolpeJugador(estadoCombate, dano = null) {
     hp: estadoCombate.hp,
     vidas: estadoCombate.vidas,
     derrotado: estadoCombate.derrotado,
+    muerto: murio,
   };
+}
+
+// Restaura la salud completa del jugador y limpia estados de combate (reinicio de escena)
+export function reiniciarCombate(estadoCombate) {
+  if (!estadoCombate) return estadoCombate;
+  if (estadoCombate.hpMax !== null) {
+    estadoCombate.hp = estadoCombate.hpMax;
+  }
+  estadoCombate.invulnerable = false;
+  estadoCombate.tiempoInvulnerable = 0;
+  estadoCombate.derrotado = false;
+  return estadoCombate;
 }
 
 // Resuelve la interacción completa entre Senku y un enemigo
@@ -207,5 +224,7 @@ export function resolverContactoEnemigo(
     golpeado: resultadoGolpe.golpeado,
     motivo: resultadoGolpe.motivo,
     derrotado: estadoCombate?.derrotado ?? false,
+    muerto: resultadoGolpe.muerto ?? false,
+    hp: estadoCombate?.hp ?? null,
   };
 }

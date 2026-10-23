@@ -23,14 +23,33 @@ import {
   crearEstadoCombate,
   actualizarCombate,
   resolverContactoEnemigo,
+  reiniciarCombate,
+  HP_INICIAL_SENKU,
+  TIEMPO_INVULNERABILIDAD_DEFECTO,
 } from './core/combate.mjs';
+
+// Decisión de diseño: Senku inicia con 100 HP y 1 s de invulnerabilidad tras ser golpeado
+export const HP_INICIAL_DEFECTO = HP_INICIAL_SENKU;
+export const TIEMPO_INVULNERABILIDAD_JUEGO = TIEMPO_INVULNERABILIDAD_DEFECTO;
 import {
   ANCHO_LOGICO,
   ALTO_LOGICO,
   ajustarLienzoLetterbox,
   crearCatalogoArte,
+  dibujarAvisoCarga,
   renderizarEscena,
 } from './render/canvas.mjs';
+import {
+  HOJAS_JUGADOR,
+  IMAGENES_OBJETO,
+  RETRATOS_MENU,
+  crearAnimadorEnemigos,
+  dibujarEnemigo,
+  dibujarJugador,
+  resolverRutaArte,
+  rutaFondoEscena,
+  rutasPrecargaArte,
+} from './render/sprites.mjs';
 import { montarMenu } from './ui/menu.mjs';
 
 // Catálogo representativo de trajes para el Menú de Selección en Senku 2
@@ -40,16 +59,16 @@ export const CATALOGO_MENU = [
     id: ID_ORIGINAL,
     nombre: 'Senku Original',
     precio: null,
-    menu: '../../assets/senku/menu-base.jpg',
-    sprite: '../../assets/senku/senku-sprites.png',
+    menu: resolverRutaArte(RETRATOS_MENU.original),
+    sprite: resolverRutaArte(HOJAS_JUGADOR.original),
   },
   {
     id: ID_RATA,
     nombre: 'Senku Rata',
     precio: null, // Pendiente creativo D2 (regla: etiqueta 'Próximamente', sin compra)
     equivaleA: [ID_SECRETO_LEGACY],
-    menu: '../../assets/trajes/rata/menu.webp',
-    sprite: '../../assets/rata/white-rat-sprite-v2.png',
+    menu: resolverRutaArte(RETRATOS_MENU.rata),
+    sprite: resolverRutaArte(HOJAS_JUGADOR.rata),
   },
 ];
 
@@ -108,6 +127,43 @@ export function registrarServiceWorker(navegador = typeof navigator !== 'undefin
     .catch((error) => ({ registrado: false, error }));
 }
 
+// Sincroniza variables CSS con el tamaño visual real del viewport en iOS/Android
+export function sincronizarViewportCSS(documento = null, ventana = null) {
+  if (!documento || !ventana) {
+    return { ancho: 1280, alto: 720 };
+  }
+  const vv = ventana.visualViewport;
+  const alto = vv ? Math.round(vv.height) : (ventana.innerHeight || documento.documentElement?.clientHeight || 720);
+  const ancho = vv ? Math.round(vv.width) : (ventana.innerWidth || documento.documentElement?.clientWidth || 1280);
+
+  if (documento.documentElement?.style?.setProperty) {
+    documento.documentElement.style.setProperty('--vh', `${alto * 0.01}px`);
+    documento.documentElement.style.setProperty('--app-height', `${alto}px`);
+    documento.documentElement.style.setProperty('--app-width', `${ancho}px`);
+  }
+
+  return { ancho, alto };
+}
+
+// Controla el aviso discreto de orientación vertical (sugiere rotar sin bloquear interacción)
+export function actualizarAvisoOrientacion(documento = null, ancho = 1280, alto = 720) {
+  if (!documento || typeof documento.getElementById !== 'function') return;
+  const aviso = documento.getElementById('aviso-orientacion');
+  if (!aviso) return;
+  const esVertical = alto > ancho;
+  if (esVertical) {
+    aviso.hidden = false;
+    if (typeof aviso.removeAttribute === 'function') {
+      aviso.removeAttribute('hidden');
+    }
+  } else {
+    aviso.hidden = true;
+    if (typeof aviso.setAttribute === 'function') {
+      aviso.setAttribute('hidden', '');
+    }
+  }
+}
+
 export function arrancarSenku2({
   documento = typeof document !== 'undefined' ? document : null,
   ventana = typeof window !== 'undefined' ? window : null,
@@ -151,6 +207,37 @@ export function arrancarSenku2({
     elChurus.textContent = String(estadoJugador.churus ?? 0);
   }
 
+  // Elementos de la barra de vida en el HUD
+  const elTextoVida = documento.getElementById('texto-vida');
+  const elBarraVida = documento.getElementById('barra-vida-relleno');
+  const elContenedorVida = documento.querySelector?.('.barra-vida-contenedor');
+
+  function actualizarHUDVida() {
+    if (estadoCombate && estadoCombate.hpMax !== null && estadoCombate.hp !== null) {
+      const hp = Math.max(0, estadoCombate.hp);
+      const hpMax = Math.max(1, estadoCombate.hpMax);
+      const porcentaje = Math.max(0, Math.min(100, (hp / hpMax) * 100));
+
+      if (elTextoVida) {
+        elTextoVida.textContent = String(hp);
+      }
+      if (elBarraVida) {
+        elBarraVida.style.width = `${porcentaje}%`;
+        if (porcentaje <= 25) {
+          elBarraVida.style.background = '#ef4444';
+        } else if (porcentaje <= 50) {
+          elBarraVida.style.background = '#f59e0b';
+        } else {
+          elBarraVida.style.background = '#22c55e';
+        }
+      }
+      if (elContenedorVida) {
+        elContenedorVida.setAttribute('aria-valuenow', String(hp));
+        elContenedorVida.setAttribute('aria-valuemax', String(hpMax));
+      }
+    }
+  }
+
   let btnTraje = documento.getElementById('hud-traje');
   if (!btnTraje && documento.querySelector('.hud-superior')) {
     btnTraje = documento.createElement('button');
@@ -179,7 +266,7 @@ export function arrancarSenku2({
       estado: estadoJugador,
       catalogo: CATALOGO_MENU,
       economia: stubEconomia,
-      rutaChuru: null,
+      rutaChuru: resolverRutaArte(IMAGENES_OBJETO.churu),
       onCambioEstado(nuevoEstado) {
         estadoJugador = nuevoEstado;
         if (almacen) guardar(almacen, estadoJugador);
@@ -306,15 +393,39 @@ export function arrancarSenku2({
   }
   ventana.addEventListener('keydown', alPulsarTecla);
 
-  // 4b. Sistema de combate y enemigos provisionales
+  // 4b. Sistema de combate: Senku empieza con 100 de vida e invencibilidad de 1 s tras recibir daño
   const estadoCombate = crearEstadoCombate({
-    hpMax: null,          // Tolerante: política neutra hasta decidir D5
-    vidasIniciales: null, // Sin pérdida numérica de vidas
+    hpMax: HP_INICIAL_DEFECTO,
+    hpInicial: HP_INICIAL_DEFECTO,
+    tiempoInvulnerabilidad: TIEMPO_INVULNERABILIDAD_JUEGO,
   });
 
   // Instanciar enemigos de la escena Taquería
   const definicionEnemigos = Array.isArray(escenaTaqueria.enemigos) ? escenaTaqueria.enemigos : [];
-  const enemigos = definicionEnemigos.map(crearEnemigo);
+  let enemigos = definicionEnemigos.map(crearEnemigo);
+
+  actualizarHUDVida();
+
+  // Reinicia la escena al llegar a 0 de vida con vida llena y enemigos restaurados
+  function reiniciarEscena() {
+    senku.x = escenaActual.puntoEntrada.x;
+    senku.y = escenaActual.puntoEntrada.y;
+    senku.vx = 0;
+    senku.vy = 0;
+    senku.enSuelo = false;
+    senku.saltando = false;
+    senku.tiempoSalto = 0;
+
+    // Restaurar enemigos de la escena vivos y en posición original
+    enemigos.length = 0;
+    for (const def of definicionEnemigos) {
+      enemigos.push(crearEnemigo(def));
+    }
+
+    // Restaurar salud completa (100) y limpiar combate
+    reiniciarCombate(estadoCombate);
+    actualizarHUDVida();
+  }
 
   // 5. Canvas y contexto de renderizado
   const canvas = documento.getElementById('lienzo-juego');
@@ -326,14 +437,21 @@ export function arrancarSenku2({
     ctx.imageSmoothingEnabled = false;
   }
 
-  // Ajuste letterbox responsive
+  // Ajuste letterbox responsive y sincronización de viewport iOS/Android
   function redimensionar() {
+    const { ancho, alto } = sincronizarViewportCSS(documento, ventana);
+    actualizarAvisoOrientacion(documento, ancho, alto);
     const contenedor = canvas.parentElement || documento.body;
-    const w = contenedor.clientWidth || ventana.innerWidth;
-    const h = contenedor.clientHeight || ventana.innerHeight;
+    const w = contenedor.clientWidth || ancho;
+    const h = contenedor.clientHeight || alto;
     ajustarLienzoLetterbox(canvas, w, h);
   }
+
   ventana.addEventListener('resize', redimensionar);
+  ventana.addEventListener('orientationchange', redimensionar);
+  if (ventana.visualViewport) {
+    ventana.visualViewport.addEventListener('resize', redimensionar);
+  }
   redimensionar();
 
   // 6. Controles táctiles y teclado
@@ -343,6 +461,7 @@ export function arrancarSenku2({
 
   const entrada = crearManejadorEntrada({
     ventana,
+    documento,
     elementosBotones: {
       izquierda: btnIzq,
       derecha: btnDer,
@@ -351,22 +470,21 @@ export function arrancarSenku2({
   });
 
   // 7. Catálogo de arte desacoplado
+  // Precarga única; mientras tanto (o si una imagen falla) se dibujan los rectángulos de respaldo
   const catalogoArte = crearCatalogoArte();
-  if (escenaActual.fondo?.ruta) {
-    catalogoArte.cargar(escenaActual.fondo.ruta);
-  }
+  const rutaFondo = rutaFondoEscena(escenaActual.id);
+  catalogoArte.precargar(rutasPrecargaArte({
+    escenaId: escenaActual.id,
+    tiposEnemigo: enemigos.map((e) => e.tipo),
+  }));
+  const animadorEnemigos = crearAnimadorEnemigos();
 
   // 8. Bucle principal de juego
   let animacionId = null;
   let ultimoTiempo = performance.now();
   let tiempoAcumulado = 0;
 
-  function ciclo(ahora) {
-    const dt = Math.min((ahora - ultimoTiempo) / 1000, 0.05);
-    ultimoTiempo = ahora;
-    tiempoAcumulado += dt;
-
-    // Si el menú está abierto, se pausa el avance de física y combate para que Senku no se mueva
+  function avanzarPaso(dt = 1 / 60) {
     if (!menuAbierto) {
       // Física del jugador
       const estadoEntrada = entrada.obtenerEstado();
@@ -384,9 +502,25 @@ export function arrancarSenku2({
 
       for (const enemigo of enemigos) {
         if (!enemigo.vivo) continue;
-        resolverContactoEnemigo(senku, enemigo, estadoCombate);
+        const resContacto = resolverContactoEnemigo(senku, enemigo, estadoCombate);
+        if (resContacto.contacto && resContacto.tipo === 'golpe') {
+          actualizarHUDVida();
+          // Al llegar a 0 de vida, reiniciar la escena con vida llena
+          if (estadoCombate.hp === 0 || resContacto.muerto || estadoCombate.derrotado) {
+            reiniciarEscena();
+            break;
+          }
+        }
       }
     }
+  }
+
+  function ciclo(ahora) {
+    const dt = Math.min((ahora - ultimoTiempo) / 1000, 0.05);
+    ultimoTiempo = ahora;
+    tiempoAcumulado += dt;
+
+    avanzarPaso(dt);
 
     // Dibujado de escena base
     renderizarEscena({
@@ -394,6 +528,7 @@ export function arrancarSenku2({
       escena: escenaActual,
       cuerpoJugador: null, // Dibujado con traje activo y etiqueta a continuación
       catalogoArte,
+      rutaFondo,
       tiempo: tiempoAcumulado,
     });
 
@@ -415,63 +550,79 @@ export function arrancarSenku2({
       );
       ctx.fill();
 
-      // Rectángulo principal del Senku provisional (color del traje activo)
-      ctx.fillStyle = trajeActivo.color;
-      ctx.fillRect(senku.x, senku.y, senku.w, senku.h);
+      if (!dibujarJugador(ctx, catalogoArte, {
+        cuerpo: senku,
+        trajeId: trajeActivo.id,
+        combate: estadoCombate,
+        tiempo: tiempoAcumulado,
+      })) {
+        // Respaldo sin arte: parpadeo durante invulnerabilidad
+        const invulnerable = Boolean(estadoCombate?.invulnerable) && (estadoCombate?.tiempoInvulnerable ?? 0) > 0;
+        ctx.globalAlpha = invulnerable && Math.floor(tiempoAcumulado * 14) % 2 === 1 ? 0.45 : 1;
 
-      // Borde según traje activo
-      ctx.strokeStyle = trajeActivo.colorBorde;
-      ctx.lineWidth = 3;
-      ctx.strokeRect(senku.x, senku.y, senku.w, senku.h);
+        // Rectángulo principal del Senku provisional (color del traje activo)
+        ctx.fillStyle = trajeActivo.color;
+        ctx.fillRect(senku.x, senku.y, senku.w, senku.h);
 
-      // Si es traje de rata, detalle provisional limpio de orejitas (sin inventar arte complejo)
-      if (trajeActivo.id === ID_RATA) {
-        ctx.fillStyle = trajeActivo.colorDetalle || '#f1948a';
-        ctx.fillRect(senku.x + 6, senku.y - 4, 8, 5);
-        ctx.fillRect(senku.x + senku.w - 14, senku.y - 4, 8, 5);
+        // Borde según traje activo
+        ctx.strokeStyle = trajeActivo.colorBorde;
+        ctx.lineWidth = 3;
+        ctx.strokeRect(senku.x, senku.y, senku.w, senku.h);
+
+        // Si es traje de rata, detalle provisional limpio de orejitas (sin inventar arte complejo)
+        if (trajeActivo.id === ID_RATA) {
+          ctx.fillStyle = trajeActivo.colorDetalle || '#f1948a';
+          ctx.fillRect(senku.x + 6, senku.y - 4, 8, 5);
+          ctx.fillRect(senku.x + senku.w - 14, senku.y - 4, 8, 5);
+        }
+
+        // Ojo según orientación y traje activo
+        const ojoX = senku.mirando === 1
+          ? senku.x + senku.w - 12
+          : senku.x + 6;
+        ctx.fillStyle = trajeActivo.colorOjo || '#2c3e50';
+        ctx.fillRect(ojoX, senku.y + 8, 6, 6);
+
+        // Etiqueta flotante sobre Senku indicando el traje activo
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        const anchoEtiqueta = ctx.measureText(trajeActivo.etiqueta).width;
+        const centroX = senku.x + senku.w / 2;
+        const posY = senku.y - (trajeActivo.id === ID_RATA ? 8 : 6);
+
+        ctx.fillStyle = 'rgba(20, 15, 10, 0.75)';
+        ctx.fillRect(centroX - anchoEtiqueta / 2 - 5, posY - 14, anchoEtiqueta + 10, 16);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(trajeActivo.etiqueta, centroX, posY - 2);
+
       }
-
-      // Ojo según orientación y traje activo
-      const ojoX = senku.mirando === 1
-        ? senku.x + senku.w - 12
-        : senku.x + 6;
-      ctx.fillStyle = trajeActivo.colorOjo || '#2c3e50';
-      ctx.fillRect(ojoX, senku.y + 8, 6, 6);
-
-      // Etiqueta flotante sobre Senku indicando el traje activo
-      ctx.font = 'bold 12px sans-serif';
-      ctx.textAlign = 'center';
-      const anchoEtiqueta = ctx.measureText(trajeActivo.etiqueta).width;
-      const centroX = senku.x + senku.w / 2;
-      const posY = senku.y - (trajeActivo.id === ID_RATA ? 8 : 6);
-
-      ctx.fillStyle = 'rgba(20, 15, 10, 0.75)';
-      ctx.fillRect(centroX - anchoEtiqueta / 2 - 5, posY - 14, anchoEtiqueta + 10, 16);
-      ctx.fillStyle = '#ffffff';
-      ctx.fillText(trajeActivo.etiqueta, centroX, posY - 2);
 
       ctx.restore();
     }
 
-    // Dibujado de enemigos con rectángulos provisionales limpios (sin inventar arte)
+    // Dibujado de enemigos: hoja de sprites o, sin arte, rectángulos provisionales
     if (ctx) {
       ctx.save();
       for (const enemigo of enemigos) {
-        if (!enemigo.vivo) continue;
+        // Sombra suave en suelo (sólo mientras vive)
+        if (enemigo.vivo) {
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+          ctx.beginPath();
+          ctx.ellipse(
+            enemigo.x + enemigo.w / 2,
+            enemigo.y + enemigo.h + 2,
+            enemigo.w * 0.45,
+            4,
+            0,
+            0,
+            Math.PI * 2
+          );
+          ctx.fill();
+        }
 
-        // Sombra suave en suelo
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-        ctx.beginPath();
-        ctx.ellipse(
-          enemigo.x + enemigo.w / 2,
-          enemigo.y + enemigo.h + 2,
-          enemigo.w * 0.45,
-          4,
-          0,
-          0,
-          Math.PI * 2
-        );
-        ctx.fill();
+        // Con arte: caminar/daño/derrota animados; true también cuando ya terminó la derrota
+        if (dibujarEnemigo(ctx, catalogoArte, animadorEnemigos, enemigo, tiempoAcumulado)) continue;
+        if (!enemigo.vivo) continue;
 
         // Rectángulo principal del enemigo
         ctx.fillStyle = enemigo.color || '#6e4720';
@@ -492,6 +643,8 @@ export function arrancarSenku2({
       ctx.restore();
     }
 
+    dibujarAvisoCarga(ctx, catalogoArte);
+
     animacionId = ventana.requestAnimationFrame(ciclo);
   }
 
@@ -504,6 +657,10 @@ export function arrancarSenku2({
     }
     entrada.destruir();
     ventana.removeEventListener('resize', redimensionar);
+    ventana.removeEventListener('orientationchange', redimensionar);
+    if (ventana.visualViewport) {
+      ventana.visualViewport.removeEventListener('resize', redimensionar);
+    }
     ventana.removeEventListener('keydown', alPulsarTecla);
     if (btnTraje) {
       btnTraje.onclick = null;
@@ -531,6 +688,9 @@ export function arrancarSenku2({
     estadoCombate,
     enemigos,
     entrada,
+    avanzarPaso,
+    reiniciarEscena,
+    actualizarHUDVida,
     obtenerTrajeActivo: () => trajeActivo,
     equiparTraje: (id) => {
       const res = equiparTraje(estadoJugador, id);

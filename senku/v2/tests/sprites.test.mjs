@@ -1,0 +1,246 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { crearCatalogoArte, renderizarEscena } from '../src/render/canvas.mjs';
+import {
+  ANIMACIONES_JUGADOR,
+  FONDOS_ESCENA,
+  HOJAS_ENEMIGO,
+  HOJAS_JUGADOR,
+  IMAGENES_OBJETO,
+  RETRATOS_MENU,
+  configuracionEnemigo,
+  crearAnimadorEnemigos,
+  dibujarEnemigo,
+  dibujarJugador,
+  dibujarObjeto,
+  estadoVisualJugador,
+  fotogramaDeAnimacion,
+  rectanguloDestino,
+  rectanguloFotograma,
+  resolverRutaArte,
+  rutaFondoEscena,
+  rutaHojaJugador,
+  rutasPrecargaArte,
+} from '../src/render/sprites.mjs';
+import { CATALOGO_ENEMIGOS } from '../src/data/enemigos.mjs';
+
+// Imagen falsa controlable: sin DOM
+function fabricaImagenes() {
+  const creadas = [];
+  const crearImagen = () => {
+    const img = { width: 384, height: 192, onload: null, onerror: null, _src: '' };
+    Object.defineProperty(img, 'src', { get: () => img._src, set: (v) => { img._src = v; creadas.push(img); } });
+    return img;
+  };
+  return { creadas, crearImagen };
+}
+
+function ctxFalso() {
+  const llamadas = [];
+  const ctx = new Proxy({}, {
+    get: (_, prop) => {
+      if (prop === 'llamadas') return llamadas;
+      return (...args) => { llamadas.push([prop, ...args]); };
+    },
+    set: () => true,
+  });
+  return ctx;
+}
+
+test('catálogo: precarga única, progreso y fin sin errores', async () => {
+  const { creadas, crearImagen } = fabricaImagenes();
+  const cat = crearCatalogoArte({ crearImagen, aviso: () => {} });
+  const fin = cat.precargar(['a.png', 'b.png', 'a.png']);
+  assert.equal(creadas.length, 2, 'una sola imagen por ruta');
+  assert.equal(cat.estado().precargando, true);
+  assert.equal(cat.estado().progreso, 0);
+  assert.equal(cat.obtener('a.png'), null, 'aún cargando: sin imagen');
+
+  creadas[0].onload();
+  assert.equal(cat.estado().progreso, 0.5);
+  creadas[1].onload();
+  const estado = await fin;
+  assert.equal(estado.precargando, false);
+  assert.equal(estado.listas, 2);
+  assert.equal(estado.fallidas, 0);
+  assert.equal(cat.obtener('a.png'), creadas[0]);
+  cat.obtener('a.png');
+  cat.cargar('b.png');
+  assert.equal(creadas.length, 2, 'no se crean imágenes nuevas después');
+});
+
+test('catálogo: una imagen que falla se avisa una vez y no rompe', async () => {
+  const { creadas, crearImagen } = fabricaImagenes();
+  const avisos = [];
+  const cat = crearCatalogoArte({ crearImagen, aviso: (m) => avisos.push(m) });
+  const fin = cat.precargar(['mala.png', 'buena.png']);
+  creadas[0].onerror();
+  creadas[0].onerror();
+  creadas[1].onload();
+  const estado = await fin;
+  assert.equal(estado.fallidas, 1);
+  assert.equal(estado.listas, 1);
+  assert.equal(estado.precargando, false);
+  assert.equal(cat.obtener('mala.png'), null);
+  assert.equal(avisos.length, 1);
+});
+
+test('catálogo: sin Image disponible o con tiempo agotado cae al respaldo', async () => {
+  const sinDom = crearCatalogoArte({ crearImagen: null, aviso: () => {} });
+  const est = await sinDom.precargar(['x.png']);
+  assert.equal(est.fallidas, 1);
+  assert.equal(sinDom.obtener('x.png'), null);
+
+  const { crearImagen } = fabricaImagenes();
+  const colgado = crearCatalogoArte({ crearImagen, aviso: () => {} });
+  const est2 = await colgado.precargar(['nunca.png'], { timeoutMs: 5 });
+  assert.equal(est2.fallidas, 1);
+  assert.equal(est2.precargando, false);
+});
+
+test('rutas de arte: existen en disco, bajo assets/ y sin duplicados', () => {
+  const rutas = rutasPrecargaArte();
+  assert.equal(new Set(rutas).size, rutas.length);
+  for (const ruta of rutas) {
+    assert.ok(fs.existsSync(fileURLToPath(ruta)), `Falta ${ruta}`);
+    assert.match(ruta, /\/senku\/v2\/assets\//);
+  }
+  for (const rel of [...Object.values(RETRATOS_MENU), ...Object.values(FONDOS_ESCENA)]) {
+    assert.ok(fs.existsSync(fileURLToPath(resolverRutaArte(rel))), `Falta ${rel}`);
+  }
+});
+
+test('selección de hoja: traje activo, enemigo por tipo y fondo por escena', () => {
+  assert.match(rutaHojaJugador('original'), /sprite_original\.png$/);
+  assert.match(rutaHojaJugador('rata'), /sprite_rata\.png$/);
+  assert.match(rutaHojaJugador('desconocido'), /sprite_original\.png$/, 'traje desconocido usa el original');
+  assert.match(configuracionEnemigo({ tipo: 'cucaracha' }).ruta, /hamster_cafe\.png$/);
+  assert.match(configuracionEnemigo({ tipo: 'rata_menor' }).ruta, /raton_negro\.png$/);
+  assert.match(configuracionEnemigo({ tipo: 'otro', hoja: 'assets/enemigos/raton_cafe.png' }).ruta, /raton_cafe\.png$/);
+  assert.match(rutaFondoEscena('taqueria'), /taqueria_ciudad\.webp$/);
+  assert.equal(rutaFondoEscena('inexistente'), null);
+  for (const tipo of Object.keys(CATALOGO_ENEMIGOS)) {
+    assert.ok(HOJAS_ENEMIGO[tipo], `Enemigo ${tipo} sin hoja`);
+  }
+  assert.deepEqual(Object.keys(HOJAS_JUGADOR), ['original', 'rata']);
+  assert.ok(Object.keys(IMAGENES_OBJETO).includes('churu'));
+});
+
+test('fotograma: rejilla 4x2 de 96 px', () => {
+  assert.deepEqual(rectanguloFotograma(0), { sx: 0, sy: 0, sw: 96, sh: 96 });
+  assert.deepEqual(rectanguloFotograma(3), { sx: 288, sy: 0, sw: 96, sh: 96 });
+  assert.deepEqual(rectanguloFotograma(5), { sx: 96, sy: 96, sw: 96, sh: 96 });
+  assert.deepEqual(rectanguloFotograma(7), { sx: 288, sy: 96, sw: 96, sh: 96 });
+  assert.deepEqual(rectanguloFotograma(-2), { sx: 0, sy: 0, sw: 96, sh: 96 });
+});
+
+test('animación: el ciclo de caminar recorre cuatro fotogramas y repite', () => {
+  const { caminar } = ANIMACIONES_JUGADOR;
+  const vistos = [0, 0.1, 0.2, 0.3, 0.4].map((t) => fotogramaDeAnimacion(caminar, t));
+  assert.deepEqual(vistos, [0, 1, 2, 3, 0]);
+  assert.equal(fotogramaDeAnimacion(null, 1), 0);
+});
+
+test('destino: pies sobre la base de la caja y centrado', () => {
+  const r = rectanguloDestino({ x: 100, y: 500, w: 54, h: 42 }, 1);
+  assert.equal(r.dw, 96);
+  assert.equal(r.dx, 100 + 27 - 48);
+  assert.equal(r.dy + 88, 542, 'línea de pies = base de la caja');
+});
+
+test('estado visual del jugador: quieto, caminar, salto, caída y golpeado', () => {
+  const suelo = { enSuelo: true, vx: 0, vy: 0 };
+  assert.equal(estadoVisualJugador(suelo).nombre, 'quieto');
+  assert.equal(estadoVisualJugador({ ...suelo, vx: 200 }).nombre, 'caminar');
+  assert.equal(estadoVisualJugador({ ...suelo, vx: -200 }).nombre, 'caminar');
+  assert.equal(estadoVisualJugador({ enSuelo: false, vx: 0, vy: -300 }).nombre, 'salto');
+  assert.equal(estadoVisualJugador({ enSuelo: false, vx: 0, vy: 100 }).nombre, 'caida');
+  const combate = { invulnerable: true, duracionInvulnerabilidad: 1.2, tiempoInvulnerable: 1.1 };
+  assert.equal(estadoVisualJugador(suelo, combate).nombre, 'golpeado');
+  const tarde = { ...combate, tiempoInvulnerable: 0.5 };
+  assert.equal(estadoVisualJugador(suelo, tarde).nombre, 'quieto', 'tras el golpe sólo parpadea');
+  assert.ok([1, 0.45].includes(estadoVisualJugador(suelo, tarde, 0.01).alpha));
+  assert.equal(estadoVisualJugador(suelo, null).alpha, 1);
+});
+
+test('animador de enemigos: caminar, daño con HP y derrota que termina', () => {
+  const animador = crearAnimadorEnemigos();
+  const e = { id: 'e1', vivo: true, hp: 2 };
+  assert.equal(animador.estado(e, 0).nombre, 'caminar');
+  assert.ok(animador.estado(e, 0.5).frame <= 3);
+
+  e.hp = 1;
+  assert.deepEqual(animador.estado(e, 1), { nombre: 'danio', frame: 4, alpha: 1 });
+  assert.equal(animador.estado(e, 1.5).nombre, 'caminar');
+
+  e.vivo = false;
+  const d0 = animador.estado(e, 2);
+  assert.equal(d0.nombre, 'derrotado');
+  assert.equal(d0.frame, 4);
+  assert.equal(animador.estado(e, 2.6).frame, 6);
+  assert.ok(animador.estado(e, 3.2).alpha < 1, 'se desvanece al final');
+  assert.equal(animador.estado(e, 4), null, 'ya no se dibuja');
+  assert.equal(animador.estado(null, 0), null);
+});
+
+test('dibujo: usa drawImage con el fotograma correcto y voltea a la izquierda', () => {
+  const { creadas, crearImagen } = fabricaImagenes();
+  const cat = crearCatalogoArte({ crearImagen, aviso: () => {} });
+  cat.precargar(rutasPrecargaArte());
+  creadas.forEach((i) => i.onload());
+
+  const ctx = ctxFalso();
+  const cuerpo = { x: 100, y: 500, w: 54, h: 42, mirando: 1, enSuelo: true, vx: 0, vy: 0 };
+  assert.equal(dibujarJugador(ctx, cat, { cuerpo, trajeId: 'rata', tiempo: 0 }), true);
+  const dibujo = ctx.llamadas.find((l) => l[0] === 'drawImage');
+  assert.equal(dibujo[1].src, cat.obtener(rutaHojaJugador('rata')).src);
+  assert.deepEqual(dibujo.slice(2, 6), [0, 0, 96, 96]);
+  assert.ok(!ctx.llamadas.some((l) => l[0] === 'scale'));
+
+  const ctxIzq = ctxFalso();
+  dibujarJugador(ctxIzq, cat, { cuerpo: { ...cuerpo, mirando: -1 }, trajeId: 'original' });
+  assert.ok(ctxIzq.llamadas.some((l) => l[0] === 'scale' && l[1] === -1));
+
+  const ctxEne = ctxFalso();
+  const enemigo = { id: 'c', tipo: 'cucaracha', x: 10, y: 600, w: 36, h: 20, mirando: -1, vivo: true };
+  assert.equal(dibujarEnemigo(ctxEne, cat, crearAnimadorEnemigos(), enemigo, 0), true);
+  assert.ok(ctxEne.llamadas.some((l) => l[0] === 'drawImage'));
+
+  const ctxObj = ctxFalso();
+  assert.equal(dibujarObjeto(ctxObj, cat, { tipo: 'churu', x: 0, y: 0, w: 40, h: 80 }, 0), true);
+  assert.equal(dibujarObjeto(ctxObj, cat, { tipo: 'no_existe', x: 0, y: 0 }, 0), false);
+});
+
+test('dibujo: sin imagen devuelve false para que se use el rectángulo de respaldo', () => {
+  const cat = crearCatalogoArte({ crearImagen: null, aviso: () => {} });
+  const ctx = ctxFalso();
+  const cuerpo = { x: 0, y: 0, w: 54, h: 42, mirando: 1, enSuelo: true, vx: 0, vy: 0 };
+  assert.equal(dibujarJugador(ctx, cat, { cuerpo, trajeId: 'original' }), false);
+  assert.equal(dibujarEnemigo(ctx, cat, crearAnimadorEnemigos(), { id: 'x', tipo: 'cucaracha', vivo: true }, 0), false);
+  assert.equal(ctx.llamadas.length, 0);
+});
+
+test('renderizarEscena: con fondo cargado dibuja la imagen sin suelo plano; sin él, el respaldo', () => {
+  const { creadas, crearImagen } = fabricaImagenes();
+  const cat = crearCatalogoArte({ crearImagen, aviso: () => {} });
+  const ruta = rutaFondoEscena('taqueria');
+  cat.precargar([ruta]);
+  const escena = {
+    fondo: { ruta: 'senku/v2/assets/fondos/taqueria.webp' },
+    plataformas: [{ tipo: 'suelo', x: 0, y: 620, w: 1280, h: 100 }],
+  };
+
+  const ctxSin = ctxFalso();
+  renderizarEscena({ ctx: ctxSin, escena, catalogoArte: cat, rutaFondo: ruta });
+  assert.ok(ctxSin.llamadas.some((l) => l[0] === 'fillRect'), 'respaldo plano mientras carga');
+  assert.ok(!ctxSin.llamadas.some((l) => l[0] === 'drawImage'));
+
+  creadas[0].onload();
+  const ctxCon = ctxFalso();
+  renderizarEscena({ ctx: ctxCon, escena, catalogoArte: cat, rutaFondo: ruta });
+  const fondo = ctxCon.llamadas.find((l) => l[0] === 'drawImage');
+  assert.deepEqual(fondo.slice(2), [0, 0, 1280, 720], 'fondo 16:9 a lienzo lógico sin deformar');
+  assert.ok(!ctxCon.llamadas.some((l) => l[0] === 'fillRect'), 'sin rectángulos de suelo');
+});

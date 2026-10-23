@@ -6,6 +6,9 @@ import {
   solapanAABB,
   GRAVEDAD_DEFECTO,
   FUERZA_SALTO_DEFECTO,
+  TIEMPO_SALTO_MAX_DEFECTO,
+  VELOCIDAD_CORTE_SALTO_DEFECTO,
+  FACTOR_CORTE_SALTO_DEFECTO,
 } from '../src/core/fisica.mjs';
 import {
   mapearCodigoTecla,
@@ -209,5 +212,128 @@ test('entrada: crearManejadorEntrada procesa eventos simulados de teclado y tác
   entrada.destruir();
   assert.equal(escuchadores.keydown.length, 0);
   assert.equal(escuchadores.keyup.length, 0);
+});
+
+test('salto variable: tocar rápido da salto pequeño; mantener presionado da salto alto', () => {
+  const dt = 1 / 60;
+
+  // 1. Simulación Salto Corto (toque rápido: soltar tras 1 frame)
+  const senkuCorto = crearCuerpo({ x: 100, y: 500, enSuelo: true });
+  let yMinCorto = 500;
+
+  // Frame 0: toque inicial
+  actualizarCuerpo(senkuCorto, { salto: true }, [], null, dt);
+  assert.ok(senkuCorto.vy < 0, 'inicia con impulso de salto');
+  assert.equal(senkuCorto.saltando, true);
+  if (senkuCorto.y < yMinCorto) yMinCorto = senkuCorto.y;
+
+  // Frame 1: soltar antes (toque rápido)
+  actualizarCuerpo(senkuCorto, { salto: false }, [], null, dt);
+  assert.equal(senkuCorto.saltando, false, 'al soltar se desactiva el estado saltando');
+  assert.ok(
+    senkuCorto.vy >= -VELOCIDAD_CORTE_SALTO_DEFECTO - 1,
+    `la velocidad vertical debe ser cortada a ~-${VELOCIDAD_CORTE_SALTO_DEFECTO}`
+  );
+
+  // Continuar hasta el ápice del salto corto
+  for (let i = 0; i < 60; i++) {
+    actualizarCuerpo(senkuCorto, { salto: false }, [], null, dt);
+    if (senkuCorto.y < yMinCorto) yMinCorto = senkuCorto.y;
+    if (senkuCorto.vy >= 0) break;
+  }
+  const alturaSaltoCorto = 500 - yMinCorto;
+
+  // 2. Simulación Salto Largo (mantener presionado durante el ascenso)
+  const senkuLargo = crearCuerpo({ x: 100, y: 500, enSuelo: true });
+  let yMinLargo = 500;
+
+  for (let i = 0; i < 60; i++) {
+    actualizarCuerpo(senkuLargo, { salto: true }, [], null, dt);
+    if (senkuLargo.y < yMinLargo) yMinLargo = senkuLargo.y;
+    if (senkuLargo.vy >= 0) break;
+  }
+  const alturaSaltoLargo = 500 - yMinLargo;
+
+  // 3. Verificaciones de altura y diferencias significativas
+  assert.ok(
+    alturaSaltoCorto < alturaSaltoLargo,
+    `El salto corto (${alturaSaltoCorto.toFixed(1)}px) debe ser menor al largo (${alturaSaltoLargo.toFixed(1)}px)`
+  );
+  assert.ok(
+    alturaSaltoLargo > 120 && alturaSaltoLargo < 135,
+    `El salto largo debe alcanzar ~128px (actual: ${alturaSaltoLargo.toFixed(1)}px)`
+  );
+  assert.ok(
+    alturaSaltoCorto < 60,
+    `El salto corto debe ser menor a 60px (actual: ${alturaSaltoCorto.toFixed(1)}px)`
+  );
+  assert.ok(
+    alturaSaltoLargo >= alturaSaltoCorto * 2,
+    'El salto largo debe ser al menos el doble de alto que el corto'
+  );
+});
+
+test('salto variable responde tanto a teclado como a botones táctiles', () => {
+  const dt = 1 / 60;
+  const mockVentana = {
+    escuchadores: {},
+    addEventListener(tipo, fn) {
+      this.escuchadores[tipo] = this.escuchadores[tipo] || [];
+      this.escuchadores[tipo].push(fn);
+    },
+    removeEventListener() {},
+    emitir(tipo, evento) {
+      (this.escuchadores[tipo] || []).forEach((fn) => fn(evento));
+    },
+  };
+
+  const mockBotonSalto = {
+    escuchadores: {},
+    addEventListener(tipo, fn) {
+      this.escuchadores[tipo] = this.escuchadores[tipo] || [];
+      this.escuchadores[tipo].push(fn);
+    },
+    removeEventListener() {},
+    emitir(tipo) {
+      (this.escuchadores[tipo] || []).forEach((fn) => fn({ preventDefault: () => {} }));
+    },
+  };
+
+  const entrada = crearManejadorEntrada({
+    ventana: mockVentana,
+    elementosBotones: { salto: mockBotonSalto },
+  });
+
+  // Salto con botón táctil: mantener pulsado vs soltar
+  const senkuTactil = crearCuerpo({ x: 100, y: 500, enSuelo: true });
+  mockBotonSalto.emitir('pointerdown');
+  assert.equal(entrada.obtenerEstado().salto, true);
+
+  actualizarCuerpo(senkuTactil, entrada.obtenerEstado(), [], null, dt);
+  assert.equal(senkuTactil.saltando, true);
+
+  // Soltar botón táctil (pointerup) en el siguiente fotograma
+  mockBotonSalto.emitir('pointerup');
+  assert.equal(entrada.obtenerEstado().salto, false);
+
+  actualizarCuerpo(senkuTactil, entrada.obtenerEstado(), [], null, dt);
+  assert.equal(senkuTactil.saltando, false, 'soltar botón táctil corta el salto');
+  assert.ok(senkuTactil.vy >= -VELOCIDAD_CORTE_SALTO_DEFECTO - 1);
+
+  // Salto con teclado: presionar Space y soltar con keyup
+  const senkuTeclado = crearCuerpo({ x: 100, y: 500, enSuelo: true });
+  mockVentana.emitir('keydown', { code: 'Space', preventDefault: () => {} });
+  assert.equal(entrada.obtenerEstado().salto, true);
+
+  actualizarCuerpo(senkuTeclado, entrada.obtenerEstado(), [], null, dt);
+  assert.equal(senkuTeclado.saltando, true);
+
+  mockVentana.emitir('keyup', { code: 'Space' });
+  assert.equal(entrada.obtenerEstado().salto, false);
+
+  actualizarCuerpo(senkuTeclado, entrada.obtenerEstado(), [], null, dt);
+  assert.equal(senkuTeclado.saltando, false, 'soltar tecla corta el salto');
+
+  entrada.destruir();
 });
 

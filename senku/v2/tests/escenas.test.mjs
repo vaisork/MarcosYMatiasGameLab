@@ -9,7 +9,7 @@ test('validarEscena aprueba una escena con formato correcto', () => {
   assert.equal(resultado.escena.id, 'taqueria');
   assert.equal(resultado.escena.limites.w, 1280);
   assert.equal(resultado.escena.limites.h, 720);
-  assert.equal(resultado.escena.plataformas.length, 4);
+  assert.equal(resultado.escena.plataformas.length, escenaTaqueria.plataformas.length);
 });
 
 test('validarEscena rechaza escenas incompletas o corruptas', () => {

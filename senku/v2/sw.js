@@ -1,6 +1,6 @@
 // Service Worker para Senku 2 — Caché offline versionado y soporte PWA
 // Versión actual de la caché
-const VERSION_CACHE = 'senku2-v1';
+const VERSION_CACHE = 'senku2-v2';
 
 // Recursos esenciales que forman la base del juego para jugar sin conexión
 const RECURSOS_PRECACHE = [
@@ -19,6 +19,26 @@ const RECURSOS_PRECACHE = [
   './src/data/enemigos.mjs',
   './src/data/escenas/taqueria.mjs',
   './src/render/canvas.mjs',
+  './src/render/sprites.mjs',
+  // Arte de Matías (fondos, hojas de sprites, objetos y retratos del menú)
+  './assets/enemigos/hamster_cafe.png',
+  './assets/enemigos/hamster_negro.png',
+  './assets/enemigos/raton_cafe.png',
+  './assets/enemigos/raton_negro.png',
+  './assets/fondos/camioneta_reja.webp',
+  './assets/fondos/desierto.webp',
+  './assets/fondos/taqueria_ciudad.webp',
+  './assets/fondos/taqueria_desierto.webp',
+  './assets/objetos/anclador.png',
+  './assets/objetos/botiquin.png',
+  './assets/objetos/churu.png',
+  './assets/objetos/garras_escalada.png',
+  './assets/objetos/lanzador_ratones.png',
+  './assets/objetos/raton_proyectil.png',
+  './assets/personajes/menu_original.webp',
+  './assets/personajes/menu_rata.webp',
+  './assets/personajes/sprite_original.png',
+  './assets/personajes/sprite_rata.png',
   '../../assets/icon/senku-icon-192.png',
   '../../assets/icon/matiasgamelab-icon-192.png',
 ];
