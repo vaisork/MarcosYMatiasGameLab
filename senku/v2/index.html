@@ -14,6 +14,12 @@
   <title>Senku 2 — Taquería</title>
   <link rel="stylesheet" href="./src/ui/menu.css">
   <style>
+    :root {
+      --vh: 100vh;
+      --app-height: 100vh;
+      --app-width: 100vw;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -21,37 +27,51 @@
       -webkit-tap-highlight-color: transparent;
       user-select: none;
       -webkit-user-select: none;
+      touch-action: manipulation;
     }
 
     html, body {
       width: 100%;
       height: 100%;
+      height: 100dvh;
+      height: var(--app-height, 100vh);
+      min-height: var(--app-height, 100vh);
+      max-height: var(--app-height, 100vh);
+      margin: 0;
+      padding: 0;
       overflow: hidden;
+      position: fixed;
+      inset: 0;
+      overscroll-behavior: none;
       background-color: #1a1614;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       color: #fff;
     }
 
     #app {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       height: 100dvh;
+      height: var(--app-height, 100%);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+      padding: 0;
     }
 
     .lienzo-envoltura {
-      position: relative;
+      position: absolute;
+      inset: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
       height: 100%;
+      overflow: hidden;
     }
 
     #lienzo-juego {
@@ -60,34 +80,41 @@
       image-rendering: pixelated;
       image-rendering: crisp-edges;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+      touch-action: none;
     }
 
-    /* HUD Superior */
+    /* HUD Superior: fila compacta y no invasiva */
     .hud-superior {
       position: absolute;
-      top: max(16px, env(safe-area-inset-top, 16px));
-      left: max(16px, env(safe-area-inset-left, 16px));
+      top: calc(env(safe-area-inset-top, 8px) + 8px);
+      left: calc(env(safe-area-inset-left, 12px) + 12px);
+      right: calc(env(safe-area-inset-right, 12px) + 12px);
       display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
       align-items: center;
       gap: 8px;
       z-index: 20;
-      pointer-events: auto;
+      pointer-events: none;
     }
 
     .hud-pildora {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       background: rgba(30, 20, 15, 0.85);
-      border: 2px solid #e67e22;
+      border: 1.5px solid #e67e22;
       border-radius: 999px;
-      padding: 6px 14px;
+      padding: 4px 12px;
       font-weight: 700;
-      font-size: 18px;
+      font-size: 14px;
       color: #ffd8a8;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       pointer-events: auto;
+      white-space: nowrap;
+      height: 34px;
     }
 
     .hud-pildora * {
@@ -95,20 +122,20 @@
     }
 
     .hud-pildora .icono {
-      font-size: 20px;
+      font-size: 16px;
     }
 
     .hud-escena {
       background: rgba(20, 20, 20, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      font-size: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      font-size: 13px;
       color: #eee;
     }
 
     .hud-btn {
       pointer-events: auto;
       cursor: pointer;
-      border: 2px solid rgba(255, 255, 255, 0.35);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
       background: rgba(30, 20, 15, 0.85);
       color: #fff;
       font-family: inherit;
@@ -125,8 +152,8 @@
     }
 
     .hud-btn:focus-visible {
-      outline: 3px solid #fbbf24;
-      outline-offset: 2px;
+      outline: 2px solid #fbbf24;
+      outline-offset: 1px;
     }
 
     .hud-btn-menu {
@@ -140,14 +167,39 @@
       border-color: #fbbf24;
     }
 
-    /* Controles Táctiles en Pantalla */
+    /* Aviso discreto de orientación vertical */
+    .aviso-orientacion {
+      position: absolute;
+      top: calc(env(safe-area-inset-top, 8px) + 50px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 20, 15, 0.88);
+      border: 1px solid rgba(245, 158, 11, 0.6);
+      color: #fef3c7;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      pointer-events: none;
+      z-index: 25;
+      white-space: nowrap;
+    }
+
+    .aviso-orientacion[hidden] {
+      display: none !important;
+    }
+
+    /* Controles Táctiles en Pantalla (Sobrepuestos, semitransparentes) */
     .zona-controles {
       position: absolute;
-      bottom: max(20px, env(safe-area-inset-bottom, 20px));
+      bottom: calc(env(safe-area-inset-bottom, 12px) + 12px);
       left: 0;
       width: 100%;
-      padding-left: max(24px, env(safe-area-inset-left, 24px));
-      padding-right: max(24px, env(safe-area-inset-right, 24px));
+      padding-left: calc(env(safe-area-inset-left, 16px) + 16px);
+      padding-right: calc(env(safe-area-inset-right, 16px) + 16px);
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
@@ -157,7 +209,7 @@
 
     .grupo-direccion {
       display: flex;
-      gap: 16px;
+      gap: 14px;
       pointer-events: auto;
     }
 
@@ -168,38 +220,46 @@
 
     .btn-control {
       touch-action: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
       border: none;
       outline: none;
-      background: rgba(35, 25, 20, 0.8);
-      border: 2px solid rgba(230, 126, 34, 0.7);
+      background: rgba(26, 16, 10, 0.72);
+      border: 2px solid rgba(245, 158, 11, 0.75);
       border-radius: 16px;
-      color: #fff;
-      font-size: 24px;
-      font-weight: bold;
-      width: 64px;
-      height: 64px;
+      color: #fffbeb;
+      font-size: 26px;
+      font-weight: 800;
+      width: 62px;
+      height: 62px;
+      min-width: 56px;
+      min-height: 56px;
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       transition: transform 0.08s ease, background-color 0.08s ease, border-color 0.08s ease;
       cursor: pointer;
     }
 
     .btn-control:active {
       transform: scale(0.92);
-      background: #e67e22;
-      border-color: #ffd8a8;
+      background: rgba(230, 126, 34, 0.9);
+      border-color: #fde68a;
     }
 
     .btn-salto {
-      width: 80px;
-      height: 64px;
-      font-size: 16px;
-      background: rgba(45, 30, 20, 0.85);
-      border-color: #f39c12;
-      gap: 4px;
+      width: 82px;
+      height: 62px;
+      min-width: 56px;
+      min-height: 56px;
+      font-size: 15px;
+      background: rgba(36, 20, 12, 0.76);
+      border-color: #f59e0b;
+      gap: 3px;
       flex-direction: column;
     }
 
@@ -215,59 +275,69 @@
       left: 50%;
       transform: translateX(-50%);
       font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
-      background: rgba(0, 0, 0, 0.4);
-      padding: 4px 10px;
+      color: rgba(255, 255, 255, 0.6);
+      background: rgba(0, 0, 0, 0.45);
+      padding: 4px 12px;
       border-radius: 8px;
       pointer-events: none;
+      z-index: 10;
+      white-space: nowrap;
     }
 
-    /* Adaptación a dispositivos móviles compactos (vista móvil ej: 390x844) */
+    /* Adaptación a dispositivos móviles compactos manteniendo botones grandes >= 56px */
     @media (max-width: 600px) {
-      .zona-controles {
-        bottom: max(16px, env(safe-area-inset-bottom, 16px));
-        padding-left: max(16px, env(safe-area-inset-left, 16px));
-        padding-right: max(16px, env(safe-area-inset-right, 16px));
+      .hud-superior {
+        top: calc(env(safe-area-inset-top, 6px) + 6px);
+        left: calc(env(safe-area-inset-left, 8px) + 8px);
+        right: calc(env(safe-area-inset-right, 8px) + 8px);
+        gap: 5px;
+      }
+
+      .hud-pildora {
+        font-size: 12px;
+        padding: 3px 8px;
+        height: 30px;
+        gap: 4px;
+      }
+
+      .hud-pildora .icono {
+        font-size: 14px;
       }
 
       .btn-control {
         width: 58px;
         height: 58px;
-        font-size: 20px;
+        min-width: 56px;
+        min-height: 56px;
+        font-size: 22px;
+        border-radius: 14px;
       }
 
       .btn-salto {
-        width: 72px;
+        width: 74px;
         height: 58px;
-        font-size: 14px;
+        min-width: 56px;
+        min-height: 56px;
+        font-size: 13px;
       }
 
-      .hud-superior {
-        top: max(10px, env(safe-area-inset-top, 10px));
-        left: max(10px, env(safe-area-inset-left, 10px));
-        right: max(10px, env(safe-area-inset-right, 10px));
-        flex-wrap: wrap;
-        gap: 6px;
+      .zona-controles {
+        bottom: calc(env(safe-area-inset-bottom, 10px) + 10px);
+        padding-left: calc(env(safe-area-inset-left, 12px) + 12px);
+        padding-right: calc(env(safe-area-inset-right, 12px) + 12px);
       }
+    }
 
-      .hud-pildora {
-        font-size: 14px;
-        padding: 4px 10px;
-      }
-
-      .hud-pildora .icono {
-        font-size: 16px;
-      }
-
+    @media (max-width: 768px), (pointer: coarse) {
       .ayuda-teclado {
-        display: none;
+        display: none !important;
       }
     }
   </style>
 </head>
 <body>
   <div id="app">
-    <!-- HUD Superior -->
+    <!-- HUD Superior compacto -->
     <header class="hud-superior" aria-label="Indicadores del juego">
       <div class="hud-pildora" title="Saldo de Churus">
         <span class="icono" aria-hidden="true">🧃</span>
@@ -285,6 +355,11 @@
         <span>Armario</span>
       </button>
     </header>
+
+    <!-- Aviso discreto de orientación vertical (no bloqueante) -->
+    <div id="aviso-orientacion" class="aviso-orientacion" hidden aria-live="polite">
+      <span>🔄 Gira el teléfono para jugar en horizontal</span>
+    </div>
 
     <!-- Diálogo Modal del Menú de Trajes (Armario) -->
     <div id="modal-menu" class="modal-menu" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú de trajes de Senku">

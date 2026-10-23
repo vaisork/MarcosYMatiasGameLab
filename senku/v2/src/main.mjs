@@ -108,6 +108,43 @@ export function registrarServiceWorker(navegador = typeof navigator !== 'undefin
     .catch((error) => ({ registrado: false, error }));
 }
 
+// Sincroniza variables CSS con el tamaño visual real del viewport en iOS/Android
+export function sincronizarViewportCSS(documento = null, ventana = null) {
+  if (!documento || !ventana) {
+    return { ancho: 1280, alto: 720 };
+  }
+  const vv = ventana.visualViewport;
+  const alto = vv ? Math.round(vv.height) : (ventana.innerHeight || documento.documentElement?.clientHeight || 720);
+  const ancho = vv ? Math.round(vv.width) : (ventana.innerWidth || documento.documentElement?.clientWidth || 1280);
+
+  if (documento.documentElement?.style?.setProperty) {
+    documento.documentElement.style.setProperty('--vh', `${alto * 0.01}px`);
+    documento.documentElement.style.setProperty('--app-height', `${alto}px`);
+    documento.documentElement.style.setProperty('--app-width', `${ancho}px`);
+  }
+
+  return { ancho, alto };
+}
+
+// Controla el aviso discreto de orientación vertical (sugiere rotar sin bloquear interacción)
+export function actualizarAvisoOrientacion(documento = null, ancho = 1280, alto = 720) {
+  if (!documento || typeof documento.getElementById !== 'function') return;
+  const aviso = documento.getElementById('aviso-orientacion');
+  if (!aviso) return;
+  const esVertical = alto > ancho;
+  if (esVertical) {
+    aviso.hidden = false;
+    if (typeof aviso.removeAttribute === 'function') {
+      aviso.removeAttribute('hidden');
+    }
+  } else {
+    aviso.hidden = true;
+    if (typeof aviso.setAttribute === 'function') {
+      aviso.setAttribute('hidden', '');
+    }
+  }
+}
+
 export function arrancarSenku2({
   documento = typeof document !== 'undefined' ? document : null,
   ventana = typeof window !== 'undefined' ? window : null,
@@ -326,14 +363,21 @@ export function arrancarSenku2({
     ctx.imageSmoothingEnabled = false;
   }
 
-  // Ajuste letterbox responsive
+  // Ajuste letterbox responsive y sincronización de viewport iOS/Android
   function redimensionar() {
+    const { ancho, alto } = sincronizarViewportCSS(documento, ventana);
+    actualizarAvisoOrientacion(documento, ancho, alto);
     const contenedor = canvas.parentElement || documento.body;
-    const w = contenedor.clientWidth || ventana.innerWidth;
-    const h = contenedor.clientHeight || ventana.innerHeight;
+    const w = contenedor.clientWidth || ancho;
+    const h = contenedor.clientHeight || alto;
     ajustarLienzoLetterbox(canvas, w, h);
   }
+
   ventana.addEventListener('resize', redimensionar);
+  ventana.addEventListener('orientationchange', redimensionar);
+  if (ventana.visualViewport) {
+    ventana.visualViewport.addEventListener('resize', redimensionar);
+  }
   redimensionar();
 
   // 6. Controles táctiles y teclado
@@ -343,6 +387,7 @@ export function arrancarSenku2({
 
   const entrada = crearManejadorEntrada({
     ventana,
+    documento,
     elementosBotones: {
       izquierda: btnIzq,
       derecha: btnDer,
@@ -361,12 +406,7 @@ export function arrancarSenku2({
   let ultimoTiempo = performance.now();
   let tiempoAcumulado = 0;
 
-  function ciclo(ahora) {
-    const dt = Math.min((ahora - ultimoTiempo) / 1000, 0.05);
-    ultimoTiempo = ahora;
-    tiempoAcumulado += dt;
-
-    // Si el menú está abierto, se pausa el avance de física y combate para que Senku no se mueva
+  function avanzarPaso(dt = 1 / 60) {
     if (!menuAbierto) {
       // Física del jugador
       const estadoEntrada = entrada.obtenerEstado();
@@ -387,6 +427,14 @@ export function arrancarSenku2({
         resolverContactoEnemigo(senku, enemigo, estadoCombate);
       }
     }
+  }
+
+  function ciclo(ahora) {
+    const dt = Math.min((ahora - ultimoTiempo) / 1000, 0.05);
+    ultimoTiempo = ahora;
+    tiempoAcumulado += dt;
+
+    avanzarPaso(dt);
 
     // Dibujado de escena base
     renderizarEscena({
@@ -504,6 +552,10 @@ export function arrancarSenku2({
     }
     entrada.destruir();
     ventana.removeEventListener('resize', redimensionar);
+    ventana.removeEventListener('orientationchange', redimensionar);
+    if (ventana.visualViewport) {
+      ventana.visualViewport.removeEventListener('resize', redimensionar);
+    }
     ventana.removeEventListener('keydown', alPulsarTecla);
     if (btnTraje) {
       btnTraje.onclick = null;
@@ -531,6 +583,7 @@ export function arrancarSenku2({
     estadoCombate,
     enemigos,
     entrada,
+    avanzarPaso,
     obtenerTrajeActivo: () => trajeActivo,
     equiparTraje: (id) => {
       const res = equiparTraje(estadoJugador, id);

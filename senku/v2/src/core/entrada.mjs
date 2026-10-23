@@ -34,7 +34,11 @@ export function crearEstadoEntrada() {
 }
 
 // Manejador unificado de entrada desacoplado
-export function crearManejadorEntrada({ ventana = null, elementosBotones = {} } = {}) {
+export function crearManejadorEntrada({
+  ventana = null,
+  documento = null,
+  elementosBotones = {},
+} = {}) {
   const estado = crearEstadoEntrada();
   const codigosTeclasPresionadas = new Set();
   const botonesPresionados = new Set();
@@ -79,7 +83,19 @@ export function crearManejadorEntrada({ ventana = null, elementosBotones = {} } 
     actualizarEstado();
   }
 
-  // Conectar con ventana si está presente
+  // Conectar botones táctiles / pointer con tolerancia a multitouch y sin doble disparo
+  const reseteadoresBotones = [];
+
+  function soltarTodo() {
+    codigosTeclasPresionadas.clear();
+    botonesPresionados.clear();
+    for (const reset of reseteadoresBotones) {
+      reset();
+    }
+    actualizarEstado();
+  }
+
+  // Conectar con ventana si está presente (teclado + blur para soltar todo)
   if (ventana && typeof ventana.addEventListener === 'function') {
     const onKeyDown = (e) => {
       const capturado = procesarTecla(e.code, true);
@@ -92,39 +108,104 @@ export function crearManejadorEntrada({ ventana = null, elementosBotones = {} } 
       procesarTecla(e.code, false);
     };
 
+    const onBlur = () => {
+      soltarTodo();
+    };
+
     ventana.addEventListener('keydown', onKeyDown);
     ventana.addEventListener('keyup', onKeyUp);
+    ventana.addEventListener('blur', onBlur);
 
     limpiadores.push(() => {
       ventana.removeEventListener('keydown', onKeyDown);
       ventana.removeEventListener('keyup', onKeyUp);
+      ventana.removeEventListener('blur', onBlur);
     });
   }
 
-  // Conectar botones táctiles / pointer
+  // Conectar con documento si está presente para soltar al cambiar visibilidad
+  const doc = documento || ventana?.document || (typeof document !== 'undefined' ? document : null);
+  if (doc && typeof doc.addEventListener === 'function') {
+    const onVisibilityChange = () => {
+      if (doc.visibilityState === 'hidden') {
+        soltarTodo();
+      }
+    };
+
+    doc.addEventListener('visibilitychange', onVisibilityChange);
+
+    limpiadores.push(() => {
+      doc.removeEventListener('visibilitychange', onVisibilityChange);
+    });
+  }
+
   function conectarBoton(elemento, accion) {
     if (!elemento || typeof elemento.addEventListener !== 'function') return;
 
-    const iniciar = (e) => {
+    let presionadoPor = null; // 'pointer' | 'touch' | null
+    reseteadoresBotones.push(() => {
+      presionadoPor = null;
+    });
+
+    const iniciarPointer = (e) => {
       if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (presionadoPor === 'touch') {
+        return; // Sintetizado/duplicado de un toque ya activo
+      }
+      presionadoPor = 'pointer';
+      if (typeof elemento.setPointerCapture === 'function' && e?.pointerId !== undefined) {
+        try { elemento.setPointerCapture(e.pointerId); } catch (_) {}
+      }
       procesarBoton(accion, true);
     };
 
-    const terminar = (e) => {
+    const terminarPointer = (e) => {
       if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (typeof elemento.releasePointerCapture === 'function' && e?.pointerId !== undefined) {
+        try { elemento.releasePointerCapture(e.pointerId); } catch (_) {}
+      }
+      if (presionadoPor === null) return;
+      presionadoPor = null;
       procesarBoton(accion, false);
     };
 
-    elemento.addEventListener('pointerdown', iniciar);
-    elemento.addEventListener('pointerup', terminar);
-    elemento.addEventListener('pointercancel', terminar);
-    elemento.addEventListener('pointerleave', terminar);
+    const iniciarTouch = (e) => {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (presionadoPor === 'pointer') {
+        return; // Sintetizado/duplicado de un pointer ya activo
+      }
+      presionadoPor = 'touch';
+      procesarBoton(accion, true);
+    };
+
+    const terminarTouch = (e) => {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (presionadoPor === null) return;
+      presionadoPor = null;
+      procesarBoton(accion, false);
+    };
+
+    const prevenirContextMenu = (e) => {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+    };
+
+    elemento.addEventListener('pointerdown', iniciarPointer, { passive: false });
+    elemento.addEventListener('pointerup', terminarPointer, { passive: false });
+    elemento.addEventListener('pointercancel', terminarPointer, { passive: false });
+
+    elemento.addEventListener('touchstart', iniciarTouch, { passive: false });
+    elemento.addEventListener('touchend', terminarTouch, { passive: false });
+    elemento.addEventListener('touchcancel', terminarTouch, { passive: false });
+    elemento.addEventListener('contextmenu', prevenirContextMenu);
 
     limpiadores.push(() => {
-      elemento.removeEventListener('pointerdown', iniciar);
-      elemento.removeEventListener('pointerup', terminar);
-      elemento.removeEventListener('pointercancel', terminar);
-      elemento.removeEventListener('pointerleave', terminar);
+      elemento.removeEventListener('pointerdown', iniciarPointer);
+      elemento.removeEventListener('pointerup', terminarPointer);
+      elemento.removeEventListener('pointercancel', terminarPointer);
+      elemento.removeEventListener('touchstart', iniciarTouch);
+      elemento.removeEventListener('touchend', terminarTouch);
+      elemento.removeEventListener('touchcancel', terminarTouch);
+      elemento.removeEventListener('contextmenu', prevenirContextMenu);
     });
   }
 
@@ -145,9 +226,7 @@ export function crearManejadorEntrada({ ventana = null, elementosBotones = {} } 
       limpiar();
     }
     limpiadores.length = 0;
-    codigosTeclasPresionadas.clear();
-    botonesPresionados.clear();
-    actualizarEstado();
+    soltarTodo();
   }
 
   return {
@@ -156,6 +235,7 @@ export function crearManejadorEntrada({ ventana = null, elementosBotones = {} } 
     procesarBoton,
     establecerAccion,
     conectarBoton,
+    soltarTodo,
     destruir,
   };
 }
