@@ -83,306 +83,91 @@
       touch-action: none;
     }
 
-    /* HUD Superior: fila compacta y no invasiva */
+    [hidden] { display: none !important; }
+    button { font: inherit; cursor: pointer; color: #fff4dc; }
+    button:focus-visible { outline: 3px solid #ffe3a0; outline-offset: 3px; }
     .hud-superior {
-      position: absolute;
-      top: calc(env(safe-area-inset-top, 8px) + 8px);
-      left: calc(env(safe-area-inset-left, 12px) + 12px);
-      right: calc(env(safe-area-inset-right, 12px) + 12px);
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-      z-index: 20;
-      pointer-events: none;
+      position: absolute; z-index: 20;
+      top: calc(env(safe-area-inset-top, 0px) + 12px);
+      left: calc(env(safe-area-inset-left, 0px) + 16px);
+      right: calc(env(safe-area-inset-right, 0px) + 16px);
+      display: flex; align-items: center; gap: 10px; pointer-events: none;
     }
-
-    .hud-vida {
-      border-color: #ef4444;
-      background: rgba(30, 15, 15, 0.88);
-      gap: 6px;
+    .hud-pildora, .btn-control, .joystick {
+      background: #241c1cdb; border: 2px solid #bdb0a0;
+      box-shadow: 0 4px 12px #0006, inset 0 1px 2px #fff3;
     }
-
-    .barra-vida-contenedor {
-      width: 64px;
-      height: 12px;
-      background: rgba(0, 0, 0, 0.65);
-      border-radius: 6px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      display: flex;
-      align-items: center;
+    .hud-pildora { display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+      border-radius: 12px; font-weight: 750; color: #fff4dc; }
+    .hud-vida { padding: 4px 10px 4px 4px; gap: 10px; }
+    .retrato { width: 48px; height: 48px; object-fit: cover; border-radius: 8px;
+      image-rendering: pixelated; background: #392a24; }
+    .salud { display: grid; gap: 4px; }
+    .barra-vida-contenedor { width: 112px; height: 12px; border: 1px solid #f7dbb2;
+      border-radius: 4px; overflow: hidden; background: #130e10; }
+    .barra-vida-relleno { height: 100%; width: 100%; background: #22c55e; }
+    .texto-vida { font-variant-numeric: tabular-nums; }
+    .salud small { font-size: 12px; }
+    .icono-churu { width: 28px; height: 40px; object-fit: contain; }
+    .hud-escena { font-size: 12px; border: 0; box-shadow: none; background: #241c1cb8; }
+    .hud-btn { pointer-events: auto; min-height: 44px; }
+    #hud-traje { margin-left: auto; }
+    #btn-pausa { width: 48px; height: 48px; padding: 10px; }
+    svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2;
+      stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .zona-controles { position: absolute; z-index: 30;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+      left: calc(env(safe-area-inset-left, 0px) + 18px);
+      right: calc(env(safe-area-inset-right, 0px) + 18px);
+      display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none; }
+    .joystick { position: relative; width: 132px; height: 132px; border-radius: 50%;
+      touch-action: none; pointer-events: auto; user-select: none; }
+    .joystick .palanca { position: absolute; width: 54px; height: 54px; left: calc(50% - 27px);
+      top: calc(50% - 27px); border-radius: 50%; background: #a7a0a1;
+      border: 3px solid #e5d8cb; box-shadow: 0 3px 6px #0009;
+      transform: translate(var(--palanca-x, 0px), var(--palanca-y, 0px)); pointer-events: none; }
+    .joystick svg { position: absolute; width: 18px; height: 18px; opacity: .7; pointer-events: none; }
+    .direccion-arriba { top: 7px; left: calc(50% - 9px); }
+    .direccion-abajo { bottom: 7px; left: calc(50% - 9px); transform: rotate(180deg); }
+    .direccion-izquierda { left: 7px; top: calc(50% - 9px); transform: rotate(-90deg); }
+    .direccion-derecha { right: 7px; top: calc(50% - 9px); transform: rotate(90deg); }
+    .grupo-accion { display: flex; align-items: flex-end; gap: 12px; }
+    .btn-control { pointer-events: auto; touch-action: none; width: 84px; height: 84px;
+      min-width: 44px; min-height: 44px; border-radius: 50%; display: flex;
+      flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+      font-size: 12px; font-weight: 750; }
+    .btn-control svg { width: 32px; height: 32px; }
+    .btn-salto { width: 96px; height: 96px; border-color: #f0cb8b; }
+    #btn-lanzagranadas { font-size: 11px; }
+    #btn-disparar { margin-bottom: 12px; }
+    #btn-subir { width: 64px; height: 64px; }
+    .btn-control:active, .hud-btn:active { background: #6d432b; }
+    .ayuda-teclado { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+      font-size: 12px; background: #241c1cdb; color: #fff4dc; padding: 6px 12px; border-radius: 8px; }
+    .aviso-orientacion { position: absolute; top: 90px; left: 50%; transform: translateX(-50%);
+      padding: 6px 12px; background: #241c1ced; font-size: 12px; z-index: 25; white-space: nowrap; }
+    @media (max-height: 500px) {
+      .hud-superior { top: calc(env(safe-area-inset-top, 0px) + 8px); gap: 8px; }
+      .retrato { width: 40px; height: 40px; }
+      .barra-vida-contenedor { width: 90px; }
+      .hud-pildora { padding: 4px 8px; }
+      .hud-vida { padding-left: 4px; }
+      .joystick { width: 112px; height: 112px; }
+      .btn-control { width: 72px; height: 72px; }
+      .btn-salto { width: 86px; height: 86px; }
+      .ayuda-teclado { display: none; }
     }
-
-    .barra-vida-relleno {
-      height: 100%;
-      width: 100%;
-      background: #22c55e;
-      border-radius: 5px;
-      transition: width 0.15s ease-out, background-color 0.2s ease;
-    }
-
-    .texto-vida {
-      font-size: 13px;
-      font-weight: 700;
-      color: #fee2e2;
-      min-width: 24px;
-      text-align: right;
-    }
-
-    .hud-pildora {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(30, 20, 15, 0.85);
-      border: 1.5px solid #e67e22;
-      border-radius: 999px;
-      padding: 4px 12px;
-      font-weight: 700;
-      font-size: 14px;
-      color: #ffd8a8;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      pointer-events: auto;
-      white-space: nowrap;
-      height: 34px;
-    }
-
-    .hud-pildora * {
-      pointer-events: none;
-    }
-
-    .hud-pildora .icono {
-      font-size: 16px;
-    }
-
-    .hud-escena {
-      background: rgba(20, 20, 20, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      font-size: 13px;
-      color: #eee;
-    }
-
-    .hud-btn {
-      pointer-events: auto;
-      cursor: pointer;
-      border: 1.5px solid rgba(255, 255, 255, 0.35);
-      background: rgba(30, 20, 15, 0.85);
-      color: #fff;
-      font-family: inherit;
-      transition: transform 0.08s ease, background-color 0.08s ease, border-color 0.08s ease;
-    }
-
-    .hud-btn:hover {
-      background: rgba(50, 32, 22, 0.95);
-      border-color: #f39c12;
-    }
-
-    .hud-btn:active {
-      transform: scale(0.94);
-    }
-
-    .hud-btn:focus-visible {
-      outline: 2px solid #fbbf24;
-      outline-offset: 1px;
-    }
-
-    .hud-btn-menu {
-      border-color: #f59e0b;
-      color: #fef3c7;
-      background: rgba(45, 26, 14, 0.9);
-    }
-
-    .hud-btn-menu:hover {
-      background: rgba(70, 38, 18, 0.95);
-      border-color: #fbbf24;
-    }
-
-    /* Aviso discreto de orientación vertical */
-    .aviso-orientacion {
-      position: absolute;
-      top: calc(env(safe-area-inset-top, 8px) + 50px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(30, 20, 15, 0.88);
-      border: 1px solid rgba(245, 158, 11, 0.6);
-      color: #fef3c7;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 5px 14px;
-      border-radius: 999px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      pointer-events: none;
-      z-index: 25;
-      white-space: nowrap;
-    }
-
-    .aviso-orientacion[hidden] {
-      display: none !important;
-    }
-
-    /* Controles Táctiles en Pantalla (Sobrepuestos, semitransparentes) */
-    .zona-controles {
-      position: absolute;
-      bottom: calc(env(safe-area-inset-bottom, 12px) + 12px);
-      left: 0;
-      width: 100%;
-      padding-left: calc(env(safe-area-inset-left, 16px) + 16px);
-      padding-right: calc(env(safe-area-inset-right, 16px) + 16px);
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      z-index: 30;
-      pointer-events: none;
-    }
-
-    .grupo-direccion {
-      display: flex;
-      gap: 14px;
-      pointer-events: auto;
-    }
-
-    .grupo-accion {
-      display: flex;
-      pointer-events: auto;
-    }
-
-    .btn-control {
-      touch-action: none;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-      -webkit-user-select: none;
-      border: none;
-      outline: none;
-      background: rgba(26, 16, 10, 0.72);
-      border: 2px solid rgba(245, 158, 11, 0.75);
-      border-radius: 16px;
-      color: #fffbeb;
-      font-size: 26px;
-      font-weight: 800;
-      width: 62px;
-      height: 62px;
-      min-width: 56px;
-      min-height: 56px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      transition: transform 0.08s ease, background-color 0.08s ease, border-color 0.08s ease;
-      cursor: pointer;
-    }
-
-    .btn-control:active {
-      transform: scale(0.92);
-      background: rgba(230, 126, 34, 0.9);
-      border-color: #fde68a;
-    }
-
-    .btn-salto {
-      width: 82px;
-      height: 62px;
-      min-width: 56px;
-      min-height: 56px;
-      font-size: 15px;
-      background: rgba(36, 20, 12, 0.76);
-      border-color: #f59e0b;
-      gap: 3px;
-      flex-direction: column;
-    }
-
-    .btn-salto .flecha-arriba {
-      font-size: 18px;
-      line-height: 1;
-    }
-
-    /* Ayuda visual teclado en escritorio */
-    .ayuda-teclado {
-      position: absolute;
-      bottom: 16px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.6);
-      background: rgba(0, 0, 0, 0.45);
-      padding: 4px 12px;
-      border-radius: 8px;
-      pointer-events: none;
-      z-index: 10;
-      white-space: nowrap;
-    }
-
-    /* Adaptación a dispositivos móviles compactos manteniendo botones grandes >= 56px */
     @media (max-width: 600px) {
-      .hud-superior {
-        top: calc(env(safe-area-inset-top, 6px) + 6px);
-        left: calc(env(safe-area-inset-left, 8px) + 8px);
-        right: calc(env(safe-area-inset-right, 8px) + 8px);
-        gap: 5px;
-      }
-
-      .hud-pildora {
-        font-size: 12px;
-        padding: 3px 8px;
-        height: 30px;
-        gap: 4px;
-      }
-
-      .barra-vida-contenedor {
-        width: 44px;
-        height: 10px;
-      }
-
-      .texto-vida {
-        font-size: 11px;
-        min-width: 18px;
-      }
-
-      .hud-vida {
-        gap: 4px;
-        padding: 3px 6px;
-      }
-
-      .hud-pildora .icono {
-        font-size: 14px;
-      }
-
-      .btn-control {
-        width: 58px;
-        height: 58px;
-        min-width: 56px;
-        min-height: 56px;
-        font-size: 22px;
-        border-radius: 14px;
-      }
-
-      .btn-salto {
-        width: 74px;
-        height: 58px;
-        min-width: 56px;
-        min-height: 56px;
-        font-size: 13px;
-      }
-
-      .zona-controles {
-        bottom: calc(env(safe-area-inset-bottom, 10px) + 10px);
-        padding-left: calc(env(safe-area-inset-left, 12px) + 12px);
-        padding-right: calc(env(safe-area-inset-right, 12px) + 12px);
-      }
+      .hud-superior { flex-wrap: wrap; gap: 6px; left: calc(env(safe-area-inset-left, 0px) + 8px);
+        right: calc(env(safe-area-inset-right, 0px) + 8px); }
+      .hud-escena, #hud-traje { display: none; }
+      #btn-menu { margin-left: auto; }
+      .barra-vida-contenedor { width: 64px; }
+      .grupo-accion { gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: 180px; }
+      .btn-control { width: 72px; height: 72px; }
+      .btn-salto { width: 80px; height: 80px; }
     }
-
-    @media (max-width: 768px), (pointer: coarse) {
-      .ayuda-teclado {
-        display: none !important;
-      }
-    }
-    #btn-subir { width: 82px; font-size: 18px; margin-right: 10px; }
-    #btn-subir[hidden], #aviso-viaje[hidden] { display: none; }
+    @media (pointer: coarse) { .ayuda-teclado { display: none; } }
   </style>
 </head>
 <body>
@@ -391,14 +176,14 @@
     <header class="hud-superior" aria-label="Indicadores del juego">
       <!-- Barra de vida visible y legible en móvil -->
       <div id="hud-vida" class="hud-pildora hud-vida" title="Salud de Senku" aria-label="Salud de Senku">
-        <span class="icono" aria-hidden="true">❤️</span>
+        <img class="retrato" src="./assets/personajes/menu_original.webp" alt="Senku"><div class="salud">
         <div class="barra-vida-contenedor" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Puntos de salud">
           <div id="barra-vida-relleno" class="barra-vida-relleno" style="width: 100%;"></div>
         </div>
-        <span id="texto-vida" class="texto-vida">100</span>
+        <small><span id="texto-vida" class="texto-vida">100</span> / 100 HP</small></div>
       </div>
       <div class="hud-pildora" title="Saldo de Churus">
-        <span class="icono" aria-hidden="true">🧃</span>
+        <img class="icono-churu" src="./assets/objetos/churu.png" alt=""><span>Churus ×</span>
         <span id="saldo-churus">0</span>
       </div>
       <div class="hud-pildora hud-escena">
@@ -411,6 +196,9 @@
       <button id="btn-menu" class="hud-pildora hud-btn hud-btn-menu" aria-label="Abrir menú de trajes" title="Abrir armario de trajes (M)">
         <span class="icono" aria-hidden="true">👗</span>
         <span>Armario</span>
+      </button>
+      <button id="btn-pausa" class="hud-pildora hud-btn" aria-label="Pausar y abrir menú" title="Pausa / Armario (M)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke-width="4"/></svg>
       </button>
     </header>
 
@@ -442,15 +230,26 @@
 
     <!-- Controles Táctiles en Pantalla -->
     <nav class="zona-controles" aria-label="Controles táctiles">
-      <div class="grupo-direccion">
-        <button id="btn-izq" class="btn-control" aria-label="Mover a la izquierda">◀</button>
-        <button id="btn-der" class="btn-control" aria-label="Mover a la derecha">▶</button>
+      <div id="joystick" class="joystick" role="group" aria-label="Joystick táctil de ocho direcciones. Usa flechas o A y D con teclado.">
+        <svg class="direccion-arriba" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+        <svg class="direccion-abajo" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+        <svg class="direccion-izquierda" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+        <svg class="direccion-derecha" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+        <span class="palanca"></span>
       </div>
       <div class="grupo-accion">
+        <button id="btn-lanzagranadas" class="btn-control" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6V3h5l3 4M10 6h5M12 7c-8 0-9 14 0 14S20 7 12 7ZM6 13h12M7 17h10M12 8v12"/></svg>
+          <span>Lanzagranadas</span>
+        </button>
+        <button id="btn-disparar" class="btn-control" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 13 8-8c3-3 6-2 6-2s1 3-2 6l-8 8ZM5 13l4 4-3 3-4-4ZM15 4l5 5"/></svg>
+          <span>Disparar</span>
+        </button>
         <button id="btn-subir" class="btn-control" aria-label="Subir a la camioneta" hidden>Subir</button>
         <button id="btn-salto" class="btn-control btn-salto" aria-label="Saltar">
-          <span class="flecha-arriba">▲</span>
-          <span>Salto</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 12 8-8 8 8h-5v9H9v-9Z"/></svg>
+          <span>Saltar</span>
         </button>
       </div>
     </nav>

@@ -25,11 +25,28 @@ export function mapearCodigoTecla(codigo) {
   }
 }
 
+// Coordenadas normalizadas: x positivo a la derecha, y positivo hacia abajo.
+// Sectores de 45°; el vector conserva intensidad fuera de la zona muerta radial.
+export function modelarJoystick(x = 0, y = 0, zonaMuerta = 0.2) {
+  const distancia = Math.hypot(x, y);
+  const centro = { x: 0, y: 0, izquierda: false, derecha: false, arriba: false, abajo: false };
+  if (!Number.isFinite(distancia) || distancia <= zonaMuerta) return centro;
+  const sector = Math.round(Math.atan2(y, x) / (Math.PI / 4));
+  return {
+    x: x / Math.max(1, distancia), y: y / Math.max(1, distancia),
+    izquierda: Math.abs(sector) >= 3, derecha: Math.abs(sector) <= 1,
+    arriba: sector <= -1 && sector >= -3, abajo: sector >= 1 && sector <= 3,
+  };
+}
+
 export function crearEstadoEntrada() {
   return {
     izquierda: false,
     derecha: false,
     salto: false,
+    arriba: false,
+    abajo: false,
+    vector: { x: 0, y: 0 },
   };
 }
 
@@ -38,15 +55,17 @@ export function crearManejadorEntrada({
   ventana = null,
   documento = null,
   elementosBotones = {},
+  elementoJoystick = null,
 } = {}) {
   const estado = crearEstadoEntrada();
   const codigosTeclasPresionadas = new Set();
   const botonesPresionados = new Set();
   const limpiadores = [];
+  let joystick = modelarJoystick();
 
   function actualizarEstado() {
-    let tieneIzq = botonesPresionados.has(ACCIONES.IZQUIERDA);
-    let tieneDer = botonesPresionados.has(ACCIONES.DERECHA);
+    let tieneIzq = joystick.izquierda || botonesPresionados.has(ACCIONES.IZQUIERDA);
+    let tieneDer = joystick.derecha || botonesPresionados.has(ACCIONES.DERECHA);
     let tieneSalto = botonesPresionados.has(ACCIONES.SALTO);
 
     for (const codigo of codigosTeclasPresionadas) {
@@ -59,6 +78,9 @@ export function crearManejadorEntrada({
     estado.izquierda = tieneIzq;
     estado.derecha = tieneDer;
     estado.salto = tieneSalto;
+    estado.arriba = joystick.arriba;
+    estado.abajo = joystick.abajo;
+    estado.vector = { x: joystick.x, y: joystick.y };
   }
 
   function procesarTecla(codigo, presionado) {
@@ -209,12 +231,56 @@ export function crearManejadorEntrada({
     });
   }
 
+  if (elementoJoystick) {
+    let pointerId = null;
+    const pintar = () => {
+      elementoJoystick.style?.setProperty('--palanca-x', `${joystick.x * 32}px`);
+      elementoJoystick.style?.setProperty('--palanca-y', `${joystick.y * 32}px`);
+    };
+    const reset = () => {
+      const anterior = pointerId;
+      pointerId = null;
+      joystick = modelarJoystick();
+      pintar();
+      actualizarEstado();
+      if (anterior !== null && elementoJoystick.hasPointerCapture?.(anterior)) {
+        elementoJoystick.releasePointerCapture(anterior);
+      }
+    };
+    reseteadoresBotones.push(reset);
+    const mover = (e) => {
+      if (e.pointerId !== pointerId) return;
+      e.preventDefault();
+      const rect = elementoJoystick.getBoundingClientRect();
+      const radio = Math.min(rect.width, rect.height) / 2;
+      joystick = modelarJoystick((e.clientX - rect.left - rect.width / 2) / radio,
+        (e.clientY - rect.top - rect.height / 2) / radio);
+      pintar();
+      actualizarEstado();
+    };
+    const iniciar = (e) => {
+      if (pointerId !== null || (e.button !== undefined && e.button !== 0)) return;
+      pointerId = e.pointerId;
+      elementoJoystick.setPointerCapture(e.pointerId);
+      mover(e);
+    };
+    const terminar = (e) => {
+      if (e.pointerId === pointerId) reset();
+    };
+    for (const [tipo, fn] of Object.entries({ pointerdown: iniciar, pointermove: mover,
+      pointerup: terminar, pointercancel: terminar, lostpointercapture: terminar,
+      contextmenu: (e) => e.preventDefault() })) {
+      elementoJoystick.addEventListener(tipo, fn, { passive: false });
+      limpiadores.push(() => elementoJoystick.removeEventListener(tipo, fn));
+    }
+  }
+
   if (elementosBotones.izquierda) conectarBoton(elementosBotones.izquierda, ACCIONES.IZQUIERDA);
   if (elementosBotones.derecha) conectarBoton(elementosBotones.derecha, ACCIONES.DERECHA);
   if (elementosBotones.salto) conectarBoton(elementosBotones.salto, ACCIONES.SALTO);
 
   function obtenerEstado() {
-    return { ...estado };
+    return { ...estado, vector: { ...estado.vector } };
   }
 
   function establecerAccion(accion, activo) {

@@ -71,7 +71,7 @@ test('mapearCodigoTecla y crearEstadoEntrada: mapeo puro de controles', () => {
   assert.equal(mapearCodigoTecla('KeyX'), null);
 
   const estado = crearEstadoEntrada();
-  assert.deepEqual(estado, { izquierda: false, derecha: false, salto: false });
+  assert.deepEqual(estado, { izquierda: false, derecha: false, salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 } });
 });
 
 test('entrada táctil: pointerdown y pointerup activan y desactivan cada acción', () => {
@@ -88,7 +88,7 @@ test('entrada táctil: pointerdown y pointerup activan y desactivan cada acción
   });
 
   // Estado inicial
-  assert.deepEqual(manejador.obtenerEstado(), { izquierda: false, derecha: false, salto: false });
+  assert.deepEqual(manejador.obtenerEstado(), { izquierda: false, derecha: false, salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 } });
 
   // 1. Izquierda
   const evDownIzq = crearEvento('pointerdown', { pointerId: 10 });
@@ -221,7 +221,7 @@ test('multitoque: permite mantener dirección (◀/▶) y tocar Salto a la vez',
   assert.deepEqual(manejador.obtenerEstado(), {
     izquierda: true,
     derecha: false,
-    salto: false,
+    salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   // Dedo 2 presiona Salto MIENTRAS Dedo 1 sigue en Izquierda
@@ -229,7 +229,7 @@ test('multitoque: permite mantener dirección (◀/▶) y tocar Salto a la vez',
   assert.deepEqual(manejador.obtenerEstado(), {
     izquierda: true,
     derecha: false,
-    salto: true,
+    salto: true, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   // Dedo 2 suelta Salto
@@ -237,7 +237,7 @@ test('multitoque: permite mantener dirección (◀/▶) y tocar Salto a la vez',
   assert.deepEqual(manejador.obtenerEstado(), {
     izquierda: true,
     derecha: false,
-    salto: false,
+    salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   // Dedo 1 finalmente suelta Izquierda
@@ -245,7 +245,7 @@ test('multitoque: permite mantener dirección (◀/▶) y tocar Salto a la vez',
   assert.deepEqual(manejador.obtenerEstado(), {
     izquierda: false,
     derecha: false,
-    salto: false,
+    salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   // Multitoque alternativo con eventos Touch nativos: Derecha + Salto
@@ -296,7 +296,7 @@ test('robustez: soltar todas las acciones en blur de ventana o visibilitychange 
   assert.deepEqual(manejador.obtenerEstado(), {
     izquierda: false,
     derecha: false,
-    salto: false,
+    salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   // 2. Activar nuevamente y probar visibilitychange a 'hidden'
@@ -310,7 +310,7 @@ test('robustez: soltar todas las acciones en blur de ventana o visibilitychange 
   assert.deepEqual(manejador.obtenerEstado(), {
     izquierda: false,
     derecha: false,
-    salto: false,
+    salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   manejador.destruir();
@@ -415,4 +415,68 @@ test('actualizarAvisoOrientacion: muestra aviso discreto en vertical y lo oculta
   // Pantalla cuadrada o de escritorio (ancho >= alto) => ocultar aviso
   actualizarAvisoOrientacion(mockDoc, 1366, 768);
   assert.equal(mockAviso.hidden, true);
+});
+
+test('joystick: centro, zona muerta radial, ocho sectores y vector limitado', async () => {
+  const { modelarJoystick } = await import('../src/core/entrada.mjs');
+  for (const [x, y] of [[0, 0], [0.1, -0.1], [0.2, 0]]) {
+    assert.deepEqual(modelarJoystick(x, y), { x: 0, y: 0,
+      izquierda: false, derecha: false, arriba: false, abajo: false });
+  }
+  const sectores = [
+    [1, 0, ['derecha']], [1, 1, ['derecha', 'abajo']], [0, 1, ['abajo']],
+    [-1, 1, ['izquierda', 'abajo']], [-1, 0, ['izquierda']],
+    [-1, -1, ['izquierda', 'arriba']], [0, -1, ['arriba']], [1, -1, ['derecha', 'arriba']],
+  ];
+  for (const [x, y, direcciones] of sectores) {
+    const estado = modelarJoystick(x, y);
+    assert.ok(Math.hypot(estado.x, estado.y) <= 1.000001);
+    for (const direccion of ['izquierda', 'derecha', 'arriba', 'abajo']) {
+      assert.equal(estado[direccion], direcciones.includes(direccion), `${x},${y}: ${direccion}`);
+    }
+  }
+});
+
+test('joystick multitáctil: captura, salto simultáneo, teclado independiente y liberación', () => {
+  const joystick = crearElementoSimulado();
+  joystick.getBoundingClientRect = () => ({ left: 0, top: 0, width: 100, height: 100 });
+  const salto = crearElementoSimulado();
+  const ventana = crearElementoSimulado();
+  const entrada = crearManejadorEntrada({ ventana, elementoJoystick: joystick, elementosBotones: { salto } });
+  const enviar = (type, pointerId = 1, clientX = 100, clientY = 0) =>
+    joystick.dispatchEvent(crearEvento(type, { pointerId, clientX, clientY }));
+  enviar('pointerdown');
+  assert.equal(joystick.pointerCapturado, 1);
+  assert.equal(entrada.obtenerEstado().derecha, true);
+  assert.equal(entrada.obtenerEstado().arriba, true);
+  assert.equal(entrada.obtenerEstado().salto, false); // arriba del joystick no salta
+  enviar('pointerdown', 9, 0, 100); // otro dedo no roba la palanca
+  salto.dispatchEvent(crearEvento('pointerdown', { pointerId: 2 }));
+  assert.equal(entrada.obtenerEstado().salto, true);
+  enviar('pointerup', 9);
+  assert.equal(entrada.obtenerEstado().derecha, true);
+  entrada.procesarTecla('KeyD', true);
+  enviar('pointercancel');
+  assert.equal(entrada.obtenerEstado().derecha, true); // teclado sigue pulsado
+  assert.equal(entrada.obtenerEstado().arriba, false);
+  assert.equal(entrada.obtenerEstado().salto, true);
+  entrada.procesarTecla('KeyD', false);
+  assert.equal(entrada.obtenerEstado().derecha, false);
+  salto.dispatchEvent(crearEvento('pointerup', { pointerId: 2 }));
+  enviar('pointerdown');
+  enviar('pointermove', 1, 50, 50);
+  assert.deepEqual(entrada.obtenerEstado().vector, { x: 0, y: 0 });
+  enviar('pointermove', 1, 0, 100);
+  assert.equal(entrada.obtenerEstado().abajo, true);
+  enviar('lostpointercapture');
+  assert.equal(entrada.obtenerEstado().abajo, false);
+  enviar('pointerdown');
+  ventana.dispatchEvent({ type: 'blur' });
+  assert.deepEqual(entrada.obtenerEstado(), crearEstadoEntrada());
+  entrada.procesarTecla('ArrowUp', true);
+  assert.equal(entrada.obtenerEstado().salto, true);
+  assert.equal(entrada.obtenerEstado().arriba, false);
+  entrada.destruir();
+  enviar('pointerdown');
+  assert.deepEqual(entrada.obtenerEstado(), crearEstadoEntrada());
 });

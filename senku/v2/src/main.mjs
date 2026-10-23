@@ -165,6 +165,14 @@ export function actualizarAvisoOrientacion(documento = null, ancho = 1280, alto 
   }
 }
 
+// Sólo presentación: los efectos de armas todavía no están implementados.
+export function actualizarControlesHabilidades(documento, estado) {
+  for (const habilidad of ['disparar', 'lanzagranadas']) {
+    const boton = documento.getElementById(`btn-${habilidad}`);
+    if (boton) boton.hidden = estado?.habilidades?.[habilidad] !== true;
+  }
+}
+
 export function arrancarSenku2({
   documento = typeof document !== 'undefined' ? document : null,
   ventana = typeof window !== 'undefined' ? window : null,
@@ -177,6 +185,7 @@ export function arrancarSenku2({
   const almacen = obtenerAlmacen(ventana);
   const resultadoInicio = iniciar(almacen);
   let estadoJugador = resultadoInicio.estado;
+  actualizarControlesHabilidades(documento, estadoJugador);
 
   // 1b. Parámetro URL opcional (?traje=rata, ?skin=secret o ?secreto=1) para pruebas directas
   if (ventana?.location?.search) {
@@ -279,6 +288,7 @@ export function arrancarSenku2({
   function abrirMenu() {
     if (menuAbierto) return;
     menuAbierto = true;
+    entrada.soltarTodo();
     if (modalMenu) {
       modalMenu.hidden = false;
       modalMenu.setAttribute('aria-hidden', 'false');
@@ -321,9 +331,13 @@ export function arrancarSenku2({
     modalMenuFondo.onclick = () => cerrarMenu();
   }
 
+  const btnPausa = documento.getElementById('btn-pausa');
+  if (btnPausa) btnPausa.onclick = () => alternarMenu();
+
   let trajeActivo = obtenerTrajeActivo(estadoJugador);
 
   function refrescarVistaTraje() {
+    actualizarControlesHabilidades(documento, estadoJugador);
     trajeActivo = obtenerTrajeActivo(estadoJugador);
     if (senku) {
       senku.trajeId = trajeActivo.id;
@@ -536,16 +550,13 @@ export function arrancarSenku2({
   redimensionar();
 
   // 6. Controles táctiles y teclado
-  const btnIzq = documento.getElementById('btn-izq');
-  const btnDer = documento.getElementById('btn-der');
   const btnSalto = documento.getElementById('btn-salto');
 
   const entrada = crearManejadorEntrada({
     ventana,
     documento,
+    elementoJoystick: documento.getElementById('joystick'),
     elementosBotones: {
-      izquierda: btnIzq,
-      derecha: btnDer,
       salto: btnSalto,
     },
   });
@@ -567,6 +578,7 @@ export function arrancarSenku2({
   let tiempoAcumulado = 0;
 
   function avanzarPaso(dt = 1 / 60) {
+    actualizarControlesHabilidades(documento, estadoJugador);
     if (menuAbierto) return;
     if (avisoRestante > 0) {
       avisoRestante = Math.max(0, avisoRestante - dt);
@@ -795,6 +807,8 @@ export function arrancarSenku2({
     if (btnTraje) {
       btnTraje.onclick = null;
     }
+    if (btnPausa) btnPausa.onclick = null;
+    if (btnSubir) btnSubir.onclick = null;
     if (btnMenu) {
       btnMenu.onclick = null;
     }
