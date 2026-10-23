@@ -1,6 +1,6 @@
 // Service Worker para Senku 2 — Caché offline versionado y soporte PWA
 // Versión actual de la caché
-const VERSION_CACHE = 'senku2-v2';
+const VERSION_CACHE = 'senku2-v3';
 
 // Recursos esenciales que forman la base del juego para jugar sin conexión
 const RECURSOS_PRECACHE = [
@@ -9,6 +9,7 @@ const RECURSOS_PRECACHE = [
   './manifest.webmanifest',
   './src/main.mjs',
   './src/core/store.mjs',
+  './src/core/almacen.mjs',
   './src/core/migracion.mjs',
   './src/core/entrada.mjs',
   './src/core/fisica.mjs',
@@ -18,8 +19,12 @@ const RECURSOS_PRECACHE = [
   './src/core/trajes_activo.mjs',
   './src/data/enemigos.mjs',
   './src/data/escenas/taqueria.mjs',
+  './src/data/escenas/desierto.mjs',
   './src/render/canvas.mjs',
   './src/render/sprites.mjs',
+  './src/ui/menu.mjs',
+  './src/ui/menu_modelo.mjs',
+  './src/ui/menu.css',
   // Arte de Matías (fondos, hojas de sprites, objetos y retratos del menú)
   './assets/enemigos/hamster_cafe.png',
   './assets/enemigos/hamster_negro.png',

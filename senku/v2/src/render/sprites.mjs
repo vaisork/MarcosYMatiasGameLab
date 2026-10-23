@@ -24,6 +24,7 @@ export const RETRATOS_MENU = Object.freeze({
 
 export const FONDOS_ESCENA = Object.freeze({
   taqueria: 'assets/fondos/taqueria_ciudad.webp',
+  desierto: 'assets/fondos/desierto.webp',
 });
 
 // Tipo de enemigo (src/data/enemigos.mjs) -> hoja y escala de dibujo respecto al fotograma.

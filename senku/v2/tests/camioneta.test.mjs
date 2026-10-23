@@ -1,0 +1,128 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { arrancarSenku2 } from '../src/main.mjs';
+import { cargar, guardar, estadoNuevo } from '../src/core/store.mjs';
+import { memoria } from './ayuda.mjs';
+
+function iniciar(almacen = memoria()) {
+  const eventos = {};
+  const elementos = {
+    'lienzo-juego': { getContext: () => null, style: {}, setAttribute() {} },
+    'btn-subir': { hidden: true }, 'aviso-viaje': { hidden: true, textContent: '' },
+  };
+  const documento = {
+    getElementById: (id) => elementos[id] || null,
+    querySelector: () => null, body: {},
+  };
+  const ventana = {
+    localStorage: almacen,
+    addEventListener: (tipo, fn) => { (eventos[tipo] ||= []).push(fn); },
+    removeEventListener() {}, requestAnimationFrame: () => 1, cancelAnimationFrame() {},
+  };
+  const juego = arrancarSenku2({ documento, ventana });
+  return { juego, almacen, elementos, eventos };
+}
+function pisar(juego, enemigo) {
+  Object.assign(juego.senku, { x: enemigo.x, y: enemigo.y - juego.senku.h + 3, vy: 100 });
+  juego.avanzarPaso(0);
+}
+function limpiarTaqueria(juego, orden = juego.enemigos) {
+  for (const enemigo of [...orden]) pisar(juego, enemigo);
+}
+function recogerLlave(juego) {
+  const llave = juego.escena.objetos.find((o) => o.tipo === 'llave');
+  Object.assign(juego.senku, { x: llave.x, y: llave.y, vy: 0 });
+  juego.avanzarPaso(0);
+}
+function acercar(juego) {
+  Object.assign(juego.senku, { x: 150, y: 558, vy: 0 });
+  juego.avanzarPaso(0);
+}
+
+test('sin llave no se puede subir; botón y tecla E muestran la pista', () => {
+  const { juego, elementos, eventos } = iniciar();
+  acercar(juego);
+  assert.equal(elementos['btn-subir'].hidden, false);
+  assert.equal(elementos['btn-subir'].onclick(), false);
+  for (const fn of eventos.keydown) fn({ code: 'KeyE', key: 'e', preventDefault() {} });
+  juego.avanzarPaso(6);
+  assert.equal(juego.escena.id, 'taqueria');
+  assert.equal(juego.avisoViaje(), 'La camioneta no arranca… ¡busca la llave!');
+  juego.detener();
+});
+
+test('último enemigo por pisotón suelta una sola llave recogible, en cualquier orden', () => {
+  for (const indices of [[0, 1, 2], [2, 0, 1]]) {
+    const { juego } = iniciar();
+    const orden = indices.map((i) => juego.enemigos[i]);
+    pisar(juego, orden[0]);
+    pisar(juego, orden[1]);
+    assert.equal(juego.escena.objetos.some((o) => o.tipo === 'llave'), false);
+    pisar(juego, orden[2]);
+    const llaves = juego.escena.objetos.filter((o) => o.tipo === 'llave');
+    assert.equal(llaves.length, 1);
+    assert.equal(llaves[0].recogido, undefined);
+    assert.equal(juego.estadoJugador().coleccionados.includes('llave-camioneta'), false);
+    assert.equal(juego.avisoViaje(), '¡La llave de la camioneta!');
+    juego.reiniciarEscena();
+    assert.equal(juego.escena.objetos.filter((o) => o.tipo === 'llave').length, 1);
+    recogerLlave(juego);
+    assert.ok(juego.estadoJugador().coleccionados.includes('llave-camioneta'));
+    juego.detener();
+  }
+});
+
+test('con llave: teclado y táctil arrancan, pausan combate y cargan desierto tras el diálogo', () => {
+  for (const teclado of [false, true]) {
+    const { juego, elementos, eventos } = iniciar();
+    limpiarTaqueria(juego);
+    recogerLlave(juego);
+    assert.equal(juego.intentarSubir(), false, 'requiere estar junto a camioneta');
+    acercar(juego);
+    if (teclado) {
+      for (const fn of eventos.keydown) fn({ code: 'KeyE', key: 'e', preventDefault() {} });
+    } else assert.equal(elementos['btn-subir'].onclick(), true);
+    assert.equal(juego.avisoViaje(), 'Arrancando…');
+    juego.avanzarPaso(1);
+    assert.equal(juego.escena.id, 'taqueria');
+    juego.avanzarPaso(1);
+    assert.match(juego.avisoViaje(), /Mamá, mamá/);
+    assert.match(juego.avisoViaje(), /Sí, ahorita vamos/);
+    juego.avanzarPaso(3);
+    assert.equal(juego.escena.id, 'desierto');
+    assert.equal(juego.senku.x, juego.escena.puntoEntrada.x);
+    assert.equal(juego.enemigos.length, 2);
+    assert.equal(juego.estadoCombate.hp, 100);
+    assert.equal(juego.escena.plataformas.length, 4);
+    assert.equal(juego.estadoJugador().progreso.escena, 'desierto');
+    juego.detener();
+  }
+});
+
+test('persistencia: derrotas parciales, llave pendiente, inventario y escena sobreviven recarga; rata intacta', () => {
+  const almacen = memoria();
+  guardar(almacen, { ...estadoNuevo(), trajes: ['original', 'rata'], equipado: 'rata', churus: 8 });
+  let { juego } = iniciar(almacen);
+  pisar(juego, juego.enemigos[0]);
+  juego.detener();
+  ({ juego } = iniciar(almacen));
+  assert.equal(juego.enemigos[0].vivo, false);
+  limpiarTaqueria(juego, juego.enemigos.filter((e) => e.vivo));
+  juego.detener();
+  ({ juego } = iniciar(almacen));
+  assert.ok(juego.escena.objetos.some((o) => o.tipo === 'llave'));
+  recogerLlave(juego);
+  juego.detener();
+  ({ juego } = iniciar(almacen));
+  assert.equal(juego.escena.objetos.some((o) => o.tipo === 'llave'), false);
+  acercar(juego);
+  assert.equal(juego.intentarSubir(), true);
+  juego.avanzarPaso(5);
+  juego.detener();
+  ({ juego } = iniciar(almacen));
+  assert.equal(juego.escena.id, 'desierto');
+  assert.ok(cargar(almacen).estado.coleccionados.includes('llave-camioneta'));
+  assert.equal(juego.obtenerTrajeActivo().id, 'rata');
+  assert.equal(juego.estadoJugador().churus, 8);
+  juego.detener();
+});

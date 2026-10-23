@@ -61,17 +61,11 @@ export const escenaTaqueria = {
     { id: 'parapeto-derecho', x: 1165, y: 245, w: 110, h: 14, tipo: 'plataforma' },
   ],
   disparadores: [
-    {
-      id: 'salida-izquierda',
-      x: 0,
-      y: 480,
-      w: 40,
-      h: 120,
-      destino: null,
-      accion: null,
-      etiqueta: null,
-    },
+    { id: 'camioneta', x: 90, y: 430, w: 255, h: 170,
+      destino: 'desierto', accion: 'subir', etiqueta: 'Subir', requiere: 'llave-camioneta' },
   ],
+  // El último ratón/hámster derrotado suelta esta llave; no hay arte adecuado en objetos/.
+  recompensaFinal: { id: 'llave-camioneta', tipo: 'llave', x: 1000, y: 566, w: 34, h: 28 },
   // Recogibles sobre rutas de salto: churus (base 22x58) y un botiquín. Valores de recompensa pendientes en null.
   objetos: [
     { id: 'churu-1', tipo: 'churu', x: 375, y: 490, w: 22, h: 58, recogido: false }, // sobre caja-madera
