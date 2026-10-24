@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_desvio_horno",
+  "generation_tool": "native image_gen",
+  "sha256": "89a7409f7ee85d0784ba7c15ab0f1f72bb96fadd884002729890b80481d71d11",
+  "bytes": 71664,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "korven_desvio_horno-original.jpg",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view, 4:3 landscape, readable walkable terrain for a 20x15 room. NO people, creatures, text, HUD or baked-in actors. Korven/Brumak is a surface community of short compact Dravak with small stone plates, work in stone, measures and functional supports; never underground dwarf city, no dragons, no magic crystals or runes. Warm dry daylight and grey stone, practical modest structures, visual continuity with lush Edran but drier rocky terrain. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff or furniture interrupting them. Narrow rock passage branching down toward an old pottery kiln (Desvío del Horno). Sunken path cut between high vertical stone walls with faint dark soot marks from ancient firing heat, distinct from the pale Korven stone. Wind is blocked, still air with fine dark charcoal bits mixed into packed gravelly soil. Exactly TWO ground exits reaching canvas edges: NORTH ramp climbing up toward the low two-stone plateau, and SOUTH path descending toward the resting kiln. East and west are sheer rock cuts. Clear central walkable sunken passage connecting north and south."
+}

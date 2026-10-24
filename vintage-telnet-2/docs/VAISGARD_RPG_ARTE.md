@@ -310,3 +310,21 @@ Seis fondos 1280×960 de hasta 250000 bytes. Este lote no introduce NPCs fijos n
 | `backgrounds/korven_pared_sotavento.webp` | 1280×960 | 220052 | `93352232219ea5dd3ae075bd60f40e9d6392eab4a93e944955fc082f2ebf6bf8` |
 
 Generación nativa `image_gen` (subagente AGY); normalización mecánica, redimensionado proporcional a 1280×960 y compresión WebP. Originales, prompts y manifiesto en `/home/jdiaz/proyectos/entregas/equipo/cm-20/korven-04/arte/`; sidecars junto a cada recurso final. Autorrevisión de coherencia con Brumak, Edran y canon, pendiente de revisión del arquitecto. Ver [RPG_KORVEN_04.md](RPG_KORVEN_04.md).
+
+## Korven 05 — candidato local, 2026-10-23 (CM-20)
+
+Seis salas finales de Korven sobre `57c0eb7`: Cauce seco, Loma de las piedras claras, Roca del Cascarón, Desvío del Horno, Horno de reposo y Rincón de las muestras; atlas NPC de Taren. Con este lote se completa la región de Korven al 100% (**32/32 salas de Korven ilustradas**). El conjunto candidato alcanza **76/191** salas ilustradas (267 mapas comprobables: 191 generados y 76 pintados); quedan 115 salas sin ilustrar (0 en Korven). Este lote no está publicado, integrado ni desplegado.
+
+Seis fondos 1280×960 de hasta 250000 bytes y un atlas NPC 192×384 (celdas 64×96, escala proporcional Dravak con altura útil de hasta 68 px y pie común en y=92). Taren (`korven_taren`) usa el estándar canónico de Ved, Beran, Ruma, Neru y Oma. Las seis salas con fauna utilizan `backgrounds/korven_battle.webp` para los encuentros de combate.
+
+| Recurso | Dimensiones | Bytes | SHA-256 |
+|---|---|---:|---|
+| `backgrounds/korven_cauce_duro.webp` | 1280×960 | 189284 | `e1332dea0bf7826a704ddf963af9f1b26c32762f0a1aad8739926cae00fbdbd3` |
+| `backgrounds/korven_desvio_horno.webp` | 1280×960 | 71664 | `89a7409f7ee85d0784ba7c15ab0f1f72bb96fadd884002729890b80481d71d11` |
+| `backgrounds/korven_entrante_piezas.webp` | 1280×960 | 125066 | `4d933fd9e2799044935dc06e6509e9107c506857f6f4bd257b3d8737ebebab99` |
+| `backgrounds/korven_horno_reposo.webp` | 1280×960 | 157786 | `c62d824ba9791d2e13e0996bfa24d19860937dc1b210a02a3a85f8947dd16b5e` |
+| `backgrounds/korven_loma_cascajo.webp` | 1280×960 | 158766 | `a31c2a63b76ddcc214291bc8c855ed53719e64408b4f42c2cf3ad2baed7e476b` |
+| `backgrounds/korven_roca_cascaron.webp` | 1280×960 | 130390 | `4fec01c720666230fce2b97cd4412ea343b20eda41bd063de472e62f88f298e9` |
+| `sprites/taren.png` | 192×384 | 73061 | `fe8afa0c1157a067c6a7d9e28b98e64b648c53d5bf12c70fd0033c2ee72e9627` |
+
+Generación nativa `image_gen` (subagente AGY); normalización mecánica, extracción por canal alfa sobre croma verde, escala proporcional y pie en baseline y=92. Originales, prompts y manifiesto en `/home/jdiaz/proyectos/entregas/equipo/cm-20/korven-05/arte/`; sidecars junto a cada recurso final. Autorrevisión de coherencia con Brumak, Edran y canon, pendiente de revisión del arquitecto. Ver [RPG_KORVEN_05.md](RPG_KORVEN_05.md).

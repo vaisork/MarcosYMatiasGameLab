@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_roca_cascaron",
+  "generation_tool": "native image_gen",
+  "sha256": "4fec01c720666230fce2b97cd4412ea343b20eda41bd063de472e62f88f298e9",
+  "bytes": 130390,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "korven_roca_cascaron-original.jpg",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view, 4:3 landscape, readable walkable terrain for a 20x15 room. NO people, creatures, text, HUD or baked-in actors. Korven/Brumak is a surface community of short compact Dravak with small stone plates, work in stone, measures and functional supports; never underground dwarf city, no dragons, no magic crystals or runes. Warm dry daylight and grey stone, practical modest structures, visual continuity with lush Edran but drier rocky terrain. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff or furniture interrupting them. A massive hollow natural rock formation shaped like a cracked eggshell or hollow stone dome (Roca del Cascarón). The natural arched opening allows entry into a cool, shaded interior sheltered from the dry wind. Inside the hollow rock, dry grey-green lichens and faint historical chisel marks line the curved ceiling. Near the entrance, a stone bowl contains three worn whetstones. Exactly ONE ground exit reaching canvas edges: NORTH path leading out and climbing up between smaller stone blocks toward the dry riverbed. East, south, and west sides are enclosed by the dramatic curved stone shell and surrounding rock cliffs. Wide walkable floor inside the shell and path leading out north."
+}
