@@ -18,6 +18,7 @@ import { crearCuerpo, actualizarCuerpo, solapanAABB } from './core/fisica.mjs';
 import { crearRegistroEscenas } from './core/escenas.mjs';
 import { escenaTaqueria } from './data/escenas/taqueria.mjs';
 import { escenaDesierto } from './data/escenas/desierto.mjs';
+import { escenaReja } from './data/escenas/reja.mjs';
 import { crearManejadorEntrada } from './core/entrada.mjs';
 import { crearEnemigo, actualizarEnemigos } from './core/enemigos.mjs';
 import {
@@ -380,6 +381,7 @@ export function arrancarSenku2({
   const registro = crearRegistroEscenas();
   registro.registrar(escenaTaqueria);
   registro.registrar(escenaDesierto);
+  registro.registrar(escenaReja);
 
   const escenaId = estadoJugador.progreso?.escena || 'taqueria';
   let escenaActual = registro.obtener(escenaId) || registro.obtener('taqueria');
@@ -511,9 +513,9 @@ export function arrancarSenku2({
   actualizarHUDVida();
 
   // Reinicia la escena al llegar a 0 de vida, conservando el progreso guardado
-  function reiniciarEscena() {
-    senku.x = escenaActual.puntoEntrada.x;
-    senku.y = escenaActual.puntoEntrada.y;
+  function reiniciarEscena({ puntoEntrada = escenaActual.puntoEntrada, curar = true } = {}) {
+    senku.x = puntoEntrada.x;
+    senku.y = puntoEntrada.y;
     senku.vx = 0;
     senku.vy = 0;
     senku.enSuelo = false;
@@ -524,8 +526,8 @@ export function arrancarSenku2({
     restaurarEnemigos();
     soltarLlave();
 
-    // Restaurar salud completa (100) y limpiar combate
-    reiniciarCombate(estadoCombate);
+    // Caminar entre zonas conserva la salud y la invulnerabilidad en curso.
+    if (curar) reiniciarCombate(estadoCombate);
     actualizarHUDVida();
   }
 
@@ -571,13 +573,34 @@ export function arrancarSenku2({
   // 7. Catálogo de arte desacoplado
   // Precarga única; mientras tanto (o si una imagen falla) se dibujan los rectángulos de respaldo
   const catalogoArte = crearCatalogoArte();
-  let rutaFondo = rutaFondoEscena(escenaActual.id);
+  let rutaFondo = rutaFondoEscena(escenaActual.id) || resolverRutaArte(escenaActual.fondo.ruta);
   catalogoArte.precargar(rutasPrecargaArte({
     escenaId: escenaActual.id,
     tiposEnemigo: enemigos.map((e) => e.tipo),
   }));
   catalogoArte.cargar(resolverRutaArte('assets/fondos/camioneta_reja.webp'));
   const animadorEnemigos = crearAnimadorEnemigos();
+
+  function cambiarEscena(destino, { puntoEntrada, curar = false } = {}) {
+    const definicion = registro.obtener(destino);
+    escenaActual = {
+      ...definicion,
+      objetos: definicion.objetos.map((o) => ({
+        ...o,
+        recogido: Boolean(o.recogido || estadoJugador.coleccionados.includes(o.id)),
+      })),
+    };
+    estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: escenaActual.id } };
+    guardarProgreso();
+    definicionEnemigos = escenaActual.enemigos;
+    rutaFondo = rutaFondoEscena(escenaActual.id) || resolverRutaArte(escenaActual.fondo.ruta);
+    catalogoArte.precargar([rutaFondo, ...rutasPrecargaArte({ escenaId: escenaActual.id })]);
+    viaje = null;
+    mostrarAviso('', 0);
+    reiniciarEscena({ puntoEntrada, curar });
+    actualizarNombreEscena();
+    actualizarCamioneta();
+  }
 
   // 8. Bucle principal de juego
   let animacionId = null;
@@ -598,23 +621,7 @@ export function arrancarSenku2({
         mostrarAviso('Niño: «Mamá, mamá, ¿podemos ir al parque del desierto?» Madre: «Sí, ahorita vamos»', 0);
         return;
       }
-      const nuevaEscenaDef = registro.obtener(viaje.destino);
-      escenaActual = {
-        ...nuevaEscenaDef,
-        objetos: (nuevaEscenaDef.objetos || []).map((o) => ({
-          ...o,
-          recogido: Boolean(o.recogido || estadoJugador.coleccionados.includes(o.id)),
-        })),
-      };
-      estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: escenaActual.id } };
-      guardarProgreso();
-      definicionEnemigos = escenaActual.enemigos;
-      rutaFondo = rutaFondoEscena(escenaActual.id);
-      catalogoArte.precargar(rutasPrecargaArte({ escenaId: escenaActual.id }));
-      viaje = null;
-      mostrarAviso('', 0);
-      reiniciarEscena();
-      actualizarNombreEscena();
+      cambiarEscena(viaje.destino, { curar: true });
       return;
     }
     if (!menuAbierto) {
@@ -627,6 +634,12 @@ export function arrancarSenku2({
         escenaActual.limites,
         dt
       );
+
+      const salida = escenaActual.disparadores.find((d) => d.accion === 'pasar' && solapanAABB(senku, d));
+      if (salida) {
+        cambiarEscena(salida.destino, { puntoEntrada: salida.puntoEntrada });
+        return;
+      }
 
       // Combate y actualización de enemigos
       actualizarCombate(estadoCombate, dt);
