@@ -306,6 +306,21 @@ export function renderizarEscena({
         continue;
       }
       if (dibujarObjeto(ctx, catalogoArte, objeto, tiempo)) continue;
+      if (objeto.tipo === 'botiquin') {
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(objeto.x, objeto.y, objeto.w || 36, objeto.h || 36);
+        ctx.strokeStyle = '#e74c3c';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(objeto.x, objeto.y, objeto.w || 36, objeto.h || 36);
+        ctx.fillStyle = '#e74c3c';
+        const cx = objeto.x + (objeto.w || 36) / 2;
+        const cy = objeto.y + (objeto.h || 36) / 2;
+        ctx.fillRect(cx - 3, cy - 10, 6, 20);
+        ctx.fillRect(cx - 10, cy - 3, 20, 6);
+        ctx.restore();
+        continue;
+      }
       ctx.fillStyle = '#f1c40f';
       ctx.fillRect(objeto.x, objeto.y, objeto.w || 24, objeto.h || 24);
     }
