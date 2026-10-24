@@ -183,6 +183,7 @@ function show(a,b,d,button='CONTINUAR',fn=null){running=false;mt.textContent=a;m
 mb.onclick=()=>{modal.classList.add('hidden');const f=modalAction;modalAction=null;if(f)f();running=true};
 
 function setScene(s){
+ if(s==='taco'&&!/[?&]legacy=1/.test(location.search)){save();location.href='../v2/index.html';return}
  scene=s;near=null;action.style.display='none';if(busTimer){clearTimeout(busTimer);busTimer=null}
  if(s==='house'){p.x=85;p.y=430;items=[];cupX=465;cupY=384;cupVy=0;cupKnocked=false}
  if(s==='street'){p.x=50;p.y=430;items=[{id:'street-0',x:190,y:430},{id:'street-1',x:330,y:360},{id:'street-2',x:520,y:430},{id:'street-3',x:720,y:374}].map(q=>({...q,t:collected.has(q.id)?1:0}))}
@@ -190,6 +191,7 @@ function setScene(s){
  if(s==='taco'){p.x=60;p.y=430;items=[{id:'taco-0',x:230,y:430},{id:'taco-1',x:580,y:430},{id:'taco-2',x:744,y:355}].map(q=>({...q,t:collected.has(q.id)?1:0}))}
  p.vx=p.vy=0;hud()
 }
+window.setScene=setScene;
 function hold(id,k){const e=document.getElementById(id),on=q=>{q.preventDefault();keys[k]=true},off=q=>{q.preventDefault();keys[k]=false};e.addEventListener('pointerdown',on);e.addEventListener('pointerup',off);e.addEventListener('pointercancel',off);e.addEventListener('pointerleave',off)}
 hold('left','l');hold('right','r');hold('jump','j');hold('action','a');
 addEventListener('keydown',e=>{if(e.code==='ArrowLeft'||e.code==='KeyA')keys.l=true;if(e.code==='ArrowRight'||e.code==='KeyD')keys.r=true;if(e.code==='ArrowUp'||e.code==='Space'||e.code==='KeyW'){keys.j=true;e.preventDefault()}if(e.code==='KeyE'||e.code==='Enter')keys.a=true});
