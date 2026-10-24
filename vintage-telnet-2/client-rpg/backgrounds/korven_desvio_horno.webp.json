@@ -1,0 +1,83 @@
+{
+  "asset_id": "korven_desvio_horno",
+  "generation_tool": "native image_gen",
+  "sha256": "313cde39f28009db6ec8d024b32f0134ff14b7ed790d478b7e2de6ee929af129",
+  "bytes": 237274,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "/home/jdiaz/.codex/generated_images/01a16bf9-a5b7-7ab2-9c61-977daa24701f/exec-da682e92-8569-4525-8ef9-d9ff53861e97.png",
+  "normalization": "Mechanical proportional resize from 1448x1086 to 1280x960 and WebP compression only (quality 60, method 6)",
+  "review": "SELF_REVIEW_PASS; architect art review pending",
+  "prompt": "Use case: style-transfer with strict spatial guide.\nIMAGE 1 is a two-color STRUCTURAL GUIDE at 1280x960: tan is the exact open walkable ground area and dark grey is the exact blocked rock area. This is the authoritative screen-space layout.\nIMAGE 2 is the first painted draft of this scene. Its art direction is good, but its rock positions ARE WRONG: many stone pillars cover tan pixels from the guide, especially upper-left, upper-right, lower-left and lower-right. Repaint using IMAGE 1 geometry.\nIMAGES 3, 4 and 5 are the approved style references: korven_horno_reposo, korven_cauce_duro and korven_taller_juntas. Match their painted three-quarter detailed pixel-art JRPG quality.\nProduce ONE finished opaque 4:3 landscape game background, 1280x960. Rebuild the draft's scene with the exact floor footprint of IMAGE 1.\nMost important: every single tan region in IMAGE 1 must become continuous clear flat compacted ochre gravel in the final picture. Never place any rock, raised ledge, pillar, vegetation, wall or other obstruction on any part of the tan region. The entire silhouette of a rock, including its vertical face and top surface, must stay inside the grey region. Do not move foreground rock silhouettes inward to create perspective. Instead, carve all obstructing stone backwards into the grey region. Within grey regions paint richly detailed massive fractured rocks, with visible shaded vertical faces and tops. All grey regions, including the four corners, must be fully rendered rocky terrain, never empty or plain background.\nIt is okay for the boundary to have small natural notches; keep the boundary at the guide, not farther into the tan. Make the foreground opening pinch down to exactly the central 10% of width, just like the top opening. Both north and south have uninterrupted ground at the center 10% of their canvas edge. No paths reach left or right edges. No sky or horizon.\nScene: Desvío del Horno, Korven/Brumak, a dry sunken stone approach toward an old kiln located outside this room, warm dry daylight, old soot darkening lower stone faces, tiny scattered charcoal flecks in gravel, sparse dry ochre grass ONLY on rock shelves outside the walkable footprint. Bare ground remains textured and painted, with tiny embedded stones but no raised boulders. No kiln, architecture, people, creatures, text, symbols, signs, grids, HUD, magic or runes. Ground slopes gently toward north and south without cliffs across the passage.\nPreserve the excellent volumetric stone art and detailed painted pixel texture of the draft. Fix its spatial footprint only. This is a polished edge-to-edge game environment, not a flat map and not a diagram. Hide the guide's two flat colors completely with fully finished painted terrain while obeying its geometry.",
+  "initial_prompt": "Use case: style-transfer. Create a replacement finished environment background for the existing Vaisgard RPG room korven_desvio_horno. The three supplied images are APPROVED STYLE REFERENCES ONLY, in order: korven_horno_reposo.webp, korven_cauce_duro.webp, korven_taller_juntas.webp. Match their excellent hand-painted detailed pixel-art JRPG rendering, confident stone forms with visible vertical faces, warm dry daylight, nuanced warm grey stone and ochre gravel. Favor the camera and stone shading of the first image. Do not copy their room objects or routes.\n\nOUTPUT: 1280 x 960 pixels, landscape 4:3, opaque full-bleed artwork. Elevated three-quarter view like the approved images, NOT a flat overhead diagram. Fill ALL FOUR CORNERS AND ALL BORDERS with highly finished actual terrain. No white, blank, solid-color empty margins, void, backdrop, frame, horizon or sky. No writing, letters, signs, symbols, UI, grid, actors, characters, creatures, or sprites. No water, magic, runes, crystals, dragons or underground dwarf-city imagery.\n\nSUBJECT from the existing canonical brief: Desvío del Horno, a sunken dry rock passage branching south toward an old pottery kiln in Korven/Brumak. High fractured grey stone walls cut the wind. Faint old dark soot stains near the base distinguish these rocks from the pale plateau. Still dry air; small charcoal flecks mix with packed gravelly soil. This room is ONLY THE APPROACH; do not add a kiln, house, door, portal or side passage. North climbs toward the plateau; south descends toward the resting kiln outside the frame. Make rocky surfaces rich and substantial, with sparse ochre dry grass restricted to blocked terrain. All walkable ground is flat or a gently sloping ramp, no stairs, loose boulders, plants, furniture, drop or obstacles inside it. Small embedded stones and charcoal flecks are ground texture only.\n\nCRITICAL SPATIAL CONTRACT: preserve the current scene's walkable footprint in SCREEN SPACE. The canvas maps to a 20-column x 15-row grid of 64x64 pixels. The floor is a broad central roughly diamond-shaped hollow, narrow at BOTH north and south. Exactly TWO exit openings, with uninterrupted ground touching top and bottom canvas edges between x=576 and x=704. There are NO east or west exits. Both long side edges are completely blocked by solid rock. Camera gives rocks depth while their feet obey the floor contour; do NOT project tall foreground stones over walkable cells.\n\nThe following strings specify all 20 cells in each row, top to bottom. '.' is clear traversable gravel ground; '#' is blocked solid terrain filled with detailed rock, fractured cliffs and rock shelves. This grid is a layout specification only, MUST NOT appear in the artwork:\n#########..#########\n########....########\n#######......#######\n######........######\n#####..........#####\n####............####\n###..............###\n###..............###\n###..............###\n####............####\n#####..........#####\n######........######\n#######......#######\n########....########\n#########..#########\n\nAt y=0-64, floor x=576-704. At y=64-128, x=512-768. At y=128-192, x=448-832. At y=192-256, x=384-896. At y=256-320, x=320-960. At y=320-384, x=256-1024. At y=384-576, x=192-1088. At y=576-640, x=256-1024. At y=640-704, x=320-960. At y=704-768, x=384-896. At y=768-832, x=448-832. At y=832-896, x=512-768. At y=896-960, x=576-704. Rock boundary is organic with small fractures rather than a literal grid staircase; every playable tile center must remain on ground. Avoid a fence, wall or threshold across either exit. Keep clear ground at all spawn centers: (672,480), (672,96), (672,864), and creature placement centers (416,416), (928,416), (672,672).\n\nGive the scene the same strong three-quarter painted depth, detailed pixel texture, coherent warm lighting and polished art direction as the approved references. No blank or unfinished areas.",
+  "style_references": [
+    "korven_horno_reposo.webp",
+    "korven_cauce_duro.webp",
+    "korven_taller_juntas.webp"
+  ],
+  "review_notes": "Three native image_gen attempts; second selected. Full-bleed three-quarter painted pixel-art, no text or actors. Fifteen boundary tiles blocked to match rock silhouettes after generation did not preserve the original footprint; north/south exit rectangles, all spawns and creature placements unchanged. Scene/Tiled exact roundtrip.",
+  "blocked_boundary_tiles": [
+    [
+      12,
+      2
+    ],
+    [
+      13,
+      3
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      3,
+      8
+    ],
+    [
+      16,
+      8
+    ],
+    [
+      4,
+      9
+    ],
+    [
+      15,
+      9
+    ],
+    [
+      5,
+      10
+    ],
+    [
+      6,
+      10
+    ],
+    [
+      14,
+      10
+    ],
+    [
+      6,
+      11
+    ],
+    [
+      13,
+      11
+    ],
+    [
+      7,
+      12
+    ],
+    [
+      12,
+      12
+    ],
+    [
+      8,
+      13
+    ]
+  ]
+}

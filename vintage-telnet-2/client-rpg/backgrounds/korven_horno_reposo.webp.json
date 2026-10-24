@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_horno_reposo",
+  "generation_tool": "native image_gen",
+  "sha256": "c62d824ba9791d2e13e0996bfa24d19860937dc1b210a02a3a85f8947dd16b5e",
+  "bytes": 157786,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "korven_horno_reposo-original.jpg",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view, 4:3 landscape, readable walkable terrain for a 20x15 room. NO people, creatures, text, HUD or baked-in actors. Korven/Brumak is a surface community of short compact Dravak with small stone plates, work in stone, measures and functional supports; never underground dwarf city, no dragons, no magic crystals or runes. Warm dry daylight and grey stone, practical modest structures, visual continuity with lush Edran but drier rocky terrain. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff or furniture interrupting them. Old pottery kiln area recessed into a stone cliff hollow (Horno de reposo). A low dome kiln built of fieldstone and fired mud mortar sits cold inside an excavated rock nook. Its dark arched mouth is filled with drift sand. Beside the kiln on a stone ledge rest two cracked ceramic bowls and neat sorted stacks of pottery shards organized by thickness. Cool shadow under the high cliff overhang. Exactly TWO ground exits reaching canvas edges: NORTH path climbing up to the kiln detour, and WEST opening leading into the sample workshop alcove. East and south are heavy solid rock walls. Clear walkable stone floor connecting north and west."
+}

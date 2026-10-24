@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_meseta_baja",
+  "generation_tool": "native image_gen",
+  "sha256": "d1f7f6d378234ad0775d52d2d499615ca40ec5fae4d3b47f632fd5b898caaa5b",
+  "bytes": 238808,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "korven_meseta_baja-original.jpg",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view, 4:3 landscape, readable walkable terrain for a 20x15 room. NO people, creatures, text, HUD or baked-in actors. Korven/Brumak is a surface community of short compact Dravak with small stone plates, work in stone, measures and functional supports; never underground dwarf city, no dragons, no magic crystals or runes. Warm dry daylight and grey stone, practical modest structures, visual continuity with lush Edran but drier rocky terrain. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff or furniture interrupting them. Low plateau of the two stones. A wide open, flat and windswept rocky plateau under a vast open sky. Two solitary massive megalithic rocks stand near the center, casting crisp sharp shadows across the barren ground. A narrow natural rock fissure scores the bedrock beside them. Dry dusty wind swirling fine earth across the stone surface. Exactly THREE openings reaching the image boundary: WEST trail heading to the sheltering windbreak wall, EAST wide dusty path toward the dry wash, and SOUTH descending rocky trail leading down toward the old kiln fork. North side is the open edge of the plateau overlooking dry terrain. Clear walkable bedrock area circulating around the two landmark stones."
+}

@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_loma_cascajo",
+  "generation_tool": "native image_gen",
+  "sha256": "a31c2a63b76ddcc214291bc8c855ed53719e64408b4f42c2cf3ad2baed7e476b",
+  "bytes": 158766,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "korven_loma_cascajo-original.jpg",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view, 4:3 landscape, readable walkable terrain for a 20x15 room. NO people, creatures, text, HUD or baked-in actors. Korven/Brumak is a surface community of short compact Dravak with small stone plates, work in stone, measures and functional supports; never underground dwarf city, no dragons, no magic crystals or runes. Warm dry daylight and grey stone, practical modest structures, visual continuity with lush Edran but drier rocky terrain. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff or furniture interrupting them. High gravel ridge (Loma de las piedras claras) on the eastern frontier of Korven. Two deep wagon wheel ruts cut through softer earth along the crest. To the east in the far distance, faint hints of the green Veyra basin emerge; to the west is pure dry pale limestone and gravel. A neat mound of small cleared gravel at the roadside shows spade marks where workers keep the passage open. Dry dusty wind. Exactly TWO ground exits reaching canvas edges: WEST trail descending between rocks down into the dry riverbed, and EAST road leading toward the rocky embankment of Veyra. North and south sides are rugged uneven rock borders. Clear central walkable path along the wheel ruts."
+}
