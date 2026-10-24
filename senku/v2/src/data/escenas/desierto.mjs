@@ -1,3 +1,5 @@
+import { botiquinDesierto } from '../botiquines.mjs';
+
 // Primera zona del desierto. Sin reja explorable ni objetos de etapas posteriores.
 export const escenaDesierto = {
   id: 'desierto', nombre: 'Desierto',
@@ -19,5 +21,5 @@ export const escenaDesierto = {
     { id: 'desierto-hamster', tipo: 'cucaracha', x: 1050, y: 580, w: 36, h: 20,
       patrulla: { minX: 1020, maxX: 1250 }, hp: null },
   ],
-  objetos: [], disparadores: [],
+  objetos: [{ ...botiquinDesierto }], disparadores: [],
 };

@@ -28,6 +28,7 @@ import {
   HP_INICIAL_SENKU,
   TIEMPO_INVULNERABILIDAD_DEFECTO,
 } from './core/combate.mjs';
+import { recogerBotiquin } from './core/botiquin.mjs';
 
 // Decisión de diseño: Senku inicia con 100 HP y 1 s de invulnerabilidad tras ser golpeado
 export const HP_INICIAL_DEFECTO = HP_INICIAL_SENKU;
@@ -498,7 +499,13 @@ export function arrancarSenku2({
     mostrarAviso('¡La llave de la camioneta!');
   }
   // Copias de objetos por partida: nunca mutar las definiciones del registro.
-  escenaActual = { ...escenaActual, objetos: escenaActual.objetos.map((o) => ({ ...o })) };
+  escenaActual = {
+    ...escenaActual,
+    objetos: escenaActual.objetos.map((o) => ({
+      ...o,
+      recogido: Boolean(o.recogido || estadoJugador.coleccionados.includes(o.id)),
+    })),
+  };
   soltarLlave();
 
   actualizarHUDVida();
@@ -591,7 +598,14 @@ export function arrancarSenku2({
         mostrarAviso('Niño: «Mamá, mamá, ¿podemos ir al parque del desierto?» Madre: «Sí, ahorita vamos»', 0);
         return;
       }
-      escenaActual = { ...registro.obtener(viaje.destino), objetos: [] };
+      const nuevaEscenaDef = registro.obtener(viaje.destino);
+      escenaActual = {
+        ...nuevaEscenaDef,
+        objetos: (nuevaEscenaDef.objetos || []).map((o) => ({
+          ...o,
+          recogido: Boolean(o.recogido || estadoJugador.coleccionados.includes(o.id)),
+        })),
+      };
       estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: escenaActual.id } };
       guardarProgreso();
       definicionEnemigos = escenaActual.enemigos;
@@ -637,12 +651,27 @@ export function arrancarSenku2({
         }
       }
       for (const objeto of escenaActual.objetos) {
-        if (objeto.tipo !== 'llave' || objeto.recogido || !solapanAABB(senku, objeto)) continue;
-        objeto.recogido = true;
-        estadoJugador = { ...estadoJugador,
-          coleccionados: [...new Set([...estadoJugador.coleccionados, objeto.id])] };
-        guardarProgreso();
-        mostrarAviso('¡La llave de la camioneta!');
+        if (objeto.recogido || !solapanAABB(senku, objeto)) continue;
+        if (objeto.tipo === 'llave') {
+          objeto.recogido = true;
+          estadoJugador = { ...estadoJugador,
+            coleccionados: [...new Set([...estadoJugador.coleccionados, objeto.id])] };
+          guardarProgreso();
+          mostrarAviso('¡La llave de la camioneta!');
+        } else if (objeto.tipo === 'botiquin') {
+          const res = recogerBotiquin({
+            jugador: senku,
+            botiquin: objeto,
+            estadoCombate,
+            estadoJugador,
+          });
+          if (res.recogido) {
+            estadoJugador = res.estadoJugador;
+            guardarProgreso();
+            actualizarHUDVida();
+            mostrarAviso('+25 Vida');
+          }
+        }
       }
       actualizarCamioneta();
     }
@@ -837,6 +866,21 @@ export function arrancarSenku2({
     avisoViaje: () => aviso,
     reiniciarEscena,
     actualizarHUDVida,
+    recogerBotiquin: (botiquin) => {
+      const res = recogerBotiquin({
+        jugador: senku,
+        botiquin,
+        estadoCombate,
+        estadoJugador,
+      });
+      if (res.recogido) {
+        estadoJugador = res.estadoJugador;
+        guardarProgreso();
+        actualizarHUDVida();
+        mostrarAviso('+25 Vida');
+      }
+      return res;
+    },
     obtenerTrajeActivo: () => trajeActivo,
     equiparTraje: (id) => {
       const res = equiparTraje(estadoJugador, id);
