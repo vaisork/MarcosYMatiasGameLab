@@ -314,3 +314,26 @@ test('muerte al llegar a 0 de vida y reinicio con vida llena', () => {
   assert.equal(estado.invulnerable, false);
   assert.equal(estado.tiempoInvulnerable, 0);
 });
+
+test('hámster contra 1 HP: limita la vida a 0, derrota y rechaza golpes posteriores', () => {
+  const estado = crearEstadoCombate({ hpMax: HP_INICIAL_SENKU, hpInicial: 1 });
+  const senku = crearCuerpo({ x: 200, y: 300, vy: 0 });
+  const hamster = crearEnemigo({ id: 'hamster-prueba', tipo: 'hamster', x: 220, y: 300 });
+
+  const golpe = resolverContactoEnemigo(senku, hamster, estado);
+  assert.equal(golpe.tipo, 'golpe');
+  assert.equal(golpe.golpeado, true);
+  assert.equal(golpe.muerto, true);
+  assert.equal(golpe.derrotado, true);
+  assert.equal(golpe.hp, 0);
+  assert.equal(estado.hp, 0);
+  assert.equal(estado.derrotado, true);
+
+  actualizarCombate(estado, TIEMPO_INVULNERABILIDAD_DEFECTO);
+  const siguiente = resolverContactoEnemigo(senku, hamster, estado);
+  assert.equal(siguiente.golpeado, false);
+  assert.equal(siguiente.motivo, 'derrotado');
+  assert.equal(siguiente.hp, 0);
+  assert.equal(estado.hp, 0);
+  assert.equal(estado.totalGolpesRecibidos, 1);
+});

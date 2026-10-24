@@ -1,14 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { CLAVE } from '../src/core/store.mjs';
+import { CLAVE, VERSION, estadoNuevo, cargar } from '../src/core/store.mjs';
 import { CLAVES_LEGACY, hayLegacy, desdeLegacy, iniciar } from '../src/core/migracion.mjs';
 import { memoria } from './ayuda.mjs';
 
+// Datos sintéticos: nunca se leen partidas ni almacenamiento del navegador real.
 const legacy = { senku_churus: '42', senku_skin: 'secret', senku_secret: '1', senku_collected: '["c1","c2","c1"]' };
 
 test('sin Legacy ni guardado: partida nueva', () => {
   const a = memoria(); const r = iniciar(a);
   assert.equal(r.origen, 'nuevo'); assert.equal(r.estado.churus, 0); assert.equal(r.estado.origen.legacy, false);
+  assert.equal(r.guardado, true);
+  assert.deepEqual(cargar(a).estado, estadoNuevo());
 });
 test('migra Churus, traje secreto equipado y recolectables', () => {
   const e = desdeLegacy(memoria(legacy));
@@ -32,10 +35,16 @@ test('traje equipado "secret" sin desbloqueo se ignora', () => {
 });
 test('migración de una sola vez: la segunda carga usa el guardado propio', () => {
   const a = memoria(legacy);
-  assert.equal(iniciar(a).origen, 'legacy');
+  const primera = iniciar(a);
+  assert.equal(primera.origen, 'legacy');
+  assert.equal(primera.guardado, true);
+  assert.equal(primera.estado.version, VERSION);
+  assert.equal(JSON.parse(a.getItem(CLAVE)).version, VERSION);
+  assert.deepEqual(cargar(a).estado, primera.estado);
   a.setItem('senku_churus', '999'); // Legacy sigue jugándose; no debe volver a migrarse
   const r = iniciar(a);
   assert.equal(r.origen, 'guardado'); assert.equal(r.estado.churus, 42);
+  assert.deepEqual(r.estado, primera.estado);
 });
 test('nunca escribe claves de Legacy', () => {
   const a = memoria(legacy); const escritas = [];
@@ -48,11 +57,31 @@ test('datos de Legacy rotos no rompen la migración', () => {
   const e = desdeLegacy(memoria({ senku_churus: 'abc', senku_collected: '{no' }));
   assert.equal(e.churus, 0); assert.deepEqual(e.coleccionados, []);
 });
-test('guardado corrupto o futuro: partida nueva SIN sobrescribir', () => {
-  const a = memoria({ [CLAVE]: '{no', ...legacy });
-  const r = iniciar(a);
-  assert.equal(r.origen, 'nuevo_sin_guardar'); assert.equal(a.getItem(CLAVE), '{no');
-});
+for (const [nombre, crudo, motivo] of [
+  ['JSON corrupto', '{no', 'corrupto'],
+  ['cadena vacía', '', 'corrupto'],
+  ['sólo espacios', '  ', 'corrupto'],
+  ['versión futura', JSON.stringify({ version: VERSION + 1, churus: 5 }), 'version_futura'],
+]) {
+  test(`${nombre}: inicia partida nueva SIN sobrescribir ni importar Legacy`, () => {
+    const a = memoria({ [CLAVE]: crudo, ...legacy });
+    const r = iniciar(a);
+    assert.equal(r.origen, 'nuevo_sin_guardar');
+    assert.equal(r.motivo, motivo);
+    assert.deepEqual(r.estado, estadoNuevo());
+    assert.equal(a.getItem(CLAVE), crudo);
+  });
+}
+for (const datos of [null, [], {}, { version: 0 }]) {
+  test(`guardado inválido ${JSON.stringify(datos)}: arranca con estado nuevo válido`, () => {
+    const a = memoria({ [CLAVE]: JSON.stringify(datos), ...legacy });
+    const r = iniciar(a);
+    assert.equal(r.origen, 'nuevo');
+    assert.equal(r.guardado, true);
+    assert.deepEqual(r.estado, estadoNuevo());
+    assert.deepEqual(cargar(a).estado, r.estado);
+  });
+}
 test('hayLegacy con almacenamiento bloqueado', () => {
   assert.equal(hayLegacy({ getItem() { throw new Error('x'); } }), false);
 });
