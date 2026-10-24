@@ -325,6 +325,6 @@ Seis fondos 1280×960 de hasta 250000 bytes y un atlas NPC 192×384 (celdas 64×
 | `backgrounds/korven_horno_reposo.webp` | 1280×960 | 157786 | `c62d824ba9791d2e13e0996bfa24d19860937dc1b210a02a3a85f8947dd16b5e` |
 | `backgrounds/korven_loma_cascajo.webp` | 1280×960 | 158766 | `a31c2a63b76ddcc214291bc8c855ed53719e64408b4f42c2cf3ad2baed7e476b` |
 | `backgrounds/korven_roca_cascaron.webp` | 1280×960 | 130390 | `4fec01c720666230fce2b97cd4412ea343b20eda41bd063de472e62f88f298e9` |
-| `sprites/taren.png` | 192×384 | 73061 | `fe8afa0c1157a067c6a7d9e28b98e64b648c53d5bf12c70fd0033c2ee72e9627` |
+| `sprites/taren.png` | 192×384 | 70312 | `a3519da2cb70640e7542ae59d7806c0bbc5a946385d50331d88c570962210e86` |
 
 Generación nativa `image_gen` (subagente AGY); normalización mecánica, extracción por canal alfa sobre croma verde, escala proporcional y pie en baseline y=92. Originales, prompts y manifiesto en `/home/jdiaz/proyectos/entregas/equipo/cm-20/korven-05/arte/`; sidecars junto a cada recurso final. Autorrevisión de coherencia con Brumak, Edran y canon, pendiente de revisión del arquitecto. Ver [RPG_KORVEN_05.md](RPG_KORVEN_05.md).
