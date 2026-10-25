@@ -764,3 +764,38 @@ class RpgSceneTests(unittest.TestCase):
             self.assertEqual(meta['dimensions'], [192, 384])
             self.assertEqual(meta['sha256'], hashlib.sha256(asset.read_bytes()).hexdigest())
             self.assertEqual(meta['bytes'], asset.stat().st_size)
+
+    def test_korven_complete_region_and_boundary_exits(self):
+        root = Path(__file__).resolve().parents[1]
+        content = Content(root / 'content')
+        korven_rooms = [r for r in content.rooms if r.startswith('korven_') or r == 'brumak_centro']
+        self.assertEqual(len(korven_rooms), 32)
+
+        for rid in korven_rooms:
+            scene_path = root / 'client-rpg/scenes' / f'{rid}.json'
+            self.assertTrue(scene_path.is_file(), f'Falta escena {scene_path}')
+            scene = json.loads(scene_path.read_text(encoding='utf-8'))
+            self.assertEqual(scene['room'], rid)
+
+            content_exits = set(content.rooms[rid].get('exits', {}).keys())
+            scene_exits = {e['direction'] for e in scene.get('exits', [])}
+            self.assertEqual(scene_exits, content_exits, f'Discrepancia de salidas en {rid}')
+
+            solid = scene['layers']['solid']
+            for d, pos in scene.get('spawn', {}).items():
+                x, y = pos
+                self.assertTrue(0 <= x < 20 and 0 <= y < 15, f'Spawn {d} fuera de límites en {rid}: {pos}')
+                self.assertEqual(solid[y][x], '.', f'Spawn {d} bloqueado en {rid}: {pos}')
+
+        boundaries = [
+            ('korven_borde_tierra', 'sur', 'edran_linde_piedra', 'norte'),
+            ('korven_meseta_relevo', 'norte', 'hoshai_garganta_oeste', 'sur'),
+            ('korven_loma_cascajo', 'este', 'veyra_terraplen_roca', 'oeste'),
+        ]
+        for src, out_dir, dst, in_dir in boundaries:
+            self.assertEqual(content.rooms[src]['exits'][out_dir], dst)
+            self.assertEqual(content.rooms[dst]['exits'][in_dir], src)
+
+        korven_npcs = {'korven_ved', 'korven_beran', 'korven_ruma', 'korven_neru', 'korven_oma', 'korven_taren'}
+        present_npcs = {npc for rid in korven_rooms for npc in content.rooms[rid].get('npcs', [])}
+        self.assertTrue(korven_npcs <= present_npcs)
