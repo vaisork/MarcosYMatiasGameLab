@@ -2884,6 +2884,7 @@
         "sur": "veyra_mazmorra_boveda_guardian",
         "este": "veyra_acequia_exterior"
       },
+      "one_way_exits": ["este"],
       "examine": {
         "arquetas": "Cuatro arquetas de piedra conservan huecos preparados para armas y pequeñas piezas. Ves joyas cristalinas, una escama tornasolada y un colmillo suavemente curvado entre otros objetos. Ninguna inscripción dice quién preparó el lugar ni por qué.",
         "claraboya": "La abertura es irregular y natural. Por ella se ven el cielo y algunas hierbas que crecen entre las piedras altas. Aquí el aire se mueve libre, distinto del vapor encerrado en la bóveda.",
