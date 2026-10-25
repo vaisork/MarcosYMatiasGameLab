@@ -1,0 +1,83 @@
+{
+  "room": "hoshai_cajas_camino",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "cascapedernal",
+      "at": [
+        7,
+        9
+      ]
+    },
+    {
+      "id": "salteador_desesperado",
+      "at": [
+        13,
+        9
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "sssssssssppsssssssss",
+      "ssssssssppppssssssss",
+      "ssssssssppppssssssss",
+      "ssssppppppppppppssss",
+      "ssssfffppppppfffssss",
+      "ssssfffppppppfffssss",
+      "ssssppppppppppppssss",
+      "ssssppppppppppppssss",
+      "ssssppppppppppppssss",
+      "ssssppppppppppppssss",
+      "ssssppppppppppppssss",
+      "ssssppppppppppppssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "11111111....11111111",
+      "11111111....11111111",
+      "1111............1111",
+      "1111111......1111111",
+      "1111111......1111111",
+      "1111............1111",
+      "1111............1111",
+      "1111............1111",
+      "1111............1111",
+      "1111............1111",
+      "1111............1111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111"
+    ]
+  }
+}

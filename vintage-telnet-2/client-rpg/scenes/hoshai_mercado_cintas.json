@@ -1,0 +1,89 @@
+{
+  "room": "hoshai_mercado_cintas",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "oeste": [
+      1,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "npcs": [
+    {
+      "id": "hoshai_luma",
+      "at": [
+        7,
+        6
+      ]
+    }
+  ],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "sspffffpppppffffppss",
+      "sspffffpppppffffppss",
+      "spppppppppppppppppps",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "spppppppppppppppppps",
+      "ssppppppppppppppppss",
+      "ssppfffpppppppppppss",
+      "ssppppppppppppppppss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11.1111.....1111..11",
+      "11.1111.....1111..11",
+      "1..................1",
+      "....................",
+      "....................",
+      "1..................1",
+      "11................11",
+      "11..111...........11",
+      "11................11",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111"
+    ]
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "room": "hoshai_senda_dosel",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "cascapedernal",
+      "at": [
+        7,
+        6
+      ]
+    },
+    {
+      "id": "rasgacumbres",
+      "at": [
+        13,
+        6
+      ]
+    },
+    {
+      "id": "saltacresta",
+      "at": [
+        13,
+        9
+      ]
+    },
+    {
+      "id": "salteadora_negociante",
+      "at": [
+        10,
+        10
+      ]
+    },
+    {
+      "id": "unapiedra",
+      "at": [
+        8,
+        4
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "sssssffppppppppppsss",
+      "sssssffppppppppppsss",
+      "ssssspppppppppppppps",
+      "sssssppppppppppppppp",
+      "sssssppppppppppppppp",
+      "ssssspppppppppppppps",
+      "ssssssspppppppffpsss",
+      "ssssspppppppppffpsss",
+      "sssssppppppppppppsss",
+      "ssssssssppppssssssss",
+      "ssssssssppppssssssss",
+      "sssssssssppsssssssss"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "1111111..........111",
+      "1111111..........111",
+      "11111..............1",
+      "11111...............",
+      "11111...............",
+      "11111..............1",
+      "1111111.......11.111",
+      "11111.........11.111",
+      "11111............111",
+      "11111111....11111111",
+      "11111111....11111111",
+      "111111111..111111111"
+    ]
+  }
+}

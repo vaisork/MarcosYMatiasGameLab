@@ -1,0 +1,117 @@
+{
+  "room": "hoshai_aprisco_abierto",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "oeste": [
+      1,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "cascapedernal",
+      "at": [
+        7,
+        6
+      ]
+    },
+    {
+      "id": "rasgacumbres",
+      "at": [
+        13,
+        6
+      ]
+    },
+    {
+      "id": "saltacresta",
+      "at": [
+        7,
+        9
+      ]
+    },
+    {
+      "id": "salteador_bravucon",
+      "at": [
+        13,
+        9
+      ]
+    },
+    {
+      "id": "unapiedra",
+      "at": [
+        10,
+        10
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssspssspppppppsspsss",
+      "sssppppppppppppppsss",
+      "sppppppppppppppppsss",
+      "pppppppppppppppppsss",
+      "pppppppppppppppppsss",
+      "sppppppppppppppppsss",
+      "sssppppppppppppppsss",
+      "sssppppppppppppwwsss",
+      "sssppppppppppppppsss",
+      "ssssssssppppssssssss",
+      "ssssssssppppssssssss",
+      "sssssssssppsssssssss"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "111.111.......11.111",
+      "111..............111",
+      "1................111",
+      ".................111",
+      ".................111",
+      "1................111",
+      "111..............111",
+      "111............11111",
+      "111..............111",
+      "11111111....11111111",
+      "11111111....11111111",
+      "111111111..111111111"
+    ]
+  }
+}

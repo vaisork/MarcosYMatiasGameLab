@@ -1,0 +1,122 @@
+{
+  "room": "hoshai_terraza_cargas",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "este": [
+      18,
+      7
+    ],
+    "oeste": [
+      1,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "cascapedernal",
+      "at": [
+        7,
+        6
+      ]
+    },
+    {
+      "id": "salteador_desesperado",
+      "at": [
+        13,
+        6
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "sssssssssppsssssssss",
+      "ssssssssppppssssssss",
+      "ssssssssppppssssssss",
+      "ssspfffppppppppppsss",
+      "ssspfffppppppppppsss",
+      "spppppppppppppppppps",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "spppppppppppppppppps",
+      "sssppppppppppppppsss",
+      "ssspppppppppppsspsss",
+      "sssppppppppppppppsss",
+      "ssssssssppppssssssss",
+      "ssssssssppppssssssss",
+      "sssssssssppsssssssss"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "11111111....11111111",
+      "11111111....11111111",
+      "111.111..........111",
+      "111.111..........111",
+      "1..................1",
+      "....................",
+      "....................",
+      "1..................1",
+      "111..............111",
+      "111...........11.111",
+      "111..............111",
+      "11111111....11111111",
+      "11111111....11111111",
+      "111111111..111111111"
+    ]
+  }
+}

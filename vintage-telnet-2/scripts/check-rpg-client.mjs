@@ -189,6 +189,17 @@ for(const [id,map] of maps){
  }
 }
 console.log(`RPG navigation: ${maps.length} painted/generated maps, every spawn and exit reachable with avatar bounds OK`);
+// Hoshai uses authored tile scenes until its artwork is delivered.
+const hoshaiMaps=maps.filter(([id,map])=>map.room&&rooms[id]?.region==='hoshai');
+assert.equal(hoshaiMaps.length,29,'Every canonical Hoshai room needs an authored scene');
+for(const [id,map] of hoshaiMaps){
+ context.testMap=map;vm.runInContext('scene=testMap',context);
+ for(const actor of [...map.npcs,...map.creatures]){
+  context.actor=actor;
+  assert.equal(vm.runInContext('blocked(...actor.at)',context),false,`${id}: ${actor.id} feet overlap obstacle`);
+ }
+}
+console.log('RPG Hoshai: 29 authored scenes and clear actor footprints OK');
 // Korven art must keep the real collision footprint clear at every actor anchor.
 for(const [id,map] of maps.filter(([id,map])=>map.background&&(id.startsWith('korven_')||id==='brumak_centro'))){
  context.testMap=map;vm.runInContext('scene=testMap',context);
