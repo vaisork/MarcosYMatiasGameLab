@@ -1,0 +1,110 @@
+{
+  "room": "hoshai_garganta_oeste",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "cascapedernal",
+      "at": [
+        7,
+        6
+      ]
+    },
+    {
+      "id": "rasgacumbres",
+      "at": [
+        13,
+        6
+      ]
+    },
+    {
+      "id": "saltacresta",
+      "at": [
+        7,
+        9
+      ]
+    },
+    {
+      "id": "unapiedra",
+      "at": [
+        13,
+        9
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssppppppppppss",
+      "ssssssssppppppppppss",
+      "ssssssppppppppppppps",
+      "sssssspppppppppppppp",
+      "sssssspppppppppppppp",
+      "ssssssppppppppppppps",
+      "ssssssppppppppppppss",
+      "ssssssppppppppppppss",
+      "ssssssppppppppppppss",
+      "ssssssssppppssssssss",
+      "ssssssssppppssssssss",
+      "sssssssssppsssssssss"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111..........11",
+      "11111111..........11",
+      "111111.............1",
+      "111111..............",
+      "111111..............",
+      "111111.............1",
+      "111111............11",
+      "111111............11",
+      "111111............11",
+      "11111111....11111111",
+      "11111111....11111111",
+      "111111111..111111111"
+    ]
+  }
+}

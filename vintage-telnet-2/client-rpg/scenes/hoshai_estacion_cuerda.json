@@ -1,0 +1,96 @@
+{
+  "room": "hoshai_estacion_cuerda",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "oeste": [
+      1,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "cascapedernal",
+      "at": [
+        7,
+        6
+      ]
+    },
+    {
+      "id": "salteador_bravucon",
+      "at": [
+        13,
+        6
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssppffppppppppffppss",
+      "spppffppppppppffppps",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "spppppppppppppppppps",
+      "ssppppppppppppppppss",
+      "ssppppppppppppppppss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11..11........11..11",
+      "1...11........11...1",
+      "....................",
+      "....................",
+      "1..................1",
+      "11................11",
+      "11................11",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111"
+    ]
+  }
+}

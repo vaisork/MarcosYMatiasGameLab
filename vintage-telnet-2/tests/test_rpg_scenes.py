@@ -66,7 +66,7 @@ class RpgSceneTests(unittest.TestCase):
                     self.assertIn(creature['id'], creatures)
                     point(creature['at'])
 
-    def test_painted_scenes_roundtrip_and_reachable_exits(self):
+    def test_scenes_roundtrip_and_reachable_exits(self):
         import importlib.util
         from collections import deque
         root = Path(__file__).resolve().parents[1]
@@ -76,9 +76,11 @@ class RpgSceneTests(unittest.TestCase):
         for path in (root / 'client-rpg/scenes').glob('*.json'):
             scene = json.loads(path.read_text())
             with self.subTest(scene=path.stem):
-                background = root / 'client-rpg' / scene['background']
-                self.assertTrue(background.is_file())
-                self.assertLessEqual(background.stat().st_size, 250000)
+                # Background is optional while a scene awaits illustration.
+                if 'background' in scene:
+                    background = root / 'client-rpg' / scene['background']
+                    self.assertTrue(background.is_file())
+                    self.assertLessEqual(background.stat().st_size, 250000)
                 scene['foreground'] = f'backgrounds/{path.stem}-front.webp'
                 self.assertEqual(converter.tiled_to_scene(converter.scene_to_tiled(scene)), scene)
                 solid = scene['layers']['solid']

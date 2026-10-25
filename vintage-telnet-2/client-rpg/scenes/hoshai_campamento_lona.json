@@ -1,0 +1,111 @@
+{
+  "room": "hoshai_campamento_lona",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ]
+  },
+  "npcs": [
+    {
+      "id": "hoshai_seran",
+      "at": [
+        7,
+        6
+      ]
+    }
+  ],
+  "creatures": [
+    {
+      "id": "cascapedernal",
+      "at": [
+        13,
+        6
+      ]
+    },
+    {
+      "id": "forajido_camino",
+      "at": [
+        7,
+        9
+      ]
+    },
+    {
+      "id": "salteador_desesperado",
+      "at": [
+        13,
+        9
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssffpffppppppppsss",
+      "ssssffpffppppppppsss",
+      "ssssppppppppppppppps",
+      "sssspppppppppppppppp",
+      "sssspppppppppppppppp",
+      "ssssppppppppppppppps",
+      "ssssffpppppppppppsss",
+      "ssssffpppppppppppsss",
+      "sssspppppppppppppsss",
+      "ssssssssppppssssssss",
+      "ssssssssppppssssssss",
+      "sssssssssppsssssssss"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "111111.11........111",
+      "111111.11........111",
+      "1111...............1",
+      "1111................",
+      "1111................",
+      "1111...............1",
+      "111111...........111",
+      "111111...........111",
+      "1111.............111",
+      "11111111....11111111",
+      "11111111....11111111",
+      "111111111..111111111"
+    ]
+  }
+}

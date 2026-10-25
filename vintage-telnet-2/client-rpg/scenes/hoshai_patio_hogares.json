@@ -1,0 +1,94 @@
+{
+  "room": "hoshai_patio_hogares",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "este": [
+      18,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ]
+  },
+  "npcs": [],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "sssssssssppsssssssss",
+      "ssssssssppppssssssss",
+      "ssssssssppppssssssss",
+      "sssfffppppppppfffsss",
+      "sssfffppppppppfffsss",
+      "ssspppppppppppppppps",
+      "sssppppppppppppppppp",
+      "sssppppppppppppppppp",
+      "ssspppppppppppppppps",
+      "sssfffpppppppppppsss",
+      "sssfffpppppppppppsss",
+      "sssppppppppppppppsss",
+      "ssssssssppppssssssss",
+      "ssssssssppppssssssss",
+      "sssssssssppsssssssss"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "11111111....11111111",
+      "11111111....11111111",
+      "111111........111111",
+      "111111........111111",
+      "111................1",
+      "111.................",
+      "111.................",
+      "111................1",
+      "111111...........111",
+      "111111...........111",
+      "111..............111",
+      "11111111....11111111",
+      "11111111....11111111",
+      "111111111..111111111"
+    ]
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "room": "hoshai_agua_fria",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "norte": [
+      10,
+      1
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "cascapedernal",
+      "at": [
+        7,
+        9
+      ]
+    },
+    {
+      "id": "rasgacumbres",
+      "at": [
+        13,
+        9
+      ]
+    },
+    {
+      "id": "saltacresta",
+      "at": [
+        10,
+        10
+      ]
+    },
+    {
+      "id": "salteadora_negociante",
+      "at": [
+        6,
+        3
+      ]
+    },
+    {
+      "id": "unapiedra",
+      "at": [
+        8,
+        3
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "sssssssssppsssssssss",
+      "ssssssssppppssssssss",
+      "sssssppppppppppsssss",
+      "sssssppppppppppsssss",
+      "sssssppppppppppsssss",
+      "ssssswwwppppwwwsssss",
+      "ssssswwwppppwwwsssss",
+      "ssssswwwppppwwwsssss",
+      "sssssppppppppppsssss",
+      "sssssppppppppppsssss",
+      "sssssppppppppppsssss",
+      "sssssppppppppppsssss",
+      "sssssppppppppppsssss",
+      "ssssssssppppssssssss",
+      "sssssssssppsssssssss"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "11111111....11111111",
+      "11111..........11111",
+      "11111..........11111",
+      "11111..........11111",
+      "11111111....11111111",
+      "11111111....11111111",
+      "11111111....11111111",
+      "11111..........11111",
+      "11111..........11111",
+      "11111..........11111",
+      "11111..........11111",
+      "11111..........11111",
+      "11111111....11111111",
+      "111111111..111111111"
+    ]
+  }
+}

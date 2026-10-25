@@ -1,0 +1,81 @@
+{
+  "room": "hoshai_deposito_comun",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "oeste": [
+      1,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssspfffppppppfffpsss",
+      "ssspfffppppppfffpsss",
+      "sppppppppppppppppsss",
+      "pppppppppppppppppsss",
+      "pppppppppppppppppsss",
+      "sppppppppppppppppsss",
+      "ssspppppppppppffpsss",
+      "ssspppppppppppffpsss",
+      "sssppppppppppppppsss",
+      "ssssssssppppssssssss",
+      "ssssssssppppssssssss",
+      "sssssssssppsssssssss"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "111.111......111.111",
+      "111.111......111.111",
+      "1................111",
+      ".................111",
+      ".................111",
+      "1................111",
+      "111...........11.111",
+      "111...........11.111",
+      "111..............111",
+      "11111111....11111111",
+      "11111111....11111111",
+      "111111111..111111111"
+    ]
+  }
+}

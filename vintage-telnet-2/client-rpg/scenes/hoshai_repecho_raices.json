@@ -1,0 +1,117 @@
+{
+  "room": "hoshai_repecho_raices",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "norte": [
+      10,
+      1
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "cascapedernal",
+      "at": [
+        13,
+        6
+      ]
+    },
+    {
+      "id": "rasgacumbres",
+      "at": [
+        7,
+        9
+      ]
+    },
+    {
+      "id": "saltacresta",
+      "at": [
+        13,
+        9
+      ]
+    },
+    {
+      "id": "salteador_veterano",
+      "at": [
+        10,
+        10
+      ]
+    },
+    {
+      "id": "unapiedra",
+      "at": [
+        7,
+        3
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "sssssssssppsssssssss",
+      "ssssssppppppppssssss",
+      "ssssssppppppppssssss",
+      "ssssssppppppffssssss",
+      "ssssssppppppffssssss",
+      "ssssssppppppppssssss",
+      "sssppffpppppppppssss",
+      "sssppffpppppppppssss",
+      "ssspppppppppppppssss",
+      "ssspppppppppppppssss",
+      "ssspppppppppppppssss",
+      "ssssssppppppppssssss",
+      "ssssssppppppppssssss",
+      "ssssssppppppppssssss",
+      "sssssssssppsssssssss"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "111111........111111",
+      "111111........111111",
+      "111111......11111111",
+      "111111......11111111",
+      "111111........111111",
+      "111..11.........1111",
+      "111..11.........1111",
+      "111.............1111",
+      "111.............1111",
+      "111.............1111",
+      "111111........111111",
+      "111111........111111",
+      "111111........111111",
+      "111111111..111111111"
+    ]
+  }
+}

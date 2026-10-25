@@ -1,0 +1,107 @@
+{
+  "room": "khariel_centro",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "oeste": [
+      1,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ]
+  },
+  "npcs": [],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "sssssssssppsssssssss",
+      "ssssssssppppssssssss",
+      "ssssssssppppssssssss",
+      "sspsssppppppppppppss",
+      "sspsssppppppppppppss",
+      "spppppppppppppppppps",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "spppppppppppppppppps",
+      "ssppppppppppppssspss",
+      "ssppppppppppppssspss",
+      "ssppppppppppppppppss",
+      "ssssssssppppssssssss",
+      "ssssssssppppssssssss",
+      "sssssssssppsssssssss"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "11111111....11111111",
+      "11111111....11111111",
+      "11.111............11",
+      "11.111............11",
+      "1..................1",
+      "....................",
+      "....................",
+      "1..................1",
+      "11............111.11",
+      "11............111.11",
+      "11................11",
+      "11111111....11111111",
+      "11111111....11111111",
+      "111111111..111111111"
+    ]
+  }
+}

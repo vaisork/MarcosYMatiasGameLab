@@ -1,0 +1,76 @@
+{
+  "room": "hoshai_taller_apoyos",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "npcs": [
+    {
+      "id": "hoshai_daren",
+      "at": [
+        7,
+        6
+      ]
+    }
+  ],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssspfffppppppfffpsss",
+      "ssspfffppppppfffpsss",
+      "ssspppppppppppppppps",
+      "sssppppppppppppppppp",
+      "sssppppppppppppppppp",
+      "ssspppppppppppppppps",
+      "ssspfffppppppppppsss",
+      "ssspfffppppppppppsss",
+      "sssppppppppppppppsss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "111.111......111.111",
+      "111.111......111.111",
+      "111................1",
+      "111.................",
+      "111.................",
+      "111................1",
+      "111.111..........111",
+      "111.111..........111",
+      "111..............111",
+      "11111111111111111111",
+      "11111111111111111111",
+      "11111111111111111111"
+    ]
+  }
+}

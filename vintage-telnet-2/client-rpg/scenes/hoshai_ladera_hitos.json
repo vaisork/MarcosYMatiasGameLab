@@ -1,0 +1,110 @@
+{
+  "room": "hoshai_ladera_hitos",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "norte": [
+      10,
+      1
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "forajido_camino",
+      "at": [
+        7,
+        6
+      ]
+    },
+    {
+      "id": "rasgacumbres",
+      "at": [
+        13,
+        6
+      ]
+    },
+    {
+      "id": "saltacresta",
+      "at": [
+        7,
+        9
+      ]
+    },
+    {
+      "id": "unapiedra",
+      "at": [
+        13,
+        9
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "sssssssssppsssssssss",
+      "ssssssppppppppssssss",
+      "ssssssppppppppssssss",
+      "ssssssppppppppssssss",
+      "ssssssppppppppssssss",
+      "ssssssppppppppppssss",
+      "ssssssppppppppppssss",
+      "ssssppppppppppppssss",
+      "ssssppppppppppssssss",
+      "ssssppppppppppssssss",
+      "ssssppppppppppppssss",
+      "ssssssppppppppssssss",
+      "ssssssppppppppssssss",
+      "ssssssppppppppssssss",
+      "sssssssssppsssssssss"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "111111........111111",
+      "111111........111111",
+      "111111........111111",
+      "111111........111111",
+      "111111..........1111",
+      "111111..........1111",
+      "1111............1111",
+      "1111..........111111",
+      "1111..........111111",
+      "1111............1111",
+      "111111........111111",
+      "111111........111111",
+      "111111........111111",
+      "111111111..111111111"
+    ]
+  }
+}
