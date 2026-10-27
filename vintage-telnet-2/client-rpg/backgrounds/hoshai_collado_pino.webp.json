@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_collado_pino.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "36a674b7eda19ead0a8496bbea0a933f269b27ffea4d83a01e6f5f9c3607134b",
+  "bytes": 245260,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-96135542-e8d3-4e6a-96c1-a7e20eade24d.png",
+  "normalization": "Mechanical resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art, full-bleed, no text or actors; exits checked against scene and Tiled mask.",
+  "prompt": "Full-bleed 4:3 landscape playable Hoshai room background in detailed 3/4 pixel-art JRPG. Ground only; no sky or horizon. Exact layout: a narrow rocky trail runs vertically through center from the TOP edge to the BOTTOM edge, open at both ends; no other path reaches the border. A lone old pine tree stands beside the route in the upper-right side of the pass, with trunk and roots fully off the walkable trail. Wind-shaped gray rocks, alpine grasses, fallen pine needles and a few cones beside roots. Terrain fills all edges; top/bottom paths reach the exact borders; left/right borders closed rock and vegetation. Warm clear daylight and crisp richly textured pixel-painted materials. No people, animals, text, lettering, signs, symbols, HUD, frame or watermark.",
+  "webp_quality": 62
+}

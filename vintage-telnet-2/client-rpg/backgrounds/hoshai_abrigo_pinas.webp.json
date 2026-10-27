@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_abrigo_pinas.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "c34be68a9643eb1d50271c29b16665b953dc18ebba2246e5d106434450da01ed",
+  "bytes": 247770,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-6b801192-9dfc-46c0-91d0-01460041a3d8.png",
+  "normalization": "Mechanical resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art, full-bleed, no text or actors; north/east exits checked against scene and Tiled mask.",
+  "prompt": "Full-bleed 4:3 landscape playable Hoshai room background, detailed high 3/4 pixel-art JRPG. Ground only, no sky/horizon. Exact route: one winding path enters from TOP center and exits at RIGHT edge mid-height (40–53%). These are the only border openings. A large pine’s trunk and roots form a low dry resting nook in the lower-left quarter, beside the trail, with several fallen pine cones near the roots; keep full clear walking space. Rock ledges and hardy mountain shrubs close the west and south edges. Crisp tactile pixel texture, warm high-altitude daylight, detailed granite and pine needles. Terrain reaches all canvas borders, no blank margins. No people, wildlife, animals, writing, signs, symbols, HUD or frame.",
+  "webp_quality": 36
+}
