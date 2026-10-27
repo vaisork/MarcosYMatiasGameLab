@@ -330,3 +330,22 @@ Seis fondos 1280×960 de hasta 250000 bytes y un atlas NPC 192×384 (celdas 64×
 Generación nativa `image_gen` (subagente AGY); normalización mecánica, extracción por canal alfa sobre croma verde, escala proporcional y pie en baseline y=92. Originales, prompts y manifiesto en `/home/jdiaz/proyectos/entregas/equipo/cm-20/korven-05/arte/`; sidecars junto a cada recurso final. Autorrevisión de coherencia con Brumak, Edran y canon, pendiente de revisión del arquitecto. Ver [RPG_KORVEN_05.md](RPG_KORVEN_05.md).
 
 Revisión de `korven_desvio_horno` (Codex, 2026-10-23): fondo rehecho con `image_gen` nativo tomando Horno de reposo, Cauce seco y Taller de juntas como referencias. Vista 3/4 pintada y terreno hasta los bordes, sin márgenes vacíos. Tras tres intentos se conserva el segundo y se bloquean 15 casillas limítrofes ocupadas por roca; salidas norte/sur, spawns y posiciones de criaturas intactos. Sólo se ajustan el `.tmj` y la escena de esta sala, con roundtrip exacto. El sidecar registra prompt, original, normalización, bytes y SHA-256; pendiente de revisión del arquitecto.
+
+## Hoshai 02 — arte y escenas, 2026-10-27 (CM-20)
+
+Se ilustran las primeras seis salas del camino principal desde la frontera norte de Korven: Garganta hacia Korven, Camino de las lajas, Refugio del rebaño, Paso del último pino, Refugio de las piñas y Pinar abierto. Se añaden seis fondos con escenas/Tiled cableados y tres pares de sprites para criaturas Hoshai que faltaban. El candidato pasa a **82/191 salas ilustradas**; quedan 109 sin ilustrar. Base `5928559`; cambios locales sin commit ni publicación.
+
+Fondos image_gen nativos, 1280×960 WebP ≤250000 bytes; vista 3/4 pixel-art detallada, terreno hasta los bordes, sin actores ni texto. Los sidecars registran prompt, SHA-256, bytes y normalización. Las escenas conservan IDs, posiciones, salidas y spawns de Hoshai 01.
+
+| Sala | Fondo | Bytes | SHA-256 |
+|---|---|---:|---|
+| `hoshai_garganta_oeste` | `backgrounds/hoshai_garganta_oeste.webp` | 246602 | `9497e743bd8b23d7d6ca45078988018225b908b9f1378b57172858aec0796446` |
+| `hoshai_hombro_lajas` | `backgrounds/hoshai_hombro_lajas.webp` | 243810 | `588210f155c039c8f6c6ee841ca6a5c61f5925226885290db263e3be020bdc6a` |
+| `hoshai_aprisco_abierto` | `backgrounds/hoshai_aprisco_abierto.webp` | 246478 | `2507b41f3956f4cdb7d6a04ab983b0289f32bb75d13d3dbdb60ac0bdea967f77` |
+| `hoshai_collado_pino` | `backgrounds/hoshai_collado_pino.webp` | 245260 | `36a674b7eda19ead0a8496bbea0a933f269b27ffea4d83a01e6f5f9c3607134b` |
+| `hoshai_abrigo_pinas` | `backgrounds/hoshai_abrigo_pinas.webp` | 247770 | `c34be68a9643eb1d50271c29b16665b953dc18ebba2246e5d106434450da01ed` |
+| `hoshai_pinar_discontinuo` | `backgrounds/hoshai_pinar_discontinuo.webp` | 243848 | `43c6e2eb235478737441e1ebb1ef9e1b7918b2155562b91fd94518ce27de280a` |
+
+Criaturas nuevas: `rasgacumbres`, `saltacresta` y `unapiedra`; sprite de mapa 48×48 y combate 192×192, alpha preservado y mapping añadido. Los salteadores conservan sprites compartidos. No hay NPCs en estas seis salas. No se crean Númenes, jugadores ni Vaisorks; no aplica turnaround 3D.
+
+Validación: `node scripts/check-rpg-client.mjs` OK; `tests.test_rpg_scenes` 13/13 OK; suite completa 339 tests OK (1 omitido); `git diff --check` OK. Sin QA en producción, push, PR, merge ni despliegue.

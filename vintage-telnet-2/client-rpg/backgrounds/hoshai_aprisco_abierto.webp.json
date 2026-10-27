@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_aprisco_abierto.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "2507b41f3956f4cdb7d6a04ab983b0289f32bb75d13d3dbdb60ac0bdea967f77",
+  "bytes": 246478,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-066da90a-eae0-4e0f-bbb9-20adf9667210.png",
+  "normalization": "Mechanical resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art, full-bleed, no text or actors; exits checked against scene and Tiled mask.",
+  "prompt": "Full-bleed 4:3 background for playable Hoshai room Refugio del Rebaño, detailed 3/4 pixel-art JRPG. High downward camera, ground only, no sky or horizon. Exact layout: open broad footpath enters from LEFT edge at mid-height and exits at BOTTOM edge centered. The path bends through the middle. These two are the only border openings; north, east and remaining south/west borders are closed by rocky alpine terrain and low stone walls. A small open stone sheepfold beside the path and a plain water trough tucked off the walking route; no sheep or people. Rough gray stone, dry alpine grass, tiny flowers, crisp warm pixel-painted texture, natural sunlight. Terrain reaches every image edge, no blank margins. No text, signs, symbols, UI, frame, characters, animals.",
+  "webp_quality": 50
+}

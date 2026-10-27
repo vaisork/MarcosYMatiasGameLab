@@ -1,0 +1,16 @@
+{
+  "asset_id": "backgrounds/hoshai_garganta_oeste.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "9497e743bd8b23d7d6ca45078988018225b908b9f1378b57172858aec0796446",
+  "bytes": 246602,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-b3aab3d4-87e4-4f32-a51e-d16d76b3e13b.png",
+  "normalization": "Mechanical resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art, full-bleed, no text or actors; exits checked against scene and Tiled mask.",
+  "prompt": "Use case: Vaisgard RPG room background. Asset: full-bleed Hoshai mountain pass environment, landscape 4:3. Use the attached Hoshai canon image only as geographic and color reference; render as detailed painted pixel-art JRPG background, coherent with the approved Korven and Edran game backgrounds. Scene: the western entrance gorge from Korven into Hoshai, a winding mountain corridor between weathered grey rock walls, broad worn walking ground with a visible route continuing through the east boundary and a separate descent route through the south boundary toward Korven. Low practical load-resting ledges outside the walking routes, alpine grass, hardy shrubs, scattered stones, traces of foot and small cart traffic. High three-quarter overhead camera, readable terrain all the way to every image edge, rich small-scale pixel texture, natural warm daylight, layered rocky depth without a horizon. The two real exits must visibly reach their exact image edges and remain broad and unobstructed. No text, signage, letters, symbols, HUD, people, NPCs, creatures, animals, painted actors, blank margins, frame, border, empty flat areas, or void. Fill the whole canvas with coherent walkable terrain and rock edges.",
+  "webp_quality": 48,
+  "edit_prompt": "Edit this image for exact alignment with a 20×15 RPG room mask. Preserve the detailed mountain pixel-art, materials, daylight, and overall natural composition. Geometry change only: close the existing path openings at the TOP edge and LEFT edge with convincing continuous rock wall and terrain. Make one broad unobstructed rocky walking passage connect the current central path to the RIGHT image boundary at exactly 40–53% image height. Keep a second broad unobstructed path from the central passage to the BOTTOM boundary at exactly 93–100% height. All other borders must be solid rock/terrain with no passable gaps. Terrain and rocks fill every pixel to every border; no blank margins. No people, creatures, text, signs, letters, symbols, HUD or frame."
+}

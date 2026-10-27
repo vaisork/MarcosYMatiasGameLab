@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_hombro_lajas.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "588210f155c039c8f6c6ee841ca6a5c61f5925226885290db263e3be020bdc6a",
+  "bytes": 243810,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-09ecf9a0-7e5d-42e3-8c9e-a73a6b6ea866.png",
+  "normalization": "Mechanical resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art, full-bleed, no text or actors; exits checked against scene and Tiled mask.",
+  "prompt": "4:3 landscape, full-bleed ground-only game background for a Vaisgard RPG room. Camera elevated 60 degrees and looking down: show only walkable ground, stone slabs, cliff ledges and their immediate top surfaces; absolutely no sky and no horizon. Rich detailed painted pixel-art JRPG style. A broad pale rocky trail crosses from the LEFT edge to the RIGHT edge through the middle at 40–53% image height, with no other exit. The entire top and bottom edges are solid terrain/rock with no paths. This is Camino de las Lajas in a Hoshai mountain shoulder: flat pale slabs, low retaining rock edges, alpine shrubs, one tiny empty wooden support for a tablet well off the path. Textured terrain reaches every pixel of all four edges, no blank margins. Natural warm daylight. No people, animals, lettering, symbols, HUD, frame or watermark.",
+  "webp_quality": 64
+}

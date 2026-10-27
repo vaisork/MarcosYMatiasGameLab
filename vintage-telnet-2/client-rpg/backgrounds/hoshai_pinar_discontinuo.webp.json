@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_pinar_discontinuo.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "43c6e2eb235478737441e1ebb1ef9e1b7918b2155562b91fd94518ce27de280a",
+  "bytes": 243848,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-51630194-fe6d-42f9-b952-7d40b8a36f8c.png",
+  "normalization": "Mechanical resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art, full-bleed, no text or actors; north/south/west exits checked against scene and Tiled mask.",
+  "prompt": "Full-bleed 4:3 landscape playable Hoshai room background, detailed high 3/4 pixel-art JRPG, ground only with no sky or horizon. Scene: an open mountain pine stand with trunks separated by clearings; a broad winding path forms a Y with three real openings: NORTH edge center, SOUTH edge center, and WEST edge at mid-height. The east border is closed by rocks and dense pines. Keep open walkable ground between the trees; trunks and roots outside the three paths. High-altitude pine needles, gray boulders, hardy shrubs and warm broken sunlight, crisp rich pixel-painted detail. All ground/vegetation reaches every image edge; no blank margin. No people, creatures, animals, text, signs, symbols, UI, watermark or frame.",
+  "webp_quality": 38
+}

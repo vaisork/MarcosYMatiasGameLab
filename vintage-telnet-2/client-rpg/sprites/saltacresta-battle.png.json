@@ -1,0 +1,14 @@
+{
+  "asset_id": "saltacresta-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-17af9072-64a8-4726-b7e6-d63697a0d870.png",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 31959,
+  "sha256": "bcc0e6631bdab007acb5025a8a9dc327744c6e1d611289a411b8c5beb1b8d2d5",
+  "normalization": "Separated atlas view; proportional resize and transparent padding; feet at size-2; no repainting.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Vaisgard RPG creature sprite atlas. Match attached canon Saltacresta illustration for identity. Transparent 2-panel sheet, two equal vertical panels side by side. LEFT: overhead three-quarter map sprite. RIGHT: lower three-quarter battle sprite facing lower-left. Same small mountain herbivore with powerful hind legs, split hooves, compact body, short gray-brown fur and a small crest of raised mane along the crown. Alert but peaceful, not a predator, no horns, armor or humanoid features. Crisp detailed painted pixel JRPG style, full body visible, readable silhouette. True transparent background; no rocks, ground, scenery, shadows, text, frame, extra animals or magic."
+}

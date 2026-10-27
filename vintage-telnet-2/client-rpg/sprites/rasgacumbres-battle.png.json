@@ -1,0 +1,14 @@
+{
+  "asset_id": "rasgacumbres-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-a58a8701-e486-4414-a012-68090e99f806.png",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 56951,
+  "sha256": "1ab4a49d34030cf6c4fe4473f97a0aa60117d7cb2b528d1b4f85c4afa09652c2",
+  "normalization": "Separated atlas view; proportional resize and transparent padding; feet at size-2; no repainting.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Vaisgard RPG creature sprite atlas. Match the attached canonical Rasgacumbres illustration and anatomy. Transparent 2-panel sheet, equal square panels side by side with clear gutter. LEFT: overhead three-quarter map sprite. RIGHT: lower three-quarter battle sprite facing lower-left. Same large mountain predator: four legs, especially powerful forelegs, thick rough ash-gray and tawny fur, broad shoulders, heavy paws with natural claws, long body. Serious animal, no armor, horns, spikes, clothing or humanoid traits. Detailed painted pixel JRPG style, readable silhouette, full body inside each panel. True transparent background. No terrain, shadows, text, frame, extra creatures, glow."
+}
