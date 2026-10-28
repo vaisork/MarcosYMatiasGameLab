@@ -30,6 +30,7 @@ import {
   TIEMPO_INVULNERABILIDAD_DEFECTO,
 } from './core/combate.mjs';
 import { recogerBotiquin } from './core/botiquin.mjs';
+import { ganarChurus } from './core/economia.mjs';
 
 // Decisión de diseño: Senku inicia con 100 HP y 1 s de invulnerabilidad tras ser golpeado
 export const HP_INICIAL_DEFECTO = HP_INICIAL_SENKU;
@@ -173,6 +174,167 @@ export function actualizarControlesHabilidades(documento, estado) {
     const boton = documento.getElementById(`btn-${habilidad}`);
     if (boton) boton.hidden = estado?.habilidades?.[habilidad] !== true;
   }
+}
+
+// Sonidos retro sintetizados con Web Audio API (cero dependencias externas ni archivos de audio)
+export function reproducirSonidoChuru(ventana = typeof window !== 'undefined' ? window : null) {
+  try {
+    const AudioCtx = ventana?.AudioContext || ventana?.webkitAudioContext;
+    if (!AudioCtx) return;
+    if (!ventana._senkuAudioCtx) {
+      ventana._senkuAudioCtx = new AudioCtx();
+    }
+    const ctx = ventana._senkuAudioCtx;
+    if (ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    const now = ctx.currentTime;
+    osc.frequency.setValueAtTime(587.33, now); // Re5 (D5)
+    osc.frequency.setValueAtTime(880, now + 0.08); // La5 (A5)
+    gain.gain.setValueAtTime(0.2, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.3);
+  } catch {
+    // Silencioso en entornos sin soporte de audio
+  }
+}
+
+export function reproducirSonidoMotor(ventana = typeof window !== 'undefined' ? window : null) {
+  try {
+    const AudioCtx = ventana?.AudioContext || ventana?.webkitAudioContext;
+    if (!AudioCtx) return;
+    if (!ventana._senkuAudioCtx) {
+      ventana._senkuAudioCtx = new AudioCtx();
+    }
+    const ctx = ventana._senkuAudioCtx;
+    if (ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sawtooth';
+    const now = ctx.currentTime;
+    osc.frequency.setValueAtTime(65, now);
+    osc.frequency.linearRampToValueAtTime(110, now + 1.2);
+    osc.frequency.linearRampToValueAtTime(85, now + 2.0);
+    gain.gain.setValueAtTime(0.01, now);
+    gain.gain.linearRampToValueAtTime(0.18, now + 0.2);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 2.2);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 2.3);
+  } catch {
+    // Silencioso en entornos sin soporte de audio
+  }
+}
+
+// Animación cinemática de la camioneta al arrancar y avanzar con la llave
+export function dibujarAnimacionCamioneta(ctx, catalogoArte, viaje) {
+  if (!ctx || !viaje) return;
+  ctx.save();
+
+  const t = viaje.tiempo;
+  const imagenReja = catalogoArte.obtener(resolverRutaArte('assets/fondos/camioneta_reja.webp'));
+  const imagenTaqueria = catalogoArte.obtener(resolverRutaArte('assets/fondos/taqueria_ciudad.webp'));
+  const imagenDesierto = catalogoArte.obtener(resolverRutaArte('assets/fondos/desierto.webp'));
+
+  if (t < 2.0) {
+    // Fase 1: Arranque y vibración del motor en la taquería
+    if (imagenTaqueria) {
+      ctx.drawImage(imagenTaqueria, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
+    }
+
+    // Vibración del motor al encender
+    const factorVibracion = Math.max(0, 1 - t / 2.2);
+    const temblorX = Math.sin(t * 60) * 4 * factorVibracion;
+    const temblorY = Math.cos(t * 45) * 2.5 * factorVibracion;
+
+    // Recorte de la camioneta vibrando sobre la banqueta (x: 0..360, y: 340..620)
+    if (imagenTaqueria) {
+      ctx.drawImage(
+        imagenTaqueria,
+        0, 340, 360, 280,
+        temblorX, 340 + temblorY, 360, 280
+      );
+    }
+
+    // Bocanadas de humo animado saliendo del escape trasero (x ~ 310, y ~ 555)
+    const numBocanadas = 12;
+    for (let i = 0; i < numBocanadas; i++) {
+      const tiempoHumo = (t * 3.5 + i * 0.28) % 1.5;
+      const progreso = tiempoHumo / 1.5;
+      const hx = 310 + progreso * 80 + Math.sin(i * 2 + t * 4) * 12;
+      const hy = 555 - progreso * 45 - Math.sin(progreso * Math.PI) * 15;
+      const radio = 8 + progreso * 28;
+      const alpha = Math.max(0, (1 - progreso) * 0.65);
+
+      ctx.beginPath();
+      ctx.arc(hx, hy, radio, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(225, 218, 205, ${alpha})`;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(hx - 2, hy + 2, radio * 0.6, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(180, 170, 160, ${alpha * 0.8})`;
+      ctx.fill();
+    }
+
+    // Chispas / destellos de ignición
+    if (t < 0.8) {
+      for (let s = 0; s < 4; s++) {
+        const sx = 315 + Math.sin(t * 20 + s) * 20;
+        const sy = 560 + Math.cos(t * 20 + s) * 10;
+        ctx.fillStyle = s % 2 === 0 ? '#f59e0b' : '#ef4444';
+        ctx.fillRect(sx, sy, 3, 3);
+      }
+    }
+  } else {
+    // Fase 2: Avance por la carretera hacia el parque del desierto
+    if (imagenReja) {
+      ctx.drawImage(imagenReja, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
+    } else if (imagenDesierto) {
+      ctx.drawImage(imagenDesierto, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
+    }
+
+    // Polvo levantado por las llantas en el camino
+    const tAvance = t - 2.0;
+    const velocidadLineas = (tAvance * 1200) % ANCHO_LOGICO;
+
+    for (let p = 0; p < 8; p++) {
+      const px = ((p * 160 - velocidadLineas * 0.5) % (ANCHO_LOGICO + 100) + ANCHO_LOGICO + 100) % (ANCHO_LOGICO + 100) - 50;
+      const py = 580 + Math.sin(p + t * 6) * 10;
+      const radioPolvo = 15 + Math.sin(p * 2) * 8;
+      ctx.beginPath();
+      ctx.arc(px, py, radioPolvo, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(210, 180, 140, 0.25)';
+      ctx.fill();
+    }
+
+    // Líneas de velocidad en carretera
+    ctx.strokeStyle = 'rgba(255, 245, 220, 0.35)';
+    ctx.lineWidth = 2.5;
+    for (let l = 0; l < 6; l++) {
+      const ly = 380 + l * 40;
+      const lx = ((l * 220 - velocidadLineas * 1.2) % ANCHO_LOGICO + ANCHO_LOGICO) % ANCHO_LOGICO;
+      ctx.beginPath();
+      ctx.moveTo(lx, ly);
+      ctx.lineTo(lx + 140, ly);
+      ctx.stroke();
+    }
+
+    // Velo suave para realzar el gran cartel de diálogo
+    ctx.fillStyle = 'rgba(15, 10, 6, 0.45)';
+    ctx.fillRect(0, 0, ANCHO_LOGICO, ALTO_LOGICO);
+  }
+
+  ctx.restore();
 }
 
 export function arrancarSenku2({
@@ -454,6 +616,15 @@ export function arrancarSenku2({
     if (elAvisoViaje) {
       elAvisoViaje.textContent = texto;
       elAvisoViaje.hidden = !texto;
+      if (elAvisoViaje.classList) {
+        if (texto) {
+          elAvisoViaje.classList.remove('saliendo');
+          elAvisoViaje.classList.add('activo');
+        } else {
+          elAvisoViaje.classList.remove('activo');
+          elAvisoViaje.classList.remove('saliendo');
+        }
+      }
     }
   }
 
@@ -486,9 +657,51 @@ export function arrancarSenku2({
     viaje = { destino: zona.destino, tiempo: 0 };
     mostrarAviso('Arrancando…', 2);
     actualizarCamioneta();
+    reproducirSonidoMotor(ventana);
     return true;
   }
   if (btnSubir) btnSubir.onclick = intentarSubir;
+
+  let enSueloPrevio = true;
+  senku.tiempoAterrizaje = 0;
+
+  const efectosRecogida = [];
+  function agregarEfectoRecogida({ tipo = 'churu', x, y, texto = '+1 Churu' }) {
+    efectosRecogida.push({ tipo, x, y, texto, tiempo: 0, duracion: 0.75 });
+  }
+
+  function actualizarYDibujarEfectosRecogida(ctx, dt) {
+    if (!ctx) return;
+    for (let i = efectosRecogida.length - 1; i >= 0; i--) {
+      const ef = efectosRecogida[i];
+      ef.tiempo += dt;
+      if (ef.tiempo >= ef.duracion) {
+        efectosRecogida.splice(i, 1);
+        continue;
+      }
+      const progreso = ef.tiempo / ef.duracion;
+      const alpha = Math.max(0, 1 - progreso);
+      const dy = ef.y - progreso * 40;
+
+      ctx.save();
+      const numParticulas = 6;
+      for (let p = 0; p < numParticulas; p++) {
+        const ang = (p * Math.PI * 2) / numParticulas + progreso * 2;
+        const dist = 10 + progreso * 26;
+        const px = ef.x + Math.cos(ang) * dist;
+        const py = dy + Math.sin(ang) * (dist * 0.7);
+        ctx.fillStyle = `rgba(253, 224, 71, ${alpha})`;
+        ctx.fillRect(px - 2, py - 2, 4, 4);
+      }
+      ctx.font = 'bold 20px system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = `rgba(20, 12, 6, ${alpha * 0.9})`;
+      ctx.fillText(ef.texto, ef.x + 1, dy + 1);
+      ctx.fillStyle = `rgba(254, 240, 138, ${alpha})`;
+      ctx.fillText(ef.texto, ef.x, dy);
+      ctx.restore();
+    }
+  }
 
   function soltarLlave(ultimo = null) {
     const recompensa = escenaActual.recompensaFinal;
@@ -612,7 +825,13 @@ export function arrancarSenku2({
     if (menuAbierto) return;
     if (avisoRestante > 0) {
       avisoRestante = Math.max(0, avisoRestante - dt);
+      if (avisoRestante > 0 && avisoRestante <= 0.25 && elAvisoViaje?.classList) {
+        elAvisoViaje.classList.add('saliendo');
+      }
       if (!avisoRestante) mostrarAviso('', 0);
+    }
+    if (senku.tiempoAterrizaje > 0) {
+      senku.tiempoAterrizaje = Math.max(0, senku.tiempoAterrizaje - dt);
     }
     if (viaje) {
       viaje.tiempo += dt;
@@ -634,6 +853,15 @@ export function arrancarSenku2({
         escenaActual.limites,
         dt
       );
+
+      // Amortiguación al aterrizar (absorción del impacto)
+      if (!enSueloPrevio && senku.enSuelo && !senku.saltando && Math.abs(senku.vx) <= 30) {
+        senku.tiempoAterrizaje = 0.12;
+      }
+      if (Math.abs(senku.vx) > 30 || senku.saltando) {
+        senku.tiempoAterrizaje = 0;
+      }
+      enSueloPrevio = senku.enSuelo;
 
       const salida = escenaActual.disparadores.find((d) => d.accion === 'pasar' && solapanAABB(senku, d));
       if (salida) {
@@ -665,7 +893,30 @@ export function arrancarSenku2({
       }
       for (const objeto of escenaActual.objetos) {
         if (objeto.recogido || !solapanAABB(senku, objeto)) continue;
-        if (objeto.tipo === 'llave') {
+        if (objeto.tipo === 'churu') {
+          objeto.recogido = true;
+          const resEco = ganarChurus(estadoJugador, 1, objeto.id);
+          if (!resEco.error) {
+            estadoJugador = resEco;
+          } else {
+            estadoJugador = {
+              ...estadoJugador,
+              churus: (estadoJugador.churus || 0) + 1,
+              coleccionados: [...new Set([...estadoJugador.coleccionados, objeto.id])],
+            };
+          }
+          guardarProgreso();
+          if (elChurus) {
+            elChurus.textContent = String(estadoJugador.churus ?? 0);
+          }
+          reproducirSonidoChuru(ventana);
+          agregarEfectoRecogida({
+            tipo: 'churu',
+            x: objeto.x + (objeto.w || 22) / 2,
+            y: objeto.y,
+            texto: '+1 Churu',
+          });
+        } else if (objeto.tipo === 'llave') {
           objeto.recogido = true;
           estadoJugador = { ...estadoJugador,
             coleccionados: [...new Set([...estadoJugador.coleccionados, objeto.id])] };
@@ -819,14 +1070,12 @@ export function arrancarSenku2({
     }
 
     if (ctx && viaje) {
-      ctx.save();
-      const imagen = catalogoArte.obtener(resolverRutaArte('assets/fondos/camioneta_reja.webp'));
-      if (imagen) ctx.drawImage(imagen, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
-      ctx.fillStyle = 'rgba(20, 12, 6, 0.45)';
-      ctx.fillRect(0, 0, ANCHO_LOGICO, ALTO_LOGICO);
-      ctx.restore();
+      dibujarAnimacionCamioneta(ctx, catalogoArte, viaje);
     }
     dibujarAvisoCarga(ctx, catalogoArte);
+    if (ctx) {
+      actualizarYDibujarEfectosRecogida(ctx, dt);
+    }
 
     animacionId = ventana.requestAnimationFrame(ciclo);
   }
