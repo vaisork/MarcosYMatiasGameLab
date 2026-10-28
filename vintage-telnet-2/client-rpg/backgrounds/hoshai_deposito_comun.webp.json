@@ -1,0 +1,14 @@
+{
+  "asset_id": "backgrounds/hoshai_deposito_comun.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "dd28f6476651e35f391fad54a0d956f70efd8c6e2ad7c5306d20b8ac0db561af",
+  "bytes": 102074,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "hoshai_deposito_comun_1793153980532.jpg",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art, full-bleed, no text or actors; exits checked against scene and Tiled mask.",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view (60 degrees angle), 4:3 landscape, readable walkable terrain for a 20x15 room grid. Full-bleed to all canvas edges; ground only, no sky and no horizon. NO people, characters, NPCs, creatures, animals, text, signage, HUD, borders or baked-in actors. Khariel settlement in Hoshai. Depósito de herramientas: a communal tool storage repository built into the mountain slope. Interior room of weathered stone flagstones and heavy timber shelves organized into neat compartments for picks, spades, pry-bars, and wooden levers. Near the entrance threshold under a timber eave, a separate rack holds returned damp tools with fine sawdust and water droplets on the stone. Exactly TWO open pathways reaching the canvas boundaries: 1. WEST exit: an open stone doorway reaching the LEFT border at mid-height (40% to 53% canvas height, leading to the valley balcony). 2. SOUTH exit: low stone steps descending to the BOTTOM border at horizontal center (45% to 55% canvas width, leading to the wash basin). The TOP and RIGHT borders are solid storage walls with deep tool racks. A broad, clear walkable stone floor connects both exits. Crisp tactile pixel art, rich aged wood and stone textures, cool shaded interior light, no empty margins."
+}
