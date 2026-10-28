@@ -57,12 +57,14 @@ export function validarEscena(escena) {
     ? {
         plataformasVisibles: escena.fondo.plataformasVisibles === true,
         ruta: typeof escena.fondo.ruta === 'string' ? escena.fondo.ruta : null,
+        estilo: typeof escena.fondo.estilo === 'string' ? escena.fondo.estilo : null,
         colorRespaldo: typeof escena.fondo.colorRespaldo === 'string' ? escena.fondo.colorRespaldo : '#d6a87c',
         colorSuelo: typeof escena.fondo.colorSuelo === 'string' ? escena.fondo.colorSuelo : '#5c4033',
         colorPlataforma: typeof escena.fondo.colorPlataforma === 'string' ? escena.fondo.colorPlataforma : '#8c593a',
       }
     : {
         ruta: null,
+        estilo: null,
         colorRespaldo: '#d6a87c',
         colorSuelo: '#5c4033',
         colorPlataforma: '#8c593a',
@@ -97,6 +99,7 @@ export function validarEscena(escena) {
     recompensaFinal: escena.recompensaFinal || null,
     fondo,
     objetos: Array.isArray(escena.objetos) ? escena.objetos : [],
+      secretos: Array.isArray(escena.secretos) ? escena.secretos : [],
   };
 
   return { valida: true, escena: escenaNormalizada };

@@ -210,11 +210,11 @@ test('resolverContactoEnemigo: enemigo derrotado no genera contacto', () => {
   assert.equal(res.contacto, false);
 });
 
-test('daño por tipo: ratón/rata = 1, cucaracha = 1, hamster = 2', () => {
+test('daño por tipo: ratón/rata, hámster y cucaracha causan 1', () => {
   assert.equal(DANO_CUCARACHA, 1);
   assert.equal(DANO_RATA, 1);
   assert.equal(DANO_RATON, 1);
-  assert.equal(DANO_HAMSTER, 2);
+  assert.equal(DANO_HAMSTER, 1);
 
   const cucaracha = crearEnemigo({ tipo: 'cucaracha', x: 220, y: 300 });
   const rata = crearEnemigo({ tipo: 'rata_menor', x: 220, y: 300 });
@@ -224,7 +224,7 @@ test('daño por tipo: ratón/rata = 1, cucaracha = 1, hamster = 2', () => {
   assert.equal(cucaracha.dano, 1);
   assert.equal(rata.dano, 1);
   assert.equal(raton.dano, 1);
-  assert.equal(hamster.dano, 2);
+  assert.equal(hamster.dano, 1);
 
   // Daño de cucaracha a Senku con 100 HP
   const estado1 = crearEstadoCombate({ hpMax: HP_INICIAL_SENKU });
@@ -251,7 +251,7 @@ test('daño por tipo: ratón/rata = 1, cucaracha = 1, hamster = 2', () => {
   const senku4 = crearCuerpo({ x: 200, y: 300, w: 48, h: 36 });
   const resHam = resolverContactoEnemigo(senku4, hamster, estado4);
   assert.equal(resHam.golpeado, true);
-  assert.equal(estado4.hp, 98, 'hamster resta 2 de HP');
+  assert.equal(estado4.hp, 99, 'hamster resta 1 de HP');
 });
 
 test('invencibilidad: dura 1 s tras golpe, previene daño sucesivo y activa parpadeo', () => {

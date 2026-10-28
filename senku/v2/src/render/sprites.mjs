@@ -33,6 +33,10 @@ export const HOJAS_ENEMIGO = Object.freeze({
   rata_menor: { ruta: 'assets/enemigos/raton_negro.png', escala: 0.66 },
   raton: { ruta: 'assets/enemigos/raton_negro.png', escala: 0.66 },
   hamster: { ruta: 'assets/enemigos/hamster_cafe.png', escala: 0.66 },
+  raton_negro: { ruta: 'assets/enemigos/raton_negro.png', escala: 0.66 },
+  raton_cafe: { ruta: 'assets/enemigos/raton_cafe.png', escala: 0.66 },
+  hamster_negro: { ruta: 'assets/enemigos/hamster_negro.png', escala: 0.66 },
+  hamster_cafe: { ruta: 'assets/enemigos/hamster_cafe.png', escala: 0.66 },
 });
 const HOJA_ENEMIGO_DEFECTO = HOJAS_ENEMIGO.cucaracha;
 
@@ -88,7 +92,8 @@ export function rutaFondoEscena(escenaId) {
 }
 
 export function configuracionEnemigo(enemigo) {
-  const base = HOJAS_ENEMIGO[enemigo?.tipo] || HOJA_ENEMIGO_DEFECTO;
+  const base = HOJAS_ENEMIGO[`${enemigo?.tipo}_${enemigo?.variante}`]
+    || HOJAS_ENEMIGO[enemigo?.tipo] || HOJA_ENEMIGO_DEFECTO;
   return { ruta: resolverRutaArte(enemigo?.hoja || base.ruta), escala: base.escala };
 }
 

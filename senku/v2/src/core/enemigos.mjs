@@ -21,6 +21,8 @@ export function crearEnemigo({
   vivo = true,
   color = null,
   colorDetalle = null,
+  comportamiento = null,
+  variante = null,
 } = {}) {
   const plantilla = obtenerPlantillaEnemigo(tipo);
 
@@ -64,17 +66,42 @@ export function crearEnemigo({
     vivo: estaVivo,
     color: colorFinal,
     colorDetalle: colorDetalleFinal,
+    comportamiento: comportamiento || 'patrulla',
+    variante: variante || 'cafe',
+    baseY: y,
+    fase: 0,
   };
 }
 
 // Avanza la simulación del enemigo un intervalo dt (patrulla horizontal simple).
-export function actualizarEnemigo(enemigo, dt = 0, limites = null) {
+export function actualizarEnemigo(enemigo, dt = 0, limites = null, jugador = null) {
   if (!enemigo || !enemigo.vivo || dt <= 0) {
     return enemigo;
   }
 
   const paso = Math.max(0, Math.min(dt, 0.5));
   const velocidad = enemigo.velocidad ?? 0;
+  enemigo.fase += paso;
+
+  if (enemigo.comportamiento === 'salta') {
+    enemigo.y = enemigo.baseY - Math.abs(Math.sin(enemigo.fase * 3.2)) * 72;
+  } else {
+    enemigo.y = enemigo.baseY;
+  }
+
+  if (jugador && (enemigo.comportamiento === 'persigue' || enemigo.comportamiento === 'emboscada')) {
+    const distancia = jugador.x - enemigo.x;
+    const alcance = enemigo.comportamiento === 'emboscada' ? 430 : 600;
+    if (Math.abs(distancia) < alcance) {
+      enemigo.mirando = distancia < 0 ? -1 : 1;
+      const impulso = enemigo.comportamiento === 'emboscada' && enemigo.fase % 3 > 2.2 ? 2.1 : 1;
+      enemigo.x += enemigo.mirando * velocidad * impulso * paso;
+      enemigo.vx = enemigo.mirando * velocidad * impulso;
+      if (limites) enemigo.x = Math.max(limites.minX ?? 0,
+        Math.min((limites.maxX ?? Infinity) - enemigo.w, enemigo.x));
+      return enemigo;
+    }
+  }
 
   if (velocidad > 0) {
     enemigo.vx = enemigo.mirando * velocidad;
@@ -114,10 +141,10 @@ export function actualizarEnemigo(enemigo, dt = 0, limites = null) {
 }
 
 // Actualiza una lista de enemigos
-export function actualizarEnemigos(enemigos = [], dt = 0, limites = null) {
+export function actualizarEnemigos(enemigos = [], dt = 0, limites = null, jugador = null) {
   if (!Array.isArray(enemigos)) return [];
   for (const enemigo of enemigos) {
-    actualizarEnemigo(enemigo, dt, limites);
+    actualizarEnemigo(enemigo, dt, limites, jugador);
   }
   return enemigos;
 }

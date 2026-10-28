@@ -72,7 +72,7 @@ test('último enemigo por pisotón suelta una sola llave recogible, en cualquier
   }
 });
 
-test('con llave: teclado y táctil arrancan, pausan combate y cargan desierto tras el diálogo', () => {
+test('con llave: teclado y táctil muestran cinemática y llegan a la reja primero', () => {
   for (const teclado of [false, true]) {
     const { juego, elementos, eventos } = iniciar();
     limpiarTaqueria(juego);
@@ -82,21 +82,37 @@ test('con llave: teclado y táctil arrancan, pausan combate y cargan desierto tr
     if (teclado) {
       for (const fn of eventos.keydown) fn({ code: 'KeyE', key: 'e', preventDefault() {} });
     } else assert.equal(elementos['btn-subir'].onclick(), true);
-    assert.equal(juego.avisoViaje(), 'Arrancando…');
+    assert.equal(juego.avisoViaje(), '');
     juego.avanzarPaso(1);
     assert.equal(juego.escena.id, 'taqueria');
     juego.avanzarPaso(1);
-    assert.match(juego.avisoViaje(), /Mamá, mamá/);
-    assert.match(juego.avisoViaje(), /Sí, ahorita vamos/);
     juego.avanzarPaso(3);
-    assert.equal(juego.escena.id, 'desierto');
+    assert.equal(juego.escena.id, 'reja');
     assert.equal(juego.senku.x, juego.escena.puntoEntrada.x);
-    assert.equal(juego.enemigos.length, 2);
+    assert.ok(juego.enemigos.length >= 20);
     assert.equal(juego.estadoCombate.hp, 100);
-    assert.equal(juego.escena.plataformas.length, 4);
-    assert.equal(juego.estadoJugador().progreso.escena, 'desierto');
+    assert.ok(juego.escena.limites.w >= 5 * 1280);
+    assert.equal(juego.estadoJugador().progreso.escena, 'reja');
     juego.detener();
   }
+});
+
+test('cinemática de la familia se puede saltar con Escape', () => {
+  const { juego, eventos } = iniciar();
+  limpiarTaqueria(juego); recogerLlave(juego); acercar(juego);
+  juego.intentarSubir();
+  for (const fn of eventos.keydown) fn({ code: 'Escape', key: 'Escape', preventDefault() {} });
+  assert.equal(juego.escena.id, 'reja');
+  juego.detener();
+});
+
+test('un guardado antiguo en desierto entra por la reja nueva', () => {
+  const almacen = memoria();
+  guardar(almacen, { ...estadoNuevo(), progreso: { escena: 'desierto' } });
+  const { juego } = iniciar(almacen);
+  assert.equal(juego.escena.id, 'reja');
+  assert.equal(cargar(almacen).estado.progreso.escena, 'reja');
+  juego.detener();
 });
 
 test('persistencia: derrotas parciales, llave pendiente, inventario y escena sobreviven recarga; rata intacta', () => {
@@ -120,7 +136,7 @@ test('persistencia: derrotas parciales, llave pendiente, inventario y escena sob
   juego.avanzarPaso(5);
   juego.detener();
   ({ juego } = iniciar(almacen));
-  assert.equal(juego.escena.id, 'desierto');
+  assert.equal(juego.escena.id, 'reja');
   assert.ok(cargar(almacen).estado.coleccionados.includes('llave-camioneta'));
   assert.equal(juego.obtenerTrajeActivo().id, 'rata');
   assert.equal(juego.estadoJugador().churus, 8);

@@ -30,6 +30,7 @@ import {
   TIEMPO_INVULNERABILIDAD_DEFECTO,
 } from './core/combate.mjs';
 import { recogerBotiquin } from './core/botiquin.mjs';
+import { ganarChurus } from './core/economia.mjs';
 
 // Decisión de diseño: Senku inicia con 100 HP y 1 s de invulnerabilidad tras ser golpeado
 export const HP_INICIAL_DEFECTO = HP_INICIAL_SENKU;
@@ -380,10 +381,15 @@ export function arrancarSenku2({
   // 3. Registro y carga de escenas
   const registro = crearRegistroEscenas();
   registro.registrar(escenaTaqueria);
-  registro.registrar(escenaDesierto);
   registro.registrar(escenaReja);
+  registro.registrar(escenaDesierto);
 
-  const escenaId = estadoJugador.progreso?.escena || 'taqueria';
+  const escenaId = estadoJugador.progreso?.escena === 'desierto'
+    ? 'reja' : (estadoJugador.progreso?.escena || 'taqueria');
+  if (escenaId !== estadoJugador.progreso?.escena) {
+    estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: escenaId } };
+    if (almacen) guardar(almacen, estadoJugador);
+  }
   let escenaActual = registro.obtener(escenaId) || registro.obtener('taqueria');
 
   function actualizarNombreEscena() {
@@ -405,7 +411,10 @@ export function arrancarSenku2({
   refrescarVistaTraje();
 
   function alPulsarTecla(e) {
-    if (e.key === 'Escape') {
+    if (viaje && ['Space', 'Enter', 'Escape'].includes(e.code)) {
+      saltarCinematica();
+      e.preventDefault();
+    } else if (e.key === 'Escape') {
       if (menuAbierto) {
         cerrarMenu();
         e.preventDefault();
@@ -483,12 +492,18 @@ export function arrancarSenku2({
       return false;
     }
     entrada.soltarTodo();
-    viaje = { destino: zona.destino, tiempo: 0 };
-    mostrarAviso('Arrancando…', 2);
+    viaje = { destino: 'reja', tiempo: 0 };
+    mostrarAviso('', 0);
     actualizarCamioneta();
     return true;
   }
   if (btnSubir) btnSubir.onclick = intentarSubir;
+
+  function saltarCinematica() {
+    if (!viaje) return false;
+    cambiarEscena(viaje.destino, { curar: true });
+    return true;
+  }
 
   function soltarLlave(ultimo = null) {
     const recompensa = escenaActual.recompensaFinal;
@@ -573,10 +588,11 @@ export function arrancarSenku2({
   // 7. Catálogo de arte desacoplado
   // Precarga única; mientras tanto (o si una imagen falla) se dibujan los rectángulos de respaldo
   const catalogoArte = crearCatalogoArte();
-  let rutaFondo = rutaFondoEscena(escenaActual.id) || resolverRutaArte(escenaActual.fondo.ruta);
+  let rutaFondo = rutaFondoEscena(escenaActual.id) || (escenaActual.fondo.ruta
+    ? resolverRutaArte(escenaActual.fondo.ruta) : null);
   catalogoArte.precargar(rutasPrecargaArte({
     escenaId: escenaActual.id,
-    tiposEnemigo: enemigos.map((e) => e.tipo),
+    tiposEnemigo: enemigos.map((e) => `${e.tipo}_${e.variante}`),
   }));
   catalogoArte.cargar(resolverRutaArte('assets/fondos/camioneta_reja.webp'));
   const animadorEnemigos = crearAnimadorEnemigos();
@@ -593,7 +609,8 @@ export function arrancarSenku2({
     estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: escenaActual.id } };
     guardarProgreso();
     definicionEnemigos = escenaActual.enemigos;
-    rutaFondo = rutaFondoEscena(escenaActual.id) || resolverRutaArte(escenaActual.fondo.ruta);
+    rutaFondo = rutaFondoEscena(escenaActual.id) || (escenaActual.fondo.ruta
+      ? resolverRutaArte(escenaActual.fondo.ruta) : null);
     catalogoArte.precargar([rutaFondo, ...rutasPrecargaArte({ escenaId: escenaActual.id })]);
     viaje = null;
     mostrarAviso('', 0);
@@ -616,12 +633,7 @@ export function arrancarSenku2({
     }
     if (viaje) {
       viaje.tiempo += dt;
-      if (viaje.tiempo < 2) return;
-      if (viaje.tiempo < 5) {
-        mostrarAviso('Niño: «Mamá, mamá, ¿podemos ir al parque del desierto?» Madre: «Sí, ahorita vamos»', 0);
-        return;
-      }
-      cambiarEscena(viaje.destino, { curar: true });
+      if (viaje.tiempo >= 5) saltarCinematica();
       return;
     }
     if (!menuAbierto) {
@@ -643,7 +655,7 @@ export function arrancarSenku2({
 
       // Combate y actualización de enemigos
       actualizarCombate(estadoCombate, dt);
-      actualizarEnemigos(enemigos, dt, escenaActual.limites);
+      actualizarEnemigos(enemigos, dt, escenaActual.limites, senku);
 
       for (const enemigo of enemigos) {
         if (!enemigo.vivo) continue;
@@ -684,6 +696,15 @@ export function arrancarSenku2({
             actualizarHUDVida();
             mostrarAviso('+25 Vida');
           }
+        } else if (objeto.tipo === 'churu' && escenaActual.id === 'reja') {
+          const res = ganarChurus(estadoJugador, 1, objeto.id);
+          if (!res.error) {
+            objeto.recogido = true;
+            estadoJugador = res;
+            guardarProgreso();
+            if (elChurus) elChurus.textContent = String(estadoJugador.churus);
+            mostrarAviso('+1 Churu');
+          }
         }
       }
       actualizarCamioneta();
@@ -697,6 +718,8 @@ export function arrancarSenku2({
 
     avanzarPaso(dt);
 
+    const camaraX = Math.max(0, Math.min(escenaActual.limites.w - ANCHO_LOGICO,
+      senku.x + senku.w / 2 - ANCHO_LOGICO / 2));
     // Dibujado de escena base
     renderizarEscena({
       ctx,
@@ -705,7 +728,10 @@ export function arrancarSenku2({
       catalogoArte,
       rutaFondo,
       tiempo: tiempoAcumulado,
+      cameraX: camaraX,
     });
+
+    if (ctx) { ctx.save(); ctx.translate(-camaraX, 0); }
 
     // Dibujado de Senku con color y etiqueta del traje activo
     if (ctx && senku) {
@@ -818,18 +844,47 @@ export function arrancarSenku2({
       ctx.restore();
     }
 
-    if (ctx && viaje) {
-      ctx.save();
-      const imagen = catalogoArte.obtener(resolverRutaArte('assets/fondos/camioneta_reja.webp'));
-      if (imagen) ctx.drawImage(imagen, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
-      ctx.fillStyle = 'rgba(20, 12, 6, 0.45)';
-      ctx.fillRect(0, 0, ANCHO_LOGICO, ALTO_LOGICO);
-      ctx.restore();
-    }
+    if (ctx) ctx.restore();
+    if (ctx && viaje) dibujarCinematica(ctx, viaje.tiempo);
     dibujarAvisoCarga(ctx, catalogoArte);
 
     animacionId = ventana.requestAnimationFrame(ciclo);
   }
+
+  function dibujarCinematica(contexto, tiempo) {
+    contexto.save();
+    const grad = contexto.createLinearGradient(0, 0, 0, 720);
+    grad.addColorStop(0, '#65b8d0'); grad.addColorStop(0.7, '#f2c875'); grad.addColorStop(1, '#b9784c');
+    contexto.fillStyle = grad; contexto.fillRect(0, 0, 1280, 720);
+    contexto.fillStyle = '#f8dda0'; contexto.beginPath(); contexto.arc(1040, 125, 54, 0, Math.PI * 2); contexto.fill();
+    contexto.fillStyle = '#d39a5a'; contexto.fillRect(0, 535, 1280, 185);
+    contexto.fillStyle = '#544638'; contexto.fillRect(0, 580, 1280, 60);
+    const carX = 1350 - Math.min(930, tiempo * 390);
+    contexto.fillStyle = '#d45432'; contexto.fillRect(carX, 450, 280, 105);
+    contexto.fillStyle = '#f6ca82'; contexto.fillRect(carX + 55, 402, 170, 56);
+    contexto.fillStyle = '#2f3638'; contexto.beginPath();
+    contexto.arc(carX + 70, 557, 30, 0, Math.PI * 2); contexto.arc(carX + 220, 557, 30, 0, Math.PI * 2); contexto.fill();
+    const baja = Math.max(0, Math.min(1, (tiempo - 1.7) / 1.2));
+    for (const [x, color, escala] of [[carX + 325, '#ecb24b', 1], [carX + 380, '#4c88a1', 0.88]]) {
+      contexto.fillStyle = color; contexto.beginPath(); contexto.arc(x, 475 - baja * 22, 18 * escala, 0, Math.PI * 2); contexto.fill();
+      contexto.fillRect(x - 15 * escala, 495 - baja * 22, 30 * escala, 55 * escala);
+    }
+    const niño = tiempo < 2.7;
+    const xGlobo = niño ? 660 : 700;
+    contexto.fillStyle = '#fffaf0'; contexto.strokeStyle = '#65462f'; contexto.lineWidth = 5;
+    contexto.beginPath(); contexto.roundRect(xGlobo, 190, 560, 132, 26); contexto.fill(); contexto.stroke();
+    contexto.fillStyle = '#35291f'; contexto.font = 'bold 30px sans-serif'; contexto.textAlign = 'center';
+    const lineas = niño ? ['Mamá, mamá, ¿podemos ir', 'al parque del desierto?'] : ['Sí, ahorita vamos.'];
+    lineas.forEach((linea, i) => contexto.fillText(linea, xGlobo + 280, 244 + i * 42));
+    contexto.fillStyle = 'rgba(25,18,12,.78)'; contexto.fillRect(390, 663, 500, 12);
+    contexto.fillStyle = '#ffd45f'; contexto.fillRect(390, 663, 500 * Math.min(1, tiempo / 5), 12);
+    contexto.fillStyle = '#fff'; contexto.font = 'bold 20px sans-serif';
+    contexto.fillText('Espacio, Enter o toca para saltar', 640, 705);
+    contexto.restore();
+  }
+
+  const alTocarCinematica = () => { if (viaje) saltarCinematica(); };
+  canvas.addEventListener?.('pointerdown', alTocarCinematica);
 
   animacionId = ventana.requestAnimationFrame(ciclo);
 
@@ -845,6 +900,7 @@ export function arrancarSenku2({
       ventana.visualViewport.removeEventListener('resize', redimensionar);
     }
     ventana.removeEventListener('keydown', alPulsarTecla);
+    canvas.removeEventListener?.('pointerdown', alTocarCinematica);
     if (btnSubir) btnSubir.onclick = null;
     if (btnTraje) {
       btnTraje.onclick = null;

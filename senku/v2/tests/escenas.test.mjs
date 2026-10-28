@@ -67,7 +67,7 @@ test('crearRegistroEscenas lanza error si se intenta registrar una escena invál
   );
 });
 
-test('escena taquería cumple proporciones 16:9 y salida aprobada hacia desierto', () => {
+test('escena taquería cumple proporciones 16:9 y salida aprobada hacia la reja', () => {
   const resultado = validarEscena(escenaTaqueria);
   assert.equal(resultado.valida, true);
   const escena = resultado.escena;
@@ -78,6 +78,6 @@ test('escena taquería cumple proporciones 16:9 y salida aprobada hacia desierto
 
   const salida = escena.disparadores.find((d) => d.id === 'camioneta');
   assert.equal(salida.accion, 'subir');
-  assert.equal(salida.destino, 'desierto');
+  assert.equal(salida.destino, 'reja');
   assert.equal(salida.requiere, 'llave-camioneta');
 });
