@@ -4,7 +4,7 @@ import { arrancarSenku2 } from '../src/main.mjs';
 import { cargar, guardar, estadoNuevo } from '../src/core/store.mjs';
 import { memoria } from './ayuda.mjs';
 
-function iniciar(almacen = memoria()) {
+function iniciar(almacen = memoria(), conNavegacion = false) {
   const eventos = {};
   const elementos = {
     'lienzo-juego': { getContext: () => null, style: {}, setAttribute() {} },
@@ -16,11 +16,12 @@ function iniciar(almacen = memoria()) {
   };
   const ventana = {
     localStorage: almacen,
+    ...(conNavegacion ? { location: { href: '', search: typeof conNavegacion === 'string' ? conNavegacion : '' } } : {}),
     addEventListener: (tipo, fn) => { (eventos[tipo] ||= []).push(fn); },
     removeEventListener() {}, requestAnimationFrame: () => 1, cancelAnimationFrame() {},
   };
   const juego = arrancarSenku2({ documento, ventana });
-  return { juego, almacen, elementos, eventos };
+  return { juego, almacen, elementos, eventos, ventana };
 }
 function pisar(juego, enemigo) {
   Object.assign(juego.senku, { x: enemigo.x, y: enemigo.y - juego.senku.h + 3, vy: 100 });
@@ -72,9 +73,9 @@ test('último enemigo por pisotón suelta una sola llave recogible, en cualquier
   }
 });
 
-test('con llave: teclado y táctil muestran cinemática y llegan a la reja primero', () => {
+test('con llave: teclado y táctil arrancan el bonus después de abordar', () => {
   for (const teclado of [false, true]) {
-    const { juego, elementos, eventos } = iniciar();
+    const { juego, elementos, eventos, ventana } = iniciar(memoria(), true);
     limpiarTaqueria(juego);
     recogerLlave(juego);
     assert.equal(juego.intentarSubir(), false, 'requiere estar junto a camioneta');
@@ -86,23 +87,22 @@ test('con llave: teclado y táctil muestran cinemática y llegan a la reja prime
     juego.avanzarPaso(1);
     assert.equal(juego.escena.id, 'taqueria');
     juego.avanzarPaso(1);
+    assert.match(juego.avisoViaje(), /toma el volante/);
+    assert.match(juego.avisoViaje(), /juntar Churus/);
     juego.avanzarPaso(3);
-    assert.equal(juego.escena.id, 'reja');
-    assert.equal(juego.senku.x, juego.escena.puntoEntrada.x);
-    assert.ok(juego.enemigos.length >= 20);
-    assert.equal(juego.estadoCombate.hp, 100);
-    assert.ok(juego.escena.limites.w >= 5 * 1280);
-    assert.equal(juego.estadoJugador().progreso.escena, 'reja');
+    assert.equal(ventana.location.href, './bonus-camioneta.html');
+    assert.equal(juego.escena.id, 'taqueria');
     juego.detener();
   }
 });
 
 test('cinemática de la familia se puede saltar con Escape', () => {
-  const { juego, eventos } = iniciar();
-  limpiarTaqueria(juego); recogerLlave(juego); acercar(juego);
-  juego.intentarSubir();
+  const { juego, eventos } = iniciar(memoria(), '?cinematica=familia');
   for (const fn of eventos.keydown) fn({ code: 'Escape', key: 'Escape', preventDefault() {} });
   assert.equal(juego.escena.id, 'reja');
+  assert.equal(juego.estadoJugador().progreso.escena, 'reja');
+  assert.ok(juego.enemigos.length >= 20);
+  assert.ok(juego.escena.limites.w >= 5 * 1280);
   juego.detener();
 });
 

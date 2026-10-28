@@ -616,7 +616,9 @@ export function arrancarSenku2({
   const elAvisoViaje = documento.getElementById('aviso-viaje');
   let aviso = '';
   let avisoRestante = 0;
-  let viaje = null;
+  let viaje = ventana.location?.search?.includes('cinematica=familia')
+    ? { destino: 'reja', tiempo: 0, cinematica: true }
+    : null;
 
   function mostrarAviso(texto, segundos = 3) {
     aviso = texto;
@@ -852,7 +854,20 @@ export function arrancarSenku2({
     }
     if (viaje) {
       viaje.tiempo += dt;
-      if (viaje.tiempo >= 5) saltarCinematica();
+      if (viaje.cinematica) {
+        if (viaje.tiempo >= 5) saltarCinematica();
+        return;
+      }
+      if (viaje.tiempo < 2) return;
+      if (viaje.tiempo < 5) {
+        mostrarAviso('¡Senku toma el volante! ¡A juntar Churus!', 0);
+        return;
+      }
+      if (ventana.location) {
+        ventana.location.href = './bonus-camioneta.html';
+      } else {
+        cambiarEscena(viaje.destino, { curar: true });
+      }
       return;
     }
     if (!menuAbierto) {
