@@ -234,6 +234,8 @@ export function renderizarEscena({
     ctx.drawImage(imagenFondo, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
   } else if (fondoCfg.estilo === 'desierto') {
     dibujarParalajeDesierto(ctx, cameraX, tiempo);
+  } else if (fondoCfg.estilo === 'ciudad') {
+    dibujarParalajeCiudad(ctx, cameraX, tiempo);
   } else {
     // Fondo plano de respaldo
     ctx.fillStyle = fondoCfg.colorRespaldo || '#e6be8a';
@@ -266,6 +268,7 @@ export function renderizarEscena({
   ctx.save();
   ctx.translate(-cameraX, 0);
   if (fondoCfg.estilo === 'desierto') dibujarReja(ctx);
+  if (fondoCfg.estilo === 'ciudad') dibujarCamionParada(ctx);
 
   // 3. Plataformas y suelo
   // Con arte de fondo las plataformas son invisibles (se apoyan en elementos del dibujo);
@@ -419,4 +422,74 @@ function dibujarReja(ctx) {
   ctx.fillRect(75, 420, 285, 7);
   ctx.fillStyle = '#f6e3a4'; ctx.font = 'bold 20px sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('PARQUE DEL DESIERTO', 218, 348);
+}
+
+function dibujarParalajeCiudad(ctx, cameraX, tiempo) {
+  const cielo = ctx.createLinearGradient ? ctx.createLinearGradient(0, 0, 0, 600) : null;
+  if (cielo) {
+    cielo.addColorStop(0, '#2c365e');
+    cielo.addColorStop(0.55, '#8c536e');
+    cielo.addColorStop(1, '#f0b26e');
+    ctx.fillStyle = cielo;
+  } else {
+    ctx.fillStyle = '#6d9cb8';
+  }
+  ctx.fillRect(0, 0, ANCHO_LOGICO, ALTO_LOGICO);
+  ctx.fillStyle = '#ffe9a6';
+  ctx.beginPath(); ctx.arc(980, 120, 48, 0, Math.PI * 2); ctx.fill();
+
+  // Capa 1: edificios lejanos
+  for (let i = 0; i < 9; i++) {
+    const x = i * 160 - ((cameraX * 0.12) % 160);
+    const h = 210 + (i % 4) * 34;
+    ctx.fillStyle = '#382f52';
+    ctx.fillRect(x, 600 - h, 146, h);
+    ctx.fillStyle = '#ffd97d88';
+    ctx.fillRect(x + 22, 620 - h, 14, 18);
+    ctx.fillRect(x + 62, 620 - h, 14, 18);
+  }
+  // Capa 2: fachadas coloniales de barrio
+  const colores = ['#b85442', '#cc8b3c', '#457385', '#a84763', '#567d5e'];
+  for (let i = 0; i < 7; i++) {
+    const x = i * 210 - ((cameraX * 0.28) % 210);
+    const h = 165 + (i % 3) * 22;
+    ctx.fillStyle = colores[i % colores.length];
+    ctx.fillRect(x, 600 - h, 198, h);
+    ctx.fillStyle = '#f5e1bc';
+    ctx.fillRect(x, 600 - h, 198, 6);
+  }
+  // Capa 3: postes y cables
+  ctx.strokeStyle = '#241d2b';
+  ctx.lineWidth = 2;
+  for (let i = 0; i < 6; i++) {
+    const x = i * 260 - ((cameraX * 0.52) % 260);
+    ctx.fillStyle = '#4a3b34';
+    ctx.fillRect(x, 340, 8, 260);
+    ctx.beginPath();
+    ctx.moveTo(x, 355);
+    ctx.quadraticCurveTo(x + 130, 382 + Math.sin(tiempo + i) * 2, x + 260, 355);
+    ctx.stroke();
+  }
+}
+
+function dibujarCamionParada(ctx) {
+  ctx.fillStyle = '#2b7a78';
+  ctx.fillRect(980, 445, 250, 140);
+  ctx.fillStyle = '#e07a5f';
+  ctx.fillRect(980, 425, 250, 22);
+  ctx.fillStyle = '#a8dadc';
+  ctx.fillRect(1010, 462, 65, 45);
+  ctx.fillRect(1090, 462, 65, 45);
+  ctx.fillStyle = '#b07145';
+  ctx.fillRect(995, 390, 75, 35);
+  ctx.fillRect(1080, 380, 85, 45);
+  ctx.fillStyle = '#1e1b22';
+  ctx.beginPath();
+  ctx.arc(1035, 588, 24, 0, Math.PI * 2);
+  ctx.arc(1175, 588, 24, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#fff5df';
+  ctx.font = 'bold 18px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('CAMIÓN A LA TAQUERÍA', 1105, 442);
 }
