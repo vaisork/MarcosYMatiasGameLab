@@ -4,7 +4,7 @@ import { arrancarSenku2 } from '../src/main.mjs';
 import { cargar, guardar, estadoNuevo } from '../src/core/store.mjs';
 import { memoria } from './ayuda.mjs';
 
-function iniciar(almacen = memoria()) {
+function iniciar(almacen = memoria(), conNavegacion = false) {
   const eventos = {};
   const elementos = {
     'lienzo-juego': { getContext: () => null, style: {}, setAttribute() {} },
@@ -16,11 +16,12 @@ function iniciar(almacen = memoria()) {
   };
   const ventana = {
     localStorage: almacen,
+    ...(conNavegacion ? { location: { href: '' } } : {}),
     addEventListener: (tipo, fn) => { (eventos[tipo] ||= []).push(fn); },
     removeEventListener() {}, requestAnimationFrame: () => 1, cancelAnimationFrame() {},
   };
   const juego = arrancarSenku2({ documento, ventana });
-  return { juego, almacen, elementos, eventos };
+  return { juego, almacen, elementos, eventos, ventana };
 }
 function pisar(juego, enemigo) {
   Object.assign(juego.senku, { x: enemigo.x, y: enemigo.y - juego.senku.h + 3, vy: 100 });
@@ -72,7 +73,7 @@ test('último enemigo por pisotón suelta una sola llave recogible, en cualquier
   }
 });
 
-test('con llave: teclado y táctil arrancan, pausan combate y cargan desierto tras el diálogo', () => {
+test('con llave: teclado y táctil arrancan el bonus después de abordar', () => {
   for (const teclado of [false, true]) {
     const { juego, elementos, eventos } = iniciar();
     limpiarTaqueria(juego);
@@ -86,8 +87,8 @@ test('con llave: teclado y táctil arrancan, pausan combate y cargan desierto tr
     juego.avanzarPaso(1);
     assert.equal(juego.escena.id, 'taqueria');
     juego.avanzarPaso(1);
-    assert.match(juego.avisoViaje(), /Mamá, mamá/);
-    assert.match(juego.avisoViaje(), /Sí, ahorita vamos/);
+    assert.match(juego.avisoViaje(), /toma el volante/);
+    assert.match(juego.avisoViaje(), /juntar Churus/);
     juego.avanzarPaso(3);
     assert.equal(juego.escena.id, 'desierto');
     assert.equal(juego.senku.x, juego.escena.puntoEntrada.x);
@@ -97,6 +98,18 @@ test('con llave: teclado y táctil arrancan, pausan combate y cargan desierto tr
     assert.equal(juego.estadoJugador().progreso.escena, 'desierto');
     juego.detener();
   }
+});
+
+test('con llave, el embarque abre el bonus de camioneta tras el aviso', () => {
+  const { juego, ventana } = iniciar(memoria(), true);
+  limpiarTaqueria(juego);
+  recogerLlave(juego);
+  acercar(juego);
+  assert.equal(juego.intentarSubir(), true);
+  juego.avanzarPaso(5);
+  assert.equal(ventana.location.href, './bonus-camioneta.html');
+  assert.equal(juego.escena.id, 'taqueria');
+  juego.detener();
 });
 
 test('persistencia: derrotas parciales, llave pendiente, inventario y escena sobreviven recarga; rata intacta', () => {

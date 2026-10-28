@@ -837,10 +837,14 @@ export function arrancarSenku2({
       viaje.tiempo += dt;
       if (viaje.tiempo < 2) return;
       if (viaje.tiempo < 5) {
-        mostrarAviso('Niño: «Mamá, mamá, ¿podemos ir al parque del desierto?» Madre: «Sí, ahorita vamos»', 0);
+        mostrarAviso('¡Senku toma el volante! ¡A juntar Churus!', 0);
         return;
       }
-      cambiarEscena(viaje.destino, { curar: true });
+      if (viaje.destino === 'desierto' && ventana.location) {
+        ventana.location.href = './bonus-camioneta.html';
+      } else {
+        cambiarEscena(viaje.destino, { curar: true });
+      }
       return;
     }
     if (!menuAbierto) {

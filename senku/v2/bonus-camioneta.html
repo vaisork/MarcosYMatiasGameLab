@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#b75f42">
+  <title>Bonus camioneta — Senku 2</title>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+    html, body { width: 100%; height: 100%; height: 100dvh; margin: 0; overflow: hidden; background: #b75f42; color: #fff5df; font-family: system-ui, sans-serif; touch-action: none; }
+    canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .hud { position: absolute; z-index: 2; top: max(12px, env(safe-area-inset-top)); left: max(12px, env(safe-area-inset-left)); right: max(12px, env(safe-area-inset-right)); display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; pointer-events: none; }
+    .card { border: 3px solid #5a382f; border-radius: 18px; padding: 8px 15px; background: #362824eF; box-shadow: 0 5px 0 #653b2c, 0 10px 24px #512d2a55; text-shadow: 0 2px #402820; }
+    .title { font-size: clamp(15px, 3vw, 26px); font-weight: 950; line-height: 1.05; }
+    .label { font-size: 11px; font-weight: 800; color: #f3cf96; letter-spacing: .1em; text-transform: uppercase; }
+    .score { min-width: 104px; text-align: center; font-size: clamp(24px, 6vw, 46px); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums; }
+    .clock { min-width: 70px; text-align: center; font-size: clamp(24px, 5vw, 38px); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums; }
+    .fuel { position: absolute; z-index: 2; top: max(92px, calc(env(safe-area-inset-top) + 82px)); left: 50%; transform: translateX(-50%); width: min(190px, 34vw); height: 13px; border: 2px solid #5a382f; border-radius: 9px; overflow: hidden; background: #4b3830; }
+    .fuel > i { display:block; height:100%; width:0; background:linear-gradient(90deg,#bde16c,#58af56); transition:width .15s; }
+    .fuel-label { position:absolute; z-index:2; top:max(108px,calc(env(safe-area-inset-top) + 98px)); left:50%; transform:translateX(-50%); padding:2px 8px; border:1px solid #5a382f; border-radius:0 0 8px 8px; background:#f5d28e; font-size:10px; font-weight:900; color:#382923; }
+    .controls { position:absolute; z-index:3; left:max(12px,env(safe-area-inset-left)); right:max(12px,env(safe-area-inset-right)); bottom:max(16px,env(safe-area-inset-bottom)); display:flex; justify-content:space-between; align-items:flex-end; pointer-events:none; }
+    .steering { display:flex; gap:10px; }
+    button { font:inherit; color:#fff4db; font-weight:900; cursor:pointer; }
+    .pad { width:clamp(66px,15vw,96px); height:clamp(66px,15vw,96px); border:3px solid #ffdfa0; border-radius:50%; background:#392923dd; box-shadow:0 6px 0 #653b2c,0 9px 18px #402a26aa; font-size:clamp(24px,6vw,38px); pointer-events:auto; touch-action:none; }
+    .pad:active { transform:translateY(4px); box-shadow:0 2px 0 #653b2c; background:#744b37; }
+    .jump { width:clamp(84px,20vw,126px); height:clamp(84px,20vw,126px); font-size:clamp(15px,3vw,22px); background:#8f4f37; }
+    #sonido { position:absolute; z-index:4; top:max(76px,calc(env(safe-area-inset-top) + 68px)); right:max(12px,env(safe-area-inset-right)); padding:6px 10px; border:2px solid #5a382f; border-radius:12px; background:#362824df; font-size:12px; }
+    #velo { position:absolute; z-index:5; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:#2b211a77; text-align:center; text-shadow:0 4px #59382d; font-size:clamp(54px,17vw,128px); font-weight:1000; color:#ffe57d; }
+    #velo[hidden] { display:none; }
+    #velo strong { max-width:90vw; font-size:clamp(32px,8vw,72px); }
+    #velo span { font-size:clamp(22px,5vw,40px); color:white; }
+    #velo button { pointer-events:auto; padding:14px 24px; border:3px solid #ffdfa0; border-radius:18px; background:#bd633d; box-shadow:0 5px #653b2c; font-size:clamp(17px,4vw,24px); }
+    .help { position:absolute; z-index:2; bottom:max(120px,calc(env(safe-area-inset-bottom) + 120px)); left:50%; transform:translateX(-50%); width:max-content; max-width:90vw; padding:7px 12px; border-radius:12px; background:#362824b8; text-align:center; font-size:clamp(11px,2.5vw,14px); font-weight:750; }
+    @media (min-width:700px) { .help { bottom:24px; } .controls { display:none; } .fuel { top:90px; } .fuel-label { top:106px; } }
+  </style>
+</head>
+<body>
+  <canvas role="img" aria-label="Bonus de manejo por el desierto"></canvas>
+  <header class="hud">
+    <div class="card"><div class="label">Senku 2 · Bonus</div><div class="title">Camioneta del desierto</div></div>
+    <div class="card score"><div class="label">Churus</div><span id="marcador">00</span><small style="font-size:.55em"> / 30</small></div>
+    <div class="card clock"><div class="label">Tiempo</div><span id="reloj">45</span><small style="font-size:.48em"> s</small></div>
+  </header>
+  <div class="fuel"><i id="combustible"></i></div><div class="fuel-label">BIDONES DE COMBUSTIBLE</div>
+  <button id="sonido" type="button">Sonido</button>
+  <div class="help">A / D o ← / → para volante · Espacio / W / ↑ para saltar</div>
+  <nav class="controls" aria-label="Controles táctiles">
+    <div class="steering"><button class="pad" data-control="izquierda" aria-label="Girar a la izquierda">◀</button><button class="pad" data-control="derecha" aria-label="Girar a la derecha">▶</button></div>
+    <button class="pad jump" data-control="salto" aria-label="Saltar baches y obstáculos">¡SALTA!</button>
+  </nav>
+  <div id="velo">3</div>
+  <script type="module">
+    import { iniciarBonus } from './src/bonus_camioneta.mjs';
+    iniciarBonus(document, window);
+  </script>
+</body>
+</html>
