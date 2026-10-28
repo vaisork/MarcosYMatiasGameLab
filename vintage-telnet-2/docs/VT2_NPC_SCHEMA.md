@@ -2,7 +2,7 @@
 
 > **Documento:** Auditoría técnica, análisis de vigencia del Issue #645 / PR #637 y contrato de esquema para NPCs y Viajeros N5-lite en VT2.
 > **Fecha:** 22 de octubre de 2026.
-> **Estado:** Fase de auditoría y propuesta técnica (sin cambios de código, canon ni contenido).
+> **Estado:** Decisión técnica aplicada el 27 de octubre de 2026: conservar el esquema regional nativo de VT2 y validar identidad y sala de origen de NPCs. Sin cambios de canon ni fichas de viajeros.
 > **Consumidor:** Javier / Arquitecto (Claude) / Desarrollador delegado.
 
 ---
@@ -162,15 +162,15 @@ Para incorporar los 5 viajeros N5-lite de PR #637 respetando los principios de d
 
 ## 6. Preguntas abiertas para Javier
 
-1. **¿Ubicación canónica de las fichas en el repositorio?**
-   - *Opción A (Recomendada - Ponytail):* Integrar directamente en `vintage-telnet-2/content/regions/<region>.json` bajo `"npcs"`. Mantiene un solo formato y cero complejidad adicional de loaders.
-   - *Opción B:* Crear directorio `vintage-telnet-2/content/npcs/*.json` exclusivo para viajeros, extendiendo el cargador `Content`.
+1. **Ubicación canónica — resuelta:** usar `content/regions/<region>.json` bajo `npcs`, cargado por `server/content.py`. No añadir `content/npcs/`, manifiesto ni adaptador del pipeline VT1.
 2. **¿Re-ruteo sobre salas existentes o creación de nuevas salas?**
    - ¿Autorizas adaptar las rutas de los 5 viajeros a las salas existentes de VT2 (ej. la senda de terrazas en Hoshai, la cuenca de canteras en Korven, los juncales de Narevia en Lethra, etc.), o Narrativa/Historia prefiere diseñar las salas intermedias exactas que faltan (lo que requeriría ampliar [spatial.json](file:///home/jdiaz/proyectos/wt-agy-vt2-npc-schema/vintage-telnet-2/content/spatial.json))?
 3. **¿Estructura del diálogo: temas (`topics`) o barks contextuales?**
    - En VT2, la interfaz muestra botones de temas (`hablar <npc> <topic>`). En PR #637 hay una lista de frases para cada tema (`"camino": ["frase 1", "frase 2"]`). ¿Preferimos que el motor entregue una sola frase fija por tema, o que rote entre las frases disponibles según el contador de visitas?
 4. **¿Comportamiento nocturno de los viajeros?**
    - ¿Deben desaparecer/descansar en la posada del pueblo durante la noche (`schedule: ["día"]`), o continuar caminando las 24 horas?
+
+Las decisiones de ruta, diálogo y horario quedan fuera de este cambio: requieren un contrato vigente de viajeros para VT2. No se importan las cinco fichas ni se implementa movimiento hasta cerrar ese contrato y confirmar rutas existentes.
 
 ---
 
