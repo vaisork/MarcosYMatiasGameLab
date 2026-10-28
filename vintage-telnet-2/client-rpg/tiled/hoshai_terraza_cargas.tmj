@@ -862,6 +862,11 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/hoshai_terraza_cargas.webp"
     }
   ],
   "tilesets": [

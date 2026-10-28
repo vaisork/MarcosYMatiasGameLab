@@ -1,0 +1,14 @@
+{
+  "asset_id": "backgrounds/hoshai_campamento_lona.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "3b84aa7de45ac2e9f9d0833c7eed0a64a79137cdde44f0559a704df58fb612e4",
+  "bytes": 209518,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "hoshai_campamento_lona_1793153815624.jpg",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art, full-bleed, no text or actors; exits checked against scene and Tiled mask.",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view (60 degrees angle), 4:3 landscape, readable walkable terrain for a 20x15 room grid. Full-bleed to all canvas edges; ground only, no sky and no horizon. NO people, characters, NPCs, creatures, animals, text, signage, HUD, borders or baked-in actors. Hoshai mountain settlement, high altitude pass descending toward rocky terraces. Campamento de la lona azul: a modest load-resting camp nestled against pale grey mountain rock ledges. In the upper-left clearing, a weathered blue canvas canopy supported by simple wooden poles shelters three sturdy wooden travel cargo boxes. Drainage gravel runs around the boxes. Dry mountain pine needles and rocky flagstones underfoot. Exactly TWO open pathways reaching the canvas boundaries: 1. EAST exit: an unobstructed stone ramp pathway reaching the RIGHT border at mid-height (40% to 53% canvas height). 2. SOUTH exit: a clear pathway descending to the BOTTOM border at horizontal center (45% to 55% canvas width). The entire TOP border and LEFT border are closed by natural rugged mountain rock walls and alpine shrubs. Clear readable walkable ground connecting the exits and the camp clearing. Crisp tactile pixel art texture, natural cool daylight, rich rock and canvas textures, no empty margins."
+}

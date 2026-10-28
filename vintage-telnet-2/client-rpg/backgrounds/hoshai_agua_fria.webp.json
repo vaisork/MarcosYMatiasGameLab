@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_agua_fria.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "bc57adfccdbfaf59d55fd0249bcc75b8f9090ef603d90debf196a1030902078f",
+  "bytes": 125174,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-ac7bdab6-b0c5-46cc-a117-575a71154187.png",
+  "normalization": "Mechanical resize to 640x480 with Lanczos, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: crisp detailed 3/4 pixel-art matching Korven, full-bleed terrain, no text or actors; exits and visible permanent obstacles aligned with scene/Tiled mask.",
+  "prompt": "Use the attached Korven background only as a strict pixel-art style and camera reference. Create a NEW Hoshai room background, 4:3 landscape, game-room composition, clearly elevated three-quarter isometric view, crisp chunky hand-placed pixels, bold dark pixel outlines, limited warm olive/ochre palette, no painterly brushwork, no photorealism. Scene: cold mountain stream crossing on a narrow north-south trail. One large central boulder splits the fast turquoise stream. A broad dry stone platform lies beside the boulder, with a few stepping stones linking the two banks. The trail enters at bottom center and exits top center; rising rocky steps at the north edge. Rocks, grass, stream and path fill canvas to every edge. No horizon or distant panorama. No people, animals, creatures, text, symbols, UI, border, blank margins. Match Korven's crisp pixel clustering and three-quarter room scale.",
+  "webp_quality": 50
+}

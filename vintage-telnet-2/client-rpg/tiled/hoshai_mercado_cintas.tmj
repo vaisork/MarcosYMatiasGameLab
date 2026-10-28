@@ -783,6 +783,11 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/hoshai_mercado_cintas.webp"
     }
   ],
   "tilesets": [

@@ -349,3 +349,19 @@ Fondos image_gen nativos, 1280×960 WebP ≤250000 bytes; vista 3/4 pixel-art de
 Criaturas nuevas: `rasgacumbres`, `saltacresta` y `unapiedra`; sprite de mapa 48×48 y combate 192×192, alpha preservado y mapping añadido. Los salteadores conservan sprites compartidos. No hay NPCs en estas seis salas. No se crean Númenes, jugadores ni Vaisorks; no aplica turnaround 3D.
 
 Validación: `node scripts/check-rpg-client.mjs` OK; `tests.test_rpg_scenes` 13/13 OK; suite completa 339 tests OK (1 omitido); `git diff --check` OK. Sin QA en producción, push, PR, merge ni despliegue.
+## Hoshai 03 — arte y escenas, 2026-10-27 (CM-20)
+
+Se ilustran las seis salas siguientes del camino principal desde el Pinar abierto: Cruce de agua fría, Ladera de las señales, Paso entre paredes, Terraza de las cargas, Escalones al sol y Plaza de Khariel. Se añaden seis fondos con escenas/Tiled cableados. Los sprites de las criaturas ya existían desde Hoshai 02; no se crean atlas nuevos. El candidato pasa a **88/191 salas ilustradas** (12/29 salas de Hoshai); quedan 103 sin ilustrar. Base `38fa9cf`; cambios locales sin commit ni publicación.
+
+Fondos image_gen nativos, 1280×960 WebP ≤250000 bytes; pixel-art 3/4 coherente con Korven, terreno hasta los bordes, sin actores ni texto. Sidecars con prompt, SHA-256, bytes y normalización. Se conservan IDs, salidas, spawns y fauna real de Hoshai 01.
+
+| Sala | Fondo | Bytes | SHA-256 |
+|---|---|---:|---|
+| `hoshai_agua_fria` | `backgrounds/hoshai_agua_fria.webp` | 125174 | `bc57adfccdbfaf59d55fd0249bcc75b8f9090ef603d90debf196a1030902078f` |
+| `hoshai_ladera_hitos` | `backgrounds/hoshai_ladera_hitos.webp` | 134106 | `8df3c7ac73d4cc6820201ab53fadc00f0089b6ccf1664d6191e2f3cdf48a3127` |
+| `hoshai_cuello_roca` | `backgrounds/hoshai_cuello_roca.webp` | 104594 | `97b85f38edb99e9f4f4ecd8f957025b807da5c489980542f4e6f3765ae7a66ca` |
+| `hoshai_terraza_cargas` | `backgrounds/hoshai_terraza_cargas.webp` | 129018 | `dcbb99e88f198a82b96853554cc4f655bebc7b919e063144f963a559ff2b584f` |
+| `hoshai_escalones_sol` | `backgrounds/hoshai_escalones_sol.webp` | 131426 | `457fcb8324773bcd4fa4811646faacd663b1d2b1116f6ce633235607c5e25612` |
+| `khariel_centro` | `backgrounds/khariel_centro.webp` | 130662 | `b2bab2b6472a88624cdefd90159d72ec259552d74c0f79da9881c8024eb89b52` |
+
+Validación: `node scripts/check-rpg-client.mjs` OK (296 mapas); `tests.test_rpg_scenes` 13/13 OK; suite completa 339 pruebas OK (1 omitida); `git diff --check` OK. Sin push, PR, merge ni despliegue.

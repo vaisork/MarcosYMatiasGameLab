@@ -1,0 +1,14 @@
+{
+  "asset_id": "backgrounds/hoshai_patio_hogares.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "f0fbad7895c57f2497408d2a064e92b52f6996e5a62755458af314b245e0e015",
+  "bytes": 188524,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "hoshai_patio_hogares_1793153876666.jpg",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art, full-bleed, no text or actors; exits checked against scene and Tiled mask.",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view (60 degrees angle), 4:3 landscape, readable walkable terrain for a 20x15 room grid. Full-bleed to all canvas edges; ground only, no sky and no horizon. NO people, characters, NPCs, creatures, animals, text, signage, HUD, borders or baked-in actors. Khariel settlement in Hoshai. Patio de las casas: a tiered residential courtyard staggered across gentle hillside terraces. Modest mountain stone houses with folded wooden door leaves set into stone facades, dry doorsteps and resting benches, and large ceramic and carved stone water jars placed beside the walls. Small stone steps connect the low terraces. Exactly THREE open pathways reaching the canvas boundaries: 1. NORTH exit: a clear stone path exiting at the TOP border at horizontal center (45% to 55% canvas width, leading toward tall pine canopy). 2. EAST exit: an open passage reaching the RIGHT border at mid-height (40% to 53% canvas height, toward rock wash). 3. SOUTH exit: a wide stone staircase descending to the BOTTOM border at horizontal center (45% to 55% canvas width, toward town plaza). The LEFT border is a solid continuous stone house facade and steep rock wall. Clear walkable courtyard flagstones connecting all three exits. Crisp tactile pixel art, rich mountain architecture, cool clear mountain daylight, no empty margins."
+}

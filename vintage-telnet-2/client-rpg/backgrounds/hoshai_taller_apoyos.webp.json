@@ -1,0 +1,14 @@
+{
+  "asset_id": "backgrounds/hoshai_taller_apoyos.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "1088b8339195a50e41c5939563e4d28ac5a3dbb88c13e6b4efde76659b1a3dc9",
+  "bytes": 162140,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "hoshai_taller_apoyos_1793153952279.jpg",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art, full-bleed, no text or actors; exits checked against scene and Tiled mask.",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view (60 degrees angle), 4:3 landscape, readable walkable terrain for a 20x15 room grid. Full-bleed to all canvas edges; ground only, no sky and no horizon. NO people, characters, NPCs, creatures, animals, text, signage, HUD, borders or baked-in actors. Khariel settlement in Hoshai. Taller de Khariel: a dedicated carpentry and stone support workshop. Interior room of thick mountain masonry and solid reddish timber framing. Fresh curled wood shavings and fine sawdust scatter near a low two-tier wooden workbench equipped with clamp holes, wooden templates and heavy chisels. Along the walls are sturdy wooden shelves holding measured wooden support struts and masonry wedges. A technical drawing etched into the stone wall outlines stair repairs. Exactly ONE open pathway reaching the canvas boundaries: EAST exit: a wide open doorway reaching the RIGHT border at mid-height (40% to 53% canvas height, toward town plaza). The TOP, BOTTOM, and LEFT borders are solid workshop walls with workbenches, tool racks, and timber stacks. Generous clear walkable stone floor area in the center. Crisp tactile pixel art, rich timber and stone textures, soft indirect daylight from high clerestory windows, no empty margins."
+}
