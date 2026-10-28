@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_escalones_sol.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "457fcb8324773bcd4fa4811646faacd663b1d2b1116f6ce633235607c5e25612",
+  "bytes": 131426,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-9c772130-1d3f-4c05-911c-99cfe9ea5cfa.png",
+  "normalization": "Mechanical resize to 640x480 with Lanczos, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: crisp detailed 3/4 pixel-art matching Korven, full-bleed terrain, no text or actors; exits and visible permanent obstacles aligned with scene/Tiled mask.",
+  "prompt": "Use attached Korven background as strict style/camera reference. New Hoshai room background, 4:3 landscape, crisp detailed 16-bit pixel art, chunky square pixels, dark clean outlines, elevated three-quarter/isometric view, warm stone, ochre light and olive details. Ancient stone stairway climbs north from a broad lower landing toward a small upper village entrance. Pale repaired steps of varied heights make a continuous safe route bottom center to top center. A narrow water channel runs along the east/right side, clearly separate from the steps; stone wall and rocky slope line the west/left side. Show sunny eastern light and warm highlights on steps. Terrain and rock reach all four edges; no blank margins, no horizon or panorama. No people, animals, creatures, text, lettering, signs, symbols, UI. Match Korven's clean pixel game-room art, not painterly.",
+  "webp_quality": 50
+}

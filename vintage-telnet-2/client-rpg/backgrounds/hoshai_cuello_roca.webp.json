@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_cuello_roca.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "97b85f38edb99e9f4f4ecd8f957025b807da5c489980542f4e6f3765ae7a66ca",
+  "bytes": 104594,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-ddb8c211-ae12-48fe-84c1-39ac6dee5a60.png",
+  "normalization": "Mechanical resize to 640x480 with Lanczos, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: crisp detailed 3/4 pixel-art matching Korven, full-bleed terrain, no text or actors; exits and visible permanent obstacles aligned with scene/Tiled mask.",
+  "prompt": "Use attached Korven room only as strict pixel-art style and camera reference. Create new Hoshai room background, 4:3 landscape, elevated three-quarter/isometric view, crisp chunky square pixel clusters, clean dark pixel outlines, limited ochre, warm gray stone, olive grass. A very narrow north-south trail passes between two tall close rock walls. The open path is clear and visible from bottom center to top center, with a small widened waiting area at each end. A flat worn warning stone sits against each wall beside the path, never in the walking lane. Tiny water streaks run down one wall. Rock walls and ground reach all image edges; no blank borders, no horizon, no distant scenery. No letters, marks, symbols, people, creatures, animals, UI, buildings. Match Korven's detailed 16-bit pixel game background, not painterly.",
+  "webp_quality": 50
+}
