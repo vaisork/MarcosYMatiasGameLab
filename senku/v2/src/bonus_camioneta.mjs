@@ -78,7 +78,13 @@ export function iniciarBonus(documento = document, ventana = window) {
   ventana.addEventListener('keydown', onKeyDown); ventana.addEventListener('keyup', onKeyUp);
   ventana.addEventListener('blur', () => { teclas.clear(); for (const k of Object.keys(controles)) controles[k] = false; });
   documento.querySelector('#sonido')?.addEventListener('click', (e) => { silencio = !silencio; e.currentTarget.textContent = silencio ? 'Sonido apagado' : 'Sonido'; });
-  documento.querySelector('#continuar')?.addEventListener('click', () => { ventana.location.href = './index.html'; });
+  const velo = documento.querySelector('#velo');
+  const textoCuenta = documento.createElement('strong');
+  const tituloFinal = documento.createElement('strong'); tituloFinal.textContent = '¡Buen viaje, Senku!'; tituloFinal.hidden = true;
+  const premioFinal = documento.createElement('span'); premioFinal.hidden = true;
+  const continuar = documento.createElement('button'); continuar.type = 'button'; continuar.textContent = 'Seguir al desierto'; continuar.hidden = true;
+  continuar.addEventListener('click', () => { ventana.location.href = './index.html'; });
+  velo.replaceChildren(textoCuenta, tituloFinal, premioFinal, continuar);
 
   const w = () => canvas.clientWidth || ventana.innerWidth;
   const h = () => canvas.clientHeight || ventana.innerHeight;
@@ -204,10 +210,14 @@ export function iniciarBonus(documento = document, ventana = window) {
     documento.querySelector('#marcador').textContent = String(partida.churus).padStart(2, '0');
     documento.querySelector('#reloj').textContent = partida.fase === 'cuenta' ? String(Math.ceil(partida.cuenta)) : String(Math.ceil(partida.restante));
     documento.querySelector('#combustible').style.width = `${partida.combustible * 20}%`;
-    const velo = documento.querySelector('#velo');
-    if (partida.fase === 'cuenta') { velo.hidden = false; velo.textContent = partida.cuenta > 0 ? String(Math.ceil(partida.cuenta)) : '¡YA!'; }
-    else if (partida.fase === 'jugando') velo.hidden = true;
-    else if (partida.fase === 'fin') { velo.hidden = false; velo.innerHTML = `<strong>¡Buen viaje, Senku!</strong><span>Ganaste ${partida.churus} Churus</span><button id="continuar">Seguir al desierto</button>`; documento.querySelector('#continuar').onclick = () => { ventana.location.href = './index.html'; }; }
+    if (partida.fase === 'cuenta') {
+      velo.hidden = false; textoCuenta.hidden = false; textoCuenta.textContent = partida.cuenta > 0 ? String(Math.ceil(partida.cuenta)) : '¡YA!';
+      tituloFinal.hidden = true; premioFinal.hidden = true; continuar.hidden = true;
+    } else if (partida.fase === 'jugando') velo.hidden = true;
+    else if (partida.fase === 'fin') {
+      velo.hidden = false; textoCuenta.hidden = true; tituloFinal.hidden = false; premioFinal.hidden = false; continuar.hidden = false;
+      premioFinal.textContent = `Ganaste ${partida.churus} Churus`;
+    }
     raf = ventana.requestAnimationFrame(fotograma);
   }
   raf = ventana.requestAnimationFrame(fotograma);
