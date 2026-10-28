@@ -83,7 +83,7 @@ export function iniciarBonus(documento = document, ventana = window) {
   const tituloFinal = documento.createElement('strong'); tituloFinal.textContent = '¡Buen viaje, Senku!'; tituloFinal.hidden = true;
   const premioFinal = documento.createElement('span'); premioFinal.hidden = true;
   const continuar = documento.createElement('button'); continuar.type = 'button'; continuar.textContent = 'Seguir al desierto'; continuar.hidden = true;
-  continuar.addEventListener('click', () => { ventana.location.href = './index.html'; });
+  continuar.addEventListener('click', () => { ventana.location.href = './index.html?cinematica=familia'; });
   velo.replaceChildren(textoCuenta, tituloFinal, premioFinal, continuar);
 
   const w = () => canvas.clientWidth || ventana.innerWidth;

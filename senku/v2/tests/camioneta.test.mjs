@@ -16,7 +16,7 @@ function iniciar(almacen = memoria(), conNavegacion = false) {
   };
   const ventana = {
     localStorage: almacen,
-    ...(conNavegacion ? { location: { href: '' } } : {}),
+    ...(conNavegacion ? { location: { href: '', search: typeof conNavegacion === 'string' ? conNavegacion : '' } } : {}),
     addEventListener: (tipo, fn) => { (eventos[tipo] ||= []).push(fn); },
     removeEventListener() {}, requestAnimationFrame: () => 1, cancelAnimationFrame() {},
   };
@@ -75,7 +75,7 @@ test('último enemigo por pisotón suelta una sola llave recogible, en cualquier
 
 test('con llave: teclado y táctil arrancan el bonus después de abordar', () => {
   for (const teclado of [false, true]) {
-    const { juego, elementos, eventos } = iniciar();
+    const { juego, elementos, eventos, ventana } = iniciar(memoria(), true);
     limpiarTaqueria(juego);
     recogerLlave(juego);
     assert.equal(juego.intentarSubir(), false, 'requiere estar junto a camioneta');
@@ -83,32 +83,35 @@ test('con llave: teclado y táctil arrancan el bonus después de abordar', () =>
     if (teclado) {
       for (const fn of eventos.keydown) fn({ code: 'KeyE', key: 'e', preventDefault() {} });
     } else assert.equal(elementos['btn-subir'].onclick(), true);
-    assert.equal(juego.avisoViaje(), 'Arrancando…');
+    assert.equal(juego.avisoViaje(), '');
     juego.avanzarPaso(1);
     assert.equal(juego.escena.id, 'taqueria');
     juego.avanzarPaso(1);
     assert.match(juego.avisoViaje(), /toma el volante/);
     assert.match(juego.avisoViaje(), /juntar Churus/);
     juego.avanzarPaso(3);
-    assert.equal(juego.escena.id, 'desierto');
-    assert.equal(juego.senku.x, juego.escena.puntoEntrada.x);
-    assert.equal(juego.enemigos.length, 2);
-    assert.equal(juego.estadoCombate.hp, 100);
-    assert.equal(juego.escena.plataformas.length, 4);
-    assert.equal(juego.estadoJugador().progreso.escena, 'desierto');
+    assert.equal(ventana.location.href, './bonus-camioneta.html');
+    assert.equal(juego.escena.id, 'taqueria');
     juego.detener();
   }
 });
 
-test('con llave, el embarque abre el bonus de camioneta tras el aviso', () => {
-  const { juego, ventana } = iniciar(memoria(), true);
-  limpiarTaqueria(juego);
-  recogerLlave(juego);
-  acercar(juego);
-  assert.equal(juego.intentarSubir(), true);
-  juego.avanzarPaso(5);
-  assert.equal(ventana.location.href, './bonus-camioneta.html');
-  assert.equal(juego.escena.id, 'taqueria');
+test('cinemática de la familia se puede saltar con Escape', () => {
+  const { juego, eventos } = iniciar(memoria(), '?cinematica=familia');
+  for (const fn of eventos.keydown) fn({ code: 'Escape', key: 'Escape', preventDefault() {} });
+  assert.equal(juego.escena.id, 'reja');
+  assert.equal(juego.estadoJugador().progreso.escena, 'reja');
+  assert.ok(juego.enemigos.length >= 20);
+  assert.ok(juego.escena.limites.w >= 5 * 1280);
+  juego.detener();
+});
+
+test('un guardado antiguo en desierto entra por la reja nueva', () => {
+  const almacen = memoria();
+  guardar(almacen, { ...estadoNuevo(), progreso: { escena: 'desierto' } });
+  const { juego } = iniciar(almacen);
+  assert.equal(juego.escena.id, 'reja');
+  assert.equal(cargar(almacen).estado.progreso.escena, 'reja');
   juego.detener();
 });
 
@@ -133,7 +136,7 @@ test('persistencia: derrotas parciales, llave pendiente, inventario y escena sob
   juego.avanzarPaso(5);
   juego.detener();
   ({ juego } = iniciar(almacen));
-  assert.equal(juego.escena.id, 'desierto');
+  assert.equal(juego.escena.id, 'reja');
   assert.ok(cargar(almacen).estado.coleccionados.includes('llave-camioneta'));
   assert.equal(juego.obtenerTrajeActivo().id, 'rata');
   assert.equal(juego.estadoJugador().churus, 8);

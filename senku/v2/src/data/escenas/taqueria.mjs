@@ -62,7 +62,7 @@ export const escenaTaqueria = {
   ],
   disparadores: [
     { id: 'camioneta', x: 90, y: 430, w: 255, h: 170,
-      destino: 'desierto', accion: 'subir', etiqueta: 'Subir', requiere: 'llave-camioneta' },
+      destino: 'reja', accion: 'subir', etiqueta: 'Subir', requiere: 'llave-camioneta' },
   ],
   // El último ratón/hámster derrotado suelta esta llave; no hay arte adecuado en objetos/.
   recompensaFinal: { id: 'llave-camioneta', tipo: 'llave', x: 1000, y: 566, w: 34, h: 28 },

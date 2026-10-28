@@ -73,5 +73,5 @@ test('recorrido completo llega al resumen, muestra Churus y permite seguir', () 
   assert.equal(continuar.textContent, 'Seguir al desierto');
   assert.equal(cargar(almacen).estado.churus, 5 + Number(premio.textContent.match(/\d+/)[0]));
   continuar.fire('click');
-  assert.equal(ventana.location.href, './index.html');
+  assert.equal(ventana.location.href, './index.html?cinematica=familia');
 });

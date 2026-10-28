@@ -337,7 +337,7 @@ test('integración: botiquín en escena desierto se recoge y respeta tope en 100
 
   // Simular los segundos del viaje hacia el desierto
   juego.avanzarPaso(5);
-  assert.equal(juego.escena.id, 'desierto');
+  assert.equal(juego.escena.id, 'reja');
 
   // Verificar presencia del botiquín en el desierto
   const botiquinDesierto = juego.escena.objetos.find((o) => o.tipo === 'botiquin');

@@ -1,6 +1,5 @@
 // Catálogo de definiciones de datos para enemigos en Senku 2.
-// Daño por contacto configurable según diseño de Matías:
-// Cucaracha = 1, Rata menor / Ratón = 1, Hámster = 2.
+// Enemigos pequeños del parque causan 1 punto de daño por golpe.
 // HP de enemigos se conserva en null para que el pisotón los derrote de un golpe.
 
 export const DANO_CUCARACHA = 1;
@@ -55,7 +54,7 @@ export const CATALOGO_ENEMIGOS = {
     alto: 28,
     velocidadPatrulla: 80,
     hp: null,
-    dano: DANO_HAMSTER,   // Daño por contacto = 2
+    dano: DANO_HAMSTER,   // Daño por contacto según diseño: 2
     pisable: true,
     recompensaChurus: null,
     color: '#d35400',

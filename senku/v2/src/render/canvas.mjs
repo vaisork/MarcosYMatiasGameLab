@@ -211,6 +211,7 @@ export function renderizarEscena({
   catalogoArte = null,
   rutaFondo = null,
   tiempo = 0,
+  cameraX = 0,
   debug = modoDebugActivo(),
 }) {
   if (!ctx || !escena) return;
@@ -231,6 +232,8 @@ export function renderizarEscena({
 
   if (imagenFondo) {
     ctx.drawImage(imagenFondo, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
+  } else if (fondoCfg.estilo === 'desierto') {
+    dibujarParalajeDesierto(ctx, cameraX, tiempo);
   } else {
     // Fondo plano de respaldo
     ctx.fillStyle = fondoCfg.colorRespaldo || '#e6be8a';
@@ -259,6 +262,10 @@ export function renderizarEscena({
       ctx.fill();
     }
   }
+
+  ctx.save();
+  ctx.translate(-cameraX, 0);
+  if (fondoCfg.estilo === 'desierto') dibujarReja(ctx);
 
   // 3. Plataformas y suelo
   // Con arte de fondo las plataformas son invisibles (se apoyan en elementos del dibujo);
@@ -327,6 +334,7 @@ export function renderizarEscena({
   }
 
   if (debug) dibujarDebugColisiones(ctx, escena);
+  ctx.restore();
 
   // 4. Senku provisional: rectángulo limpio sin inventar arte
   if (cuerpoJugador) {
@@ -362,4 +370,53 @@ export function renderizarEscena({
   }
 
   ctx.restore();
+}
+
+function dibujarParalajeDesierto(ctx, cameraX, tiempo) {
+  const cielo = ctx.createLinearGradient ? ctx.createLinearGradient(0, 0, 0, 620) : null;
+  if (cielo) { cielo.addColorStop(0, '#65b8d0'); cielo.addColorStop(0.68, '#f4c778'); cielo.addColorStop(1, '#f6dda0'); }
+  else ctx.fillStyle = '#eabf78';
+  if (cielo) ctx.fillStyle = cielo;
+  ctx.fillRect(0, 0, ANCHO_LOGICO, ALTO_LOGICO);
+  ctx.fillStyle = '#fff0ae';
+  ctx.beginPath(); ctx.arc(1030, 125, 58, 0, Math.PI * 2); ctx.fill();
+  for (let layer = 0; layer < 3; layer++) {
+    const factor = [0.12, 0.28, 0.52][layer];
+    const baseY = [405, 478, 542][layer];
+    const step = [500, 380, 270][layer];
+    const offset = -((cameraX * factor) % step);
+    ctx.fillStyle = ['#bc795e', '#a65f43', '#d89358'][layer];
+    for (let x = offset - step; x < ANCHO_LOGICO + step; x += step) {
+      const h = [115, 92, 56][layer] + (Math.floor((x + cameraX * factor) / step) % 3) * 18;
+      ctx.beginPath();
+      ctx.moveTo(x, baseY); ctx.lineTo(x + step * 0.18, baseY - h * 0.62);
+      ctx.lineTo(x + step * 0.31, baseY - h); ctx.lineTo(x + step * 0.45, baseY - h * 0.8);
+      ctx.lineTo(x + step * 0.58, baseY - h); ctx.lineTo(x + step * 0.79, baseY - h * 0.4);
+      ctx.lineTo(x + step, baseY); ctx.closePath(); ctx.fill();
+    }
+  }
+  // Cactus silhouettes drift slowly in the nearest background layer.
+  for (let i = 0; i < 9; i++) {
+    const x = ((i * 191 - cameraX * 0.68) % 1500 + 1500) % 1500 - 80;
+    const y = 552 + (i % 3) * 13;
+    ctx.fillStyle = '#567b50'; ctx.fillRect(x, y - 50, 12, 50);
+    ctx.fillRect(x - 13, y - 35, 13, 8); ctx.fillRect(x - 13, y - 48, 8, 20);
+    ctx.fillRect(x + 12, y - 27, 15, 8); ctx.fillRect(x + 19, y - 42, 8, 23);
+  }
+  ctx.fillStyle = '#e7b767'; ctx.fillRect(0, 575, ANCHO_LOGICO, 145);
+  ctx.fillStyle = '#f1ca7c';
+  for (let i = 0; i < 22; i++) {
+    const x = ((i * 79 - cameraX * 0.85 + ANCHO_LOGICO) % ANCHO_LOGICO);
+    ctx.fillRect(x, 579 + (i % 4) * 6 + Math.sin(tiempo + i) * 2, 28, 3);
+  }
+}
+
+function dibujarReja(ctx) {
+  ctx.fillStyle = '#473c32'; ctx.fillRect(65, 365, 6, 235); ctx.fillRect(365, 365, 6, 235);
+  ctx.fillStyle = '#f3d383'; ctx.fillRect(78, 355, 280, 10);
+  ctx.fillStyle = '#574b3c';
+  for (let x = 86; x < 360; x += 26) ctx.fillRect(x, 370, 7, 230);
+  ctx.fillRect(75, 420, 285, 7);
+  ctx.fillStyle = '#f6e3a4'; ctx.font = 'bold 20px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('PARQUE DEL DESIERTO', 218, 348);
 }
