@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_terraza_cargas.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "dcbb99e88f198a82b96853554cc4f655bebc7b919e063144f963a559ff2b584f",
+  "bytes": 129018,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-7ffb6392-1860-4848-b064-7a9e33a77fd8.png",
+  "normalization": "Mechanical resize to 640x480 with Lanczos, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: crisp detailed 3/4 pixel-art matching Korven, full-bleed, no text or actors; all four openings checked against scene/Tiled mask.",
+  "prompt": "Use Korven reference for strict 16-bit pixel art style and elevated three-quarter camera. New Hoshai RPG room background, 4:3 landscape. A square mountain loading terrace with EXACTLY four open paths through its rock perimeter: north path at top center, south path at bottom center, west path crossing the LEFT edge at exact mid-height, east path crossing the RIGHT edge at exact mid-height. Draw each opening as an obvious unobstructed stone trail continuing beyond the canvas edge; connect all four through the open central terrace. Do not put walls, awnings, crates, rocks, ropes or objects in those four routes. Put the blue canvas shelter, bundles and rope coils only in the far northwest corner, away from the west-middle opening. Exposed cliff edge stays safely behind low stone retaining wall, away from paths. Warm ochre paving, gray rock walls, muted olive plants. Crisp chunky pixels, dark clean outlines, detailed Korven-style 16-bit RPG scene, clearly isometric three-quarter view. Ground and rocks fill every edge, no blank margin or horizon. No people, animals, creatures, text, symbols or UI.",
+  "webp_quality": 50
+}

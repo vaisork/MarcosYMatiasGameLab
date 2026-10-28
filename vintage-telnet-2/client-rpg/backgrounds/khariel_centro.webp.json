@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/khariel_centro.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "b2bab2b6472a88624cdefd90159d72ec259552d74c0f79da9881c8024eb89b52",
+  "bytes": 130662,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-0a09bf47-4537-4561-b604-e6641bd5fb3e.png",
+  "normalization": "Mechanical resize to 640x480 with Lanczos, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: crisp detailed 3/4 pixel-art matching Korven, full-bleed terrain, no text or actors; exits and visible permanent obstacles aligned with scene/Tiled mask.",
+  "prompt": "Use attached Korven room as strict pixel-art and camera reference. Create a new Hoshai/Khariel RPG plaza background, 4:3 landscape, crisp detailed 16-bit pixel art, clean dark outlines, chunky pixels, warm stone and ochre with muted olive accents, elevated three-quarter/isometric view. A small mountain village plaza has two stone terraces connected by one broad continuous ramp through the center. Four real route openings remain clear: stairs at bottom toward the mountain, a rising lane at top toward homes, a plain workshop doorway on the left, and colorful blank fabric ribbons between stone walls on the right. Low benches sit at the sides with clear space behind them. Keep the middle ramp and walking paths wide and unobstructed. Stone paving, walls and buildings fill all edges; no horizon, no blank margins. No people, animals, creatures, text, letters, writing, symbols, UI. Match Korven's clean pixelated game-room design, not painterly.",
+  "webp_quality": 50
+}

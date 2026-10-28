@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_ladera_hitos.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "8df3c7ac73d4cc6820201ab53fadc00f0089b6ccf1664d6191e2f3cdf48a3127",
+  "bytes": 134106,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-4f82cd5b-1f80-49ba-9c3f-44642e0badf5.png",
+  "normalization": "Mechanical resize to 640x480 with Lanczos, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: crisp detailed 3/4 pixel-art matching Korven, full-bleed terrain, no text or actors; exits and visible permanent obstacles aligned with scene/Tiled mask.",
+  "prompt": "Use attached Korven room only as strict style/camera reference. New Hoshai mountain room background, 4:3 landscape, crisp hand-drawn pixel art, chunky square pixel clusters, dark clean pixel outlines, limited warm olive, ochre and stone palette, elevated three-quarter/isometric room view. Open steep alpine trail with two separate groups of stacked stone cairns beside the route. One small blank wooden tablet leans near the lower cairn; it has no marks. The trail curves from bottom center to top center, broad and safe. Cliffs and grass frame the route; show a valley floor as nearby terrain, not a distant horizon. Fill every edge with terrain, no blank margin, no border. No people, animals, creatures, letters, symbols, text, UI, or buildings. Match Korven's clean 16-bit pixel-art surfaces, not painterly rendering.",
+  "webp_quality": 50
+}
