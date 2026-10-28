@@ -49,15 +49,17 @@ export const IMAGENES_OBJETO = Object.freeze({
   raton_proyectil: 'assets/objetos/raton_proyectil.png',
 });
 
-const ESCALA_JUGADOR = 0.9;
+const ESCALA_JUGADOR = 1.05;
 
 // Fotogramas por fila: fila 0 = caminar; fila 1 = agachado, salto, caída, impacto (jugador)
 // o daño, rodando, panza arriba, derrotado (enemigos).
 export const ANIMACIONES_JUGADOR = Object.freeze({
   quieto: { frames: [0], fps: 1 },
   caminar: { frames: [0, 1, 2, 3], fps: 10 },
+  despegue: { frames: [4], fps: 1 },
   salto: { frames: [5], fps: 1 },
   caida: { frames: [6], fps: 1 },
+  aterrizar: { frames: [4], fps: 1 },
   golpeado: { frames: [7], fps: 1 },
 });
 
@@ -131,14 +133,26 @@ export function estadoVisualJugador(cuerpo, combate = null, tiempo = 0) {
   const restante = combate?.tiempoInvulnerable ?? 0;
   const invulnerable = Boolean(combate?.invulnerable) && restante > 0;
   let nombre;
-  if (invulnerable && duracion - restante < DURACION_GOLPE_JUGADOR) nombre = 'golpeado';
-  else if (!cuerpo?.enSuelo && (cuerpo?.vy ?? 0) < 0) nombre = 'salto';
-  else if (!cuerpo?.enSuelo) nombre = 'caida';
-  else if (Math.abs(cuerpo?.vx ?? 0) > 20) nombre = 'caminar';
-  else nombre = 'quieto';
+  if (invulnerable && duracion - restante < DURACION_GOLPE_JUGADOR) {
+    nombre = 'golpeado';
+  } else if (!cuerpo?.enSuelo) {
+    if (cuerpo?.saltando && (cuerpo?.tiempoSalto ?? 0) > 0 && (cuerpo?.tiempoSalto ?? 0) < 0.08) {
+      nombre = 'despegue';
+    } else if ((cuerpo?.vy ?? 0) < 0) {
+      nombre = 'salto';
+    } else {
+      nombre = 'caida';
+    }
+  } else if ((cuerpo?.tiempoAterrizaje ?? 0) > 0 && Math.abs(cuerpo?.vx ?? 0) <= 20) {
+    nombre = 'aterrizar';
+  } else if (Math.abs(cuerpo?.vx ?? 0) > 20) {
+    nombre = 'caminar';
+  } else {
+    nombre = 'quieto';
+  }
   // Parpadeo mientras dura la invulnerabilidad
   const alpha = invulnerable && Math.floor(tiempo * 14) % 2 === 1 ? 0.45 : 1;
-  return { nombre, frame: fotogramaDeAnimacion(ANIMACIONES_JUGADOR[nombre], tiempo), alpha };
+  return { nombre, frame: fotogramaDeAnimacion(ANIMACIONES_JUGADOR[nombre] || ANIMACIONES_JUGADOR.quieto, tiempo), alpha };
 }
 
 // Memoria mínima por enemigo para daño y derrota (la lógica de combate no guarda tiempos).
@@ -174,7 +188,7 @@ export function crearAnimadorEnemigos() {
   return { estado };
 }
 
-function dibujarFotograma(ctx, imagen, frame, cuerpo, escala, mirando, alpha = 1) {
+function dibujarFotograma(ctx, imagen, frame, cuerpo, escala, mirando, alpha = 1, estadoNombre = '', tiempo = 0) {
   const { sx, sy, sw, sh } = rectanguloFotograma(frame);
   const { dx, dy, dw, dh } = rectanguloDestino(cuerpo, escala);
   ctx.save();
@@ -186,7 +200,27 @@ function dibujarFotograma(ctx, imagen, frame, cuerpo, escala, mirando, alpha = 1
     ctx.scale(-1, 1);
     ctx.translate(-eje, 0);
   }
-  ctx.drawImage(imagen, sx, sy, sw, sh, dx, dy, dw, dh);
+
+  // Respiración felina sutil en reposo (respira)
+  let yOffset = 0;
+  let hScale = 1;
+  if (estadoNombre === 'quieto' && tiempo > 0) {
+    const cicloRespiro = Math.sin(tiempo * 2.8);
+    hScale = 1 + cicloRespiro * 0.025;
+    yOffset = dh * (1 - hScale);
+  }
+
+  ctx.drawImage(imagen, sx, sy, sw, sh, dx, dy + yOffset, dw, dh * hScale);
+
+  // Parpadeo natural en reposo (parpadea)
+  if (estadoNombre === 'quieto' && tiempo > 0 && (tiempo % 3.6) > 3.42) {
+    ctx.fillStyle = '#261b17';
+    // Coordenadas relativas del ojo en fotograma 0
+    const ojoX = dx + dw * 0.64;
+    const ojoY = dy + yOffset + dh * hScale * 0.37;
+    ctx.fillRect(ojoX, ojoY, Math.max(3, dw * 0.06), Math.max(2, dh * 0.025));
+  }
+
   ctx.restore();
 }
 
@@ -195,7 +229,7 @@ export function dibujarJugador(ctx, catalogo, { cuerpo, trajeId, combate = null,
   const imagen = catalogo?.obtener(rutaHojaJugador(trajeId));
   if (!ctx || !imagen || !cuerpo) return false;
   const visual = estadoVisualJugador(cuerpo, combate, tiempo);
-  dibujarFotograma(ctx, imagen, visual.frame, cuerpo, ESCALA_JUGADOR, cuerpo.mirando, visual.alpha);
+  dibujarFotograma(ctx, imagen, visual.frame, cuerpo, ESCALA_JUGADOR, cuerpo.mirando, visual.alpha, visual.nombre, tiempo);
   return true;
 }
 

@@ -17,7 +17,7 @@ test('catálogo de datos de enemigos contiene plantillas y daño configurado', (
   assert.equal(CATALOGO_ENEMIGOS.cucaracha.hp, null);
   assert.equal(CATALOGO_ENEMIGOS.cucaracha.dano, 1);
   assert.equal(CATALOGO_ENEMIGOS.rata_menor.dano, 1);
-  assert.equal(CATALOGO_ENEMIGOS.hamster.dano, 1);
+  assert.equal(CATALOGO_ENEMIGOS.hamster.dano, 2);
   assert.equal(CATALOGO_ENEMIGOS.cucaracha.recompensaChurus, null);
 
   const plantilla = obtenerPlantillaEnemigo('cucaracha');

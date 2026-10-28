@@ -73,7 +73,7 @@ export const escenaTaqueria = {
     { id: 'churu-3', tipo: 'churu', x: 265, y: 406, w: 22, h: 58, recogido: false }, // sobre baul-cajas
     { id: 'churu-4', tipo: 'churu', x: 200, y: 326, w: 22, h: 58, recogido: false }, // sobre portaequipajes
     { id: 'churu-5', tipo: 'churu', x: 550, y: 235, w: 22, h: 58, recogido: false }, // sobre lona-alta
-    { id: 'churu-6', tipo: 'churu', x: 900, y: 421, w: 22, h: 58, recogido: false }, // sobre barra-tacos
+    { id: 'churu-6', tipo: 'churu', x: 930, y: 421, w: 22, h: 58, recogido: false }, // sobre barra-tacos
     { id: 'churu-7', tipo: 'churu', x: 850, y: 246, w: 22, h: 58, recogido: false }, // sobre toldo-taqueria
     { id: 'churu-8', tipo: 'churu', x: 1210, y: 195, w: 22, h: 58, recogido: false }, // sobre parapeto-derecho
     { id: 'botiquin-1', tipo: 'botiquin', x: 1060, y: 475, w: 36, h: 36, recogido: false }, // sobre mesa-derecha

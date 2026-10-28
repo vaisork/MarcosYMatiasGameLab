@@ -8,6 +8,8 @@ Derrota con pisotones a los tres enemigos. El último ratón/hámster en caer su
 
 El viaje muestra una cinemática saltable: el auto familiar llega y estaciona, la familia baja y el niño pregunta «Mamá, mamá, ¿podemos ir al parque del desierto?»; su madre responde «Sí, ahorita vamos». Senku entra por la reja y recorre siete pantallas continuas con cámara, tres capas de paralaje, secretos, Churus y oleadas de ratones y hámsters negros y cafés. Flechas/A/D mueven a Senku; Espacio/▲/W permiten saltar y Espacio/Enter/Escape saltan la cinemática. M abre el armario y T cambia de traje.
 
+La música por zona queda pendiente: todavía no hay reproductor de música; `cambiarEscena` conserva el punto de conexión para enlazarla.
+
 Decisión técnica (2026-10-23): `coleccionados` conserva los IDs de enemigos derrotados y `llave-camioneta` como inventario; `progreso.escena` guarda el destino. Se mantiene el formato versión 1 y las claves de Legacy intactas. Si se recarga antes de recoger la llave, esta reaparece cerca del punto original de la rata; las derrotas parciales también se conservan. Reiniciar por falta de vida conserva estos avances.
 
 La llave usa un dibujo sencillo porque no hay arte de llave en `assets/objetos`. El desierto usa el fondo existente y plataformas visibles. Sin bonus, reja explorable, garras, anclador ni jefe.

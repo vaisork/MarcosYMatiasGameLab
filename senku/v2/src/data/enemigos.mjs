@@ -5,7 +5,7 @@
 export const DANO_CUCARACHA = 1;
 export const DANO_RATA = 1;
 export const DANO_RATON = 1;
-export const DANO_HAMSTER = 1;
+export const DANO_HAMSTER = 2;
 
 export const CATALOGO_ENEMIGOS = {
   cucaracha: {
@@ -54,7 +54,7 @@ export const CATALOGO_ENEMIGOS = {
     alto: 28,
     velocidadPatrulla: 80,
     hp: null,
-    dano: DANO_HAMSTER,   // Daño por contacto = 1
+    dano: DANO_HAMSTER,   // Daño por contacto según diseño: 2
     pisable: true,
     recompensaChurus: null,
     color: '#d35400',

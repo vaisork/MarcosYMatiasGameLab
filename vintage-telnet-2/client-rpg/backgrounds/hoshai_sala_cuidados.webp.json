@@ -1,0 +1,14 @@
+{
+  "asset_id": "backgrounds/hoshai_sala_cuidados.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "609aaff53a763c0b9345c5e1e674206b4c63099bcc75bd023bfa730f23445345",
+  "bytes": 99776,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "hoshai_sala_cuidados_1793153933685.jpg",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art, full-bleed, no text or actors; exits checked against scene and Tiled mask.",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG, high three-quarter overhead view (60 degrees angle), 4:3 landscape, readable walkable terrain for a 20x15 room grid. Full-bleed to all canvas edges; ground only, no sky and no horizon. NO people, characters, NPCs, creatures, animals, text, signage, HUD, borders or baked-in actors. Khariel settlement in Hoshai. Asiento de cuidados de Khariel: a quiet, practical care and resting room built on an elevated mountain terrace. Solid mountain stone and timber construction. A broad, sturdy wooden resting bench is securely anchored against the back stone wall. Next to it stands a simple shelf holding a neatly closed wooden lidded box for clean cloths. On a side wall under an overhanging timber beam, damp travel cloaks hang to dry. High on the right wall, a wide stone window looks out onto the cool blue mountain valley (window is high up, not an exit). Exactly ONE open pathway reaching the canvas boundaries: WEST exit: an open doorway reaching the LEFT border at mid-height (40% to 53% canvas height, connecting to the ribbon market). The TOP, BOTTOM, and RIGHT borders are solid room walls. Clean, unobstructed walkable stone flagstone floor in the room center. Crisp tactile pixel art, calming mountain atmosphere, cool daylight, no empty margins."
+}

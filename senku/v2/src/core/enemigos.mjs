@@ -23,6 +23,7 @@ export function crearEnemigo({
   colorDetalle = null,
   comportamiento = null,
   variante = null,
+  oleada = 1,
 } = {}) {
   const plantilla = obtenerPlantillaEnemigo(tipo);
 
@@ -68,6 +69,8 @@ export function crearEnemigo({
     colorDetalle: colorDetalleFinal,
     comportamiento: comportamiento || 'patrulla',
     variante: variante || 'cafe',
+    oleada,
+    activo: oleada <= 1,
     baseY: y,
     fase: 0,
   };

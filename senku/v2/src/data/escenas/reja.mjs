@@ -30,11 +30,11 @@ export const escenaReja = {
       h: tipo === 'hamster' ? 28 : 26,
       velocidad: 65 + Math.floor(i / 4) * 8,
       patrulla: { minX: Math.max(0, x - 110), maxX: x + 250 },
-      dano: 1, hp: null, pisable: true,
+      hp: null, pisable: true,
     };
   }),
   objetos: [
-    { ...botiquinDesierto },
+    { ...botiquinDesierto, id: 'botiquin-desierto-1' },
     ...[760, 1540, 2450, 3310, 4320, 5240, 6220, 7140, 8110].map((x, i) => ({
       id: `churu-parque-${i + 1}`, tipo: 'churu', x, y: [540, 450, 365][i % 3], w: 22, h: 58,
     })),

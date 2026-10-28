@@ -27,7 +27,8 @@ test('oleadas repartidas por zona mezclan ratones y hámsters negros y cafés', 
     const desde = zona * 1280;
     assert.ok(escenaReja.enemigos.some((e) => e.x >= desde && e.x < desde + 1280), `zona ${zona + 1}`);
   }
-  assert.ok(escenaReja.enemigos.every((e) => e.dano === 1 && e.pisable));
+  assert.ok(escenaReja.enemigos.every((e) => e.pisable));
+  assert.equal(escenaReja.objetos.find((o) => o.tipo === 'botiquin').id, 'botiquin-desierto-1');
 });
 
 test('hay churus alcanzables y dos secretos elevados en plataformas', () => {
@@ -56,4 +57,12 @@ test('patrulla, salto y persecución producen movimiento distinto', () => {
   assert.ok(saltador.y < saltoY);
   assert.ok(perseguidor.x < persecucionX);
   assert.notEqual(patrulla.x, patrullaX);
+});
+
+test('oleadas conservan daño definido por tipo', () => {
+  const hamster = crearEnemigo(escenaReja.enemigos.find((e) => e.tipo === 'hamster'));
+  const raton = crearEnemigo(escenaReja.enemigos.find((e) => e.tipo === 'raton'));
+  assert.equal(hamster.dano, 2);
+  assert.equal(raton.dano, 1);
+  assert.ok(escenaReja.enemigos.every((e) => Number.isInteger(e.oleada) && e.oleada > 0));
 });
