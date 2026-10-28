@@ -146,7 +146,55 @@
       font-size: 12px; background: #241c1cdb; color: #fff4dc; padding: 6px 12px; border-radius: 8px; }
     .aviso-orientacion { position: absolute; top: 90px; left: 50%; transform: translateX(-50%);
       padding: 6px 12px; background: #241c1ced; font-size: 12px; z-index: 25; white-space: nowrap; }
+
+    /* Cartel grande y animado para mensajes (legible en celular ≥ 28px) */
+    #aviso-viaje {
+      position: absolute;
+      z-index: 50;
+      top: 18%;
+      left: 50%;
+      transform: translate(-50%, -24px) scale(0.92);
+      max-width: min(92%, 760px);
+      width: max-content;
+      min-width: 280px;
+      padding: 16px 28px;
+      text-align: center;
+      font-size: clamp(28px, 4vw, 36px);
+      font-weight: 850;
+      line-height: 1.35;
+      letter-spacing: 0.5px;
+      color: #fffbeb;
+      background: linear-gradient(180deg, rgba(42, 28, 18, 0.96) 0%, rgba(20, 14, 10, 0.98) 100%);
+      border: 3.5px solid #f59e0b;
+      border-radius: 20px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85), inset 0 2px 4px rgba(254, 240, 138, 0.35);
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
+      pointer-events: none;
+      box-sizing: border-box;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0.28s;
+    }
+    #aviso-viaje.activo {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0) scale(1);
+    }
+    #aviso-viaje.saliendo {
+      opacity: 0;
+      visibility: visible;
+      transform: translate(-50%, 16px) scale(0.94);
+    }
     @media (max-height: 500px) {
+      #aviso-viaje {
+        font-size: 28px;
+        padding: 12px 20px;
+        top: 14%;
+        border-width: 3px;
+        border-radius: 16px;
+      }
       .hud-superior { top: calc(env(safe-area-inset-top, 0px) + 8px); gap: 8px; }
       .retrato { width: 40px; height: 40px; }
       .barra-vida-contenedor { width: 90px; }
@@ -158,6 +206,14 @@
       .ayuda-teclado { display: none; }
     }
     @media (max-width: 600px) {
+      #aviso-viaje {
+        font-size: 28px;
+        padding: 14px 20px;
+        top: 15%;
+        max-width: 94%;
+        border-width: 3px;
+        border-radius: 16px;
+      }
       .hud-superior { flex-wrap: wrap; gap: 6px; left: calc(env(safe-area-inset-left, 0px) + 8px);
         right: calc(env(safe-area-inset-right, 0px) + 8px); }
       .hud-escena, #hud-traje { display: none; }
@@ -221,7 +277,7 @@
       <canvas id="lienzo-juego" width="1280" height="720" role="img" aria-label="Pantalla de juego de Senku 2 en la Taquería"></canvas>
     </main>
 
-    <p id="aviso-viaje" role="status" aria-live="polite" style="position:absolute;top:18%;left:5%;right:5%;text-align:center;color:white;background:#24180ddd;pointer-events:none" hidden></p>
+    <p id="aviso-viaje" role="status" aria-live="polite" hidden></p>
 
     <!-- Ayuda para teclado (escritorio) -->
     <div class="ayuda-teclado">
