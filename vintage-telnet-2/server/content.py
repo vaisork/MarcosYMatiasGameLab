@@ -15,9 +15,17 @@ class Content:
             document = json.loads(filename.read_text(encoding='utf-8'))
             for table in TABLES:
                 for key, value in document.get(table, {}).items():
+                    if table == 'npcs' and key in self.data[table]:
+                        raise ValueError(f'Duplicate NPC ID {key} in {filename.name}')
                     if key in self.data[table] and self.data[table][key] != value:
                         raise ValueError(f'Duplicate conflicting {table}:{key} in {filename.name}')
                     self.data[table][key] = value
+        for npc_id, npc in self.npcs.items():
+            if npc.get('id', npc_id) != npc_id:
+                raise ValueError(f'NPC identity mismatch: {npc_id}')
+            home_room = npc.get('home_room')
+            if home_room is not None and home_room not in self.rooms:
+                raise ValueError(f'Unknown home room for NPC {npc_id}: {home_room}')
         numenes_file = self.root/'numenes.json'
         self.numenes = json.loads(numenes_file.read_text(encoding='utf-8')).get('numenes',{}) if numenes_file.is_file() else {}
         vaisork_file = self.root/'vaisork.json'
