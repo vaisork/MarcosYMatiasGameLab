@@ -16,6 +16,7 @@ import {
 } from './core/trajes_activo.mjs';
 import { crearCuerpo, actualizarCuerpo, solapanAABB } from './core/fisica.mjs';
 import { crearRegistroEscenas } from './core/escenas.mjs';
+import { escenaCiudad } from './data/escenas/ciudad.mjs';
 import { escenaTaqueria } from './data/escenas/taqueria.mjs';
 import { escenaDesierto } from './data/escenas/desierto.mjs';
 import { escenaReja } from './data/escenas/reja.mjs';
@@ -365,6 +366,9 @@ export function arrancarSenku2({
           if (almacen) guardar(almacen, estadoJugador);
         }
       }
+      if (params.get('escena') === 'ciudad') {
+        estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: 'ciudad' } };
+      }
     } catch {
       // Ignorar fallo en parseo de URL
     }
@@ -541,6 +545,7 @@ export function arrancarSenku2({
 
   // 3. Registro y carga de escenas
   const registro = crearRegistroEscenas();
+  registro.registrar(escenaCiudad);
   registro.registrar(escenaTaqueria);
   registro.registrar(escenaReja);
   registro.registrar(escenaDesierto);
@@ -650,21 +655,30 @@ export function arrancarSenku2({
     const zona = zonaCamioneta();
     if (btnSubir) btnSubir.hidden = !zona || !!viaje || menuAbierto;
     if (zona && !viaje && !avisoRestante) {
-      mostrarAviso(estadoJugador.coleccionados.includes(zona.requiere)
-        ? '¡Ya tienes la llave! Pulsa E o Subir.'
-        : 'La camioneta no arranca… ¡busca la llave!', 0.5);
+      if (!zona.requiere) {
+        mostrarAviso('¡El camión está listo! Pulsa E o Subir.', 0.5);
+      } else {
+        mostrarAviso(estadoJugador.coleccionados.includes(zona.requiere)
+          ? '¡Ya tienes la llave! Pulsa E o Subir.'
+          : 'La camioneta no arranca… ¡busca la llave!', 0.5);
+      }
     }
   }
 
   function intentarSubir() {
     const zona = zonaCamioneta();
     if (!zona || menuAbierto || viaje) return false;
-    if (!estadoJugador.coleccionados.includes(zona.requiere)) {
+    if (zona.requiere && !estadoJugador.coleccionados.includes(zona.requiere)) {
       mostrarAviso('La camioneta no arranca… ¡busca la llave!');
       return false;
     }
     entrada.soltarTodo();
-    viaje = { destino: 'reja', tiempo: 0 };
+    viaje = {
+      destino: zona.destino || 'reja',
+      rutaBonus: zona.rutaBonus || './bonus-camioneta.html',
+      tipo: zona.id,
+      tiempo: 0,
+    };
     mostrarAviso('', 0);
     actualizarCamioneta();
     reproducirSonidoMotor(ventana);
@@ -860,11 +874,13 @@ export function arrancarSenku2({
       }
       if (viaje.tiempo < 2) return;
       if (viaje.tiempo < 5) {
-        mostrarAviso('¡Senku toma el volante! ¡A juntar Churus!', 0);
+        mostrarAviso(viaje.tipo === 'camion'
+          ? '¡Senku sube al camión! ¡A juntar Churus!'
+          : '¡Senku toma el volante! ¡A juntar Churus!', 0);
         return;
       }
       if (ventana.location) {
-        ventana.location.href = './bonus-camioneta.html';
+        ventana.location.href = viaje.rutaBonus || './bonus-camioneta.html';
       } else {
         cambiarEscena(viaje.destino, { curar: true });
       }
@@ -1117,8 +1133,16 @@ export function arrancarSenku2({
 
     if (ctx) ctx.restore();
     if (ctx && viaje) {
-      if (viaje.tiempo < 1) dibujarAnimacionCamioneta(ctx, catalogoArte, { ...viaje, tiempo: viaje.tiempo * 2 });
-      else dibujarCinematica(ctx, (viaje.tiempo - 1) * 1.25);
+      if (viaje.tipo === 'camion') {
+        ctx.save();
+        ctx.fillStyle = 'rgba(18, 14, 24, 0.38)';
+        ctx.fillRect(0, 0, ANCHO_LOGICO, ALTO_LOGICO);
+        ctx.restore();
+      } else if (viaje.tiempo < 1) {
+        dibujarAnimacionCamioneta(ctx, catalogoArte, { ...viaje, tiempo: viaje.tiempo * 2 });
+      } else {
+        dibujarCinematica(ctx, (viaje.tiempo - 1) * 1.25);
+      }
     }
     dibujarAvisoCarga(ctx, catalogoArte);
     if (ctx) {
