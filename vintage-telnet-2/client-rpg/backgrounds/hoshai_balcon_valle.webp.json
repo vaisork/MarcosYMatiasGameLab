@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_balcon_valle.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "4b2db037e50020137a2cea835972f33b59f57f3f0bc9b6f3413866b6328deb98",
+  "bytes": 244778,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-72fb213f-21c7-4b4b-8472-0c72df60f9ca.png",
+  "normalization": "Resize to 640x480 with Lanczos, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed raised 3/4 pixel-art, full-bleed terrain, no actors or readable text; static obstacles and exits checked against scene/Tiled mask.",
+  "prompt": "1280x960 paisaje para RPG 2D, pixel art moderno y detallado. Igualar las referencias aprobadas de Hoshai y Korven: píxeles agrupados nítidos, perspectiva elevada 3/4 con caras verticales visibles (no mapa cenital plano), hierba alpina, pizarra y luz cálida desde arriba a la izquierda. Balcón estrecho y protegido sobre un valle amplio; saliente rocoso y pared alta enmarcan la vista, banco pequeño de madera retirado del borde, cornisa oculta parte del valle y se ve abajo un sendero y arroyo lejanos. Terreno dibujado con detalle hasta los cuatro bordes, sin margen vacío. Suelo transitable por el centro inferior y una sola salida hacia el borde derecho. Sólo fondo: sin personas, criaturas, letreros, símbolos, escritura, interfaz ni borde. Pixel art, no vector suave ni render 3D.",
+  "webp_quality": 60
+}

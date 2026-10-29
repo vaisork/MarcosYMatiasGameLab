@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_caseta_revision.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "c92392d897b1512aba320e149a5dc3bab3502aadb0d8ed70e4b39bad4c1242fe",
+  "bytes": 245208,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-9eea12dd-0cbc-4ca9-9e38-a2b6e4188894.png",
+  "normalization": "Resize to 640x480 with Lanczos, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed raised 3/4 pixel-art, full-bleed terrain, no actors or readable text; static obstacles and exits checked against scene/Tiled mask.",
+  "prompt": "1280x960 horizontal para fondo de RPG 2D, pixel art detallado en grupos nítidos, coherente con Hoshai y Korven, vista elevada 3/4 con caras de roca y madera visibles, pizarra alpina y luz dorada cálida. Caseta pequeña de inspección pegada a la pared de montaña. Puerta abierta al sur en el centro inferior; cuelgan dentro algunas tiras de tela de repuesto de colores lisos, herramientas sencillas y tablillas de madera con diagramas abstractos de nudos hechos sólo de líneas, sin letras. Interior y ladera rocosa llenan todos los bordes, sin margen vacío. Entrada y espacio central del piso despejados. Sin personas ni criaturas, sin marcas legibles, letras, palabras, iconos, interfaz, borde o letreros. Pixel art, no cenital plano ni 3D.",
+  "webp_quality": 65
+}

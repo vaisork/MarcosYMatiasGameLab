@@ -772,6 +772,11 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/hoshai_balcon_valle.webp"
     }
   ],
   "tilesets": [

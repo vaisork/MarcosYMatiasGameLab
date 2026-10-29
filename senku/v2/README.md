@@ -2,6 +2,10 @@
 
 Juego independiente de Legacy. Abrir `index.html` mediante un servidor HTTP desde la raíz del repositorio.
 
+## Ciudad y bonus del camión
+
+En la escena `ciudad` (`index.html?escena=ciudad` o `progreso.escena = 'ciudad'`), Senku atraviesa la calle hasta el camión estacionado a la derecha (`disparador` `id: 'camion'`, `accion: 'subir'`). Al pulsar **E** o **Subir**, muestra «¡Senku sube al camión! ¡A juntar Churus!» y abre `./bonus-camion.html` (`src/bonus_camion.mjs`): cuenta regresiva de 3 s y 45 s de juego por la ciudad con tres capas de paralaje (edificios con tinacos, fachadas de barrio y postes con cables), donde el camión avanza y Senku salta entre las cajas bajas, los huacales medios y el techo del camión para tomar hasta 30 Churus y esquivar letreros, ramas y cables. Al terminar, el premio se suma una sola vez al saldo persistente (`ID_PREMIO = 'bonus-camion-etapa-4'`), `progreso.escena` pasa a `taqueria` y «Seguir a la taquería» abre `./index.html`.
+
 ## Salir de la taquería
 
 Derrota con pisotones a los tres enemigos. El último ratón/hámster en caer suelta una llave dorada recogible. Acércate a ella para recogerla; después vuelve a la camioneta del lado izquierdo y pulsa **E** o el botón táctil **Subir**. Sin llave, la camioneta muestra una pista.

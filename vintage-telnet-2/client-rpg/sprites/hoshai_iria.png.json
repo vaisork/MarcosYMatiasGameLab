@@ -1,0 +1,27 @@
+{
+  "asset_id": "sprites/hoshai_iria.png",
+  "generation_tool": "native image_gen",
+  "sha256": "5239b8b8fc00b91858c32e14761adece5f0eff015560597fa482fdf02a4aede6",
+  "bytes": 24333,
+  "dimensions": [
+    192,
+    384
+  ],
+  "source_original": "exec-91de39c9-f3ce-43a2-9c6b-fa342ddf66ed.png",
+  "normalization": "RGBA resize to 64x128 source preview then nearest-neighbour upscale to 192x384, retaining alpha; no painted edits.",
+  "review": "SELF_REVIEW_PASS: 12-cell directional atlas, consistent scale and feet baseline, transparent background; gray Felaryn features, mended sleeve and notebook match canonical description.",
+  "prompt": "Hoja atlas transparente para RPG 2D en pixel art nítido, distribución exacta de 3 columnas por 4 filas sin líneas de cuadrícula ni espacios. Misma NPC Felaryn adulta en los 12 cuadros: mujer felina humanoide de pelaje gris corto, orejas felinas, cola gris larga, piernas digitígradas y botas resistentes. Identidad canónica: Iria, cuidadora de apoyos de Hoshai; pelo/pelaje gris corto, una manga visiblemente remendada, cuaderno pequeño liso, actitud observadora y cuidadosa. Túnica de trabajo para clima frío en crema apagado y azul pizarra, cinturón, sin armadura ni armas. Proporciones pequeñas legibles; cuerpo completo dentro de cada celda, pies alineados al borde inferior, escala y colores consistentes. Fila 1 de frente con tres poses caminar/quieta/caminar; fila 2 de espaldas con tres poses; fila 3 perfil hacia la izquierda; fila 4 perfil hacia la derecha. El cuaderno y la manga remendada se reconocen sin tapar la silueta. La referencia Felaryn sólo guía rasgos de especie y la atlas Ruma sólo escala y encuadre. Transparencia alrededor de cada figura; sin sombras, paisaje, texto, etiquetas, armas, personas extra ni bordes. Hoja sprite pixel-art, no retrato anime.",
+  "frames": {
+    "columns": 3,
+    "rows": [
+      "sur",
+      "norte",
+      "oeste",
+      "este"
+    ],
+    "cell": [
+      64,
+      96
+    ]
+  }
+}
