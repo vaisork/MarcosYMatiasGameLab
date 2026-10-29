@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_descanso_tres_piedras.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "0e9bf18e84e64ae4da39d77903a683a0961c67c168c2e023f55eb219eb05d240",
+  "bytes": 241112,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-67a86786-a83b-4305-8d55-28d4021445cc.png",
+  "normalization": "Resize to 640x480 with Lanczos, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed raised 3/4 pixel-art, full-bleed terrain, no actors or readable text; static obstacles and exits checked against scene/Tiled mask.",
+  "prompt": "1280x960 horizontal para fondo de sala RPG 2D, pixel art detallado por grupos nítidos coherente con referencias Hoshai/Korven, perspectiva elevada 3/4 mostrando lados de piedra, roca alpina, musgo y luz cálida. Descanso en una senda de montaña: tres piedras grandes, lisas y gastadas para sentarse, colocadas en los márgenes; una roca plana más pequeña cerca sostiene una cuerda enrollada. El camino cruza del borde sur al norte y queda despejado por el centro; se distinguen dos curvas lejanas del sendero tras el saliente. Terreno hasta todos los bordes, sin margen vacío. Sin personas, criaturas, letras, escritura, carteles, interfaz, símbolos ni borde. Pixel art, no cenital plano ni 3D.",
+  "webp_quality": 55
+}

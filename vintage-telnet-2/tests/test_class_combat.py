@@ -1,5 +1,6 @@
 """Tests for class combat actions, scaling, cooldowns, compatibility and requires_classes."""
 import unittest
+import json
 from pathlib import Path
 from server import mechanics as m
 from server.content import Content
@@ -75,6 +76,7 @@ class ClassCombatTests(unittest.TestCase):
         lines2, outcome2 = m.resolve_round(state2, {'name': 'Espinajo'}, FixedRandom(0.0), respond=False)
         self.assertFalse(state2['combat']['prepared'])
         self.assertLess(state2['combat']['hp'], 40)
+        self.assertEqual(state2['combat']['cooldowns']['paso_ruptura'], 4)
         self.assertTrue(any('Paso de Ruptura' in l['text'] or 'paso de ruptura' in l['text'] for l in lines2))
 
     def test_arcano_actions(self):
@@ -83,8 +85,9 @@ class ClassCombatTests(unittest.TestCase):
         profile = dict(m.PROFILES['espinajo_rastrojo']) # damage 8
         state['combat'] = {'profile': profile, 'hp': 40, 'prepared': False, 'round': 0, 'cooldown': 0, 'intervention': {'id': 'velo_contencion'}}
         lines, outcome = m.resolve_round(state, {'name': 'Espinajo'}, FixedRandom(0.0), respond=True)
-        # Damage 8 fully absorbed by barrier (barrier >= 20)
-        self.assertEqual(state['hp'], 100)
+        # The brief veil absorbs one quarter of the 8-damage response.
+        self.assertEqual(state['hp'], 94)
+        self.assertEqual(state['combat']['cooldowns']['velo_contencion'], 4)
         self.assertTrue(any('Velo de Contención' in l['text'] or 'velo' in l['text'].lower() for l in lines))
 
         # 2. Impulso Arcano cancels preparation
@@ -135,12 +138,15 @@ class ClassCombatTests(unittest.TestCase):
         self.assertFalse(state['combat']['prepared'])
         self.assertLess(state['combat']['hp'], 40)
 
-        # 2. Traba de Campo reduces damage and inflicts trap damage
+        # 2. Traba de Campo reduces one response without dealing damage or immobilizing
         state2 = m.new_state('humano', 'artifice', 'home', 0); state2['_class'] = 'artifice'
         state2['combat'] = {'profile': profile, 'hp': 40, 'prepared': True, 'round': 0, 'cooldown': 0, 'intervention': {'id': 'traba_campo'}}
-        lines2, outcome2 = m.resolve_round(state2, {'name': 'Espinajo'}, FixedRandom(0.0), respond=False)
-        self.assertEqual(state2['combat']['hp'], 36) # 40 - 4 trap damage
+        lines2, outcome2 = m.resolve_round(state2, {'name': 'Espinajo'}, FixedRandom(0.0), respond=True)
+        self.assertEqual(state2['combat']['hp'], 40)
+        self.assertEqual(state2['hp'], 94) # 25% reduction from the 8-damage response
         self.assertGreaterEqual(state2['combat']['_response']['reduction'], 0.25)
+        self.assertEqual(state2['combat']['_response']['accuracy'], profile['accuracy'] - 15)
+        self.assertEqual(state2['combat']['cooldowns']['traba_campo'], 4)
 
         # 3. Bálsamo de Campo heals 15 HP and reduces fatigue
         state3 = m.new_state('humano', 'artifice', 'home', 0); state3['_class'] = 'artifice'
@@ -149,6 +155,40 @@ class ClassCombatTests(unittest.TestCase):
         lines3, outcome3 = m.resolve_round(state3, {'name': 'Espinajo'}, FixedRandom(0.0), respond=False)
         self.assertEqual(state3['hp'], 85)
         self.assertLess(state3['fatigue'], 50)
+
+    def test_secondary_capacities_use_bounded_shared_combat_state(self):
+        profile = dict(m.PROFILES['espinajo_rastrojo'])
+
+        # Finta trades a more dangerous response for an opening on a miss.
+        state = m.new_state('humano', 'sombra', 'home', 0); state['_class'] = 'sombra'
+        state['location'] = 'valdren_plaza'
+        state['combat'] = {'creature': 'espinajo_rastrojo', 'profile': profile, 'hp': 40, 'prepared': False, 'round': 0, 'cooldown': 0,
+                           'intervention': {'id': 'finta_vacio'}}
+        m.resolve_round(state, {'name': 'Espinajo'}, FixedRandom(0.99), respond=True)
+        self.assertTrue(state['combat']['opening'])
+        self.assertEqual(state['combat']['cooldowns']['finta_vacio'], 4)
+        state = json.loads(json.dumps(state))
+        state['_class'] = 'sombra'
+        state['combat']['intervention'] = {'id': 'atacar'}
+        m.resolve_round(state, {'name': 'Espinajo'}, FixedRandom(0.0), respond=False)
+        self.assertNotIn('opening', state['combat'])
+
+        # The server hides Finta only when the scene says this target cannot react to it.
+        state['combat']['cooldowns'].clear()
+        char = {'id': 2, 'name': 'Sombra', 'species': 'humano', 'class_id': 'sombra', 'state': state}
+        self.assertIn('finta_vacio', [a['id'] for a in self.engine.actions(char, {'flags': [], 'deaths': {}})])
+        room = self.content.rooms['valdren_plaza']
+        self.content.rooms['valdren_plaza'] = dict(room, combat_context={'feint_possible': False})
+        finta = next(a for a in self.engine.actions(char, {'flags': [], 'deaths': []}) if a['id'] == 'finta_vacio')
+        self.assertTrue(finta['disabled'])
+        self.content.rooms['valdren_plaza'] = room
+
+        # Velo expires after the next enemy response, even when that response misses.
+        arcane = m.new_state('humano', 'arcano', 'home', 0); arcane['_class'] = 'arcano'
+        arcane['combat'] = {'profile': profile, 'hp': 40, 'prepared': False, 'round': 0, 'cooldown': 0,
+                            'intervention': {'id': 'velo_contencion'}}
+        m.resolve_round(arcane, {'name': 'Espinajo'}, FixedRandom(0.99), respond=True)
+        self.assertNotIn('barrier', arcane['combat'])
 
     def test_cooldowns_and_exposure_in_actions(self):
         # Character actions in combat exposes all 2-3 class actions with id, label, description

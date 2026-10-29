@@ -25,21 +25,22 @@ ATTRIBUTE_EFFECTS = {
 CLASS_ACTIONS = {
  'juramentado': [
   {'id':'guardia_comprometida','name':'Guardia Comprometida','label':'Guardia Comprometida','description':'Reduce el 50% del daño del próximo golpe directo frontal y anula empujes.','cooldown':2,'cost':4,'signature':True},
-  {'id':'paso_ruptura','name':'Paso de Ruptura','label':'Paso de Ruptura','description':'Golpe de hombro y pomo que interrumpe la preparación rival y desestabiliza su guardia.','cooldown':3,'cost':6},
+  {'id':'paso_ruptura','name':'Paso de Ruptura','label':'Paso de Ruptura','description':'Entras para forzar una reacción; un impacto interrumpe una preparación interrumpible.','cooldown':4,'cost':5},
  ],
  'arcano': [
   {'id':'impulso_arcano','name':'Impulso Arcano','label':'Impulso Arcano','description':'Empuje de fuerza pura que cancela preparaciones y aleja al rival.','cooldown':4,'cost':4,'signature':True},
-  {'id':'velo_contencion','name':'Velo de Contención','label':'Velo de Contención','description':'Barrera traslúcida que absorbe el próximo golpe que recibas.','cooldown':3,'cost':5},
+  {'id':'velo_contencion','name':'Velo de Contención','label':'Velo de Contención','description':'Una barrera breve absorbe parte del próximo impacto.','cooldown':4,'cost':5},
   {'id':'destello_frio','name':'Destello Frío','label':'Destello Frío','description':'Resplandor repentino que desorienta al rival reduciendo su precisión o facilita la huida.','cooldown':2,'cost':4},
  ],
  'sombra': [
   {'id':'borrar_foco','name':'Borrar el Foco','label':'Borrar el Foco','description':'Rompe la línea visual reduciendo la precisión del rival; si falla, abre tu siguiente ataque.','cooldown':4,'cost':5,'signature':True},
+  {'id':'finta_vacio','name':'Finta de Vacío','label':'Finta de Vacío','description':'Provoca una respuesta arriesgada; si el rival falla, deja una apertura para tu siguiente ataque.','cooldown':4,'cost':5},
   {'id':'golpe_apertura','name':'Golpe a la Apertura','label':'Golpe a la Apertura','description':'Puñalada veloz en ángulo descubierto; demoledora si aprovechas una apertura previa.','cooldown':2,'cost':5},
   {'id':'distraccion','name':'Lanzar Distracción','label':'Lanzar Distracción','description':'Ruido con piedras para girar al rival, cancelando cargas y mermando su ataque.','cooldown':2,'cost':4},
  ],
  'artifice': [
   {'id':'tiro_interrupcion','name':'Tiro de Interrupción','label':'Tiro de Interrupción','description':'Disparo certero a las articulaciones que corta la carga o reduce su precisión.','cooldown':2,'cost':5,'signature':True},
-  {'id':'traba_campo','name':'Traba de Campo','label':'Traba de Campo','description':'Tiende estacas y cuerdas que enredan y ralentizan al rival.','cooldown':3,'cost':5},
+  {'id':'traba_campo','name':'Traba de Campo','label':'Traba de Campo','description':'Una obstrucción breve reduce el daño y la precisión de la próxima respuesta.','cooldown':4,'cost':5},
   {'id':'balsamo_campo','name':'Bálsamo de Campo','label':'Bálsamo de Campo','description':'Aplica un ungüento herbal rápido que restaura 15 de vida y alivia la fatiga.','cooldown':4,'cost':2},
  ],
 }
@@ -659,8 +660,8 @@ ACTION_PROSE = {
   'nonfrontal': 'El ataque viene de lado: tu guardia frontal no reduce este golpe y el impacto te alcanza de lleno.',
  },
  'paso_ruptura': {
-  'hit': 'Avanzas con un paso seco y descargas el pomo y el hombro contra el pecho de {c}, quebrando su postura y cortando su ataque.',
-  'miss': 'Intentas el paso de ruptura, pero {c} retrocede a tiempo y el golpe no traba su movimiento.',
+  'hit': 'Entras detrás de tu hoja y fuerzas a {c} a ceder espacio.',
+  'miss': 'Entras con decisión, pero {c} evita el contacto y conserva su postura.',
  },
  'impulso_arcano': {
   'interrupt': 'Rompes su preparación y reduces la precisión de su respuesta. La varita zumba como una cuerda tensa con olor a tormenta fresca y empuja a {c}.',
@@ -668,7 +669,7 @@ ACTION_PROSE = {
   'noninterruptible': 'Esta preparación no puede ser interrumpida; {c} mantiene su respuesta a pesar del impulso.',
  },
  'velo_contencion': {
-  'cast': 'Trazas un círculo en el aire; una lámina temblorosa de luz azulada te envuelve como un cristal grueso para absorber el impacto.',
+  'cast': 'Trazas un círculo en el aire; una lámina de luz azulada se interpone por un instante.',
   'absorb': 'El velo azulado cruje como hielo fino y absorbe {a} de daño del golpe de {c}.',
   'full_absorb': 'El golpe de {c} choca contra la lámina de luz y se disipa en un estallido de chispas frías sin tocarte.',
  },
@@ -678,6 +679,10 @@ ACTION_PROSE = {
  'borrar_foco': {
   'cast': 'Te agachas en silencio y te pegas a la penumbra. {c} pierde tu silueta y atacará al vacío; si falla, tendrás una apertura.',
   'opening': 'La respuesta de {c} pasa de largo en la penumbra. Reconoces su hueco: tienes una apertura clara para tu siguiente golpe.',
+ },
+ 'finta_vacio': {
+  'cast': 'Presentas una entrada falsa. {c} se compromete con una respuesta más arriesgada; si falla, tendrás una apertura.',
+  'opening': 'La respuesta de {c} pasa de largo. La finta dejó un hueco para tu siguiente golpe.',
  },
  'golpe_apertura': {
   'hit_opening': '¡Golpe a la apertura! Te deslizas con rapidez por su flanco descubierto y clavas el puñal en el punto vulnerable: {d} de daño a {c}.',
@@ -694,7 +699,7 @@ ACTION_PROSE = {
   'miss': 'La flecha pasa rozando a {c} y se clava en la tierra sin frenar su avance.',
  },
  'traba_campo': {
-  'cast': 'Despliegas un aparejo de estacas y cordel trenzado. {c} tropieza en los lazos ({d} de daño) y sacude las patas intentando zafarse.',
+  'cast': 'Ajustas una cuerda y una cuña en el paso. La obstrucción dificulta la respuesta de {c}.',
  },
  'balsamo_campo': {
   'cast': 'Extiendes un ungüento de hierbas sobre tus cortes. El ardor fresco calma el dolor (recuperas {h} de vida) y despeja el cansancio.',
@@ -743,7 +748,7 @@ def resolve_round(state, creature, rng, respond=True):
  enemy_accuracy=prepared.get('accuracy',60) if prepared else profile['accuracy']
  reduction=0; guard=0; barrier=0; events=[]; signature=action in (CLASSES[cls].get('signature_id'),'capacidad')
  costs={'atacar':4,'esquivar':6,'bloquear':5,'resistir':3,'huir':8,'capacidad':5,'usar':2,
-        'guardia_comprometida':4,'paso_ruptura':6,
+        'guardia_comprometida':4,'paso_ruptura':5,
         'impulso_arcano':4,'velo_contencion':5,'destello_frio':4,
         'borrar_foco':5,'golpe_apertura':5,'distraccion':4,
         'tiro_interrupcion':5,'traba_campo':5,'balsamo_campo':2,
@@ -774,7 +779,7 @@ def resolve_round(state, creature, rng, respond=True):
   else:
    events.append({'kind':'action','text':f"Usas Guardia Comprometida. {ACTION_PROSE['guardia_comprometida']['nonfrontal']}"})
  elif action=='paso_ruptura':
-  combat.setdefault('cooldowns',{})['paso_ruptura']=4
+  combat.setdefault('cooldowns',{})['paso_ruptura']=5
   if not weapon:
    events.append({'kind':'action','text':'Sin un arma activa no puedes ejecutar el paso de ruptura.'})
   else:
@@ -800,8 +805,8 @@ def resolve_round(state, creature, rng, respond=True):
    enemy_accuracy=profile['accuracy']-20
    events.append({'kind':'action','text':f"Usas Impulso Arcano. {ACTION_PROSE['impulso_arcano']['deflect'].format(c=creature['name'])}"})
  elif action=='velo_contencion':
-  combat.setdefault('cooldowns',{})['velo_contencion']=4
-  barrier=rounded(20+.4*(a['intelecto']-10)+.2*(a['voluntad']-10))
+  combat.setdefault('cooldowns',{})['velo_contencion']=5
+  barrier=max(1,rounded(profile['damage']*.25))
   combat['barrier']=barrier
   events.append({'kind':'action','text':f"Usas Velo de Contención. {ACTION_PROSE['velo_contencion']['cast']}"})
  elif action=='destello_frio':
@@ -813,6 +818,10 @@ def resolve_round(state, creature, rng, respond=True):
   combat.setdefault('cooldowns',{})['borrar_foco']=CLASSES['sombra']['cooldown']+1
   enemy_accuracy-=25
   events.append({'kind':'action','text':f"Usas Borrar el Foco. {ACTION_PROSE['borrar_foco']['cast'].format(c=creature['name'])}"})
+ elif action=='finta_vacio':
+  combat.setdefault('cooldowns',{})['finta_vacio']=5
+  enemy_accuracy+=10
+  events.append({'kind':'action','text':f"Usas Finta de Vacío. {ACTION_PROSE['finta_vacio']['cast'].format(c=creature['name'])}"})
  elif action=='golpe_apertura':
   combat.setdefault('cooldowns',{})['golpe_apertura']=3
   if not weapon:
@@ -845,10 +854,12 @@ def resolve_round(state, creature, rng, respond=True):
    effect=f"Disparas hacia {creature['name']} para desviar su respuesta. Necesitas acertar para reducir su precisión."
   events.append({'kind':'action','text':f"Usas Tiro de Interrupción. {effect}"})
  elif action=='traba_campo':
-  combat.setdefault('cooldowns',{})['traba_campo']=4
-  if prepared and prepared.get('interruptible',False):combat['prepared']=False
-  reduction+=.25;enemy_accuracy-=15;trap_dmg=4;combat['hp']-=trap_dmg
-  events.append({'kind':'action','text':ACTION_PROSE['traba_campo']['cast'].format(c=creature['name'],d=trap_dmg)})
+  combat.setdefault('cooldowns',{})['traba_campo']=5
+  if prepared and prepared.get('interruptible',False):
+   combat['prepared']=False;enemy_accuracy=profile['accuracy']-15
+  else:enemy_accuracy-=15
+  reduction+=.25
+  events.append({'kind':'action','text':ACTION_PROSE['traba_campo']['cast'].format(c=creature['name'])})
  elif action=='balsamo_campo':
   combat.setdefault('cooldowns',{})['balsamo_campo']=5
   before_hp=state['hp'];state['hp']=min(hp_max(state),state['hp']+15);healed=rounded(state['hp']-before_hp)
@@ -911,9 +922,9 @@ def resolve_round(state, creature, rng, respond=True):
   if 'cooldowns' in combat:combat['cooldowns']={k:max(0,v-1) for k,v in combat['cooldowns'].items() if v>1}
   return events,'ongoing'
  connected=rng.random()*100<clamp(enemy_accuracy,20,90)
+ barrier=combat.pop('barrier',0)
  if connected:
   damage=max(1,rounded(profile['damage']*(1-reduction)*(1-state.get('armor_reduction',0))*(1-guard)))
-  barrier=combat.pop('barrier',0)
   if barrier>0:
    absorbed=min(damage,barrier);damage-=absorbed
    events.append({'kind':'combat','text':ACTION_PROSE['velo_contencion']['absorb'].format(a=absorbed,c=creature['name'])})
@@ -927,9 +938,10 @@ def resolve_round(state, creature, rng, respond=True):
    events.append({'kind':'combat','text':creature_prose(creature,'hit',0,combat['round'])})
  else:
   events.append({'kind':'combat','text':creature_prose(creature,'miss',0,combat['round'])})
-  if (signature and cls=='sombra') or action=='borrar_foco':
+  if (signature and cls=='sombra') or action in ('borrar_foco','finta_vacio'):
    combat['opening']=True
-   events.append({'kind':'combat','text':ACTION_PROSE['borrar_foco']['opening'].format(c=creature['name'])})
+   prose='finta_vacio' if action=='finta_vacio' else 'borrar_foco'
+   events.append({'kind':'combat','text':ACTION_PROSE[prose]['opening'].format(c=creature['name'])})
  combat['round']+=1;combat['cooldown']=max(0,combat.get('cooldown',0)-1)
  preps=profile.get('preparations')
  if preps and state['hp']>0 and combat['hp']>0:
