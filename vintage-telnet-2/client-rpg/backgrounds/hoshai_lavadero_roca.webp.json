@@ -1,0 +1,16 @@
+{
+  "asset_id": "backgrounds/hoshai_lavadero_roca.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "4064e10d091d70ba18730aeaa897fd37711e1fc42002d57f118161b2c33b4d4e",
+  "bytes": 196342,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-de5c1b55-c52f-40ff-9d4b-b609ed868a82.png",
+  "source_sha256": "9abf3bbe1350177dd77f4b1310b56d0d44ea3d2c580e974c3a4e67fbef0ac0ff",
+  "normalization": "Mechanical Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 perspective, terrain to all edges, no text or actors; bottom retaining wall agrees with the blocked perimeter and west-to-north path agrees with scene/Tiled exits.",
+  "prompt": "Match approved Korven hand-painted pixel-like RPG art: detailed clustered texture, crisp dark outlines, elevated 3/4 perspective, visible vertical stone faces. Scene: outdoor Hoshai stone washing place on a steep mountain slope. A narrow carved cold-water channel and stone basin lie along the RIGHT side and descend out at the LOWER-RIGHT edge; high stone supports with a few clean garments hang above. A broad DRY stone footpath enters only from the LEFT edge at mid-height, curves through the center and climbs to exit at the TOP edge. The entire BOTTOM 20 percent is a clearly impassable, full-width stone retaining wall and rocky drop; absolutely no path, stairs, flat ground, or opening along the bottom edge. Water channel may pass through the bottom-right wall in a narrow carved culvert. Keep the central path separate from water. Full-bleed mountain terrain on every edge, no blank margins, sky or horizon. Warm upper-left light, grey-beige stone, olive plants, cool water. No people, children, creatures, text, signs, icons or UI. Avoid a trail entering from bottom, flat top-down orthographic map, indoor architecture, massive empty foreground, water blocking the path.",
+  "webp_quality": 50
+}

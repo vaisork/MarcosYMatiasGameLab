@@ -1,15 +1,16 @@
 {
   "asset_id": "backgrounds/hoshai_estribacion.webp",
   "generation_tool": "native image_gen",
-  "sha256": "cf5bbc82b637f43f531063cd66cdc4421c1fcc13168db7d129ffbe17c80f4e80",
-  "bytes": 247248,
+  "sha256": "53ef2da9ac0f33db3a08e003126cb8f6a2847b4e759cf7ad551cbc8a1d5c237b",
+  "bytes": 198714,
   "dimensions": [
     1280,
     960
   ],
-  "source_original": "exec-48bd4fce-ed6e-4a3a-ba03-ede6264ff6ae.png",
-  "normalization": "Resize to 640x480 with Lanczos, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
-  "review": "SELF_REVIEW_PASS: detailed raised 3/4 pixel-art, full-bleed terrain, no actors or readable text; static obstacles and exits checked against scene/Tiled mask.",
-  "prompt": "1280x960 horizontal para fondo RPG 2D en pixel art detallado coherente con Hoshai y Korven. Perspectiva elevada 3/4, caras visibles de rocas y matas de hierba, textura nítida, luz cálida desde arriba a la izquierda. Entrada baja a la montaña donde la hierba alpina corta da paso a un sendero firme de grava; camino despejado de norte a sur asciende por el centro. Arroyo frío y poco profundo cruza la parte superior del sendero sobre piedras redondeadas, con zona ancha de apoyo seco; cuerda para descansar cargas a un lado del paso. Borde sur desciende hacia una rampa de grava y el norte sube a la montaña. Terreno hasta todos los bordes sin márgenes. Cruces claramente transitables. Sin personajes, criaturas, escritura, letreros, símbolos, texto, interfaz, borde ni etiquetas. Pixel art, no cenital plano ni 3D.",
+  "source_original": "exec-4310d797-041a-49dd-a59a-cf9b8bf6553d.png",
+  "source_sha256": "ba3434a729f9bd9d78191f46bebc9c8ee5f3ace24560a4d1b718dd9431407396",
+  "normalization": "Mechanical Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 perspective, terrain to all edges, no text or actors; permanent terrain features aligned with scene/Tiled mask.",
+  "prompt": "Match approved Korven game backgrounds: rich hand-painted game illustration with crisp pixel-like detail, dark fine outlines, clearly stepped 3/4 perspective and visible vertical rock faces; not photorealistic. Scene: Hoshai’s first ascent, short tough green grass changes into gravel below a steep mountain. The ascent is a broad central north-south gravel trail. A shallow stream flows left-to-right across the upper-middle, split into two short water channels by a broad dry gravel causeway exactly where the path crosses; rounded stones line both channels. A wide flat gravel staging area fills the foreground before the stream. Green pasture and rocky mountain terrain continue beyond all four edges. Composition reads as an elevated 3/4 scene like a classic RPG map, with visible slopes and side faces, no sky or horizon; central path and causeway remain dry and unobstructed. Warm upper-left light, sage grass, ochre gravel, grey stone, cool blue water. No characters, animals, text, signs, UI, icon, empty margin, or floating island. Avoid flat overhead orthographic map and broad stream blocking the north-south route.",
   "webp_quality": 50
 }

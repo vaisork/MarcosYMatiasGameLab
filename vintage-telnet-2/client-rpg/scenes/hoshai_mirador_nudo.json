@@ -6,6 +6,7 @@
     15
   ],
   "tileset": "edran",
+  "background": "backgrounds/hoshai_mirador_nudo.webp",
   "exits": [
     {
       "direction": "oeste",
