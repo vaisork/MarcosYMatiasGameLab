@@ -660,7 +660,7 @@ class Engine:
                     if not (weapon.get('block') or block):valid=False;invalid_reason='Tu equipo no permite esa respuesta: necesitas arma con guardia o escudo.'
                     elif prepared and not prepared.get('frontal',False):valid=False;invalid_reason='Esta acción preparada no es frontal; la guardia no puede responderla.'
                 elif aid=='paso_ruptura':
-                    if not weapon:valid=False;invalid_reason='Sin un arma activa no puedes ejecutar el paso de ruptura.'
+                    if not weapon or weapon.get('ranged'):valid=False;invalid_reason='Necesitas un arma de corto alcance para ejecutar el paso de ruptura.'
                 elif aid=='impulso_arcano':
                     if not weapon.get('focus'):valid=False;invalid_reason='Necesitas un foco arcano para canalizar el impulso.'
                     elif prepared and not prepared.get('interruptible',False):valid=False;invalid_reason='Esta acción preparada no puede interrumpirse.'
@@ -668,6 +668,8 @@ class Engine:
                     if not weapon.get('focus'):valid=False;invalid_reason='Necesitas un foco arcano para esta capacidad.'
                 elif aid=='borrar_foco':
                     if not context.get('focus_break_possible',True):valid=False;invalid_reason='El entorno no permite romper la línea visual.'
+                elif aid=='finta_vacio':
+                    if not context.get('feint_possible',True):valid=False;invalid_reason='Este rival no puede responder a una finta.'
                 elif aid=='golpe_apertura':
                     if not weapon:valid=False;invalid_reason='Sin un arma activa no puedes ejecutar el golpe.'
                 elif aid=='tiro_interrupcion':
