@@ -1,0 +1,16 @@
+{
+  "asset_id": "backgrounds/hoshai_repecho_raices.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "ab0e82f9346e47a008ad0f919c8b39c0ad0d7b68ff403b2b907d6ae1139637b8",
+  "bytes": 211688,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-d8c24369-18e0-4309-964b-21c32b87722b.png",
+  "source_sha256": "cc0e41c8f77505eea1944dbd0a30fb549b2b67f7082ad7bedb468d49a9482168",
+  "normalization": "Mechanical Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 perspective, terrain to all edges, no text or actors; permanent terrain features aligned with scene/Tiled mask.",
+  "prompt": "Match approved Korven 3/4 game backgrounds: richly detailed pixel-like clustered rendering, clear outlines, visible tree trunk faces, layered ground. Scene: Hoshai mountain forest slope, a winding narrow path goes from bottom edge to top edge. Old wind-bent trees stand along both sides, their rough trunks and exposed roots visible; several thick low roots cross the path as small step-over ridges, never blocking it. One shallow side alcove between two trunks on the LEFT holds a place to set down a load, outside the walking lane. Keep center path clear and continuous, broad enough for a traveler carrying a load. Ground is packed brown soil with roots, scattered fallen needles, rocky alpine edges. Trees and terrain fill all edges; no blank margins, sky, horizon or empty clearing. Warm upper-left light, olive greens, earthy ochres, cool shadows. Background only, no people, animals, creatures, bundles, text, symbols or UI. Avoid top-down orthographic view, straight forest wall, roots as a solid barrier, path leaving frame at sides.",
+  "webp_quality": 50
+}

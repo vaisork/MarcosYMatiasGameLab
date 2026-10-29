@@ -6,6 +6,7 @@
     15
   ],
   "tileset": "edran",
+  "background": "backgrounds/hoshai_estribacion.webp",
   "exits": [
     {
       "direction": "norte",

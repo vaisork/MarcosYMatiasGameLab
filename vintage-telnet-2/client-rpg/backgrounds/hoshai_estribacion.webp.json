@@ -1,0 +1,16 @@
+{
+  "asset_id": "backgrounds/hoshai_estribacion.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "53ef2da9ac0f33db3a08e003126cb8f6a2847b4e759cf7ad551cbc8a1d5c237b",
+  "bytes": 198714,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-4310d797-041a-49dd-a59a-cf9b8bf6553d.png",
+  "source_sha256": "ba3434a729f9bd9d78191f46bebc9c8ee5f3ace24560a4d1b718dd9431407396",
+  "normalization": "Mechanical Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 perspective, terrain to all edges, no text or actors; permanent terrain features aligned with scene/Tiled mask.",
+  "prompt": "Match approved Korven game backgrounds: rich hand-painted game illustration with crisp pixel-like detail, dark fine outlines, clearly stepped 3/4 perspective and visible vertical rock faces; not photorealistic. Scene: Hoshai’s first ascent, short tough green grass changes into gravel below a steep mountain. The ascent is a broad central north-south gravel trail. A shallow stream flows left-to-right across the upper-middle, split into two short water channels by a broad dry gravel causeway exactly where the path crosses; rounded stones line both channels. A wide flat gravel staging area fills the foreground before the stream. Green pasture and rocky mountain terrain continue beyond all four edges. Composition reads as an elevated 3/4 scene like a classic RPG map, with visible slopes and side faces, no sky or horizon; central path and causeway remain dry and unobstructed. Warm upper-left light, sage grass, ochre gravel, grey stone, cool blue water. No characters, animals, text, signs, UI, icon, empty margin, or floating island. Avoid flat overhead orthographic map and broad stream blocking the north-south route.",
+  "webp_quality": 50
+}

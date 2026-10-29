@@ -1,0 +1,16 @@
+{
+  "asset_id": "backgrounds/hoshai_pared_goteo.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "b769bb3af510ab33a7c68e935e305ad515700934aebf4d864b1ee5d92f12e0dc",
+  "bytes": 153994,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-d4066cd3-39d4-46c1-bd23-ff36e7655b29.png",
+  "source_sha256": "3fcd673513653c1e2570a359c91e8825310e66847d3727340cabcab995b2d4c6",
+  "normalization": "Mechanical Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 perspective, terrain to all edges, no text or actors; permanent terrain features aligned with scene/Tiled mask.",
+  "prompt": "Match approved Korven hand-painted pixel-like RPG backgrounds: crisp outlined shapes, rich clustered texture, 3/4 elevated perspective with clearly visible rock wall faces and terrain depth. Scene: narrow Hoshai mountain trail running vertically from the bottom edge to the top edge. A tall damp dark rock wall hugs the LEFT edge and fills roughly the left third; small trickles and wet streaks on its face, with a shallow sheltered recess midway and muddy handprints close to the path. The safe compact trail winds along the wall through center-left, wide enough for one traveler and a load, clear from bottom to top. On the RIGHT, beyond a firm rocky rim, opens a dramatic deep valley; show layered valley cliff sides to the right edge. Full bleed, no blank floor. Warm upper-left light, cool damp rock shadows, muted grey, moss olive and ochre path. No people, animals, actors, text, icons, UI, sky or horizon. Avoid flat overhead map, painting the trail across the cliff, broad empty center, photorealism.",
+  "webp_quality": 50
+}

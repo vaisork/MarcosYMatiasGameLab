@@ -1,0 +1,16 @@
+{
+  "asset_id": "backgrounds/hoshai_mirador_nudo.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "c9e968a455308e5f2642c0a1d27ca9c40ce918aea128842cc931e230d0299002",
+  "bytes": 167326,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-d67fb1f0-6419-4c7f-b529-7012c943df71.png",
+  "source_sha256": "40acca37c7b43477cb613a326c02cfa935bd86617883a120e6a7daef3b22197c",
+  "normalization": "Mechanical Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 perspective, terrain to all edges, no text or actors; permanent terrain features aligned with scene/Tiled mask.",
+  "prompt": "Match approved Korven backgrounds: detailed hand-painted pixel-like game art, crisp outlines and clustered texture, elevated 3/4 perspective with visible rock faces. Scene: a protected mountain ledge lookout beside a deep valley. A broad firm stone path enters from the LEFT edge and curves up to exit at the TOP edge; this is the only traversable area and must remain clear. On the RIGHT beyond a low safe rocky rim, the land drops into a deep open ravine; show layered distant mountain sides below, not a bridge. A thick load-bearing rope is tied to a large, visibly worn knot on an anchor rock along the upper-right rim and stretches across the open void in the far background; it is high and out of reach, never crossing the path. The observation ledge is wide and protected. Fill image edges with terrain or ravine, no empty margins. Warm upper-left light, grey slate, ochre path, muted alpine olive. No people, animals, creatures, text, symbols, UI, horizon line, or sky. Avoid a traversable rope bridge, a path over the cliff, top-down orthographic map, flat surfaces, photorealism.",
+  "webp_quality": 50
+}

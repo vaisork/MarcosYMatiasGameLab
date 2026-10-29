@@ -822,6 +822,11 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/hoshai_mirador_nudo.webp"
     }
   ],
   "tilesets": [

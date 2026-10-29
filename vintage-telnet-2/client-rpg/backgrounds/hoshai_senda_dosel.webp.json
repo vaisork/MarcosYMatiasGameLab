@@ -1,0 +1,16 @@
+{
+  "asset_id": "backgrounds/hoshai_senda_dosel.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "d54bf186a299d25e00c7b80e750a544e8102095a44b20bd66c446d0548e55257",
+  "bytes": 196024,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-508dd76d-2f71-4ced-bf3c-4fa75fd079c4.png",
+  "source_sha256": "8f4dba7e5b6fdb5ecd0b5939c6829b3c2cd48b79f1ed10020fba166f88255a7b",
+  "normalization": "Mechanical Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 perspective, terrain to all edges, no text or actors; permanent terrain features aligned with scene/Tiled mask.",
+  "prompt": "Match approved Korven RPG environment art: richly textured pixel-like brushwork, crisp outlines, elevated 3/4 view, readable ground plane with roots and tree trunks showing depth. Scene: Hoshai forest-edge path under very tall broad-canopied trees, in a small valley outside Khariel. A clear packed-earth path enters at the BOTTOM edge, curves through the center and exits at the RIGHT edge; path bends away so no village is visible. Large trees and high leafy canopy enclose the path and continue out through every edge; mottled green light falls onto damp roots. A simple dry wooden resting bench sits beside the path near the lower-right-center, safely outside root channels, not blocking the path. Roots, wet earth, a few dark broad leaves along the bench. Full-bleed scene, no margins, sky or horizon; keep walking lane clearly open. Palette rich olive and deep forest green, earthy umber, warm upper-left light and cool shade. No people, actors, animals, creatures, signs, lettering, symbols, UI or landmarks. Avoid flat top-down perspective, dense roots blocking path, an indoor room, photorealism.",
+  "webp_quality": 50
+}
