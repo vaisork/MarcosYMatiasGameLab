@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_cajas_camino.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "d0dc67f8ab198ea627c36c38e1291e7f93f912231ee51d11c80f4f140143e9a0",
+  "bytes": 235952,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-56d31371-a0c2-43ce-97cb-39d9055ab5f2.png",
+  "normalization": "Resize to 640x480 with Lanczos, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed raised 3/4 pixel-art, full-bleed terrain, no actors or readable text; static obstacles and exits checked against scene/Tiled mask.",
+  "prompt": "1280x960 horizontal para fondo de sala RPG 2D, pixel art moderno detallado. Igualar referencias Hoshai/Korven: píxeles agrupados, perspectiva elevada 3/4 con caras verticales visibles, pizarra alpina y luz ocre cálida. Un hueco protegido bajo la terraza termina en pared rocosa vertical. Dos cajas grandes de madera contra el fondo y una polea manual pequeña encajada entre ellas; mostrar el mango, sin mecanismo adicional. Camino estrecho entra por el borde norte y termina en el hueco. Piso y roca llenan todo el cuadro, sin márgenes vacíos. Mantener despejado el acceso central. Sin personajes, criaturas, texto, carteles, símbolos, interfaz ni borde. Pixel art, no cenital plano ni 3D.",
+  "webp_quality": 60
+}

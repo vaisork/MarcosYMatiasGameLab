@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_estacion_cuerda.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "d75a34a3ecac4501ca81b42ea04d3118a9532ee7203f3f1de933eeb2bb32dbc5",
+  "bytes": 247562,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-3cf5324a-112d-4e9f-b7f7-f59a76b18732.png",
+  "normalization": "Resize to 640x480 with Lanczos, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed raised 3/4 pixel-art, full-bleed terrain, no actors or readable text; static obstacles and exits checked against scene/Tiled mask.",
+  "prompt": "1280x960 horizontal para fondo RPG 2D, pixel art detallado coherente con referencias Hoshai/Korven, perspectiva elevada 3/4, troncos y caras de piedra visibles, borde de bosque alpino y luz cálida dorada. Parada de montaña en un camino ancho de este a oeste entre dos árboles firmes. Un cordel tenso con pocos nudos y cintas de medir de colores une los troncos junto al sendero, nunca lo cruza; una cubierta de lluvia resguarda notas dobladas en blanco sobre un apoyo lateral. Dos árboles enmarcan la escena y la ruta transitable cruza de borde izquierdo a derecho. Bosque y terreno con detalle llenan el cuadro, sin márgenes vacíos. Sólo fondo, sin personas, criaturas, texto legible, símbolos, letreros, interfaz, borde o etiquetas. Pixel art, no cenital plano ni 3D.",
+  "webp_quality": 50
+}

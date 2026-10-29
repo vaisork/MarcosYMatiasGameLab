@@ -1,0 +1,15 @@
+{
+  "asset_id": "backgrounds/hoshai_estribacion.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "cf5bbc82b637f43f531063cd66cdc4421c1fcc13168db7d129ffbe17c80f4e80",
+  "bytes": 247248,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-48bd4fce-ed6e-4a3a-ba03-ede6264ff6ae.png",
+  "normalization": "Resize to 640x480 with Lanczos, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed raised 3/4 pixel-art, full-bleed terrain, no actors or readable text; static obstacles and exits checked against scene/Tiled mask.",
+  "prompt": "1280x960 horizontal para fondo RPG 2D en pixel art detallado coherente con Hoshai y Korven. Perspectiva elevada 3/4, caras visibles de rocas y matas de hierba, textura nítida, luz cálida desde arriba a la izquierda. Entrada baja a la montaña donde la hierba alpina corta da paso a un sendero firme de grava; camino despejado de norte a sur asciende por el centro. Arroyo frío y poco profundo cruza la parte superior del sendero sobre piedras redondeadas, con zona ancha de apoyo seco; cuerda para descansar cargas a un lado del paso. Borde sur desciende hacia una rampa de grava y el norte sube a la montaña. Terreno hasta todos los bordes sin márgenes. Cruces claramente transitables. Sin personajes, criaturas, escritura, letreros, símbolos, texto, interfaz, borde ni etiquetas. Pixel art, no cenital plano ni 3D.",
+  "webp_quality": 50
+}
