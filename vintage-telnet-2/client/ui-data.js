@@ -1346,6 +1346,11 @@ export const classActions={
    "description": "Rompe la línea visual reduciendo la precisión del rival; si falla, abre tu siguiente ataque."
   },
   {
+   "id": "finta_vacio",
+   "label": "Finta de Vacío",
+   "description": "Provoca una respuesta arriesgada; si el rival falla, deja una apertura para tu siguiente ataque."
+  },
+  {
    "id": "golpe_apertura",
    "label": "Golpe a la Apertura",
    "description": "Puñalada veloz en ángulo descubierto; demoledora si aprovechas una apertura previa."
