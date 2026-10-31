@@ -8,6 +8,7 @@ export const ACCIONES = {
   ATACAR: 'atacar',
   ANCLAR: 'anclar',
   ABAJO: 'abajo',
+  DESLIZ: 'desliz',
 };
 
 // Mapeo puro de códigos de teclado a acciones
@@ -32,6 +33,11 @@ export function mapearCodigoTecla(codigo) {
     case 'ArrowDown':
     case 'KeyS':
       return ACCIONES.ABAJO;
+    // K ya es el gancho (anclador): el desliz va en Shift o L.
+    case 'ShiftLeft':
+    case 'ShiftRight':
+    case 'KeyL':
+      return ACCIONES.DESLIZ;
     default:
       return null;
   }
@@ -58,6 +64,7 @@ export function crearEstadoEntrada() {
     salto: false,
     atacar: false,
     anclar: false,
+    desliz: false,
     arriba: false,
     abajo: false,
     vector: { x: 0, y: 0 },
@@ -84,6 +91,7 @@ export function crearManejadorEntrada({
     let tieneAtaque = botonesPresionados.has(ACCIONES.ATACAR);
     let tieneAnclar = botonesPresionados.has(ACCIONES.ANCLAR);
     let tieneAbajo = false;
+    let tieneDesliz = botonesPresionados.has(ACCIONES.DESLIZ);
 
     for (const codigo of codigosTeclasPresionadas) {
       const accion = mapearCodigoTecla(codigo);
@@ -93,6 +101,7 @@ export function crearManejadorEntrada({
       if (accion === ACCIONES.ATACAR) tieneAtaque = true;
       if (accion === ACCIONES.ANCLAR) tieneAnclar = true;
       if (accion === ACCIONES.ABAJO) tieneAbajo = true;
+      if (accion === ACCIONES.DESLIZ) tieneDesliz = true;
     }
 
     estado.izquierda = tieneIzq;
@@ -100,6 +109,7 @@ export function crearManejadorEntrada({
     estado.salto = tieneSalto;
     estado.atacar = tieneAtaque;
     estado.anclar = tieneAnclar;
+    estado.desliz = tieneDesliz;
     estado.arriba = joystick.arriba;
     estado.abajo = joystick.abajo || tieneAbajo;
     estado.vector = { x: joystick.x, y: joystick.y };
@@ -366,6 +376,7 @@ export function crearManejadorEntrada({
   if (elementosBotones.salto) conectarBoton(elementosBotones.salto, ACCIONES.SALTO);
   if (elementosBotones.atacar) conectarBoton(elementosBotones.atacar, ACCIONES.ATACAR);
   if (elementosBotones.anclar) conectarBoton(elementosBotones.anclar, ACCIONES.ANCLAR);
+  if (elementosBotones.desliz) conectarBoton(elementosBotones.desliz, ACCIONES.DESLIZ);
 
   function obtenerEstado() {
     return { ...estado, vector: { ...estado.vector } };

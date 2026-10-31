@@ -24,6 +24,8 @@ export const escenaCima = {
   enemigos: [],
   objetos: [
     { id: 'lanzador-cima', tipo: 'lanzador', x: 610, y: 446, w: 44, h: 44 },
+    { id: 'botiquin-cima-1', tipo: 'botiquin', x: 1100, y: 564, w: 36, h: 36, curacion: 25, recogido: false }, // antes de la arena
+    { id: 'botiquin-cima-2', tipo: 'botiquin', x: 1575, y: 403, w: 36, h: 36, curacion: 25, recogido: false }, // saliente izquierda de la arena: cuesta un salto
     { id: 'cima-churu-1', tipo: 'churu', x: 760, y: 534, w: 30, h: 66 },
     { id: 'cima-churu-2', tipo: 'churu', x: 980, y: 534, w: 30, h: 66 },
   ],

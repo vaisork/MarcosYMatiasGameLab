@@ -65,7 +65,9 @@ export const escenaReja = {
     };
   }),
   objetos: [
-    { ...botiquinDesierto, id: 'botiquin-desierto-1', x: 1010, y: 560 },
+    // Id propio: antes repetía el del desierto y recogerlo aquí lo borraba allá.
+    { ...botiquinDesierto, id: 'botiquin-reja-1', x: 1010, y: 560 },
+    { id: 'botiquin-reja-2', tipo: 'botiquin', x: 6000, y: 564, w: 36, h: 36, curacion: 25, recogido: false },
     { id: 'churu-parque-1', tipo: 'churu', x: 1038, y: 433, w: 30, h: 66 },
     { id: 'churu-parque-2', tipo: 'churu', x: 1430, y: 430, w: 30, h: 66 },
     { id: 'churu-parque-3', tipo: 'churu', x: 3309, y: 426, w: 30, h: 66 },

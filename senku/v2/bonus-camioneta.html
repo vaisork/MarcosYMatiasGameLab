@@ -24,6 +24,7 @@
     .pad { width:clamp(66px,15vw,96px); height:clamp(66px,15vw,96px); border:3px solid #ffdfa0; border-radius:50%; background:#392923dd; box-shadow:0 6px 0 #653b2c,0 9px 18px #402a26aa; font-size:clamp(24px,6vw,38px); pointer-events:auto; touch-action:none; }
     .pad:active { transform:translateY(4px); box-shadow:0 2px 0 #653b2c; background:#744b37; }
     .jump { width:clamp(84px,20vw,126px); height:clamp(84px,20vw,126px); font-size:clamp(15px,3vw,22px); background:#633323; }
+    .vidas { position:absolute; z-index:4; top:max(76px,calc(env(safe-area-inset-top) + 68px)); left:max(12px,env(safe-area-inset-left)); padding:2px 10px; border-radius:12px; background:#00000066; color:#ff5f6d; font-size:clamp(22px,5vw,30px); letter-spacing:2px; text-shadow:0 2px #3a1010; pointer-events:none; }
     #sonido { position:absolute; z-index:4; top:max(76px,calc(env(safe-area-inset-top) + 68px)); right:max(12px,env(safe-area-inset-right)); padding:6px 10px; border:2px solid #5a382f; border-radius:12px; background:#362824df; font-size:12px; }
     #velo { position:absolute; z-index:5; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:radial-gradient(ellipse at center,#2b211adc,#17120fc7); backdrop-filter:blur(3px); text-align:center; text-shadow:0 4px #59382d; font-size:clamp(54px,17vw,128px); font-weight:1000; color:#ffe57d; }
     #velo[hidden] { display:none; }
@@ -40,8 +41,9 @@
   <header class="hud">
     <div class="card"><div class="label">Senku 2 · Bonus</div><div class="title">Camioneta del desierto</div></div>
     <div class="card score"><div class="label">Churus</div><span id="marcador">00</span><small style="font-size:.55em"> / 30</small></div>
-    <div class="card clock"><div class="label">Tiempo</div><span id="reloj">45</span><small style="font-size:.48em"> s</small></div>
+    <div class="card clock"><div class="label">Tiempo</div><span id="reloj">30</span><small style="font-size:.48em"> s</small></div>
   </header>
+  <div class="vidas" aria-label="Corazones del bonus"><span id="corazones">♥♥♥</span></div>
   <button id="sonido" type="button">Sonido</button>
   <div class="help">A / D o ← / → para caminar sobre la camioneta · Espacio / W / ↑ para saltar</div>
   <nav class="controls" aria-label="Controles táctiles">

@@ -138,9 +138,10 @@
     .grupo-accion {
       display: grid;
       grid-template-columns: repeat(2, auto);
-      grid-template-rows: repeat(2, auto);
+      grid-template-rows: repeat(3, auto);
       grid-template-areas:
         "gancho subir"
+        "desliz salto"
         "ataque salto";
       gap: 10px;
       align-items: center;
@@ -151,6 +152,8 @@
     #btn-subir { grid-area: subir; }
     #btn-atacar { grid-area: ataque; }
     #btn-salto { grid-area: salto; }
+    #btn-desliz { grid-area: desliz; width: 62px; height: 62px; border-color: #a78bfa; background: #2e1065e6; }
+    #btn-desliz.presionado, #btn-desliz:active { background: #5b21b6e6; transform: scale(0.94); }
     #btn-disparar { grid-area: gancho; }
     #btn-lanzagranadas { grid-area: subir; }
 
@@ -343,7 +346,7 @@
             <div class="barra-vida-contenedor" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Puntos de salud">
               <div id="barra-vida-relleno" class="barra-vida-relleno" style="width: 100%;"></div>
             </div>
-            <small><span id="texto-vida" class="texto-vida">100</span> / 100 HP</small>
+            <small>♥ <span id="texto-vida" class="texto-vida">100</span> / <span id="texto-vida-max">100</span></small>
           </div>
         </div>
         <div class="hud-pildora" title="Saldo de Churus">
@@ -393,7 +396,7 @@
 
     <!-- Ayuda para teclado (escritorio) -->
     <div class="ayuda-teclado">
-      ◀ ▶ o A / D: Moverse · Espacio / ▲ / W: Saltar · J: Zarpazo · K: Gancho · E: Subir · M: Menú · T: Traje
+      ◀ ▶ o A / D: Moverse · Espacio / ▲ / W: Saltar · J: Zarpazo · Shift / L: Desliz · K: Gancho · E: Subir · M: Menú · T: Traje
     </div>
 
     <!-- Controles Táctiles en Pantalla -->
@@ -425,6 +428,10 @@
         <button id="btn-atacar" class="btn-control btn-atacar" aria-label="Atacar / Zarpazo">
           <span class="icono-accion" aria-hidden="true">🐾</span>
           <span>Zarpazo</span>
+        </button>
+        <button id="btn-desliz" class="btn-control btn-desliz" aria-label="Desliz: esquiva rápida">
+          <span class="icono-accion" aria-hidden="true">💨</span>
+          <span>Desliz</span>
         </button>
         <button id="btn-salto" class="btn-control btn-salto" aria-label="Saltar">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 12 8-8 8 8h-5v9H9v-9Z"/></svg>

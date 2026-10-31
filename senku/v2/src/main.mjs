@@ -14,7 +14,8 @@ import {
   alternarTraje,
   desbloquearTraje,
 } from './core/trajes_activo.mjs';
-import { crearCuerpo, actualizarCuerpo, solapanAABB, solapanRecogible, ANCHO_GATO_JUEGO, ALTURA_GATO_JUEGO } from './core/fisica.mjs';
+import { crearCuerpo, actualizarCuerpo, solapanAABB, solapanRecogible, ANCHO_GATO_JUEGO, ALTURA_GATO_JUEGO,
+  deslizInvulnerable } from './core/fisica.mjs';
 import { crearRegistroEscenas } from './core/escenas.mjs';
 import { escenaCiudad } from './data/escenas/ciudad.mjs';
 import { escenaTaqueria } from './data/escenas/taqueria.mjs';
@@ -625,6 +626,8 @@ export function arrancarSenku2({
       if (elTextoVida) {
         elTextoVida.textContent = String(hp);
       }
+      const elVidaMax = documento.getElementById('texto-vida-max');
+      if (elVidaMax) elVidaMax.textContent = String(hpMax);
       if (elBarraVida) {
         elBarraVida.style.width = `${porcentaje}%`;
         if (porcentaje <= 25) {
@@ -1131,6 +1134,7 @@ export function arrancarSenku2({
       salto: btnSalto,
       anclar: documento.getElementById('btn-gancho'),
       atacar: btnAtaque,
+      desliz: documento.getElementById('btn-desliz'),
     },
   });
 
@@ -1190,7 +1194,8 @@ export function arrancarSenku2({
   // Jugar otra vez desde el Senku original (casa → taquería → Senku 2 en la ciudad): revive enemigos, llave y jefe. Churus, trajes y garras se conservan (sin re-cobrar churus).
   let temporizadorFinal = null;
   function volverAJugarCapitulo() {
-    const capitulo = (id) => id.includes(':derrotado:') || CAPITULO_REINICIABLE.includes(id);
+    // Los botiquines también vuelven: jugar otra vez trae de nuevo la curación de cada escena.
+    const capitulo = (id) => id.includes(':derrotado:') || id.startsWith('botiquin') || CAPITULO_REINICIABLE.includes(id);
     estadoJugador = { ...estadoJugador, coleccionados: estadoJugador.coleccionados.filter((id) => !capitulo(id)) };
     actualizarBotonRejugar();
     cambiarEscena('ciudad', { curar: true });
@@ -1290,7 +1295,7 @@ export function arrancarSenku2({
           if (jefe.estado !== 'dormido' && !jefe.derrotado) senku.x = Math.max(senku.x, ARENA.minX);
           actualizarJefe(jefe, senku, dt);
           if (esPisoton(jefe, senku) && golpearJefe(jefe, 1)) senku.vy = -620;
-          const dano = danoAJugador(jefe, senku);
+          const dano = deslizInvulnerable(senku) ? 0 : danoAJugador(jefe, senku);
           if (dano > 0) {
             const golpe = aplicarGolpeJugador(estadoCombate, dano);
             if (golpe.golpeado) {
@@ -1359,7 +1364,7 @@ export function arrancarSenku2({
       actualizarEnemigos(enemigos.filter((e) => e.activo), dt, escenaActual.limites, senku);
 
       for (const enemigo of enemigos) {
-        if (!enemigo.activo || !enemigo.vivo) continue;
+        if (!enemigo.activo || !enemigo.vivo || deslizInvulnerable(senku)) continue;
         const resContacto = resolverContactoEnemigo(senku, enemigo, estadoCombate);
         if (resContacto.enemigoDerrotado) {
           reproducirSonidoGolpe(ventana);
@@ -1442,7 +1447,10 @@ export function arrancarSenku2({
             guardarProgreso();
             reproducirSonidoItem(ventana);
             actualizarHUDVida();
-            mostrarAviso('+25 Vida');
+            mostrarAviso(`+${res.curacion} Vida (${res.hp}/${res.hpMax})`);
+            agregarEfectoRecogida({ tipo: 'botiquin', x: objeto.x + objeto.w / 2, y: objeto.y, texto: `+${res.curacion} ♥` });
+          } else if (res.motivo === 'vida_llena' && !avisoRestante) {
+            mostrarAviso('Vida llena: el botiquín te espera aquí.', 1.2);
           }
         }
       }
@@ -1530,6 +1538,18 @@ export function arrancarSenku2({
       );
       ctx.fill();
 
+      if (deslizInvulnerable(senku)) {
+        // Estela del desliz: Senku es intocable mientras se ve.
+        ctx.save();
+        for (let i = 1; i <= 3; i++) {
+          ctx.globalAlpha = 0.35 / i;
+          ctx.fillStyle = '#c4b5fd';
+          ctx.beginPath();
+          ctx.ellipse(senku.x + senku.w / 2 - (senku.dirDesliz || 1) * i * 22, senku.y + senku.h * 0.6, senku.w * 0.4, senku.h * 0.22, 0, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
       if (!dibujarJugador(ctx, catalogoArte, {
         cuerpo: senku,
         trajeId: trajeActivo.id,

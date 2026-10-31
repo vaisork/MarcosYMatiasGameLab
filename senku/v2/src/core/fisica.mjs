@@ -2,9 +2,16 @@
 // Lógica pura: sin dependencias de DOM ni navegador.
 
 export const GRAVEDAD_DEFECTO = 1500; // px/s²
-export const VELOCIDAD_HORIZONTAL_DEFECTO = 360; // px/s
+export const VELOCIDAD_HORIZONTAL_DEFECTO = 420; // px/s (+17 % para esquivar al Gato Mecánico, Matías 31/10/2026)
 export const FUERZA_SALTO_DEFECTO = 620; // px/s
 export const SUAVIDAD_DEFECTO = 14;
+export const SUAVIDAD_AIRE_DEFECTO = 20; // en el aire responde más rápido al cambiar de dirección
+
+// Desliz (esquiva): dash corto con invulnerabilidad breve y recarga.
+export const DESLIZ_VELOCIDAD = 950; // px/s
+export const DESLIZ_DURACION = 0.18; // s
+export const DESLIZ_INVULNERABLE = 0.3; // s
+export const DESLIZ_RECARGA = 0.8; // s
 
 // Constantes configurables para salto variable (decisiones de diseño de Matías)
 export const TIEMPO_SALTO_MAX_DEFECTO = 0.25; // s: tiempo máximo de mantenimiento de impulso
@@ -75,6 +82,20 @@ export function actualizarCuerpo(
   const bufferMax = (config.bufferSaltoMs ?? BUFFER_SALTO_MS_DEFECTO) / 1000;
   const factorCaida = config.factorCaida ?? FACTOR_CAIDA_DEFECTO;
 
+  // Relojes del desliz
+  cuerpo.recargaDesliz = Math.max(0, (cuerpo.recargaDesliz || 0) - paso);
+  cuerpo.invulnerableDesliz = Math.max(0, (cuerpo.invulnerableDesliz || 0) - paso);
+  cuerpo.deslizando = Math.max(0, (cuerpo.deslizando || 0) - paso);
+  if (entrada.desliz && !cuerpo.deslizPresionado && cuerpo.recargaDesliz <= 0) {
+    const dirDesliz = (entrada.derecha ? 1 : 0) - (entrada.izquierda ? 1 : 0) || cuerpo.mirando || 1;
+    cuerpo.mirando = dirDesliz;
+    cuerpo.dirDesliz = dirDesliz;
+    cuerpo.deslizando = config.deslizDuracion ?? DESLIZ_DURACION;
+    cuerpo.invulnerableDesliz = DESLIZ_INVULNERABLE;
+    cuerpo.recargaDesliz = DESLIZ_RECARGA;
+  }
+  cuerpo.deslizPresionado = Boolean(entrada.desliz);
+
   // Inicializar propiedades de salto si no existen
   if (cuerpo.saltando === undefined) {
     cuerpo.saltando = false;
@@ -87,7 +108,9 @@ export function actualizarCuerpo(
     cuerpo.mirando = dir;
   }
   const targetVx = dir * velMax;
-  cuerpo.vx += (targetVx - cuerpo.vx) * Math.min(1, paso * suavidad);
+  const suavidadUsada = cuerpo.enSuelo ? suavidad : (config.suavidadAire ?? SUAVIDAD_AIRE_DEFECTO);
+  if (cuerpo.deslizando > 0) cuerpo.vx = cuerpo.dirDesliz * (config.deslizVelocidad ?? DESLIZ_VELOCIDAD);
+  else cuerpo.vx += (targetVx - cuerpo.vx) * Math.min(1, paso * suavidadUsada);
   if (dir === 0 && Math.abs(cuerpo.vx) < 1) {
     cuerpo.vx = 0;
   }
@@ -105,6 +128,7 @@ export function actualizarCuerpo(
     cuerpo.tiempoSalto = 0;
     cuerpo.tiempoBufferSalto = 0;
     cuerpo.tiempoCoyote = 0;
+    cuerpo.deslizando = 0; // saltar corta el desliz (conserva su impulso)
   } else if (cuerpo.saltando && saltoVariableHabilitado) {
     cuerpo.tiempoSalto += paso;
     if (!entrada.salto) {
@@ -118,8 +142,9 @@ export function actualizarCuerpo(
     }
   }
 
-  // 3. Aplicar gravedad
-  cuerpo.vy += gravedad * (cuerpo.vy > 0 ? factorCaida : 1) * paso;
+  // 3. Aplicar gravedad (el desliz va en línea recta)
+  if (cuerpo.deslizando > 0) cuerpo.vy = 0;
+  else cuerpo.vy += gravedad * (cuerpo.vy > 0 ? factorCaida : 1) * paso;
 
   // 4. Movimiento horizontal
   cuerpo.x += cuerpo.vx * paso;
@@ -193,4 +218,9 @@ export function actualizarCuerpo(
   cuerpo.saltoPresionado = Boolean(entrada.salto);
 
   return cuerpo;
+}
+
+// Durante el desliz Senku atraviesa golpes del jefe y de los enemigos.
+export function deslizInvulnerable(cuerpo) {
+  return (cuerpo?.invulnerableDesliz || 0) > 0;
 }

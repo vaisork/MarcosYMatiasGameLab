@@ -2,9 +2,10 @@ import { ganarChurus } from './core/economia.mjs';
 import { iniciar as iniciarGuardado } from './core/migracion.mjs';
 import { CLAVE, guardar, normalizar } from './core/store.mjs';
 
-export const DURACION = 45;
+export const DURACION = 30;
 export const CUENTA_REGRESIVA = 3;
 export const TOPE_CHURUS = 30;
+export const VIDAS_BONUS = 3; // corazones del bonus: cada obstáculo quita uno (Matías, 31/10/2026)
 export const ID_PREMIO = 'bonus-camion-etapa-4';
 export const TIPOS_OBSTACULO = ['letrero', 'rama', 'cable'];
 export const CAPAS_PARALAJE = 3;
@@ -21,6 +22,7 @@ export function crearPartida() {
     cuenta: CUENTA_REGRESIVA,
     restante: DURACION,
     churus: 0,
+    vidas: VIDAS_BONUS,
     combustible: 2, // Nivel visual en el indicador de cajas/techo (0..5)
     tiempoMundo: 0,
     distancia: 0,
@@ -52,7 +54,8 @@ export function avanzarReloj(partida, dt) {
   }
   if (nueva.fase === 'jugando') {
     nueva.restante = Math.max(0, nueva.restante - tiempo);
-    if (nueva.restante === 0) nueva.fase = 'fin';
+    // Termina al acabarse el tiempo, al juntar el tope de churus o al perder los 3 corazones.
+    if (nueva.restante === 0 || nueva.churus >= TOPE_CHURUS || nueva.vidas <= 0) nueva.fase = 'fin';
   }
   return nueva;
 }
@@ -125,7 +128,7 @@ export function avanzarMundo(partida, dt, entrada = {}, ancho = 390, onSonido = 
     o.x -= dt * ancho * 0.82;
     if (Math.abs(o.x - px) < Math.min(40, ancho * 0.095)) {
       if (o.tipo === 'churu') {
-        if (Math.abs(alturaSenku - o.nivel) <= 1.35) {
+        if (Math.abs(alturaSenku - o.nivel) <= 0.5) {
           if (partida.churus < TOPE_CHURUS) {
             partida.churus++;
             partida.destello = 0.25;
@@ -139,7 +142,8 @@ export function avanzarMundo(partida, dt, entrada = {}, ancho = 390, onSonido = 
         const esquivado = partida.salto >= 0.22 || Math.abs(alturaSenku - o.nivel) > 0.88;
         if (!esquivado && partida.invulnerable <= 0) {
           partida.sacudida = 0.3;
-          partida.invulnerable = 0.65;
+          partida.invulnerable = 0.9;
+          partida.vidas = Math.max(0, partida.vidas - 1);
           partida.rebote = 0.42;
           const colorChispa = o.tipo === 'cable' ? '#72efdd' : (o.tipo === 'rama' ? '#80ed99' : '#ff9f1c');
           emitirParticulas(partida, o.x, -o.altura - 32, colorChispa, 8, 115);
@@ -535,6 +539,8 @@ export function iniciarBonus(documento = document, ventana = window) {
     ctx.restore();
 
     documento.querySelector('#marcador').textContent = String(partida.churus).padStart(2, '0');
+    const corazones = documento.querySelector('#corazones');
+    if (corazones) corazones.textContent = '♥'.repeat(partida.vidas) + '♡'.repeat(VIDAS_BONUS - partida.vidas);
     documento.querySelector('#reloj').textContent = partida.fase === 'cuenta'
       ? String(Math.ceil(partida.cuenta))
       : String(Math.ceil(partida.restante));
@@ -559,6 +565,8 @@ export function iniciarBonus(documento = document, ventana = window) {
       tituloFinal.hidden = false;
       premioFinal.hidden = false;
       continuar.hidden = false;
+      if (partida.vidas <= 0) tituloFinal.textContent = '¡Uf, cuántos golpes! Llegamos a la taquería';
+      else if (partida.churus >= TOPE_CHURUS) tituloFinal.textContent = '¡Tope de Churus! Llegamos a la taquería';
       premioFinal.textContent = `Ganaste ${partida.churus} Churus`;
     }
     raf = ventana.requestAnimationFrame(fotograma);
