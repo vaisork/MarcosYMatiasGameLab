@@ -35,6 +35,8 @@ export function mostrarPortada(documento, { alJugar, tieneProgreso = false } = {
       #portada button:active{transform:translateY(4px);box-shadow:0 2px 0 #a87a1c}
       #portada small{opacity:.8;font-size:13px}
       @keyframes latido{50%{transform:scale(1.05)}}
+      /* Pantalla ancha: arte más chico y arriba para que Jugar no tape las patas del gato. */
+      @media (min-aspect-ratio:4/3){#portada .arte{background-size:auto 84%;background-position:center top}}
     </style>
     <div class="fondo"></div><div class="arte"></div>
     <div class="titulo"><h1>SENKU 2</h1><p>Capítulo 1 · México</p></div>
