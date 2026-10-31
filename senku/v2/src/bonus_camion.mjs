@@ -410,7 +410,8 @@ export function iniciarBonus(documento = document, ventana = window) {
     }
     if (camionPintado?.complete && camionPintado.naturalWidth) {
       const altoPintado = truckW * 360 / 743;
-      ctx.drawImage(camionPintado, truckX - 3, ground - altoPintado - bounce, truckW + 6, altoPintado);
+      // Las llantas terminan en la fila 338 de 360 (abajo es transparente): apoyarlas sobre el asfalto.
+      ctx.drawImage(camionPintado, truckX - 3, ground + 4 - altoPintado * 338 / 360 - bounce, truckW + 6, altoPintado);
     }
 
     // Posición de Senku saltando entre las cajas (nivel 0 y 1) y el techo del camión (nivel 2)
