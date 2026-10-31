@@ -1,0 +1,17 @@
+{
+  "asset_id": "backgrounds/lethra_embarcadero_camino.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "8269a6ef58bcb4b8ec0a0e6a8fda138ad3bb70bed22b764431815c3dfb4dbfe5",
+  "bytes": 208138,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-047944b8-1adb-492e-a2b9-5881510d1a8d.png",
+  "source_sha256": "18be657d02cb7193552d1b3c5e9603a7f2e83510123ec44bcbeb76051fbf0dea",
+  "normalization": "Mechanical center crop to 4:3, Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art composition, no text or actors; permanent terrain matches Tiled solid mask and all actual exit openings remain clear.",
+  "prompt": "Use case: stylized-concept. Asset type: 2D RPG room background for Lethra, lethra_embarcadero_camino. Generate a detailed modern 16-bit indie pixel-art scene, top-down 3/4 view, 20x15 game grid, 1280x960 composition, natural olive/reed greens, muted clay, warm timber, cool teal water. Scene: Small sheltered community landing on raised timber walkway over calm turquoise canal, sturdy mooring posts and vertical water-level marker with simple fiber bands at far edges, low covered platform. Broad straight central walkway connects clear north and south exits; no boat blocks path. No people. Style consistent with the natural wetland and stilt-village appearance of client/art/places/lethra_raices_observacion-anime-v1-thumb.webp. Crisp clustered pixels and tile-scale readability. Obstacles stay in solid cells, route and actual exit gaps stay clear. Avoid actors, creatures, text, UI, logo and watermark.",
+  "webp_quality": 75,
+  "generation_note": "first native generation"
+}

@@ -44,9 +44,9 @@ function svgNode(name){
 }
 
 const keys=new Set(), images={};
-const npcSprites={edran_bren:'bren',edran_daro:'daro',edran_iria:'iria',edran_elva:'elva',edran_sena:'sena',edran_nela:'nela',edran_oren:'oren',edran_aren:'aren',korven_ved:'ved',korven_beran:'beran',korven_ruma:'ruma',korven_neru:'neru',korven_oma:'oma',korven_taren:'taren',hoshai_yesa:'yesa',hoshai_iria:'hoshai_iria'};
+const npcSprites={edran_bren:'bren',edran_daro:'daro',edran_iria:'iria',edran_elva:'elva',edran_sena:'sena',edran_nela:'nela',edran_oren:'oren',edran_aren:'aren',korven_ved:'ved',korven_beran:'beran',korven_ruma:'ruma',korven_neru:'neru',korven_oma:'oma',korven_taren:'taren',hoshai_yesa:'yesa',hoshai_iria:'hoshai_iria',lethra_nima:'nima',lethra_sola:'sola'};
 const npcSpriteNames=new Set(Object.values(npcSprites));
-const creatureSprites={espinajo_rastrojo:'espinajo',mordelinde:'mordelinde',cornalomo:'cornalomo',salteador_veterano:'salteador',salteador_desesperado:'salteador',forajido_camino:'forajido',salteadora_negociante:'negociante',salteador_bravucon:'bravucon',cascapedernal:'cascapedernal',rasgacumbres:'rasgacumbres',saltacresta:'saltacresta',unapiedra:'unapiedra',colagrieta:'colagrieta',quebrarrocas:'quebrarrocas'};
+const creatureSprites={espinajo_rastrojo:'espinajo',mordelinde:'mordelinde',cornalomo:'cornalomo',salteador_veterano:'salteador',salteador_desesperado:'salteador',forajido_camino:'forajido',salteadora_negociante:'negociante',salteador_bravucon:'bravucon',cascapedernal:'cascapedernal',rasgacumbres:'rasgacumbres',saltacresta:'saltacresta',unapiedra:'unapiedra',colagrieta:'colagrieta',quebrarrocas:'quebrarrocas',cortacorriente:'cortacorriente',dorsalodo:'dorsalodo',pinzajunco:'pinzajunco',saltalodo:'saltalodo',tragacharco:'tragacharco',faucecieno:'faucecieno',sombranutria:'sombranutria'};
 for(const name of ['avatar','avatar-battle','lina',...Object.values(npcSprites),...Object.values(creatureSprites).flatMap(name=>[name,`${name}-battle`])]){
  images[name]=new Image();
  images[name].src=`/client-rpg/sprites/${name}.png`;

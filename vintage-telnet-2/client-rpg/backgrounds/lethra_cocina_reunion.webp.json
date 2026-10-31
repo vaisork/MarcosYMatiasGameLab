@@ -1,0 +1,17 @@
+{
+  "asset_id": "backgrounds/lethra_cocina_reunion.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "3d4da59b0fb7512181dc668e4e4d8d490dc1eb05ef1da3cf835b5f3af75a31cf",
+  "bytes": 161622,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-856eed4a-af4b-4a3d-a874-f32cfc6a8b67.png",
+  "source_sha256": "2ac3854a341f9bea4962a664a4a81bc19a616c8f818f9fb033b8810c92f99fb5",
+  "normalization": "Mechanical center crop to 4:3, Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art composition, no text or actors; permanent terrain matches Tiled solid mask and all actual exit openings remain clear.",
+  "prompt": "Use case: stylized-concept. Asset type: 2D RPG room background for Lethra, lethra_cocina_reunion. Generate a detailed modern 16-bit indie pixel-art scene, top-down 3/4 view, 20x15 game grid, 1280x960 composition, natural olive/reed greens, muted clay, warm timber, cool teal water. Scene: A dry communal cooking yard on packed-earth bank, no canal or water. 20x15 tile layout, broad clear central earth lane reaches only center of north edge through one doorway. Entire south edge closed with uninterrupted low woven fence/timber wall; east and west bounded. At far left, a small hearth with an old repaired pot under reed-roof awning; at far right, long communal table and plain bowls. Furniture at edges, center clear. No water, bridges, other exits, actors or creatures. Style consistent with the natural wetland and stilt-village appearance of client/art/places/lethra_raices_observacion-anime-v1-thumb.webp. Crisp clustered pixels and tile-scale readability. Obstacles stay in solid cells, route and actual exit gaps stay clear. Avoid actors, creatures, text, UI, logo and watermark.",
+  "webp_quality": 75,
+  "generation_note": "regenerated to match canon dry-floor kitchen and north-only exit"
+}
