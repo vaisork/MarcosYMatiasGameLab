@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_raices_altas",
+  "prompt": "Detailed late-16-bit indie RPG pixel-art background, fixed orthographic three-quarter top-down view in Vaisgard's Nhal. A level worn-earth trail goes west-to-east through forest while huge roots rise on both sides like still wooden waves. A few shallow rain pools reflect the canopy among bark fragments and damp moss; tiny drips make soft rings. One small dry ledge with a folded note sits beside the trail, and dark root hollows stay in the far margins. Keep a broad unobstructed horizontal corridor from the exact west edge to the exact east edge; no tall root, pool, rock or ledge crosses the trail. Match the canonical Nhal place illustration and existing background palette, filtered leafy light, rich readable textures. Full bleed through every edge. No people, creatures, text, signs, UI, grid or signature. Game map 20x15, target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-0372356a-2aed-4d47-a55d-d255c9e32a5b.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 28,
+  "bytes": 238746,
+  "sha256": "32e0914c413ed35bc715b13c99f29b7bceaa7eb0f8b5939d203771e33ccb7a3d"
+}

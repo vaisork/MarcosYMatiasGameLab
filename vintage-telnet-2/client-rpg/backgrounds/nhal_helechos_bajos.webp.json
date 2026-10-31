@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_helechos_bajos",
+  "prompt": "Nhal forest route in rich detailed 16-bit indie RPG pixel art, fixed orthographic three-quarter overhead view. Dense low green ferns like a sea of feather-shaped leaves, parted into a broad raised earth path with a small canopy and carved bark marker. Keep a clear, level, unobstructed path joining the west and east edges at mid-height and the south edge at center; all three are real exits. The gameplay path is wide and empty. Trees, rocks and taller roots frame the solid outer margins only, not the path. Quiet woodland light. Full bleed terrain through all edges, no border or blank margin; no characters, creatures, text, labels, UI, grid, or signature. Match the attached canonical Nhal place reference's palette and atmosphere. Background for a 20x15 tile map, target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-9486ff33-4e67-4083-a0ef-a7f4e9d7245d.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 38,
+  "bytes": 246346,
+  "sha256": "0a221c48c7a207cfbcb3bbfa35974a700c74e6d2887e907dbffe48937c9b9a52"
+}

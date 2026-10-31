@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_piedras_musgo",
+  "prompt": "Detailed late-16-bit indie RPG pixel-art background, fixed orthographic three-quarter overhead, forest path in Nhal. A broad walk-worn earthy trail runs horizontally through moss-clad stones, with a small north-bound branch opening at the exact center of the top edge. Damp dark seams glisten between stones; a thin trickle of water follows beside the path, and a few seeds and small paw prints mark the soft moss. Keep the junction continuous and every path and exit broad, empty and unobstructed; place large rocks, trunks and high roots only in solid edge margins. Quiet filtered forest light, rich soft greens and wet stone tones; match canonical Nhal place art and the supplied game-background reference. Full bleed ground to all edges, no border or blank margin. No characters, creatures, text, symbols, UI, grid or signature. 20x15 map background, target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-1d2114b2-1d42-4796-90b4-9b368bb36bda.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 28,
+  "bytes": 247148,
+  "sha256": "785d45e2a307a145208e43fc718c3fdb96aad4d0352f91c7fd381e7aad1d3ae7"
+}

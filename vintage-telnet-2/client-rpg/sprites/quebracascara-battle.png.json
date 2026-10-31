@@ -1,0 +1,15 @@
+{
+  "asset_id": "quebracascara-battle",
+  "prompt": "Create one complete transparent-background battle sprite of the canonical Quebracáscara: a slow dog-sized forest beetle with black glossy hard shell, six short sturdy legs and powerful crushing mandibles. Preserve beetle anatomy and rounded low body; no horns, no extra limbs. Three-quarter view angled toward viewer and slightly left, defensive stance with mandibles visible. Detailed polished indie RPG creature illustration with crisp shell highlights, matching supplied existing RPG battle sprite. Whole creature centered, fills about 80 percent of a square. True transparent background and alpha; no environment, shadow, ground, text, effects or border. Square 192x192 battle asset.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-83640e61-ac99-46ae-9573-64dfbf6055c2.png",
+  "reference_image": "/home/jdiaz/proyectos/wt-codex-c2-cm-20-nhal-arte-02/vintage-telnet-2/client/art/bestiary/quebracascara-anime-v1.webp",
+  "source_dimensions": "1254x1254",
+  "normalization": "transparent alpha crop; center at 192x192; map variant Lanczos downsample to 48x48",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 42522,
+  "sha256": "58728539135d18b9845587a885eba9819d8cccf9f7b2d0ed3daaf375349f0a98"
+}

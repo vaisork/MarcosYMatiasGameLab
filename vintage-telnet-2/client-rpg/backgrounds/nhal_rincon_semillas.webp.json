@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_rincon_semillas",
+  "prompt": "Detailed late-16-bit indie RPG pixel-art forest background, fixed orthographic three-quarter overhead, a quiet hidden nook in Nhal beneath thick tree roots. At the base of a large root is a small natural cache of mixed seeds, a few food scraps and gently disturbed earth, with coarse pale animal hairs caught in moss. A nut-scented patch of leaves and one half-bitten seed suggest a small four-legged resident, but show no animal. One broad trail begins inside the clearing and continues unobstructed straight to the exact center of the south edge; this is the only exit. Keep roots, stones and ferns beside the path and the evidence in a side alcove. Match the canonical Nhal scene and existing RPG palette, calm forest light, full-bleed terrain. No frame, blank margin, people, creatures, text, signage, UI, grid or signature. 20x15 game map background, target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-f45d702a-77f3-46ca-b542-ea4c899b2f53.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 36,
+  "bytes": 249716,
+  "sha256": "9a211a40dba2f93373ef43be8b5d63b210d200414a82d7e6a28d2933ebb850b5"
+}

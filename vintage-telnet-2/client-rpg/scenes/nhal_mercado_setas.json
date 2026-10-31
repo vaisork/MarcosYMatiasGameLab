@@ -98,5 +98,6 @@
       ]
     }
   ],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/nhal_mercado_setas.webp"
 }

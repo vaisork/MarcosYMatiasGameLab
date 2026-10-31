@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_ribera_relevo",
+  "prompt": "Richly detailed late-16-bit indie RPG pixel-art background, orthographic three-quarter overhead, Nhal border path along a narrow water canal between forest and Lethra. The watercourse runs vertically through the scene under trees and roots, ending at a shared sturdy wooden landing with two simple support posts at the center. Two small bark notes near the landing compare water level and supports; use only blank natural marks, no letters. Half of the canal and landing are shaded by deep green canopy; the other half opens to pale sky. A broad clear path runs continuously from the north edge's exact center across the landing to the south edge's exact center. Keep posts, water and roots outside the walkable path. Match canonical Nhal place reference and RPG background style. Full bleed, no margins or frame. No people, creatures, text, signage, UI, grid or signature. 20x15 game map background, target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-e8091118-835c-4503-a7b7-8d6587dd3e71.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 24,
+  "bytes": 239348,
+  "sha256": "c0df5de14937231169924c048175af4b6a195b63df8c810197e3f2d747534792"
+}

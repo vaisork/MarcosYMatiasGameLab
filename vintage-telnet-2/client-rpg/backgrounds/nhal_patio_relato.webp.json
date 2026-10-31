@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_patio_relato",
+  "prompt": "Richly detailed late-16-bit indie RPG pixel-art background, fixed orthographic three-quarter overhead, quiet Nhal woodland village courtyard. A short woven-leaf roof shades a communal meeting space; a low central table carries a shallow bark bowl with folded story leaves, surrounded by several simple benches of different heights. Arrange benches around, never across, a broad open central crossing. Keep clear continuous paths from the crossing to the exact centers of all four edges (north, south, east, west); no bench, table, root, canopy post or object may obstruct paths or exits. Forest floor, trunks and leafy shelter frame the clearing. Gentle filtered canopy light, warm natural palette, same visual language as supplied canonical Nhal patio art and existing game background. Full bleed to all edges, no frame, no margins. No people, creatures, text, letters, signage, UI, grid or signature. 20x15 game map background, target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-d06870e2-8ef7-47b0-8c37-3d5c42d68d89.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 24,
+  "bytes": 242904,
+  "sha256": "ef824f220fa66440539b4852fea335abdab6681beaa1a4578150471fd9a418da"
+}

@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_mercado_setas",
+  "prompt": "Detailed late-16-bit indie RPG pixel-art forest market background, fixed orthographic three-quarter overhead, Vaisgard's Nhal region. A quiet Vesperi village clearing among huge roots; several low woven leaf canopies shade separate baskets of mushrooms, berries and sweet roots; a small worktable holds folded leaves. Distinct earthen walkways make a broad connected junction to the exact center of the north, west and east edges. Keep every exit and all walkable lanes completely open and unobstructed; place canopies, baskets, tree trunks and display furniture only beside the paths. Soft green filtered light, rich but restrained forest palette, full-bleed ground and foliage to every edge, no frame. No people, creatures, text, writing, signage, UI, grid or signature. Match the supplied canonical Nhal market place art and RPG background. 20x15 game map background, target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-73a2fd5b-cc19-482f-bd16-41ea2c3361db.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 28,
+  "bytes": 243710,
+  "sha256": "94c8e6af48428a73d283d164bc5d76f5358756e98aa0d35352c3fce664522d51"
+}

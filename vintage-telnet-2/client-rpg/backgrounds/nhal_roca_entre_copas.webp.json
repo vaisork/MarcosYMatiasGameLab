@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_roca_entre_copas",
+  "prompt": "Detailed late-16-bit indie RPG pixel-art background in fixed orthographic three-quarter overhead view: a broad natural lookout rock above Velmora, set among a sea of Nhal tree crowns. From the stable inner part of the rock, show layers of gently wind-swept green treetops, with a distant gray Hoshai mountainside peeking through branches. A small safe resting ledge sits well away from the edge. Clear paths connect the exact center of the north edge to the exact center of the south edge across the flat rock; keep both exits broad and unobstructed and all tree roots outside the path. Communicate height through the distant view but no unsafe sheer cliff across routes. Match canonical Nhal outlook art and existing RPG style, rich forest green with distant cool gray-blue. Full bleed to all edges. No people, creatures, text, signs, UI, grid or signature. 20x15 map background, target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-996aedf3-6596-49ee-b836-88bda92c5ddc.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 28,
+  "bytes": 240566,
+  "sha256": "eabdecbd1d6dc07361963279bf3749c2e1cebf043c4e7efa401c601f81a728a4"
+}

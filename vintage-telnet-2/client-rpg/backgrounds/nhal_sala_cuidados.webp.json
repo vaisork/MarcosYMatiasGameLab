@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_sala_cuidados",
+  "prompt": "Detailed late-16-bit indie RPG pixel-art interior background in fixed orthographic three-quarter overhead view, small Vesperi care room in the Nhal forest village. Smooth clean wooden floor, a side window casts a soft narrow beam onto a low treatment table without glare; a simple seat sits nearby, folded clean cloths rest in a lidded chest well apart from leaf-covered travel clothes by the door. A warm low lamp gives gentle low-light comfort. The room is uncluttered with a broad, unobstructed wooden path from the center to the exact east edge, the only exit. Keep table, seat, chest and clothes away from the exit and walking lane. Quiet natural wood, muted green light through the window, consistent with canonical Nhal care-room art. Full bleed to all edges, no border or margin. No people, creatures, text, letters, UI, grid or signature. 20x15 game map background, target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-da2d4637-a424-4a8e-b8e3-97285e19d86b.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 64,
+  "bytes": 133000,
+  "sha256": "05670a25cab3b4b69251938eef801fc80f0bbaf8a2734050893ae79fda479a36"
+}

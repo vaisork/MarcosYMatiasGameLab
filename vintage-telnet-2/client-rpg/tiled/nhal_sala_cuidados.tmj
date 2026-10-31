@@ -753,6 +753,11 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/nhal_sala_cuidados.webp"
     }
   ],
   "tilesets": [
