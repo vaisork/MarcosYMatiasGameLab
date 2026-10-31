@@ -1,0 +1,81 @@
+{
+  "room": "veyra_mazmorra_umbral",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "oeste": [
+      1,
+      7
+    ]
+  },
+  "layers": {
+    "ground": [
+      "ffffffffffffffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fppppppppppppppppppf",
+      "fppppppppppppppppppf",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "ffffffffffffffffffff"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "...................1",
+      "...................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "11111111111111111111"
+    ]
+  },
+  "npcs": [],
+  "creatures": []
+}

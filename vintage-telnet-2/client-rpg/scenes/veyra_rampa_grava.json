@@ -1,0 +1,96 @@
+{
+  "room": "veyra_rampa_grava",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "norte": [
+      10,
+      1
+    ]
+  },
+  "layers": {
+    "ground": [
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "111111111..111111111"
+    ]
+  },
+  "creatures": [
+    {
+      "id": "salteadora_negociante",
+      "at": [
+        6,
+        6
+      ]
+    },
+    {
+      "id": "espinajo_rastrojo",
+      "at": [
+        13,
+        6
+      ]
+    }
+  ],
+  "npcs": []
+}

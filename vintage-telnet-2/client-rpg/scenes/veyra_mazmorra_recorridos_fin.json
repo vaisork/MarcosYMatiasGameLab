@@ -1,0 +1,81 @@
+{
+  "room": "veyra_mazmorra_recorridos_fin",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "layers": {
+    "ground": [
+      "ffffffffffffffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fppppppppppppppppppf",
+      "fppppppppppppppppppf",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "fffffffffppfffffffff",
+      "ffffffffffffffffffff"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1...................",
+      "1...................",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "111111111..111111111"
+    ]
+  },
+  "npcs": [],
+  "creatures": []
+}
