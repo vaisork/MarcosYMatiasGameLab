@@ -1,0 +1,23 @@
+{
+  "prompt": "Detailed modern 16-bit pixel-art RPG background, top-down three-quarter view. Lethra observation nook with one broad dry exposed tree root beside a dark shallow canal, moss, ferns and a small blank folded note on the dry root. Muted turquoise water, olive moss, wet bark and soft upper-left daylight. Preserve a clear dry cross-shaped path and open east-edge rows 6–7; place roots and rocks only over solid cells. No readable writing, people, creatures, UI, grid, watermark or borders.",
+  "source": "image_gen nativo",
+  "normalization": "Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP quality 42 (method 6); no painted edits.",
+  "created_at": "2026-10-30",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "bytes": 193854,
+  "quality": 42,
+  "sha256": "de27b3ff4b0d8ba9e9674bc0ebbc603a59e197de381c50e66f5dc7045480c57b",
+  "asset_id": "backgrounds/lethra_raices_observacion.webp",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-b9520494-2f09-4448-ad03-7c12f1c16189.png",
+  "source_sha256": "72cd6dfef9f7695466cba1b8c941468d028020c2f3aee8c10d19904075fd1682",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art scene, no actors; visually checked against the scene/Tiled solid mask, spawns and real exits.",
+  "webp_quality": 42,
+  "reference_images": [
+    "client/art/places/lethra_raices_observacion-anime-v1.webp",
+    "client-rpg/backgrounds/lethra_banco_barro.webp"
+  ]
+}

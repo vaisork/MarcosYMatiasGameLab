@@ -1,0 +1,23 @@
+{
+  "prompt": "Detailed modern 16-bit pixel-art RPG background, top-down three-quarter view. Lethra wetland village courtyard between raised timber homes, open shutters and reed planters, with shallow muted-turquoise canals and honey-brown elevated platform. Olive leaves, crisp pixel clusters and upper-left daylight. Keep north-center columns 9–10, east-edge rows 6–7, west-edge rows 6–7 open; preserve clear broad central horizontal and vertical walking lanes. No people, creatures, boats, text, labels, UI, grid, watermark or borders.",
+  "source": "image_gen nativo",
+  "normalization": "Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP quality 42 (method 6); no painted edits.",
+  "created_at": "2026-10-30",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "bytes": 167552,
+  "quality": 42,
+  "sha256": "63a836bbb96075b32f09210945f7cb2db18f5abf47bc3b132d4409914dcfc829",
+  "asset_id": "backgrounds/lethra_patio_ventanas.webp",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-836eabb4-2c4d-456e-9db3-c07a949ef8a0.png",
+  "source_sha256": "ac20f1618f352d66ed6b46f34975c12810be7dc96fbe14904bb1f9550c158231",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art scene, no actors; visually checked against the scene/Tiled solid mask, spawns and real exits.",
+  "webp_quality": 42,
+  "reference_images": [
+    "client/art/places/lethra_patio_ventanas-anime-v1.webp",
+    "client-rpg/backgrounds/lethra_banco_barro.webp"
+  ]
+}

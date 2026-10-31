@@ -1,0 +1,23 @@
+{
+  "prompt": "Detailed modern 16-bit pixel-art RPG background, top-down three-quarter view. Lethra firm shoreline with sturdy timber supports for baskets, water vessels and loads, flanking a broad central dry path. Olive reeds, muted turquoise channels, wet roots, warm aged wood, crisp pixel clusters, upper-left daylight. Preserve broad north-south and transverse walkable surfaces, with centered north and south exits fully open. No people, creatures, text, UI, grid, watermark or borders.",
+  "source": "image_gen nativo",
+  "normalization": "Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP quality 42 (method 6); no painted edits.",
+  "created_at": "2026-10-30",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "bytes": 167278,
+  "quality": 42,
+  "sha256": "cb9572a43796b8fee368b303f66b3ba73195d382adf5f1f5cbce021cdb671abe",
+  "asset_id": "backgrounds/lethra_ribera_firme.webp",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-083595da-73e9-49f8-985c-c1f43a7c5250.png",
+  "source_sha256": "b8b42b6e0f1ae3de05b7e73c0d7cf0b236d3f97a5612fe939d603400937d01d0",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art scene, no actors; visually checked against the scene/Tiled solid mask, spawns and real exits.",
+  "webp_quality": 42,
+  "reference_images": [
+    "client/art/places/lethra_ribera_firme-anime-v1.webp",
+    "client-rpg/backgrounds/lethra_banco_barro.webp"
+  ]
+}

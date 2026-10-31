@@ -1,0 +1,23 @@
+{
+  "prompt": "Detailed modern 16-bit pixel-art RPG background, top-down three-quarter view. Lethra root platform marking a crossing into Nhal: broad exposed roots and a dry wooden deck connect north to south over shallow wetland water, with a wide transverse central platform. Olive moss, dark roots, honey-brown timber, crisp clusters, upper-left daylight. Keep north-center and south-center exits open. Roots, rocks, reeds and pools only in blocked outer zones. No people, creatures, text, UI, grid, watermark or borders.",
+  "source": "image_gen nativo",
+  "normalization": "Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP quality 42 (method 6); no painted edits.",
+  "created_at": "2026-10-30",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "bytes": 197352,
+  "quality": 42,
+  "sha256": "775cb31ae4e6e11b074be91e5b89432b7d8822d4cb85b02b9b4f5aa34de79aed",
+  "asset_id": "backgrounds/lethra_relevo_raices.webp",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-48ddf7fb-86e5-4a23-a239-a9fcbe09297d.png",
+  "source_sha256": "45ec27ad6f172a2a46d830e47f76c4ba70741fa3c34d8dc9cdacf20eb5cf8cdb",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art scene, no actors; visually checked against the scene/Tiled solid mask, spawns and real exits.",
+  "webp_quality": 42,
+  "reference_images": [
+    "client/art/places/lethra_relevo_raices-anime-v1.webp",
+    "client-rpg/backgrounds/lethra_banco_barro.webp"
+  ]
+}
