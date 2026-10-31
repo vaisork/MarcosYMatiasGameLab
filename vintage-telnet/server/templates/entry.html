@@ -1015,8 +1015,8 @@
               {% if room.id == 'valdren_mercado' or room.id == task.destination and task.state == 'accepted' %}
               <div class="npc-card">
                 <div><strong>{{ {'valdren_recado_forja': 'Recado para la forja', 'valdren_revision_cobertizos': 'Revisar los cobertizos', 'valdren_estado_vado': 'Informar sobre el vado'}[task.contract_id] }}</strong>
-                  <p>{{ task.base_payout }} sellos base · {{ {'available': 'Disponible', 'accepted': 'En curso', 'ready_to_claim': 'Listo para cobrar'}[task.state] }} · {{ {'valdren_forja': 'Forja de Valdren', 'valdren_cobertizos_viejos': 'Cobertizos viejos', 'valdren_vado_menor': 'Vado menor'}[task.destination] }}</p></div>
-                {% if room.id == 'valdren_mercado' and task.state != 'accepted' or room.id == task.destination and task.state == 'accepted' %}
+                  <p>{{ task.base_payout }} sellos base · {{ {'available': 'Disponible', 'accepted': 'En curso', 'ready_to_claim': 'Listo para cobrar', 'available_tomorrow': 'Disponible en 24h'}[task.state] }} · {{ {'valdren_forja': 'Forja de Valdren', 'valdren_cobertizos_viejos': 'Cobertizos viejos', 'valdren_vado_menor': 'Vado menor'}[task.destination] }}</p></div>
+                {% if room.id == 'valdren_mercado' and task.state in ('available', 'ready_to_claim') or room.id == task.destination and task.state == 'accepted' %}
                 <form method="post" action="/command"><input type="hidden" name="csrf" value="{{ session.csrf }}"><input type="hidden" name="text" value="{{ 'aceptar' if task.state == 'available' else 'cobrar' if task.state == 'ready_to_claim' else 'registrar' }} encargo {{ task.contract_id }}"><button class="action action-gold" type="submit">{{ 'Aceptar' if task.state == 'available' else 'Cobrar' if task.state == 'ready_to_claim' else 'Registrar trabajo' }}</button></form>
                 {% endif %}
               </div>

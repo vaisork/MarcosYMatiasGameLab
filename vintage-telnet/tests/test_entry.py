@@ -51,13 +51,20 @@ class EntryTests(unittest.TestCase):
 
     def test_rooms_sharing_a_visual_context_keep_the_same_art(self):
         centro = world.describe_room("valdren_centro", [])
-        forja = world.describe_room("valdren_forja", [])
         mercado = world.describe_room("valdren_mercado", [])
         self.assertEqual(centro["visual_context_id"], "zone.valdren")
-        self.assertEqual(forja["visual_context_id"], "zone.valdren")
         self.assertEqual(mercado["visual_context_id"], "zone.valdren")
-        self.assertEqual(forja["art"], centro["art"])
         self.assertEqual(mercado["art"], centro["art"])
+
+    def test_forja_has_its_own_approved_art_distinct_from_the_town(self):
+        centro = world.describe_room("valdren_centro", [])
+        forja = world.describe_room("valdren_forja", [])
+        self.assertEqual(forja["visual_context_id"], "zone.valdren.forja_daro")
+        self.assertNotEqual(forja["visual_context_id"], centro["visual_context_id"])
+        self.assertNotEqual(forja["art"], centro["art"])
+        response = self.client.get(forja["art"]["src"])
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.mimetype, "image/webp")
 
     def test_visual_context_changes_at_the_town_boundary(self):
         sendero = world.describe_room("valdren_sendero", [])

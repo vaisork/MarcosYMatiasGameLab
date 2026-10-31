@@ -1,4 +1,4 @@
-"""Regresión del ingreso de Valdren: rutas, antifarmeo y cobro único."""
+"""Regresión del ingreso de Valdren: rutas, antifarmeo horario y cooldown de 24h tras cobrar."""
 import re
 import tempfile
 import unittest
@@ -47,7 +47,7 @@ class PaidErrandsTests(unittest.TestCase):
             self.assertTrue(ok)
             self.assertEqual(extra["payout"], payout)
             self.assertFalse(errands.act(self.path, self.player_id, errands.MARKET, contract_id, "claim")[0])
-        self.assertEqual(errands.list_contracts(self.path, self.player_id)[0]["state"], "available")
+        self.assertEqual(errands.list_contracts(self.path, self.player_id)[0]["state"], "available_tomorrow")
         with store.connect(self.path) as db:
             ledger = db.execute("SELECT delta FROM economy_ledger WHERE reason_code = ? ORDER BY id", (errands.FAMILY,)).fetchall()
         self.assertEqual([row["delta"] for row in ledger], [6, 10, 14])
@@ -75,20 +75,38 @@ class PaidErrandsTests(unittest.TestCase):
         self.post("/command", {"text": "cobrar encargo valdren_recado_forja"})
         self.assertEqual(store.character_by_player_id(self.path, self.player_id)["sellos"], 26)
 
-    def test_repeat_and_expiring_window_do_not_duplicate_credit(self):
+    def test_cooldown_blocks_repeat_for_24h_then_resets(self):
         key = "valdren_recado_forja"
-        for index in range(6):
-            now = 10000 + index
-            self.assertTrue(errands.act(self.path, self.player_id, errands.MARKET, key, "accept", now=now)[0])
-            self.assertTrue(errands.act(self.path, self.player_id, "valdren_forja", key, "record", now=now)[0])
-            ok, _, result = errands.act(self.path, self.player_id, errands.MARKET, key, "claim", now=now)
-            self.assertTrue(ok)
-            self.assertEqual(result["payout"], [6, 6, 3, 3, 1, 1][index])
-            self.assertFalse(errands.act(self.path, self.player_id, errands.MARKET, key, "claim", now=now)[0])
-        now = 13610
-        errands.act(self.path, self.player_id, errands.MARKET, key, "accept", now=now)
-        errands.act(self.path, self.player_id, "valdren_forja", key, "record", now=now)
-        self.assertEqual(errands.act(self.path, self.player_id, errands.MARKET, key, "claim", now=now)[2]["payout"], 6)
+        now = 10000
+        self.assertTrue(errands.act(self.path, self.player_id, errands.MARKET, key, "accept", now=now)[0])
+        self.assertTrue(errands.act(self.path, self.player_id, "valdren_forja", key, "record", now=now)[0])
+        ok, _message, result = errands.act(self.path, self.player_id, errands.MARKET, key, "claim", now=now)
+        self.assertTrue(ok)
+        self.assertEqual(result["payout"], 6)
+        self.assertEqual(result["state"], "available_tomorrow")
+
+        soon = now + 3600
+        self.assertEqual(errands.list_contracts(self.path, self.player_id, now=soon)[0]["state"], "available_tomorrow")
+        ok, message, _extra = errands.act(self.path, self.player_id, errands.MARKET, key, "accept", now=soon)
+        self.assertFalse(ok)
+        self.assertIn("hora", message)
+
+        after_cooldown = now + 86400 + 1
+        self.assertEqual(errands.list_contracts(self.path, self.player_id, now=after_cooldown)[0]["state"], "available")
+        self.assertTrue(errands.act(self.path, self.player_id, errands.MARKET, key, "accept", now=after_cooldown)[0])
+
+    def test_record_during_cooldown_is_rejected_not_silently_advanced(self):
+        key = "valdren_recado_forja"
+        now = 10000
+        self.assertTrue(errands.act(self.path, self.player_id, errands.MARKET, key, "accept", now=now)[0])
+        self.assertTrue(errands.act(self.path, self.player_id, "valdren_forja", key, "record", now=now)[0])
+        self.assertTrue(errands.act(self.path, self.player_id, errands.MARKET, key, "claim", now=now)[0])
+        # Encargo en cooldown (valor 3): "registrar" directo en el destino, sin
+        # volver a "accept", no debe avanzar el estado ni abrir una vía para
+        # cobrar de nuevo antes de que termine el cooldown.
+        ok, message, _extra = errands.act(self.path, self.player_id, "valdren_forja", key, "record", now=now + 10)
+        self.assertFalse(ok)
+        self.assertIn("Acepta primero", message)
 
     def _csrf(self):
         html = self.client.get("/").get_data(as_text=True)

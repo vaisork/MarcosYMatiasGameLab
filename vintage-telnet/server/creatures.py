@@ -370,7 +370,7 @@ CREATURE_ART = {
     "cascapedernal": {"src": "/assets/creatures/cascapedernal.webp",
                       "alt": "Cascapedernal encogido junto a la piedra cálida de Korven",
                       "width": 1536, "height": 1024},
-    "hilaria_niebla": {"src": "/assets/creatures/hilaria-niebla.webp",
+    "hilaria_niebla": {"src": "/assets/creatures/hilaria_niebla.webp",
                        "alt": "Hilaria de niebla entre las raíces del bosque de Nhal",
                        "width": 1536, "height": 1024},
     # Note: saltacresta approved without artwork (Issue #408) — uses neutral frame in combat
