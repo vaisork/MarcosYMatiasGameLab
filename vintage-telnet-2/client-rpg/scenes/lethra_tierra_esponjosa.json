@@ -1,0 +1,117 @@
+{
+  "room": "lethra_tierra_esponjosa",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "gwwwwgggppppgggwwwwg",
+      "gwwwwgssppppgccwwwwg",
+      "gwwwwgssppppgccwwwwg",
+      "gwwwwgggppppgggwwwwg",
+      "gppppppppppppppppppg",
+      "gppppppppppppppppppg",
+      "gppppppppppppppppppg",
+      "gppppppppppppppppppg",
+      "gppppppppppppppppppg",
+      "gwwwwgssppppgccwwwwg",
+      "gwwwwgssppppgccwwwwg",
+      "gwwwwgggppppgggwwwwg",
+      "gwwwwgggppppgggwwwwg",
+      "gggggggggggggggggggg"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "11111..........11111",
+      "11111.11.....1111111",
+      "11111.11.....1111111",
+      "11111..........11111",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "11111.11.....1111111",
+      "11111.11.....1111111",
+      "11111..........11111",
+      "11111..........11111",
+      "111111111..111111111"
+    ]
+  },
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "sur": [
+      10,
+      13
+    ]
+  },
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    }
+  ],
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "dorsalodo",
+      "at": [
+        6,
+        5
+      ]
+    },
+    {
+      "id": "mordijunco",
+      "at": [
+        13,
+        5
+      ]
+    },
+    {
+      "id": "pinzajunco",
+      "at": [
+        6,
+        6
+      ]
+    },
+    {
+      "id": "saltalodo",
+      "at": [
+        13,
+        6
+      ]
+    },
+    {
+      "id": "tragacharco",
+      "at": [
+        6,
+        8
+      ]
+    }
+  ]
+}

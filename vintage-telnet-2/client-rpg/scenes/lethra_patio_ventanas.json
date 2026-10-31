@@ -1,0 +1,94 @@
+{
+  "room": "lethra_patio_ventanas",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "ggggggggppppgggggggg",
+      "ggggggssppppgccggggg",
+      "ggggggssppppgccggggg",
+      "ggggggppppppppgggggg",
+      "gppppppppppppppppppg",
+      "gppppppppppppppppppg",
+      "gppppppppppppppppppg",
+      "gppppppppppppppppppg",
+      "gppppppppppppppppppg",
+      "ggggggppppppppcggggg",
+      "ggggggssppppgccggggg",
+      "ggggggggppppgggggggg",
+      "ggggggggppppgggggggg",
+      "gggggggggggggggggggg"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "1..................1",
+      "1.....11.....11....1",
+      "1.....11.....11....1",
+      "1..................1",
+      "1..................1",
+      "....................",
+      "....................",
+      "1..................1",
+      "1..................1",
+      "1.....11.....11....1",
+      "1.....11.....11....1",
+      "1..................1",
+      "1..................1",
+      "11111111111111111111"
+    ]
+  },
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "este": [
+      18,
+      7
+    ],
+    "oeste": [
+      1,
+      7
+    ]
+  },
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "npcs": [],
+  "creatures": []
+}
