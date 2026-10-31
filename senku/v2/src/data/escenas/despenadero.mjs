@@ -13,18 +13,24 @@ const churu = (id, x, y, extra = {}) => ({ id, tipo: 'churu', x, y, w: 30, h: 66
 export const escenaDespenadero = {
   id: 'despenadero', nombre: 'Despeñadero',
   limites: { x: 0, y: 0, w: 5120, h: 820 },
+  arte: { tramos: [
+    { ruta: 'assets/escenas/despenadero/01.webp', x: 0, w: 1280 },
+    { ruta: 'assets/escenas/despenadero/02.webp', x: 1280, w: 1280 },
+    { ruta: 'assets/escenas/despenadero/03.webp', x: 2560, w: 1280 },
+    { ruta: 'assets/escenas/despenadero/04.webp', x: 3840, w: 1280 },
+  ] },
   puntoEntrada: { x: 120, y: SUELO - 90 },
   fondo: {
     estilo: 'despenadero', colorRespaldo: '#e9b17a',
     colorSuelo: '#9a5b34', colorPlataforma: '#9a5b34', plataformasVisibles: true,
   },
   plataformas: [
-    { id: 'roca-orilla', x: 0, y: SUELO, w: 960, h: 120, tipo: 'plataforma' },
+    { id: 'roca-orilla', x: 0, y: SUELO, w: 890, h: 120, tipo: 'plataforma' }, // termina donde acaba la roca pintada
     { id: 'roca-escalon', x: 330, y: 500, w: 140, h: 24, tipo: 'plataforma' },
     { id: 'roca-repisa', x: 1380, y: 560, w: 160, h: 160, tipo: 'plataforma' },
     { id: 'pared-risco', x: 1540, y: 200, w: 100, h: 520, tipo: 'pared' },
     { id: 'roca-meseta', x: 1640, y: 200, w: 1260, h: 520, tipo: 'plataforma' },
-    { id: 'anclaje-nido', x: 2400, y: 30, w: 40, h: 50, tipo: 'anclaje' },
+    { id: 'anclaje-nido', x: 2367, y: 30, w: 40, h: 50, tipo: 'anclaje' },
     { id: 'roca-bajada', x: 2900, y: 400, w: 400, h: 320, tipo: 'plataforma' },
     { id: 'pared-torre', x: 3900, y: 150, w: 90, h: 570, tipo: 'pared' },
     { id: 'roca-cumbre', x: 3990, y: 150, w: 1130, h: 570, tipo: 'plataforma' },
