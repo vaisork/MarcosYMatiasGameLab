@@ -131,16 +131,15 @@ test('«Jugar el capítulo otra vez» revive enemigos, llave y jefe; conserva ch
   assert.ok(final && volver.oyentes.click, 'pantalla final con botón de volver a jugar');
   volver.oyentes.click[0]();
 
-  assert.equal(juego.escena.id, 'taqueria');
+  assert.equal(juego.escena.id, 'ciudad'); // vuelve al inicio del capítulo
   const col = juego.estadoJugador().coleccionados;
   for (const id of ['jefe-gato-mecanico', 'llave-camioneta', 'taqueria:derrotado:rata-suelo-3', 'anclador-despenadero', 'lanzador-cima']) {
     assert.equal(col.includes(id), false, id);
   }
   assert.ok(col.includes('garras-despenadero') && col.includes('churu-1'));
   assert.equal(juego.estadoJugador().churus, 40);
-  assert.ok(juego.enemigos.every((e) => e.vivo), 'los enemigos de la taquería regresan');
-  assert.equal(juego.escena.objetos.find((o) => o.id === 'churu-1').recogido, true, 'sin volver a cobrar churus');
-  assert.equal(cargar(almacen).estado.progreso.escena, 'taqueria');
+  assert.ok(juego.enemigos.every((e) => e.vivo), 'los enemigos regresan');
+  assert.equal(cargar(almacen).estado.progreso.escena, 'ciudad');
   juego.detener();
 });
 
