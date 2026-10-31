@@ -12,7 +12,7 @@ export const escenaCiudad = {
   },
   puntoEntrada: {
     x: 90,
-    y: 558,
+    y: 510, // pies sobre la calle (y=600); gato de 90 px
   },
   fondo: {
     estilo: 'ciudad',
