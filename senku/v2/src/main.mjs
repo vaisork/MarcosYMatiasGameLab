@@ -19,6 +19,10 @@ import { crearRegistroEscenas } from './core/escenas.mjs';
 import { escenaCiudad } from './data/escenas/ciudad.mjs';
 import { escenaTaqueria } from './data/escenas/taqueria.mjs';
 import { escenaDesierto } from './data/escenas/desierto.mjs';
+import { escenaDespenadero, puntoControlPara } from './data/escenas/despenadero.mjs';
+import { crearAnclador, soltarAnclador } from './core/anclador.mjs';
+import { pasoMovilidad } from './core/movilidad.mjs';
+import { dibujarDespenadero, dibujarAnclador } from './render/despenadero.mjs';
 import { escenaReja } from './data/escenas/reja.mjs';
 import { crearManejadorEntrada } from './core/entrada.mjs';
 import { crearEnemigo, actualizarEnemigos } from './core/enemigos.mjs';
@@ -367,8 +371,9 @@ export function arrancarSenku2({
           if (almacen) guardar(almacen, estadoJugador);
         }
       }
-      if (params.get('escena') === 'ciudad') {
-        estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: 'ciudad' } };
+      const escenaUrl = params.get('escena');
+      if (['ciudad', 'taqueria', 'reja', 'desierto', 'despenadero'].includes(escenaUrl)) {
+        estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: escenaUrl } };
       }
     } catch {
       // Ignorar fallo en parseo de URL
@@ -550,6 +555,7 @@ export function arrancarSenku2({
   registro.registrar(escenaTaqueria);
   registro.registrar(escenaReja);
   registro.registrar(escenaDesierto);
+  registro.registrar(escenaDespenadero);
 
   const escenaId = estadoJugador.progreso?.escena === 'desierto'
     ? 'reja' : (estadoJugador.progreso?.escena || 'taqueria');
@@ -576,6 +582,14 @@ export function arrancarSenku2({
     h: ALTURA_GATO_JUEGO,
   });
   refrescarVistaTraje();
+  // Despeñadero: anclador sólo dentro del nivel (temporal); garras para siempre.
+  const anclador = crearAnclador();
+  let xMaximaEscena = 0;
+  const tiene = (id) => estadoJugador.coleccionados.includes(id);
+  function actualizarBotonGancho() {
+    const boton = documento.getElementById('btn-gancho');
+    if (boton) boton.hidden = !(escenaActual.id === 'despenadero' && tiene('anclador-despenadero'));
+  }
 
   function alPulsarTecla(e) {
     if (viaje && ['Space', 'Enter', 'Escape'].includes(e.code)) {
@@ -759,6 +773,10 @@ export function arrancarSenku2({
 
   // Reinicia la escena al llegar a 0 de vida, conservando el progreso guardado
   function reiniciarEscena({ puntoEntrada = escenaActual.puntoEntrada, curar = true } = {}) {
+    soltarAnclador(anclador);
+    senku.agarrado = null;
+    xMaximaEscena = puntoEntrada.x;
+    actualizarBotonGancho();
     senku.x = puntoEntrada.x;
     senku.y = puntoEntrada.y;
     senku.vx = 0;
@@ -814,6 +832,7 @@ export function arrancarSenku2({
     elementoJoystick: documento.getElementById('joystick'),
     elementosBotones: {
       salto: btnSalto,
+      anclar: documento.getElementById('btn-gancho'),
     },
   });
 
@@ -831,6 +850,13 @@ export function arrancarSenku2({
 
   function cambiarEscena(destino, { puntoEntrada, curar = false } = {}) {
     const definicion = registro.obtener(destino);
+    if (!definicion) {
+      // La cima y el jefe aún no tienen diseño aprobado (maestro, punto 7).
+      senku.x -= 60;
+      senku.vx = 0;
+      mostrarAviso('La cima… ¡muy pronto!', 2.5);
+      return;
+    }
     escenaActual = {
       ...definicion,
       objetos: definicion.objetos.map((o) => ({
@@ -909,13 +935,23 @@ export function arrancarSenku2({
         }
       }
       ataquePresionadoPrevio = estadoEntrada.atacar;
-      actualizarCuerpo(
-        senku,
-        estadoEntrada,
-        escenaActual.plataformas,
-        escenaActual.limites,
-        dt
-      );
+      const eventosMovilidad = pasoMovilidad(senku, anclador, estadoEntrada,
+        escenaActual.plataformas, escenaActual.limites, dt, {
+          tieneAnclador: escenaActual.id === 'despenadero' && tiene('anclador-despenadero'),
+          tieneGarras: tiene('garras-despenadero'),
+        });
+      if (eventosMovilidad.includes('enganchar')) reproducirSonidoChuru(ventana);
+      if (eventosMovilidad.includes('coronar')) mostrarAviso('¡Arriba!', 0.8);
+
+      // Caer al abismo regresa al último punto de control alcanzado.
+      xMaximaEscena = Math.max(xMaximaEscena, senku.x);
+      if (escenaActual.id === 'despenadero'
+          && senku.y + senku.h > escenaDespenadero.alturaCaida) {
+        const p = puntoControlPara(escenaDespenadero, xMaximaEscena);
+        soltarAnclador(anclador);
+        Object.assign(senku, { x: p.x, y: p.y, vx: 0, vy: 0, agarrado: null, enSuelo: false });
+        mostrarAviso('¡Uy! Otra vez desde aquí.', 1.5);
+      }
 
       // Amortiguación al aterrizar (absorción del impacto)
       if (!enSueloPrevio && senku.enSuelo && !senku.saltando && Math.abs(senku.vx) <= 30) {
@@ -984,6 +1020,15 @@ export function arrancarSenku2({
             y: objeto.y,
             texto: '+1 Churu',
           });
+        } else if (objeto.tipo === 'anclador' || objeto.tipo === 'garras') {
+          objeto.recogido = true;
+          estadoJugador = { ...estadoJugador,
+            coleccionados: [...new Set([...estadoJugador.coleccionados, objeto.id])] };
+          guardarProgreso();
+          actualizarBotonGancho();
+          mostrarAviso(objeto.tipo === 'anclador'
+            ? '¡Anclador! Mantén K (o Gancho), apunta y suelta para disparar a la pared.'
+            : '¡Garras! Empuja contra la pared y salta para trepar.', 4);
         } else if (objeto.tipo === 'llave') {
           objeto.recogido = true;
           estadoJugador = { ...estadoJugador,
@@ -1037,6 +1082,8 @@ export function arrancarSenku2({
     });
 
     if (ctx) { ctx.save(); ctx.translate(-camaraX, 0); }
+    dibujarDespenadero(ctx, escenaActual, tiempoAcumulado);
+    dibujarAnclador(ctx, anclador, senku);
 
     // Dibujado de Senku con color y etiqueta del traje activo
     if (ctx && senku) {

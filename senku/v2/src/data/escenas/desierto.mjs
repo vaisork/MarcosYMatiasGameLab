@@ -37,5 +37,7 @@ export const escenaDesierto = {
     })),
   ],
   secretos: ['desierto-churu-6', 'desierto-churu-11'],
-  disparadores: [],
+  // Al final del parque empieza el despeñadero.
+  disparadores: [{ id: 'hacia-despenadero', x: 6380, y: 0, w: 20, h: 720,
+    destino: 'despenadero', accion: 'pasar', puntoEntrada: { x: 120, y: 510 } }],
 };
