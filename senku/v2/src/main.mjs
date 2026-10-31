@@ -24,6 +24,9 @@ import { crearAnclador, soltarAnclador } from './core/anclador.mjs';
 import { pasoMovilidad } from './core/movilidad.mjs';
 import { dibujarDespenadero, dibujarAnclador } from './render/despenadero.mjs';
 import { escenaCima, ARENA, SUELO_CIMA } from './data/escenas/cima.mjs';
+import { resumenCapitulo } from './core/resumen.mjs';
+import { mostrarFinal } from './ui/final.mjs';
+import { mostrarPortada, debeMostrarPortada } from './ui/portada.mjs';
 import { crearJefe, despertar, actualizarJefe, golpearJefe, danoAJugador, esPisoton } from './core/jefe_gato.mjs';
 import { crearLanzador, actualizarDisparo, actualizarProyectiles } from './core/lanzador.mjs';
 import { dibujarJefe, dibujarProyectiles, dibujarLanzadorEnLomo, dibujarObjetoLanzador,
@@ -1214,7 +1217,6 @@ export function arrancarSenku2({
             mostrarAviso('¡El Gato Mecánico despierta!', 2);
           }
           if (jefe.estado !== 'dormido' && !jefe.derrotado) senku.x = Math.max(senku.x, ARENA.minX);
-          const yaDerrotado = jefe.derrotado;
           actualizarJefe(jefe, senku, dt);
           if (esPisoton(jefe, senku) && golpearJefe(jefe, 1)) senku.vy = -620;
           const dano = danoAJugador(jefe, senku);
@@ -1229,11 +1231,17 @@ export function arrancarSenku2({
               }
             }
           }
-          if (jefe.derrotado && !yaDerrotado) {
+          // Se registra una sola vez, venga el último golpe de un ratón o de un pisotón.
+          if (jefe.derrotado && !tiene(ID_VICTORIA_JEFE)) {
             estadoJugador = { ...estadoJugador,
               coleccionados: [...new Set([...estadoJugador.coleccionados, ID_VICTORIA_JEFE])] };
             guardarProgreso();
-            mostrarAviso('¡Venciste al Gato Mecánico! Fin del capítulo México.', 6);
+            mostrarAviso('¡Venciste al Gato Mecánico!', 2.5);
+            // Deja ver al jefe desarmarse antes de la pantalla final.
+            ventana.setTimeout?.(() => mostrarFinal(documento, ventana,
+              resumenCapitulo(estadoJugador, registro.listar()), {
+                alVolverAJugar: () => cambiarEscena('taqueria', { curar: true }),
+              }), 2600);
           }
         }
       }
@@ -1659,6 +1667,7 @@ export function arrancarSenku2({
     senku,
     get escena() { return escenaActual; },
     get jefe() { return jefe; },
+    get lanzador() { return lanzador; },
     estadoJugador: () => estadoJugador,
     estadoCombate,
     enemigos,
@@ -1710,11 +1719,24 @@ export function arrancarSenku2({
 
 // Auto-arranque al cargar en navegador
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
+  const arrancar = () => {
+    let vista = false;
+    try { vista = window.sessionStorage?.getItem('senku2_portada_vista') === '1'; } catch { /* sin almacenamiento */ }
+    if (vista || !debeMostrarPortada(window.location)) {
       window.__senku2 = arrancarSenku2();
-    });
+      return;
+    }
+    let tieneProgreso = false;
+    try { tieneProgreso = Boolean(window.localStorage?.getItem('senku2_save')); } catch { /* sin almacenamiento */ }
+    mostrarPortada(document, { tieneProgreso, alJugar: () => {
+      // Una vez por sesión: al volver de un bonus no se repite la portada.
+      try { window.sessionStorage?.setItem('senku2_portada_vista', '1'); } catch { /* sin almacenamiento */ }
+      window.__senku2 = arrancarSenku2();
+    } });
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', arrancar);
   } else {
-    window.__senku2 = arrancarSenku2();
+    arrancar();
   }
 }

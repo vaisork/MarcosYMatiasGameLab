@@ -34,9 +34,6 @@
       width: 100%;
       height: 100%;
       height: 100dvh;
-      height: var(--app-height, 100vh);
-      min-height: var(--app-height, 100vh);
-      max-height: var(--app-height, 100vh);
       margin: 0;
       padding: 0;
       overflow: hidden;
@@ -54,7 +51,6 @@
       width: 100%;
       height: 100%;
       height: 100dvh;
-      height: var(--app-height, 100%);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -88,89 +84,168 @@
     button:focus-visible { outline: 3px solid #ffe3a0; outline-offset: 3px; }
     .hud-superior {
       position: absolute; z-index: 20;
-      top: calc(env(safe-area-inset-top, 0px) + 12px);
-      left: calc(env(safe-area-inset-left, 0px) + 16px);
-      right: calc(env(safe-area-inset-right, 0px) + 16px);
-      display: flex; align-items: center; gap: 10px; pointer-events: none;
+      top: calc(env(safe-area-inset-top, 0px) + 8px);
+      left: calc(env(safe-area-inset-left, 0px) + 12px);
+      right: calc(env(safe-area-inset-right, 0px) + 12px);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 8px; pointer-events: none;
+      flex-wrap: nowrap;
+    }
+    .hud-grupo-izq, .hud-grupo-der {
+      display: flex; align-items: center; gap: 8px; pointer-events: none;
     }
     .hud-pildora, .btn-control, .joystick {
-      background: #241c1cdb; border: 2px solid #bdb0a0;
+      background: #241c1ce6; border: 2px solid #bdb0a0;
       box-shadow: 0 4px 12px #0006, inset 0 1px 2px #fff3;
     }
-    .hud-pildora { display: flex; align-items: center; gap: 8px; padding: 6px 12px;
-      border-radius: 12px; font-weight: 750; color: #fff4dc; }
-    .hud-vida { padding: 4px 10px 4px 4px; gap: 10px; }
-    .retrato { width: 48px; height: 48px; object-fit: cover; border-radius: 8px;
+    .hud-pildora { display: flex; align-items: center; gap: 8px; padding: 5px 12px;
+      border-radius: 12px; font-weight: 750; color: #fff4dc; font-size: 13px; }
+    .hud-vida { padding: 4px 10px 4px 4px; gap: 8px; }
+    .retrato { width: 44px; height: 44px; object-fit: cover; border-radius: 8px;
       image-rendering: pixelated; background: #392a24; }
-    .salud { display: grid; gap: 4px; }
-    .barra-vida-contenedor { width: 112px; height: 12px; border: 1px solid #f7dbb2;
+    .salud { display: grid; gap: 3px; }
+    .barra-vida-contenedor { width: 104px; height: 11px; border: 1px solid #f7dbb2;
       border-radius: 4px; overflow: hidden; background: #130e10; }
-    .barra-vida-relleno { height: 100%; width: 100%; background: #22c55e; }
+    .barra-vida-relleno { height: 100%; width: 100%; background: #22c55e; transition: width 0.15s ease; }
     .texto-vida { font-variant-numeric: tabular-nums; }
-    .salud small { font-size: 12px; }
-    .icono-churu { width: 28px; height: 40px; object-fit: contain; }
+    .salud small { font-size: 11px; }
+    .icono-churu { width: 24px; height: 36px; object-fit: contain; }
     .hud-escena { font-size: 12px; border: 0; box-shadow: none; background: #241c1cb8; }
-    .hud-btn { pointer-events: auto; min-height: 44px; }
-    #hud-traje { margin-left: auto; }
-    #btn-pausa { width: 48px; height: 48px; padding: 10px; }
-    svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2;
+    .hud-btn { pointer-events: auto; min-height: 42px; touch-action: manipulation; }
+    .hud-btn:active, .hud-btn.presionado { background: #6d432b; }
+    #hud-traje { }
+    #btn-pausa { width: 44px; height: 44px; padding: 8px; display: flex; align-items: center; justify-content: center; }
+    svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2;
       stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
     .zona-controles { position: absolute; z-index: 30;
-      bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
-      left: calc(env(safe-area-inset-left, 0px) + 18px);
-      right: calc(env(safe-area-inset-right, 0px) + 18px);
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+      left: calc(env(safe-area-inset-left, 0px) + 14px);
+      right: calc(env(safe-area-inset-right, 0px) + 14px);
       display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none; }
-    .joystick { position: relative; width: 132px; height: 132px; border-radius: 50%;
-      touch-action: none; pointer-events: auto; user-select: none; }
-    .joystick .palanca { position: absolute; width: 54px; height: 54px; left: calc(50% - 27px);
-      top: calc(50% - 27px); border-radius: 50%; background: #a7a0a1;
+    .joystick { position: relative; width: 124px; height: 124px; border-radius: 50%;
+      touch-action: none; -webkit-touch-callout: none; pointer-events: auto; user-select: none; }
+    .joystick .palanca { position: absolute; width: 50px; height: 50px; left: calc(50% - 25px);
+      top: calc(50% - 25px); border-radius: 50%; background: #a7a0a1;
       border: 3px solid #e5d8cb; box-shadow: 0 3px 6px #0009;
       transform: translate(var(--palanca-x, 0px), var(--palanca-y, 0px)); pointer-events: none; }
     .joystick svg { position: absolute; width: 18px; height: 18px; opacity: .7; pointer-events: none; }
-    .direccion-arriba { top: 7px; left: calc(50% - 9px); }
-    .direccion-abajo { bottom: 7px; left: calc(50% - 9px); transform: rotate(180deg); }
-    .direccion-izquierda { left: 7px; top: calc(50% - 9px); transform: rotate(-90deg); }
-    .direccion-derecha { right: 7px; top: calc(50% - 9px); transform: rotate(90deg); }
-    .grupo-accion { display: flex; align-items: flex-end; gap: 12px; }
-    .btn-control { pointer-events: auto; touch-action: none; width: 84px; height: 84px;
+    .direccion-arriba { top: 6px; left: calc(50% - 9px); }
+    .direccion-abajo { bottom: 6px; left: calc(50% - 9px); transform: rotate(180deg); }
+    .direccion-izquierda { left: 6px; top: calc(50% - 9px); transform: rotate(-90deg); }
+    .direccion-derecha { right: 6px; top: calc(50% - 9px); transform: rotate(90deg); }
+
+    /* Disposición de botones estilo Gamepad 2x2 para celular (ergonómica, sin solapamientos) */
+    .grupo-accion {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      grid-template-rows: repeat(2, auto);
+      grid-template-areas:
+        "gancho subir"
+        "ataque salto";
+      gap: 10px;
+      align-items: center;
+      justify-items: center;
+      pointer-events: none;
+    }
+    #btn-gancho { grid-area: gancho; }
+    #btn-subir { grid-area: subir; }
+    #btn-atacar { grid-area: ataque; }
+    #btn-salto { grid-area: salto; }
+    #btn-disparar { grid-area: gancho; }
+    #btn-lanzagranadas { grid-area: subir; }
+
+    .btn-control {
+      pointer-events: auto; touch-action: none; -webkit-touch-callout: none;
+      width: 74px; height: 74px;
       min-width: 44px; min-height: 44px; border-radius: 50%; display: flex;
-      flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-      font-size: 12px; font-weight: 750; }
-    .btn-control svg { width: 32px; height: 32px; }
-    .btn-salto { width: 96px; height: 96px; border-color: #f0cb8b; }
-    #btn-lanzagranadas { font-size: 11px; }
-    #btn-disparar { margin-bottom: 12px; }
-    #btn-subir { width: 64px; height: 64px; }
-    .btn-control:active, .hud-btn:active { background: #6d432b; }
+      flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+      font-size: 11px; font-weight: 800; border: 2.5px solid #bdb0a0;
+      user-select: none; -webkit-user-select: none;
+    }
+    .btn-control * { pointer-events: none; }
+    .btn-control svg { width: 28px; height: 28px; }
+
+    .btn-salto {
+      width: 86px; height: 86px;
+      border-color: #f59e0b;
+      background: #3a2517e6;
+    }
+    .btn-salto.presionado, .btn-salto:active {
+      background: #78350fe6;
+      border-color: #fbbf24;
+      transform: scale(0.94);
+    }
+
+    .btn-atacar {
+      border-color: #f87171;
+      background: #3b1818e6;
+    }
+    .btn-atacar .icono-accion {
+      font-size: 26px;
+      line-height: 1;
+    }
+    .btn-atacar.presionado, .btn-atacar:active {
+      background: #7f1d1de6;
+      border-color: #fca5a5;
+      transform: scale(0.94);
+    }
+
+    .btn-gancho {
+      border-color: #38bdf8;
+      background: #172554e6;
+    }
+    .btn-gancho.apuntando, .btn-gancho.presionado, .btn-gancho:active {
+      background: #0369a1;
+      border-color: #7dd3fc;
+      box-shadow: 0 0 16px #38bdf8, inset 0 2px 4px #bae6fd;
+      transform: scale(0.94);
+    }
+
+    .btn-subir {
+      border-color: #34d399;
+      background: #064e3be6;
+      animation: pulsoSubir 1.5s ease-in-out infinite;
+    }
+    @keyframes pulsoSubir {
+      0%, 100% { box-shadow: 0 4px 12px #0006, 0 0 0 0 rgba(52, 211, 153, 0.5); }
+      50% { box-shadow: 0 4px 12px #0006, 0 0 0 8px rgba(52, 211, 153, 0); }
+    }
+    .btn-subir.presionado, .btn-subir:active {
+      background: #047857;
+      transform: scale(0.94);
+    }
+
+    #btn-lanzagranadas { font-size: 10px; }
     .ayuda-teclado { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
       font-size: 12px; background: #241c1cdb; color: #fff4dc; padding: 6px 12px; border-radius: 8px; }
-    .aviso-orientacion { position: absolute; top: 90px; left: 50%; transform: translateX(-50%);
-      padding: 6px 12px; background: #241c1ced; font-size: 12px; z-index: 25; white-space: nowrap; }
+    .aviso-orientacion { position: absolute; top: calc(env(safe-area-inset-top, 0px) + 56px); left: 50%; transform: translateX(-50%);
+      padding: 5px 12px; background: #241c1ced; font-size: 12px; z-index: 25; white-space: nowrap; border-radius: 8px; }
 
-    /* Cartel grande y animado para mensajes (legible en celular ≥ 28px) */
+    /* Cartel grande y animado para mensajes */
     #aviso-viaje {
       position: absolute;
       z-index: 50;
-      top: 18%;
+      top: 16%;
       left: 50%;
       transform: translate(-50%, -24px) scale(0.92);
-      max-width: min(92%, 760px);
+      max-width: min(92%, 720px);
       width: max-content;
-      min-width: 280px;
-      padding: 16px 28px;
+      min-width: 260px;
+      padding: 12px 24px;
       text-align: center;
-      font-size: clamp(28px, 4vw, 36px);
+      font-size: clamp(20px, 3.5vw, 30px);
       font-weight: 850;
       line-height: 1.35;
       letter-spacing: 0.5px;
       color: #fffbeb;
       background: linear-gradient(180deg, rgba(42, 28, 18, 0.96) 0%, rgba(20, 14, 10, 0.98) 100%);
-      border: 3.5px solid #f59e0b;
-      border-radius: 20px;
+      border: 3px solid #f59e0b;
+      border-radius: 18px;
       box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85), inset 0 2px 4px rgba(254, 240, 138, 0.35);
       text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
       pointer-events: none;
       box-sizing: border-box;
+      word-break: break-word;
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
@@ -187,75 +262,113 @@
       visibility: visible;
       transform: translate(-50%, 16px) scale(0.94);
     }
+
+    /* Celular en horizontal (844x390) */
     @media (max-height: 500px) {
       #aviso-viaje {
-        font-size: 28px;
-        padding: 12px 20px;
-        top: 14%;
-        border-width: 3px;
-        border-radius: 16px;
+        font-size: 20px;
+        padding: 8px 18px;
+        top: 12%;
+        border-width: 2.5px;
+        border-radius: 14px;
       }
-      .hud-superior { top: calc(env(safe-area-inset-top, 0px) + 8px); gap: 8px; }
-      .retrato { width: 40px; height: 40px; }
-      .barra-vida-contenedor { width: 90px; }
-      .hud-pildora { padding: 4px 8px; }
-      .hud-vida { padding-left: 4px; }
-      .joystick { width: 112px; height: 112px; }
-      .btn-control { width: 72px; height: 72px; }
-      .btn-salto { width: 86px; height: 86px; }
+      .hud-superior {
+        top: calc(env(safe-area-inset-top, 0px) + 6px);
+        left: calc(env(safe-area-inset-left, 0px) + 10px);
+        right: calc(env(safe-area-inset-right, 0px) + 10px);
+        gap: 6px;
+      }
+      .retrato { width: 36px; height: 36px; }
+      .barra-vida-contenedor { width: 76px; height: 8px; }
+      .hud-pildora { padding: 3px 8px; font-size: 11px; }
+      .hud-vida { padding-left: 3px; gap: 6px; }
+      .icono-churu { width: 18px; height: 26px; }
+      .joystick { width: 104px; height: 104px; }
+      .joystick .palanca { width: 44px; height: 44px; left: calc(50% - 22px); top: calc(50% - 22px); }
+      .btn-control { width: 62px; height: 62px; font-size: 10px; }
+      .btn-control svg { width: 24px; height: 24px; }
+      .btn-atacar .icono-accion { font-size: 22px; }
+      .btn-salto { width: 72px; height: 72px; }
+      .grupo-accion { gap: 8px; }
+      .zona-controles {
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+        left: calc(env(safe-area-inset-left, 0px) + 10px);
+        right: calc(env(safe-area-inset-right, 0px) + 10px);
+      }
       .ayuda-teclado { display: none; }
     }
+
+    /* Celular en vertical (390x844) */
     @media (max-width: 600px) {
       #aviso-viaje {
-        font-size: 28px;
-        padding: 14px 20px;
-        top: 15%;
-        max-width: 94%;
-        border-width: 3px;
-        border-radius: 16px;
+        font-size: 20px;
+        padding: 10px 16px;
+        top: calc(env(safe-area-inset-top, 0px) + 86px);
+        max-width: 90%;
+        border-width: 2.5px;
+        border-radius: 14px;
       }
-      .hud-superior { flex-wrap: wrap; gap: 6px; left: calc(env(safe-area-inset-left, 0px) + 8px);
-        right: calc(env(safe-area-inset-right, 0px) + 8px); }
-      .hud-escena, #hud-traje { display: none; }
-      #btn-menu { margin-left: auto; }
-      .barra-vida-contenedor { width: 64px; }
-      .grupo-accion { gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: 180px; }
-      .btn-control { width: 72px; height: 72px; }
+      .hud-superior {
+        flex-wrap: nowrap;
+        gap: 6px;
+        left: calc(env(safe-area-inset-left, 0px) + 8px);
+        right: calc(env(safe-area-inset-right, 0px) + 8px);
+      }
+      .hud-escena, #hud-traje, .label-churu, .texto-btn-menu { display: none; }
+      .hud-pildora { padding: 4px 8px; font-size: 11px; }
+      .hud-vida { padding-left: 3px; gap: 6px; }
+      .retrato { width: 34px; height: 34px; }
+      .barra-vida-contenedor { width: 60px; height: 8px; }
+      .icono-churu { width: 18px; height: 26px; }
+      #btn-menu { min-width: 40px; width: 40px; height: 40px; padding: 4px; justify-content: center; }
+      #btn-pausa { min-width: 40px; width: 40px; height: 40px; padding: 6px; }
+      .joystick { width: 116px; height: 116px; }
+      .btn-control { width: 68px; height: 68px; font-size: 10px; }
       .btn-salto { width: 80px; height: 80px; }
+      .grupo-accion { gap: 8px; }
     }
     @media (pointer: coarse) { .ayuda-teclado { display: none; } }
-  </style>
+      /* En pantallas táctiles la ayuda del teclado estorba a los botones. */
+    @media (pointer: coarse) { .ayuda-teclado { display: none; } }
+</style>
 </head>
 <body>
   <div id="app">
     <!-- HUD Superior compacto -->
     <header class="hud-superior" aria-label="Indicadores del juego">
-      <!-- Barra de vida visible y legible en móvil -->
-      <div id="hud-vida" class="hud-pildora hud-vida" title="Salud de Senku" aria-label="Salud de Senku">
-        <img class="retrato" src="./assets/personajes/menu_original.webp" alt="Senku"><div class="salud">
-        <div class="barra-vida-contenedor" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Puntos de salud">
-          <div id="barra-vida-relleno" class="barra-vida-relleno" style="width: 100%;"></div>
+      <div class="hud-grupo-izq">
+        <!-- Barra de vida visible y legible en móvil -->
+        <div id="hud-vida" class="hud-pildora hud-vida" title="Salud de Senku" aria-label="Salud de Senku">
+          <img class="retrato" src="./assets/personajes/menu_original.webp" alt="Senku">
+          <div class="salud">
+            <div class="barra-vida-contenedor" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Puntos de salud">
+              <div id="barra-vida-relleno" class="barra-vida-relleno" style="width: 100%;"></div>
+            </div>
+            <small><span id="texto-vida" class="texto-vida">100</span> / 100 HP</small>
+          </div>
         </div>
-        <small><span id="texto-vida" class="texto-vida">100</span> / 100 HP</small></div>
+        <div class="hud-pildora" title="Saldo de Churus">
+          <img class="icono-churu" src="./assets/objetos/churu.png" alt="">
+          <span class="label-churu">Churus ×</span>
+          <span id="saldo-churus">0</span>
+        </div>
+        <div class="hud-pildora hud-escena">
+          <span id="nombre-escena">Taquería</span>
+        </div>
       </div>
-      <div class="hud-pildora" title="Saldo de Churus">
-        <img class="icono-churu" src="./assets/objetos/churu.png" alt=""><span>Churus ×</span>
-        <span id="saldo-churus">0</span>
+      <div class="hud-grupo-der">
+        <button id="hud-traje" class="hud-pildora hud-btn hud-btn-traje" aria-label="Traje equipado" title="Clic o pulsa T para cambiar de traje">
+          <span class="icono" aria-hidden="true">🐱</span>
+          <span>Senku</span>
+        </button>
+        <button id="btn-menu" class="hud-pildora hud-btn hud-btn-menu" aria-label="Abrir menú de trajes" title="Abrir armario de trajes (M)">
+          <span class="icono" aria-hidden="true">👗</span>
+          <span class="texto-btn-menu">Armario</span>
+        </button>
+        <button id="btn-pausa" class="hud-pildora hud-btn" aria-label="Pausar y abrir menú" title="Pausa / Armario (M)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke-width="4"/></svg>
+        </button>
       </div>
-      <div class="hud-pildora hud-escena">
-        <span id="nombre-escena">Taquería</span>
-      </div>
-      <button id="hud-traje" class="hud-pildora hud-btn hud-btn-traje" aria-label="Traje equipado" title="Clic o pulsa T para cambiar de traje">
-        <span class="icono" aria-hidden="true">🐱</span>
-        <span>Senku</span>
-      </button>
-      <button id="btn-menu" class="hud-pildora hud-btn hud-btn-menu" aria-label="Abrir menú de trajes" title="Abrir armario de trajes (M)">
-        <span class="icono" aria-hidden="true">👗</span>
-        <span>Armario</span>
-      </button>
-      <button id="btn-pausa" class="hud-pildora hud-btn" aria-label="Pausar y abrir menú" title="Pausa / Armario (M)">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke-width="4"/></svg>
-      </button>
     </header>
 
     <!-- Aviso discreto de orientación vertical (no bloqueante) -->
@@ -281,7 +394,7 @@
 
     <!-- Ayuda para teclado (escritorio) -->
     <div class="ayuda-teclado">
-      ◀ ▶ o A / D: Moverse · Espacio / ▲ / W: Saltar · E: Subir · M: Menú · T: Traje
+      ◀ ▶ o A / D: Moverse · Espacio / ▲ / W: Saltar · J: Zarpazo · K: Gancho · E: Subir · M: Menú · T: Traje
     </div>
 
     <!-- Controles Táctiles en Pantalla -->
@@ -302,8 +415,18 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 13 8-8c3-3 6-2 6-2s1 3-2 6l-8 8ZM5 13l4 4-3 3-4-4ZM15 4l5 5"/></svg>
           <span>Disparar</span>
         </button>
-        <button id="btn-gancho" class="btn-control" aria-label="Gancho: mantén para apuntar y suelta para disparar" hidden>Gancho</button>
-        <button id="btn-subir" class="btn-control" aria-label="Subir a la camioneta" hidden>Subir</button>
+        <button id="btn-gancho" class="btn-control btn-gancho" aria-label="Gancho: mantén para apuntar y suelta para disparar" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2.5"/><path d="M12 7.5v6a3.5 3.5 0 0 0 7 0"/></svg>
+          <span>Gancho</span>
+        </button>
+        <button id="btn-subir" class="btn-control btn-subir" aria-label="Subir a la camioneta" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11l7-7 7 7M12 4v16"/></svg>
+          <span>Subir</span>
+        </button>
+        <button id="btn-atacar" class="btn-control btn-atacar" aria-label="Atacar / Zarpazo">
+          <span class="icono-accion" aria-hidden="true">🐾</span>
+          <span>Zarpazo</span>
+        </button>
         <button id="btn-salto" class="btn-control btn-salto" aria-label="Saltar">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 12 8-8 8 8h-5v9H9v-9Z"/></svg>
           <span>Saltar</span>
@@ -311,6 +434,28 @@
       </div>
     </nav>
   </div>
+
+  <script>
+    // Optimización de respuesta táctil inmediata para celular
+    document.addEventListener('DOMContentLoaded', () => {
+      const vincularBotonInmediato = (id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const ejecutar = (e) => {
+          if (e.cancelable && e.type !== 'pointerdown') e.preventDefault();
+          el.click();
+        };
+        el.addEventListener('pointerdown', (e) => {
+          if (e.pointerType === 'touch' || e.pointerType === 'pen') ejecutar(e);
+        }, { passive: true });
+        el.addEventListener('touchstart', ejecutar, { passive: false });
+      };
+      vincularBotonInmediato('btn-subir');
+      vincularBotonInmediato('btn-pausa');
+      vincularBotonInmediato('btn-menu');
+      vincularBotonInmediato('btn-cerrar-menu');
+    });
+  </script>
 
   <script type="module" src="./src/main.mjs"></script>
 </body>
