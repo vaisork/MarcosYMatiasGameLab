@@ -1402,6 +1402,10 @@ export function arrancarSenku2({
     if (pantallaX < ANCHO_LOGICO * 0.38) objetivoCamara = senku.x - ANCHO_LOGICO * 0.38;
     else if (pantallaX + senku.w > ANCHO_LOGICO * 0.62) objetivoCamara = senku.x + senku.w - ANCHO_LOGICO * 0.62;
     objetivoCamara = Math.max(minimoCamara, Math.min(maximoCamara, objetivoCamara));
+    // Pelea con el Gato Mecánico: la arena mide una pantalla; la cámara la encuadra completa.
+    if (escenaActual.id === 'cima' && jefe && jefe.estado !== 'dormido' && !jefe.derrotado) {
+      objetivoCamara = ARENA.minX;
+    }
     camaraSuaveX += (objetivoCamara - camaraSuaveX) * (1 - Math.exp(-8 * dt));
     const camaraX = Math.max(minimoCamara, Math.min(maximoCamara, camaraSuaveX));
     // Dibujado de escena base

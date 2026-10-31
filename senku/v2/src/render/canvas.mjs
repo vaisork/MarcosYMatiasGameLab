@@ -1018,6 +1018,22 @@ function dibujarCamionParada(ctx) {
 }
 
 // Dibuja la escena y entidades sobre el contexto 2D lógico
+// Tramos pintados: ilustraciones de 1280×720 colocadas una tras otra a lo ancho de la escena.
+// Devuelve true sólo si todos los tramos a la vista ya cargaron (si no, se usa el dibujo de respaldo).
+export function dibujarTramosPintados(ctx, catalogoArte, escena, cameraX = 0) {
+  const tramos = escena?.arte?.tramos;
+  if (!ctx || !catalogoArte || !Array.isArray(tramos) || tramos.length === 0) return false;
+  const visibles = tramos.filter((t) => t.x < cameraX + ANCHO_LOGICO && t.x + (t.w || ANCHO_LOGICO) > cameraX);
+  const imagenes = visibles.map((t) => catalogoArte.obtener(t.ruta));
+  // Precarga el tramo siguiente para que no aparezca el respaldo al avanzar.
+  for (const t of tramos) if (t.x >= cameraX + ANCHO_LOGICO && t.x < cameraX + ANCHO_LOGICO * 2) catalogoArte.obtener(t.ruta);
+  if (imagenes.some((img) => !img)) return false;
+  visibles.forEach((t, i) => {
+    ctx.drawImage(imagenes[i], Math.round(t.x - cameraX), 0, t.w || ANCHO_LOGICO, ALTO_LOGICO);
+  });
+  return true;
+}
+
 export function renderizarEscena({
   ctx,
   escena,
@@ -1046,8 +1062,12 @@ export function renderizarEscena({
 
   const anchoEscena = escena.limites?.w || ANCHO_LOGICO;
 
-  // Si es un test aislado sin id de escena y tiene imagen cargada, usar drawImage
-  if (!escena.id && imagenFondo) {
+  // Escena pintada por tramos: si están cargados los tramos a la vista, son todo el escenario.
+  const escenaPintada = dibujarTramosPintados(ctx, catalogoArte, escena, cameraX);
+
+  if (escenaPintada) {
+    // El arte completo ya incluye cielo, edificios y todo lo que se pisa.
+  } else if (!escena.id && imagenFondo) {
     ctx.drawImage(imagenFondo, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
   } else if (escena.id === 'despenadero') {
     dibujarParalajeDespenadero(ctx, cameraX, tiempo);
@@ -1073,7 +1093,9 @@ export function renderizarEscena({
   ctx.translate(-cameraX, 0);
 
   // Elementos de primer plano (factor 1.0) específicos de la escena
-  if (escena.id === 'taqueria') {
+  if (escenaPintada) {
+    // Nada: ya están pintados en la ilustración.
+  } else if (escena.id === 'taqueria') {
     dibujarPrimerPlanoTaqueria(ctx, cameraX, tiempo, anchoEscena);
     // Camioneta estacionada donde está el disparador de subir
     const dispCamioneta = escena.disparadores?.find((d) => d.id === 'camioneta' || d.accion === 'subir');
@@ -1088,7 +1110,8 @@ export function renderizarEscena({
 
   // 3. Plataformas dibujadas como objetos ambientales (cajas, huacales, toldos, rocas, etc.)
   // Dibujar siempre para escenas del juego con id o cuando plataformasVisibles esté activo
-  const debeDibujarPlataformas = Boolean(escena.id) || !imagenFondo || fondoCfg.plataformasVisibles;
+  const debeDibujarPlataformas = !escenaPintada
+    && (Boolean(escena.id) || !imagenFondo || fondoCfg.plataformasVisibles);
   if (Array.isArray(escena.plataformas) && debeDibujarPlataformas) {
     for (const plat of escena.plataformas) {
       dibujarPlataformaObjeto(ctx, plat, tiempo, escena.id);
