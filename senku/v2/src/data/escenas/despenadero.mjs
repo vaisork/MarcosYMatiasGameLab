@@ -1,6 +1,6 @@
 // Despeñadero (maestro, punto 6): Senku encuentra el anclador, cruza el abismo disparando a la
 // pared lejana, recoge las garras en la repisa, trepa el risco y vuelve a anclarse para subir la torre.
-// Caer al abismo regresa al último punto de control.
+// Caer al abismo regresa al inicio del despeñadero (decisión de Javier, 30/10/2026).
 
 const SUELO = 600;
 const raton = (id, x, y, minX, maxX, extra = {}) => ({
@@ -48,24 +48,8 @@ export const escenaDespenadero = {
     churu('secreto-nido', 2330, 40, { secreto: true }),
   ],
   secretos: ['secreto-nido'],
-  // El último punto de control alcanzado (x mayor o igual a `desde`) recibe a Senku tras caer.
-  puntosControl: [
-    { desde: 0, x: 120, y: SUELO - 90 },
-    { desde: 1380, x: 1400, y: 560 - 90 },
-    { desde: 1640, x: 1680, y: 200 - 90 },
-    { desde: 2900, x: 2950, y: 400 - 90 },
-    { desde: 3990, x: 4030, y: 150 - 90 },
-  ],
   // Caer: los pies por debajo de esta altura.
   alturaCaida: 740,
   disparadores: [{ id: 'hacia-cima', x: 5100, y: 0, w: 20, h: 820,
     destino: 'cima', accion: 'pasar', puntoEntrada: { x: 80, y: 510 } }],
 };
-
-// Punto de control para una x alcanzada.
-export function puntoControlPara(escena, xMaxima) {
-  const puntos = escena.puntosControl || [];
-  let elegido = puntos[0] || escena.puntoEntrada;
-  for (const p of puntos) if (xMaxima >= p.desde) elegido = p;
-  return { x: elegido.x, y: elegido.y };
-}

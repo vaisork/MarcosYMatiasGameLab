@@ -19,10 +19,15 @@ import { crearRegistroEscenas } from './core/escenas.mjs';
 import { escenaCiudad } from './data/escenas/ciudad.mjs';
 import { escenaTaqueria } from './data/escenas/taqueria.mjs';
 import { escenaDesierto } from './data/escenas/desierto.mjs';
-import { escenaDespenadero, puntoControlPara } from './data/escenas/despenadero.mjs';
+import { escenaDespenadero } from './data/escenas/despenadero.mjs';
 import { crearAnclador, soltarAnclador } from './core/anclador.mjs';
 import { pasoMovilidad } from './core/movilidad.mjs';
 import { dibujarDespenadero, dibujarAnclador } from './render/despenadero.mjs';
+import { escenaCima, ARENA, SUELO_CIMA } from './data/escenas/cima.mjs';
+import { crearJefe, despertar, actualizarJefe, golpearJefe, danoAJugador, esPisoton } from './core/jefe_gato.mjs';
+import { crearLanzador, actualizarDisparo, actualizarProyectiles } from './core/lanzador.mjs';
+import { dibujarJefe, dibujarProyectiles, dibujarLanzadorEnLomo, dibujarObjetoLanzador,
+  dibujarBarraJefe, dibujarPuertaArena } from './render/cima.mjs';
 import { escenaReja } from './data/escenas/reja.mjs';
 import { crearManejadorEntrada } from './core/entrada.mjs';
 import { crearEnemigo, actualizarEnemigos } from './core/enemigos.mjs';
@@ -34,6 +39,7 @@ import {
   HP_INICIAL_SENKU,
   TIEMPO_INVULNERABILIDAD_DEFECTO,
   atacarEnemigo,
+  aplicarGolpeJugador,
 } from './core/combate.mjs';
 import { recogerBotiquin } from './core/botiquin.mjs';
 import { ganarChurus } from './core/economia.mjs';
@@ -372,7 +378,7 @@ export function arrancarSenku2({
         }
       }
       const escenaUrl = params.get('escena');
-      if (['ciudad', 'taqueria', 'reja', 'desierto', 'despenadero'].includes(escenaUrl)) {
+      if (['ciudad', 'taqueria', 'reja', 'desierto', 'despenadero', 'cima'].includes(escenaUrl)) {
         estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: escenaUrl } };
       }
     } catch {
@@ -556,6 +562,7 @@ export function arrancarSenku2({
   registro.registrar(escenaReja);
   registro.registrar(escenaDesierto);
   registro.registrar(escenaDespenadero);
+  registro.registrar(escenaCima);
 
   const escenaId = estadoJugador.progreso?.escena === 'desierto'
     ? 'reja' : (estadoJugador.progreso?.escena || 'taqueria');
@@ -584,7 +591,14 @@ export function arrancarSenku2({
   refrescarVistaTraje();
   // Despeñadero: anclador sólo dentro del nivel (temporal); garras para siempre.
   const anclador = crearAnclador();
-  let xMaximaEscena = 0;
+  // Cima: lanzador temporal y Gato Mecánico (se recrea con vida llena al reiniciar la escena).
+  const lanzador = crearLanzador();
+  let jefe = null;
+  const ID_VICTORIA_JEFE = 'jefe-gato-mecanico';
+  function prepararJefe() {
+    if (escenaActual.id !== 'cima' || tiene(ID_VICTORIA_JEFE)) { jefe = null; return; }
+    jefe = crearJefe({ x: 2200, suelo: SUELO_CIMA, arenaMinX: ARENA.minX, arenaMaxX: ARENA.maxX });
+  }
   const tiene = (id) => estadoJugador.coleccionados.includes(id);
   function actualizarBotonGancho() {
     const boton = documento.getElementById('btn-gancho');
@@ -775,8 +789,9 @@ export function arrancarSenku2({
   function reiniciarEscena({ puntoEntrada = escenaActual.puntoEntrada, curar = true } = {}) {
     soltarAnclador(anclador);
     senku.agarrado = null;
-    xMaximaEscena = puntoEntrada.x;
     actualizarBotonGancho();
+    lanzador.proyectiles = [];
+    prepararJefe();
     senku.x = puntoEntrada.x;
     senku.y = puntoEntrada.y;
     senku.vx = 0;
@@ -833,6 +848,7 @@ export function arrancarSenku2({
     elementosBotones: {
       salto: btnSalto,
       anclar: documento.getElementById('btn-gancho'),
+      atacar: documento.getElementById('btn-disparar'),
     },
   });
 
@@ -943,14 +959,53 @@ export function arrancarSenku2({
       if (eventosMovilidad.includes('enganchar')) reproducirSonidoChuru(ventana);
       if (eventosMovilidad.includes('coronar')) mostrarAviso('¡Arriba!', 0.8);
 
-      // Caer al abismo regresa al último punto de control alcanzado.
-      xMaximaEscena = Math.max(xMaximaEscena, senku.x);
+      if (escenaActual.id === 'cima') {
+        if (!jefe && !tiene(ID_VICTORIA_JEFE)) prepararJefe();
+        const tieneLanzador = tiene('lanzador-cima');
+        const botonDisparar = documento.getElementById('btn-disparar');
+        if (botonDisparar) botonDisparar.hidden = !tieneLanzador;
+        if (tieneLanzador) actualizarDisparo(lanzador, senku, estadoEntrada, dt);
+        const blancos = jefe && !jefe.derrotado ? [jefe] : [];
+        for (const impacto of actualizarProyectiles(lanzador, dt, blancos)) {
+          if (golpearJefe(impacto.objetivo, 1)) reproducirSonidoChuru(ventana);
+        }
+        if (jefe) {
+          if (jefe.estado === 'dormido' && senku.x > ARENA.minX + 40) {
+            despertar(jefe);
+            mostrarAviso('¡El Gato Mecánico despierta!', 2);
+          }
+          if (jefe.estado !== 'dormido' && !jefe.derrotado) senku.x = Math.max(senku.x, ARENA.minX);
+          const yaDerrotado = jefe.derrotado;
+          actualizarJefe(jefe, senku, dt);
+          if (esPisoton(jefe, senku) && golpearJefe(jefe, 1)) senku.vy = -620;
+          const dano = danoAJugador(jefe, senku);
+          if (dano > 0) {
+            const golpe = aplicarGolpeJugador(estadoCombate, dano);
+            if (golpe.golpeado) {
+              actualizarHUDVida();
+              mostrarAviso(`¡Golpe! -${dano} HP`, 0.8);
+              if (golpe.derrotado || estadoCombate.hp === 0) {
+                reiniciarEscena();
+                return;
+              }
+            }
+          }
+          if (jefe.derrotado && !yaDerrotado) {
+            estadoJugador = { ...estadoJugador,
+              coleccionados: [...new Set([...estadoJugador.coleccionados, ID_VICTORIA_JEFE])] };
+            guardarProgreso();
+            mostrarAviso('¡Venciste al Gato Mecánico! Fin del capítulo México.', 6);
+          }
+        }
+      }
+
+      // Caer al abismo regresa al inicio del despeñadero (decisión de Javier, 30/10/2026).
       if (escenaActual.id === 'despenadero'
           && senku.y + senku.h > escenaDespenadero.alturaCaida) {
-        const p = puntoControlPara(escenaDespenadero, xMaximaEscena);
+        const p = escenaDespenadero.puntoEntrada;
         soltarAnclador(anclador);
         Object.assign(senku, { x: p.x, y: p.y, vx: 0, vy: 0, agarrado: null, enSuelo: false });
-        mostrarAviso('¡Uy! Otra vez desde aquí.', 1.5);
+        mostrarAviso('¡Caíste! De vuelta al inicio del despeñadero.', 2);
       }
 
       // Amortiguación al aterrizar (absorción del impacto)
@@ -1020,6 +1075,12 @@ export function arrancarSenku2({
             y: objeto.y,
             texto: '+1 Churu',
           });
+        } else if (objeto.tipo === 'lanzador') {
+          objeto.recogido = true;
+          estadoJugador = { ...estadoJugador,
+            coleccionados: [...new Set([...estadoJugador.coleccionados, objeto.id])] };
+          guardarProgreso();
+          mostrarAviso('¡Lanzador de ratones! Dispara con J o con el botón Disparar.', 4);
         } else if (objeto.tipo === 'anclador' || objeto.tipo === 'garras') {
           objeto.recogido = true;
           estadoJugador = { ...estadoJugador,
@@ -1084,6 +1145,12 @@ export function arrancarSenku2({
     if (ctx) { ctx.save(); ctx.translate(-camaraX, 0); }
     dibujarDespenadero(ctx, escenaActual, tiempoAcumulado);
     dibujarAnclador(ctx, anclador, senku);
+    if (ctx && escenaActual.id === 'cima') {
+      dibujarPuertaArena(ctx, ARENA.minX, jefe && jefe.estado !== 'dormido' && !jefe.derrotado, tiempoAcumulado);
+      for (const o of escenaActual.objetos) if (o.tipo === 'lanzador') dibujarObjetoLanzador(ctx, o, tiempoAcumulado);
+      dibujarJefe(ctx, jefe, tiempoAcumulado);
+      dibujarProyectiles(ctx, lanzador);
+    }
 
     // Dibujado de Senku con color y etiqueta del traje activo
     if (ctx && senku) {
@@ -1197,7 +1264,10 @@ export function arrancarSenku2({
       ctx.restore();
     }
 
+    // Aún con la cámara aplicada: el lanzador va sobre el lomo.
+    if (ctx && escenaActual.id === 'cima' && tiene('lanzador-cima')) dibujarLanzadorEnLomo(ctx, senku);
     if (ctx) ctx.restore();
+    if (ctx && escenaActual.id === 'cima') dibujarBarraJefe(ctx, jefe);
     if (ctx && viaje) {
       if (viaje.tipo === 'camion') {
         ctx.save();
@@ -1293,6 +1363,7 @@ export function arrancarSenku2({
     iniciado: true,
     senku,
     get escena() { return escenaActual; },
+    get jefe() { return jefe; },
     estadoJugador: () => estadoJugador,
     estadoCombate,
     enemigos,

@@ -5,7 +5,7 @@ import { crearAnclador, anguloMira, ANGULO_MIN, ANGULO_MAX, PERIODO_MIRA } from 
 import { resolverParedes } from '../src/core/garras.mjs';
 import { pasoMovilidad } from '../src/core/movilidad.mjs';
 import { validarEscena } from '../src/core/escenas.mjs';
-import { escenaDespenadero, puntoControlPara } from '../src/data/escenas/despenadero.mjs';
+import { escenaDespenadero } from '../src/data/escenas/despenadero.mjs';
 
 const DT = 1 / 60;
 const escena = validarEscena(escenaDespenadero).escena;
@@ -122,7 +122,7 @@ test('resolverParedes empuja al lado más cercano', () => {
   assert.equal(c.vx, 0);
 });
 
-test('punto de control según lo más lejos alcanzado', () => {
-  assert.deepEqual(puntoControlPara(escenaDespenadero, 200), { x: 120, y: 510 });
-  assert.deepEqual(puntoControlPara(escenaDespenadero, 2000), { x: 1680, y: 110 });
+test('no hay puntos de control: caer regresa al inicio del nivel', () => {
+  assert.equal(escenaDespenadero.puntosControl, undefined);
+  assert.deepEqual(escenaDespenadero.puntoEntrada, { x: 120, y: 510 });
 });
