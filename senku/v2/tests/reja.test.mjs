@@ -28,7 +28,7 @@ test('oleadas repartidas por zona mezclan ratones y hámsters negros y cafés', 
     assert.ok(escenaReja.enemigos.some((e) => e.x >= desde && e.x < desde + 1280), `zona ${zona + 1}`);
   }
   assert.ok(escenaReja.enemigos.every((e) => e.pisable));
-  assert.equal(escenaReja.objetos.find((o) => o.tipo === 'botiquin').id, 'botiquin-desierto-1');
+  assert.equal(escenaReja.objetos.find((o) => o.tipo === 'botiquin').id, 'botiquin-reja-1');
 });
 
 test('hay churus alcanzables y dos secretos elevados en plataformas', () => {

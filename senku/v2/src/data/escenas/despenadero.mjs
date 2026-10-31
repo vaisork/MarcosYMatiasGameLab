@@ -44,6 +44,8 @@ export const escenaDespenadero = {
   objetos: [
     { id: 'anclador-despenadero', tipo: 'anclador', x: 600, y: SUELO - 60, w: 44, h: 44 },
     { id: 'garras-despenadero', tipo: 'garras', x: 1440, y: 500, w: 44, h: 44 },
+    { id: 'botiquin-risco-1', tipo: 'botiquin', x: 2200, y: 164, w: 36, h: 36, curacion: 25, recogido: false }, // meseta
+    { id: 'botiquin-risco-2', tipo: 'botiquin', x: 4600, y: 114, w: 36, h: 36, curacion: 25, recogido: false }, // cumbre
     churu('risco-churu-1', 385, 420),
     churu('risco-churu-2', 1800, 120),
     churu('risco-churu-3', 2700, 120),

@@ -45,13 +45,13 @@ test('solapanAABB detecta colisiones rectangulares correctamente', () => {
 });
 
 test('movimiento lateral responde a entrada izquierda y derecha con aceleración', () => {
-  const cuerpo = crearCuerpo({ x: 100, y: 500, enSuelo: true });
+  const cuerpo = crearCuerpo({ x: 400, y: 500, enSuelo: true });
   const limites = { minX: 0, maxX: 1280 };
 
   // Mover a la derecha
   actualizarCuerpo(cuerpo, { derecha: true }, [], limites, 0.016);
   assert.ok(cuerpo.vx > 0, 'vx debe acelerar hacia la derecha');
-  assert.ok(cuerpo.x > 100, 'x debe haber aumentado');
+  assert.ok(cuerpo.x > 400, 'x debe haber aumentado');
   assert.equal(cuerpo.mirando, 1);
 
   // Mover a la izquierda
@@ -184,7 +184,7 @@ test('entrada: crearManejadorEntrada procesa eventos simulados de teclado y tác
   assert.deepEqual(entrada.obtenerEstado(), {
     izquierda: false,
     derecha: false,
-    salto: false, atacar: false, anclar: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
+    salto: false, atacar: false, anclar: false, desliz: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   // Presionar KeyA (izquierda)

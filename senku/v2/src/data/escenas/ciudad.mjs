@@ -48,6 +48,7 @@ export const escenaCiudad = {
     },
   ],
   objetos: [
+    { id: 'botiquin-ciudad-1', tipo: 'botiquin', x: 560, y: 364, w: 36, h: 36, curacion: 25, recogido: false }, // sobre el puesto de periódicos
     { id: 'ciudad-churu-1', tipo: 'churu', x: 680, y: 472, w: 22, h: 58, recogido: false },
     { id: 'ciudad-churu-2', tipo: 'churu', x: 450, y: 342, w: 22, h: 58, recogido: false },
     { id: 'ciudad-churu-3', tipo: 'churu', x: 830, y: 482, w: 22, h: 58, recogido: false },

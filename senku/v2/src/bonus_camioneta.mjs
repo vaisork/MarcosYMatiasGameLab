@@ -1,14 +1,15 @@
 import { ganarChurus } from './core/economia.mjs';
 import { CLAVE, VERSION, guardar, normalizar } from './core/store.mjs';
 
-export const DURACION = 45;
+export const DURACION = 30;
 export const CUENTA_REGRESIVA = 3;
 export const TOPE_CHURUS = 30;
+export const VIDAS_BONUS = 3; // corazones del bonus: cada zanate quita uno (Matías, 31/10/2026)
 export const ID_PREMIO = 'bonus-camioneta-etapa-2';
 
 export function crearPartida() {
   return { fase: 'cuenta', cuenta: CUENTA_REGRESIVA, restante: DURACION,
-    churus: 0, tiempoMundo: 0, distancia: 0,
+    churus: 0, vidas: VIDAS_BONUS, tiempoMundo: 0, distancia: 0,
     camionetaX: 0.1, senku: { pos: 0.5, alto: 0, vy: 0, mira: 1 },
     invulnerable: 0, sacudida: 0, destello: 0,
     objetos: [], particulas: [], siguienteObjeto: 0 };
@@ -47,8 +48,10 @@ export function avanzarJuego(partida, entrada, dt, W, H) {
   }
   const px = g.xSenku(s.pos), py = s.alto + g.gato * .35;
   for (const o of partida.objetos) {
-    if (o.recogido || o.golpeado) continue;
+    if (o.recogido) continue;
     o.x -= dt * W * (o.tipo === 'zanate' ? .62 : .48);
+    // Zanate que ya picó: se aleja volando hacia arriba y a la izquierda hasta salir de la pantalla.
+    if (o.golpeado) { o.x -= dt * W * .5; o.altura += dt * H * .9; continue; }
     const altura = o.tipo === 'zanate' ? o.altura + Math.sin(partida.tiempoMundo * 5 + o.fase) * H * .02 : o.altura;
     if (Math.abs(o.x - px) > g.gato * .45 || Math.abs(altura + 14 - py) > g.gato * .55) continue;
     if (o.tipo === 'churu') {
@@ -56,11 +59,12 @@ export function avanzarJuego(partida, entrada, dt, W, H) {
       if (partida.churus < TOPE_CHURUS) { partida.churus++; partida.destello = .22; emitirParticulas(partida, o.x, g.techo - altura - 14, '#ffe16a'); partida.ultimoSonido = 'churu'; }
     } else if (partida.invulnerable <= 0) {
       o.golpeado = true; partida.churus = Math.max(0, partida.churus - 1);
+      partida.vidas = Math.max(0, partida.vidas - 1);
       partida.invulnerable = 1; partida.sacudida = .25; partida.ultimoSonido = 'golpe';
       emitirParticulas(partida, px, g.techo - py, '#3a2f4a', 7);
     }
   }
-  partida.objetos = partida.objetos.filter((o) => !o.recogido && o.x > -60);
+  partida.objetos = partida.objetos.filter((o) => !o.recogido && o.x > -60 && o.altura < H);
   for (const p of partida.particulas) { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 140 * dt; p.vida -= dt; }
   partida.particulas = partida.particulas.filter((p) => p.vida > 0);
   partida.invulnerable = Math.max(0, partida.invulnerable - dt); partida.sacudida = Math.max(0, partida.sacudida - dt);
@@ -86,7 +90,8 @@ export function avanzarReloj(partida, dt) {
   }
   if (nueva.fase === 'jugando') {
     nueva.restante = Math.max(0, nueva.restante - tiempo);
-    if (nueva.restante === 0) nueva.fase = 'fin';
+    // Termina al acabarse el tiempo, al juntar el tope de churus o al perder los 3 corazones.
+    if (nueva.restante === 0 || nueva.churus >= TOPE_CHURUS || nueva.vidas <= 0) nueva.fase = 'fin';
   }
   return nueva;
 }
@@ -214,8 +219,9 @@ export function iniciarBonus(documento = document, ventana = window) {
       } else {
         // Zanate (pájaro negro de la ciudad): cuerpo, cola larga, ojo amarillo y aleteo.
         const y = g.techo - o.altura - 14 - Math.sin(partida.tiempoMundo * 5 + o.fase) * H * .02;
-        const ala = Math.sin(t * 22 + o.fase) * 12, gir = o.golpeado ? (t * 9) : 0;
-        ctx.save(); ctx.translate(o.x, y); ctx.rotate(gir); ctx.scale(1.7, 1.7);
+        // Al huir se inclina hacia arriba (sin dar vueltas) y aletea más rápido.
+        const ala = Math.sin(t * (o.golpeado ? 40 : 22) + o.fase) * 12;
+        ctx.save(); ctx.translate(o.x, y); ctx.rotate(o.golpeado ? .45 : 0); ctx.scale(1.7, 1.7);
         ctx.fillStyle = '#231c2e';
         ctx.beginPath(); ctx.moveTo(10, 0); ctx.lineTo(30, -7); ctx.lineTo(30, 7); ctx.fill();
         ctx.beginPath(); ctx.ellipse(0, 0, 14, 8, 0, 0, Math.PI * 2); ctx.fill();
@@ -269,6 +275,8 @@ export function iniciarBonus(documento = document, ventana = window) {
     const shake = partida.sacudida > 0 ? Math.random() * 12 - 6 : 0;
     ctx.save(); ctx.translate(shake, shake * .4); dibujar(timestamp / 1000); ctx.restore();
     documento.querySelector('#marcador').textContent = String(partida.churus).padStart(2, '0');
+    const corazones = documento.querySelector('#corazones');
+    if (corazones) corazones.textContent = '♥'.repeat(partida.vidas) + '♡'.repeat(VIDAS_BONUS - partida.vidas);
     documento.querySelector('#reloj').textContent = partida.fase === 'cuenta' ? String(Math.ceil(partida.cuenta)) : String(Math.ceil(partida.restante));
     documento.querySelector('#reloj').classList?.toggle('urgente', partida.fase === 'jugando' && partida.restante <= 10);
     if (partida.fase === 'cuenta') {
@@ -278,6 +286,7 @@ export function iniciarBonus(documento = document, ventana = window) {
     } else if (partida.fase === 'jugando') velo.hidden = true;
     else if (partida.fase === 'fin') {
       velo.hidden = false; textoCuenta.hidden = true; consejo.hidden = true; tituloFinal.hidden = false; premioFinal.hidden = false; continuar.hidden = false;
+      tituloFinal.textContent = partida.vidas <= 0 ? '¡Ay, los zanates!' : partida.churus >= TOPE_CHURUS ? '¡Tope de Churus!' : '¡Buen viaje, Senku!';
       premioFinal.textContent = `Ganaste ${partida.churus} Churus`;
     }
     raf = ventana.requestAnimationFrame(fotograma);

@@ -122,12 +122,12 @@ test('el punto de entrada pisa la banqueta y las plataformas caben en el lienzo'
   assert.equal(ids.size, PLATS.length, 'ids únicos');
 });
 
-test('recogibles: 5-8 churus y un botiquín, dentro del lienzo y tomables desde una plataforma alcanzable', () => {
+test('recogibles: 5-8 churus y dos botiquines, dentro del lienzo y tomables desde una plataforma alcanzable', () => {
   const l = escena.limites;
   const objetos = escena.objetos;
   const churus = objetos.filter((o) => o.tipo === 'churu');
   assert.ok(churus.length >= 14 && churus.length <= 20, `churus: ${churus.length}`);
-  assert.equal(objetos.filter((o) => o.tipo === 'botiquin').length, 1);
+  assert.equal(objetos.filter((o) => o.tipo === 'botiquin').length, 2);
   assert.equal(new Set(objetos.map((o) => o.id)).size, objetos.length, 'ids únicos');
 
   const { vistas } = alcanzables();

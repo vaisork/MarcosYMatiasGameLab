@@ -54,6 +54,7 @@ export const escenaDesierto = {
   }),
   objetos: [
     { ...botiquinDesierto, id: 'botiquin-desierto-1', x: 868, y: 311 },
+    { id: 'botiquin-desierto-2', tipo: 'botiquin', x: 4400, y: 564, w: 36, h: 36, curacion: 25, recogido: false },
     ...Array.from({ length: 12 }, (_, i) => ({
       id: `desierto-churu-${i + 1}`, tipo: 'churu',
       x: [135, 381, 662, 920, 1133, 4465, 1446, 1688, 1947, 2181, 5967, 6222][i],

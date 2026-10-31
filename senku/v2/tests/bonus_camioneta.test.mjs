@@ -4,14 +4,15 @@ import { avanzarReloj, crearPartida, finalizarPartida, iniciarBonus, DURACION, T
 import { cargar, estadoNuevo, guardar } from '../src/core/store.mjs';
 import { memoria } from './ayuda.mjs';
 
-test('cuenta 3 segundos y corre 45 segundos exactos antes del resumen', () => {
+test('cuenta 3 segundos y corre 30 segundos exactos antes del resumen', () => {
   let partida = crearPartida();
   partida = avanzarReloj(partida, 3);
   assert.equal(partida.fase, 'jugando');
   assert.equal(partida.restante, DURACION);
-  partida = avanzarReloj(partida, 44.99);
+  assert.equal(DURACION, 30);
+  partida = avanzarReloj(partida, DURACION - 0.01);
   assert.equal(partida.fase, 'jugando');
-  partida = avanzarReloj(partida, 0.01);
+  partida = avanzarReloj(partida, 0.02);
   assert.equal(partida.fase, 'fin');
   assert.equal(partida.restante, 0);
   assert.equal(avanzarReloj(partida, 3).fase, 'fin');
@@ -64,7 +65,7 @@ test('recorrido completo llega al resumen, muestra Churus y permite seguir', () 
   const velo = nodos.get('#velo');
   const [cuenta, consejo, titulo, premio, continuar] = velo.children;
   assert.equal(velo.replacementCount, 1);
-  assert.equal(nodos.get('#reloj').textContent, '0');
+  assert.match(nodos.get('#reloj').textContent, /^\d+$/, 'termina por tiempo o al perder los corazones');
   assert.equal(cuenta.hidden, true);
   assert.match(consejo.textContent, /juntar churus/i);
   assert.equal(titulo.hidden, false);

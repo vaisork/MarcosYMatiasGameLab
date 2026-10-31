@@ -344,7 +344,7 @@ test('integración: botiquín en escena desierto se recoge y respeta tope en 100
   // Verificar presencia del botiquín en el desierto
   const botiquinDesierto = juego.escena.objetos.find((o) => o.tipo === 'botiquin');
   assert.ok(botiquinDesierto, 'Debe haber un botiquín en la escena desierto');
-  assert.equal(botiquinDesierto.id, 'botiquin-desierto-1');
+  assert.equal(botiquinDesierto.id, 'botiquin-reja-1');
   assert.equal(botiquinDesierto.recogido, false);
 
   // Senku recibe daño (queda en 85 HP)
@@ -356,11 +356,11 @@ test('integración: botiquín en escena desierto se recoge y respeta tope en 100
 
   assert.equal(juego.estadoCombate.hp, 100, 'cura con tope en 100');
   assert.equal(botiquinDesierto.recogido, true);
-  assert.ok(juego.estadoJugador().coleccionados.includes('botiquin-desierto-1'));
+  assert.ok(juego.estadoJugador().coleccionados.includes('botiquin-reja-1'));
 
   // Persiste en storage
   const guardado = cargar(almacen);
-  assert.ok(guardado.estado.coleccionados.includes('botiquin-desierto-1'));
+  assert.ok(guardado.estado.coleccionados.includes('botiquin-reja-1'));
 
   juego.detener();
 });

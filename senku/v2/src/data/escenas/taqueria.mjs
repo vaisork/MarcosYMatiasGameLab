@@ -65,6 +65,7 @@ export const escenaTaqueria = {
     { id: 'churu-7', tipo: 'churu', x: 2200, y: 377, w: 22, h: 58, recogido: false },
     { id: 'churu-8', tipo: 'churu', x: 3480, y: 262, w: 22, h: 58, recogido: false },
     { id: 'botiquin-1', tipo: 'botiquin', x: 1060, y: 475, w: 36, h: 36, recogido: false }, // sobre mesa-derecha
+    { id: 'botiquin-taqueria-2', tipo: 'botiquin', x: 2600, y: 564, w: 36, h: 36, curacion: 25, recogido: false },
     ...Array.from({ length: 2 }, (_, pantalla) => {
       const offset = (pantalla + 1) * 1280;
       return [
