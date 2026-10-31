@@ -1594,7 +1594,21 @@ export function arrancarSenku2({
         }
 
         // Con arte: caminar/daño/derrota animados; true también cuando ya terminó la derrota
-        if (dibujarEnemigo(ctx, catalogoArte, animadorEnemigos, enemigo, tiempoAcumulado)) continue;
+        const conArte = dibujarEnemigo(ctx, catalogoArte, animadorEnemigos, enemigo, tiempoAcumulado);
+        // Golpes que le faltan: un punto por golpe (sólo enemigos de 2 o más golpes).
+        if (enemigo.vivo && enemigo.hpMax > 1) {
+          const cx = enemigo.x + enemigo.w / 2, cy = enemigo.y - 42;
+          for (let i = 0; i < enemigo.hpMax; i++) {
+            ctx.fillStyle = i < enemigo.hp ? '#ff5a5a' : 'rgba(0, 0, 0, 0.35)';
+            ctx.beginPath();
+            ctx.arc(cx + (i - (enemigo.hpMax - 1) / 2) * 14, cy, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+          }
+        }
+        if (conArte) continue;
         if (!enemigo.vivo) continue;
 
         // Rectángulo principal del enemigo

@@ -3,12 +3,12 @@
 // salta y suelta ondas por el suelo, lanza tornillos. Con media vida se acelera.
 // Lógica pura: sin DOM ni Canvas. `aleatorio` se inyecta para pruebas reproducibles.
 
-export const HP_JEFE = 12;
+export const HP_JEFE = 20; // más difícil (Javier, 31/10/2026)
 export const TAM_JEFE = { w: 220, h: 170 };
-export const DANO = { contacto: 2, embestida: 3, onda: 2, tornillo: 1 };
+export const DANO = { contacto: 10, embestida: 20, onda: 15, tornillo: 10 }; // sobre 100 HP de Senku
 export const PATRON = ['embestida', 'salto', 'tornillos'];
-const TIEMPOS = { acecho: 1.3, avisoEmbestida: 0.7, aterrizaje: 0.5, tornillos: 1.1, golpeado: 0.35 };
-const VEL = { acecho: 90, embestida: 640, onda: 430, saltoVy: -900, gravedad: 1900 };
+const TIEMPOS = { acecho: 1.0, avisoEmbestida: 0.55, aterrizaje: 0.5, tornillos: 1.1, golpeado: 0.35 };
+const VEL = { acecho: 120, embestida: 720, onda: 480, saltoVy: -900, gravedad: 1900 };
 
 export function crearJefe({ x, suelo, arenaMinX, arenaMaxX }) {
   return {
@@ -41,7 +41,7 @@ export function actualizarJefe(jefe, objetivo, dt, aleatorio = Math.random) {
   const eventos = [];
   if (jefe.derrotado) jefe.tiempo += dt; // anima la caída
   if (jefe.estado === 'dormido' || jefe.derrotado) return eventos;
-  const rapidez = furioso(jefe) ? 1.3 : 1;
+  const rapidez = furioso(jefe) ? 1.45 : 1;
   jefe.tiempo += dt;
   jefe.parpadeo = Math.max(0, jefe.parpadeo - dt);
   const centro = jefe.x + jefe.w / 2;

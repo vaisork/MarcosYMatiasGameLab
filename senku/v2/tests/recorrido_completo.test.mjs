@@ -255,7 +255,7 @@ test('cima: el lanzador y los churus se alcanzan y se entra a la arena del jefe'
   assert.deepEqual(r.atascos, []);
 });
 
-test('el Gato Mecánico se puede vencer con el lanzador sin perder toda la vida', () => {
+test('el Gato Mecánico (más difícil) se puede vencer con el lanzador saltando ondas y embestidas', () => {
   const plats = validarEscena(escenaCima).escena.plataformas;
   const limites = { minX: ARENA.minX, maxX: ARENA.maxX };
   const senku = cuerpoEn(ARENA.minX + 60, SUELO_CIMA - ALTURA_GATO_JUEGO);
@@ -272,7 +272,10 @@ test('el Gato Mecánico se puede vencer con el lanzador sin perder toda la vida'
     const centroJefe = jefe.x + jefe.w / 2;
     const derecha = centroJefe > senku.x + senku.w / 2;
     const onda = jefe.ondas.some((o) => Math.abs(o.x + o.w / 2 - (senku.x + senku.w / 2)) < 160);
-    const entrada = { atacar: Math.floor(t / DT) % 2 === 0, salto: onda, derecha: derecha && senku.mirando < 0, izquierda: !derecha && senku.mirando > 0 };
+    // Con el jefe más difícil (31/10) también hay que saltar la embestida.
+    const cerca = Math.abs(centroJefe - (senku.x + senku.w / 2)) < 300;
+    const embiste = cerca && (jefe.estado === 'embestida' || jefe.estado === 'acecho');
+    const entrada = { atacar: Math.floor(t / DT) % 2 === 0, salto: onda || embiste, derecha: derecha && senku.mirando < 0, izquierda: !derecha && senku.mirando > 0 };
     actualizarDisparo(lanzador, senku, entrada, DT);
     actualizarCuerpo(senku, entrada, plats, limites, DT);
     for (const i of actualizarProyectiles(lanzador, DT, [jefe])) golpearJefe(i.objetivo, 1);

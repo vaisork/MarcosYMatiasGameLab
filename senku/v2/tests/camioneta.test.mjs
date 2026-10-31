@@ -23,9 +23,12 @@ function iniciar(almacen = memoria(), conNavegacion = false) {
   const juego = arrancarSenku2({ documento, ventana });
   return { juego, almacen, elementos, eventos, ventana };
 }
+// Pisa hasta derrotarlo: hay enemigos de 1, 2 y 3 golpes.
 function pisar(juego, enemigo) {
-  Object.assign(juego.senku, { x: enemigo.x, y: enemigo.y - juego.senku.h + 3, vy: 100 });
-  juego.avanzarPaso(0);
+  for (let i = 0; i < 5 && enemigo.vivo; i++) {
+    Object.assign(juego.senku, { x: enemigo.x, y: enemigo.y - juego.senku.h + 3, vy: 100 });
+    juego.avanzarPaso(0);
+  }
 }
 function limpiarTaqueria(juego, orden = juego.enemigos) {
   for (const enemigo of [...orden]) pisar(juego, enemigo);
