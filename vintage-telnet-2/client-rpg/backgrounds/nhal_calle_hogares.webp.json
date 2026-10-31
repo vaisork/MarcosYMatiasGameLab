@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_calle_hogares",
+  "prompt": "Use reference image 1 for the wood, greenery, warm Vesperi lamps and handmade forest architecture of Nhal. Create background for nhal_calle_hogares in detailed pixel art, fixed orthographic three-quarter overhead RPG map view, 4:3 landscape. A peaceful forest village lane runs vertically north-to-south exactly through the center, open at the center of the top and bottom borders. Small tree-integrated wooden homes sit on stepped root platforms to the left and right, connected by short broad root stairs along the outer edges. Make the lane and its side shoulders visibly clear; no building, root, furniture or stairs obstruct the continuous center path or exits. Warm discreet lanterns and windows, layered mossy roots, leafy canopy framing the scene, calm inhabited atmosphere without showing residents. Rich readable pixel clusters at game scale; full-bleed scene to all edges, no blank border, no text, no UI, no grid, no characters, no animals. Final target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a1908e-a5cc-7461-a7a6-e6293b1ac140/exec-3b0009bb-d5ad-4103-98f3-31af93de17b1.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop 4:3; Lanczos 1280x960; WebP",
+  "quality": 48,
+  "bytes": 243372,
+  "sha256": "e458d0a42a049f07903232c0918086ec0ef7b0678f20f28f09516276d3f77aa0"
+}

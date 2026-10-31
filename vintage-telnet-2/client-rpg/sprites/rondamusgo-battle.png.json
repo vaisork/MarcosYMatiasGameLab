@@ -1,0 +1,13 @@
+{
+  "asset_id": "rondamusgo",
+  "variant": "battle",
+  "prompt": "Transparent-background pixel-art full-body sprite of rondamusgo: Round shaggy mammal carrying seeds and moss in its coat; preserve canon reference. Three-quarter view, clear silhouette, no scenery, ground, shadow, text or frame.",
+  "generator": "OpenAI image_gen nativo; canonical reference /client/art/bestiary/rondamusgo-anime-v1.webp",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a1908e-a5cc-7461-a7a6-e6293b1ac140/exec-be71aa9c-29b8-4a6e-9dd6-c7938181fabc.png",
+  "normalization": "alpha crop, fit proportionally within transparent 192x192 RGBA canvas, derive 48x48 map / 192x192 battle",
+  "quality": "PNG RGBA lossless",
+  "width": 192,
+  "height": 192,
+  "bytes": 50097,
+  "sha256": "d357f668a0a7c936c96f8551ab34ef2409c5c99ecc0f8374e817dfc93664c0c9"
+}

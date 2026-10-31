@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_corteza_clara",
+  "prompt": "Use reference image 1 for Nhal forest texture and lighting. Create a detailed pixel-art RPG map background for nhal_corteza_clara, fixed orthographic three-quarter overhead, 4:3 landscape. A distinctive old pale-barked tree, almost ivory with faint silver grooves, stands among darker trunks and moss, like a soft unlit lantern beneath the canopy. Preserve a broad, clearly continuous east-west trail through the exact middle, open at the center of left and right borders, plus a northward branch opening at the exact center of the top border. Keep these three trail junctions entirely unobstructed; water, roots, shrubs and rocks frame the trail margins only. Quiet filtered light catches the pale bark, deep forest greens around it, no magical glow. Refined readable pixel clusters, rich details, full bleed to edges. No text, no signs, no UI, no grid, no characters or creatures, no border or blank margin. Target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a1908e-a5cc-7461-a7a6-e6293b1ac140/exec-1d5c4604-c62b-4b78-8e43-9d0aca547e77.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop 4:3, Lanczos 1280x960, WebP",
+  "quality": 36,
+  "bytes": 249756,
+  "sha256": "63587a8a32a9d3f482fd25b512b591fe26b435b71a5d4f38701edc9ed43f245f"
+}

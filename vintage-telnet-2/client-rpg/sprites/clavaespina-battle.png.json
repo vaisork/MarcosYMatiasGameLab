@@ -1,0 +1,13 @@
+{
+  "asset_id": "clavaespina",
+  "variant": "battle",
+  "prompt": "Transparent-background pixel-art full-body sprite of clavaespina: Sturdy quadruped with strong shoulders and long rigid non-projectile spines; preserve canon reference. Three-quarter view, clear silhouette, no scenery, ground, shadow, text or frame.",
+  "generator": "OpenAI image_gen nativo; canonical reference /client/art/bestiary/clavaespina-anime-v1.webp",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a1908e-a5cc-7461-a7a6-e6293b1ac140/exec-6107aa9b-ed7e-4c60-a47d-cac2f23ff6d5.png",
+  "normalization": "alpha crop, fit proportionally within transparent 192x192 RGBA canvas, derive 48x48 map / 192x192 battle",
+  "quality": "PNG RGBA lossless",
+  "width": 192,
+  "height": 192,
+  "bytes": 49725,
+  "sha256": "722eb8fb787a70eca00fdc749285f4491e99601a9611a2c2a8297bf9318b07ac"
+}

@@ -1,0 +1,13 @@
+{
+  "asset_id": "velomembrana",
+  "variant": "battle",
+  "prompt": "Transparent-background pixel-art full-body sprite of velomembrana: Small nocturnal mammal with large ears and gliding membranes between limbs; preserve canon reference. Three-quarter view, clear silhouette, no scenery, ground, shadow, text or frame.",
+  "generator": "OpenAI image_gen nativo; canonical reference /client/art/bestiary/velomembrana-anime-v1.webp",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a1908e-a5cc-7461-a7a6-e6293b1ac140/exec-a67eeab3-7d63-426a-9a81-9057121b3e78.png",
+  "normalization": "alpha crop, fit proportionally within transparent 192x192 RGBA canvas, derive 48x48 map / 192x192 battle",
+  "quality": "PNG RGBA lossless",
+  "width": 192,
+  "height": 192,
+  "bytes": 38986,
+  "sha256": "d740713f1f48be7f625371ab884a8b2fe33700f965d36f41f136818a877306a3"
+}
