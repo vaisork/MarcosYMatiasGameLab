@@ -1122,6 +1122,8 @@ export function renderizarEscena({
   if (Array.isArray(escena.objetos)) {
     for (const objeto of escena.objetos) {
       if (!objeto || objeto.recogido) continue;
+      // Con imagen pintada (también la llave), se usa; si no, el respaldo dibujado.
+      if (dibujarObjeto(ctx, catalogoArte, objeto, tiempo)) continue;
       if (objeto.tipo === 'llave') {
         ctx.save();
         ctx.strokeStyle = '#ffe169';
