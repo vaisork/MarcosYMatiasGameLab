@@ -117,8 +117,9 @@ export function atacarEnemigo(jugador, enemigo, { alcance = 64, dano = 1 } = {})
   };
   if (!solapanAABB(golpe, enemigo)) return { exito: false };
   const resultado = daniarEnemigo(enemigo, dano);
-  enemigo.vx = (jugador.mirando < 0 ? -1 : 1) * 180;
-  return { exito: resultado.afectado, enemigoDerrotado: resultado.derrotado };
+  enemigo.tiempoRetroceso = 0.22;
+  enemigo.vx = (jugador.mirando < 0 ? -1 : 1) * 220;
+  return { exito: resultado.afectado, golpeado: resultado.afectado, enemigoDerrotado: resultado.derrotado };
 }
 
 // Aplica un golpe al jugador según la política de salud y vidas configurada
@@ -203,7 +204,7 @@ export function resolverContactoEnemigo(
   jugador,
   enemigo,
   estadoCombate,
-  { toleranciaPisoton = 14, retroceso = true, fuerzaRetroceso = 220 } = {}
+  { toleranciaPisoton = 14, retroceso = true, fuerzaRetroceso = 200 } = {}
 ) {
   if (!jugador || !enemigo || !enemigo.vivo) {
     return { contacto: false };
@@ -224,13 +225,13 @@ export function resolverContactoEnemigo(
     };
   }
 
-  // 2. Colisión frontal/lateral: golpe hacia Senku
+  // 2. Colisión frontal/lateral: golpe hacia Senku con retroceso proporcionado
   const resultadoGolpe = aplicarGolpeJugador(estadoCombate, enemigo.dano);
 
   if (resultadoGolpe.golpeado && retroceso) {
     const direccionRetroceso = jugador.x < enemigo.x ? -1 : 1;
     jugador.vx = direccionRetroceso * fuerzaRetroceso;
-    jugador.vy = -180;
+    jugador.vy = -160;
     jugador.enSuelo = false;
   }
 

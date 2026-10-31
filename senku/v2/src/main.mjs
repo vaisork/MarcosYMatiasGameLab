@@ -237,6 +237,215 @@ export function reproducirSonidoMotor(ventana = typeof window !== 'undefined' ? 
   }
 }
 
+export function reproducirSonidoSalto(ventana = typeof window !== 'undefined' ? window : null) {
+  try {
+    const AudioCtx = ventana?.AudioContext || ventana?.webkitAudioContext;
+    if (!AudioCtx) return;
+    if (!ventana._senkuAudioCtx) {
+      ventana._senkuAudioCtx = new AudioCtx();
+    }
+    const ctx = ventana._senkuAudioCtx;
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'square';
+    const now = ctx.currentTime;
+    osc.frequency.setValueAtTime(150, now);
+    osc.frequency.exponentialRampToValueAtTime(450, now + 0.10);
+    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.13);
+  } catch {
+    // Silencioso
+  }
+}
+
+export function reproducirSonidoGolpe(ventana = typeof window !== 'undefined' ? window : null) {
+  try {
+    const AudioCtx = ventana?.AudioContext || ventana?.webkitAudioContext;
+    if (!AudioCtx) return;
+    if (!ventana._senkuAudioCtx) {
+      ventana._senkuAudioCtx = new AudioCtx();
+    }
+    const ctx = ventana._senkuAudioCtx;
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    const now = ctx.currentTime;
+    osc.frequency.setValueAtTime(260, now);
+    osc.frequency.exponentialRampToValueAtTime(50, now + 0.09);
+    gain.gain.setValueAtTime(0.22, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.10);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.11);
+  } catch {
+    // Silencioso
+  }
+}
+
+export function reproducirSonidoDanio(ventana = typeof window !== 'undefined' ? window : null) {
+  try {
+    const AudioCtx = ventana?.AudioContext || ventana?.webkitAudioContext;
+    if (!AudioCtx) return;
+    if (!ventana._senkuAudioCtx) {
+      ventana._senkuAudioCtx = new AudioCtx();
+    }
+    const ctx = ventana._senkuAudioCtx;
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sawtooth';
+    const now = ctx.currentTime;
+    osc.frequency.setValueAtTime(180, now);
+    osc.frequency.linearRampToValueAtTime(60, now + 0.14);
+    gain.gain.setValueAtTime(0.25, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.16);
+  } catch {
+    // Silencioso
+  }
+}
+
+export function reproducirSonidoItem(ventana = typeof window !== 'undefined' ? window : null) {
+  try {
+    const AudioCtx = ventana?.AudioContext || ventana?.webkitAudioContext;
+    if (!AudioCtx) return;
+    if (!ventana._senkuAudioCtx) {
+      ventana._senkuAudioCtx = new AudioCtx();
+    }
+    const ctx = ventana._senkuAudioCtx;
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    const now = ctx.currentTime;
+    osc.frequency.setValueAtTime(523.25, now);
+    osc.frequency.setValueAtTime(659.25, now + 0.08);
+    osc.frequency.setValueAtTime(783.99, now + 0.16);
+    gain.gain.setValueAtTime(0.18, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.34);
+  } catch {
+    // Silencioso
+  }
+}
+
+// Señalización de fin de escena e indicaciones de misión
+export function dibujarIndicadoresEscena(ctx, escena, senku, tiempo, estadoJugador) {
+  if (!ctx || !escena) return;
+  const tieneLlave = estadoJugador?.coleccionados?.includes('taqueria-recompensa-llave')
+    || estadoJugador?.coleccionados?.includes('llave-camioneta');
+
+  if (escena.id === 'taqueria') {
+    // 1. Indicador en la camioneta (x: 140..340, y: 350..580)
+    const pulsoY = Math.sin(tiempo * 5) * 6;
+    ctx.save();
+    if (tieneLlave) {
+      ctx.fillStyle = 'rgba(16, 44, 18, 0.9)';
+      ctx.fillRect(170, 370 + pulsoY, 180, 42);
+      ctx.strokeStyle = '#4ade80';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(170, 370 + pulsoY, 180, 42);
+
+      ctx.fillStyle = '#86efac';
+      ctx.font = 'bold 15px system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('🛻 ¡SUBIR AHORA! [E]', 260, 396 + pulsoY);
+
+      ctx.fillStyle = '#4ade80';
+      ctx.beginPath();
+      ctx.moveTo(250, 416 + pulsoY);
+      ctx.lineTo(270, 416 + pulsoY);
+      ctx.lineTo(260, 428 + pulsoY);
+      ctx.fill();
+    } else {
+      ctx.fillStyle = 'rgba(30, 20, 10, 0.8)';
+      ctx.fillRect(180, 380, 160, 32);
+      ctx.strokeStyle = '#d97706';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(180, 380, 160, 32);
+      ctx.fillStyle = '#fde68a';
+      ctx.font = 'bold 12px system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('🔒 Busca la llave →', 260, 401);
+    }
+    ctx.restore();
+
+    // 2. Final de calle (x: 3720..3840)
+    ctx.save();
+    const pulsoX = Math.sin(tiempo * 5) * 8;
+    // Barrera de rayas amarillas y negras
+    ctx.fillStyle = '#1c1917';
+    ctx.fillRect(3760, 460, 40, 140);
+    for (let by = 470; by < 590; by += 24) {
+      ctx.fillStyle = '#eab308';
+      ctx.fillRect(3764, by, 32, 12);
+    }
+    // Letrero de fin de calle
+    ctx.fillStyle = 'rgba(28, 25, 23, 0.92)';
+    ctx.fillRect(3560, 360, 220, 74);
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(3560, 360, 220, 74);
+
+    ctx.fillStyle = '#f87171';
+    ctx.font = 'bold 16px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('🛑 FIN DE CALLE', 3670, 388);
+
+    ctx.fillStyle = '#fef08a';
+    ctx.font = 'bold 13px system-ui, sans-serif';
+    ctx.fillText('← VUELVE A LA CAMIONETA', 3670 + pulsoX * 0.4, 416);
+    ctx.restore();
+  } else if (escena.id === 'reja') {
+    ctx.save();
+    const pulsoX = Math.sin(tiempo * 5) * 8;
+    ctx.fillStyle = 'rgba(20, 35, 20, 0.9)';
+    ctx.fillRect(8720, 380, 190, 68);
+    ctx.strokeStyle = '#22c55e';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(8720, 380, 190, 68);
+
+    ctx.fillStyle = '#86efac';
+    ctx.font = 'bold 15px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('ENTRADA AL DESIERTO', 8815, 408);
+    ctx.fillStyle = '#fef08a';
+    ctx.font = 'bold 18px system-ui, sans-serif';
+    ctx.fillText('➔➔➔', 8815 + pulsoX, 434);
+    ctx.restore();
+  } else if (escena.id === 'desierto') {
+    ctx.save();
+    const pulso = Math.sin(tiempo * 5) * 6;
+    ctx.fillStyle = 'rgba(40, 24, 10, 0.9)';
+    ctx.fillRect(6180, 380, 180, 68);
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(6180, 380, 180, 68);
+
+    ctx.fillStyle = '#fde68a';
+    ctx.font = 'bold 15px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('🏁 META DEL VIAJE', 6270, 408);
+    ctx.fillStyle = '#fef08a';
+    ctx.font = 'bold 18px system-ui, sans-serif';
+    ctx.fillText('➔ 🏆', 6270 + pulso, 434);
+    ctx.restore();
+  }
+}
+
 // Animación cinemática de la camioneta al arrancar y avanzar con la llave
 export function dibujarAnimacionCamioneta(ctx, catalogoArte, viaje) {
   if (!ctx || !viaje) return;
@@ -367,8 +576,8 @@ export function arrancarSenku2({
           if (almacen) guardar(almacen, estadoJugador);
         }
       }
-      if (params.get('escena') === 'ciudad') {
-        estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: 'ciudad' } };
+      if (params.get('escena')) {
+        estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: params.get('escena') } };
       }
     } catch {
       // Ignorar fallo en parseo de URL
@@ -695,7 +904,21 @@ export function arrancarSenku2({
 
   let enSueloPrevio = true;
   let ataquePresionadoPrevio = false;
+  let saltandoPrevio = false;
   senku.tiempoAterrizaje = 0;
+
+  let tiempoHitStop = 0;
+  let tiempoSacudidaCamara = 0;
+  let duracionSacudidaCamara = 0;
+  let intensidadSacudidaCamara = 0;
+  let sacudidaCamaraX = 0;
+  let sacudidaCamaraY = 0;
+
+  function activarSacudidaCamara(intensidad = 4, duracion = 0.12) {
+    intensidadSacudidaCamara = Math.max(intensidadSacudidaCamara, intensidad);
+    duracionSacudidaCamara = Math.max(duracionSacudidaCamara, duracion);
+    tiempoSacudidaCamara = Math.max(tiempoSacudidaCamara, duracion);
+  }
 
   const efectosRecogida = [];
   function agregarEfectoRecogida({ tipo = 'churu', x, y, texto = '+1 Churu' }) {
@@ -739,8 +962,9 @@ export function arrancarSenku2({
     const recompensa = escenaActual.recompensaFinal;
     if (!recompensa || estadoJugador.coleccionados.includes(recompensa.id)
       || enemigos.some((e) => e.vivo) || escenaActual.objetos.some((o) => o.id === recompensa.id)) return;
+    const maxX = (escenaActual.limites?.maxX ?? 1280) - 40;
     escenaActual.objetos.push({ ...recompensa,
-      x: ultimo ? Math.min(1246, Math.max(0, ultimo.x - 60)) : recompensa.x,
+      x: ultimo ? Math.min(maxX, Math.max(40, ultimo.x - 40)) : recompensa.x,
       y: ultimo ? ultimo.y + ultimo.h - recompensa.h : recompensa.y,
     });
     mostrarAviso('¡La llave de la camioneta!');
@@ -807,6 +1031,18 @@ export function arrancarSenku2({
 
   // 6. Controles táctiles y teclado
   const btnSalto = documento.getElementById('btn-salto');
+  let btnAtaque = documento.getElementById('btn-atacar') || documento.getElementById('btn-disparar');
+  if (!btnAtaque && documento && typeof documento.createElement === 'function') {
+    const grupo = documento.querySelector?.('.grupo-accion');
+    if (grupo) {
+      btnAtaque = documento.createElement('button');
+      btnAtaque.id = 'btn-atacar';
+      btnAtaque.className = 'btn-control';
+      btnAtaque.setAttribute('aria-label', 'Atacar / Zarpazo');
+      btnAtaque.innerHTML = `<span>🐾</span><span>Zarpazo</span>`;
+      grupo.insertBefore(btnAtaque, btnSalto);
+    }
+  }
 
   const entrada = crearManejadorEntrada({
     ventana,
@@ -814,6 +1050,7 @@ export function arrancarSenku2({
     elementoJoystick: documento.getElementById('joystick'),
     elementosBotones: {
       salto: btnSalto,
+      atacar: btnAtaque,
     },
   });
 
@@ -900,6 +1137,11 @@ export function arrancarSenku2({
         for (const enemigo of enemigos) {
           if (!enemigo.activo || !enemigo.vivo) continue;
           const ataque = atacarEnemigo(senku, enemigo);
+          if (ataque.golpeado) {
+            reproducirSonidoGolpe(ventana);
+            tiempoHitStop = 0.06;
+            activarSacudidaCamara(4, 0.12);
+          }
           if (ataque.enemigoDerrotado) {
             estadoJugador = { ...estadoJugador,
               coleccionados: [...new Set([...estadoJugador.coleccionados, idDerrota(enemigo.id)])] };
@@ -916,6 +1158,11 @@ export function arrancarSenku2({
         escenaActual.limites,
         dt
       );
+
+      if (!saltandoPrevio && senku.saltando) {
+        reproducirSonidoSalto(ventana);
+      }
+      saltandoPrevio = senku.saltando;
 
       // Amortiguación al aterrizar (absorción del impacto)
       if (!enSueloPrevio && senku.enSuelo && !senku.saltando && Math.abs(senku.vx) <= 30) {
@@ -944,12 +1191,18 @@ export function arrancarSenku2({
         if (!enemigo.activo || !enemigo.vivo) continue;
         const resContacto = resolverContactoEnemigo(senku, enemigo, estadoCombate);
         if (resContacto.enemigoDerrotado) {
+          reproducirSonidoGolpe(ventana);
+          tiempoHitStop = 0.06;
+          activarSacudidaCamara(4, 0.12);
           estadoJugador = { ...estadoJugador,
             coleccionados: [...new Set([...estadoJugador.coleccionados, idDerrota(enemigo.id)])] };
           guardarProgreso();
           soltarLlave(enemigo);
         }
         if (resContacto.contacto && resContacto.tipo === 'golpe') {
+          reproducirSonidoDanio(ventana);
+          tiempoHitStop = 0.06;
+          activarSacudidaCamara(6, 0.16);
           actualizarHUDVida();
           if (resContacto.golpeado) mostrarAviso(`¡Golpe! -${enemigo.dano || 1} HP`, 0.8);
           // Al llegar a 0 de vida, reiniciar la escena con vida llena
@@ -989,7 +1242,8 @@ export function arrancarSenku2({
           estadoJugador = { ...estadoJugador,
             coleccionados: [...new Set([...estadoJugador.coleccionados, objeto.id])] };
           guardarProgreso();
-          mostrarAviso('¡La llave de la camioneta!');
+          reproducirSonidoItem(ventana);
+          mostrarAviso('¡La llave de la camioneta! Vuelve a la camioneta a la izquierda ←', 5);
         } else if (objeto.tipo === 'botiquin') {
           const res = recogerBotiquin({
             jugador: senku,
@@ -1000,6 +1254,7 @@ export function arrancarSenku2({
           if (res.recogido) {
             estadoJugador = res.estadoJugador;
             guardarProgreso();
+            reproducirSonidoItem(ventana);
             actualizarHUDVida();
             mostrarAviso('+25 Vida');
           }
@@ -1014,7 +1269,28 @@ export function arrancarSenku2({
     ultimoTiempo = ahora;
     tiempoAcumulado += dt;
 
-    avanzarPaso(dt);
+    if (tiempoSacudidaCamara > 0) {
+      tiempoSacudidaCamara -= dt;
+      const factor = duracionSacudidaCamara > 0 ? (tiempoSacudidaCamara / duracionSacudidaCamara) : 0;
+      sacudidaCamaraX = (Math.random() * 2 - 1) * intensidadSacudidaCamara * factor;
+      sacudidaCamaraY = (Math.random() * 2 - 1) * intensidadSacudidaCamara * factor;
+      if (tiempoSacudidaCamara <= 0) {
+        tiempoSacudidaCamara = 0;
+        duracionSacudidaCamara = 0;
+        intensidadSacudidaCamara = 0;
+        sacudidaCamaraX = 0;
+        sacudidaCamaraY = 0;
+      }
+    } else {
+      sacudidaCamaraX = 0;
+      sacudidaCamaraY = 0;
+    }
+
+    if (tiempoHitStop > 0) {
+      tiempoHitStop -= dt;
+    } else {
+      avanzarPaso(dt);
+    }
 
     const minimoCamara = escenaActual.limites.minX ?? 0;
     const maximoCamara = Math.max(minimoCamara, escenaActual.limites.maxX - ANCHO_LOGICO);
@@ -1033,10 +1309,10 @@ export function arrancarSenku2({
       catalogoArte,
       rutaFondo,
       tiempo: tiempoAcumulado,
-      cameraX: camaraX,
+      cameraX: camaraX + sacudidaCamaraX,
     });
 
-    if (ctx) { ctx.save(); ctx.translate(-camaraX, 0); }
+    if (ctx) { ctx.save(); ctx.translate(-camaraX - sacudidaCamaraX, sacudidaCamaraY); }
 
     // Dibujado de Senku con color y etiqueta del traje activo
     if (ctx && senku) {
@@ -1147,10 +1423,28 @@ export function arrancarSenku2({
         ctx.fillStyle = '#ff4444';
         ctx.fillRect(ojoX, enemigo.y + 4, 5, 5);
       }
+      dibujarIndicadoresEscena(ctx, escenaActual, senku, tiempoAcumulado, estadoJugador);
       ctx.restore();
     }
 
     if (ctx) ctx.restore();
+    if (ctx && escenaActual.id === 'taqueria') {
+      const tieneLlave = estadoJugador.coleccionados.includes('taqueria-recompensa-llave')
+        || estadoJugador.coleccionados.includes('llave-camioneta');
+      if (tieneLlave) {
+        ctx.save();
+        ctx.fillStyle = 'rgba(18, 30, 20, 0.88)';
+        ctx.fillRect(ANCHO_LOGICO / 2 - 220, 14, 440, 30);
+        ctx.strokeStyle = '#86efac';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(ANCHO_LOGICO / 2 - 220, 14, 440, 30);
+        ctx.fillStyle = '#fef08a';
+        ctx.font = 'bold 14px system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('🔑 ¡Llave lista! Vuelve a la camioneta a la izquierda ←', ANCHO_LOGICO / 2, 34);
+        ctx.restore();
+      }
+    }
     if (ctx && viaje) {
       if (viaje.tipo === 'camion') {
         ctx.save();
