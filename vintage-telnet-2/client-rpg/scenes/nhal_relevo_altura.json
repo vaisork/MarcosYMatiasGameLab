@@ -1,0 +1,81 @@
+{
+  "room": "nhal_relevo_altura",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggppppppppppggggg",
+      "pppppppppppppppggggg",
+      "pppppppppppppppggggg",
+      "gggggppppppppppggggg",
+      "gggggppppppppppggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "...................1",
+      "...................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "111111111..111111111"
+    ]
+  },
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "oeste": [
+      1,
+      7
+    ]
+  },
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "npcs": [],
+  "creatures": []
+}

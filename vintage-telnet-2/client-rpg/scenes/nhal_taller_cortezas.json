@@ -1,0 +1,89 @@
+{
+  "room": "nhal_taller_cortezas",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "ggccccccccccccccccgg",
+      "ggccccccccccccccccgg",
+      "ggccccccccccccccccgg",
+      "ggcccppppppppppcccgg",
+      "ggcccppppppppppppppp",
+      "ggcccppppppppppppppp",
+      "ggcccppppppppppcccgg",
+      "ggcccppppppppppcccgg",
+      "ggcccccccppcccccccgg",
+      "ggcccccccppcccccccgg",
+      "ggcccccccppcccccccgg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "1...................",
+      "1...................",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "111111111..111111111"
+    ]
+  },
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "npcs": [
+    {
+      "id": "nhal_desi",
+      "at": [
+        8,
+        5
+      ]
+    }
+  ],
+  "creatures": []
+}

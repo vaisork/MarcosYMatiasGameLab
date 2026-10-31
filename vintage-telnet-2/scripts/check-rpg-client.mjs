@@ -215,6 +215,16 @@ for(const [id,map] of hoshaiMaps){
  }
 }
 console.log('RPG Hoshai: 29 authored scenes and clear actor footprints OK');
+const nhalMaps=maps.filter(([id,map])=>map.room&&rooms[id]?.region==='nhal');
+assert.equal(nhalMaps.length,27,'Every canonical Nhal room needs an authored scene');
+for(const [id,map] of nhalMaps){
+ context.testMap=map;vm.runInContext('scene=testMap',context);
+ for(const actor of [...map.npcs,...map.creatures]){
+  context.actor=actor;
+  assert.equal(vm.runInContext('blocked(...actor.at)',context),false,`${id}: ${actor.id} feet overlap obstacle`);
+ }
+}
+console.log('RPG Nhal: 27 authored scenes and clear actor footprints OK');
 // Korven art must keep the real collision footprint clear at every actor anchor.
 for(const [id,map] of maps.filter(([id,map])=>map.background&&(id.startsWith('korven_')||id==='brumak_centro'))){
  context.testMap=map;vm.runInContext('scene=testMap',context);
