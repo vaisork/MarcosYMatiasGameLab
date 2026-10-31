@@ -1,0 +1,14 @@
+{
+  "asset_id": "backgrounds/lethra_tablas_primeras.webp",
+  "prompt": "Use case: stylized-concept. Asset type: navigable Vaisgard RPG background, 1280×960 WebP. Reference 1 is canonical art of Lethra's first plank crossing; reference 2 sets the pixel art scale and palette. Depict Primeras tablas: a short run of low, uneven timber boards laid north-south over wet mud, with the canonical simple test pole beside them. Continuous traversable board path to middle two-tile openings at north and south edges. Keep boards aligned to route, muddy water, leaves and reeds outside the walking strip, no lateral exits. 20×15 tile composition, top-down three-quarter, late-16-bit detailed indie pixel art, crisp clusters, upper-left soft light, humid olive and teal. Full bleed. No actors, people, creatures, text, UI, frame, watermark; no extra structures or objects blocking route.",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-e3366489-1821-4c0c-a251-1e7e1f22ccdf.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 64,
+  "bytes": 242014,
+  "sha256": "def9ba39a47004b7ff6b05de7b5be866e19c903c645a6e883ec343425ba39a50",
+  "normalization": "center crop to 4:3; Lanczos to 640x480; nearest-neighbor upscale to 1280x960; WebP"
+}

@@ -1,0 +1,14 @@
+{
+  "asset_id": "backgrounds/lethra_ribera_seca.webp",
+  "prompt": "Use case: stylized-concept. Asset type: original background for a navigable Vaisgard RPG room, to be normalized to 1280×960 WebP. Primary request: Lethra dry riverbank (Ribera seca), a specific marshland route seen from a readable top-down three-quarter game angle. Scene: wide 20×15-tile composition, close shallow freshwater channel widening along both sides of a central dry muddy-earth path, reed clumps and exposed roots. Keep a continuous clear north-south walking corridor through the central columns and connect cleanly to both vertical screen edges; keep edge corners bank/reeds so only the middle 2-tile openings read as exits. Walkable ground is an unbroken ochre-brown path; water, thick roots, reed masses and logs are clearly distinct impassable surfaces. Style: detailed modern 16-bit pixel art, polished indie RPG environment, crisp clusters, hand-painted tile readability, compatible with existing Lethra game art. Lighting from upper left, humid diffuse light, natural olive, teal water, warm mud. Full bleed to all edges, no horizon, no characters, no creatures, no people, no text, no UI, no border, no watermark. Match the terrain routing and two edge openings exactly; do not put solid objects on the corridor.",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-311a483e-3f92-4f33-b955-327514dfbcbf.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 72,
+  "bytes": 249112,
+  "sha256": "dc71d0f9fc11b613bfee5354fdfabce16f8bbad60ed336652bb4918662ca2698",
+  "normalization": "center crop to 4:3; Lanczos to 640x480; nearest-neighbor upscale to 1280x960; WebP"
+}

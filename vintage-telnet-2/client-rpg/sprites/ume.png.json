@@ -1,0 +1,15 @@
+{
+  "asset_id": "ume",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-fd5b83a1-f350-4b63-84da-a7e496b02373.png",
+  "source_sha256": "d9a99a3b53f6e69d72dae7049e02726e766933beb2c162ac8e18530154f310c4",
+  "dimensions": [
+    192,
+    384
+  ],
+  "bytes": 104683,
+  "sha256": "536e0acfc073da62c22eb8c8e6608c0a5bd242a42c0ef351235257623cc62041",
+  "normalization": "192x384 NPC sheet; alpha bounds trimmed and centered proportional fit when applicable; RGBA preserved",
+  "review": "SELF_REVIEW_PASS: canon-compatible subject, clear silhouette, transparency retained.",
+  "prompt": "Use case: stylized-concept. Asset type: transparent NPC walking sprite atlas for a pixel-art RPG, normalized to 192×384 PNG. References 1 and 2 are existing Marevyn atlases. Match their teal-green skin, anatomy, pixel cluster detail, 64×96 character scale and walk cycle, but make Ume a distinct mature Marevyn caretaker. Short dark teal hair with a few pale strands, kind composed face, light cream tunic, muted blue-green over-vest and soft ochre waist wrap, flat practical sandals; no medical cross, no bag, no held items. Layout precisely 3 columns × 4 rows, cells 64×96; rows face down, left, right, up, three walking poses each, centered with same foot baseline around y=92. True transparent background. Crisp late-16-bit RPG pixel art, separate silhouette and palette from Mira/Nima/Sola. No extra sprites, props, shadow, checkerboard, labels, text, border, watermark."
+}

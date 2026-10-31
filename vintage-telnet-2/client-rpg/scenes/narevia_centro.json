@@ -103,5 +103,6 @@
     }
   ],
   "npcs": [],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/narevia_centro.webp"
 }
