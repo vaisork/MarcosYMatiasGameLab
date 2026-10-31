@@ -1,0 +1,96 @@
+{
+  "room": "nhal_agua_sombreada",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "layers": {
+    "ground": [
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gwwggggggppggggggwwg",
+      "gwwggggggppggggggwwg",
+      "gwwggggggppggggggwwg",
+      "gwwggppppppppppggwwg",
+      "gwwggppppppppppggwwg",
+      "gwwggppppppppppggwwg",
+      "gwwggppppppppppggwwg",
+      "gwwggppppppppppggwwg",
+      "gwwggggggppggggggwwg",
+      "gwwggggggppggggggwwg",
+      "gwwggggggppggggggwwg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "111111111..111111111"
+    ]
+  },
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "sur": [
+      10,
+      13
+    ]
+  },
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    }
+  ],
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "hilaria_niebla",
+      "at": [
+        8,
+        5
+      ]
+    },
+    {
+      "id": "clavaespina",
+      "at": [
+        9,
+        5
+      ]
+    }
+  ]
+}

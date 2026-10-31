@@ -1,6 +1,6 @@
 // Service Worker para Senku 2 — Caché offline versionado y soporte PWA
 // Versión actual de la caché
-const VERSION_CACHE = 'senku2-v5';
+const VERSION_CACHE = 'senku2-v9';
 
 // Recursos esenciales que forman la base del juego para jugar sin conexión
 const RECURSOS_PRECACHE = [
@@ -22,6 +22,21 @@ const RECURSOS_PRECACHE = [
   './src/core/enemigos.mjs',
   './src/core/escenas.mjs',
   './src/core/trajes_activo.mjs',
+  './src/core/anclador.mjs',
+  './src/core/movilidad.mjs',
+  './src/core/garras.mjs',
+  './src/core/resumen.mjs',
+  './src/core/economia.mjs',
+  './src/core/jefe_gato.mjs',
+  './src/core/lanzador.mjs',
+  './src/data/trajes.mjs',
+  './src/data/escenas/despenadero.mjs',
+  './src/data/escenas/cima.mjs',
+  './src/render/despenadero.mjs',
+  './src/render/cima.mjs',
+  './src/audio/musica.mjs',
+  './src/ui/portada.mjs',
+  './src/ui/final.mjs',
   './src/data/enemigos.mjs',
   './src/data/botiquines.mjs',
   './src/data/escenas/ciudad.mjs',
@@ -33,7 +48,9 @@ const RECURSOS_PRECACHE = [
   './src/ui/menu.mjs',
   './src/ui/menu_modelo.mjs',
   './src/ui/menu.css',
-  // Arte de Matías (fondos, hojas de sprites, objetos y retratos del menú)
+  // Arte de Matías (fondos, hojas de sprites, objetos y retratos del menú).
+  // Las ilustraciones por tramo (assets/escenas/*) y el jefe no se precachean: el fetch de abajo
+  // las guarda al pedirlas, así sólo se descarga lo que se juega y lo ya visto funciona sin red.
   './assets/enemigos/hamster_cafe.png',
   './assets/enemigos/hamster_negro.png',
   './assets/enemigos/raton_cafe.png',
@@ -49,8 +66,20 @@ const RECURSOS_PRECACHE = [
   './assets/objetos/lanzador_ratones.png',
   './assets/objetos/raton_proyectil.png',
   './assets/personajes/menu_original.webp',
+  './assets/portada/portada.webp',
   './assets/personajes/menu_rata.webp',
   './assets/personajes/sprite_original.png',
+  './assets/bonus/cable-chispa.webp',
+  './assets/bonus/camion-carga.webp',
+  './assets/bonus/camioneta-equipaje.webp',
+  './assets/bonus/ciudad-cercana.webp',
+  './assets/bonus/ciudad-lejana.webp',
+  './assets/bonus/desierto-cercano.webp',
+  './assets/bonus/desierto-lejano.webp',
+  './assets/bonus/letrero-alto.webp',
+  './assets/bonus/piedras.webp',
+  './assets/bonus/rama-jacaranda.webp',
+  './assets/bonus/saguaro.webp',
   './assets/personajes/sprite_rata.png',
   '../../assets/icon/senku-icon-192.png',
   '../../assets/icon/matiasgamelab-icon-192.png',
@@ -133,7 +162,7 @@ if (typeof self !== 'undefined' && typeof self.addEventListener === 'function') 
           .catch(() => {
             // Si no hay red y es navegación HTML, devolver la página de inicio en caché
             if (evento.request.mode === 'navigate') {
-              return caches.match('./index.html') || caches.match('./');
+              return caches.match('./index.html').then((r) => r || caches.match('./'));
             }
           });
       })

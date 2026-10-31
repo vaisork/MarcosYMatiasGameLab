@@ -1,0 +1,14 @@
+{
+  "asset_id": "backgrounds/narevia_centro.webp",
+  "prompt": "Use case: stylized-concept. Asset type: navigable RPG plaza background, 1280×960 WebP. Reference 1 is canonical art of Narevia, a small island village in Lethra; reference 2 sets the existing game's pixel-art scale and humid palette. Paint Narevia center plaza: broad dry timber-and-root island platform, four clear connected walkways reaching the centers of north, east, south and west edges. The scene's walkable center and all four approaches remain unobstructed. Around the perimeter, narrow turquoise channels, mooring posts, woven baskets and a few low island plants; no market stalls or houses across the cross-shaped paths. 20×15 tile-like overhead three-quarter composition, detailed 16-bit indie RPG pixel art, olive leaves, warm plank browns and teal water, upper-left diffuse light. Full bleed, no horizon, actors, NPCs, players, creatures, writing, UI, border or watermark. No added exits or bridges beyond the four centered walkways.",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-675dba92-84b0-46ae-b53b-07173845d68f.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 64,
+  "bytes": 249348,
+  "sha256": "8e0acd9e27a0d49580667da941e7da97443788cf05471c7e1db285e08b6a99d4",
+  "normalization": "center crop to 4:3; Lanczos to 640x480; nearest-neighbor upscale to 1280x960; WebP"
+}

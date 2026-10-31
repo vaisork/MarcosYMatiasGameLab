@@ -189,6 +189,8 @@ export function crearManejadorEntrada({
     let presionadoPor = null; // 'pointer' | 'touch' | null
     reseteadoresBotones.push(() => {
       presionadoPor = null;
+      elemento.classList?.remove?.('presionado');
+      if (accion === ACCIONES.ANCLAR) elemento.classList?.remove?.('apuntando');
     });
 
     const iniciarPointer = (e) => {
@@ -197,6 +199,8 @@ export function crearManejadorEntrada({
         return; // Sintetizado/duplicado de un toque ya activo
       }
       presionadoPor = 'pointer';
+      elemento.classList?.add?.('presionado');
+      if (accion === ACCIONES.ANCLAR) elemento.classList?.add?.('apuntando');
       if (typeof elemento.setPointerCapture === 'function' && e?.pointerId !== undefined) {
         try { elemento.setPointerCapture(e.pointerId); } catch (_) {}
       }
@@ -210,6 +214,8 @@ export function crearManejadorEntrada({
       }
       if (presionadoPor === null) return;
       presionadoPor = null;
+      elemento.classList?.remove?.('presionado');
+      if (accion === ACCIONES.ANCLAR) elemento.classList?.remove?.('apuntando');
       procesarBoton(accion, false);
     };
 
@@ -219,6 +225,8 @@ export function crearManejadorEntrada({
         return; // Sintetizado/duplicado de un pointer ya activo
       }
       presionadoPor = 'touch';
+      elemento.classList?.add?.('presionado');
+      if (accion === ACCIONES.ANCLAR) elemento.classList?.add?.('apuntando');
       procesarBoton(accion, true);
     };
 
@@ -226,6 +234,8 @@ export function crearManejadorEntrada({
       if (typeof e.preventDefault === 'function') e.preventDefault();
       if (presionadoPor === null) return;
       presionadoPor = null;
+      elemento.classList?.remove?.('presionado');
+      if (accion === ACCIONES.ANCLAR) elemento.classList?.remove?.('apuntando');
       procesarBoton(accion, false);
     };
 
@@ -255,24 +265,26 @@ export function crearManejadorEntrada({
 
   if (elementoJoystick) {
     let pointerId = null;
+    let touchId = null;
     const pintar = () => {
-      elementoJoystick.style?.setProperty('--palanca-x', `${joystick.x * 32}px`);
-      elementoJoystick.style?.setProperty('--palanca-y', `${joystick.y * 32}px`);
+      elementoJoystick.style?.setProperty?.('--palanca-x', `${joystick.x * 32}px`);
+      elementoJoystick.style?.setProperty?.('--palanca-y', `${joystick.y * 32}px`);
     };
     const reset = () => {
       const anterior = pointerId;
       pointerId = null;
+      touchId = null;
       joystick = modelarJoystick();
       pintar();
       actualizarEstado();
       if (anterior !== null && elementoJoystick.hasPointerCapture?.(anterior)) {
-        elementoJoystick.releasePointerCapture(anterior);
+        try { elementoJoystick.releasePointerCapture(anterior); } catch (_) {}
       }
     };
     reseteadoresBotones.push(reset);
     const mover = (e) => {
       if (e.pointerId !== pointerId) return;
-      e.preventDefault();
+      if (typeof e.preventDefault === 'function') e.preventDefault();
       const rect = elementoJoystick.getBoundingClientRect();
       const radio = Math.min(rect.width, rect.height) / 2;
       joystick = modelarJoystick((e.clientX - rect.left - rect.width / 2) / radio,
@@ -281,9 +293,11 @@ export function crearManejadorEntrada({
       actualizarEstado();
     };
     const iniciar = (e) => {
-      if (pointerId !== null || (e.button !== undefined && e.button !== 0)) return;
+      if (pointerId !== null || (e.button !== undefined && e.button !== 0 && e.pointerType !== 'touch')) return;
       pointerId = e.pointerId;
-      elementoJoystick.setPointerCapture(e.pointerId);
+      if (typeof elementoJoystick.setPointerCapture === 'function') {
+        try { elementoJoystick.setPointerCapture(e.pointerId); } catch (_) {}
+      }
       mover(e);
     };
     const terminar = (e) => {
@@ -291,10 +305,60 @@ export function crearManejadorEntrada({
     };
     for (const [tipo, fn] of Object.entries({ pointerdown: iniciar, pointermove: mover,
       pointerup: terminar, pointercancel: terminar, lostpointercapture: terminar,
-      contextmenu: (e) => e.preventDefault() })) {
+      contextmenu: (e) => e.preventDefault?.() })) {
       elementoJoystick.addEventListener(tipo, fn, { passive: false });
       limpiadores.push(() => elementoJoystick.removeEventListener(tipo, fn));
     }
+
+    // Soporte multitáctil nativo complementario para celular (evita cancelaciones por gestos de scroll)
+    const moverTouch = (t) => {
+      const rect = elementoJoystick.getBoundingClientRect();
+      const radio = Math.min(rect.width, rect.height) / 2;
+      joystick = modelarJoystick((t.clientX - rect.left - rect.width / 2) / radio,
+        (t.clientY - rect.top - rect.height / 2) / radio);
+      pintar();
+      actualizarEstado();
+    };
+    const iniciarTouch = (e) => {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (pointerId !== null || touchId !== null) return;
+      const t = e.changedTouches?.[0];
+      if (!t) return;
+      touchId = t.identifier;
+      moverTouch(t);
+    };
+    const pasoTouch = (e) => {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (touchId === null) return;
+      for (let i = 0; i < (e.changedTouches?.length || 0); i++) {
+        const t = e.changedTouches[i];
+        if (t.identifier === touchId) {
+          moverTouch(t);
+          break;
+        }
+      }
+    };
+    const terminarTouch = (e) => {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (touchId === null) return;
+      for (let i = 0; i < (e.changedTouches?.length || 0); i++) {
+        const t = e.changedTouches[i];
+        if (t.identifier === touchId) {
+          reset();
+          break;
+        }
+      }
+    };
+    elementoJoystick.addEventListener('touchstart', iniciarTouch, { passive: false });
+    elementoJoystick.addEventListener('touchmove', pasoTouch, { passive: false });
+    elementoJoystick.addEventListener('touchend', terminarTouch, { passive: false });
+    elementoJoystick.addEventListener('touchcancel', terminarTouch, { passive: false });
+    limpiadores.push(() => {
+      elementoJoystick.removeEventListener('touchstart', iniciarTouch);
+      elementoJoystick.removeEventListener('touchmove', pasoTouch);
+      elementoJoystick.removeEventListener('touchend', terminarTouch);
+      elementoJoystick.removeEventListener('touchcancel', terminarTouch);
+    });
   }
 
   if (elementosBotones.izquierda) conectarBoton(elementosBotones.izquierda, ACCIONES.IZQUIERDA);

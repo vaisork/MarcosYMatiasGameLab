@@ -24,6 +24,10 @@ import { crearAnclador, soltarAnclador } from './core/anclador.mjs';
 import { pasoMovilidad } from './core/movilidad.mjs';
 import { dibujarDespenadero, dibujarAnclador } from './render/despenadero.mjs';
 import { escenaCima, ARENA, SUELO_CIMA } from './data/escenas/cima.mjs';
+import { resumenCapitulo } from './core/resumen.mjs';
+import { mostrarFinal } from './ui/final.mjs';
+import { crearMusica, PIEZA_POR_ESCENA } from './audio/musica.mjs';
+import { mostrarPortada, debeMostrarPortada } from './ui/portada.mjs';
 import { crearJefe, despertar, actualizarJefe, golpearJefe, danoAJugador, esPisoton } from './core/jefe_gato.mjs';
 import { crearLanzador, actualizarDisparo, actualizarProyectiles } from './core/lanzador.mjs';
 import { dibujarJefe, dibujarProyectiles, dibujarLanzadorEnLomo, dibujarObjetoLanzador,
@@ -53,6 +57,8 @@ import {
   ajustarLienzoLetterbox,
   crearCatalogoArte,
   dibujarAvisoCarga,
+  rutasArteEscena,
+  destinosEscena,
   renderizarEscena,
 } from './render/canvas.mjs';
 import {
@@ -772,13 +778,12 @@ export function arrancarSenku2({
   registro.registrar(escenaDespenadero);
   registro.registrar(escenaCima);
 
-  const escenaId = estadoJugador.progreso?.escena === 'desierto'
-    ? 'reja' : (estadoJugador.progreso?.escena || 'taqueria');
-  if (escenaId !== estadoJugador.progreso?.escena) {
-    estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: escenaId } };
+  // Se reanuda donde se guardó; una escena desconocida vuelve a la taquería.
+  let escenaActual = registro.obtener(estadoJugador.progreso?.escena) || registro.obtener('taqueria');
+  if (escenaActual.id !== estadoJugador.progreso?.escena) {
+    estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: escenaActual.id } };
     if (almacen) guardar(almacen, estadoJugador);
   }
-  let escenaActual = registro.obtener(escenaId) || registro.obtener('taqueria');
 
   function actualizarNombreEscena() {
     const nombre = documento.getElementById('nombre-escena');
@@ -801,8 +806,29 @@ export function arrancarSenku2({
   const anclador = crearAnclador();
   // Cima: lanzador temporal y Gato Mecánico (se recrea con vida llena al reiniciar la escena).
   const lanzador = crearLanzador();
+  // Música por zona; el jefe despierto cambia a su pieza. N o el botón ♪ la apagan.
+  const musica = crearMusica(ventana);
+  let alPulsarMusica = null;
+  const btnMusica = documento.createElement?.('button');
+  if (btnMusica) {
+    btnMusica.id = 'btn-musica';
+    btnMusica.className = 'hud-pildora hud-btn';
+    btnMusica.setAttribute('aria-label', 'Música');
+    const pintarBoton = () => { btnMusica.textContent = musica.activa ? '♪' : '♪̸'; btnMusica.style.opacity = musica.activa ? '1' : '.55'; };
+    pintarBoton();
+    btnMusica.addEventListener('click', () => { musica.alternar(); pintarBoton(); });
+    alPulsarMusica = (e) => { if (e.code === 'KeyN') { musica.alternar(); pintarBoton(); } };
+    ventana.addEventListener?.('keydown', alPulsarMusica);
+    documento.getElementById('btn-pausa')?.before?.(btnMusica);
+  }
+  function actualizarMusica() {
+    const jefeDespierto = escenaActual.id === 'cima' && jefe && jefe.estado !== 'dormido';
+    if (jefe?.derrotado) { musica.detener(); return; }
+    musica.tocar(jefeDespierto ? 'jefe' : PIEZA_POR_ESCENA[escenaActual.id]);
+  }
   let jefe = null;
   const ID_VICTORIA_JEFE = 'jefe-gato-mecanico';
+  const CAPITULO_REINICIABLE = [ID_VICTORIA_JEFE, 'llave-camioneta', 'anclador-despenadero', 'lanzador-cima'];
   function prepararJefe() {
     if (escenaActual.id !== 'cima' || tiene(ID_VICTORIA_JEFE)) { jefe = null; return; }
     jefe = crearJefe({ x: 2200, suelo: SUELO_CIMA, arenaMinX: ARENA.minX, arenaMaxX: ARENA.maxX });
@@ -812,9 +838,11 @@ export function arrancarSenku2({
     const boton = documento.getElementById('btn-gancho');
     if (boton) boton.hidden = !(escenaActual.id === 'despenadero' && tiene('anclador-despenadero'));
   }
+  // Al recargar dentro del despeñadero con el anclador, el botón táctil debe aparecer.
+  actualizarBotonGancho();
 
   function alPulsarTecla(e) {
-    if (viaje && ['Space', 'Enter', 'Escape'].includes(e.code)) {
+    if (viaje?.cinematica && ['Space', 'Enter', 'Escape'].includes(e.code)) {
       saltarCinematica();
       e.preventDefault();
     } else if (e.key === 'Escape') {
@@ -923,8 +951,9 @@ export function arrancarSenku2({
   }
   if (btnSubir) btnSubir.onclick = intentarSubir;
 
+  // Sólo la cinemática de la familia se salta: al abordar, Espacio o un toque no deben brincarse el bonus.
   function saltarCinematica() {
-    if (!viaje) return false;
+    if (!viaje?.cinematica) return false;
     cambiarEscena(viaje.destino, { curar: true });
     return true;
   }
@@ -1093,7 +1122,16 @@ export function arrancarSenku2({
   const catalogoArte = crearCatalogoArte();
   let rutaFondo = rutaFondoEscena(escenaActual.id) || (escenaActual.fondo.ruta
     ? resolverRutaArte(escenaActual.fondo.ruta) : null);
-  catalogoArte.precargar(rutasPrecargaArte({
+  // Sólo la escena actual bloquea («Cargando arte»); las escenas a las que se puede ir bajan en segundo plano.
+  function precargarArteEscena(rutasBase) {
+    catalogoArte.precargar([...rutasBase, ...rutasArteEscena(escenaActual)]);
+    for (const id of destinosEscena(escenaActual)) {
+      for (const ruta of [...rutasPrecargaArte({ escenaId: id }), ...rutasArteEscena(registro.obtener(id))]) {
+        catalogoArte.cargar(ruta);
+      }
+    }
+  }
+  precargarArteEscena(rutasPrecargaArte({
     escenaId: escenaActual.id,
     tiposEnemigo: enemigos.map((e) => `${e.tipo}_${e.variante}`),
   }));
@@ -1122,7 +1160,7 @@ export function arrancarSenku2({
     definicionEnemigos = escenaActual.enemigos;
     rutaFondo = rutaFondoEscena(escenaActual.id) || (escenaActual.fondo.ruta
       ? resolverRutaArte(escenaActual.fondo.ruta) : null);
-    catalogoArte.precargar([rutaFondo, ...rutasPrecargaArte({ escenaId: escenaActual.id })]);
+    precargarArteEscena([rutaFondo, ...rutasPrecargaArte({ escenaId: escenaActual.id })]);
     viaje = null;
     mostrarAviso('', 0);
     camaraSuaveX = Math.max(0, Math.min(escenaActual.limites.w - ANCHO_LOGICO,
@@ -1130,6 +1168,14 @@ export function arrancarSenku2({
     reiniciarEscena({ puntoEntrada, curar });
     actualizarNombreEscena();
     actualizarCamioneta();
+  }
+
+  // Jugar otra vez: revive enemigos, llave y jefe. Churus, trajes y garras se conservan (sin re-cobrar churus).
+  let temporizadorFinal = null;
+  function volverAJugarCapitulo() {
+    const capitulo = (id) => id.includes(':derrotado:') || CAPITULO_REINICIABLE.includes(id);
+    estadoJugador = { ...estadoJugador, coleccionados: estadoJugador.coleccionados.filter((id) => !capitulo(id)) };
+    cambiarEscena('taqueria', { curar: true });
   }
 
   // 8. Bucle principal de juego
@@ -1199,6 +1245,7 @@ export function arrancarSenku2({
         });
       if (eventosMovilidad.includes('enganchar')) reproducirSonidoChuru(ventana);
       if (eventosMovilidad.includes('coronar')) mostrarAviso('¡Arriba!', 0.8);
+      actualizarMusica();
 
       if (escenaActual.id === 'cima') {
         if (!jefe && !tiene(ID_VICTORIA_JEFE)) prepararJefe();
@@ -1214,7 +1261,6 @@ export function arrancarSenku2({
             mostrarAviso('¡El Gato Mecánico despierta!', 2);
           }
           if (jefe.estado !== 'dormido' && !jefe.derrotado) senku.x = Math.max(senku.x, ARENA.minX);
-          const yaDerrotado = jefe.derrotado;
           actualizarJefe(jefe, senku, dt);
           if (esPisoton(jefe, senku) && golpearJefe(jefe, 1)) senku.vy = -620;
           const dano = danoAJugador(jefe, senku);
@@ -1229,11 +1275,17 @@ export function arrancarSenku2({
               }
             }
           }
-          if (jefe.derrotado && !yaDerrotado) {
+          // Se registra una sola vez, venga el último golpe de un ratón o de un pisotón.
+          if (jefe.derrotado && !tiene(ID_VICTORIA_JEFE)) {
             estadoJugador = { ...estadoJugador,
               coleccionados: [...new Set([...estadoJugador.coleccionados, ID_VICTORIA_JEFE])] };
             guardarProgreso();
-            mostrarAviso('¡Venciste al Gato Mecánico! Fin del capítulo México.', 6);
+            mostrarAviso('¡Venciste al Gato Mecánico!', 2.5);
+            // Deja ver al jefe desarmarse antes de la pantalla final.
+            temporizadorFinal = ventana.setTimeout?.(() => mostrarFinal(documento, ventana,
+              resumenCapitulo(estadoJugador, registro.listar()), {
+                alVolverAJugar: volverAJugarCapitulo,
+              }), 2600);
           }
         }
       }
@@ -1615,10 +1667,24 @@ export function arrancarSenku2({
     contexto.restore();
   }
 
-  const alTocarCinematica = () => { if (viaje) saltarCinematica(); };
+  const alTocarCinematica = () => { saltarCinematica(); };
   canvas.addEventListener?.('pointerdown', alTocarCinematica);
 
   animacionId = ventana.requestAnimationFrame(ciclo);
+
+  // Pestaña oculta: para el bucle y la música; al volver reanuda sin un salto de tiempo.
+  function alCambiarVisibilidad() {
+    if (documento.visibilityState === 'hidden') {
+      if (animacionId) ventana.cancelAnimationFrame(animacionId);
+      animacionId = null;
+      musica.pausar();
+    } else if (!animacionId) {
+      ultimoTiempo = performance.now();
+      animacionId = ventana.requestAnimationFrame(ciclo);
+      musica.reanudar();
+    }
+  }
+  documento.addEventListener?.('visibilitychange', alCambiarVisibilidad);
 
   function detener() {
     if (animacionId) {
@@ -1626,12 +1692,16 @@ export function arrancarSenku2({
       animacionId = null;
     }
     entrada.destruir();
+    documento.removeEventListener?.('visibilitychange', alCambiarVisibilidad);
     ventana.removeEventListener('resize', redimensionar);
     ventana.removeEventListener('orientationchange', redimensionar);
     if (ventana.visualViewport) {
       ventana.visualViewport.removeEventListener('resize', redimensionar);
     }
     ventana.removeEventListener('keydown', alPulsarTecla);
+    if (alPulsarMusica) ventana.removeEventListener('keydown', alPulsarMusica);
+    musica.detener();
+    if (temporizadorFinal) ventana.clearTimeout?.(temporizadorFinal);
     canvas.removeEventListener?.('pointerdown', alTocarCinematica);
     if (btnSubir) btnSubir.onclick = null;
     if (btnTraje) {
@@ -1659,6 +1729,7 @@ export function arrancarSenku2({
     senku,
     get escena() { return escenaActual; },
     get jefe() { return jefe; },
+    get lanzador() { return lanzador; },
     estadoJugador: () => estadoJugador,
     estadoCombate,
     enemigos,
@@ -1710,11 +1781,24 @@ export function arrancarSenku2({
 
 // Auto-arranque al cargar en navegador
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
+  const arrancar = () => {
+    let vista = false;
+    try { vista = window.sessionStorage?.getItem('senku2_portada_vista') === '1'; } catch { /* sin almacenamiento */ }
+    if (vista || !debeMostrarPortada(window.location)) {
       window.__senku2 = arrancarSenku2();
-    });
+      return;
+    }
+    let tieneProgreso = false;
+    try { tieneProgreso = Boolean(window.localStorage?.getItem('senku2_save')); } catch { /* sin almacenamiento */ }
+    mostrarPortada(document, { tieneProgreso, alJugar: () => {
+      // Una vez por sesión: al volver de un bonus no se repite la portada.
+      try { window.sessionStorage?.setItem('senku2_portada_vista', '1'); } catch { /* sin almacenamiento */ }
+      window.__senku2 = arrancarSenku2();
+    } });
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', arrancar);
   } else {
-    window.__senku2 = arrancarSenku2();
+    arrancar();
   }
 }

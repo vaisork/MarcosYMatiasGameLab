@@ -140,7 +140,9 @@ const expectedNpcSprites={
  korven_taren:'taren',
  hoshai_yesa:'yesa',
  lethra_nima:'nima',
- lethra_sola:'sola'
+ lethra_sola:'sola',
+ lethra_mira:'mira',
+ lethra_ume:'ume'
 };
 for(const [id,sprite] of Object.entries(expectedNpcSprites)){
  vm.runInContext(`snapshot.room.npcs=[{id:'${id}'}];`,context);
@@ -159,8 +161,8 @@ for(const sprite of Object.values(expectedNpcSprites)){
 }
 vm.runInContext('snapshot.room.npcs=[]',context);
 assert.equal(vm.runInContext('entities().length',context),0,'Aren artwork alone must not reveal NPC');
-console.log('RPG NPCs: authoritative presence, dedicated map (Bren+4, Nela, Oren, Aren, Yesa, Nima, Sola), Lina fallback, preloading and 64×96 atlas OK');
-const lethraCreatures=['cortacorriente','dorsalodo','pinzajunco','saltalodo','tragacharco','faucecieno','sombranutria'];
+console.log('RPG NPCs: authoritative presence, dedicated map (Bren+4, Nela, Oren, Aren, Yesa, Nima, Sola, Mira, Ume), Lina fallback, preloading and 64×96 atlas OK');
+const lethraCreatures=['cienfango','cortacorriente','dorsalodo','pinzajunco','saltalodo','tragacharco','faucecieno','sombranutria'];
 for(const name of lethraCreatures){
  const map=fs.readFileSync(new URL(`../client-rpg/sprites/${name}.png`,import.meta.url));
  const battle=fs.readFileSync(new URL(`../client-rpg/sprites/${name}-battle.png`,import.meta.url));
@@ -213,6 +215,16 @@ for(const [id,map] of hoshaiMaps){
  }
 }
 console.log('RPG Hoshai: 29 authored scenes and clear actor footprints OK');
+const nhalMaps=maps.filter(([id,map])=>map.room&&rooms[id]?.region==='nhal');
+assert.equal(nhalMaps.length,27,'Every canonical Nhal room needs an authored scene');
+for(const [id,map] of nhalMaps){
+ context.testMap=map;vm.runInContext('scene=testMap',context);
+ for(const actor of [...map.npcs,...map.creatures]){
+  context.actor=actor;
+  assert.equal(vm.runInContext('blocked(...actor.at)',context),false,`${id}: ${actor.id} feet overlap obstacle`);
+ }
+}
+console.log('RPG Nhal: 27 authored scenes and clear actor footprints OK');
 // Korven art must keep the real collision footprint clear at every actor anchor.
 for(const [id,map] of maps.filter(([id,map])=>map.background&&(id.startsWith('korven_')||id==='brumak_centro'))){
  context.testMap=map;vm.runInContext('scene=testMap',context);
@@ -381,7 +393,7 @@ scene={size:[20,15],npcs:[],creatures:[]};animation=null;
 snapshot={character:{name:'QA',level:1,hp:100,hp_max:100,combat:null},room:{npcs:[]},actions:[]};
 Object.assign(ctx,{strokeRect(){}});
 `,context);
-for(const [id,sprite] of [['espinajo_rastrojo','espinajo'],['mordelinde','mordelinde'],['cornalomo','cornalomo'],['salteador_veterano','salteador'],['forajido_camino','forajido'],['salteadora_negociante','negociante'],['salteador_bravucon','bravucon'],['cascapedernal','cascapedernal'],['colagrieta','colagrieta'],['quebrarrocas','quebrarrocas']]){
+for(const [id,sprite] of [['espinajo_rastrojo','espinajo'],['mordelinde','mordelinde'],['cornalomo','cornalomo'],['salteador_veterano','salteador'],['forajido_camino','forajido'],['cienfango','cienfango'],['salteadora_negociante','negociante'],['salteador_bravucon','bravucon'],['cascapedernal','cascapedernal'],['colagrieta','colagrieta'],['quebrarrocas','quebrarrocas']]){
  context.creatureId=id;
  assert.equal(vm.runInContext('entities().length',context),0,'Artwork alone must not reveal a creature');
  vm.runInContext(`snapshot.actions=[{id:'combatir',target:creatureId}];`,context);

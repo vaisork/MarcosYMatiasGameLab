@@ -1,0 +1,15 @@
+{
+  "asset_id": "cienfango",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-e5693d05-996b-4bdb-bbb4-3e8d4c9f26c7.png",
+  "source_sha256": "e239d022a1cb0dc263dcb14f9c5539e1d1d0597865707b5ede4804c0fd41835b",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 3992,
+  "sha256": "056ac7965cfc3acefe26b9b0cd1473d10dfeb434afb95ed85186108ce821e5a7",
+  "normalization": "48x48 map creature; alpha bounds trimmed and centered proportional fit when applicable; RGBA preserved",
+  "review": "SELF_REVIEW_PASS: canon-compatible subject, clear silhouette, transparency retained.",
+  "prompt": "Use case: stylized-concept. Asset type: transparent top-down RPG map creature sprite, 48×48 PNG after normalization. Image 1 is Cienfango's canonical bestiary anatomy; image 2 is the existing Lethra map-sprite detail scale. Paint a single centered Cienfango: long segmented wet-mud-brown arthropod, many clinging legs, curved cutting mandibles, emerging sideways from a root-like curl but no actual environment. Compact readable silhouette at 3/4 overhead, crisp 16-bit pixel clusters, amber glint in small eyes, no humanoid traits. True transparent background. No ground, roots, shadow, effects, text, frame, watermark, or other objects."
+}

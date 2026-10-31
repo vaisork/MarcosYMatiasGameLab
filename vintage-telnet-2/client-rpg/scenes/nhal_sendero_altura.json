@@ -1,0 +1,110 @@
+{
+  "room": "nhal_sendero_altura",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "layers": {
+    "ground": [
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggppppppppppggggg",
+      "gggggppppppppppggggg",
+      "gggggppppppppppggggg",
+      "gggggppppppppppggggg",
+      "gggggppppppppppggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "111111111..111111111"
+    ]
+  },
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ],
+    "norte": [
+      10,
+      1
+    ]
+  },
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    }
+  ],
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "forajido_camino",
+      "at": [
+        8,
+        5
+      ]
+    },
+    {
+      "id": "clavaespina",
+      "at": [
+        9,
+        5
+      ]
+    },
+    {
+      "id": "garfarrama",
+      "at": [
+        10,
+        5
+      ]
+    },
+    {
+      "id": "rondamusgo",
+      "at": [
+        11,
+        5
+      ]
+    }
+  ]
+}

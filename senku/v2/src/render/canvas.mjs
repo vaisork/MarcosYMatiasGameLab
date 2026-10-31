@@ -783,20 +783,33 @@ export function dibujarPrimerPlanoTaqueria(ctx, cameraX, tiempo, anchoTotal = 38
 // Capas con velocidades exactas: cielo 0.1, lejano 0.3, medio 0.6, primer plano 1.0
 const RUTAS_CAPAS_PARALAJE = { taqueria: 'ciudad', ciudad: 'ciudad', reja: 'reja', desierto: 'desierto' };
 
+const CAPAS_PARALAJE = [['cielo', 0.1], ['lejano', 0.3], ['medio', 0.6]];
+const imagenesCapas = [null, null, null];
+const rutaCapa = (prefijo, nombre) => `assets/fondos/paralaje/${prefijo}_${nombre}.webp`;
+
+// Imágenes de fondo que necesita una escena: sus tramos pintados o, si no tiene, sus capas de paralaje.
+export function rutasArteEscena(escena) {
+  const tramos = escena?.arte?.tramos;
+  if (Array.isArray(tramos) && tramos.length) return tramos.map((t) => t.ruta);
+  const prefijo = RUTAS_CAPAS_PARALAJE[escena?.id];
+  return prefijo ? CAPAS_PARALAJE.map(([nombre]) => rutaCapa(prefijo, nombre)) : [];
+}
+
+// Escenas a las que se puede ir desde ésta (para precargar la siguiente en segundo plano).
+export function destinosEscena(escena) {
+  return [...new Set((escena?.disparadores || []).map((d) => d.destino).filter(Boolean))];
+}
+
 function dibujarCapasIlustradas(ctx, catalogoArte, escenaId, cameraX) {
   const prefijo = RUTAS_CAPAS_PARALAJE[escenaId];
   if (!ctx || !catalogoArte || !prefijo) return false;
-  const capas = [
-    ['cielo', 0.1],
-    ['lejano', 0.3],
-    ['medio', 0.6],
-  ].map(([nombre, factor]) => ({
-    imagen: catalogoArte.obtener(`assets/fondos/paralaje/${prefijo}_${nombre}.webp`),
-    factor,
-  }));
-  if (capas.some((capa) => !capa.imagen)) return false;
+  // Arreglo reutilizado: sin objetos nuevos por cuadro.
+  for (let i = 0; i < CAPAS_PARALAJE.length; i++) imagenesCapas[i] = catalogoArte.obtener(rutaCapa(prefijo, CAPAS_PARALAJE[i][0]));
+  if (imagenesCapas.some((img) => !img)) return false;
 
-  for (const { imagen, factor } of capas) {
+  for (let i = 0; i < CAPAS_PARALAJE.length; i++) {
+    const imagen = imagenesCapas[i];
+    const factor = CAPAS_PARALAJE[i][1];
     const ancho = imagen.naturalWidth || ANCHO_LOGICO;
     const offset = -(((cameraX || 0) * factor) % ancho);
     for (let x = offset - ancho; x < ANCHO_LOGICO; x += ancho) {
@@ -1023,14 +1036,20 @@ function dibujarCamionParada(ctx) {
 export function dibujarTramosPintados(ctx, catalogoArte, escena, cameraX = 0) {
   const tramos = escena?.arte?.tramos;
   if (!ctx || !catalogoArte || !Array.isArray(tramos) || tramos.length === 0) return false;
-  const visibles = tramos.filter((t) => t.x < cameraX + ANCHO_LOGICO && t.x + (t.w || ANCHO_LOGICO) > cameraX);
-  const imagenes = visibles.map((t) => catalogoArte.obtener(t.ruta));
-  // Precarga el tramo siguiente para que no aparezca el respaldo al avanzar.
-  for (const t of tramos) if (t.x >= cameraX + ANCHO_LOGICO && t.x < cameraX + ANCHO_LOGICO * 2) catalogoArte.obtener(t.ruta);
-  if (imagenes.some((img) => !img)) return false;
-  visibles.forEach((t, i) => {
-    ctx.drawImage(imagenes[i], Math.round(t.x - cameraX), 0, t.w || ANCHO_LOGICO, ALTO_LOGICO);
-  });
+  // Sin arreglos nuevos por cuadro: primero comprueba que los tramos a la vista estén listos.
+  const fin = cameraX + ANCHO_LOGICO;
+  let listos = true;
+  for (const t of tramos) {
+    // El tramo siguiente se pide ya para que no aparezca el respaldo al avanzar.
+    if (t.x >= fin && t.x < fin + ANCHO_LOGICO) catalogoArte.obtener(t.ruta);
+    else if (t.x < fin && t.x + (t.w || ANCHO_LOGICO) > cameraX && !catalogoArte.obtener(t.ruta)) listos = false;
+  }
+  if (!listos) return false;
+  for (const t of tramos) {
+    if (t.x < fin && t.x + (t.w || ANCHO_LOGICO) > cameraX) {
+      ctx.drawImage(catalogoArte.obtener(t.ruta), Math.round(t.x - cameraX), 0, t.w || ANCHO_LOGICO, ALTO_LOGICO);
+    }
+  }
   return true;
 }
 
@@ -1064,6 +1083,8 @@ export function renderizarEscena({
 
   // Escena pintada por tramos: si están cargados los tramos a la vista, son todo el escenario.
   const escenaPintada = dibujarTramosPintados(ctx, catalogoArte, escena, cameraX);
+  // Si la escena tiene tramos, el respaldo es el dibujo vectorial: no se descargan capas de paralaje que no usará.
+  const catalogoParalaje = escena.arte?.tramos?.length ? null : catalogoArte;
 
   if (escenaPintada) {
     // El arte completo ya incluye cielo, edificios y todo lo que se pisa.
@@ -1074,13 +1095,13 @@ export function renderizarEscena({
   } else if (escena.id === 'cima') {
     dibujarParalajeCima(ctx, cameraX, tiempo);
   } else if (escena.id === 'reja') {
-    dibujarParalajeReja(ctx, cameraX, tiempo, anchoEscena, catalogoArte);
+    dibujarParalajeReja(ctx, cameraX, tiempo, anchoEscena, catalogoParalaje);
   } else if (escena.id === 'desierto' || fondoCfg.estilo === 'desierto') {
-    dibujarParalajeDesierto(ctx, cameraX, tiempo, anchoEscena, catalogoArte);
+    dibujarParalajeDesierto(ctx, cameraX, tiempo, anchoEscena, catalogoParalaje);
   } else if (escena.id === 'ciudad' || fondoCfg.estilo === 'ciudad') {
-    dibujarParalajeCiudad(ctx, cameraX, tiempo, anchoEscena, catalogoArte);
+    dibujarParalajeCiudad(ctx, cameraX, tiempo, anchoEscena, catalogoParalaje);
   } else if (escena.id === 'taqueria') {
-    dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoEscena, catalogoArte);
+    dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoEscena, catalogoParalaje);
   } else if (imagenFondo) {
     ctx.drawImage(imagenFondo, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
   } else {
@@ -1122,6 +1143,8 @@ export function renderizarEscena({
   if (Array.isArray(escena.objetos)) {
     for (const objeto of escena.objetos) {
       if (!objeto || objeto.recogido) continue;
+      // Con imagen pintada (también la llave), se usa; si no, el respaldo dibujado.
+      if (dibujarObjeto(ctx, catalogoArte, objeto, tiempo)) continue;
       if (objeto.tipo === 'llave') {
         ctx.save();
         ctx.strokeStyle = '#ffe169';

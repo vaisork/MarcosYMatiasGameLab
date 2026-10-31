@@ -22,52 +22,31 @@ export const escenaTaqueria = {
     colorSuelo: '#543d2b',
     colorPlataforma: '#8c593a',
   },
-  // Coordenadas del lienzo lógico 1280x720, medidas sobre taqueria_ciudad.webp.
-  // Las plataformas son semisólidas (solo se pisa la cara superior) y se dibujan casi invisibles.
+  arte: {
+    tramos: [0, 1, 2].map((i) => ({ ruta: `assets/escenas/taqueria/0${i + 1}.webp`, x: i * 1280, w: 1280 })),
+  },
+  // Colisiones alineadas con el camión, cajas, barra y toldos pintados.
   plataformas: [
-    // Banqueta del dibujo: ~83 % de la altura
     { id: 'suelo-banqueta', x: 0, y: 600, w: 3840, h: 120, tipo: 'suelo' },
-    // Parachoques trasero de la camioneta
-    { id: 'parachoques', x: 220, y: 520, w: 110, h: 14, tipo: 'plataforma' },
-    // Caja de madera junto a la camioneta
-    { id: 'caja-madera', x: 345, y: 540, w: 85, h: 14, tipo: 'plataforma' },
-    // Caja verde con caja de madera apilada
-    { id: 'caja-verde', x: 445, y: 520, w: 90, h: 14, tipo: 'plataforma' },
-    // Cajas dentro de la cajuela abierta (altura adaptada a Senku h=90 sin atascos)
-    { id: 'baul-cajas', x: 235, y: 430, w: 90, h: 14, tipo: 'plataforma' },
-    // Techo / portaequipajes y compuerta
-    { id: 'portaequipajes', x: 130, y: 340, w: 220, h: 14, tipo: 'plataforma' },
-    // Lona naranja sobre patio, tramo bajo
-    { id: 'lona-baja', x: 365, y: 300, w: 140, h: 14, tipo: 'plataforma' },
-    // Lona naranja sobre patio, tramo alto
-    { id: 'lona-alta', x: 500, y: 260, w: 145, h: 14, tipo: 'plataforma' },
-    // Maceta con flores
-    { id: 'maceta-flores', x: 545, y: 515, w: 60, h: 14, tipo: 'plataforma' },
-    // Maceta grande junto al poste
-    { id: 'maceta-grande', x: 630, y: 520, w: 60, h: 14, tipo: 'plataforma' },
-    // Mesa izquierda con sillas rojas
-    { id: 'mesa-izquierda', x: 715, y: 509, w: 95, h: 14, tipo: 'plataforma' },
-    // Barra de la taquería (alcanzable con salto directo desde la banqueta a 115 px de subida)
-    { id: 'barra-tacos', x: 825, y: 485, w: 180, h: 14, tipo: 'plataforma' },
-    // Mesa derecha con sillas rojas
-    { id: 'mesa-derecha', x: 1020, y: 509, w: 110, h: 14, tipo: 'plataforma' },
-    // Bote de basura
-    { id: 'bote-basura', x: 1195, y: 485, w: 65, h: 14, tipo: 'plataforma' },
-    // Toldo rayado de la taquería
-    { id: 'toldo-taqueria', x: 685, y: 296, w: 460, h: 14, tipo: 'plataforma' },
-    // Cornisa izquierda del techo
-    { id: 'parapeto-izquierdo', x: 635, y: 245, w: 115, h: 14, tipo: 'plataforma' },
-    // Cornisa derecha del techo
-    { id: 'parapeto-derecho', x: 1165, y: 245, w: 110, h: 14, tipo: 'plataforma' },
+    { id: 'caja-madera', x: 680, y: 530, w: 150, h: 14, tipo: 'plataforma' },
+    { id: 'baul-cajas', x: 95, y: 470, w: 220, h: 14, tipo: 'plataforma' },
+    { id: 'portaequipajes', x: 145, y: 380, w: 185, h: 14, tipo: 'plataforma' },
+    { id: 'barra-tacos', x: 775, y: 485, w: 430, h: 14, tipo: 'plataforma' },
+    { id: 'estante-taqueria', x: 820, y: 395, w: 280, h: 14, tipo: 'plataforma' },
+    { id: 'toldo-taqueria', x: 760, y: 300, w: 445, h: 14, tipo: 'plataforma' },
     ...Array.from({ length: 2 }, (_, pantalla) => {
       const offset = (pantalla + 1) * 1280;
       return [
-        { id: `taqueria-cajas-${pantalla}`, x: offset + 140, y: 520, w: 180, h: 18, tipo: 'plataforma' },
-        { id: `taqueria-toldo-${pantalla}`, x: offset + 420, y: 440, w: 260, h: 18, tipo: 'plataforma' },
-        { id: `taqueria-mesa-${pantalla}`, x: offset + 760, y: 510, w: 190, h: 18, tipo: 'plataforma' },
-        { id: `taqueria-techo-${pantalla}`, x: offset + 1010, y: 400, w: 210, h: 18, tipo: 'plataforma' },
+        { id: `taqueria-cajas-${pantalla}`, x: offset + (pantalla ? 930 : 600), y: 540, w: 150, h: 14, tipo: 'plataforma' },
+        { id: `taqueria-toldo-${pantalla}`, x: offset + (pantalla ? 760 : 690), y: pantalla ? 400 : 435, w: pantalla ? 240 : 300, h: 14, tipo: 'plataforma' },
+        { id: `taqueria-mesa-${pantalla}`, x: offset + (pantalla ? 760 : 820), y: 500, w: 200, h: 14, tipo: 'plataforma' },
+        { id: `taqueria-techo-${pantalla}`, x: offset + (pantalla ? 740 : 725), y: pantalla ? 320 : 340, w: 260, h: 14, tipo: 'plataforma' },
       ];
     }).flat(),
+    { id: 'escalon-barrio-1', x: 1390, y: 560, w: 70, h: 14, tipo: 'plataforma' },
+    { id: 'escalon-barrio-2', x: 1440, y: 520, w: 65, h: 14, tipo: 'plataforma' },
+    { id: 'escalon-barrio-3', x: 1490, y: 480, w: 65, h: 14, tipo: 'plataforma' },
+    { id: 'escalon-mercado', x: 2685, y: 560, w: 70, h: 14, tipo: 'plataforma' },
   ],
   disparadores: [
     { id: 'camioneta', x: 90, y: 430, w: 255, h: 170,
@@ -75,24 +54,24 @@ export const escenaTaqueria = {
   ],
   // El último ratón/hámster derrotado suelta esta llave cerca de donde cae.
   recompensaFinal: { id: 'llave-camioneta', tipo: 'llave', x: 3480, y: 566, w: 34, h: 28 },
-  // Recogibles sobre rutas de salto: churus (base 22x58) y un botiquín. Valores de recompensa pendientes en null.
+  // Churus sobre equipaje, cajas, barra y toldos pintados.
   objetos: [
-    { id: 'churu-1', tipo: 'churu', x: 375, y: 490, w: 22, h: 58, recogido: false }, // sobre caja-madera
-    { id: 'churu-2', tipo: 'churu', x: 475, y: 470, w: 22, h: 58, recogido: false }, // sobre caja-verde
-    { id: 'churu-3', tipo: 'churu', x: 265, y: 372, w: 22, h: 58, recogido: false }, // sobre baul-cajas
-    { id: 'churu-4', tipo: 'churu', x: 200, y: 282, w: 22, h: 58, recogido: false }, // sobre portaequipajes
-    { id: 'churu-5', tipo: 'churu', x: 550, y: 202, w: 22, h: 58, recogido: false }, // sobre lona-alta
-    { id: 'churu-6', tipo: 'churu', x: 930, y: 427, w: 22, h: 58, recogido: false }, // sobre barra-tacos
-    { id: 'churu-7', tipo: 'churu', x: 850, y: 246, w: 22, h: 58, recogido: false }, // sobre toldo-taqueria
-    { id: 'churu-8', tipo: 'churu', x: 1210, y: 195, w: 22, h: 58, recogido: false }, // sobre parapeto-derecho
+    { id: 'churu-1', tipo: 'churu', x: 200, y: 412, w: 22, h: 58, recogido: false },
+    { id: 'churu-2', tipo: 'churu', x: 710, y: 472, w: 22, h: 58, recogido: false },
+    { id: 'churu-3', tipo: 'churu', x: 780, y: 472, w: 22, h: 58, recogido: false },
+    { id: 'churu-4', tipo: 'churu', x: 920, y: 427, w: 22, h: 58, recogido: false },
+    { id: 'churu-5', tipo: 'churu', x: 980, y: 337, w: 22, h: 58, recogido: false },
+    { id: 'churu-6', tipo: 'churu', x: 1910, y: 482, w: 22, h: 58, recogido: false },
+    { id: 'churu-7', tipo: 'churu', x: 2200, y: 377, w: 22, h: 58, recogido: false },
+    { id: 'churu-8', tipo: 'churu', x: 3480, y: 262, w: 22, h: 58, recogido: false },
     { id: 'botiquin-1', tipo: 'botiquin', x: 1060, y: 475, w: 36, h: 36, recogido: false }, // sobre mesa-derecha
     ...Array.from({ length: 2 }, (_, pantalla) => {
       const offset = (pantalla + 1) * 1280;
       return [
-        { id: `taqueria-churu-${pantalla}-1`, tipo: 'churu', x: offset + 205, y: 462, w: 30, h: 66 },
-        { id: `taqueria-churu-${pantalla}-2`, tipo: 'churu', x: offset + 520, y: 374, w: 30, h: 66 },
-        { id: `taqueria-churu-${pantalla}-3`, tipo: 'churu', x: offset + 825, y: 444, w: 30, h: 66 },
-        { id: `taqueria-churu-${pantalla}-secreto`, tipo: 'churu', x: offset + 1080, y: 334, w: 30, h: 66, secreto: true },
+        { id: `taqueria-churu-${pantalla}-1`, tipo: 'churu', x: offset + (pantalla ? 980 : 650), y: 474, w: 30, h: 66 },
+        { id: `taqueria-churu-${pantalla}-2`, tipo: 'churu', x: offset + 830, y: 434, w: 30, h: 66 },
+        { id: `taqueria-churu-${pantalla}-3`, tipo: 'churu', x: offset + 850, y: pantalla ? 334 : 377, w: 30, h: 66 },
+        { id: `taqueria-churu-${pantalla}-secreto`, tipo: 'churu', x: offset + 825, y: pantalla ? 254 : 274, w: 30, h: 66, secreto: true },
       ];
     }).flat(),
   ],

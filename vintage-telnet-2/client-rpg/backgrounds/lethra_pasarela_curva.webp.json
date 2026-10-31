@@ -1,0 +1,23 @@
+{
+  "prompt": "Detailed modern 16-bit pixel-art RPG background, top-down three-quarter view. Lethra wetland: a curved raised timber walkway over dark turquoise water, widening into a broad uninterrupted transverse bridge across all middle rows and connected to the north-south route. Olive reeds, leaves, warm weathered wood, upper-left daylight. Keep north and south center exits open. Water and roots only in blocked outer cells; do not show water on cells open in the collision layer. No people, creatures, text, UI, grid or watermark.",
+  "source": "image_gen nativo",
+  "normalization": "Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP quality 42 (method 6); no painted edits.",
+  "created_at": "2026-10-30",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "bytes": 153254,
+  "quality": 42,
+  "sha256": "21aacd59cea856afcc1efc911410b1465c9fd9d09a63c8f7e17c52e51cd9d0a8",
+  "asset_id": "backgrounds/lethra_pasarela_curva.webp",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-c9bc4787-2add-41de-a0e5-b8be846d21ae.png",
+  "source_sha256": "72868beecdeffec7873f2c1b8fbd583d085f9bd8823af4a45b6e8639f448a126",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art scene, no actors; visually checked against the scene/Tiled solid mask, spawns and real exits.",
+  "webp_quality": 42,
+  "reference_images": [
+    "client/art/places/lethra_pasarela_curva-anime-v1.webp",
+    "client-rpg/backgrounds/lethra_banco_barro.webp"
+  ]
+}

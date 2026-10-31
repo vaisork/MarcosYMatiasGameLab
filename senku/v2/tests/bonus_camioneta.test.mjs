@@ -17,14 +17,14 @@ test('cuenta 3 segundos y corre 45 segundos exactos antes del resumen', () => {
   assert.equal(avanzarReloj(partida, 3).fase, 'fin');
 });
 
-test('premio suma la cuenta exacta y persiste saldo y destino del desierto', () => {
+test('premio suma la cuenta exacta y persiste saldo y destino (la reja del parque)', () => {
   const almacen = memoria();
   guardar(almacen, { ...estadoNuevo(), churus: 41 });
   const partida = { ...crearPartida(), fase: 'fin', churus: 17 };
   const premio = finalizarPartida(almacen, partida);
   assert.equal(premio.guardado, true);
   assert.equal(cargar(almacen).estado.churus, 58);
-  assert.equal(cargar(almacen).estado.progreso.escena, 'desierto');
+  assert.equal(cargar(almacen).estado.progreso.escena, 'reja');
 });
 
 test('premio se limita a 30 y no se duplica al recargar la pantalla final', () => {
@@ -62,10 +62,11 @@ test('recorrido completo llega al resumen, muestra Churus y permite seguir', () 
   for (ahora = 0; ahora <= 49_000 && frame; ahora += 50) { const siguiente = frame; frame = null; siguiente(ahora); }
 
   const velo = nodos.get('#velo');
-  const [cuenta, titulo, premio, continuar] = velo.children;
+  const [cuenta, consejo, titulo, premio, continuar] = velo.children;
   assert.equal(velo.replacementCount, 1);
   assert.equal(nodos.get('#reloj').textContent, '0');
   assert.equal(cuenta.hidden, true);
+  assert.match(consejo.textContent, /juntar churus/i);
   assert.equal(titulo.hidden, false);
   assert.match(premio.textContent, /^Ganaste [1-9]\d* Churus$/);
   assert.equal(continuar.hidden, false);

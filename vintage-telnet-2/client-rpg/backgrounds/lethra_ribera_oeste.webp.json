@@ -1,0 +1,14 @@
+{
+  "asset_id": "backgrounds/lethra_ribera_oeste.webp",
+  "prompt": "Use case: stylized-concept. Asset type: navigable Vaisgard RPG room background, 1280×960 WebP. Reference 1 is canon for Lethra's covered western bank; reference 2 sets project pixel scale. Paint a long dry timber landing under a simple woven canopy, adjoining a shallow canal and reed-bank. This is a horizontal passage: keep a continuous clear route across the middle from the west edge to the east edge; north and south edges are closed by banks, retaining posts and canopy supports. Put mooring baskets, low benches, posts and foliage only beyond the route. No bridge or exit at north/south. Top-down three-quarter 20×15 tile composition, detailed crisp 16-bit pixel art, warm wood, deep teal water, olive reeds, soft upper-left light. Full bleed, no humans, NPCs, creatures, text, UI, border or watermark.",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-6f2e9d9a-8bb1-41f9-954d-b05d7e6444aa.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 52,
+  "bytes": 247508,
+  "sha256": "b9bc5c199904f07517a9227ee352cae82ad48e25768d40ba58df2c54569d0bd8",
+  "normalization": "center crop to 4:3; Lanczos to 640x480; nearest-neighbor upscale to 1280x960; WebP"
+}

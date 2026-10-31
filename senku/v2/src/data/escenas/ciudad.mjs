@@ -12,7 +12,7 @@ export const escenaCiudad = {
   },
   puntoEntrada: {
     x: 90,
-    y: 558,
+    y: 510, // pies sobre la calle (y=600); gato de 90 px
   },
   fondo: {
     estilo: 'ciudad',
@@ -21,13 +21,17 @@ export const escenaCiudad = {
     colorPlataforma: '#8f6142',
     plataformasVisibles: true,
   },
+  arte: {
+    tramos: [{ ruta: 'assets/escenas/ciudad/01.webp', x: 0, w: 1280 }],
+  },
   plataformas: [
     { id: 'suelo-calle', x: 0, y: 600, w: 1280, h: 120, tipo: 'suelo' },
-    { id: 'huacal-calle-1', x: 250, y: 520, w: 110, h: 18, tipo: 'plataforma' },
-    { id: 'puesto-periodicos', x: 430, y: 450, w: 140, h: 18, tipo: 'plataforma' },
-    { id: 'banca-parada', x: 650, y: 515, w: 120, h: 18, tipo: 'plataforma' },
-    { id: 'toldo-parada', x: 780, y: 430, w: 160, h: 18, tipo: 'plataforma' },
-    { id: 'escalon-camion', x: 980, y: 510, w: 120, h: 18, tipo: 'plataforma' },
+    { id: 'huacal-calle-1', x: 785, y: 540, w: 135, h: 14, tipo: 'plataforma' },
+    { id: 'puesto-periodicos', x: 330, y: 400, w: 285, h: 14, tipo: 'plataforma' },
+    { id: 'repisa-puesto', x: 350, y: 475, w: 230, h: 14, tipo: 'plataforma' },
+    { id: 'banca-parada', x: 575, y: 530, w: 180, h: 14, tipo: 'plataforma' },
+    { id: 'toldo-parada', x: 585, y: 435, w: 260, h: 14, tipo: 'plataforma' },
+    { id: 'escalon-camion', x: 950, y: 540, w: 230, h: 14, tipo: 'plataforma' },
   ],
   disparadores: [
     {
@@ -44,10 +48,10 @@ export const escenaCiudad = {
     },
   ],
   objetos: [
-    { id: 'ciudad-churu-1', tipo: 'churu', x: 295, y: 462, w: 22, h: 58, recogido: false },
-    { id: 'ciudad-churu-2', tipo: 'churu', x: 490, y: 392, w: 22, h: 58, recogido: false },
-    { id: 'ciudad-churu-3', tipo: 'churu', x: 700, y: 457, w: 22, h: 58, recogido: false },
-    { id: 'ciudad-churu-4', tipo: 'churu', x: 850, y: 372, w: 22, h: 58, recogido: false },
+    { id: 'ciudad-churu-1', tipo: 'churu', x: 680, y: 472, w: 22, h: 58, recogido: false },
+    { id: 'ciudad-churu-2', tipo: 'churu', x: 450, y: 342, w: 22, h: 58, recogido: false },
+    { id: 'ciudad-churu-3', tipo: 'churu', x: 830, y: 482, w: 22, h: 58, recogido: false },
+    { id: 'ciudad-churu-4', tipo: 'churu', x: 700, y: 377, w: 22, h: 58, recogido: false },
   ],
   enemigos: [],
 };

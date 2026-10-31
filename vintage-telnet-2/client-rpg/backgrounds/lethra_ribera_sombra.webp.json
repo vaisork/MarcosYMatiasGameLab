@@ -1,0 +1,14 @@
+{
+  "asset_id": "backgrounds/lethra_ribera_sombra.webp",
+  "prompt": "Use case: stylized-concept. Asset type: navigable Vaisgard RPG background, final 1280×960 WebP. Reference 1 is canonical art for Ribera sombreada; reference 2 sets existing pixel-art scale. Depict a narrow north-south footpath on a shaded raised riverbank beneath broad tree canopies. Keep the central walking lane continuously clear from the middle opening at the north edge to the middle opening at the south edge. Deeply shaded teal water and reeds line the outer sides; roots and trunks occupy solid side pockets only, never the marked central lane. 20×15-tile view, top-down three-quarter perspective, detailed late-16-bit pixel clusters, humid olive green, subdued teal and warm earth, dappled upper-left light. Full bleed; no added side exits, people, NPCs, creatures, lettering, UI, border or watermark.",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-4810ed3b-d750-4812-8656-693d443acf41.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 48,
+  "bytes": 247692,
+  "sha256": "68181fc7a76aa3c2c7de71e25c445dafd350932fdad86f185d993678bb83bcf6",
+  "normalization": "center crop to 4:3; Lanczos to 640x480; nearest-neighbor upscale to 1280x960; WebP"
+}

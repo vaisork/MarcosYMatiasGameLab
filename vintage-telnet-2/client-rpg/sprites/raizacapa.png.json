@@ -1,0 +1,19 @@
+{
+  "prompt": "Raízacapa, reptil bajo de Lethra con caparazón rugoso verde oscuro cubierto de musgo, vetas naturales como corteza, cuatro patas cortas firmes, cabeza reptiliana emergente y ojo ámbar. Vista tres cuartos frontal, pixel art 16-bit, silueta completa, transparente, sin suelo ni sombra. Diseño conforme a content/world.json y client/art/bestiary/raizacapa-anime-v1.webp.",
+  "source": "image_gen nativo; recorte transparente y normalización mecánicos",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 4123,
+  "sha256": "1c0e4f4fd603bf1743f3c63e92a217d10b5a1c6b778fcdb04cefb6e6592a113f",
+  "asset_id": "raizacapa",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-a377886a-e996-4524-9959-836127e84adc.png",
+  "source_sha256": "7fbd042b47264eedceddb79eba6bb09aa832692447316fd49136394a6c009d81",
+  "normalization": "Alpha-bounds crop and centered fit with transparent padding; battle sprite 192x192, map sprite downsampled to 48x48 with Lanczos; alpha preserved.",
+  "review": "SELF_REVIEW_PASS: canonical moss-covered reptile silhouette; transparent background, complete feet and shell visible.",
+  "reference_images": [
+    "client/art/bestiary/raizacapa-anime-v1.webp"
+  ]
+}

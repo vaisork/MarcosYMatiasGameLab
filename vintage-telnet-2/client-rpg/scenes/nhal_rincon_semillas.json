@@ -1,0 +1,90 @@
+{
+  "room": "nhal_rincon_semillas",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggppppppppppggggg",
+      "gggggppppppppppggggg",
+      "gggggppppppppppggggg",
+      "gggggppppppppppggggg",
+      "gggggppppppppppggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "111111111..111111111"
+    ]
+  },
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ]
+  },
+  "exits": [
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    }
+  ],
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "rondamusgo",
+      "at": [
+        8,
+        5
+      ]
+    },
+    {
+      "id": "roecorteza",
+      "at": [
+        9,
+        5
+      ]
+    },
+    {
+      "id": "escarbaraiz",
+      "at": [
+        10,
+        5
+      ]
+    }
+  ]
+}

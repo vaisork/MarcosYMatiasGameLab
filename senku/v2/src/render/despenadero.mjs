@@ -2,6 +2,7 @@
 // Se llama con el contexto ya trasladado por la cámara.
 
 import { origenGancho } from '../core/anclador.mjs';
+import { catalogoArteEnUso, dibujarObjeto } from './sprites.mjs';
 
 function rocaVertical(ctx, p) {
   const g = ctx.createLinearGradient(p.x, 0, p.x + p.w, 0);
@@ -45,6 +46,12 @@ function icono(ctx, o, tiempo) {
   ctx.beginPath();
   ctx.arc(cx, cy, 30, 0, Math.PI * 2);
   ctx.fill();
+  if (dibujarObjeto(ctx, catalogoArteEnUso(), {
+    tipo: o.tipo, x: cx - 30, y: cy - 30, w: 60, h: 60,
+  }, tiempo)) {
+    ctx.restore();
+    return;
+  }
   ctx.strokeStyle = '#2b1a10';
   ctx.lineWidth = 4;
   ctx.lineCap = 'round';

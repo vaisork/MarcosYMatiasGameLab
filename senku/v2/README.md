@@ -30,4 +30,8 @@ Saltar siempre está disponible; Subir aparece junto a él al acercarse a la cam
 
 `estadoJugador.habilidades.disparar` y `.lanzagranadas` controlan los botones de armas: sólo el booleano `true` los muestra. Se guardan dentro de `senku2_save` versión 1; guardados anteriores reciben ambos flags en `false`. Todavía no hay mecánica de armas ni forma de desbloquearlas jugando. El consumidor que implemente esos desbloqueos debe activar el flag y guardar el estado; el HUD refleja cambios durante el siguiente paso del juego.
 
-Caché PWA: `senku2-v5`. Evidencia visual previa en `../../senku2/hud/`: móvil 844×390 (con y sin habilidades) y escritorio 1366×768. Safe-area se aplica a los cuatro bordes; la simulación de viewport no sustituye una prueba en teléfono físico.
+Caché PWA: `senku2-v6`. Evidencia visual previa en `../../senku2/hud/`: móvil 844×390 (con y sin habilidades) y escritorio 1366×768. Safe-area se aplica a los cuatro bordes; la simulación de viewport no sustituye una prueba en teléfono físico.
+
+## Auditoría de recorrido (2026-10-30)
+
+`tests/recorrido_completo.test.mjs` explora cada escena con la física real (caminar, saltos, anclador y garras) y exige churus y secretos alcanzables, salida alcanzable desde cualquier punto y jefe vencible. Decisiones técnicas: el guardado reanuda en la escena guardada (el bonus de la camioneta guarda `reja`; un guardado en `desierto` continúa allí); sólo la cinemática de la familia se salta con Espacio/Enter/Escape/toque; «Jugar el capítulo otra vez» revive enemigos, llave, anclador, lanzador y jefe, y conserva churus, trajes y garras.
