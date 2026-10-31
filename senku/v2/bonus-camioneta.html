@@ -18,9 +18,6 @@
     .score span { display: inline-block; color: #ffe26c; font-size: 1.18em; text-shadow: 0 3px #8f4e2d; }
     #reloj.urgente { color: #ff9c72; animation: pulso .55s ease-in-out infinite alternate; }
     @keyframes pulso { to { transform: scale(1.12); } }
-    .fuel { position: absolute; z-index: 2; top: max(92px, calc(env(safe-area-inset-top) + 82px)); left: 50%; transform: translateX(-50%); width: min(190px, 34vw); height: 13px; border: 2px solid #5a382f; border-radius: 9px; overflow: hidden; background: #4b3830; }
-    .fuel > i { display:block; height:100%; width:0; background:linear-gradient(90deg,#bde16c,#58af56); transition:width .15s; }
-    .fuel-label { position:absolute; z-index:2; top:max(108px,calc(env(safe-area-inset-top) + 98px)); left:50%; transform:translateX(-50%); padding:2px 8px; border:1px solid #5a382f; border-radius:0 0 8px 8px; background:#f5d28e; font-size:10px; font-weight:900; color:#382923; }
     .controls { position:absolute; z-index:3; left:max(12px,env(safe-area-inset-left)); right:max(12px,env(safe-area-inset-right)); bottom:max(16px,env(safe-area-inset-bottom)); display:flex; justify-content:space-between; align-items:flex-end; pointer-events:none; }
     .steering { display:flex; gap:10px; }
     button { font:inherit; color:#fff4db; font-weight:900; cursor:pointer; }
@@ -35,7 +32,7 @@
     #velo > strong:not(:first-child) { font-size:clamp(32px,8vw,72px); }
     #velo button { pointer-events:auto; padding:14px 24px; border:3px solid #ffdfa0; border-radius:18px; background:#633323; box-shadow:0 5px #653b2c; font-size:clamp(17px,4vw,24px); }
     .help { position:absolute; z-index:2; bottom:max(120px,calc(env(safe-area-inset-bottom) + 120px)); left:50%; transform:translateX(-50%); width:max-content; max-width:90vw; padding:7px 12px; border-radius:12px; background:#362824b8; text-align:center; font-size:clamp(11px,2.5vw,14px); font-weight:750; }
-    @media (min-width:700px) { .help { bottom:24px; } .controls { display:none; } .fuel { top:90px; } .fuel-label { top:106px; } }
+    @media (min-width:700px) { .help { bottom:24px; } .controls { display:none; } }
   </style>
 </head>
 <body>
@@ -45,12 +42,11 @@
     <div class="card score"><div class="label">Churus</div><span id="marcador">00</span><small style="font-size:.55em"> / 30</small></div>
     <div class="card clock"><div class="label">Tiempo</div><span id="reloj">45</span><small style="font-size:.48em"> s</small></div>
   </header>
-  <div class="fuel"><i id="combustible"></i></div><div class="fuel-label">BIDONES DE COMBUSTIBLE</div>
   <button id="sonido" type="button">Sonido</button>
-  <div class="help">A / D o ← / → para volante · Espacio / W / ↑ para saltar</div>
+  <div class="help">A / D o ← / → para caminar sobre la camioneta · Espacio / W / ↑ para saltar</div>
   <nav class="controls" aria-label="Controles táctiles">
-    <div class="steering"><button class="pad" data-control="izquierda" aria-label="Girar a la izquierda">◀</button><button class="pad" data-control="derecha" aria-label="Girar a la derecha">▶</button></div>
-    <button class="pad jump" data-control="salto" aria-label="Saltar baches y obstáculos">¡SALTA!</button>
+    <div class="steering"><button class="pad" data-control="izquierda" aria-label="Caminar a la izquierda">◀</button><button class="pad" data-control="derecha" aria-label="Caminar a la derecha">▶</button></div>
+    <button class="pad jump" data-control="salto" aria-label="Saltar por churus y esquivar zanates">¡SALTA!</button>
   </nav>
   <div id="velo">3</div>
   <script type="module">

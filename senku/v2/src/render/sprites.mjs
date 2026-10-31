@@ -72,7 +72,7 @@ export const ANIMACIONES_JUGADOR = Object.freeze({
   quieto: { frames: [0, 1, 2, 3], fps: 4 },
   idle: { frames: [0, 1, 2, 3], fps: 4 },
   // Caminar / Correr
-  caminar: { frames: [0, 1, 2, 3], fps: 10 }, // compatibilidad con ciclo previo de 4 cuadros
+  caminar: { frames: [8, 9, 10, 11, 12, 13, 14, 15], fps: 11 }, // fila 1: ciclo de patas (antes usaba reposo y se arrastraba)
   correr: { frames: [8, 9, 10, 11, 12, 13, 14, 15], fps: 12 }, // 8 cuadros de carrera
   run: { frames: [8, 9, 10, 11, 12, 13, 14, 15], fps: 12 },
   // Salto / Caída / Aterrizaje

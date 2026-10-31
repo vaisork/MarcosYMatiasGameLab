@@ -14,12 +14,18 @@ test('dibuja sólo los tramos a la vista, desplazados por la cámara', () => {
   assert.deepEqual(ctx.dibujos.map((d) => [d[0], d[1]]), [['t0.webp', -1000], ['t1.webp', 280]]);
 });
 
-test('si falta un tramo visible usa el respaldo y precarga el siguiente', () => {
-  const ctx = ctxFalso();
+test('tramo visible aún cargando: fundido oscuro, nunca el respaldo, y precarga el siguiente', () => {
+  const ctx = { ...ctxFalso(), rellenos: [], fillRect(x) { this.rellenos.push(x); } };
   const cat = catalogo(['t0.webp']);
-  assert.equal(dibujarTramosPintados(ctx, cat, escena, 1000), false);
-  assert.equal(ctx.dibujos.length, 0);
+  assert.equal(dibujarTramosPintados(ctx, cat, escena, 1000), true);
+  assert.deepEqual(ctx.dibujos.map((d) => d[0]), ['t0.webp']);
+  assert.deepEqual(ctx.rellenos, [280]);
   assert.ok(cat.pedidas.includes('t2.webp'));
+});
+
+test('tramo visible que falló: usa el respaldo', () => {
+  const cat = { ...catalogo(['t0.webp']), cache: new Map([['t1.webp', { error: true }]]) };
+  assert.equal(dibujarTramosPintados(ctxFalso(), cat, escena, 1000), false);
 });
 
 test('validarEscena conserva el arte por tramos', () => {

@@ -1032,22 +1032,24 @@ function dibujarCamionParada(ctx) {
 
 // Dibuja la escena y entidades sobre el contexto 2D lógico
 // Tramos pintados: ilustraciones de 1280×720 colocadas una tras otra a lo ancho de la escena.
-// Devuelve true sólo si todos los tramos a la vista ya cargaron (si no, se usa el dibujo de respaldo).
+// Dibuja los tramos a la vista. Un tramo aún en descarga se cubre con un fundido oscuro
+// (nunca el dibujo vectorial de programación); sólo si un tramo falló devuelve false y se usa el respaldo.
 export function dibujarTramosPintados(ctx, catalogoArte, escena, cameraX = 0) {
   const tramos = escena?.arte?.tramos;
   if (!ctx || !catalogoArte || !Array.isArray(tramos) || tramos.length === 0) return false;
-  // Sin arreglos nuevos por cuadro: primero comprueba que los tramos a la vista estén listos.
   const fin = cameraX + ANCHO_LOGICO;
-  let listos = true;
   for (const t of tramos) {
-    // El tramo siguiente se pide ya para que no aparezca el respaldo al avanzar.
+    // El tramo siguiente se pide ya para que no aparezca el fundido al avanzar.
     if (t.x >= fin && t.x < fin + ANCHO_LOGICO) catalogoArte.obtener(t.ruta);
-    else if (t.x < fin && t.x + (t.w || ANCHO_LOGICO) > cameraX && !catalogoArte.obtener(t.ruta)) listos = false;
+    else if (t.x < fin && t.x + (t.w || ANCHO_LOGICO) > cameraX && !catalogoArte.obtener(t.ruta)
+      && catalogoArte.cache?.get(t.ruta)?.error) return false;
   }
-  if (!listos) return false;
   for (const t of tramos) {
     if (t.x < fin && t.x + (t.w || ANCHO_LOGICO) > cameraX) {
-      ctx.drawImage(catalogoArte.obtener(t.ruta), Math.round(t.x - cameraX), 0, t.w || ANCHO_LOGICO, ALTO_LOGICO);
+      const img = catalogoArte.obtener(t.ruta);
+      const x = Math.round(t.x - cameraX);
+      if (img) ctx.drawImage(img, x, 0, t.w || ANCHO_LOGICO, ALTO_LOGICO);
+      else { ctx.fillStyle = '#1c130d'; ctx.fillRect(x, 0, t.w || ANCHO_LOGICO, ALTO_LOGICO); }
     }
   }
   return true;
