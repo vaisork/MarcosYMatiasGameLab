@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_sendero_altura",
+  "prompt": "Detailed late-16-bit indie pixel art, three-quarter top-down Nhal forest path climbing north as trees spread apart. Thick roots form broad natural steps; safe resting shelf beside path; leaf-covered short drop separate from route; tiny warm Velmora lamps visible between trunks to south, brighter open forest north. Olive, bark, fern, amber palette, warm upper-left light. 1280x960, 20x15 tiles. Clear uninterrupted south-to-north route; centered broad exits south and north; solid wooded margins east and west; roots/drop outside central spine. No people, creatures, characters, text, UI, watermark. Crisp pixel art, no blur or 3D.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193f8-2944-71a2-ada9-257c632641a3/exec-fa4c76db-5f9a-4a3c-b8f3-f72071e8c21f.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Lanczos resize to 1280x960, WebP",
+  "quality": 48,
+  "bytes": 249318,
+  "sha256": "2c31997ea4ff13606aca2471ae52ec5afd38420d9f8f43aaa00c26ec9b6734c8"
+}

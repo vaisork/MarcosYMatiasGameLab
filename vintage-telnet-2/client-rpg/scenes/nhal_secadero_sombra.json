@@ -64,5 +64,6 @@
     }
   ],
   "npcs": [],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/nhal_secadero_sombra.webp"
 }

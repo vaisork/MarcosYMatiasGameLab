@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_umbral_velmora",
+  "prompt": "Detailed late-16-bit indie pixel art, three-quarter top-down transition from deep Nhal forest into Velmora. First small Vesperi homes between trees, each modest warm task lamp; thin cooking smoke rises through leaves; waiting table beside path; eastern view opens into broad village clearing. Olive shadow, bark, moss, earthy amber, warm upper-left light. 1280x960, 20x15 tiles. Broad clear west-east path with centered exits west/east; solid forest/tree-root north and south borders; homes and table beside the path. No people, creatures, characters, text, UI, watermark. Crisp pixel-art clusters.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193f8-2944-71a2-ada9-257c632641a3/exec-c63cbed0-be74-4a4d-9d21-15c939adff75.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Lanczos resize to 1280x960, WebP",
+  "quality": 58,
+  "bytes": 248596,
+  "sha256": "90aa9443e670918d789d551aac0960d200cd1d589b45eca1bff06d2ee0dda44e"
+}

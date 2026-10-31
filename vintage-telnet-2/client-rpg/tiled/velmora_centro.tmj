@@ -823,6 +823,11 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/velmora_centro.webp"
     }
   ],
   "tilesets": [

@@ -103,5 +103,6 @@
     }
   ],
   "npcs": [],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/velmora_centro.webp"
 }

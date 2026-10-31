@@ -85,5 +85,6 @@
       ]
     }
   ],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/nhal_taller_cortezas.webp"
 }

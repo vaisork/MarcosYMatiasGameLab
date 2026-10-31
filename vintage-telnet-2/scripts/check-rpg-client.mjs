@@ -142,7 +142,9 @@ const expectedNpcSprites={
  lethra_nima:'nima',
  lethra_sola:'sola',
  lethra_mira:'mira',
- lethra_ume:'ume'
+ lethra_ume:'ume',
+ nhal_desi:'desi',
+ nhal_elin:'elin'
 };
 for(const [id,sprite] of Object.entries(expectedNpcSprites)){
  vm.runInContext(`snapshot.room.npcs=[{id:'${id}'}];`,context);
@@ -161,7 +163,7 @@ for(const sprite of Object.values(expectedNpcSprites)){
 }
 vm.runInContext('snapshot.room.npcs=[]',context);
 assert.equal(vm.runInContext('entities().length',context),0,'Aren artwork alone must not reveal NPC');
-console.log('RPG NPCs: authoritative presence, dedicated map (Bren+4, Nela, Oren, Aren, Yesa, Nima, Sola, Mira, Ume), Lina fallback, preloading and 64×96 atlas OK');
+console.log('RPG NPCs: authoritative presence, dedicated map (Bren+4, Nela, Oren, Aren, Yesa, Nima, Sola, Mira, Ume, Desi, Elin), Lina fallback, preloading and 64×96 atlas OK');
 const lethraCreatures=['cienfango','cortacorriente','dorsalodo','pinzajunco','saltalodo','tragacharco','faucecieno','sombranutria'];
 for(const name of lethraCreatures){
  const map=fs.readFileSync(new URL(`../client-rpg/sprites/${name}.png`,import.meta.url));
