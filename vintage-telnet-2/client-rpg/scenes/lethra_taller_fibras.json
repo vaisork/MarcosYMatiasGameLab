@@ -98,5 +98,6 @@
       ]
     }
   ],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/lethra_taller_fibras.webp"
 }

@@ -156,6 +156,15 @@ export function crearMusica(ventana = typeof window !== 'undefined' ? window : n
     temporizador = null;
   }
 
+  // Pestaña oculta: congela el reloj de audio (las notas agendadas se reanudan donde iban).
+  function pausar() {
+    if (ctx && ctx.state === 'running') ctx.suspend?.().catch?.(() => {});
+  }
+
+  function reanudar() {
+    if (ctx && activa && actual && ctx.state === 'suspended') ctx.resume?.().catch?.(() => {});
+  }
+
   function alternar() {
     activa = !activa;
     try { ventana?.localStorage?.setItem('senku2_musica', activa ? '1' : '0'); } catch { /* sin almacenamiento */ }
@@ -166,5 +175,5 @@ export function crearMusica(ventana = typeof window !== 'undefined' ? window : n
     return activa;
   }
 
-  return { tocar, detener, alternar, get activa() { return activa; }, get actual() { return actual; } };
+  return { tocar, detener, alternar, pausar, reanudar, get activa() { return activa; }, get actual() { return actual; } };
 }

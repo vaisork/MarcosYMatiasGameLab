@@ -1,0 +1,14 @@
+{
+  "asset_id": "backgrounds/lethra_senda_elevada.webp",
+  "prompt": "Use case: stylized-concept. Asset type: navigable Vaisgard RPG background, 1280×960 WebP. Image 1 is canonical Lethra elevated path art; Image 2 is the visual-scale reference for the project pixel art. Depict Senda elevada, a dry wooden and woven-reed raised walkway running north-south between stilt homes and narrow canals. It must connect to the central two-tile openings on north and south edges; keep the route continuous and broad enough for a traveler. Water, house walls, stilts and dense foliage remain off the route; no east/west exit. Composition corresponds to 20×15 game tiles, top-down three-quarter view, detailed 16-bit pixel art, warm wood and muted teal water, olive leaves, upper-left soft light. Buildings only as edges/background, no floors or posts across the path. Full bleed, no people, actors, creatures, text, UI, border, watermark.",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-1dc4e753-5b0e-49db-a84b-558f43240d14.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 52,
+  "bytes": 249944,
+  "sha256": "a2f2e370c28524adf5694a9db4b9ba9015a1cadde9d0a806900047c49869d20b",
+  "normalization": "center crop to 4:3; Lanczos to 640x480; nearest-neighbor upscale to 1280x960; WebP"
+}

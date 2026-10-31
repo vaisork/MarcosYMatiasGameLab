@@ -1,0 +1,15 @@
+{
+  "asset_id": "mira",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-b202b4fd-45dd-46f0-8681-a58c1e29f512.png",
+  "source_sha256": "e084471a6019cc3b4b93b4358610d35a8d5e2302d2ebccfe96cd169fb3c983dd",
+  "dimensions": [
+    192,
+    384
+  ],
+  "bytes": 106258,
+  "sha256": "9c4415149aec1775a2b7f94dfbfab89f908d40981328c2eef00a1d45b588f1dd",
+  "normalization": "192x384 NPC sheet; alpha bounds trimmed and centered proportional fit when applicable; RGBA preserved",
+  "review": "SELF_REVIEW_PASS: canon-compatible subject, clear silhouette, transparency retained.",
+  "prompt": "Use case: stylized-concept. Asset type: transparent NPC walking sprite atlas for a pixel-art RPG, 192×384 PNG after normalization. References 1 and 2 are existing Marevyn NPC atlases; match their body proportions, teal-green skin, readable pixel clusters, scale, facing rows, and 3-frame walk rhythm while creating a distinct character. Create Mira, a Marevyn woman and skilled reed-fiber weaver. Dark teal hair tied back with a small woven reed ornament, attentive calm expression, practical cream blouse, muted sea-green woven vest, warm ochre apron skirt, sandals; subtle fiber bracelet, hands free. No weapons, bag, tools held, or extra objects. Atlas layout exactly 3 columns × 4 rows, each cell 64×96: row order facing down, left, right, up; three clean walk poses per row; entire character centered with common feet baseline near y=92 in each cell. Pixel-art edges, consistent size, no tile gaps needed between cells. Truly transparent background; no shadow, checkerboard, labels, text, border, watermark; no additional sprites."
+}

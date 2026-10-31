@@ -1,0 +1,76 @@
+{
+  "room": "nhal_sala_cuidados",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "ggccccccccccccccccgg",
+      "ggccccccccccccccccgg",
+      "ggccccccccccccccccgg",
+      "ggcccppppppppppcccgg",
+      "ggcccppppppppppppppp",
+      "ggcccppppppppppppppp",
+      "ggcccppppppppppcccgg",
+      "ggcccppppppppppcccgg",
+      "ggccccccccccccccccgg",
+      "ggccccccccccccccccgg",
+      "ggccccccccccccccccgg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "1...................",
+      "1...................",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "11111111111111111111"
+    ]
+  },
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "exits": [
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "npcs": [
+    {
+      "id": "nhal_sira",
+      "at": [
+        8,
+        5
+      ]
+    }
+  ],
+  "creatures": []
+}

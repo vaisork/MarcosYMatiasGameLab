@@ -1,0 +1,14 @@
+{
+  "asset_id": "backgrounds/lethra_tierra_esponjosa.webp",
+  "prompt": "Use case: stylized-concept. Asset type: navigable Vaisgard RPG room background, final 1280×960 WebP. References: Image 1 is canonical Lethra place art for muddy soil, stakes and vegetation; Image 2 sets the pixel cluster scale, 3/4 readability, humid olive and teal palette. Paint Tierra esponjosa (soft earth), matching the RPG art style. 20×15 tile-like composition: a continuous firm narrow central north-south track of compact ochre earth, marked by exactly two simple upright wooden stakes, with shallow muddy puddles, flattened wet leaves and reed clumps on both sides. Keep the path and the middle two-tile north and south edge openings clear and connected; dense foliage/water is visibly outside the firm path. Top-down three-quarter perspective, detailed late-16-bit indie pixel art with crisp readable clusters, gentle upper-left daylight. Full bleed; no horizon, people, players, NPCs, creatures, text, UI, frame, or watermark. Do not add signs, buildings, objects on the route, or exits in east/west edges.",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-8ed3741d-b6b9-49a3-96aa-a5498ca6922d.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 48,
+  "bytes": 247372,
+  "sha256": "345e606b528aa56bd3409ec43ce701789b6a1f5c2b524c4bcc4440fc144c4c52",
+  "normalization": "center crop to 4:3; Lanczos to 640x480; nearest-neighbor upscale to 1280x960; WebP"
+}

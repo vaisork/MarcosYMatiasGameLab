@@ -44,7 +44,7 @@ export function finalizarPartida(almacen, partida) {
   const cantidad = Math.min(TOPE_CHURUS, Math.max(0, Math.floor(partida.churus)));
   const premio = ganarChurus(estado, cantidad, ID_PREMIO);
   if (premio.error) return { guardado: false, estado };
-  const actualizado = { ...premio, progreso: { ...premio.progreso, escena: 'desierto' } };
+  const actualizado = { ...premio, progreso: { ...premio.progreso, escena: 'reja' } };
   return { guardado: guardar(almacen, actualizado), estado: actualizado };
 }
 

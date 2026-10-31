@@ -17,14 +17,14 @@ test('cuenta 3 segundos y corre 45 segundos exactos antes del resumen', () => {
   assert.equal(avanzarReloj(partida, 3).fase, 'fin');
 });
 
-test('premio suma la cuenta exacta y persiste saldo y destino del desierto', () => {
+test('premio suma la cuenta exacta y persiste saldo y destino (la reja del parque)', () => {
   const almacen = memoria();
   guardar(almacen, { ...estadoNuevo(), churus: 41 });
   const partida = { ...crearPartida(), fase: 'fin', churus: 17 };
   const premio = finalizarPartida(almacen, partida);
   assert.equal(premio.guardado, true);
   assert.equal(cargar(almacen).estado.churus, 58);
-  assert.equal(cargar(almacen).estado.progreso.escena, 'desierto');
+  assert.equal(cargar(almacen).estado.progreso.escena, 'reja');
 });
 
 test('premio se limita a 30 y no se duplica al recargar la pantalla final', () => {

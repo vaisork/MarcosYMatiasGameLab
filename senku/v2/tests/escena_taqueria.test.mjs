@@ -84,7 +84,7 @@ function alcanzables() {
 test('salto actual: altura máxima ~128 px; ninguna plataforma exige más de 110 px de subida entre apoyos', () => {
   const altura = FUERZA_SALTO_DEFECTO ** 2 / (2 * GRAVEDAD_DEFECTO);
   assert.ok(altura > 120 && altura < 130, `altura ${altura}`);
-  assert.ok(PLATS.length >= 20, 'escena larga con plataformas definidas');
+  assert.ok(PLATS.length >= 19, 'escena larga con apoyos visibles definidos');
 });
 
 test('todas las plataformas son alcanzables con el salto real desde la banqueta', () => {

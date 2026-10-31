@@ -72,5 +72,6 @@
       ]
     }
   ],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/lethra_sala_cuidados.webp"
 }

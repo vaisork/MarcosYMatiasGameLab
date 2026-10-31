@@ -1,0 +1,117 @@
+{
+  "room": "nhal_raices_altas",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gwwggggggggggggggwwg",
+      "gwwggggggggggggggwwg",
+      "gwwggggggggggggggwwg",
+      "gwwggppppppppppggwwg",
+      "pwwppppppppppppppwwp",
+      "pwwppppppppppppppwwp",
+      "gwwggppppppppppggwwg",
+      "gwwggppppppppppggwwg",
+      "gwwggggggggggggggwwg",
+      "gwwggggggggggggggwwg",
+      "gwwggggggggggggggwwg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "....................",
+      "....................",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "11111111111111111111"
+    ]
+  },
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "oeste": [
+      1,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "roecorteza",
+      "at": [
+        8,
+        5
+      ]
+    },
+    {
+      "id": "escarbaraiz",
+      "at": [
+        9,
+        5
+      ]
+    },
+    {
+      "id": "hilaria_niebla",
+      "at": [
+        10,
+        5
+      ]
+    },
+    {
+      "id": "rondamusgo",
+      "at": [
+        11,
+        5
+      ]
+    },
+    {
+      "id": "rasgacorteza",
+      "at": [
+        8,
+        6
+      ]
+    }
+  ]
+}
