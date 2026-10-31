@@ -328,7 +328,9 @@
       .grupo-accion { gap: 8px; }
     }
     @media (pointer: coarse) { .ayuda-teclado { display: none; } }
-  </style>
+      /* En pantallas táctiles la ayuda del teclado estorba a los botones. */
+    @media (pointer: coarse) { .ayuda-teclado { display: none; } }
+</style>
 </head>
 <body>
   <div id="app">
@@ -392,7 +394,7 @@
 
     <!-- Ayuda para teclado (escritorio) -->
     <div class="ayuda-teclado">
-      ◀ ▶ o A / D: Moverse · Espacio / ▲ / W: Saltar · E: Subir · M: Menú · T: Traje
+      ◀ ▶ o A / D: Moverse · Espacio / ▲ / W: Saltar · J: Zarpazo · K: Gancho · E: Subir · M: Menú · T: Traje
     </div>
 
     <!-- Controles Táctiles en Pantalla -->
