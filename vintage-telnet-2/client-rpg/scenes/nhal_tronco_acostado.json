@@ -1,0 +1,130 @@
+{
+  "room": "nhal_tronco_acostado",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "layers": {
+    "ground": [
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggggggppggggggggg",
+      "gggggppppppppppggggg",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "gggggppppppppppggggg",
+      "gggggppppppppppggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg",
+      "gggggggggggggggggggg"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "....................",
+      "....................",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..11..........11..1",
+      "1..................1",
+      "1..................1",
+      "11111111111111111111"
+    ]
+  },
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "oeste": [
+      1,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ]
+  },
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    }
+  ],
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "escarbaraiz",
+      "at": [
+        8,
+        5
+      ]
+    },
+    {
+      "id": "roecorteza",
+      "at": [
+        9,
+        5
+      ]
+    },
+    {
+      "id": "quebracascara",
+      "at": [
+        10,
+        5
+      ]
+    },
+    {
+      "id": "rondamusgo",
+      "at": [
+        11,
+        5
+      ]
+    },
+    {
+      "id": "rasgacorteza",
+      "at": [
+        8,
+        6
+      ]
+    }
+  ]
+}

@@ -864,3 +864,66 @@ class RpgSceneTests(unittest.TestCase):
         for src, out_dir, dst, in_dir in boundaries:
             self.assertEqual(content.rooms[src]['exits'][out_dir], dst)
             self.assertEqual(content.rooms[dst]['exits'][in_dir], src)
+
+    def test_nhal_complete_region_and_boundary_exits(self):
+        from collections import deque
+        import importlib.util
+        root = Path(__file__).resolve().parents[1]
+        content = Content(root / 'content')
+        rooms = [rid for rid, room in content.rooms.items() if room.get('region') == 'nhal']
+        self.assertEqual(len(rooms), 27)
+        spec = importlib.util.spec_from_file_location('tiled_to_scene', root / 'scripts/tiled-to-scene.py')
+        converter = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(converter)
+
+        for rid in rooms:
+            scene_path = root / 'client-rpg/scenes' / f'{rid}.json'
+            tiled_path = root / 'client-rpg/tiled' / f'{rid}.tmj'
+            self.assertTrue(scene_path.is_file(), f'Falta escena {scene_path}')
+            self.assertTrue(tiled_path.is_file(), f'Falta fuente Tiled {tiled_path}')
+            scene = json.loads(scene_path.read_text(encoding='utf-8'))
+            room = content.rooms[rid]
+            with self.subTest(room=rid):
+                self.assertEqual(scene['room'], rid)
+                self.assertEqual({e['direction'] for e in scene['exits']}, set(room.get('exits', {})))
+                self.assertEqual({n['id'] for n in scene['npcs']}, set(room.get('npcs', [])))
+                creatures = {s['creature'] for s in room.get('signals', []) + room.get('wildlife_pool', [])}
+                self.assertEqual({c['id'] for c in scene['creatures']}, creatures)
+                tiled = json.loads(tiled_path.read_text(encoding='utf-8'))
+                self.assertEqual(converter.tiled_to_scene(tiled), scene)
+
+                solid = scene['layers']['solid']
+                for direction, (x, y) in scene['spawn'].items():
+                    self.assertEqual(solid[y][x], '.', f'Spawn {direction} bloqueado en {rid}')
+                for exit in scene['exits']:
+                    x, y, width, height = exit['rect']
+                    self.assertTrue(all(solid[cy][cx] == '.'
+                                        for cy in range(y, y + height)
+                                        for cx in range(x, x + width)), (rid, exit))
+
+                for start in scene['spawn'].values():
+                    seen = {tuple(start)}
+                    queue = deque(seen)
+                    while queue:
+                        x, y = queue.popleft()
+                        for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+                            if (0 <= nx < 20 and 0 <= ny < 15 and solid[ny][nx] == '.'
+                                    and (nx, ny) not in seen):
+                                seen.add((nx, ny))
+                                queue.append((nx, ny))
+                    for exit in scene['exits']:
+                        x, y, width, height = exit['rect']
+                        self.assertTrue(any((cx, cy) in seen
+                                            for cy in range(y, y + height)
+                                            for cx in range(x, x + width)), (rid, start, exit))
+                    for actor in scene['npcs'] + scene['creatures']:
+                        self.assertIn(tuple(actor['at']), seen, (rid, start, actor))
+
+        boundaries = [
+            ('nhal_arbol_umbral', 'oeste', 'veyra_lindero_arboles', 'este'),
+            ('nhal_relevo_altura', 'oeste', 'hoshai_estacion_cuerda', 'este'),
+            ('nhal_ribera_relevo', 'sur', 'lethra_relevo_raices', 'norte'),
+        ]
+        for src, out_dir, dst, in_dir in boundaries:
+            self.assertEqual(content.rooms[src]['exits'][out_dir], dst)
+            self.assertEqual(content.rooms[dst]['exits'][in_dir], src)
