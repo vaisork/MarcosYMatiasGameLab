@@ -15,6 +15,9 @@
     .label { font-size: 11px; font-weight: 800; color: #f3cf96; letter-spacing: .1em; text-transform: uppercase; }
     .score { min-width: 104px; text-align: center; font-size: clamp(24px, 6vw, 46px); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums; }
     .clock { min-width: 70px; text-align: center; font-size: clamp(24px, 5vw, 38px); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums; }
+    .score span { display: inline-block; color: #ffe26c; font-size: 1.18em; text-shadow: 0 3px #8f4e2d; }
+    #reloj.urgente { color: #ff9c72; animation: pulso .55s ease-in-out infinite alternate; }
+    @keyframes pulso { to { transform: scale(1.12); } }
     .fuel { position: absolute; z-index: 2; top: max(92px, calc(env(safe-area-inset-top) + 82px)); left: 50%; transform: translateX(-50%); width: min(190px, 34vw); height: 13px; border: 2px solid #5a382f; border-radius: 9px; overflow: hidden; background: #4b3830; }
     .fuel > i { display:block; height:100%; width:0; background:linear-gradient(90deg,#bde16c,#58af56); transition:width .15s; }
     .fuel-label { position:absolute; z-index:2; top:max(108px,calc(env(safe-area-inset-top) + 98px)); left:50%; transform:translateX(-50%); padding:2px 8px; border:1px solid #5a382f; border-radius:0 0 8px 8px; background:#f5d28e; font-size:10px; font-weight:900; color:#382923; }
@@ -23,13 +26,14 @@
     button { font:inherit; color:#fff4db; font-weight:900; cursor:pointer; }
     .pad { width:clamp(66px,15vw,96px); height:clamp(66px,15vw,96px); border:3px solid #ffdfa0; border-radius:50%; background:#392923dd; box-shadow:0 6px 0 #653b2c,0 9px 18px #402a26aa; font-size:clamp(24px,6vw,38px); pointer-events:auto; touch-action:none; }
     .pad:active { transform:translateY(4px); box-shadow:0 2px 0 #653b2c; background:#744b37; }
-    .jump { width:clamp(84px,20vw,126px); height:clamp(84px,20vw,126px); font-size:clamp(15px,3vw,22px); background:#8f4f37; }
+    .jump { width:clamp(84px,20vw,126px); height:clamp(84px,20vw,126px); font-size:clamp(15px,3vw,22px); background:#633323; }
     #sonido { position:absolute; z-index:4; top:max(76px,calc(env(safe-area-inset-top) + 68px)); right:max(12px,env(safe-area-inset-right)); padding:6px 10px; border:2px solid #5a382f; border-radius:12px; background:#362824df; font-size:12px; }
-    #velo { position:absolute; z-index:5; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:#2b211a77; text-align:center; text-shadow:0 4px #59382d; font-size:clamp(54px,17vw,128px); font-weight:1000; color:#ffe57d; }
+    #velo { position:absolute; z-index:5; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:radial-gradient(ellipse at center,#2b211adc,#17120fc7); backdrop-filter:blur(3px); text-align:center; text-shadow:0 4px #59382d; font-size:clamp(54px,17vw,128px); font-weight:1000; color:#ffe57d; }
     #velo[hidden] { display:none; }
-    #velo strong { max-width:90vw; font-size:clamp(32px,8vw,72px); }
-    #velo span { font-size:clamp(22px,5vw,40px); color:white; }
-    #velo button { pointer-events:auto; padding:14px 24px; border:3px solid #ffdfa0; border-radius:18px; background:#bd633d; box-shadow:0 5px #653b2c; font-size:clamp(17px,4vw,24px); }
+    #velo strong { max-width:90vw; font-size:clamp(48px,12vw,112px); }
+    #velo span { max-width:90vw; font-size:clamp(18px,4vw,30px); color:white; text-shadow:0 2px #222; }
+    #velo > strong:not(:first-child) { font-size:clamp(32px,8vw,72px); }
+    #velo button { pointer-events:auto; padding:14px 24px; border:3px solid #ffdfa0; border-radius:18px; background:#633323; box-shadow:0 5px #653b2c; font-size:clamp(17px,4vw,24px); }
     .help { position:absolute; z-index:2; bottom:max(120px,calc(env(safe-area-inset-bottom) + 120px)); left:50%; transform:translateX(-50%); width:max-content; max-width:90vw; padding:7px 12px; border-radius:12px; background:#362824b8; text-align:center; font-size:clamp(11px,2.5vw,14px); font-weight:750; }
     @media (min-width:700px) { .help { bottom:24px; } .controls { display:none; } .fuel { top:90px; } .fuel-label { top:106px; } }
   </style>
@@ -51,7 +55,7 @@
   <div id="velo">3</div>
   <script type="module">
     import { iniciarBonus } from './src/bonus_camioneta.mjs';
-    iniciarBonus(document, window);
+    window.__bonusCamioneta = iniciarBonus(document, window);
   </script>
 </body>
 </html>

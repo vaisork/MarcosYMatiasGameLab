@@ -62,10 +62,11 @@ test('recorrido completo llega al resumen, muestra Churus y permite seguir', () 
   for (ahora = 0; ahora <= 49_000 && frame; ahora += 50) { const siguiente = frame; frame = null; siguiente(ahora); }
 
   const velo = nodos.get('#velo');
-  const [cuenta, titulo, premio, continuar] = velo.children;
+  const [cuenta, consejo, titulo, premio, continuar] = velo.children;
   assert.equal(velo.replacementCount, 1);
   assert.equal(nodos.get('#reloj').textContent, '0');
   assert.equal(cuenta.hidden, true);
+  assert.match(consejo.textContent, /juntar churus/i);
   assert.equal(titulo.hidden, false);
   assert.match(premio.textContent, /^Ganaste [1-9]\d* Churus$/);
   assert.equal(continuar.hidden, false);
