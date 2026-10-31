@@ -1,0 +1,89 @@
+{
+  "room": "veyra_patio_senales",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "oeste": [
+      1,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "layers": {
+    "ground": [
+      "cccccccccccccccccccc",
+      "cccccccccccccccccccc",
+      "cccccccccccccccccccc",
+      "cccccccccccccccccccc",
+      "cccccccccccccccccccc",
+      "cccccccccccccccccccc",
+      "cppppppppppppppppppc",
+      "cppppppppppppppppppc",
+      "cccccccccccccccccccc",
+      "cccccccccccccccccccc",
+      "cccccccccccccccccccc",
+      "cccccccccccccccccccc",
+      "cccccccccccccccccccc",
+      "cccccccccccccccccccc",
+      "cccccccccccccccccccc"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "....................",
+      "....................",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "11111111111111111111"
+    ]
+  },
+  "npcs": [
+    {
+      "id": "veyra_arel",
+      "at": [
+        6,
+        6
+      ]
+    }
+  ],
+  "creatures": []
+}

@@ -1,0 +1,89 @@
+{
+  "room": "veyra_terraplen_roca",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ],
+    "oeste": [
+      1,
+      7
+    ]
+  },
+  "layers": {
+    "ground": [
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp",
+      "pppppppppppppppppppp"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "....................",
+      "....................",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "11111111111111111111"
+    ]
+  },
+  "creatures": [
+    {
+      "id": "forajido_camino",
+      "at": [
+        6,
+        6
+      ]
+    }
+  ],
+  "npcs": []
+}

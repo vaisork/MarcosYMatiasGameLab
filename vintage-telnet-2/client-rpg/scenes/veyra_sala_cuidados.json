@@ -1,0 +1,76 @@
+{
+  "room": "veyra_sala_cuidados",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "oeste",
+      "rect": [
+        0,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "oeste": [
+      1,
+      7
+    ]
+  },
+  "layers": {
+    "ground": [
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "fppppppppppppppppppf",
+      "fppppppppppppppppppf",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff",
+      "ffffffffffffffffffff"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "...................1",
+      "...................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "11111111111111111111"
+    ]
+  },
+  "npcs": [
+    {
+      "id": "veyra_doma",
+      "at": [
+        6,
+        6
+      ]
+    }
+  ],
+  "creatures": []
+}
