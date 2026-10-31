@@ -115,7 +115,7 @@ test('«Jugar el capítulo otra vez» revive enemigos, llave y jefe; conserva ch
   guardar(almacen, { ...estadoNuevo(), churus: 40, progreso: { escena: 'cima' },
     coleccionados: ['taqueria:derrotado:rata-suelo-3', 'llave-camioneta', 'garras-despenadero',
       'anclador-despenadero', 'lanzador-cima', 'churu-1'] });
-  const { juego, temporizadores, capas } = iniciar(almacen);
+  const { juego, temporizadores, capas, ventana } = iniciar(almacen);
   juego.senku.x = 1500;
   juego.avanzarPaso(1 / 60);
   const jefe = juego.jefe;
@@ -140,6 +140,7 @@ test('«Jugar el capítulo otra vez» revive enemigos, llave y jefe; conserva ch
   assert.equal(juego.estadoJugador().churus, 40);
   assert.ok(juego.enemigos.every((e) => e.vivo), 'los enemigos regresan');
   assert.equal(cargar(almacen).estado.progreso.escena, 'ciudad');
+  assert.equal(ventana.location.href, '../legacy/juego.html', 'empieza desde el Senku original');
   juego.detener();
 });
 

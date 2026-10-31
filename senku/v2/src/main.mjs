@@ -843,8 +843,8 @@ export function arrancarSenku2({
     btnRejugar.id = 'btn-rejugar';
     btnRejugar.className = 'hud-pildora hud-btn';
     btnRejugar.textContent = '🔁';
-    btnRejugar.setAttribute('aria-label', 'Jugar el capítulo otra vez');
-    btnRejugar.title = 'Jugar el capítulo otra vez';
+    btnRejugar.setAttribute('aria-label', 'Jugar desde el principio');
+    btnRejugar.title = 'Jugar desde el principio';
     btnRejugar.addEventListener('click', () => mostrarFinal(documento, ventana,
       resumenCapitulo(estadoJugador, registro.listar()), { alVolverAJugar: volverAJugarCapitulo }));
     documento.getElementById('btn-pausa')?.before?.(btnRejugar);
@@ -1186,13 +1186,15 @@ export function arrancarSenku2({
     actualizarCamioneta();
   }
 
-  // Jugar otra vez desde la ciudad: revive enemigos, llave y jefe. Churus, trajes y garras se conservan (sin re-cobrar churus).
+  // Jugar otra vez desde el Senku original (casa → taquería → Senku 2 en la ciudad): revive enemigos, llave y jefe. Churus, trajes y garras se conservan (sin re-cobrar churus).
   let temporizadorFinal = null;
   function volverAJugarCapitulo() {
     const capitulo = (id) => id.includes(':derrotado:') || CAPITULO_REINICIABLE.includes(id);
     estadoJugador = { ...estadoJugador, coleccionados: estadoJugador.coleccionados.filter((id) => !capitulo(id)) };
     actualizarBotonRejugar();
     cambiarEscena('ciudad', { curar: true });
+    // Se empieza desde el Senku original (la casa); al llegar a la taquería vuelve solo a Senku 2.
+    if (ventana.location) ventana.location.href = '../legacy/juego.html';
   }
 
   // 8. Bucle principal de juego

@@ -54,7 +54,7 @@ export function mostrarFinal(documento, ventana, resumen, { alVolverAJugar, alSe
       <p style="margin:14px 0 16px;font-size:13px;opacity:.75">Idea y dirección: Matías y Javier · Senku es el gato de la casa</p>
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
         <button id="final-seguir" style="background:#f2c14e;color:#2a1a08">Seguir explorando</button>
-        <button id="final-volver" style="background:#ffffff22;color:#fff">Jugar el capítulo otra vez</button>
+        <button id="final-volver" style="background:#ffffff22;color:#fff">Jugar desde el principio</button>
       </div>
     </div>`;
   documento.body.appendChild(capa);
