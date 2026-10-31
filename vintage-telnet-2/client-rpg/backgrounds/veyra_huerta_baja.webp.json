@@ -1,0 +1,12 @@
+{
+  "asset_id": "veyra_huerta_baja",
+  "prompt": "Use case: stylized-concept. 1280×960 RPG room background, room veyra_huerta_baja, Huerta bajo las Escaleras. Detailed crisp 16-bit pixel-art terrain in three-quarter overhead map view. A narrow walkable dirt path runs north-south from exact north edge to exact south edge; keep it continuously open and aligned with both exits. On either side, narrow neat garden beds tucked below tall exterior stone stairs and retaining walls of nearby Vaisgard houses. Dense culinary herbs, seed rows, modest vegetables, small irrigation rills coming down from the city, a low tool shed along one edge. Allow a few insects as tiny pixels only if not person-like. Warm greens and earth ochres, a trace of town at top edge. Do not place crops, walls, tools or shed over the central path. No east-west exit; close other perimeter edges naturally. No people, creatures, text, signs, UI, border, watermark. Game-map overhead, late-16-bit pixel art with chunky visible pixel clusters, not photorealistic, not 3D.",
+  "generator": "OpenAI image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d71-76a3-8530-fc21446b1313/exec-822dd8cd-fff5-460a-a4ec-64a5b4184052.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3; Lanczos 640x480 then nearest-neighbor 1280x960; quantized 64-color palette; lossless WebP",
+  "quality": "lossless 64-color indexed palette",
+  "bytes": 249934,
+  "sha256": "932f724c849d4a45b7e9f38be79931bdae7567f21ee98e604a66f53102b73ac1",
+  "palette_colors": 64
+}

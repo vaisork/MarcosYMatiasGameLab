@@ -1,0 +1,12 @@
+{
+  "asset_id": "veyra_acequia_exterior",
+  "prompt": "Use case: stylized-concept. Asset type: 2D pixel-art RPG room background, 1280×960, 4:3. Room veyra_acequia_exterior: an exterior road above the drained irrigation canal around Vaisgard. Deep clear pixel clusters, deliberate 16-bit late-era pixel art, limited coherent palette, visible pixel edges; NOT painterly, NOT photorealistic, no smooth gradients or 3D render. Three-quarter overhead game map perspective. Full-bleed scene matching the supplied map: the main walkable road runs straight across the entire image from west edge to east edge, centered vertically; an equally clear branch runs from its center straight to the south edge. Keep all three exits visibly open at the exact edges, with no raised walls, railings, plants, stones, props, or water blocking the path. The road is broad aged pale stone paving; dry recessed canal troughs/stone channel are visible alongside but remain outside the road. Dry state only: pale stone bed, white salt deposits, a few bent reeds. Low scrub and Veyra foothills at far background edges. Warm muted limestone, olive, earth-ochre, crisp readable tiles and texture. Top-down room composition, no horizon. No characters, creatures, NPCs, objects on the walkable road, text, signage, UI, border, watermark.",
+  "generator": "OpenAI image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d71-76a3-8530-fc21446b1313/exec-f9bf84f9-74d3-4cec-8c7c-3ba3cb2cf200.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3; Lanczos 640x480 then nearest-neighbor 1280x960; quantized 64-color palette; lossless WebP",
+  "quality": "lossless 64-color indexed palette",
+  "bytes": 227010,
+  "sha256": "33e18abc29c502e2d2846b7881a2c896474b19fbc87e80983c53f08546969291",
+  "palette_colors": 64
+}

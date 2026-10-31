@@ -813,6 +813,11 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/veyra_calle_toldos.webp"
     }
   ],
   "tilesets": [

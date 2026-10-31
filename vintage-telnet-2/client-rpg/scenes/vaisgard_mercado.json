@@ -111,5 +111,6 @@
       ]
     }
   ],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/vaisgard_mercado.webp"
 }

@@ -1,0 +1,11 @@
+{
+  "asset_id": "vaisgard_mercado",
+  "prompt": "Use case: stylized-concept. Asset type: full-bleed 2D RPG room background, target 1280×960 4:3, later normalized to crisp pixel art. Room vaisgard_mercado, the walled old-town market of Vaisgard in the Veyra basin. Build a legible overhead three-quarter game-map composition, warm late-16-bit pixel-art language with defined chunky pixels, earthy ochres, limestone and muted greens. A broad paved central cross-shaped public passage reaches exact center openings on all four image edges; these edge corridors and the center remain open and unobstructed. Around the cross, old stone walls and close-set market stalls with fruit, baskets, tools, loaves and folded muted fabric. A narrow shallow drainage canal crosses the central square east-west, with a small flat stone crossing at the center so all paths remain walkable; a narrow visible runnel branches among the nearby stalls. No tall counters, walls, bridges, goods or people blocking the cross or exits. Architecture irregular and lived-in, not grand palace. Top-down 3/4 perspective, no distant horizon. Pixel art, visible pixel clusters, not photorealistic, not smooth 3D, not painterly. No characters, creatures, letters, signs, UI, border, watermark.",
+  "generator": "OpenAI image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d71-76a3-8530-fc21446b1313/exec-2551a5a2-599c-4b49-9fca-172d341f3ff4.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop 4:3; Lanczos 640x480 then nearest-neighbor 1280x960 for pixel clusters; WebP",
+  "quality": 72,
+  "bytes": 234774,
+  "sha256": "c293c4f9c6c8b40f32cfe4089c9d7cb71d0ab67b411da5d7823b2cd6207e2241"
+}

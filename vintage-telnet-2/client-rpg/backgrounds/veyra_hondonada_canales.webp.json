@@ -1,0 +1,12 @@
+{
+  "asset_id": "veyra_hondonada_canales",
+  "prompt": "Use case: stylized-concept. 1280×960 4:3 RPG room background, veyra_hondonada_canales, Cruce de canales. Detailed readable 16-bit pixel-art map, chunky pixels, three-quarter overhead. The room is a cross-shaped path: a clear walkable route enters north-center and continues south-center; a clear walkable route also reaches the west edge at mid-height. Keep these routes open, exactly aligned with the north, south, west exits, with no water or rocks blocking them. At the crossing, several narrow water threads merge into one larger lively canal in the lower hollow, with wet herbs on the banks. A short plank-and-stone footbridge crosses the small runnel beside the main crossing. Channel should run around and beneath the path, but the playable cross is paved and continuous. Veyra basin greenery, wet stone, natural water sound, bright mossy greens and limestone. Eastern edge closed by bank and vegetation; no east exit. No horizon. No characters, monsters, text, signs, UI, border, watermark. Crisp pixel clusters, not realistic 3D, not painterly.",
+  "generator": "OpenAI image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d71-76a3-8530-fc21446b1313/exec-0410e7df-cb32-4cbf-8efa-12456b2db901.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3; Lanczos 640x480 then nearest-neighbor 1280x960; quantized 64-color palette; lossless WebP",
+  "quality": "lossless 64-color indexed palette",
+  "bytes": 223796,
+  "sha256": "9d97ccf0178ab39e9e6751c8a847f37300469d50f6660ddaad2c6d4b852cd524",
+  "palette_colors": 64
+}

@@ -18,6 +18,12 @@ BOUNDARIES = {
     ('veyra_hondonada_canales', 'sur', 'lethra_ribera_seca'),
     ('veyra_lindero_arboles', 'este', 'nhal_arbol_umbral'),
 }
+ILLUSTRATED = {
+    'vaisgard_mercado', 'veyra_acequia_exterior', 'veyra_archivo_cargas',
+    'veyra_barrio_cargas', 'veyra_calle_toldos', 'veyra_cantera_callada',
+    'veyra_colina_vista', 'veyra_hondonada_canales', 'veyra_huerta_baja',
+    'veyra_lindero_arboles',
+}
 
 
 class RpgVeyraTests(unittest.TestCase):
@@ -46,7 +52,10 @@ class RpgVeyraTests(unittest.TestCase):
                 self.assertEqual(scene['room'], rid)
                 self.assertEqual(scene['size'], [20, 15])
                 self.assertEqual(scene['tile'], 16)
-                self.assertNotIn('background', scene)
+                expected_background = f'backgrounds/{rid}.webp' if rid in ILLUSTRATED else None
+                self.assertEqual(scene.get('background'), expected_background)
+                if expected_background:
+                    self.assertTrue((ROOT / 'client-rpg' / expected_background).is_file())
                 self.assertEqual({e['direction'] for e in scene['exits']}, set(room['exits']))
                 self.assertEqual(len(scene['exits']), len(room['exits']))
                 self.assertEqual(set(scene['spawn']), {'default', *room['exits']})

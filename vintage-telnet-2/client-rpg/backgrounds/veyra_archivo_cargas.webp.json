@@ -1,0 +1,12 @@
+{
+  "asset_id": "veyra_archivo_cargas",
+  "prompt": "Use case: stylized-concept. Full-bleed 1280×960 2D RPG room background, veyra_archivo_cargas, the old Vaisgard cargo archive. Pixel-art game environment, chunky clean pixels after downsampling, top-down three-quarter view, warm wooden beams and shelves, ink brown, parchment and pale limestone. The only entrance is a doorway at the exact center of the west edge. The whole central horizontal aisle from west doorway through the default spawn at image center must remain bare, open floor, especially a clear empty patch centered at x=50%, y=50%. Nera's standing area near x=30%, y=43% is also clear floor. Put the large scarred wooden sorting table ONLY in the southeast corner, around x=78%, y=78%, away from the central spawn and west aisle. Low cargo tablet shelves line north/east/south walls; at the west side near the door, small stacked tablets await arrival; at the far east, orderly tablets record completed deliveries. Leave all floors between wall shelves and central aisle open. No other door. No characters, people, text or readable writing, labels, watermark, UI, border. Crisp late-16-bit RPG pixel art, no painterly or 3D render.",
+  "generator": "OpenAI image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d71-76a3-8530-fc21446b1313/exec-6c94686f-926d-47bd-ad8d-34c2f67d8fe1.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3; Lanczos 640x480 then nearest-neighbor 1280x960; quantized 64-color palette; lossless WebP",
+  "quality": "lossless 64-color indexed palette",
+  "bytes": 157656,
+  "sha256": "c1caa84c16169c1b5da61d64af1bfd529b59a3a7e93d4ef35391fcd7bcc93931",
+  "palette_colors": 64
+}

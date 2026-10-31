@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_nera",
+  "npc_id": "veyra_nera",
+  "generation_tool": "OpenAI image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d71-76a3-8530-fc21446b1313/exec-ba095e42-0f6d-4aca-8587-87a9a2ee5a46.png",
+  "source_dimensions": "887x1774",
+  "dimensions": "192x384",
+  "cell_size": "64x96",
+  "layout": "3 columns × 4 rows; down, left, right, up; three walk poses per direction",
+  "normalization": "Lanczos resize to 192x384; RGBA transparency preserved",
+  "quality": "native generation; 12-frame transparent atlas",
+  "bytes": 125004,
+  "sha256": "64d74759b80f76fb0eca0898bb1227efa26de5e64aa4e1cbd90122274d21df1e",
+  "prompt": "Use case: stylized-concept. Create a genuinely transparent sprite atlas for Nera (veyra_nera), a human arrivals archivist in Vaisgard, distinct from the Marevyn Tila sprite named nera.png elsewhere. Adult human woman with ordinary rounded human ears and warm light-brown skin; dark chestnut hair tied simply back, practical archive clothes in faded slate-blue and parchment cream, rolled cuffs lightly stained with ink, one small frayed cuff detail suggesting a broken nail but no injury. Calm observant expression; empty hands. Crisp detailed pixel-JRPG NPC style, clean limited palette. Sheet exactly 3 columns × 4 rows, 64×96 cells (192×384 after normalization), rows down/front, left, right, up/back, three clearly different walking poses each; consistent identity, scale, center and foot baseline near y=92, whole body inside each cell. True transparent background, no ground or shadow. No extra characters/sprites, props in hands, text, grid, label, border, checkerboard or watermark."
+}

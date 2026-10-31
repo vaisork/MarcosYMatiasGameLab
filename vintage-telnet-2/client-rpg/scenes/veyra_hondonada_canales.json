@@ -105,5 +105,6 @@
       ]
     }
   ],
-  "npcs": []
+  "npcs": [],
+  "background": "backgrounds/veyra_hondonada_canales.webp"
 }

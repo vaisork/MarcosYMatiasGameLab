@@ -1,0 +1,12 @@
+{
+  "asset_id": "veyra_calle_toldos",
+  "prompt": "Use case: stylized-concept. Full-bleed 1280×960 RPG background, scene veyra_calle_toldos, Calle de los Toldos Remendados, old Vaisgard. Three-quarter overhead game map, detailed 16-bit pixel-art look with visible crisp pixel clusters, muted blue, red, grey fabric over warm stone workshops. A clear broad winding street runs from the exact west edge to the exact east edge through the center and branches south at the exact center of the bottom edge. Leave those routes broad, empty and unobstructed. Above and below the walkways, close facades and small workshops display patched awnings made from mismatched blue, red and grey cloth; one visible seam near a simple empty wooden hanging pole; small workbenches and folded cloth at edges. Let the canopies shade parts of the street but never create walls or block the road. Buildings packed closely, lived-in Veyra old town, no readable signs. Keep only the west, east and south exits open at their exact edges; other perimeter closed. No people, NPC, creatures, text, watermark, border, UI. Pixel art, no photorealism, no 3D render, not smooth painterly.",
+  "generator": "OpenAI image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d71-76a3-8530-fc21446b1313/exec-8b1ec5ab-1b4f-48b5-950b-9321220b34e0.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3; Lanczos 640x480 then nearest-neighbor 1280x960; quantized 64-color palette; lossless WebP",
+  "quality": "lossless 64-color indexed palette",
+  "bytes": 212448,
+  "sha256": "a210461209cc9bc125914bbeed50c1478567cbc2cbd4b6184486ec9c25c210d4",
+  "palette_colors": 64
+}

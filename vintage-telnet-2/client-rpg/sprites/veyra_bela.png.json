@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_bela",
+  "npc_id": "veyra_bela",
+  "generation_tool": "OpenAI image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d71-76a3-8530-fc21446b1313/exec-577ebaaa-2212-4537-a4e8-4f6940287aa1.png",
+  "source_dimensions": "887x1774",
+  "dimensions": "192x384",
+  "cell_size": "64x96",
+  "layout": "3 columns × 4 rows; down, left, right, up; three walk poses per direction",
+  "normalization": "Lanczos resize to 192x384; RGBA transparency preserved",
+  "quality": "native generation; 12-frame transparent atlas",
+  "bytes": 100569,
+  "sha256": "3f731cb6ccb70df1802afddbea2f984921d594481f864bb355c9953a591ceec7",
+  "prompt": "Use case: stylized-concept. Create one genuinely transparent RPG walking sprite atlas for Bela (veyra_bela), human traveling-route merchant at Vaisgard's central market. Adult human merchant with short dark hair, neutral practical face and build, clothing in muted olive, warm brown and cream with a durable sleeveless market vest, rolled cuffs, simple belt with a small empty coin pouch. No held weapons or food. Distinct from Nera's blue archive coat. Match the detailed crisp pixel-JRPG style of the existing game NPC sprites, limited palette and clean silhouette. Atlas exactly 3 columns × 4 rows, 64×96 per cell (192×384 final); rows face down/front, left, right, up/back, three clearly different walking poses each, consistent identity and scale, whole body visible, feet near y=92. True transparent background, no ground, shadow, extra people or sprites, text, grid, labels, border, checkerboard or watermark."
+}
