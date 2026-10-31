@@ -158,7 +158,7 @@ test('enemigos: 2-3, patrullan sobre una plataforma real y dentro del lienzo', (
   }
 });
 
-test('modo debug: ?debug=1 activa los rectángulos de colisión; sin él las plataformas no se dibujan con arte', () => {
+test('modo debug: ?debug=1 activa los rectángulos de colisión adicionales', () => {
   assert.equal(modoDebugActivo({ search: '?debug=1' }), true);
   assert.equal(modoDebugActivo({ search: '?x=1&debug=1' }), true);
   assert.equal(modoDebugActivo({ search: '' }), false);
@@ -177,6 +177,8 @@ test('modo debug: ?debug=1 activa los rectángulos de colisión; sin él las pla
     renderizarEscena({ ctx, escena, catalogoArte, rutaFondo: 'x', debug });
     return llamadas.filter((l) => l[0] === 'strokeRect' || l[0] === 'fillRect').length;
   };
-  assert.equal(contar(false), 0, 'con arte y sin debug no hay rectángulos de plataforma');
-  assert.ok(contar(true) >= PLATS.length, 'con debug se dibuja cada plataforma');
+  const sinDebug = contar(false);
+  const conDebug = contar(true);
+  assert.ok(conDebug > sinDebug, 'con debug se dibujan rectángulos de colisión adicionales');
+  assert.ok(conDebug - sinDebug >= PLATS.length, 'con debug se dibuja el rectángulo de cada plataforma');
 });

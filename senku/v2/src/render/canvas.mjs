@@ -1,6 +1,7 @@
 // Motor de renderizado en Canvas para Senku 2.
 // Resolución lógica fija 16:9 (1280x720) escalada a la ventana con letterbox sin deformar.
-// Fondos por capas con paralaje, dibujador de plataformas por objeto y catálogo desacoplado.
+// Fondos por capas con paralaje (cielo 0.1, lejano 0.3, medio 0.6, primer plano 1.0),
+// dibujador de plataformas como objetos ambientales apoyados y taquería detallada.
 
 import { dibujarObjeto } from './sprites.mjs';
 
@@ -206,7 +207,7 @@ export function clasificarTipoPlataforma(plat) {
   return tipo || 'plataforma';
 }
 
-// Dibuja una plataforma como objeto ambiental visible y legible (cajas, huacales, toldos, rocas, etc.)
+// Dibuja CADA plataforma de escena.plataformas como objeto visible y con soporte (sin flotar)
 export function dibujarPlataformaObjeto(ctx, plat, tiempo = 0, escenaId = 'taqueria') {
   if (!ctx || !plat) return;
   const { x, y, w, h } = plat;
@@ -247,127 +248,219 @@ export function dibujarPlataformaObjeto(ctx, plat, tiempo = 0, escenaId = 'taque
       }
     }
   } else if (tipoObj === 'huacal') {
-    // Huacal plástico mexicano de mercado
-    const esRojo = plat.id?.includes('rojo');
+    // Huacal plástico mexicano de mercado con soporte hasta el suelo
+    const sueloY = 600;
+    const altoReal = Math.max(h, sueloY - y);
+    const esRojo = plat.id?.includes('rojo') || (x % 3 === 0);
     const cBase = esRojo ? '#c0392b' : '#27ae60';
     const cOscuro = esRojo ? '#962d22' : '#1e8449';
     const cClaro = esRojo ? '#e74c3c' : '#2ecc71';
 
     ctx.fillStyle = cBase;
-    ctx.fillRect(x, y, w, h);
+    ctx.fillRect(x, y, w, altoReal);
+    // Borde superior iluminado (superficie de salto)
     ctx.fillStyle = cClaro;
     ctx.fillRect(x, y, w, 4);
     ctx.fillStyle = cOscuro;
-    ctx.fillRect(x, y + h - 3, w, 3);
+    ctx.fillRect(x, y + altoReal - 3, w, 3);
+    // Enrejado plástico
     ctx.strokeStyle = cOscuro;
     ctx.lineWidth = 1.5;
     for (let gx = x + 8; gx < x + w - 8; gx += 12) {
       ctx.beginPath();
       ctx.moveTo(gx, y + 4);
-      ctx.lineTo(gx + 6, y + h - 4);
+      ctx.lineTo(gx + 6, y + altoReal - 4);
       ctx.stroke();
     }
+    // Ranuras / agarraderas
     ctx.fillStyle = 'rgba(20, 20, 20, 0.45)';
-    ctx.fillRect(x + w / 2 - 10, y + 6, 20, 5);
+    ctx.fillRect(x + w / 2 - 12, y + 6, 24, 6);
   } else if (tipoObj === 'caja') {
-    // Caja de madera / verdura
+    // Caja de madera / fruta con tablones y soporte hasta el suelo (o superficie de apoyo)
+    const sueloY = (y > 450 && y < 580) ? 600 : y + h;
+    const altoReal = Math.max(h, sueloY - y);
     const esVerde = plat.id?.includes('verde');
     const cMadera = esVerde ? '#437652' : '#a06634';
     const cBorde = esVerde ? '#2d5438' : '#6e401b';
     const cBisel = esVerde ? '#5ca371' : '#c98a53';
 
     ctx.fillStyle = cMadera;
-    ctx.fillRect(x, y, w, h);
+    ctx.fillRect(x, y, w, altoReal);
+    // Tablones horizontales
     ctx.fillStyle = cBorde;
-    for (let ty = y + 8; ty < y + h; ty += 12) {
+    for (let ty = y + 8; ty < y + altoReal; ty += 14) {
       ctx.fillRect(x, ty, w, 2);
     }
+    // Borde superior iluminado
     ctx.fillStyle = cBisel;
     ctx.fillRect(x, y, w, 3);
+    // Refuerzos laterales de esquina
     ctx.fillStyle = cBorde;
-    ctx.fillRect(x, y, 6, h);
-    ctx.fillRect(x + w - 6, y, 6, h);
+    ctx.fillRect(x, y, 6, altoReal);
+    ctx.fillRect(x + w - 6, y, 6, altoReal);
+    // Clavos / remaches
     ctx.fillStyle = '#22160d';
     ctx.fillRect(x + 2, y + 4, 2, 2);
     ctx.fillRect(x + w - 4, y + 4, 2, 2);
   } else if (tipoObj === 'toldo') {
-    // Toldo de lona con rayas y ondas
+    // Toldo de lona rayada con ondas festivas y postes de soporte
     const franjaW = 20;
     const totalFranjas = Math.ceil(w / franjaW);
     for (let f = 0; f < totalFranjas; f++) {
       const fx = x + f * franjaW;
       const fw = Math.min(franjaW, x + w - fx);
       ctx.fillStyle = f % 2 === 0 ? '#c0392b' : '#f39c12';
-      ctx.fillRect(fx, y, fw, h);
+      ctx.fillRect(fx, y, fw, h + 8);
       ctx.beginPath();
-      ctx.arc(fx + fw / 2, y + h, fw / 2, 0, Math.PI);
+      ctx.arc(fx + fw / 2, y + h + 8, fw / 2, 0, Math.PI);
       ctx.fill();
     }
+    // Borde superior de amarre
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(x, y, w, 3);
-    ctx.fillStyle = 'rgba(0,0,0,0.2)';
-    ctx.fillRect(x, y + h - 2, w, 2);
+    // Postes tubulares de soporte que bajan al suelo si es toldo exterior
+    ctx.fillStyle = '#7f8c8d';
+    ctx.fillRect(x + 4, y + h + 8, 4, 600 - (y + h + 8));
+    ctx.fillRect(x + w - 8, y + h + 8, 4, 600 - (y + h + 8));
   } else if (tipoObj === 'roca') {
-    // Roca del desierto multifacetada
+    // Roca del desierto con estratos y base sólida anclada al suelo
+    const sueloY = 600;
+    const altoReal = Math.max(h, sueloY - y);
+
     ctx.fillStyle = '#b87445';
     ctx.beginPath();
     ctx.moveTo(x + 8, y);
     ctx.lineTo(x + w - 8, y);
-    ctx.lineTo(x + w, y + h * 0.4);
-    ctx.lineTo(x + w - 4, y + h);
-    ctx.lineTo(x + 4, y + h);
-    ctx.lineTo(x, y + h * 0.5);
+    ctx.lineTo(x + w, y + altoReal * 0.4);
+    ctx.lineTo(x + w - 4, y + altoReal);
+    ctx.lineTo(x + 4, y + altoReal);
+    ctx.lineTo(x, y + altoReal * 0.5);
     ctx.closePath();
     ctx.fill();
 
+    // Superficie superior iluminada (donde se pisa con certeza)
     ctx.fillStyle = '#deb07e';
     ctx.beginPath();
     ctx.moveTo(x + 8, y);
     ctx.lineTo(x + w - 8, y);
-    ctx.lineTo(x + w - 12, y + 5);
-    ctx.lineTo(x + 12, y + 5);
+    ctx.lineTo(x + w - 12, y + 6);
+    ctx.lineTo(x + 12, y + 6);
     ctx.closePath();
     ctx.fill();
 
+    // Grietas y sombras geológicas
     ctx.strokeStyle = '#5a2d14';
-    ctx.lineWidth = 1.5;
+    ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(x + w * 0.35, y + 4);
-    ctx.lineTo(x + w * 0.42, y + h * 0.65);
+    ctx.lineTo(x + w * 0.42, y + altoReal * 0.65);
     ctx.moveTo(x + w * 0.65, y + 5);
-    ctx.lineTo(x + w * 0.72, y + h * 0.55);
+    ctx.lineTo(x + w * 0.72, y + altoReal * 0.55);
     ctx.stroke();
   } else if (tipoObj === 'barra') {
+    // Barra de taquería con azulejos Talavera y base al suelo
+    const sueloY = 600;
+    const altoReal = Math.max(h, sueloY - y);
+    // Cubierta de acero inoxidable
     ctx.fillStyle = '#d5dbdb';
-    ctx.fillRect(x, y, w, 5);
+    ctx.fillRect(x, y, w, 8);
     ctx.fillStyle = '#ffffff';
-    ctx.fillRect(x, y + 5, w, h - 5);
+    ctx.fillRect(x, y, w, 2);
+    // Muro con azulejos
+    ctx.fillStyle = '#f8f9fa';
+    ctx.fillRect(x, y + 8, w, altoReal - 8);
     ctx.fillStyle = '#2980b9';
-    for (let bx = x; bx < x + w; bx += 18) {
-      ctx.fillRect(bx + 4, y + 7, 10, h - 9);
+    for (let bx = x; bx < x + w - 10; bx += 20) {
+      for (let by = y + 12; by < y + altoReal - 12; by += 20) {
+        ctx.fillRect(bx + 4, by, 12, 12);
+        ctx.fillStyle = '#e67e22';
+        ctx.fillRect(bx + 8, by + 4, 4, 4);
+        ctx.fillStyle = '#2980b9';
+      }
     }
   } else if (tipoObj === 'mesa') {
-    ctx.fillStyle = '#bdc3c7';
-    ctx.fillRect(x, y, w, 6);
-    ctx.fillStyle = '#ffffff';
+    // Mesa de plástico de taquería (Corona/Coca-Cola) con patas tubulares al suelo
+    const sueloY = 600;
+    const altoReal = Math.max(h, sueloY - y);
+    const esRoja = (x % 2 === 0);
+    const cMesa = esRoja ? '#e74c3c' : '#3498db';
+    const cMesaBisel = esRoja ? '#ff7675' : '#74b9ff';
+
+    // Cubierta
+    ctx.fillStyle = cMesa;
+    ctx.fillRect(x, y, w, 8);
+    ctx.fillStyle = cMesaBisel;
     ctx.fillRect(x, y, w, 2);
+
+    // Patas de tubo metálico que bajan hasta el suelo (600)
     ctx.fillStyle = '#7f8c8d';
-    ctx.fillRect(x + 8, y + 6, 4, h - 6);
-    ctx.fillRect(x + w - 12, y + 6, 4, h - 6);
+    ctx.fillRect(x + 10, y + 8, 4, altoReal - 8);
+    ctx.fillRect(x + w - 14, y + 8, 4, altoReal - 8);
+
+    // Sillas plásticas a los lados
+    ctx.fillStyle = cMesa;
+    // Silla izquierda
+    ctx.fillRect(x - 8, y + 14, 12, 6);
+    ctx.fillRect(x - 8, y - 6, 4, 20);
+    ctx.fillStyle = '#7f8c8d';
+    ctx.fillRect(x - 6, y + 20, 3, sueloY - (y + 20));
+    // Silla derecha
+    ctx.fillStyle = cMesa;
+    ctx.fillRect(x + w - 4, y + 14, 12, 6);
+    ctx.fillRect(x + w + 4, y - 6, 4, 20);
+    ctx.fillStyle = '#7f8c8d';
+    ctx.fillRect(x + w + 3, y + 20, 3, sueloY - (y + 20));
   } else if (tipoObj === 'banca') {
+    // Banca con listones de madera y herrería anclada al suelo
+    const sueloY = 600;
+    const altoReal = Math.max(h, sueloY - y);
     ctx.fillStyle = '#a0522d';
-    ctx.fillRect(x, y, w, 5);
+    ctx.fillRect(x, y, w, 6);
     ctx.fillStyle = '#cd853f';
     ctx.fillRect(x, y, w, 2);
+    // Patas de hierro fundido
     ctx.fillStyle = '#2c3e50';
-    ctx.fillRect(x + 4, y + 5, 4, h - 5);
-    ctx.fillRect(x + w - 8, y + 5, 4, h - 5);
-  } else if (tipoObj === 'puesto') {
+    ctx.fillRect(x + 6, y + 6, 5, altoReal - 6);
+    ctx.fillRect(x + w - 11, y + 6, 5, altoReal - 6);
+  } else if (tipoObj === 'maceta') {
+    // Maceta de barro mexicano con follaje y base en suelo
+    const sueloY = 600;
+    const altoReal = Math.max(h, sueloY - y);
+    // Macetón de terracota
+    ctx.fillStyle = '#d35400';
+    ctx.fillRect(x + 4, y + 4, w - 8, altoReal - 4);
+    ctx.fillStyle = '#e67e22';
+    ctx.fillRect(x, y, w, 6);
+    // Flores de cempasúchil / geranios en la parte superior
+    ctx.fillStyle = '#27ae60';
+    ctx.fillRect(x + 2, y - 10, w - 4, 10);
+    ctx.fillStyle = '#f39c12';
+    ctx.beginPath();
+    ctx.arc(x + 12, y - 8, 5, 0, Math.PI * 2);
+    ctx.arc(x + w / 2, y - 10, 6, 0, Math.PI * 2);
+    ctx.arc(x + w - 12, y - 7, 5, 0, Math.PI * 2);
+    ctx.fill();
+  } else if (tipoObj === 'bote') {
+    // Bote de basura público cilíndrico al suelo
+    const sueloY = 600;
+    const altoReal = Math.max(h, sueloY - y);
+    ctx.fillStyle = '#2c3e50';
+    ctx.fillRect(x + 4, y + 6, w - 8, altoReal - 6);
+    ctx.fillStyle = '#7f8c8d';
+    ctx.fillRect(x, y, w, 6);
     ctx.fillStyle = '#bdc3c7';
-    ctx.fillRect(x, y, w, 5);
-    ctx.fillStyle = '#34495e';
-    ctx.fillRect(x, y + 5, w, h - 5);
+    ctx.fillRect(x + w / 2 - 8, y - 4, 16, 4);
+  } else if (tipoObj === 'parapeto') {
+    // Cornisa colonial con muro de fachada debajo
+    ctx.fillStyle = '#e8d9c5';
+    ctx.fillRect(x, y, w, 8);
+    ctx.fillStyle = '#f5efe6';
+    ctx.fillRect(x, y, w, 3);
+    // Muro de casona debajo
+    ctx.fillStyle = '#b84a39';
+    ctx.fillRect(x + 4, y + 8, w - 8, 300);
   } else {
+    // Plataforma genérica limpia con bisel
     ctx.fillStyle = '#8c593a';
     ctx.fillRect(x, y, w, h);
     ctx.fillStyle = '#b3774f';
@@ -379,59 +472,374 @@ export function dibujarPlataformaObjeto(ctx, plat, tiempo = 0, escenaId = 'taque
   ctx.restore();
 }
 
+// Dibuja la Camioneta beige tipo SUV estacionada exactamente en el disparador (x=90, y=430, w=255, h=170)
+export function dibujarCamionetaEstacionada(ctx, x = 90, ySuelo = 600, tiempo = 0) {
+  if (!ctx) return;
+  ctx.save();
+
+  // Chasis y carrocería SUV beige
+  const cBeige = '#d8c8a8';
+  const cBeigeSombra = '#b5a585';
+  const cBeigeClaro = '#ebe0cb';
+  const cMoldura = '#3d3835';
+  const cVentana = '#47637d';
+  const cVidrioBrillo = 'rgba(255, 255, 255, 0.45)';
+
+  // 1. Sombra sobre la banqueta
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+  ctx.beginPath();
+  ctx.ellipse(x + 130, ySuelo - 2, 135, 12, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // 2. Ruedas todoterreno (tocando ySuelo = 600)
+  for (const rx of [x + 55, x + 195]) {
+    // Neumático de goma negra
+    ctx.fillStyle = '#1c1b1f';
+    ctx.beginPath();
+    ctx.arc(rx, ySuelo - 22, 26, 0, Math.PI * 2);
+    ctx.fill();
+    // Rin de acero plateado
+    ctx.fillStyle = '#bdc3c7';
+    ctx.beginPath();
+    ctx.arc(rx, ySuelo - 22, 15, 0, Math.PI * 2);
+    ctx.fill();
+    // Tapa central
+    ctx.fillStyle = '#2c3e50';
+    ctx.beginPath();
+    ctx.arc(rx, ySuelo - 22, 6, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // 3. Carrocería SUV (x: 90..340, y: 410..570)
+  // Parte inferior / faldón
+  ctx.fillStyle = cMoldura;
+  ctx.fillRect(x + 10, ySuelo - 50, 240, 24);
+
+  // Cuerpo principal beige
+  ctx.fillStyle = cBeige;
+  ctx.fillRect(x + 8, ySuelo - 120, 242, 70);
+  ctx.fillStyle = cBeigeClaro;
+  ctx.fillRect(x + 8, ySuelo - 120, 242, 6);
+
+  // Cabina / Ventanillas superiores
+  ctx.fillStyle = cBeige;
+  ctx.beginPath();
+  ctx.moveTo(x + 40, ySuelo - 120);
+  ctx.lineTo(x + 75, ySuelo - 185); // Parabrisas inclinado
+  ctx.lineTo(x + 235, ySuelo - 185); // Techo
+  ctx.lineTo(x + 248, ySuelo - 120); // Ventana trasera
+  ctx.closePath();
+  ctx.fill();
+
+  // Cristales de ventanas con reflejo
+  ctx.fillStyle = cVentana;
+  ctx.beginPath();
+  ctx.moveTo(x + 80, ySuelo - 180);
+  ctx.lineTo(x + 140, ySuelo - 180);
+  ctx.lineTo(x + 140, ySuelo - 125);
+  ctx.lineTo(x + 52, ySuelo - 125);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(x + 148, ySuelo - 180);
+  ctx.lineTo(x + 228, ySuelo - 180);
+  ctx.lineTo(x + 238, ySuelo - 125);
+  ctx.lineTo(x + 148, ySuelo - 125);
+  ctx.closePath();
+  ctx.fill();
+
+  // Reflejo diagonal blanco en los cristales
+  ctx.fillStyle = cVidrioBrillo;
+  ctx.beginPath();
+  ctx.moveTo(x + 85, ySuelo - 178);
+  ctx.lineTo(x + 105, ySuelo - 178);
+  ctx.lineTo(x + 65, ySuelo - 127);
+  ctx.lineTo(x + 55, ySuelo - 127);
+  ctx.closePath();
+  ctx.fill();
+
+  // 4. Parachoques trasero (parachoques: x: 220, y: 514, w: 105, h: 14)
+  ctx.fillStyle = '#bdc3c7';
+  ctx.fillRect(x + 130, 514, 105, 14);
+  ctx.fillStyle = '#ecf0f1';
+  ctx.fillRect(x + 130, 514, 105, 3);
+  // Calaveras traseras rojas
+  ctx.fillStyle = '#e74c3c';
+  ctx.fillRect(x + 242, 480, 8, 22);
+
+  // 5. Cajuela con cajas de madera (baul-cajas: x: 235, y: 456, w: 85, h: 14)
+  ctx.fillStyle = '#a06634';
+  ctx.fillRect(235, 456, 85, 45);
+  ctx.fillStyle = '#6e401b';
+  ctx.strokeRect(235, 456, 85, 45);
+  ctx.fillStyle = '#c98a53';
+  ctx.fillRect(235, 456, 85, 4);
+
+  // 6. Portaequipajes y maletas en el techo (portaequipajes: x: 130, y: 376, w: 215, h: 14)
+  // Rieles metálicos
+  ctx.fillStyle = '#2c3e50';
+  ctx.fillRect(130, 396, 215, 6);
+  ctx.fillRect(145, 388, 6, 8);
+  ctx.fillRect(230, 388, 6, 8);
+  ctx.fillRect(320, 388, 6, 8);
+  // Maletas y bultos amarrados con cuerdas
+  // Maleta de cuero vintage café
+  ctx.fillStyle = '#8e44ad';
+  ctx.fillRect(145, 376, 55, 20);
+  ctx.fillStyle = '#9b59b6';
+  ctx.fillRect(145, 376, 55, 3);
+  // Bolsa de lona verde
+  ctx.fillStyle = '#27ae60';
+  ctx.fillRect(205, 372, 60, 24);
+  ctx.fillStyle = '#2ecc71';
+  ctx.fillRect(205, 372, 60, 3);
+  // Baúl o caja superior
+  ctx.fillStyle = '#d35400';
+  ctx.fillRect(270, 374, 65, 22);
+  ctx.fillStyle = '#e67e22';
+  ctx.fillRect(270, 374, 65, 3);
+  // Cuerdas de sujeción
+  ctx.strokeStyle = '#f39c12';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(140, 400); ctx.lineTo(170, 374); ctx.lineTo(200, 400);
+  ctx.moveTo(210, 400); ctx.lineTo(240, 370); ctx.lineTo(265, 400);
+  ctx.moveTo(275, 400); ctx.lineTo(305, 372); ctx.lineTo(335, 400);
+  ctx.stroke();
+
+  // 7. Humo suave del escape trasero al ralentí
+  const humoT = (tiempo * 2) % 1.2;
+  const hx = x + 252 + humoT * 25;
+  const hy = ySuelo - 35 - humoT * 18;
+  const hRadio = 4 + humoT * 8;
+  ctx.fillStyle = `rgba(200, 195, 190, ${Math.max(0, 0.4 - humoT * 0.3)})`;
+  ctx.beginPath();
+  ctx.arc(hx, hy, hRadio, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+// Dibuja la Taquería tradicional y elementos del primer plano (factor 1.0 en coordenadas de mundo)
+export function dibujarPrimerPlanoTaqueria(ctx, cameraX, tiempo, anchoTotal = 3840) {
+  if (!ctx) return;
+  ctx.save();
+
+  // --- FACHADA DE LA TAQUERÍA (x: 630..1260, y: 220..600) ---
+  const tqX0 = 630;
+  const tqX1 = 1260;
+  const sueloY = 600;
+
+  // Muro exterior cálido de adobe/cantera
+  ctx.fillStyle = '#d06346';
+  ctx.fillRect(tqX0, 220, tqX1 - tqX0, sueloY - 220);
+
+  // Zócalo de azulejos Talavera en la base
+  ctx.fillStyle = '#f8f9fa';
+  ctx.fillRect(tqX0, 470, tqX1 - tqX0, 130);
+  ctx.fillStyle = '#2980b9';
+  for (let ax = tqX0; ax < tqX1 - 10; ax += 24) {
+    for (let ay = 475; ay < 595; ay += 24) {
+      ctx.fillRect(ax + 4, ay + 4, 16, 16);
+      ctx.fillStyle = '#e67e22';
+      ctx.fillRect(ax + 9, ay + 9, 6, 6);
+      ctx.fillStyle = '#2980b9';
+    }
+  }
+
+  // GRAN LETRERO PINTADO A MANO: «★ TACOS Y CHURUS AL PASTOR ★»
+  ctx.fillStyle = '#8a1818';
+  ctx.fillRect(670, 220, 480, 56);
+  ctx.fillStyle = '#fff8ec';
+  ctx.fillRect(675, 224, 470, 48);
+  ctx.strokeStyle = '#f1c40f';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(677, 226, 466, 44);
+
+  ctx.fillStyle = '#b32418';
+  ctx.font = 'bold 24px "Arial Black", Impact, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('★ TACOS Y CHURUS AL PASTOR ★', 910, 258);
+
+  // Toldo rayado de la taquería (x: 685, y: 296, w: 460)
+  const toldoW = 460;
+  const franjaW = 23;
+  for (let s = 0; s < toldoW; s += franjaW) {
+    const esRojo = Math.floor(s / franjaW) % 2 === 0;
+    ctx.fillStyle = esRojo ? '#c0392b' : '#f39c12';
+    ctx.fillRect(685 + s, 296, franjaW, 40);
+    ctx.beginPath();
+    ctx.arc(685 + s + franjaW / 2, 336, franjaW / 2, 0, Math.PI);
+    ctx.fill();
+  }
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(685, 296, toldoW, 4);
+
+  // FOCOS COLGANTES (iluminación cálida de verbena)
+  for (let fx = 715; fx <= 1115; fx += 65) {
+    const sag = Math.sin(((fx - 685) / toldoW) * Math.PI) * 12;
+    const fy = 345 + sag;
+    // Cable
+    ctx.strokeStyle = '#2c3e50';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(fx, 336);
+    ctx.lineTo(fx, fy);
+    ctx.stroke();
+    // Halo cálido
+    ctx.fillStyle = 'rgba(255, 230, 130, 0.4)';
+    ctx.beginPath();
+    ctx.arc(fx, fy + 4, 18, 0, Math.PI * 2);
+    ctx.fill();
+    // Bombilla encendida
+    ctx.fillStyle = '#fff4ba';
+    ctx.beginPath();
+    ctx.arc(fx, fy + 4, 6, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // TROMPO DE PASTOR (detrás de la barra, x ~ 940, y ~ 385..470)
+  const tx = 945;
+  const ty = 390;
+  // Varilla de acero vertical
+  ctx.fillStyle = '#bdc3c7';
+  ctx.fillRect(tx - 3, ty - 25, 6, 110);
+  // Cebolla blanca arriba
+  ctx.fillStyle = '#f5f6fa';
+  ctx.beginPath();
+  ctx.arc(tx, ty - 18, 8, 0, Math.PI * 2);
+  ctx.fill();
+  // Piña jugosa con copete verde
+  ctx.fillStyle = '#f1c40f';
+  ctx.fillRect(tx - 10, ty - 10, 20, 16);
+  ctx.fillStyle = '#27ae60';
+  ctx.fillRect(tx - 4, ty - 16, 8, 6);
+  // Carne adobada en trompo cónico invertido
+  ctx.fillStyle = '#b32418';
+  ctx.beginPath();
+  ctx.moveTo(tx - 28, ty + 6);
+  ctx.lineTo(tx + 28, ty + 6);
+  ctx.lineTo(tx + 12, ty + 72);
+  ctx.lineTo(tx - 12, ty + 72);
+  ctx.closePath();
+  ctx.fill();
+  // Capas de bistec adobado y orillas doraditas
+  ctx.fillStyle = '#e74c3c';
+  for (let ly = ty + 12; ly < ty + 68; ly += 9) {
+    const lw = 24 - (ly - ty) * 0.18;
+    ctx.fillRect(tx - lw, ly, lw * 2, 4);
+  }
+  // Charola de goteo de acero
+  ctx.fillStyle = '#7f8c8d';
+  ctx.fillRect(tx - 34, ty + 72, 68, 8);
+
+  // BARRA DE TACOS (barra-tacos: x: 825, y: 471, w: 180)
+  // Salsas y limones sobre la barra
+  // Molcajete verde
+  ctx.fillStyle = '#1c1b1f';
+  ctx.beginPath(); ctx.arc(845, 467, 8, 0, Math.PI); ctx.fill();
+  ctx.fillStyle = '#27ae60';
+  ctx.beginPath(); ctx.arc(845, 467, 6, 0, Math.PI); ctx.fill();
+  // Molcajete rojo
+  ctx.fillStyle = '#1c1b1f';
+  ctx.beginPath(); ctx.arc(865, 467, 8, 0, Math.PI); ctx.fill();
+  ctx.fillStyle = '#c0392b';
+  ctx.beginPath(); ctx.arc(865, 467, 6, 0, Math.PI); ctx.fill();
+  // Limones y cebollitas
+  ctx.fillStyle = '#2ecc71';
+  ctx.fillRect(882, 465, 6, 5);
+  ctx.fillRect(890, 465, 6, 5);
+  ctx.fillStyle = '#f5f6fa';
+  ctx.fillRect(900, 465, 12, 6);
+
+  // --- CALLE Y NEGOCIOS CONTINUOS EN PANTALLAS 1 Y 2 ---
+  // Pantalla 1 (x: 1280..2560): Puesto de Frutas y Verduras "La Huerta de Senku"
+  ctx.fillStyle = '#34495e';
+  ctx.fillRect(1620, 360, 340, 240);
+  ctx.fillStyle = '#27ae60';
+  ctx.fillRect(1630, 380, 320, 30);
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 16px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('FRUTAS Y VERDURAS DE MERCADO', 1790, 402);
+
+  // Pantalla 2 (x: 2560..3840): Panadería y Tiendita Tradicional
+  ctx.fillStyle = '#795548';
+  ctx.fillRect(2900, 340, 360, 260);
+  ctx.fillStyle = '#f39c12';
+  ctx.fillRect(2910, 360, 340, 30);
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 16px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('PANADERÍA Y DULCES LA FE', 3080, 382);
+
+  ctx.restore();
+}
+
 // Parallax Taquería / Ciudad tradicional mexicana
+// Capas con velocidades exactas: cielo 0.1, lejano 0.3, medio 0.6, primer plano 1.0
 export function dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoTotal = ANCHO_LOGICO) {
-  // Capa 0: Cielo crepuscular
+  if (!ctx) return;
+  ctx.save();
+
+  // Capa 0: Cielo crepuscular (parallax 0.1)
   const cielo = ctx.createLinearGradient ? ctx.createLinearGradient(0, 0, 0, 600) : null;
   if (cielo && typeof cielo.addColorStop === 'function') {
-    cielo.addColorStop(0, '#21264c');
-    cielo.addColorStop(0.45, '#73375f');
-    cielo.addColorStop(0.75, '#cf6242');
-    cielo.addColorStop(1, '#f7b458');
+    cielo.addColorStop(0, '#1b1e3f');
+    cielo.addColorStop(0.42, '#662e58');
+    cielo.addColorStop(0.72, '#d4603b');
+    cielo.addColorStop(1, '#f5b152');
     ctx.fillStyle = cielo;
   } else {
-    ctx.fillStyle = '#cf6242';
+    ctx.fillStyle = '#d4603b';
   }
   ctx.fillRect(0, 0, ANCHO_LOGICO, ALTO_LOGICO);
 
-  // Luna creciente
+  // Luna creciente (desplazamiento 0.1)
+  const lunaX = ((1060 - cameraX * 0.1) % (ANCHO_LOGICO + 200) + (ANCHO_LOGICO + 200)) % (ANCHO_LOGICO + 200) - 100;
   ctx.fillStyle = '#fff9d6';
   ctx.beginPath();
-  ctx.arc(1060, 95, 36, 0, Math.PI * 2);
+  ctx.arc(lunaX, 95, 34, 0, Math.PI * 2);
   ctx.fill();
 
-  // Capa 1: Silueta lejana de cúpulas e iglesias coloniales (factor 0.08)
-  ctx.fillStyle = '#483353';
-  const pasoL1 = 480;
-  const offL1 = -((cameraX * 0.08) % pasoL1);
+  // Capa 1: Silueta lejana de cerros, cúpulas e iglesias coloniales (parallax 0.3)
+  ctx.fillStyle = '#4a3556';
+  const pasoL1 = 520;
+  const offL1 = -((cameraX * 0.3) % pasoL1);
   for (let x = offL1 - pasoL1; x < ANCHO_LOGICO + pasoL1; x += pasoL1) {
+    // Cerros ondulados de fondo
     ctx.beginPath();
-    ctx.arc(x + 200, 480, 50, Math.PI, 0);
+    ctx.arc(x + 200, 480, 70, Math.PI, 0);
     ctx.fill();
-    ctx.fillRect(x + 160, 480, 80, 120);
-    ctx.fillRect(x + 360, 390, 42, 210);
+    ctx.fillRect(x + 130, 480, 140, 120);
+    // Cúpula colonial
     ctx.beginPath();
-    ctx.moveTo(x + 355, 390);
-    ctx.lineTo(x + 381, 350);
-    ctx.lineTo(x + 407, 390);
+    ctx.arc(x + 360, 410, 36, Math.PI, 0);
     ctx.fill();
+    // Campanario con cruz
+    ctx.fillRect(x + 342, 410, 36, 190);
+    ctx.fillRect(x + 358, 365, 4, 16);
+    ctx.fillRect(x + 352, 372, 16, 4);
   }
 
-  // Capa 2: Fachadas coloniales con papel picado y balcones (factor 0.32)
+  // Capa 2: Fachadas coloniales intermedias y papel picado (parallax 0.6)
   const coloresCasona = ['#b84a39', '#d49b35', '#2b6684', '#c73866', '#4a7c59'];
-  const pasoL2 = 240;
-  const offL2 = -((cameraX * 0.32) % pasoL2);
+  const pasoL2 = 280;
+  const offL2 = -((cameraX * 0.6) % pasoL2);
   let cIdx = 0;
   for (let x = offL2 - pasoL2; x < ANCHO_LOGICO + pasoL2; x += pasoL2) {
     const col = coloresCasona[cIdx % coloresCasona.length];
     const altoCasa = 240 + (cIdx % 3) * 35;
     ctx.fillStyle = col;
-    ctx.fillRect(x, 600 - altoCasa, pasoL2 - 8, altoCasa);
+    ctx.fillRect(x, 600 - altoCasa, pasoL2 - 12, altoCasa);
+    // Cornisa superior
     ctx.fillStyle = '#e8d9c5';
-    ctx.fillRect(x - 2, 600 - altoCasa, pasoL2 - 4, 10);
+    ctx.fillRect(x - 2, 600 - altoCasa, pasoL2 - 8, 12);
+    // Ventanales con luz cálida interior
     ctx.fillStyle = '#1e1828';
     ctx.fillRect(x + 35, 635 - altoCasa, 38, 55);
-    ctx.fillStyle = 'rgba(255, 225, 140, 0.7)';
+    ctx.fillStyle = 'rgba(255, 225, 140, 0.75)';
     ctx.fillRect(x + 40, 642 - altoCasa, 28, 42);
     cIdx++;
   }
@@ -439,77 +847,78 @@ export function dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoTotal = ANCHO
   // Guirnaldas festivas de papel picado
   const coloresPapel = ['#e74c3c', '#f1c40f', '#2ecc71', '#9b59b6', '#e67e22', '#3498db'];
   for (let g = 0; g < 2; g++) {
-    const gy = 310 + g * 50;
+    const gy = 300 + g * 50;
     for (let x = offL2 - pasoL2; x < ANCHO_LOGICO + pasoL2; x += 40) {
-      const sag = Math.sin(((x + cameraX * 0.32) % 320) / 320 * Math.PI) * 18;
-      ctx.fillStyle = coloresPapel[Math.abs(Math.floor((x + cameraX * 0.32) / 40)) % coloresPapel.length];
+      const sag = Math.sin(((x + cameraX * 0.6) % 320) / 320 * Math.PI) * 16;
+      ctx.fillStyle = coloresPapel[Math.abs(Math.floor((x + cameraX * 0.6) / 40)) % coloresPapel.length];
       ctx.fillRect(x + 4, gy + sag, 28, 22);
     }
   }
 
-  // Capa 3: Fachada de la Taquería tradicional
-  const offL3 = -((cameraX * 0.75) % 1280);
-  for (let tx = offL3 - 1280; tx < ANCHO_LOGICO + 1280; tx += 1280) {
-    ctx.fillStyle = '#c0392b';
-    ctx.beginPath();
-    ctx.moveTo(tx + 890, 395);
-    ctx.lineTo(tx + 935, 395);
-    ctx.lineTo(tx + 922, 450);
-    ctx.lineTo(tx + 902, 450);
-    ctx.fill();
-    ctx.fillStyle = '#f1c40f';
-    ctx.fillRect(tx + 906, 380, 14, 15);
-  }
+  ctx.restore();
 }
 
 // Parallax Reja del Parque (7 pantallas de ancho = 8960 px)
+// Capas: cielo 0.1, lejano 0.3, medio 0.6
 export function dibujarParalajeReja(ctx, cameraX, tiempo, anchoTotal = 8960) {
-  // Capa 0: Cielo desértico amplio
+  if (!ctx) return;
+  ctx.save();
+
+  // Capa 0: Cielo desértico amplio (parallax 0.1)
   const cielo = ctx.createLinearGradient ? ctx.createLinearGradient(0, 0, 0, 620) : null;
   if (cielo && typeof cielo.addColorStop === 'function') {
-    cielo.addColorStop(0, '#52a5c4');
-    cielo.addColorStop(0.55, '#f4c778');
-    cielo.addColorStop(1, '#f6dda0');
+    cielo.addColorStop(0, '#4898be');
+    cielo.addColorStop(0.55, '#f6ca78');
+    cielo.addColorStop(1, '#fbe0a4');
     ctx.fillStyle = cielo;
   } else {
-    ctx.fillStyle = '#eabf78';
+    ctx.fillStyle = '#f6ca78';
   }
   ctx.fillRect(0, 0, ANCHO_LOGICO, ALTO_LOGICO);
 
   // Sol desértico radiante
+  const solX = ((1030 - cameraX * 0.1) % (ANCHO_LOGICO + 200) + (ANCHO_LOGICO + 200)) % (ANCHO_LOGICO + 200) - 100;
   ctx.fillStyle = '#fff4ba';
   ctx.beginPath();
-  ctx.arc(1030, 125, 54, 0, Math.PI * 2);
+  ctx.arc(solX, 125, 52, 0, Math.PI * 2);
   ctx.fill();
 
-  // Capa 1: Sierra montañosa lejana con estratos (factor 0.08)
-  for (let layer = 0; layer < 3; layer++) {
-    const factor = [0.08, 0.22, 0.42][layer];
-    const baseY = [410, 480, 545][layer];
-    const step = [520, 390, 280][layer];
+  // Capa 1: Sierra montañosa y mesetas lejanas con estratos (parallax 0.3)
+  for (let layer = 0; layer < 2; layer++) {
+    const factor = [0.2, 0.3][layer];
+    const baseY = [440, 500][layer];
+    const step = [600, 420][layer];
     const offset = -((cameraX * factor) % step);
-    ctx.fillStyle = ['#9e5f52', '#ba6f49', '#d8945a'][layer];
+    ctx.fillStyle = ['#9e5f52', '#ba6f49'][layer];
     for (let x = offset - step; x < ANCHO_LOGICO + step; x += step) {
-      const h = [118, 95, 58][layer] + (Math.floor((x + cameraX * factor) / step) % 3) * 16;
+      const h = [110, 85][layer] + (Math.floor((x + cameraX * factor) / step) % 3) * 16;
       ctx.beginPath();
       ctx.moveTo(x, baseY);
-      ctx.lineTo(x + step * 0.22, baseY - h * 0.65);
-      ctx.lineTo(x + step * 0.35, baseY - h);
-      ctx.lineTo(x + step * 0.52, baseY - h * 0.85);
-      ctx.lineTo(x + step * 0.68, baseY - h);
-      ctx.lineTo(x + step * 0.82, baseY - h * 0.45);
+      ctx.lineTo(x + step * 0.25, baseY - h * 0.7);
+      ctx.lineTo(x + step * 0.45, baseY - h);
+      ctx.lineTo(x + step * 0.75, baseY - h * 0.85);
       ctx.lineTo(x + step, baseY);
       ctx.closePath();
       ctx.fill();
     }
   }
 
-  // Capa 2: Saguaros y nopales intermedios que se desplazan (factor 0.65)
+  // Capa 2: Dunas, colinas y saguaros (parallax 0.6)
+  const stepL2 = 360;
+  const offL2 = -((cameraX * 0.6) % stepL2);
+  ctx.fillStyle = '#d8945a';
+  for (let x = offL2 - stepL2; x < ANCHO_LOGICO + stepL2; x += stepL2) {
+    ctx.beginPath();
+    ctx.arc(x + 180, 600, 200, Math.PI, 0);
+    ctx.fill();
+  }
+
+  // Saguaros y nopales intermedios (parallax 0.6)
   for (let i = 0; i < 16; i++) {
-    const x = ((i * 220 - cameraX * 0.65) % 3200 + 3200) % 3200 - 100;
+    const x = ((i * 220 - cameraX * 0.6) % 3200 + 3200) % 3200 - 100;
     if (x >= -60 && x <= ANCHO_LOGICO + 60) {
       const y = 560;
-      ctx.fillStyle = '#4a7c59';
+      ctx.fillStyle = '#3f6b48';
       ctx.fillRect(x, y - 55, 12, 55);
       ctx.fillRect(x - 14, y - 40, 14, 8);
       ctx.fillRect(x - 14, y - 52, 8, 20);
@@ -517,16 +926,18 @@ export function dibujarParalajeReja(ctx, cameraX, tiempo, anchoTotal = 8960) {
       ctx.fillRect(x + 18, y - 45, 8, 21);
     }
   }
+
+  ctx.restore();
 }
 
-// Parallax Desierto abierto
-export function dibujarParalajeDesierto(ctx, cameraX, tiempo) {
-  dibujarParalajeReja(ctx, cameraX, tiempo, 1280);
+// Parallax Desierto abierto (5 pantallas de ancho = 6400 px)
+export function dibujarParalajeDesierto(ctx, cameraX, tiempo, anchoTotal = 6400) {
+  dibujarParalajeReja(ctx, cameraX, tiempo, anchoTotal);
 }
 
 // Parallax Ciudad
-export function dibujarParalajeCiudad(ctx, cameraX, tiempo) {
-  dibujarParalajeTaqueria(ctx, cameraX, tiempo, 1280);
+export function dibujarParalajeCiudad(ctx, cameraX, tiempo, anchoTotal = 1280) {
+  dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoTotal);
 }
 
 // Elementos de la Reja del Parque en el primer plano
@@ -602,17 +1013,21 @@ export function renderizarEscena({
     imagenFondo = catalogoArte.obtener(rutaImagenFondo);
   }
 
-  // Si hay imagen precargada y es prueba sin paralaje forzado
-  if (imagenFondo) {
+  const anchoEscena = escena.limites?.w || ANCHO_LOGICO;
+
+  // Si es un test aislado sin id de escena y tiene imagen cargada, usar drawImage
+  if (!escena.id && imagenFondo) {
     ctx.drawImage(imagenFondo, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
   } else if (escena.id === 'reja') {
-    dibujarParalajeReja(ctx, cameraX, tiempo, escena.limites?.w || 8960);
+    dibujarParalajeReja(ctx, cameraX, tiempo, anchoEscena);
   } else if (escena.id === 'desierto' || fondoCfg.estilo === 'desierto') {
-    dibujarParalajeDesierto(ctx, cameraX, tiempo);
+    dibujarParalajeDesierto(ctx, cameraX, tiempo, anchoEscena);
   } else if (escena.id === 'ciudad' || fondoCfg.estilo === 'ciudad') {
-    dibujarParalajeCiudad(ctx, cameraX, tiempo);
+    dibujarParalajeCiudad(ctx, cameraX, tiempo, anchoEscena);
   } else if (escena.id === 'taqueria') {
-    dibujarParalajeTaqueria(ctx, cameraX, tiempo);
+    dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoEscena);
+  } else if (imagenFondo) {
+    ctx.drawImage(imagenFondo, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
   } else {
     // Fondo plano de respaldo
     ctx.fillStyle = fondoCfg.colorRespaldo || '#e6be8a';
@@ -622,13 +1037,24 @@ export function renderizarEscena({
   ctx.save();
   ctx.translate(-cameraX, 0);
 
-  if (escena.id === 'reja' || fondoCfg.estilo === 'desierto') dibujarReja(ctx);
-  if (escena.id === 'ciudad' || fondoCfg.estilo === 'ciudad') dibujarCamionParada(ctx);
+  // Elementos de primer plano (factor 1.0) específicos de la escena
+  if (escena.id === 'taqueria') {
+    dibujarPrimerPlanoTaqueria(ctx, cameraX, tiempo, anchoEscena);
+    // Camioneta estacionada donde está el disparador de subir
+    const dispCamioneta = escena.disparadores?.find((d) => d.id === 'camioneta' || d.accion === 'subir');
+    if (dispCamioneta) {
+      dibujarCamionetaEstacionada(ctx, dispCamioneta.x, 600, tiempo);
+    }
+  } else if (escena.id === 'reja' || fondoCfg.estilo === 'desierto') {
+    dibujarReja(ctx);
+  } else if (escena.id === 'ciudad' || fondoCfg.estilo === 'ciudad') {
+    dibujarCamionParada(ctx);
+  }
 
   // 3. Plataformas dibujadas como objetos ambientales (cajas, huacales, toldos, rocas, etc.)
-  // Con arte cargado, las plataformas se dibujan cuando plataformasVisibles es true.
-  // Sin arte cargado, siempre se dibujan para asegurar visibilidad en respaldo.
-  if (Array.isArray(escena.plataformas) && (!imagenFondo || fondoCfg.plataformasVisibles)) {
+  // Dibujar siempre para escenas del juego con id o cuando plataformasVisibles esté activo
+  const debeDibujarPlataformas = Boolean(escena.id) || !imagenFondo || fondoCfg.plataformasVisibles;
+  if (Array.isArray(escena.plataformas) && debeDibujarPlataformas) {
     for (const plat of escena.plataformas) {
       dibujarPlataformaObjeto(ctx, plat, tiempo, escena.id);
     }
