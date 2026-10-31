@@ -1,7 +1,7 @@
 {
   "id": "./index.html",
-  "name": "MatiasGameLab",
-  "short_name": "MatiasGameLab",
+  "name": "Marcos y Matías Game Lab",
+  "short_name": "Marcos y Matías",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
