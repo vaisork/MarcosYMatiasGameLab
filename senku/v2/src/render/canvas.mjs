@@ -1,5 +1,6 @@
 // Motor de renderizado en Canvas para Senku 2.
 import { dibujarParalajeDespenadero } from './despenadero.mjs';
+import { dibujarParalajeCima } from './cima.mjs';
 // Resolución lógica fija 16:9 (1280x720) escalada a la ventana con letterbox sin deformar.
 // Fondos por capas con paralaje (cielo 0.1, lejano 0.3, medio 0.6, primer plano 1.0),
 // dibujador de plataformas como objetos ambientales apoyados y taquería detallada.
@@ -1021,6 +1022,8 @@ export function renderizarEscena({
     ctx.drawImage(imagenFondo, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
   } else if (escena.id === 'despenadero') {
     dibujarParalajeDespenadero(ctx, cameraX, tiempo);
+  } else if (escena.id === 'cima') {
+    dibujarParalajeCima(ctx, cameraX, tiempo);
 } else if (escena.id === 'reja') {
     dibujarParalajeReja(ctx, cameraX, tiempo, anchoEscena);
   } else if (escena.id === 'desierto' || fondoCfg.estilo === 'desierto') {
