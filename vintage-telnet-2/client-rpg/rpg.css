@@ -741,6 +741,11 @@ canvas#world {
   box-shadow: 0 4px 10px rgba(0,0,0,0.5);
   transition: all 0.2s;
 }
+.hud-sound-btn { padding: 6px 9px; font-size: 15px; }
+@media (max-width: 600px) {
+  .hud-right .hud-menu-btn { padding: 6px 9px; }
+  .hud-right .btn-menu-label { display: none; } /* deja sitio al botón de sonido; el icono conserva su aria-label */
+}
 .hud-menu-btn:hover {
   border-color: var(--gold-bright);
   filter: brightness(1.15);
@@ -1252,13 +1257,14 @@ canvas#world {
 }
 .panel-account-tools {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-top: 14px;
   padding-top: 12px;
   border-top: 1px solid var(--gold-dark);
 }
 .panel-account-tools button {
-  flex: 1;
+  flex: 1 1 40%;
   min-height: 38px;
   background: var(--btn-neutral);
   border: 1px solid var(--gold-dim);

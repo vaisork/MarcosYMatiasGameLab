@@ -21,3 +21,7 @@ Revisión conjunta de inicio, exploración y combate en 390×844 y 1366×768; re
 Los nuevos fondos son ilustraciones originales generadas para esta entrega; originales y prompts se conservan fuera del repositorio en `entregas/equipo/rpg-visual-piloto`. No añaden arte de jugador o Númen y no requieren un nuevo turnaround de personaje.
 
 Al entrar o cambiar el tamaño del viewport, la presentación busca una celda libre alcanzable próxima al spawn o posición local donde el avatar completo quede fuera del HUD y controles. No modifica las escenas, colisiones, sala del servidor ni acciones; evita apariciones invisibles y rebotes sobre salidas. Los rótulos de escenario se escalan con la densidad de píxeles.
+
+## Sonido (31 de octubre de 2026)
+
+`sonido.js` sintetiza con Web Audio efectos y música chiptune; no hay archivos de audio. El AudioContext nace tras el primer gesto y se suspende con la pestaña oculta. Botón 🔊/🔇 en cabecera y HUD; Música y Efectos por separado en Menú → Más (preferencia en `localStorage`). Temas: uno por pueblo (Valdren, Khariel, Brumak, Narevia, Velmora, Vaisgard), descanso/hogar, campo, bosque, río, montaña, cuevas/canales, mazmorra, batalla por región y jefe. El mapeo sala→tema está en las tablas `MAPA_SALAS`, `BIOMA_*` y `PUEBLO_REGION` de `sonido.js`; `node scripts/check-rpg-sound.mjs` comprueba que toda sala resuelve a un tema. Los golpes, críticos y fallos se deducen de las variaciones reales de PV (el servidor no marca críticos). El cliente MUD no tiene sonido.
