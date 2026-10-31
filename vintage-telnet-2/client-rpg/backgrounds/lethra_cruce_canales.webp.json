@@ -1,0 +1,17 @@
+{
+  "asset_id": "backgrounds/lethra_cruce_canales.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "be0ba35fc5f158d3303c9d4faea09ca55a3d1e4fa9f8a95015f76fea18779761",
+  "bytes": 218662,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-446124b5-cce5-4057-9463-5bf6bf3f7695.png",
+  "source_sha256": "700dd9d4b452c0d313155bdeb087921a49d8014e6f9c233b5a689ff641af2e65",
+  "normalization": "Mechanical center crop to 4:3, Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art composition, no text or actors; permanent terrain matches Tiled solid mask and all actual exit openings remain clear.",
+  "prompt": "Use case: stylized-concept. Asset type: 2D RPG room background for Lethra, lethra_cruce_canales. Generate a detailed modern 16-bit indie pixel-art scene, top-down 3/4 view, 20x15 game grid, 1280x960 composition, natural olive/reed greens, muted clay, warm timber, cool teal water. Scene: Small raised dry wooden platform crossing between two distinct waterways: narrow fast foaming channel on left, quiet dark pool with one floating leaf on right. Broad central wood path joins clear north and south openings, no props on central spine, reeds at edges. No people. Style consistent with the natural wetland and stilt-village appearance of client/art/places/lethra_raices_observacion-anime-v1-thumb.webp. Crisp clustered pixels and tile-scale readability. Obstacles stay in solid cells, route and actual exit gaps stay clear. Avoid actors, creatures, text, UI, logo and watermark.",
+  "webp_quality": 75,
+  "generation_note": "first native generation"
+}

@@ -1,0 +1,17 @@
+{
+  "asset_id": "backgrounds/lethra_banco_conversacion.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "1d3eab113e713279465334b37f153fa1b201ddff2a6983b353787e99873058a1",
+  "bytes": 182662,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-d8a6c162-59c9-4a1f-9d57-d539f356b589.png",
+  "source_sha256": "947aed7d1116f136b47caa2dd047d4f913c700a4c8f98b3a7b0790c628e8f0e2",
+  "normalization": "Mechanical center crop to 4:3, Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art composition, no text or actors; permanent terrain matches Tiled solid mask and all actual exit openings remain clear.",
+  "prompt": "Use case: stylized-concept. Asset type: 2D RPG room background for Lethra, lethra_banco_conversacion. Generate a detailed modern 16-bit indie pixel-art scene, top-down 3/4 view, 20x15 game grid, 1280x960 composition, natural olive/reed greens, muted clay, warm timber, cool teal water. Scene: Quiet covered wooden bench beside canal, simple raised woven-reed roof at upper edge, long clear central earth-and-board path spanning west and east and clear south opening, narrow canal only along top and small outer margins. Empty bench and low bowl beside it; no people. Style consistent with the natural wetland and stilt-village appearance of client/art/places/lethra_raices_observacion-anime-v1-thumb.webp. Crisp clustered pixels and tile-scale readability. Obstacles stay in solid cells, route and actual exit gaps stay clear. Avoid actors, creatures, text, UI, logo and watermark.",
+  "webp_quality": 75,
+  "generation_note": "first native generation"
+}

@@ -138,7 +138,9 @@ const expectedNpcSprites={
  korven_neru:'neru',
  korven_oma:'oma',
  korven_taren:'taren',
- hoshai_yesa:'yesa'
+ hoshai_yesa:'yesa',
+ lethra_nima:'nima',
+ lethra_sola:'sola'
 };
 for(const [id,sprite] of Object.entries(expectedNpcSprites)){
  vm.runInContext(`snapshot.room.npcs=[{id:'${id}'}];`,context);
@@ -157,7 +159,17 @@ for(const sprite of Object.values(expectedNpcSprites)){
 }
 vm.runInContext('snapshot.room.npcs=[]',context);
 assert.equal(vm.runInContext('entities().length',context),0,'Aren artwork alone must not reveal NPC');
-console.log('RPG NPCs: authoritative presence, dedicated map (Bren+4, Nela, Oren, Aren, Yesa), Lina fallback, preloading and 64×96 atlas OK');
+console.log('RPG NPCs: authoritative presence, dedicated map (Bren+4, Nela, Oren, Aren, Yesa, Nima, Sola), Lina fallback, preloading and 64×96 atlas OK');
+const lethraCreatures=['cortacorriente','dorsalodo','pinzajunco','saltalodo','tragacharco','faucecieno','sombranutria'];
+for(const name of lethraCreatures){
+ const map=fs.readFileSync(new URL(`../client-rpg/sprites/${name}.png`,import.meta.url));
+ const battle=fs.readFileSync(new URL(`../client-rpg/sprites/${name}-battle.png`,import.meta.url));
+ assert.equal(map.readUInt32BE(16),48,`${name} map sprite width`);
+ assert.equal(map.readUInt32BE(20),48,`${name} map sprite height`);
+ assert.equal(battle.readUInt32BE(16),192,`${name} battle sprite width`);
+ assert.equal(battle.readUInt32BE(20),192,`${name} battle sprite height`);
+}
+console.log('RPG Lethra fauna: map and battle sprites at 48×48 / 192×192 OK');
 // Verify actual avatar collision geometry, not just point-cell flood fill.
 const regionFiles=fs.readdirSync(new URL('../content/regions/',import.meta.url)).filter(f=>f.endsWith('.json'));
 const rooms=Object.assign({},...regionFiles.map(f=>JSON.parse(fs.readFileSync(new URL('../content/regions/'+f,import.meta.url))).rooms||{}));

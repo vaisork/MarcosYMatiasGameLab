@@ -1,0 +1,17 @@
+{
+  "asset_id": "backgrounds/lethra_cuidado_barcas.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "d11c591864786872d47673a3103d752a1cd5c63a20b3fa73d33728d32838022c",
+  "bytes": 191756,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-e04c8635-a1df-4d99-bc7c-1b080c79f50d.png",
+  "source_sha256": "da1b5598f57022711ab65da60c190ff0fd12bdeab089c8689c7cf57991eef7e7",
+  "normalization": "Mechanical center crop to 4:3, Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only; no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art composition, no text or actors; permanent terrain matches Tiled solid mask and all actual exit openings remain clear.",
+  "prompt": "Use case: stylized-concept. Asset type: 2D RPG room background for Lethra, lethra_cuidado_barcas. Generate a detailed modern 16-bit indie pixel-art scene, top-down 3/4 view, 20x15 game grid, 1280x960 composition, natural olive/reed greens, muted clay, warm timber, cool teal water. Scene: Dry raised boat-care platform with two small canoes tilted on sturdy cradles at left and right, low repair bench and wood wedges at edges, glimpses of water below. Broad straight open path from center to west exit and clear working area. No people. Style consistent with the natural wetland and stilt-village appearance of client/art/places/lethra_raices_observacion-anime-v1-thumb.webp. Crisp clustered pixels and tile-scale readability. Obstacles stay in solid cells, route and actual exit gaps stay clear. Avoid actors, creatures, text, UI, logo and watermark.",
+  "webp_quality": 75,
+  "generation_note": "first native generation"
+}
