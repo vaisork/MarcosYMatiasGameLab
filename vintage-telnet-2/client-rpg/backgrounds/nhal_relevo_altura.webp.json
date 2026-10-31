@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_relevo_altura",
+  "prompt": "Detailed late-16-bit indie RPG pixel-art background, fixed orthographic three-quarter overhead, Nhal village's high trail station overlooking Velmora. A weathered roofed waystation keeps folded route notes dry; a taut cord beside the path marks a safe loading spot, with two simple resting supports off the trail. A plain carved wooden plaque may show an abstract trail mark, no letters. The open earth path connects from the exact west edge through the station clearing and continues to the exact center of the south edge toward the mountains. Keep both exits wide and clear; place shelter posts, benches and cord entirely to the side. Through canopy gaps below, show distant Velmora rooftops in green and the first gray Hoshai slopes beyond; a hint of cool mountain wind in the leaves. Match canonical Nhal style and existing RPG backgrounds. Full bleed to all edges, no border. No people, creatures, readable text, signage, UI, grid or signature. 20x15 map background, target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-e1ef6b5f-7d09-48a4-b644-016757b1078b.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 20,
+  "bytes": 237944,
+  "sha256": "4f779d31688c7f704558648f36f4dd007137646b5e61678782262a29b1c42b8a"
+}

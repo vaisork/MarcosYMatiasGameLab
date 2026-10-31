@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_raiz_marcada",
+  "prompt": "Dark, detailed late-16-bit indie RPG pixel-art background in fixed orthographic three-quarter overhead, Vaisgard Nhal forest. A thick fallen root with a fresh pale scrape and broken bark lies on one side of a quiet clearing. Flattened leaves and faint drag marks lead toward a dense, shadowed stand of close trees; keep the traces visible but subtle and no creature present. A stable patch of firm earth lets a visitor observe without stepping on the marks. One broad clear path leads straight from the center of the scene to the exact center of the south edge, the only exit; no root, rock or shadow barrier crosses it. Silent forest, no birds, subdued green and bark palette with a pale fresh scrape as focal clue. Match Nhal canonical art style. Full bleed, no frame, no margin. No people, creatures, text, glyphs, UI, grid or signature. 20x15 map background, target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-c48e8d43-e513-447e-99e8-dbe724f298e4.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 32,
+  "bytes": 237714,
+  "sha256": "6224d0be99bf0a0cea650f40c4e4a0f452994e8ac891935dadf9156952d47c85"
+}

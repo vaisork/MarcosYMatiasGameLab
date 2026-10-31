@@ -1,0 +1,14 @@
+{
+  "asset_id": "nhal_leris",
+  "prompt": "Transparent 3x4 sprite atlas for adult middle-aged Vesperi storyteller Leris: soft smile lines, dark auburn hair with silver strands in low bun, rounded large ears, amber eyes, muted plum long overshirt, forest-green clothing, folded bark-leaf folio and small wooden repair tool. Front, left, back, right rows; three walk poses each; 64x96 cells; crisp 16-bit pixel art.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-91b20897-29a9-4958-8762-daffce834faa.png",
+  "source_dimensions": "1086x1448",
+  "normalization": "crop 3x4 frames; nearest resize to 64x96 cells, sprite body 72px high, baseline y=92",
+  "frame_size": [
+    64,
+    96
+  ],
+  "bytes": 43519,
+  "sha256": "583f6c417941f9449bd8b387ece09024c6872a58ef4c6e04cb8b01e9cf8463c6"
+}

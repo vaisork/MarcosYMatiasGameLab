@@ -1,0 +1,14 @@
+{
+  "asset_id": "nhal_varo",
+  "prompt": "Transparent sprite atlas: adult male Vesperi road merchant Varo, broad shoulders, short chestnut hair, neat beard and mustache, large rounded ears, amber eyes, dark teal merchant vest, cream shirt, ochre sash, small market satchel. 3 columns by 4 rows: front, left, back, right; 3 walk poses each; crisp 16-bit pixel art, 64x96 cells, alpha.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-70369416-ff28-4d41-9bf7-d6d7d60b0859.png",
+  "source_dimensions": "1086x1448",
+  "normalization": "crop 3x4 frames; nearest resize to 64x96 cells, sprite body 72px high, baseline y=92",
+  "frame_size": [
+    64,
+    96
+  ],
+  "bytes": 46103,
+  "sha256": "960b124ea7919f7640aec1f69e48d63faf9e43eaa8dc8f055f1765047f31f0f8"
+}

@@ -1,0 +1,15 @@
+{
+  "asset_id": "escarbaraiz",
+  "prompt": "Create one complete transparent-background battle sprite of the canon Escarbaraíz, an Nhal burrowing reptile: low and wide with brown overlapping scales, flattened broad body, long grounded tail, four legs and very large muscular clawed forelimbs for digging. No shell, horns, spikes or extra limbs. Three-quarter view toward viewer and slightly left; brace with foreclaws ready to shove and rake. Detailed polished indie RPG creature illustration, crisp scales, natural brown and moss-olive tones, matching existing RPG battle sprite. Whole reptile centered, about 80 percent of square. True transparent background and alpha; no burrow, soil, scenery, shadow, effects, text or border. Square 192x192 battle asset.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-b2fe7685-f33a-4505-9e4f-bed4f2f71bef.png",
+  "reference_image": "/home/jdiaz/proyectos/wt-codex-c2-cm-20-nhal-arte-02/vintage-telnet-2/client/art/bestiary/escarbaraiz-anime-v1.webp",
+  "source_dimensions": "1254x1254",
+  "normalization": "transparent alpha crop; center at 192x192; map variant Lanczos downsample to 48x48",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 2542,
+  "sha256": "d06ca3f32d3e8c0e70280fd15081f476c0d60418b54c16a085651f94b3a60043"
+}

@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_puente_bajo",
+  "prompt": "Detailed 16-bit indie RPG pixel-art background in fixed three-quarter top-down view, Nhal forest. A narrow clear creek runs beneath a gently arched, sturdy wooden footbridge that crosses horizontally through the scene. Two huge living trees stand to the north and south of the bridge and their roots wrap around its supports without blocking the deck. Place a small flat warning stone beside the bank, away from the trail. The walkable route across the bridge must be broad, level and completely clear from the exact center of the west edge to the exact center of the east edge. No water or objects on the deck. Moss, fern banks and canopy frame the water; natural shaded greens and warm wood. Match canonical Nhal bridge art and existing RPG backgrounds. Full bleed to all edges, no frame or margin. No characters, creatures, text, signage, UI, grid or signature. 20x15 map background, target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-184e4d0a-73ec-49d0-85b1-a30998596aea.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 36,
+  "bytes": 243690,
+  "sha256": "2e0dd9a83669da65985d5e218dcc5fd53dc691bef8103ea3467fe7c28ef866e6"
+}

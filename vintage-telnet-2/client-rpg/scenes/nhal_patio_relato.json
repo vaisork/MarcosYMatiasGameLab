@@ -111,5 +111,6 @@
       ]
     }
   ],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/nhal_patio_relato.webp"
 }

@@ -1,0 +1,15 @@
+{
+  "asset_id": "mordesombra",
+  "prompt": "Render one complete Mordesombra creature battle sprite for a forest RPG, using the canonical creature reference faithfully: a low, long-bodied dark-furred ambush predator, six legs clearly visible, narrow head, small alert amber eyes, sharp but natural teeth, elongated tail. It is crouched low and angled three-quarter toward the viewer with head turned slightly left, tense and ready to spring. Detailed polished indie RPG creature art with warm edge lighting and crisp fur detail, matching the supplied existing battle-sprite reference. Full creature centered and fully in frame, occupies about 80 percent of a square canvas. Truly transparent background and alpha, no shadow plane, no foliage, no ground, no text, no effects, no border. Square 192x192 battle asset.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-24a8d4db-9820-4912-b53a-3869e38c8b83.png",
+  "reference_image": "/home/jdiaz/proyectos/wt-codex-c2-cm-20-nhal-arte-02/vintage-telnet-2/client/art/bestiary/mordesombra-anime-v1.webp",
+  "source_dimensions": "1254x1254",
+  "normalization": "transparent alpha crop; center at 192x192; map variant Lanczos downsample to 48x48",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 3270,
+  "sha256": "ded80a94eff8fa3b84ca02ca67de8e80024e9e7183cc70a24183961de2b23438"
+}

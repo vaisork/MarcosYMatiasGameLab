@@ -1,0 +1,14 @@
+{
+  "asset_id": "nhal_sira",
+  "prompt": "Transparent 3x4 sprite atlas for adult Vesperi care-provider Sira: compact sturdy build, short neat dark bob with pale temple streak, rounded ears, amber eyes, cream tunic and sage apron, belt pouch and folded clean bandage. Front, left, back, right rows; three walk poses each; 64x96 cells; crisp 16-bit pixel art.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a190e2-b858-7e80-ad54-4d0cf662b752/exec-cb05ce3f-1e87-4430-8969-e66204bc334a.png",
+  "source_dimensions": "1122x1402",
+  "normalization": "crop 3x4 frames; nearest resize to 64x96 cells, sprite body 72px high, baseline y=92",
+  "frame_size": [
+    64,
+    96
+  ],
+  "bytes": 43506,
+  "sha256": "479ccb1efe28fb9acd294998d7577e17b0b8f9ae9ed49a5d99664837cc7c8aae"
+}
