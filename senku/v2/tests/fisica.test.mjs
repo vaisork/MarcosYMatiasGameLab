@@ -184,7 +184,7 @@ test('entrada: crearManejadorEntrada procesa eventos simulados de teclado y tác
   assert.deepEqual(entrada.obtenerEstado(), {
     izquierda: false,
     derecha: false,
-    salto: false, atacar: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
+    salto: false, atacar: false, anclar: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   // Presionar KeyA (izquierda)
