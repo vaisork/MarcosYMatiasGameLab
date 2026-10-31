@@ -1,0 +1,15 @@
+{
+  "asset_id": "cienfango-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-d3bf7381-a39a-4e61-ae8f-e4d49f520343.png",
+  "source_sha256": "556137fd9b55841968d8306f125b6c543f52f5234158f56fc875303d99fadb5b",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 53780,
+  "sha256": "114c8f444137f039e7bfc6226fd59f8958a056305a645cce1cde1620a3ae47ce",
+  "normalization": "192x192 battle creature; alpha bounds trimmed and centered proportional fit when applicable; RGBA preserved",
+  "review": "SELF_REVIEW_PASS: canon-compatible subject, clear silhouette, transparency retained.",
+  "prompt": "Use case: stylized-concept. Asset type: transparent 192×192 pixel-art RPG battle creature portrait, normalized to PNG. Image 1 supplies canonical Cienfango anatomy; image 2 locks its exact brown segmented body and curved mandibles. Show the same long mud-brown many-legged arthropod lifting its front segments and spreading curved jaws in a clear battle-ready posture, 3/4 view, centered and large. Detailed crisp late-16-bit clusters with wet highlights and tiny amber eyes; non-gory. Preserve recognizable anatomy and species. True transparent background. No ground, roots, debris, shadow, effects, text, frame, watermark, or extra creature."
+}

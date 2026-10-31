@@ -1,0 +1,14 @@
+{
+  "asset_id": "backgrounds/lethra_sala_cuidados.webp",
+  "prompt": "Use case: stylized-concept. Asset type: navigable Vaisgard RPG room background, final 1280×960 WebP. Reference 1 is canon for Narevia's covered care platform; reference 2 establishes the game's Lethra pixel-art scale and palette. Depict a quiet dry wooden care platform with woven awning and folded clean cloths, a simple water jug and low resting bench kept along the north and side walls. A central passage remains free and connects to the single west-edge opening; the east edge, including its middle, is closed with a solid platform edge and rail. 20×15 tile view, top-down three-quarter, detailed 16-bit pixel art, calm warm wood, muted teal water beyond platform, olive reeds, gentle upper-left lamp/daylight. Full bleed, no people or NPC, no creatures, no text, no UI, no borders or watermark. No extra doors or openings.",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-b957c3d6-600c-4277-8588-2111d5742e53.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 64,
+  "bytes": 249498,
+  "sha256": "9701851f21540a37cb248cc93dbb9cd9a4d618e5de50ac19e433da881930ad8b",
+  "normalization": "center crop to 4:3; Lanczos to 640x480; nearest-neighbor upscale to 1280x960; WebP"
+}
