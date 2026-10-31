@@ -73,7 +73,8 @@ function icono(ctx, o, tiempo) {
 export function dibujarDespenadero(ctx, escena, tiempo = 0) {
   if (!ctx || escena?.id !== 'despenadero') return;
   for (const p of escena.plataformas) {
-    if (p.tipo === 'pared') rocaVertical(ctx, p);
+    // Con escena pintada, la roca ya está en la ilustración; los anclajes sí se marcan.
+    if (p.tipo === 'pared' && !escena.arte) rocaVertical(ctx, p);
     else if (p.tipo === 'anclaje') anclaje(ctx, p, tiempo);
   }
   for (const o of escena.objetos) {
