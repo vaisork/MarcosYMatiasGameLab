@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { avanzarReloj, crearPartida, finalizarPartida, iniciarBonus, DURACION, TOPE_CHURUS } from '../src/bonus_camioneta.mjs';
+import { avanzarReloj, crearPartida, finalizarPartida, iniciarBonus, DURACION, TOPE_CHURUS, ID_PREMIO } from '../src/bonus_camioneta.mjs';
 import { cargar, estadoNuevo, guardar } from '../src/core/store.mjs';
 import { memoria } from './ayuda.mjs';
 
@@ -32,7 +32,7 @@ test('premio se limita a 30 y no se duplica al recargar la pantalla final', () =
   guardar(almacen, { ...estadoNuevo(), churus: 10 });
   const partida = { ...crearPartida(), fase: 'fin', churus: TOPE_CHURUS + 9 };
   assert.equal(finalizarPartida(almacen, partida).estado.churus, 40);
-  assert.equal(finalizarPartida(almacen, partida).guardado, false);
+  assert.equal(finalizarPartida(almacen, partida).repetido, true, 'sin segundo premio');
   assert.equal(cargar(almacen).estado.churus, 40);
 });
 
@@ -95,4 +95,13 @@ test('Senku salta sobre la camioneta, junta churus en el aire y un zanate le qui
   avanzarJuego(p, {}, 0, W, H);
   assert.equal(p.churus, 3);
   assert.ok(p.invulnerable > 0);
+});
+
+test('bonus repetido (jugar desde el principio): no da churus pero avanza a la siguiente escena', () => {
+  const almacen = memoria();
+  guardar(almacen, { ...estadoNuevo(), churus: 7, coleccionados: [ID_PREMIO], progreso: { escena: 'ciudad' } });
+  const res = finalizarPartida(almacen, { ...crearPartida(), fase: 'fin', churus: 20 });
+  assert.equal(res.repetido, true);
+  assert.equal(cargar(almacen).estado.churus, 7);
+  assert.equal(cargar(almacen).estado.progreso.escena, 'reja');
 });

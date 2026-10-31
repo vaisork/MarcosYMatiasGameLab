@@ -5,6 +5,7 @@ import {
   avanzarReloj,
   crearPartida,
   finalizarPartida,
+  ID_PREMIO,
   iniciarBonus,
   nivelEnCamion,
   CAPAS_PARALAJE,
@@ -44,7 +45,7 @@ test('premio se limita a 30 y no se duplica al recargar la pantalla final', () =
   guardar(almacen, { ...estadoNuevo(), churus: 12 });
   const partida = { ...crearPartida(), fase: 'fin', churus: TOPE_CHURUS + 11 };
   assert.equal(finalizarPartida(almacen, partida).estado.churus, 42);
-  assert.equal(finalizarPartida(almacen, partida).guardado, false);
+  assert.equal(finalizarPartida(almacen, partida).repetido, true, 'sin segundo premio');
   assert.equal(cargar(almacen).estado.churus, 42);
 });
 
@@ -176,4 +177,13 @@ test('conexión ciudad → camión: al subir al camión en la ciudad abre bonus-
   juego.avanzarPaso(3);
   assert.equal(ventana.location.href, './bonus-camion.html');
   juego.detener();
+});
+
+test('bonus repetido (jugar desde el principio): no da churus pero avanza a la siguiente escena', () => {
+  const almacen = memoria();
+  guardar(almacen, { ...estadoNuevo(), churus: 7, coleccionados: [ID_PREMIO], progreso: { escena: 'ciudad' } });
+  const res = finalizarPartida(almacen, { ...crearPartida(), fase: 'fin', churus: 20 });
+  assert.equal(res.repetido, true);
+  assert.equal(cargar(almacen).estado.churus, 7);
+  assert.equal(cargar(almacen).estado.progreso.escena, 'taqueria');
 });
