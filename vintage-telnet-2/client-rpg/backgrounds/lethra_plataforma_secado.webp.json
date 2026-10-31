@@ -1,0 +1,23 @@
+{
+  "prompt": "Detailed modern 16-bit pixel-art RPG background, top-down three-quarter view. Lethra raised drying platform with long separated wooden rails, muted patched cloth, folded linens and baskets. Warm aged timber, olive leaves, muted turquoise channels, crisp pixel clusters, upper-left daylight. Keep broad clear dry central lanes and open north-center and east-edge exits. Drying equipment only on outer solid platform areas. No people, creatures, text, UI, grid, watermark or borders.",
+  "source": "image_gen nativo",
+  "normalization": "Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP quality 42 (method 6); no painted edits.",
+  "created_at": "2026-10-30",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "bytes": 154236,
+  "quality": 42,
+  "sha256": "49153d71a1304729ca765dd9dd537b54554623eeb309aae3a7bd0ff7335efda8",
+  "asset_id": "backgrounds/lethra_plataforma_secado.webp",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-b16d7306-ffd7-4930-b1a6-e15fb37f1221.png",
+  "source_sha256": "7b426156677b7e78d1de66d77f387e4e69e2d78d3ccc664fd8e9d9eb16615873",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art scene, no actors; visually checked against the scene/Tiled solid mask, spawns and real exits.",
+  "webp_quality": 42,
+  "reference_images": [
+    "client/art/places/lethra_plataforma_secado-anime-v1.webp",
+    "client-rpg/backgrounds/lethra_banco_barro.webp"
+  ]
+}

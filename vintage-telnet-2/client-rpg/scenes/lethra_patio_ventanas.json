@@ -90,5 +90,6 @@
     }
   ],
   "npcs": [],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/lethra_patio_ventanas.webp"
 }
