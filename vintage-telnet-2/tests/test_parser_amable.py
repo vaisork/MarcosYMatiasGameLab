@@ -1,4 +1,5 @@
 """Friendly commands retain room and species guards."""
+import random
 import unittest
 from pathlib import Path
 from server import mechanics as m
@@ -15,7 +16,7 @@ class FriendlyParserTests(unittest.TestCase):
  def command(self,text):
   intent=self.e.parse_intent(self.c,self.w,{'text':text});self.e.apply(self.c,self.w,intent);return intent
  def test_look_aliases(self):
-  for text in ('mira','mirar','MÍRA'):
+  for text in ('mira','mirar','MÍRA','l','L'):
    self.assertEqual(self.command(text)['id'],'mirar')
    self.assertIn(self.content.rooms[self.c['state']['location']]['description'],' '.join(e['text'] for e in self.c['state']['events']))
  def test_greeting_and_existing_conversation(self):
@@ -90,3 +91,44 @@ class FriendlyParserTests(unittest.TestCase):
   error=str(caught.exception)
   self.assertIn('Examinar apoyo alto',error)
   self.assertNotIn('_',error)
+ def test_inventory_abbreviations(self):
+  for text in ('i','inv','inventario','I','INV','el inventario'):
+   self.assertEqual(self.e.parse_intent(self.c,self.w,{'text':text})['id'],'inventario')
+ def test_examine_abbreviations_and_articles(self):
+  self.place('khariel_centro','felaryn')
+  for text in ('x apoyo alto','x el apoyo alto','X APOYO ALTO','examinar el apoyo alto','examinar un apoyo alto','x un apoyo alto'):
+   intent=self.command(text)
+   self.assertEqual(intent['id'],'examinar')
+   self.assertEqual(intent['target'],'apoyo_alto')
+ def test_movement_cardinals_vertical_and_articles(self):
+  room=self.content.rooms['lethra_orilla_silente']
+  room['exits']['arriba']='lethra_banco_barro'
+  room['exits']['abajo']='lethra_raices_observacion'
+  for text,target in [('norte','norte'),('n','norte'),
+                      ('ir al norte','norte'),('al norte','norte'),
+                      ('oeste','oeste'),('o','oeste'),
+                      ('arriba','arriba'),('ar','arriba'),('ir arriba','arriba'),
+                      ('abajo','abajo'),('ab','abajo'),('ir al abajo','abajo')]:
+   intent=self.e.parse_intent(self.c,self.w,{'text':text})
+   self.assertEqual(intent['id'],'mover')
+   self.assertEqual(intent['target'],target)
+ def test_choose_by_number(self):
+  choices=self.e.actions(self.c,self.w)
+  self.assertGreater(len(choices),1)
+  intent1=self.e.parse_intent(self.c,self.w,{'text':'1'})
+  self.assertEqual(intent1['id'],choices[0]['id'])
+  intent2=self.e.parse_intent(self.c,self.w,{'text':'2'})
+  self.assertEqual(intent2['id'],choices[1]['id'])
+ def test_close_match_suggestion_without_execution(self):
+  self.place('khariel_centro','felaryn')
+  examined_before=dict(self.c['state'].get('examined',{}))
+  with self.assertRaises(RuleError) as caught:
+   self.command('exminar compueta')
+  msg=str(caught.exception)
+  self.assertIn('¿Quisiste decir',msg)
+  self.assertEqual(self.c['state'].get('examined',{}),examined_before)
+  with self.assertRaises(RuleError) as caught2:
+   self.command('abrir puerta magica inexistente')
+  msg2=str(caught2.exception)
+  self.assertNotIn('¿Quisiste decir',msg2)
+  self.assertIn('No entiendo esas palabras.',msg2)

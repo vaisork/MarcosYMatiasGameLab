@@ -1,4 +1,5 @@
 """Fresh state transitions and authored situational narrative."""
+import difflib
 import json
 import hashlib
 import math
@@ -9,6 +10,12 @@ import uuid
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from . import mechanics as m
+
+ARTICLES = {'el', 'la', 'los', 'las', 'un', 'una', 'al', 'del'}
+
+def strip_articles(value):
+    words = [w for w in str(value).split() if w not in ARTICLES]
+    return ' '.join(words) if words else str(value)
 
 class RuleError(ValueError):
     def __init__(self,message,status=400):self.status=status;super().__init__(message)
@@ -902,9 +909,18 @@ class Engine:
             return ' '.join(re.sub(r'[^\w\s]',' ',value).split())
         if text.strip().casefold().startswith('decir '):return {'id':'decir','text':text.strip()[6:]}
         typed=normalize(text);state=character['state'];room=self.room(character,world);matches=[]
-        if typed in ('mira','mirar'):typed='mirar'
-        if typed in ('ayuda','inventario'):return {'id':typed}
+        if typed in ('mira','mirar','l') or strip_articles(typed) in ('mira','mirar'):typed='mirar'
+        elif typed.startswith('mira '):typed='mirar '+typed[5:]
+        elif typed.startswith('l '):typed='mirar '+typed[2:]
+        elif typed in ('i','inv','inventario') or strip_articles(typed) in ('i','inv','inventario'):return {'id':'inventario'}
+        elif typed in ('ayuda',) or strip_articles(typed) in ('ayuda',):return {'id':'ayuda'}
+        elif typed=='x':typed='examinar'
+        elif typed.startswith('x '):typed='examinar '+typed[2:].strip()
         choices=self.actions(character,world)
+        if typed.isdigit():
+            idx=int(typed)-1
+            if 0<=idx<len(choices):
+                matches.append(choices[idx])
         raw_clean=text.strip()
         for prefix in ('vincular numen ','vincular ','adoptar '):
             if raw_clean.casefold().startswith(prefix):
@@ -918,17 +934,20 @@ class Engine:
                 if n_choice:
                     return {'id':'nombrar_numen','target':n_choice.get('target'),'name':raw_clean[len(prefix):]}
         for npc in self.people(room,state,world,self.ambient(room,world)) if not state['combat'] else []:
-            if typed in {normalize(prefix+' '+npc['name']) for prefix in ('hablar','hablar con','conversar con')}:
+            if typed in {normalize(prefix+' '+npc['name']) for prefix in ('hablar','hablar con','conversar con')} or strip_articles(typed) in {strip_articles(normalize(prefix+' '+npc['name'])) for prefix in ('hablar','hablar con','conversar con')}:
                 return {'id':'saludar','target':npc['id']}
+        candidate_map={'mirar':'mirar','inventario':'inventario','ayuda':'ayuda'}
         for choice in choices:
             id=choice['id'];target=choice.get('target');aliases={normalize(choice['label'])}
             if target is None:aliases.add(normalize(id))
             if id=='mover':
                 aliases.update(normalize(v) for v in (target,'ir '+target,'mover '+target))
                 if target=='hogar':aliases.update(('volver a casa','volver al hogar','casa'))
-                short={'norte':'n','sur':'s','este':'e','oeste':'o'}
+                short={'norte':'n','sur':'s','este':'e','oeste':'o','arriba':'ar','abajo':'ab'}
                 if target in short:aliases.add(short[target])
-            elif id=='examinar':aliases.add(normalize('examinar '+target))
+            elif id=='examinar':
+                aliases.add(normalize('examinar '+target))
+                aliases.add(normalize('x '+target))
             elif id=='mirar_direccion':aliases.update(normalize(v) for v in ('mirar '+target,'mirar al '+target,'mirar hacia el '+target))
             elif id=='hablar':
                 npc=self.content.npcs.get(target,{})
@@ -962,14 +981,26 @@ class Engine:
                 elif id=='nombrar_numen':aliases.update(('nombrar','renombrar','cambiar nombre','nombrar numen','renombrar numen'))
                 elif id=='apoyo_numen':aliases.update(('apoyo','apoyo numen','companero'))
                 elif id=='vincular_numen':aliases.update(('vincular','vincular numen','adoptar'))
-            if typed in aliases:matches.append(choice)
+            all_aliases=set(aliases)
+            for a in aliases:
+                stripped=strip_articles(a)
+                if stripped:all_aliases.add(stripped)
+            for a in all_aliases:
+                if not choice.get('disabled'):candidate_map[a]=a
+            if typed in all_aliases or strip_articles(typed) in all_aliases:matches.append(choice)
+        for authored in room.get('actions',[]):
+            lbl=normalize(authored['label'])
+            candidate_map[lbl]=lbl
+            candidate_map[strip_articles(lbl)]=strip_articles(lbl)
         if not matches and not state['combat']:
             def keywords(value):return set(normalize(value).split())-{'a','al','la','las','el','los','de','del','en','con','y','un','una'}
             words=keywords(typed)
             for authored in room.get('actions',[]):
                 label=keywords(authored['label'])
                 water=typed=='nadar' and bool(label&{'nadar','agua','sumergirse'})
-                if not ((words and words.issubset(label) and normalize(typed).split()[0]==normalize(authored['label']).split()[0]) or water):continue
+                typed_first=strip_articles(typed).split()[0] if strip_articles(typed).split() else ''
+                auth_first=strip_articles(normalize(authored['label'])).split()[0] if strip_articles(normalize(authored['label'])).split() else ''
+                if not ((words and words.issubset(label) and typed_first==auth_first) or water):continue
                 without_species={k:v for k,v in authored.items() if k not in ('requires_species','requires_attribute','requires_attributes')}
                 if not self.allowed(without_species,state,world):continue
                 if not self.allowed(authored,state,world):
@@ -986,6 +1017,12 @@ class Engine:
             local=[a for a in choices if not a.get('disabled') and (a['id'] in ('mover','examinar') or a['id'] in {item['id'] for item in room.get('actions',[])})]
             suggestions=[a['label'].replace('_', ' ') for a in local[:3]]
             suggestions += [a['label'].replace('_', ' ') for a in choices if not a.get('disabled') and a['label'].replace('_', ' ') not in suggestions][:max(0,3-len(suggestions))]
+            close=difflib.get_close_matches(typed,list(candidate_map.keys()),n=1,cutoff=0.6)
+            if not close and strip_articles(typed)!=typed:
+                close=difflib.get_close_matches(strip_articles(typed),list(candidate_map.keys()),n=1,cutoff=0.6)
+            if close:
+                sugg=candidate_map[close[0]]
+                raise RuleError(f"No entiendo esas palabras. ¿Quisiste decir {sugg}? Puedes probar: {'; '.join(suggestions)}.",409)
             raise RuleError('No entiendo esas palabras. Puedes probar: '+'; '.join(suggestions)+'.',409)
         choice=matches[0]
         if choice.get('disabled'):raise RuleError(choice.get('reason') or 'Esa decisión todavía no está disponible.',409)
