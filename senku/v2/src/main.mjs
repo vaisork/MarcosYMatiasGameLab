@@ -19,7 +19,7 @@ import { crearRegistroEscenas } from './core/escenas.mjs';
 import { escenaCiudad } from './data/escenas/ciudad.mjs';
 import { escenaTaqueria } from './data/escenas/taqueria.mjs';
 import { escenaDesierto } from './data/escenas/desierto.mjs';
-import { escenaDespenadero, puntoControlPara } from './data/escenas/despenadero.mjs';
+import { escenaDespenadero } from './data/escenas/despenadero.mjs';
 import { crearAnclador, soltarAnclador } from './core/anclador.mjs';
 import { pasoMovilidad } from './core/movilidad.mjs';
 import { dibujarDespenadero, dibujarAnclador } from './render/despenadero.mjs';
@@ -584,7 +584,6 @@ export function arrancarSenku2({
   refrescarVistaTraje();
   // Despeñadero: anclador sólo dentro del nivel (temporal); garras para siempre.
   const anclador = crearAnclador();
-  let xMaximaEscena = 0;
   const tiene = (id) => estadoJugador.coleccionados.includes(id);
   function actualizarBotonGancho() {
     const boton = documento.getElementById('btn-gancho');
@@ -775,7 +774,6 @@ export function arrancarSenku2({
   function reiniciarEscena({ puntoEntrada = escenaActual.puntoEntrada, curar = true } = {}) {
     soltarAnclador(anclador);
     senku.agarrado = null;
-    xMaximaEscena = puntoEntrada.x;
     actualizarBotonGancho();
     senku.x = puntoEntrada.x;
     senku.y = puntoEntrada.y;
@@ -943,14 +941,13 @@ export function arrancarSenku2({
       if (eventosMovilidad.includes('enganchar')) reproducirSonidoChuru(ventana);
       if (eventosMovilidad.includes('coronar')) mostrarAviso('¡Arriba!', 0.8);
 
-      // Caer al abismo regresa al último punto de control alcanzado.
-      xMaximaEscena = Math.max(xMaximaEscena, senku.x);
+      // Caer al abismo regresa al inicio del despeñadero (decisión de Javier, 30/10/2026).
       if (escenaActual.id === 'despenadero'
           && senku.y + senku.h > escenaDespenadero.alturaCaida) {
-        const p = puntoControlPara(escenaDespenadero, xMaximaEscena);
+        const p = escenaDespenadero.puntoEntrada;
         soltarAnclador(anclador);
         Object.assign(senku, { x: p.x, y: p.y, vx: 0, vy: 0, agarrado: null, enSuelo: false });
-        mostrarAviso('¡Uy! Otra vez desde aquí.', 1.5);
+        mostrarAviso('¡Caíste! De vuelta al inicio del despeñadero.', 2);
       }
 
       // Amortiguación al aterrizar (absorción del impacto)
