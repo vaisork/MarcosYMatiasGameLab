@@ -9,9 +9,10 @@ La colección contará aventuras autosuficientes en el universo de VT2, sin exig
 
 ## Conjunto de libros (provisional)
 I. **El primer camino:** preparación, decisiones, primeras rutas, descubrimiento de fauna y llegada a Vaisgard.
-II. **Las cinco rutas:** Edran, Hoshai, Korven, Lethra y Nhal.
-III. **Rastros y rumores:** investigación y memoria local; secretos sólo insinuados cuando está permitido.
-IV. **Historias de Vaisgard:** voces, oficios, entradas, barrios y pasado inconcluso.
+II. **Libro de los Felaryn (título por confirmar):** Khariel y la Sierra de Hoshai; una historia autosuficiente sobre observación, responsabilidad y cargas compartidas. Plan y permisos en `libro-2/CANON_FELARYN.md`, `PREMISA.md` e `INDICE.md`.
+III. **Rastros y rumores (provisional):** investigación y memoria local; secretos sólo insinuados cuando está permitido.
+IV. **Historias de Vaisgard (provisional):** voces, oficios, entradas, barrios y pasado inconcluso.
+V o posterior. **Las cinco rutas:** Edran, Hoshai, Korven, Lethra y Nhal; posición definitiva pendiente, no es el Libro II.
 
 ## Diseño de experiencia
 1. El protagonista quiere algo concreto (no «salvar el mundo»).
@@ -44,3 +45,7 @@ Ilustraciones editoriales serán reutilización de los **mismos archivos aprobad
 - [ ] Compatibilidad de nuevos hechos materiales de riego cotejada con Arquitectura VT2 antes del merge.
 
 **La Biblia y el arco no se consideran cerrados por estar versionados en la PR.**
+
+
+## Libro II — protocolo de arranque (2026-10-16)
+La fase 0 se prepara en la rama `editorial/libro-2-plan`; no fusionar automáticamente. El Libro II no expande canon reservado ni contenido jugable. Cuando esté lista la PR de plan y el propietario la fusione, comenzará el borrador por tandas en otra PR, con relevo por hito. El título definitivo corresponde al propietario; narración y escenas, al Arquitecto/Escritor. El cierre EPUB corresponde a Claude, Codex y Antigravity conforme al plan en Conocimiento.
