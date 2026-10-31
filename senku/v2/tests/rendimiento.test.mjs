@@ -16,9 +16,12 @@ const V2 = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 test('arte por escena: tramos si los tiene, capas de paralaje si no', () => {
   assert.deepEqual(rutasArteEscena(escenaTaqueria), escenaTaqueria.arte.tramos.map((t) => t.ruta));
-  assert.deepEqual(rutasArteEscena(escenaReja), ['cielo', 'lejano', 'medio'].map((c) => `assets/fondos/paralaje/reja_${c}.webp`));
+  assert.deepEqual(rutasArteEscena(escenaReja), escenaReja.arte.tramos.map((t) => t.ruta));
+  // Sin tramos pintados se usan las capas de paralaje de su estilo.
+  const rejaSinTramos = { ...escenaReja, arte: null };
+  assert.deepEqual(rutasArteEscena(rejaSinTramos), ['cielo', 'lejano', 'medio'].map((c) => `assets/fondos/paralaje/reja_${c}.webp`));
   assert.deepEqual(rutasArteEscena(null), []);
-  for (const ruta of [...rutasArteEscena(escenaTaqueria), ...rutasArteEscena(escenaReja)]) {
+  for (const ruta of [...rutasArteEscena(escenaTaqueria), ...rutasArteEscena(escenaReja), ...rutasArteEscena(rejaSinTramos)]) {
     assert.ok(fs.existsSync(path.join(V2, ruta)), ruta);
   }
 });
