@@ -10,6 +10,11 @@ export const SUAVIDAD_DEFECTO = 14;
 export const TIEMPO_SALTO_MAX_DEFECTO = 0.25; // s: tiempo máximo de mantenimiento de impulso
 export const VELOCIDAD_CORTE_SALTO_DEFECTO = 260; // px/s: velocidad ascendente máxima al soltar antes
 export const FACTOR_CORTE_SALTO_DEFECTO = 0.5; // factor reductor de velocidad vertical al cortar
+export const COYOTE_MS_DEFECTO = 100;
+export const BUFFER_SALTO_MS_DEFECTO = 120;
+export const FACTOR_CAIDA_DEFECTO = 1.7;
+export const ALTURA_GATO_JUEGO = 90;
+export const ANCHO_GATO_JUEGO = 96;
 
 export function crearCuerpo({
   x = 0,
@@ -22,8 +27,11 @@ export function crearCuerpo({
   mirando = 1, // 1: derecha, -1: izquierda
   saltando = false,
   tiempoSalto = 0,
+  tiempoCoyote = 0,
+  tiempoBufferSalto = 0,
+  saltoPresionado = false,
 } = {}) {
-  return { x, y, w, h, vx, vy, enSuelo, mirando, saltando, tiempoSalto };
+  return { x, y, w, h, vx, vy, enSuelo, mirando, saltando, tiempoSalto, tiempoCoyote, tiempoBufferSalto };
 }
 
 // Comprueba solapamiento AABB simple entre dos rectángulos {x, y, w, h}
@@ -34,6 +42,13 @@ export function solapanAABB(a, b) {
     a.y < b.y + b.h &&
     a.y + a.h > b.y
   );
+}
+
+export function solapanRecogible(jugador, objeto, margen = 10) {
+  return Boolean(jugador && objeto && solapanAABB(jugador, {
+    x: objeto.x - margen, y: objeto.y - margen,
+    w: (objeto.w || 22) + margen * 2, h: (objeto.h || 22) + margen * 2,
+  }));
 }
 
 // Avanza un paso de simulación física con paso de tiempo dt fijo o acotado.
@@ -56,6 +71,9 @@ export function actualizarCuerpo(
   const velocidadCorte = config.velocidadCorteSalto ?? VELOCIDAD_CORTE_SALTO_DEFECTO;
   const factorCorte = config.factorCorteSalto ?? FACTOR_CORTE_SALTO_DEFECTO;
   const saltoVariableHabilitado = config.saltoVariable !== false;
+  const coyoteMax = (config.coyoteMs ?? COYOTE_MS_DEFECTO) / 1000;
+  const bufferMax = (config.bufferSaltoMs ?? BUFFER_SALTO_MS_DEFECTO) / 1000;
+  const factorCaida = config.factorCaida ?? FACTOR_CAIDA_DEFECTO;
 
   // Inicializar propiedades de salto si no existen
   if (cuerpo.saltando === undefined) {
@@ -75,11 +93,18 @@ export function actualizarCuerpo(
   }
 
   // 2. Salto y control de salto variable
-  if (entrada.salto && cuerpo.enSuelo) {
+  const saltoNuevo = Boolean(entrada.salto) && !cuerpo.saltoPresionado;
+  if (saltoNuevo) cuerpo.tiempoBufferSalto = bufferMax;
+  else cuerpo.tiempoBufferSalto = Math.max(0, (cuerpo.tiempoBufferSalto || 0) - paso);
+  if (cuerpo.enSuelo) cuerpo.tiempoCoyote = coyoteMax;
+  else cuerpo.tiempoCoyote = Math.max(0, (cuerpo.tiempoCoyote || 0) - paso);
+  if (cuerpo.tiempoBufferSalto > 0 && (cuerpo.enSuelo || cuerpo.tiempoCoyote > 0)) {
     cuerpo.vy = -fuerzaSalto;
     cuerpo.enSuelo = false;
     cuerpo.saltando = true;
     cuerpo.tiempoSalto = 0;
+    cuerpo.tiempoBufferSalto = 0;
+    cuerpo.tiempoCoyote = 0;
   } else if (cuerpo.saltando && saltoVariableHabilitado) {
     cuerpo.tiempoSalto += paso;
     if (!entrada.salto) {
@@ -94,7 +119,7 @@ export function actualizarCuerpo(
   }
 
   // 3. Aplicar gravedad
-  cuerpo.vy += gravedad * paso;
+  cuerpo.vy += gravedad * (cuerpo.vy > 0 ? factorCaida : 1) * paso;
 
   // 4. Movimiento horizontal
   cuerpo.x += cuerpo.vx * paso;
@@ -132,6 +157,7 @@ export function actualizarCuerpo(
         cuerpo.y = plat.y - cuerpo.h;
         cuerpo.vy = 0;
         cuerpo.enSuelo = true;
+        cuerpo.tiempoCoyote = coyoteMax;
         cuerpo.saltando = false;
         cuerpo.tiempoSalto = 0;
         break;
@@ -149,10 +175,22 @@ export function actualizarCuerpo(
       cuerpo.y = limites.maxY - cuerpo.h;
       cuerpo.vy = 0;
       cuerpo.enSuelo = true;
+      cuerpo.tiempoCoyote = coyoteMax;
       cuerpo.saltando = false;
       cuerpo.tiempoSalto = 0;
     }
   }
+
+  // El buffer puede dispararse en el mismo paso en que aterriza el cuerpo.
+  if (cuerpo.enSuelo && cuerpo.tiempoBufferSalto > 0) {
+    cuerpo.vy = -fuerzaSalto;
+    cuerpo.enSuelo = false;
+    cuerpo.saltando = true;
+    cuerpo.tiempoSalto = 0;
+    cuerpo.tiempoBufferSalto = 0;
+    cuerpo.tiempoCoyote = 0;
+  }
+  cuerpo.saltoPresionado = Boolean(entrada.salto);
 
   return cuerpo;
 }

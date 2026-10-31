@@ -2,14 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { validarEscena } from '../src/core/escenas.mjs';
 import { escenaTaqueria } from '../src/data/escenas/taqueria.mjs';
-import { crearCuerpo, actualizarCuerpo, FUERZA_SALTO_DEFECTO, GRAVEDAD_DEFECTO } from '../src/core/fisica.mjs';
+import { crearCuerpo, actualizarCuerpo, FUERZA_SALTO_DEFECTO, GRAVEDAD_DEFECTO, ANCHO_GATO_JUEGO, ALTURA_GATO_JUEGO } from '../src/core/fisica.mjs';
 import { crearEnemigo } from '../src/core/enemigos.mjs';
 import { modoDebugActivo, renderizarEscena } from '../src/render/canvas.mjs';
 
 const { escena } = validarEscena(escenaTaqueria);
 const PLATS = escena.plataformas;
 const SUELO = PLATS.find((p) => p.tipo === 'suelo');
-const JUGADOR = { w: 54, h: 42 }; // mismo tamaño que main.mjs
+const JUGADOR = { w: ANCHO_GATO_JUEGO, h: ALTURA_GATO_JUEGO };
 const DT = 1 / 60;
 
 // Plataforma sobre la que está de pie un cuerpo (pies apoyados en su cara superior)
@@ -84,7 +84,7 @@ function alcanzables() {
 test('salto actual: altura máxima ~128 px; ninguna plataforma exige más de 110 px de subida entre apoyos', () => {
   const altura = FUERZA_SALTO_DEFECTO ** 2 / (2 * GRAVEDAD_DEFECTO);
   assert.ok(altura > 120 && altura < 130, `altura ${altura}`);
-  assert.ok(PLATS.length >= 15, 'escena con plataformas sobre elementos del dibujo');
+  assert.ok(PLATS.length >= 20, 'escena larga con plataformas definidas');
 });
 
 test('todas las plataformas son alcanzables con el salto real desde la banqueta', () => {
@@ -126,7 +126,7 @@ test('recogibles: 5-8 churus y un botiquín, dentro del lienzo y tomables desde 
   const l = escena.limites;
   const objetos = escena.objetos;
   const churus = objetos.filter((o) => o.tipo === 'churu');
-  assert.ok(churus.length >= 5 && churus.length <= 8, `churus: ${churus.length}`);
+  assert.ok(churus.length >= 14 && churus.length <= 20, `churus: ${churus.length}`);
   assert.equal(objetos.filter((o) => o.tipo === 'botiquin').length, 1);
   assert.equal(new Set(objetos.map((o) => o.id)).size, objetos.length, 'ids únicos');
 
@@ -148,7 +148,7 @@ test('recogibles: 5-8 churus y un botiquín, dentro del lienzo y tomables desde 
 
 test('enemigos: 2-3, patrullan sobre una plataforma real y dentro del lienzo', () => {
   const enemigos = escena && escenaTaqueria.enemigos.map(crearEnemigo);
-  assert.ok(enemigos.length >= 2 && enemigos.length <= 3);
+  assert.ok(enemigos.length >= 10);
   for (const e of enemigos) {
     const sobre = PLATS.find((p) => Math.abs(e.y + e.h - p.y) < 0.01);
     assert.ok(sobre, `${e.id} apoyado en una plataforma`);
@@ -158,7 +158,7 @@ test('enemigos: 2-3, patrullan sobre una plataforma real y dentro del lienzo', (
   }
 });
 
-test('modo debug: ?debug=1 activa los rectángulos de colisión; sin él las plataformas no se dibujan con arte', () => {
+test('modo debug: ?debug=1 activa los rectángulos de colisión adicionales', () => {
   assert.equal(modoDebugActivo({ search: '?debug=1' }), true);
   assert.equal(modoDebugActivo({ search: '?x=1&debug=1' }), true);
   assert.equal(modoDebugActivo({ search: '' }), false);
@@ -177,6 +177,8 @@ test('modo debug: ?debug=1 activa los rectángulos de colisión; sin él las pla
     renderizarEscena({ ctx, escena, catalogoArte, rutaFondo: 'x', debug });
     return llamadas.filter((l) => l[0] === 'strokeRect' || l[0] === 'fillRect').length;
   };
-  assert.equal(contar(false), 0, 'con arte y sin debug no hay rectángulos de plataforma');
-  assert.ok(contar(true) >= PLATS.length, 'con debug se dibuja cada plataforma');
+  const sinDebug = contar(false);
+  const conDebug = contar(true);
+  assert.ok(conDebug > sinDebug, 'con debug se dibujan rectángulos de colisión adicionales');
+  assert.ok(conDebug - sinDebug >= PLATS.length, 'con debug se dibuja el rectángulo de cada plataforma');
 });

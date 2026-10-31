@@ -2,8 +2,18 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { crearCatalogoArte, renderizarEscena } from '../src/render/canvas.mjs';
 import {
+  clasificarTipoPlataforma,
+  crearCatalogoArte,
+  dibujarParalajeCiudad,
+  dibujarParalajeDesierto,
+  dibujarParalajeReja,
+  dibujarParalajeTaqueria,
+  dibujarPlataformaObjeto,
+  renderizarEscena,
+} from '../src/render/canvas.mjs';
+import {
+  ANIMACIONES_ENEMIGO,
   ANIMACIONES_JUGADOR,
   FONDOS_ESCENA,
   HOJAS_ENEMIGO,
@@ -12,11 +22,13 @@ import {
   RETRATOS_MENU,
   configuracionEnemigo,
   crearAnimadorEnemigos,
+  crearSistemaParticulasPolvo,
   dibujarEnemigo,
   dibujarJugador,
   dibujarObjeto,
   estadoVisualJugador,
   fotogramaDeAnimacion,
+  normalizarEstadoJugador,
   rectanguloDestino,
   rectanguloFotograma,
   resolverRutaArte,
@@ -136,11 +148,26 @@ test('fotograma: rejilla 4x2 de 96 px', () => {
   assert.deepEqual(rectanguloFotograma(-2), { sx: 0, sy: 0, sw: 96, sh: 96 });
 });
 
+test('fotograma: rejilla 8 columnas dinámicas de 96 px para Senku', () => {
+  assert.deepEqual(rectanguloFotograma(0, 8), { sx: 0, sy: 0, sw: 96, sh: 96 });
+  assert.deepEqual(rectanguloFotograma(7, 8), { sx: 672, sy: 0, sw: 96, sh: 96 });
+  assert.deepEqual(rectanguloFotograma(8, 8), { sx: 0, sy: 96, sw: 96, sh: 96 });
+  assert.deepEqual(rectanguloFotograma(15, 8), { sx: 672, sy: 96, sw: 96, sh: 96 });
+  assert.deepEqual(rectanguloFotograma(16, 8), { sx: 0, sy: 192, sw: 96, sh: 96 });
+});
+
 test('animación: el ciclo de caminar recorre cuatro fotogramas y repite', () => {
   const { caminar } = ANIMACIONES_JUGADOR;
   const vistos = [0, 0.1, 0.2, 0.3, 0.4].map((t) => fotogramaDeAnimacion(caminar, t));
   assert.deepEqual(vistos, [0, 1, 2, 3, 0]);
   assert.equal(fotogramaDeAnimacion(null, 1), 0);
+});
+
+test('animación: el ciclo de correr ágil tiene 8 cuadros y repite suavemente', () => {
+  const { correr } = ANIMACIONES_JUGADOR;
+  assert.equal(correr.frames.length, 8);
+  assert.deepEqual(correr.frames, [8, 9, 10, 11, 12, 13, 14, 15]);
+  assert.equal(fotogramaDeAnimacion(correr, 0), 8);
 });
 
 test('destino: pies sobre la base de la caja y centrado', () => {
@@ -165,6 +192,28 @@ test('estado visual del jugador: quieto, caminar, salto, caída y golpeado', () 
   assert.equal(estadoVisualJugador(suelo, null).alpha, 1);
 });
 
+test('estado visual del jugador: soporte de estados explícitos (idle/run/jump/fall/attack/hurt)', () => {
+  assert.equal(normalizarEstadoJugador('idle'), 'quieto');
+  assert.equal(normalizarEstadoJugador('run'), 'correr');
+  assert.equal(normalizarEstadoJugador('jump'), 'salto');
+  assert.equal(normalizarEstadoJugador('fall'), 'caida');
+  assert.equal(normalizarEstadoJugador('squash'), 'aterrizar');
+  assert.equal(normalizarEstadoJugador('attack'), 'zarpazo');
+  assert.equal(normalizarEstadoJugador('hurt'), 'golpeado');
+
+  const suelo = { enSuelo: true, vx: 0, vy: 0, estado: 'attack' };
+  assert.equal(estadoVisualJugador(suelo).nombre, 'zarpazo');
+  assert.equal(estadoVisualJugador({ ...suelo, estado: 'run' }).nombre, 'correr');
+  assert.equal(estadoVisualJugador({ ...suelo, estado: 'hurt' }).nombre, 'golpeado');
+
+  // Bandera invulnerable en cuerpo produce parpadeo
+  const invulCuerpo = { enSuelo: true, vx: 0, vy: 0, invulnerable: true };
+  const vis1 = estadoVisualJugador(invulCuerpo, null, 0);
+  const vis2 = estadoVisualJugador(invulCuerpo, null, 0.08);
+  assert.ok(vis1.alpha === 1 || vis1.alpha === 0.45);
+  assert.ok(vis2.alpha === 1 || vis2.alpha === 0.45);
+});
+
 test('animador de enemigos: caminar, daño con HP y derrota que termina', () => {
   const animador = crearAnimadorEnemigos();
   const e = { id: 'e1', vivo: true, hp: 2 };
@@ -183,6 +232,49 @@ test('animador de enemigos: caminar, daño con HP y derrota que termina', () => 
   assert.ok(animador.estado(e, 3.2).alpha < 1, 'se desvanece al final');
   assert.equal(animador.estado(e, 4), null, 'ya no se dibuja');
   assert.equal(animador.estado(null, 0), null);
+});
+
+test('partículas de polvo: emite al correr y al aterrizar', () => {
+  const sis = crearSistemaParticulasPolvo();
+  assert.equal(sis.particulas.length, 0);
+
+  // Al correr
+  sis.emitirPolvoCorrer(100, 600, 150, 1);
+  assert.ok(sis.particulas.length >= 2);
+
+  // Al aterrizar
+  sis.emitirPolvoAterrizar(100, 600, 54);
+  assert.ok(sis.particulas.length >= 10);
+
+  // Actualizar reduce vida y desaparecen
+  sis.actualizar(1.0);
+  assert.equal(sis.particulas.length, 0, 'las partículas caducan tras su vida útil');
+});
+
+test('dibujador de plataformas por tipo: reconoce huacales, cajas, toldos y rocas', () => {
+  assert.equal(clasificarTipoPlataforma({ id: 'huacal-calle-1' }), 'huacal');
+  assert.equal(clasificarTipoPlataforma({ id: 'caja-madera' }), 'caja');
+  assert.equal(clasificarTipoPlataforma({ id: 'toldo-taqueria' }), 'toldo');
+  assert.equal(clasificarTipoPlataforma({ id: 'roca-1' }), 'roca');
+  assert.equal(clasificarTipoPlataforma({ id: 'suelo-banqueta' }), 'suelo');
+  assert.equal(clasificarTipoPlataforma({ id: 'mesa-derecha' }), 'mesa');
+  assert.equal(clasificarTipoPlataforma({ id: 'barra-tacos' }), 'barra');
+
+  const ctx = ctxFalso();
+  dibujarPlataformaObjeto(ctx, { id: 'huacal-1', x: 10, y: 10, w: 50, h: 20 }, 0, 'taqueria');
+  assert.ok(ctx.llamadas.some((l) => l[0] === 'fillRect'));
+
+  const ctxRoca = ctxFalso();
+  dibujarPlataformaObjeto(ctxRoca, { id: 'roca-desierto', x: 10, y: 10, w: 60, h: 24 }, 0, 'desierto');
+  assert.ok(ctxRoca.llamadas.some((l) => l[0] === 'fill'));
+});
+
+test('paralaje por escenas: renderiza sin lanzar en taquería, ciudad, reja y desierto', () => {
+  const ctx = ctxFalso();
+  assert.doesNotThrow(() => dibujarParalajeTaqueria(ctx, 100, 1, 1280));
+  assert.doesNotThrow(() => dibujarParalajeCiudad(ctx, 100, 1, 1280));
+  assert.doesNotThrow(() => dibujarParalajeReja(ctx, 500, 1, 8960));
+  assert.doesNotThrow(() => dibujarParalajeDesierto(ctx, 200, 1, 1280));
 });
 
 test('dibujo: usa drawImage con el fotograma correcto y voltea a la izquierda', () => {

@@ -107,6 +107,20 @@ export function aplicarPisoton(jugador, enemigo, estadoCombate = null, opciones 
   };
 }
 
+export function atacarEnemigo(jugador, enemigo, { alcance = 64, dano = 1 } = {}) {
+  if (!jugador || !enemigo?.vivo || enemigo.pisable === false) return { exito: false };
+  const golpe = {
+    x: jugador.mirando < 0 ? jugador.x - alcance : jugador.x + jugador.w,
+    y: jugador.y + jugador.h * 0.2,
+    w: alcance,
+    h: jugador.h * 0.65,
+  };
+  if (!solapanAABB(golpe, enemigo)) return { exito: false };
+  const resultado = daniarEnemigo(enemigo, dano);
+  enemigo.vx = (jugador.mirando < 0 ? -1 : 1) * 180;
+  return { exito: resultado.afectado, enemigoDerrotado: resultado.derrotado };
+}
+
 // Aplica un golpe al jugador según la política de salud y vidas configurada
 export function aplicarGolpeJugador(estadoCombate, dano = null) {
   if (!estadoCombate) {
@@ -216,6 +230,8 @@ export function resolverContactoEnemigo(
   if (resultadoGolpe.golpeado && retroceso) {
     const direccionRetroceso = jugador.x < enemigo.x ? -1 : 1;
     jugador.vx = direccionRetroceso * fuerzaRetroceso;
+    jugador.vy = -180;
+    jugador.enSuelo = false;
   }
 
   return {

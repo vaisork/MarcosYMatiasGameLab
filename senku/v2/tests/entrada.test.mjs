@@ -68,10 +68,10 @@ test('mapearCodigoTecla y crearEstadoEntrada: mapeo puro de controles', () => {
   assert.equal(mapearCodigoTecla('Space'), ACCIONES.SALTO);
   assert.equal(mapearCodigoTecla('ArrowUp'), ACCIONES.SALTO);
   assert.equal(mapearCodigoTecla('KeyW'), ACCIONES.SALTO);
-  assert.equal(mapearCodigoTecla('KeyX'), null);
+  assert.equal(mapearCodigoTecla('KeyX'), ACCIONES.ATACAR);
 
   const estado = crearEstadoEntrada();
-  assert.deepEqual(estado, { izquierda: false, derecha: false, salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 } });
+  assert.deepEqual(estado, { izquierda: false, derecha: false, salto: false, atacar: false, arriba: false, abajo: false, vector: { x: 0, y: 0 } });
 });
 
 test('entrada táctil: pointerdown y pointerup activan y desactivan cada acción', () => {
@@ -88,7 +88,7 @@ test('entrada táctil: pointerdown y pointerup activan y desactivan cada acción
   });
 
   // Estado inicial
-  assert.deepEqual(manejador.obtenerEstado(), { izquierda: false, derecha: false, salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 } });
+  assert.deepEqual(manejador.obtenerEstado(), { izquierda: false, derecha: false, salto: false, atacar: false, arriba: false, abajo: false, vector: { x: 0, y: 0 } });
 
   // 1. Izquierda
   const evDownIzq = crearEvento('pointerdown', { pointerId: 10 });
@@ -221,7 +221,7 @@ test('multitoque: permite mantener dirección (◀/▶) y tocar Salto a la vez',
   assert.deepEqual(manejador.obtenerEstado(), {
     izquierda: true,
     derecha: false,
-    salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
+    salto: false, atacar: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   // Dedo 2 presiona Salto MIENTRAS Dedo 1 sigue en Izquierda
@@ -229,7 +229,7 @@ test('multitoque: permite mantener dirección (◀/▶) y tocar Salto a la vez',
   assert.deepEqual(manejador.obtenerEstado(), {
     izquierda: true,
     derecha: false,
-    salto: true, arriba: false, abajo: false, vector: { x: 0, y: 0 }
+    salto: true, atacar: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   // Dedo 2 suelta Salto
@@ -237,7 +237,7 @@ test('multitoque: permite mantener dirección (◀/▶) y tocar Salto a la vez',
   assert.deepEqual(manejador.obtenerEstado(), {
     izquierda: true,
     derecha: false,
-    salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
+    salto: false, atacar: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   // Dedo 1 finalmente suelta Izquierda
@@ -245,7 +245,7 @@ test('multitoque: permite mantener dirección (◀/▶) y tocar Salto a la vez',
   assert.deepEqual(manejador.obtenerEstado(), {
     izquierda: false,
     derecha: false,
-    salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
+    salto: false, atacar: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   // Multitoque alternativo con eventos Touch nativos: Derecha + Salto
@@ -296,7 +296,7 @@ test('robustez: soltar todas las acciones en blur de ventana o visibilitychange 
   assert.deepEqual(manejador.obtenerEstado(), {
     izquierda: false,
     derecha: false,
-    salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
+    salto: false, atacar: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   // 2. Activar nuevamente y probar visibilitychange a 'hidden'
@@ -310,7 +310,7 @@ test('robustez: soltar todas las acciones en blur de ventana o visibilitychange 
   assert.deepEqual(manejador.obtenerEstado(), {
     izquierda: false,
     derecha: false,
-    salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
+    salto: false, atacar: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   manejador.destruir();
