@@ -480,9 +480,9 @@ export function iniciarBonus(documento = document, ventana = window) {
       ctx.ellipse(senkuScreenX, baseNivelY, catW * 0.45, 4, 0, 0, Math.PI * 2);
       ctx.fill();
       if (spriteSenku?.complete && spriteSenku.naturalWidth === 768) {
-        const frame = Math.floor(t * 9) % 8;
+        const frame = Math.floor(t * 12) % 8; // fila 1: ciclo de carrera
         ctx.save(); ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(spriteSenku, frame * 96, 0, 96, 96, senkuScreenX - catW * 0.58, senkuY - catH * 1.08, catW * 1.16, catH * 1.08);
+        ctx.drawImage(spriteSenku, frame * 96, 96, 96, 96, senkuScreenX - catW * 0.58, senkuY - catH * 1.08, catW * 1.16, catH * 1.08);
         ctx.restore();
       } else {
         ctx.fillStyle = '#f3b76b'; ctx.beginPath(); ctx.ellipse(senkuScreenX, senkuY - catH * .48, catW * .38, catH * .45, 0, 0, Math.PI * 2); ctx.fill();

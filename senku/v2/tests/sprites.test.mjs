@@ -163,10 +163,11 @@ test('fotograma: rejilla 8 columnas dinámicas de 96 px para Senku', () => {
   assert.deepEqual(rectanguloFotograma(16, 8), { sx: 0, sy: 192, sw: 96, sh: 96 });
 });
 
-test('animación: el ciclo de caminar recorre cuatro fotogramas y repite', () => {
-  const { caminar } = ANIMACIONES_JUGADOR;
-  const vistos = [0, 0.1, 0.2, 0.3, 0.4].map((t) => fotogramaDeAnimacion(caminar, t));
-  assert.deepEqual(vistos, [0, 1, 2, 3, 0]);
+test('animación: caminar usa la fila de patas (no el reposo) y repite', () => {
+  const { caminar, quieto } = ANIMACIONES_JUGADOR;
+  assert.ok(caminar.frames.every((f) => !quieto.frames.includes(f)), 'no reutiliza cuadros de reposo');
+  const vistos = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => fotogramaDeAnimacion(caminar, (i + .5) / caminar.fps));
+  assert.deepEqual(vistos, [8, 9, 10, 11, 12, 13, 14, 15, 8]);
   assert.equal(fotogramaDeAnimacion(null, 1), 0);
 });
 

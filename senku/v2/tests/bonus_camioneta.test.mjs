@@ -76,3 +76,23 @@ test('recorrido completo llega al resumen, muestra Churus y permite seguir', () 
   continuar.fire('click');
   assert.equal(ventana.location.href, './index.html?cinematica=familia');
 });
+
+test('Senku salta sobre la camioneta, junta churus en el aire y un zanate le quita uno', async () => {
+  const { avanzarJuego, geometria } = await import('../src/bonus_camioneta.mjs');
+  const W = 1280, H = 720, g = geometria(W, H);
+  const p = { ...crearPartida(), fase: 'jugando', siguienteObjeto: 99, churus: 3 };
+  avanzarJuego(p, { salto: true }, 1 / 60, W, H);
+  assert.ok(p.senku.alto > 0, 'despega del techo');
+  for (let i = 0; i < 20; i++) avanzarJuego(p, {}, 1 / 60, W, H);
+  const alto = p.senku.alto;
+  p.objetos.push({ tipo: 'churu', x: g.xSenku(p.senku.pos), altura: alto + g.gato * .35 - 14, recogido: false });
+  avanzarJuego(p, {}, 0, W, H);
+  assert.equal(p.churus, 4);
+  for (let i = 0; i < 120; i++) avanzarJuego(p, {}, 1 / 60, W, H);
+  assert.equal(p.senku.alto, 0, 'vuelve a aterrizar en el techo');
+  p.objetos.push({ tipo: 'zanate', x: g.xSenku(p.senku.pos), altura: g.gato * .35 - 14, fase: 0 });
+  p.tiempoMundo = 0;
+  avanzarJuego(p, {}, 0, W, H);
+  assert.equal(p.churus, 3);
+  assert.ok(p.invulnerable > 0);
+});
