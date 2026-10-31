@@ -1,0 +1,15 @@
+{
+  "asset_id": "nera",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-22a206cc-756e-4a18-bb1a-26393ab8aa61.png",
+  "source_sha256": "d9efefd0462b1988323cf767945f0a781407ff0d0a09282ebd8a0d26a795441b",
+  "dimensions": [
+    192,
+    384
+  ],
+  "bytes": 107716,
+  "sha256": "84c2e625c3174073a7ab389d5e94346ac9c0fc7e163a18cd2a6e44d7e4bc6085",
+  "normalization": "Proportional crop to 12 frames of 64x96, or alpha-bounds crop and centered fit to target dimensions; transparent alpha preserved.",
+  "review": "SELF_REVIEW_PASS: canon-compatible anatomy, clear silhouette and genuine transparency.",
+  "prompt": "12-frame walking atlas for Tila (scene id lethra_nera_mercado): friendly adult Marevyn vendor with teal hair, subtle aquatic ear-fins and small webbed hands, practical golden-olive market clothes, cream blouse, apron and sandals; canonical Nima proportions and painterly pixel JRPG style. 3x4 atlas: rows front, back, left, right; 3 walk poses each. Transparent background; no weapons, text, borders or extra people."
+}

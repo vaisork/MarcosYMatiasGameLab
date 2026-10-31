@@ -1,0 +1,15 @@
+{
+  "asset_id": "mordijunco-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-82d1afc8-000c-4ef8-8c97-4bbd7eb0de5d.png",
+  "source_sha256": "973241ec6a6af0e7d78216cef4f5a6c934494e45ecad2c14bcbedbbabcafc712",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 49876,
+  "sha256": "7fa9b18408ae1dd2fcd69220636ff586b927296097f8c0e284de644ea8d5be88",
+  "normalization": "Proportional crop to 12 frames of 64x96, or alpha-bounds crop and centered fit to target dimensions; transparent alpha preserved.",
+  "review": "SELF_REVIEW_PASS: canon-compatible anatomy, clear silhouette and genuine transparency.",
+  "prompt": "Same compact round brown wetland rodent, cat-sized, broad orange incisors and sturdy paws; alert defensive stance. Detailed pixel JRPG battle sprite, top-down three-quarter angle, facing lower-left, full centered body on transparent background; no environment or effects."
+}

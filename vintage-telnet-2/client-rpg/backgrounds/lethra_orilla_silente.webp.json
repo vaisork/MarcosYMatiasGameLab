@@ -1,0 +1,20 @@
+{
+  "asset_id": "backgrounds/lethra_orilla_silente.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "93cec1a20814e41dc6dab6fb480c402368da9bf0f9dcc676a90874fe71a5f2f9",
+  "bytes": 240062,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-2f62926d-80d6-4d3c-a171-5bced6e701a3.png",
+  "source_sha256": "6bbbd599e5d652e3e5fafe4c772491f965509c83c0647b11a27dcfa148936d60",
+  "normalization": "Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP quality 42 (method 3); no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art scene, no actors; continuous walkable ground and visible permanent obstacles aligned with scene/Tiled mask.",
+  "prompt": "A quiet deep-water bank beneath overhanging roots. A still dark turquoise pool fills one outer side with submerged roots and tiny circular ripples near a narrow water-filled crack; the opposite bank has a dry raised footpath and a broad root-held landing. Keep a broad continuous walkable trail connecting north and west, open across the center, with water and dense roots in side cells. Detailed modern 16-bit indie pixel art, top-down three-quarter view, muted olive, bark brown, teal water, no people, fish or creatures, text, grid or horizon.",
+  "webp_quality": 42,
+  "reference_images": [
+    "client/art/places/lethra_orilla_silente-anime-v1.webp",
+    "client-rpg/backgrounds/lethra_banco_barro.webp"
+  ]
+}

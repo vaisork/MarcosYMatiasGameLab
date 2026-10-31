@@ -1,0 +1,15 @@
+{
+  "asset_id": "aguaculebra-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-2fdffac4-8212-479a-b227-b8f455452509.png",
+  "source_sha256": "9406e8c67437f9f9282f4fbb7717ce91b49d1e0f7a1a0c5bc16bb966a01d0c10",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 41880,
+  "sha256": "8a23debce8e2f0d77bd61681afdc7f5d06b6f15316c297dd522f60bbe10ad53c",
+  "normalization": "Proportional crop to 12 frames of 64x96, or alpha-bounds crop and centered fit to target dimensions; transparent alpha preserved.",
+  "review": "SELF_REVIEW_PASS: canon-compatible anatomy, clear silhouette and genuine transparency.",
+  "prompt": "Same Aguaculebra: long serpent-like freshwater fish, flat head, fine whiskers, small fins, glossy dark teal scales and pale underside, curved defensive lunge. Detailed pixel JRPG battle sprite, top-down three-quarter angle facing lower-left, full centered body, transparent background; no environment or effects."
+}
