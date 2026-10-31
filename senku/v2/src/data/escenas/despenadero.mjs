@@ -32,8 +32,8 @@ export const escenaDespenadero = {
     { id: 'roca-meseta', x: 1640, y: 200, w: 1260, h: 520, tipo: 'plataforma' },
     { id: 'anclaje-nido', x: 2367, y: 30, w: 40, h: 50, tipo: 'anclaje' },
     { id: 'roca-bajada', x: 2900, y: 400, w: 400, h: 320, tipo: 'plataforma' },
-    { id: 'pared-torre', x: 3900, y: 150, w: 90, h: 570, tipo: 'pared' },
-    { id: 'roca-cumbre', x: 3990, y: 150, w: 1130, h: 570, tipo: 'plataforma' },
+    { id: 'pared-torre', x: 3955, y: 150, w: 90, h: 570, tipo: 'pared' }, // cara pintada en 04.webp x≈100-155
+    { id: 'roca-cumbre', x: 4045, y: 150, w: 1075, h: 570, tipo: 'plataforma' },
   ],
   enemigos: [
     raton('risco-raton-1', 1900, 200, 1680, 2300),

@@ -356,16 +356,17 @@ export function dibujarBarraJefe(ctx, jefe) {
   if (!jefe || jefe.estado === 'dormido' || (jefe.derrotado && jefe.tiempo > 1.6)) return;
   const ancho = 520;
   const x = (W - ancho) / 2;
+  const y = 200; // debajo del cartel de avisos (#aviso-viaje, top 16%) para que no la tape
   ctx.save();
   ctx.fillStyle = 'rgba(20, 20, 30, 0.75)';
-  ctx.fillRect(x - 10, 92, ancho + 20, 46);
+  ctx.fillRect(x - 10, y, ancho + 20, 46);
   ctx.fillStyle = '#ffffff';
   ctx.font = 'bold 16px system-ui, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('GATO MECÁNICO', W / 2, 110);
+  ctx.fillText('GATO MECÁNICO', W / 2, y + 18);
   ctx.fillStyle = '#3d424a';
-  ctx.fillRect(x, 118, ancho, 12);
+  ctx.fillRect(x, y + 26, ancho, 12);
   ctx.fillStyle = jefe.hp <= jefe.hpMax / 2 ? '#e74c3c' : '#f1c40f';
-  ctx.fillRect(x, 118, (ancho * jefe.hp) / jefe.hpMax, 12);
+  ctx.fillRect(x, y + 26, (ancho * jefe.hp) / jefe.hpMax, 12);
   ctx.restore();
 }
