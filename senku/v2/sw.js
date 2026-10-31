@@ -1,6 +1,6 @@
 // Service Worker para Senku 2 — Caché offline versionado y soporte PWA
 // Versión actual de la caché
-const VERSION_CACHE = 'senku2-v7';
+const VERSION_CACHE = 'senku2-v9';
 
 // Recursos esenciales que forman la base del juego para jugar sin conexión
 const RECURSOS_PRECACHE = [
@@ -66,8 +66,20 @@ const RECURSOS_PRECACHE = [
   './assets/objetos/lanzador_ratones.png',
   './assets/objetos/raton_proyectil.png',
   './assets/personajes/menu_original.webp',
+  './assets/portada/portada.webp',
   './assets/personajes/menu_rata.webp',
   './assets/personajes/sprite_original.png',
+  './assets/bonus/cable-chispa.webp',
+  './assets/bonus/camion-carga.webp',
+  './assets/bonus/camioneta-equipaje.webp',
+  './assets/bonus/ciudad-cercana.webp',
+  './assets/bonus/ciudad-lejana.webp',
+  './assets/bonus/desierto-cercano.webp',
+  './assets/bonus/desierto-lejano.webp',
+  './assets/bonus/letrero-alto.webp',
+  './assets/bonus/piedras.webp',
+  './assets/bonus/rama-jacaranda.webp',
+  './assets/bonus/saguaro.webp',
   './assets/personajes/sprite_rata.png',
   '../../assets/icon/senku-icon-192.png',
   '../../assets/icon/matiasgamelab-icon-192.png',

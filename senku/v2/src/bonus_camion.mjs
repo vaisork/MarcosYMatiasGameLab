@@ -193,6 +193,17 @@ export function iniciarBonus(documento = document, ventana = window) {
   const canvas = documento.querySelector('canvas');
   const ctx = canvas?.getContext('2d');
   if (!ctx) return { iniciado: false };
+  const cargarImagen = (ruta) => {
+    if (typeof ventana.Image !== 'function') return null;
+    const img = new ventana.Image(); img.src = new URL(ruta, import.meta.url).href; return img;
+  };
+  const fondoLejano = cargarImagen('../assets/bonus/ciudad-lejana.webp');
+  const fondoCercano = cargarImagen('../assets/bonus/ciudad-cercana.webp');
+  const spriteSenku = cargarImagen('../assets/personajes/sprite_original.png');
+  const camionPintado = cargarImagen('../assets/bonus/camion-carga.webp');
+  const letreroPintado = cargarImagen('../assets/bonus/letrero-alto.webp');
+  const ramaPintada = cargarImagen('../assets/bonus/rama-jacaranda.webp');
+  const cablePintado = cargarImagen('../assets/bonus/cable-chispa.webp');
   const partida = crearPartida();
   const teclas = new Set();
   const controles = { izquierda: false, derecha: false, salto: false };
@@ -258,6 +269,8 @@ export function iniciarBonus(documento = document, ventana = window) {
 
   const velo = documento.querySelector('#velo');
   const textoCuenta = documento.createElement('strong');
+  const consejo = documento.createElement('span');
+  consejo.textContent = '¡A juntar churus! Salta letreros, ramas y cables.';
   const tituloFinal = documento.createElement('strong');
   tituloFinal.textContent = '¡Llegamos a la taquería, Senku!';
   tituloFinal.hidden = true;
@@ -270,7 +283,7 @@ export function iniciarBonus(documento = document, ventana = window) {
   continuar.addEventListener('click', () => {
     ventana.location.href = './index.html';
   });
-  velo.replaceChildren(textoCuenta, tituloFinal, premioFinal, continuar);
+  velo.replaceChildren(textoCuenta, consejo, tituloFinal, premioFinal, continuar);
 
   const w = () => canvas.clientWidth || ventana.innerWidth;
   const h = () => canvas.clientHeight || ventana.innerHeight;
@@ -289,7 +302,7 @@ export function iniciarBonus(documento = document, ventana = window) {
     const portrait = H > W * 1.25;
     const ground = H * (portrait ? 0.66 : 0.74);
 
-    // Cielo urbano de atardecer en la Ciudad de México
+    // Fondo pintado repetible en dos planos con velocidades distintas.
     const grad = ctx.createLinearGradient(0, 0, 0, ground);
     grad.addColorStop(0, '#283059');
     grad.addColorStop(0.45, '#724b73');
@@ -298,87 +311,19 @@ export function iniciarBonus(documento = document, ventana = window) {
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, W, H);
 
-    const sun = ctx.createRadialGradient(W * 0.76, H * 0.2, 2, W * 0.76, H * 0.2, Math.min(W, H) * 0.16);
-    sun.addColorStop(0, '#fff4c2');
-    sun.addColorStop(0.4, '#ffd07b');
-    sun.addColorStop(1, '#ffd07b00');
-    ctx.fillStyle = sun;
-    ctx.fillRect(0, 0, W, H * 0.5);
-
-    // Capa 1 de paralaje: siluetas de edificios lejanos, cúpulas y tinacos
-    const pasoEdificios = Math.max(92, W * (portrait ? 0.26 : 0.16));
-    const offsetCapa1 = (partida.distancia * 0.08) % pasoEdificios;
-    for (let i = -1; i < Math.ceil(W / pasoEdificios) + 2; i++) {
-      const idx = i + Math.floor((partida.distancia * 0.08) / pasoEdificios);
-      const x = i * pasoEdificios - offsetCapa1;
-      const altoEd = H * (portrait ? 0.22 : 0.28) + ((idx * 37) % 5) * (H * 0.032);
-      const y = ground - altoEd;
-      ctx.fillStyle = '#362d4f';
-      ctx.fillRect(x, y, pasoEdificios - 6, altoEd);
-      // Tinaco o antena en la azotea
-      ctx.fillStyle = '#261f38';
-      ctx.fillRect(x + pasoEdificios * 0.25, y - 14, 14, 14);
-      // Ventanas encendidas
-      ctx.fillStyle = '#ffd97d99';
-      for (let vy = y + 16; vy < ground - 26; vy += 24) {
-        ctx.fillRect(x + 12, vy, 9, 12);
-        if (pasoEdificios > 64) ctx.fillRect(x + 32, vy, 9, 12);
+    const dibujarCapa = (img, velocidad, alpha) => {
+      if (!img?.complete || !img.naturalWidth) return;
+      const escala = Math.max(W / img.width, H / img.height);
+      const ancho = img.width * escala, alto = img.height * escala;
+      const desplazamiento = (partida.distancia * velocidad) % ancho;
+      ctx.save(); ctx.globalAlpha = alpha;
+      for (let x = -desplazamiento - ancho; x < W + ancho; x += ancho) {
+        ctx.drawImage(img, x, (H - alto) / 2, ancho, alto);
       }
-    }
-
-    // Capa 2 de paralaje: fachadas coloridas de barrio mexicano, balcones y árboles urbanos
-    const pasoFachadas = Math.max(130, W * (portrait ? 0.36 : 0.22));
-    const offsetCapa2 = (partida.distancia * 0.24) % pasoFachadas;
-    const coloresFachada = ['#b85442', '#cc8b3c', '#457385', '#a84763', '#567d5e'];
-    for (let i = -1; i < Math.ceil(W / pasoFachadas) + 2; i++) {
-      const idx = Math.abs(i + Math.floor((partida.distancia * 0.24) / pasoFachadas));
-      const x = i * pasoFachadas - offsetCapa2;
-      const altoFachada = H * (portrait ? 0.17 : 0.22) + (idx % 3) * (H * 0.025);
-      const y = ground - altoFachada;
-      ctx.fillStyle = coloresFachada[idx % coloresFachada.length];
-      ctx.fillRect(x, y, pasoFachadas - 8, altoFachada);
-      // Cornisa colonial y toldo de local
-      ctx.fillStyle = '#f5e1bc';
-      ctx.fillRect(x - 2, y, pasoFachadas - 4, 6);
-      ctx.fillStyle = '#6b2d26';
-      ctx.fillRect(x + 14, y + altoFachada * 0.52, pasoFachadas * 0.56, 8);
-      // Ventanas con balcón
-      ctx.fillStyle = '#2d232e';
-      ctx.fillRect(x + 18, y + 18, 22, 28);
-      ctx.fillRect(x + pasoFachadas * 0.52, y + 18, 22, 28);
-      // Árbol urbano (jacaranda / fresno) entre fachadas
-      ctx.fillStyle = '#4e3629';
-      ctx.fillRect(x + pasoFachadas - 22, ground - 46, 7, 46);
-      ctx.fillStyle = idx % 2 === 0 ? '#5c8c61' : '#7b5ea7';
-      ctx.beginPath();
-      ctx.arc(x + pasoFachadas - 18, ground - 52, 20, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    // Capa 3 de paralaje: postes urbanos y cables tendidos en catenaria
-    const pasoPostes = Math.max(170, W * (portrait ? 0.48 : 0.3));
-    const offsetCapa3 = (partida.distancia * 0.58) % pasoPostes;
-    const altoPoste = H * (portrait ? 0.31 : 0.38);
-    ctx.strokeStyle = '#221c29';
-    ctx.lineWidth = 2.2;
-    for (let i = -1; i < Math.ceil(W / pasoPostes) + 2; i++) {
-      const x = i * pasoPostes - offsetCapa3;
-      const yTop = ground - altoPoste;
-      // Cables eléctricos hacia el siguiente poste
-      for (let c = 0; c < 3; c++) {
-        const cy = yTop + 10 + c * 12;
-        ctx.beginPath();
-        ctx.moveTo(x, cy);
-        ctx.quadraticCurveTo(x + pasoPostes * 0.5, cy + 18 + c * 4, x + pasoPostes, cy);
-        ctx.stroke();
-      }
-      // Poste y cruceta
-      ctx.fillStyle = '#4a3b34';
-      ctx.fillRect(x - 4, yTop, 8, altoPoste);
-      ctx.fillStyle = '#2f2523';
-      ctx.fillRect(x - 18, yTop + 8, 36, 5);
-      ctx.fillRect(x - 14, yTop + 22, 28, 4);
-    }
+      ctx.restore();
+    };
+    dibujarCapa(fondoLejano, 0.025, 1);
+    dibujarCapa(fondoCercano, 0.07, 0.82);
 
     // Banqueta y avenida de asfalto
     ctx.fillStyle = '#8c7a70';
@@ -419,47 +364,53 @@ export function iniciarBonus(documento = document, ventana = window) {
       }
     }
 
-    // Carrocería de carga (redilas) y cabina del camión (techo alto nivel 2)
-    ctx.fillStyle = '#2b7a78';
-    ctx.fillRect(truckX, truckY + truckH * 0.46, truckW * 0.68, truckH * 0.44);
-    ctx.fillStyle = '#f2e8cf';
-    ctx.fillRect(truckX, truckY + truckH * 0.58, truckW * 0.68, 7);
-    // Cabina delantera y techo alto (nivel 2)
-    ctx.fillStyle = '#3a9691';
-    ctx.fillRect(truckX + truckW * 0.64, truckY + truckH * 0.08, truckW * 0.28, truckH * 0.82);
-    ctx.fillStyle = '#e07a5f';
-    ctx.fillRect(truckX + truckW * 0.62, truckY, truckW * 0.3, truckH * 0.12);
-    // Parabrisas y cofre
-    ctx.fillStyle = '#a8dadc';
-    ctx.fillRect(truckX + truckW * 0.75, truckY + truckH * 0.18, truckW * 0.14, truckH * 0.28);
-    ctx.fillStyle = '#2b7a78';
-    ctx.fillRect(truckX + truckW * 0.88, truckY + truckH * 0.44, truckW * 0.12, truckH * 0.46);
-    ctx.fillStyle = '#ffe66d';
-    ctx.fillRect(truckX + truckW * 0.97, truckY + truckH * 0.58, 6, 12);
+    if (!camionPintado?.complete || !camionPintado.naturalWidth) {
+      // Carrocería de carga (redilas) y cabina del camión (techo alto nivel 2)
+      ctx.fillStyle = '#2b7a78';
+      ctx.fillRect(truckX, truckY + truckH * 0.46, truckW * 0.68, truckH * 0.44);
+      ctx.fillStyle = '#f2e8cf';
+      ctx.fillRect(truckX, truckY + truckH * 0.58, truckW * 0.68, 7);
+      // Cabina delantera y techo alto (nivel 2)
+      ctx.fillStyle = '#3a9691';
+      ctx.fillRect(truckX + truckW * 0.64, truckY + truckH * 0.08, truckW * 0.28, truckH * 0.82);
+      ctx.fillStyle = '#e07a5f';
+      ctx.fillRect(truckX + truckW * 0.62, truckY, truckW * 0.3, truckH * 0.12);
+      // Parabrisas y cofre
+      ctx.fillStyle = '#a8dadc';
+      ctx.fillRect(truckX + truckW * 0.75, truckY + truckH * 0.18, truckW * 0.14, truckH * 0.28);
+      ctx.fillStyle = '#2b7a78';
+      ctx.fillRect(truckX + truckW * 0.88, truckY + truckH * 0.44, truckW * 0.12, truckH * 0.46);
+      ctx.fillStyle = '#ffe66d';
+      ctx.fillRect(truckX + truckW * 0.97, truckY + truckH * 0.58, 6, 12);
 
-    // Nivel 0: Cajas bajas en la plataforma trasera
-    ctx.fillStyle = '#b07145';
-    ctx.fillRect(truckX + truckW * 0.05, truckY + truckH * 0.24, truckW * 0.28, truckH * 0.24);
-    ctx.fillStyle = '#8a522d';
-    ctx.fillRect(truckX + truckW * 0.07, truckY + truckH * 0.28, truckW * 0.24, 4);
+      // Nivel 0: Cajas bajas en la plataforma trasera
+      ctx.fillStyle = '#b07145';
+      ctx.fillRect(truckX + truckW * 0.05, truckY + truckH * 0.24, truckW * 0.28, truckH * 0.24);
+      ctx.fillStyle = '#8a522d';
+      ctx.fillRect(truckX + truckW * 0.07, truckY + truckH * 0.28, truckW * 0.24, 4);
 
-    // Nivel 1: Huacales y cajas apiladas al centro
-    ctx.fillStyle = '#cf8a4e';
-    ctx.fillRect(truckX + truckW * 0.34, truckY + truckH * 0.1, truckW * 0.28, truckH * 0.38);
-    ctx.fillStyle = '#9e6234';
-    ctx.fillRect(truckX + truckW * 0.36, truckY + truckH * 0.18, truckW * 0.24, 4);
-    ctx.fillRect(truckX + truckW * 0.36, truckY + truckH * 0.3, truckW * 0.24, 4);
+      // Nivel 1: Huacales y cajas apiladas al centro
+      ctx.fillStyle = '#cf8a4e';
+      ctx.fillRect(truckX + truckW * 0.34, truckY + truckH * 0.1, truckW * 0.28, truckH * 0.38);
+      ctx.fillStyle = '#9e6234';
+      ctx.fillRect(truckX + truckW * 0.36, truckY + truckH * 0.18, truckW * 0.24, 4);
+      ctx.fillRect(truckX + truckW * 0.36, truckY + truckH * 0.3, truckW * 0.24, 4);
 
-    // Ruedas del camión
-    for (const rx of [truckX + truckW * 0.22, truckX + truckW * 0.52, truckX + truckW * 0.84]) {
-      ctx.fillStyle = '#1e1b22';
-      ctx.beginPath();
-      ctx.arc(rx, truckY + truckH * 0.92, truckH * 0.19, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#e5c185';
-      ctx.beginPath();
-      ctx.arc(rx, truckY + truckH * 0.92, truckH * 0.08, 0, Math.PI * 2);
-      ctx.fill();
+      // Ruedas del camión
+      for (const rx of [truckX + truckW * 0.22, truckX + truckW * 0.52, truckX + truckW * 0.84]) {
+        ctx.fillStyle = '#1e1b22';
+        ctx.beginPath();
+        ctx.arc(rx, truckY + truckH * 0.92, truckH * 0.19, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#e5c185';
+        ctx.beginPath();
+        ctx.arc(rx, truckY + truckH * 0.92, truckH * 0.08, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    if (camionPintado?.complete && camionPintado.naturalWidth) {
+      const altoPintado = truckW * 360 / 743;
+      ctx.drawImage(camionPintado, truckX - 3, ground - altoPintado - bounce, truckW + 6, altoPintado);
     }
 
     // Posición de Senku saltando entre las cajas (nivel 0 y 1) y el techo del camión (nivel 2)
@@ -496,38 +447,28 @@ export function iniciarBonus(documento = document, ventana = window) {
         ctx.fillStyle = '#c84b31';
         ctx.fillRect(o.x - 6, oy - 14, 12, 5);
       } else if (o.tipo === 'letrero') {
-        // Letrero vial urbano
-        ctx.fillStyle = '#5c4d46';
-        ctx.fillRect(o.x - 3, oy - 34, 6, 36);
-        ctx.fillStyle = '#e76f51';
-        ctx.fillRect(o.x - 24, oy - 42, 48, 22);
-        ctx.fillStyle = '#fff3d6';
-        ctx.fillRect(o.x - 18, oy - 34, 36, 5);
+        if (letreroPintado?.complete && letreroPintado.naturalWidth) ctx.drawImage(letreroPintado, o.x - 25, oy - 78, 50, 78);
+        else {
+          ctx.fillStyle = '#5c4d46'; ctx.fillRect(o.x - 3, oy - 34, 6, 36);
+          ctx.fillStyle = '#e76f51'; ctx.fillRect(o.x - 24, oy - 42, 48, 22);
+          ctx.fillStyle = '#fff3d6'; ctx.fillRect(o.x - 18, oy - 34, 36, 5);
+        }
       } else if (o.tipo === 'rama') {
-        // Rama frondosa de árbol urbano
-        ctx.fillStyle = '#6b4423';
-        ctx.fillRect(o.x - 24, oy - 22, 46, 7);
-        ctx.fillStyle = '#40916c';
-        ctx.beginPath();
-        ctx.arc(o.x - 8, oy - 26, 15, 0, Math.PI * 2);
-        ctx.arc(o.x + 10, oy - 24, 13, 0, Math.PI * 2);
-        ctx.fill();
+        if (ramaPintada?.complete && ramaPintada.naturalWidth) ctx.drawImage(ramaPintada, o.x - 48, oy - 50, 96, 48);
+        else {
+          ctx.fillStyle = '#6b4423'; ctx.fillRect(o.x - 24, oy - 22, 46, 7);
+          ctx.fillStyle = '#40916c'; ctx.beginPath(); ctx.arc(o.x - 8, oy - 26, 15, 0, Math.PI * 2); ctx.arc(o.x + 10, oy - 24, 13, 0, Math.PI * 2); ctx.fill();
+        }
       } else {
-        // Cable bajo con chispas
-        ctx.strokeStyle = '#1d1a24';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(o.x - 22, oy - 38);
-        ctx.quadraticCurveTo(o.x, oy - 12, o.x + 22, oy - 38);
-        ctx.stroke();
-        ctx.fillStyle = '#ffd166';
-        ctx.beginPath();
-        ctx.arc(o.x, oy - 22, 7, 0, Math.PI * 2);
-        ctx.fill();
+        if (cablePintado?.complete && cablePintado.naturalWidth) ctx.drawImage(cablePintado, o.x - 48, oy - 48, 96, 30);
+        else {
+          ctx.strokeStyle = '#1d1a24'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(o.x - 22, oy - 38); ctx.quadraticCurveTo(o.x, oy - 12, o.x + 22, oy - 38); ctx.stroke();
+          ctx.fillStyle = '#ffd166'; ctx.beginPath(); ctx.arc(o.x, oy - 22, 7, 0, Math.PI * 2); ctx.fill();
+        }
       }
     }
 
-    // Dibujo de Senku sobre las cajas / techo del camión
+    // Senku usa la misma hoja chibi del juego; se conserva un respaldo mínimo.
     const flash = partida.invulnerable > 0 && Math.floor(t * 22) % 2 === 0;
     if (!flash) {
       const catW = Math.max(28, Math.min(44, truckW * 0.11));
@@ -537,39 +478,14 @@ export function iniciarBonus(documento = document, ventana = window) {
       ctx.beginPath();
       ctx.ellipse(senkuScreenX, baseNivelY, catW * 0.45, 4, 0, 0, Math.PI * 2);
       ctx.fill();
-      // Cola animada
-      ctx.strokeStyle = '#d98a3c';
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.moveTo(senkuScreenX - catW * 0.35, senkuY - catH * 0.35);
-      ctx.quadraticCurveTo(
-        senkuScreenX - catW * 0.75,
-        senkuY - catH * (0.75 + Math.sin(t * 14) * 0.2),
-        senkuScreenX - catW * 0.55,
-        senkuY - catH * 0.95
-      );
-      ctx.stroke();
-      // Cuerpo y cabeza de Senku
-      ctx.fillStyle = '#f3b76b';
-      ctx.fillRect(senkuScreenX - catW * 0.36, senkuY - catH * 0.62, catW * 0.72, catH * 0.48);
-      ctx.beginPath();
-      ctx.ellipse(senkuScreenX + catW * 0.12, senkuY - catH * 0.76, catW * 0.32, catH * 0.28, 0, 0, Math.PI * 2);
-      ctx.fill();
-      // Orejas
-      ctx.fillStyle = '#7a4b3a';
-      ctx.beginPath();
-      ctx.moveTo(senkuScreenX - catW * 0.08, senkuY - catH * 0.94);
-      ctx.lineTo(senkuScreenX + catW * 0.02, senkuY - catH * 1.18);
-      ctx.lineTo(senkuScreenX + catW * 0.12, senkuY - catH * 0.96);
-      ctx.moveTo(senkuScreenX + catW * 0.16, senkuY - catH * 0.96);
-      ctx.lineTo(senkuScreenX + catW * 0.28, senkuY - catH * 1.18);
-      ctx.lineTo(senkuScreenX + catW * 0.34, senkuY - catH * 0.92);
-      ctx.fill();
-      // Patitas animadas al correr o saltar
-      const pasoPata = partida.salto > 0 ? 3 : Math.sin(t * 20) * 4;
-      ctx.fillStyle = '#fff3dd';
-      ctx.fillRect(senkuScreenX - catW * 0.28, senkuY - catH * 0.18 + pasoPata * 0.4, 6, 8);
-      ctx.fillRect(senkuScreenX + catW * 0.14, senkuY - catH * 0.18 - pasoPata * 0.4, 6, 8);
+      if (spriteSenku?.complete && spriteSenku.naturalWidth === 768) {
+        const frame = Math.floor(t * 9) % 8;
+        ctx.save(); ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(spriteSenku, frame * 96, 0, 96, 96, senkuScreenX - catW * 0.58, senkuY - catH * 1.08, catW * 1.16, catH * 1.08);
+        ctx.restore();
+      } else {
+        ctx.fillStyle = '#f3b76b'; ctx.beginPath(); ctx.ellipse(senkuScreenX, senkuY - catH * .48, catW * .38, catH * .45, 0, 0, Math.PI * 2); ctx.fill();
+      }
     }
 
     // Partículas (polvo al saltar, destellos al tomar Churu, chispas/hojas al chocar)
@@ -616,6 +532,7 @@ export function iniciarBonus(documento = document, ventana = window) {
     documento.querySelector('#reloj').textContent = partida.fase === 'cuenta'
       ? String(Math.ceil(partida.cuenta))
       : String(Math.ceil(partida.restante));
+    documento.querySelector('#reloj').classList?.toggle('urgente', partida.fase === 'jugando' && partida.restante <= 10);
     const barra = documento.querySelector('#combustible');
     if (barra) barra.style.width = `${partida.combustible * 20}%`;
 
@@ -623,6 +540,7 @@ export function iniciarBonus(documento = document, ventana = window) {
       velo.hidden = false;
       textoCuenta.hidden = false;
       textoCuenta.textContent = partida.cuenta > 0 ? String(Math.ceil(partida.cuenta)) : '¡YA!';
+      consejo.hidden = false;
       tituloFinal.hidden = true;
       premioFinal.hidden = true;
       continuar.hidden = true;
@@ -631,6 +549,7 @@ export function iniciarBonus(documento = document, ventana = window) {
     } else if (partida.fase === 'fin') {
       velo.hidden = false;
       textoCuenta.hidden = true;
+      consejo.hidden = true;
       tituloFinal.hidden = false;
       premioFinal.hidden = false;
       continuar.hidden = false;

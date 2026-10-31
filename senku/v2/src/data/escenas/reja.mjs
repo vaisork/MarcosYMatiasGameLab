@@ -9,42 +9,45 @@ export const escenaReja = {
     estilo: 'desierto', colorRespaldo: '#ecc98b',
     colorSuelo: '#b98042', colorPlataforma: '#b98042', plataformasVisibles: true,
   },
+  arte: { tramos: Array.from({ length: 7 }, (_, i) => ({
+    ruta: `assets/escenas/reja/${String(i + 1).padStart(2, '0')}.webp`,
+    x: i * 1280, w: 1280,
+  })) },
   plataformas: [
     { id: 'suelo-parque', x: 0, y: 600, w: 8960, h: 120, tipo: 'suelo' },
-    // Formaciones escalonadas accesibles (subidas <= 90 px, sin saltos imposibles desde el suelo)
-    { id: 'roca-1', x: 400, y: 515, w: 150, h: 24, tipo: 'plataforma' },
-    { id: 'roca-2', x: 530, y: 435, w: 150, h: 24, tipo: 'plataforma' },
-    { id: 'roca-3', x: 700, y: 510, w: 160, h: 24, tipo: 'plataforma' }, // churu-parque-1 (x: 760)
-
-    { id: 'roca-4', x: 1320, y: 515, w: 140, h: 24, tipo: 'plataforma' },
-    { id: 'roca-5', x: 1480, y: 510, w: 160, h: 24, tipo: 'plataforma' }, // churu-parque-2 (x: 1540)
-    { id: 'roca-6', x: 1800, y: 440, w: 150, h: 24, tipo: 'plataforma' },
-    { id: 'roca-7', x: 2260, y: 515, w: 140, h: 24, tipo: 'plataforma' },
-    { id: 'roca-8', x: 2390, y: 430, w: 160, h: 24, tipo: 'plataforma' }, // churu-parque-3 (x: 2450)
-
-    { id: 'roca-9', x: 3100, y: 515, w: 140, h: 24, tipo: 'plataforma' },
-    { id: 'roca-10', x: 3250, y: 510, w: 160, h: 24, tipo: 'plataforma' }, // churu-parque-4 (x: 3310)
-    { id: 'roca-11', x: 3560, y: 515, w: 140, h: 24, tipo: 'plataforma' },
-    { id: 'roca-12', x: 3690, y: 430, w: 140, h: 24, tipo: 'plataforma' },
-    { id: 'roca-13', x: 3820, y: 350, w: 160, h: 24, tipo: 'plataforma' }, // secreto-parque-alto (x: 3890)
-
-    { id: 'roca-14', x: 4130, y: 515, w: 140, h: 24, tipo: 'plataforma' },
-    { id: 'roca-15', x: 4260, y: 430, w: 160, h: 24, tipo: 'plataforma' }, // churu-parque-5 (x: 4320)
-    { id: 'roca-16', x: 4680, y: 510, w: 150, h: 24, tipo: 'plataforma' },
-
-    { id: 'roca-17', x: 5040, y: 515, w: 140, h: 24, tipo: 'plataforma' },
-    { id: 'roca-18', x: 5180, y: 510, w: 160, h: 24, tipo: 'plataforma' }, // churu-parque-6 (x: 5240)
-    { id: 'roca-19', x: 5560, y: 440, w: 150, h: 24, tipo: 'plataforma' },
-    { id: 'roca-20', x: 6030, y: 515, w: 140, h: 24, tipo: 'plataforma' },
-    { id: 'roca-21', x: 6160, y: 430, w: 160, h: 24, tipo: 'plataforma' }, // churu-parque-7 (x: 6220)
-
-    { id: 'roca-22', x: 6580, y: 515, w: 140, h: 24, tipo: 'plataforma' },
-    { id: 'roca-23', x: 6710, y: 430, w: 160, h: 24, tipo: 'plataforma' }, // secreto-parque-roca (x: 6770)
-    { id: 'roca-24', x: 7080, y: 510, w: 160, h: 24, tipo: 'plataforma' }, // churu-parque-8 (x: 7140)
-
-    { id: 'roca-25', x: 7920, y: 515, w: 140, h: 24, tipo: 'plataforma' },
-    { id: 'roca-26', x: 8050, y: 430, w: 160, h: 24, tipo: 'plataforma' }, // churu-parque-9 (x: 8110)
-    { id: 'roca-27', x: 8480, y: 510, w: 160, h: 24, tipo: 'plataforma' },
+    // Cada superficie coincide con el borde superior de una roca pintada (revisión 31/10).
+    { id: 'roca-1', x: 445, y: 518, w: 245, h: 24, tipo: 'plataforma' },
+    { id: 'roca-2', x: 662, y: 424, w: 208, h: 24, tipo: 'plataforma' },
+    { id: 'roca-3', x: 935, y: 499, w: 237, h: 24, tipo: 'plataforma' },
+    { id: 'roca-4', x: 1375, y: 496, w: 140, h: 24, tipo: 'plataforma' },
+    { id: 'roca-5', x: 1670, y: 496, w: 165, h: 24, tipo: 'plataforma' },
+    { id: 'roca-6', x: 1940, y: 428, w: 190, h: 24, tipo: 'plataforma' },
+    { id: 'roca-7', x: 2385, y: 501, w: 127, h: 24, tipo: 'plataforma' },
+    { id: 'roca-8', x: 2715, y: 492, w: 145, h: 24, tipo: 'plataforma' },
+    { id: 'roca-9', x: 2938, y: 488, w: 144, h: 24, tipo: 'plataforma' },
+    { id: 'roca-10', x: 3240, y: 492, w: 168, h: 24, tipo: 'plataforma' },
+    { id: 'roca-11', x: 3448, y: 420, w: 160, h: 24, tipo: 'plataforma' },
+    { id: 'roca-12', x: 3658, y: 350, w: 180, h: 24, tipo: 'plataforma' },
+    { id: 'roca-13', x: 3933, y: 482, w: 177, h: 24, tipo: 'plataforma' },
+    { id: 'roca-14', x: 4218, y: 418, w: 184, h: 24, tipo: 'plataforma' },
+    { id: 'roca-15', x: 4468, y: 482, w: 175, h: 24, tipo: 'plataforma' },
+    { id: 'roca-16', x: 4710, y: 418, w: 180, h: 24, tipo: 'plataforma' },
+    { id: 'roca-17', x: 4937, y: 482, w: 148, h: 24, tipo: 'plataforma' },
+    { id: 'roca-18', x: 5180, y: 472, w: 213, h: 24, tipo: 'plataforma' },
+    { id: 'roca-19', x: 5457, y: 400, w: 183, h: 24, tipo: 'plataforma' },
+    { id: 'roca-20', x: 5733, y: 476, w: 210, h: 24, tipo: 'plataforma' },
+    { id: 'roca-21', x: 5970, y: 399, w: 185, h: 24, tipo: 'plataforma' },
+    { id: 'roca-22', x: 6178, y: 475, w: 177, h: 24, tipo: 'plataforma' },
+    { id: 'roca-23', x: 6465, y: 529, w: 165, h: 24, tipo: 'plataforma' },
+    { id: 'roca-24', x: 6723, y: 446, w: 159, h: 24, tipo: 'plataforma' },
+    { id: 'roca-25', x: 6973, y: 526, w: 179, h: 24, tipo: 'plataforma' },
+    { id: 'roca-26', x: 7238, y: 446, w: 167, h: 24, tipo: 'plataforma' },
+    { id: 'roca-27', x: 7478, y: 532, w: 154, h: 24, tipo: 'plataforma' },
+    { id: 'roca-28', x: 7775, y: 481, w: 142, h: 24, tipo: 'plataforma' },
+    { id: 'roca-29', x: 8018, y: 418, w: 157, h: 24, tipo: 'plataforma' },
+    { id: 'roca-30', x: 8270, y: 480, w: 155, h: 24, tipo: 'plataforma' },
+    { id: 'roca-31', x: 8520, y: 418, w: 145, h: 24, tipo: 'plataforma' },
+    { id: 'roca-32', x: 8755, y: 482, w: 143, h: 24, tipo: 'plataforma' },
   ],
   enemigos: Array.from({ length: 24 }, (_, i) => {
     const x = 520 + i * 350;
@@ -62,18 +65,18 @@ export const escenaReja = {
     };
   }),
   objetos: [
-    { ...botiquinDesierto, id: 'botiquin-desierto-1' },
-    { id: 'churu-parque-1', tipo: 'churu', x: 760, y: 444, w: 30, h: 66 },
-    { id: 'churu-parque-2', tipo: 'churu', x: 1540, y: 444, w: 30, h: 66 },
-    { id: 'churu-parque-3', tipo: 'churu', x: 2450, y: 364, w: 30, h: 66 },
-    { id: 'churu-parque-4', tipo: 'churu', x: 3310, y: 444, w: 30, h: 66 },
-    { id: 'churu-parque-5', tipo: 'churu', x: 4320, y: 364, w: 30, h: 66 },
-    { id: 'churu-parque-6', tipo: 'churu', x: 5240, y: 444, w: 30, h: 66 },
-    { id: 'churu-parque-7', tipo: 'churu', x: 6220, y: 364, w: 30, h: 66 },
-    { id: 'churu-parque-8', tipo: 'churu', x: 7140, y: 444, w: 30, h: 66 },
-    { id: 'churu-parque-9', tipo: 'churu', x: 8110, y: 364, w: 30, h: 66 },
-    { id: 'secreto-parque-alto', tipo: 'churu', x: 3890, y: 284, w: 30, h: 66, secreto: true },
-    { id: 'secreto-parque-roca', tipo: 'churu', x: 6770, y: 364, w: 30, h: 66, secreto: true },
+    { ...botiquinDesierto, id: 'botiquin-desierto-1', x: 1010, y: 560 },
+    { id: 'churu-parque-1', tipo: 'churu', x: 1038, y: 433, w: 30, h: 66 },
+    { id: 'churu-parque-2', tipo: 'churu', x: 1430, y: 430, w: 30, h: 66 },
+    { id: 'churu-parque-3', tipo: 'churu', x: 3309, y: 426, w: 30, h: 66 },
+    { id: 'churu-parque-4', tipo: 'churu', x: 2433, y: 435, w: 30, h: 66 },
+    { id: 'churu-parque-5', tipo: 'churu', x: 4996, y: 416, w: 30, h: 66 },
+    { id: 'churu-parque-6', tipo: 'churu', x: 5533, y: 334, w: 30, h: 66 },
+    { id: 'churu-parque-7', tipo: 'churu', x: 6532, y: 463, w: 30, h: 66 },
+    { id: 'churu-parque-8', tipo: 'churu', x: 8081, y: 352, w: 30, h: 66 },
+    { id: 'churu-parque-9', tipo: 'churu', x: 8811, y: 416, w: 30, h: 66 },
+    { id: 'secreto-parque-alto', tipo: 'churu', x: 4785, y: 352, w: 30, h: 66, secreto: true },
+    { id: 'secreto-parque-roca', tipo: 'churu', x: 6787, y: 380, w: 30, h: 66, secreto: true },
   ],
   secretos: ['secreto-parque-alto', 'secreto-parque-roca'],
   disparadores: [{ id: 'entrada-desierto', x: 8940, y: 0, w: 20, h: 720,

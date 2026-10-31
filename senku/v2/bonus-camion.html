@@ -15,6 +15,9 @@
     .label { font-size: 11px; font-weight: 800; color: #ffd485; letter-spacing: .1em; text-transform: uppercase; }
     .score { min-width: 104px; text-align: center; font-size: clamp(24px, 6vw, 46px); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums; }
     .clock { min-width: 70px; text-align: center; font-size: clamp(24px, 5vw, 38px); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums; }
+    .score span { display: inline-block; color: #ffe26c; font-size: 1.18em; text-shadow: 0 3px #8f4e2d; }
+    #reloj.urgente { color: #ff9c72; animation: pulso .55s ease-in-out infinite alternate; }
+    @keyframes pulso { to { transform: scale(1.12); } }
     .fuel { position: absolute; z-index: 2; top: max(98px, calc(env(safe-area-inset-top) + 88px)); left: 50%; transform: translateX(-50%); width: min(210px, 38vw); height: 13px; border: 2px solid #6b4c3b; border-radius: 9px; overflow: hidden; background: #352a3d; }
     .fuel > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #ffd166, #ef476f); transition: width .15s; }
     .fuel-label { position: absolute; z-index: 2; top: max(114px, calc(env(safe-area-inset-top) + 104px)); left: 50%; transform: translateX(-50%); padding: 2px 8px; border: 1px solid #6b4c3b; border-radius: 0 0 8px 8px; background: #ffd485; font-size: 10px; font-weight: 900; color: #261f2e; white-space: nowrap; }
@@ -23,13 +26,14 @@
     button { font: inherit; color: #fff4db; font-weight: 900; cursor: pointer; }
     .pad { width: clamp(66px, 15vw, 96px); height: clamp(66px, 15vw, 96px); border: 3px solid #ffdfa0; border-radius: 50%; background: #2b2236dd; box-shadow: 0 6px 0 #473129, 0 9px 18px #18121faa; font-size: clamp(24px, 6vw, 38px); pointer-events: auto; touch-action: none; }
     .pad:active { transform: translateY(4px); box-shadow: 0 2px 0 #473129; background: #5a4269; }
-    .jump { width: clamp(84px, 20vw, 126px); height: clamp(84px, 20vw, 126px); font-size: clamp(15px, 3vw, 22px); background: #c85a32; }
+    .jump { width: clamp(84px, 20vw, 126px); height: clamp(84px, 20vw, 126px); font-size: clamp(15px, 3vw, 22px); background: #9e3d25; }
     #sonido { position: absolute; z-index: 4; top: max(92px, calc(env(safe-area-inset-top) + 84px)); right: max(12px, env(safe-area-inset-right)); padding: 6px 10px; border: 2px solid #6b4c3b; border-radius: 12px; background: #261f2edf; font-size: 12px; }
-    #velo { position: absolute; z-index: 5; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: #19132488; text-align: center; text-shadow: 0 4px #3b241e; font-size: clamp(54px, 17vw, 128px); font-weight: 1000; color: #ffe57d; }
+    #velo { position: absolute; z-index: 5; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: radial-gradient(ellipse at center, #211a3ad9, #13111dc4); backdrop-filter: blur(3px); text-align: center; text-shadow: 0 4px #3b241e; font-size: clamp(54px, 17vw, 128px); font-weight: 1000; color: #ffe57d; }
     #velo[hidden] { display: none; }
-    #velo strong { max-width: 90vw; font-size: clamp(32px, 8vw, 72px); }
-    #velo span { font-size: clamp(22px, 5vw, 40px); color: white; }
-    #velo button { pointer-events: auto; padding: 14px 24px; border: 3px solid #ffdfa0; border-radius: 18px; background: #c85a32; box-shadow: 0 5px #473129; font-size: clamp(17px, 4vw, 24px); }
+    #velo strong { max-width: 90vw; font-size: clamp(48px, 12vw, 112px); }
+    #velo span { max-width: 90vw; font-size: clamp(18px, 4vw, 30px); color: white; text-shadow: 0 2px #222; }
+    #velo > strong:not(:first-child) { font-size: clamp(32px, 8vw, 72px); }
+    #velo button { pointer-events: auto; padding: 14px 24px; border: 3px solid #ffdfa0; border-radius: 18px; background: #9e3d25; box-shadow: 0 5px #473129; font-size: clamp(17px, 4vw, 24px); }
     .help { position: absolute; z-index: 2; bottom: max(120px, calc(env(safe-area-inset-bottom) + 120px)); left: 50%; transform: translateX(-50%); width: max-content; max-width: 92vw; padding: 7px 12px; border-radius: 12px; background: #261f2eb8; text-align: center; font-size: clamp(11px, 2.5vw, 14px); font-weight: 750; }
     @media (min-width: 700px) { .help { bottom: 24px; } .controls { display: none; } .fuel { top: 100px; } .fuel-label { top: 116px; } }
   </style>
