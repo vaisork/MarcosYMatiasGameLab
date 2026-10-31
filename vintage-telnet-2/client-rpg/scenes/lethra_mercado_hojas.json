@@ -85,5 +85,6 @@
       ]
     }
   ],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/lethra_mercado_hojas.webp"
 }

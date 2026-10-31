@@ -1,0 +1,15 @@
+{
+  "asset_id": "mordijunco",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-32ec7ae2-5283-499d-a672-df68d82aa765.png",
+  "source_sha256": "743e53f9dae72e98032131d4b9dc59d70c0a407947764793737274b12b7a088b",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 2659,
+  "sha256": "6a11ffe4ab2a26bd9facde08e1b9744ad767da843f1b386c5dbdb11b57c2edb4",
+  "normalization": "Proportional crop to 12 frames of 64x96, or alpha-bounds crop and centered fit to target dimensions; transparent alpha preserved.",
+  "review": "SELF_REVIEW_PASS: canon-compatible anatomy, clear silhouette and genuine transparency.",
+  "prompt": "Compact round brown cat-sized reedland rodent with broad orange incisors, tiny paws and alert overhead three-quarter pose. Canonical Mordijunco anatomy. Centered single map sprite, detailed JRPG style, transparent background; no environment or effects."
+}

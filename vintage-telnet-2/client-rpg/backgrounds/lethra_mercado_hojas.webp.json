@@ -1,0 +1,20 @@
+{
+  "asset_id": "backgrounds/lethra_mercado_hojas.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "1a6b978287c9e7ea0197188b5369dabddd3fa1b66e90e590e76fb9a6de99397d",
+  "bytes": 212128,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-b6607d3e-a659-4960-b489-c193d220b035.png",
+  "source_sha256": "324053a683c5cf4628ef31f5f93a87fdff8f4779965759da67c5687963c1a8f0",
+  "normalization": "Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP quality 42 (method 3); no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art scene, no actors; continuous walkable ground and visible permanent obstacles aligned with scene/Tiled mask.",
+  "prompt": "A quiet elevated Narevia market plaza made of sun-warmed timber over clear channels. Leaf-roofed stalls and low produce counters hold baskets of broad edible leaves, roots, herbs and folded plant-fiber wraps; water channels and mooring posts frame the square. Preserve broad open walkable lanes through the central aisle north-south and east-west; stalls and posts stay on solid side cells. Detailed modern 16-bit indie pixel art, top-down three-quarter view, no people, animals, text, grid or horizon.",
+  "webp_quality": 42,
+  "reference_images": [
+    "client/art/places/lethra_mercado_hojas-anime-v1.webp",
+    "client-rpg/backgrounds/lethra_banco_barro.webp"
+  ]
+}

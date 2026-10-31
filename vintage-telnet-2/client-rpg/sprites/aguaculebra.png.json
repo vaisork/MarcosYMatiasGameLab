@@ -1,0 +1,15 @@
+{
+  "asset_id": "aguaculebra",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-51f84304-3094-47a8-a7f5-4535e6960955.png",
+  "source_sha256": "82c803af909ea4ea02f7cbf78304e2e581d22e6ecc8d3e9792e2570f48bda81a",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 3987,
+  "sha256": "479407902b219acc03758bec10786a48208d038066c761269f30ab9e62610103",
+  "normalization": "Proportional crop to 12 frames of 64x96, or alpha-bounds crop and centered fit to target dimensions; transparent alpha preserved.",
+  "review": "SELF_REVIEW_PASS: canon-compatible anatomy, clear silhouette and genuine transparency.",
+  "prompt": "Aguaculebra: long eel-like freshwater fish, flat broad head, delicate whiskers, small fins, glossy dark blue-green scales and pale underside, coiled into a compact readable S. Overhead three-quarter map sprite, full centered creature, transparent background; no environment or effects."
+}

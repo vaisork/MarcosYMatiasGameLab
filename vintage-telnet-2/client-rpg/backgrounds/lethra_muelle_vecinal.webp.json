@@ -1,0 +1,20 @@
+{
+  "asset_id": "backgrounds/lethra_muelle_vecinal.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "ec02da5b46fef2827ddc262d1b10a76d1ff6fb5241e69e60ab1e3904fc331516",
+  "bytes": 248560,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-142b32dd-67ca-43d6-96a7-317509a99913.png",
+  "source_sha256": "e7a35b5bc1a060274aded1490c34c7e7db9e889595f50bf906e28ba69b51138e",
+  "normalization": "Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP quality 42 (method 3); no painted edits.",
+  "review": "SELF_REVIEW_PASS: detailed 3/4 pixel-art scene, no actors; continuous walkable ground and visible permanent obstacles aligned with scene/Tiled mask.",
+  "prompt": "A lived-in timber landing over branching turquoise channels. Modest covered homes on stilts, short moored workboats, tied bundles, baskets and height-marked posts make a shared neighborhood dock. Keep clear traversable timber platforms across the center connecting north and east; piers, water and house supports align to side obstacle areas. Detailed modern 16-bit indie pixel art, top-down three-quarter view, warm light, full field, no people, creatures, text, grid or horizon.",
+  "webp_quality": 42,
+  "reference_images": [
+    "client/art/places/lethra_muelle_vecinal-anime-v1.webp",
+    "client-rpg/backgrounds/lethra_banco_barro.webp"
+  ]
+}

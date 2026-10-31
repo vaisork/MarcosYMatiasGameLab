@@ -783,6 +783,11 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/lethra_mercado_hojas.webp"
     }
   ],
   "tilesets": [

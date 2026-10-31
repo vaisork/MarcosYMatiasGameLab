@@ -1,0 +1,20 @@
+{
+  "asset_id": "backgrounds/lethra_juncal_abierto.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "1a129d81b73fed3c0d0a655867ffd2ada47a033e8160e3ce030dd696100b26a4",
+  "bytes": 220348,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-7c8ff853-4df6-4777-ba93-237883ca44e8.png",
+  "source_sha256": "eae0d3431e688c0b8ecdb2f35da03e2e9bc058992f7e88ae55dcc02a948d9867",
+  "normalization": "Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP quality 42 (method 3); no painted edits.",
+  "review": "SELF_REVIEW_PASS: broad unobstructed east-west crossing intersects the north-south trail and west exit; solid terrain kept off the passable route.",
+  "prompt": "Use case: game-background. Asset type: seamless in-game RPG room background. Image 1 is the canon scene reference; Image 2 is the established Lethra pixel-art style. Illustrate lethra_juncal_abierto, an open reed bed crossed by a sturdy raised muddy trail. Critical geometry: the north-south footpath must intersect a broad, clearly dry and unobstructed EAST-WEST earthen causeway that spans the full image width at the exact mid-height, so a traveler can walk west from the central path all the way to the left edge. This cross-path is as wide as a small road. A branch continues south from the intersection, and the main trail continues north; compose a clear 3-way junction. Keep the whole cross-path free of reeds, water, roots, stumps, burrows and debris. Dense green-gold reeds and water pools occupy the top/bottom corners and side areas outside the routes. Detailed modern 16-bit indie pixel art, crisp intentional clusters, top-down three-quarter view, warm natural olive, ochre and turquoise. Full terrain to every edge, no borders, margins, text, grid or horizon. Background only, no people or creatures.",
+  "webp_quality": 42,
+  "reference_images": [
+    "client/art/places/lethra_juncal_abierto-anime-v1.webp",
+    "client-rpg/backgrounds/lethra_banco_barro.webp"
+  ]
+}

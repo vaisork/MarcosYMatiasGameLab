@@ -1,0 +1,20 @@
+{
+  "asset_id": "backgrounds/lethra_escucha_aves.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "a496d9fd7984e393f8b544e5f731417424d64dda80606eb45f507f9897ff4d11",
+  "bytes": 198414,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-8a13d70a-6095-4cff-a2b4-93c47a565744.png",
+  "source_sha256": "2dcd38501a57079063cd81c6078f430a0fe6164ea6454c8a41a0649c0d804ded",
+  "normalization": "Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP quality 42 (method 3); no painted edits.",
+  "review": "SELF_REVIEW_PASS: pixel-art terrain to all edges, no actors; central walkway and permanent obstacle shapes visually aligned with scene/Tiled solid mask and real exits.",
+  "prompt": "Use case: game-background. Asset type: seamless in-game RPG room background. Image 1 is the canon place reference for the exact scene; Image 2 is the pixel-art rendering reference for the game's established Lethra background style. Primary request: illustrate lethra_escucha_aves, a quiet root-side listening place at the edge of a still marsh channel. Scene: a broad dry, gently raised root seat occupies the upper-left bank, facing a calm dark turquoise pool; reeds, small water plants, exposed interwoven roots and a few distant birds establish the hush. Keep a clear, firm, continuous earthen walkway through the center from the south edge to the north edge, with safe open standing space across the central rows. Water and dense roots stay around the sides and top corners, not across the route. Style: highly detailed modern 16-bit indie pixel art, crisp intentional pixel clusters, top-down three-quarter view, same warm natural palette and light direction as Image 2. Composition: cover the full 20x15 RPG tile field with no borders or empty margins; ground reaches all edges, no horizon, no text. Constraints: background only, no people, no creatures, no birds close enough to read as actors, no UI, no grid lines. Align visible walkable ground with a clear central north-south route; the seat and roots must visually read as obstacles off-route.",
+  "webp_quality": 42,
+  "reference_images": [
+    "client/art/places/lethra_escucha_aves-anime-v1.webp",
+    "client-rpg/backgrounds/lethra_banco_barro.webp"
+  ]
+}

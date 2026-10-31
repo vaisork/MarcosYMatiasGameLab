@@ -1,0 +1,20 @@
+{
+  "asset_id": "backgrounds/lethra_hito_tierra.webp",
+  "generation_tool": "native image_gen",
+  "sha256": "ec5d28e5458efd00dd405130de251f43aabdabc8d304b1b51b9641573c215065",
+  "bytes": 210670,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-4a0b89eb-dfa6-416e-b05c-b9f02a60b8ca.png",
+  "source_sha256": "46b21fc312208c864050a6a2ebffe996d6ed2dcfed53f51e932c963f4417303f",
+  "normalization": "Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP quality 42 (method 3); no painted edits.",
+  "review": "SELF_REVIEW_PASS: pixel-art terrain to all edges, no actors; central walkway and permanent obstacle shapes visually aligned with scene/Tiled solid mask and real exits.",
+  "prompt": "Use case: game-background. Asset type: seamless in-game RPG room background. Image 1 is the canon place reference; Image 2 is the established Lethra pixel-art rendering reference. Primary request: illustrate lethra_hito_tierra, a raised dry bank of firm earth marked by small flood-level stones, between channels and wetland. Rich roots hold the high ground; damp grasses, shallow pools and reeds border it. Style: highly detailed modern 16-bit indie pixel art, crisp readable clusters, top-down three-quarter view, warm natural olive, ochre and deep teal palette. Composition: fill the full 20x15 tile field edge to edge with terrain, no borders, no horizon, no text. Keep the full central band across rows 6-7 open and continuous east-west, joining broad clear paths from the south edge and toward the west/east edges; all banks, root bundles, markers and reed clumps sit around that route in cells that visually read as blocked. Background only, no people or creatures, no grid.",
+  "webp_quality": 42,
+  "reference_images": [
+    "client/art/places/lethra_hito_tierra-anime-v1.webp",
+    "client-rpg/backgrounds/lethra_banco_barro.webp"
+  ]
+}
