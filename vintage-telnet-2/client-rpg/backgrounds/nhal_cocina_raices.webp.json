@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_cocina_raices",
+  "prompt": "Regenerate the Nhal communal kitchen map in crisp detailed pixel art, fixed orthographic three-quarter overhead. Room nhal_cocina_raices, 4:3. Composition is mandatory: an open, unobstructed path enters from the EXACT CENTER of the LEFT edge, continues horizontally through the center of the image, then turns upward and exits at the EXACT CENTER of the TOP edge. Keep the entire L-shaped route broad, empty and clear. The stone cooking hearth with its small fire is confined to the UPPER-RIGHT corner alcove, away from the route. Storage shelves, baskets, pots and firewood stay at the FAR RIGHT and FAR LEFT edges but leave the west-center exit open. Forest-root shelter, green moss, warm firelight only on the right. No furniture, roots, fire, rubble or pots may overlap either exit or route. Full bleed, no border or blank margin, no characters or creatures, no writing, no UI. Target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a1908e-a5cc-7461-a7a6-e6293b1ac140/exec-55c642b7-ab6b-4ee8-ab40-8d1a47bcc57f.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 48,
+  "bytes": 166672,
+  "sha256": "9e78810d82d759ed16495df99623aabd18eadd00acb1a4889c57574534379dce"
+}

@@ -1,0 +1,13 @@
+{
+  "asset_id": "garfarrama",
+  "variant": "map",
+  "prompt": "Transparent-background pixel-art full-body sprite of garfarrama: Climbing forest reptile with hooked claws, bark-pattern scales and stiff tail; preserve canon reference. Three-quarter view, clear silhouette, no scenery, ground, shadow, text or frame.",
+  "generator": "OpenAI image_gen nativo; canonical reference /client/art/bestiary/garfarrama-anime-v1.webp",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a1908e-a5cc-7461-a7a6-e6293b1ac140/exec-6e1d0f5e-ade0-4978-9095-1957fe14b2f4.png",
+  "normalization": "alpha crop, fit proportionally within transparent 192x192 RGBA canvas, derive 48x48 map / 192x192 battle",
+  "quality": "PNG RGBA lossless",
+  "width": 48,
+  "height": 48,
+  "bytes": 2603,
+  "sha256": "3e754da4b3f14108cebfdec4f072dc34af85361f6a7e59b7d9d4a0ddd3d37a06"
+}

@@ -1,0 +1,13 @@
+{
+  "asset_id": "rasgacorteza",
+  "variant": "map",
+  "prompt": "Transparent-background pixel-art full-body sprite of rasgacorteza: Large heavy forest reptile with thick irregular dark wet-bark hide; preserve canon reference. Three-quarter view, clear silhouette, no scenery, ground, shadow, text or frame.",
+  "generator": "OpenAI image_gen nativo; canonical reference /client/art/bestiary/rasgacorteza-anime-v2.webp",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a1908e-a5cc-7461-a7a6-e6293b1ac140/exec-fa7495d5-5b55-49e3-9c8e-29cdd7fc2a72.png",
+  "normalization": "alpha crop, fit proportionally within transparent 192x192 RGBA canvas, derive 48x48 map / 192x192 battle",
+  "quality": "PNG RGBA lossless",
+  "width": 48,
+  "height": 48,
+  "bytes": 2845,
+  "sha256": "1ac6f856d71150d797e3bb7283ac26ff84840cc4a2d4436e74080e8c8c3b1734"
+}

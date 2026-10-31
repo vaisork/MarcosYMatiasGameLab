@@ -1,0 +1,13 @@
+{
+  "asset_id": "tronchacolmillo",
+  "variant": "map",
+  "prompt": "Transparent-background pixel-art full-body sprite of tronchacolmillo: Large calm herbivorous mammal with coarse fur and thick worn tusks for lifting roots; preserve canon reference. Three-quarter view, clear silhouette, no scenery, ground, shadow, text or frame.",
+  "generator": "OpenAI image_gen nativo; canonical reference /client/art/bestiary/tronchacolmillo-anime-v1.webp",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a1908e-a5cc-7461-a7a6-e6293b1ac140/exec-828e5068-8ff5-4b37-b15b-5d92977643db.png",
+  "normalization": "alpha crop, fit proportionally within transparent 192x192 RGBA canvas, derive 48x48 map / 192x192 battle",
+  "quality": "PNG RGBA lossless",
+  "width": 48,
+  "height": 48,
+  "bytes": 3933,
+  "sha256": "7c2b8dc0d6226e2b5689e3c5d054f7fbfd4432810a17475770baeee7f55d64bf"
+}

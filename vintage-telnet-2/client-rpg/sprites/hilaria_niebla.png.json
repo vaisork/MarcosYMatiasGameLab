@@ -1,0 +1,13 @@
+{
+  "asset_id": "hilaria_niebla",
+  "variant": "map",
+  "prompt": "Transparent-background pixel-art full-body sprite of hilaria_niebla: Opaque low forest arachnid with eight legs, wet leaf camouflage and dew threads; preserve canon reference. Three-quarter view, clear silhouette, no scenery, ground, shadow, text or frame.",
+  "generator": "OpenAI image_gen nativo; canonical reference /client/art/bestiary/hilaria-anime-v1.webp",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a1908e-a5cc-7461-a7a6-e6293b1ac140/exec-7919f71a-6bf8-42a2-a236-1a27bd7f5d6c.png",
+  "normalization": "alpha crop, fit proportionally within transparent 192x192 RGBA canvas, derive 48x48 map / 192x192 battle",
+  "quality": "PNG RGBA lossless",
+  "width": 48,
+  "height": 48,
+  "bytes": 2745,
+  "sha256": "880089e56c7ddb2041cb2f5b390c2c09e045c20e0dfc46f6ab1ae8c7b803851c"
+}

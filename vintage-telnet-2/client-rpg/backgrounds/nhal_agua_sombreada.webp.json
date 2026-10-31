@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_agua_sombreada",
+  "prompt": "Use reference image 1 for Nhal's forest materials, lighting and quiet mood. Create a pixel-art game background for room nhal_agua_sombreada, viewed in a fixed orthographic three-quarter overhead angle. 4:3 composition: a shaded still pool beneath dense green canopy, dark clear water along the left and right margins, floating autumn leaves, thick roots framing the water, and a narrow north-to-south walking causeway exactly through the center, connecting cleanly to open exits at the top-center and bottom-center edges. Any stones, roots or timber are only beside the causeway and do not block it. Soft filtered light, moss and deliberate readable pixel clusters, rich but controlled green/ochre/blue palette, detailed pixel-art texture throughout. Full-bleed ground to all edges, no blank margin, no people, no animals, no text, no UI, no grid, no border. Target final dimensions 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a1908e-a5cc-7461-a7a6-e6293b1ac140/exec-4a0f6c35-d256-4ea3-84ef-b2264d9f5e62.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop 4:3; Lanczos 1280x960; WebP",
+  "quality": 64,
+  "bytes": 241638,
+  "sha256": "249e4e5aa9007acd10d1ac15100478c10315a529f936f45950f3fc66dca5dd48"
+}

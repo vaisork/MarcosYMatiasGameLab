@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_arbol_umbral",
+  "prompt": "Use the supplied Nhal reference image 1 for forest materials and canopy light. Create a game background for nhal_arbol_umbral, detailed pixel art in a fixed orthographic three-quarter overhead view. 4:3 wide map: a monumental ancient tree spans the scene; two raised living roots arch together overhead, forming a generous tunnel. A continuous ochre-earth trail runs west to east across the exact middle, with open exits at the center of both left and right borders. Place root ridges, moss, fern beds and small stones only around the sides; preserve clear traversable openings and do not put obstacles across the center path. Warm filtered golden light shines through the arch from the east; forest greens and dark bark stay consistent with the reference. Pixel clusters crisp and readable at game scale, richly detailed, full bleed to every edge. No blank margins, people, animals, signs, lettering, UI, grid or border. Final target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a1908e-a5cc-7461-a7a6-e6293b1ac140/exec-08b827fc-cdd7-40f6-82f7-aec01cd8c38a.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop 4:3; Lanczos 1280x960; WebP",
+  "quality": 44,
+  "bytes": 241358,
+  "sha256": "f57b3dabb04fabdd20f2a5c76e7f705bfd87dcf952f2ceab0771b70aeb2ce85c"
+}

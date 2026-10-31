@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_claro_silencio",
+  "prompt": "Use the Nhal reference image for quiet forest atmosphere, mossy roots and filtered canopy light. Create a detailed pixel-art RPG map background for nhal_claro_silencio, fixed orthographic three-quarter overhead, 4:3 landscape. A small quiet clearing sits beneath one round gap in the canopy; a single broad smooth root forms a low seat near the upper side of the clearing. A clear footpath enters only from the south edge at its exact center and opens into the clearing; there is no northern exit or path. Keep the lower central corridor and clearing unobstructed; roots, low ferns and stones frame the sides only. Gentle direct sun falls as a small circle in the clearing, surrounding forest remains soft and green, peaceful listening place with no obvious threat. Pixel art with carefully grouped pixels, high detail yet readable at game scale, full bleed, no blank borders, no people, animals, text, UI, grid or frame. Target 1280x960.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a1908e-a5cc-7461-a7a6-e6293b1ac140/exec-54056d69-eb23-463f-a727-67c4b04062cc.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3, Lanczos 1280x960, WebP",
+  "quality": 48,
+  "bytes": 249030,
+  "sha256": "09d9fd410ed08849f2cd0785b412bc7d57ee7ca587391a3086e59a8c4cae98d7"
+}
