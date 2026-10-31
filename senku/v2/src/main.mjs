@@ -1282,10 +1282,13 @@ export function arrancarSenku2({
             guardarProgreso();
             mostrarAviso('¡Venciste al Gato Mecánico!', 2.5);
             // Deja ver al jefe desarmarse antes de la pantalla final.
-            temporizadorFinal = ventana.setTimeout?.(() => mostrarFinal(documento, ventana,
-              resumenCapitulo(estadoJugador, registro.listar()), {
-                alVolverAJugar: volverAJugarCapitulo,
-              }), 2600);
+            temporizadorFinal = ventana.setTimeout?.(() => {
+              mostrarAviso('', 0); // que el aviso no asome sobre la tarjeta final
+              mostrarFinal(documento, ventana,
+                resumenCapitulo(estadoJugador, registro.listar()), {
+                  alVolverAJugar: volverAJugarCapitulo,
+                });
+            }, 2600);
           }
         }
       }
