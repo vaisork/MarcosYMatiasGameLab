@@ -1139,3 +1139,16 @@ html body .combat-round-label svg{width:16px;height:16px;color:#ff9eb5}
 .master-management summary,.inventory-group summary,.inventory-stack summary{min-height:44px;overflow-wrap:anywhere}
 .inventory-group .item-heading,.inventory-stack .item-heading{min-width:0}
 .inventory-group .item-heading h3,.inventory-stack .item-heading h3{min-width:0;overflow-wrap:anywhere}
+
+body .app{padding-top:max(10px,env(safe-area-inset-top))}
+body .field input,body .field select{font-size:16px}
+.mobile-hud{display:none}
+@media(max-width:600px){
+ html.reading-adventure body .app,html.playing-map body .app{padding-top:max(6px,env(safe-area-inset-top))}
+ html body .reading-adventure .room-context .room-top{min-height:44px}
+ html body .reading-adventure .room-details summary,html body .reading-adventure .room-context .map-shortcut{width:44px;min-width:44px;height:44px;min-height:44px;padding:0;font-size:16px}
+ html body .mobile-hud{position:fixed;left:50%;bottom:calc(72px + env(safe-area-inset-bottom));transform:translateX(-50%);display:grid;grid-template-columns:1fr 1fr;gap:8px;width:calc(100% - 20px);max-width:560px;padding:5px 9px;background:linear-gradient(180deg,var(--night-3),var(--night));border:1px solid var(--gold-dark);border-radius:10px;box-shadow:0 2px 8px #0008;z-index:6;pointer-events:none}
+ html body .mobile-hud .hud{display:contents}
+ html body .mobile-hud .hud-bar{min-width:0;font-size:11px}
+ html body .mobile-hud .hud-track{min-width:24px}
+}
