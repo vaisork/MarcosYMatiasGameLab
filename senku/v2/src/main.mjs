@@ -959,6 +959,7 @@ export function arrancarSenku2({
       rutaBonus: zona.rutaBonus || './bonus-camioneta.html',
       tipo: zona.id,
       tiempo: 0,
+      puertaX: zona.x + 30, // Senku camina a la puerta del camión
     };
     mostrarAviso('', 0);
     actualizarCamioneta();
@@ -1222,8 +1223,15 @@ export function arrancarSenku2({
         if (viaje.tiempo >= 5) saltarCinematica();
         return;
       }
-      if (viaje.tiempo < 2) return;
-      if (viaje.tiempo < 5) {
+      if (viaje.tipo === 'camion') {
+        // Camina a la puerta mientras la pantalla se funde; a los 2.5 s entra al bonus.
+        senku.x += Math.max(-1, Math.min(1, viaje.puertaX - senku.x)) * Math.min(Math.abs(viaje.puertaX - senku.x), 160 * dt);
+        senku.mirando = viaje.puertaX < senku.x ? -1 : 1;
+        senku.vx = Math.abs(viaje.puertaX - senku.x) > 2 ? senku.mirando * 160 : 0; // ciclo de patas
+        mostrarAviso('¡Senku sube al camión! ¡A juntar Churus!', 0);
+        if (viaje.tiempo < 2.5) return;
+      } else if (viaje.tiempo < 2) return;
+      if (viaje.tipo !== 'camion' && viaje.tiempo < 5) {
         mostrarAviso(viaje.tipo === 'camion'
           ? '¡Senku sube al camión! ¡A juntar Churus!'
           : '¡Senku toma el volante! ¡A juntar Churus!', 0);
@@ -1655,7 +1663,7 @@ export function arrancarSenku2({
     if (ctx && viaje) {
       if (viaje.tipo === 'camion') {
         ctx.save();
-        ctx.fillStyle = 'rgba(18, 14, 24, 0.38)';
+        ctx.fillStyle = `rgba(18, 14, 24, ${Math.min(1, 0.3 + viaje.tiempo / 2.2)})`;
         ctx.fillRect(0, 0, ANCHO_LOGICO, ALTO_LOGICO);
         ctx.restore();
       } else if (viaje.tiempo < 1) {

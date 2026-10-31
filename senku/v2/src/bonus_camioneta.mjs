@@ -95,7 +95,12 @@ export function finalizarPartida(almacen, partida) {
   if (!almacen || !partida || partida.fase !== 'fin') return { guardado: false, estado: null };
   let estado;
   try { estado = normalizar(JSON.parse(almacen.getItem(CLAVE))); } catch { return { guardado: false, estado: null }; }
-  if (!estado || estado.coleccionados.includes(ID_PREMIO)) return { guardado: false, estado };
+  if (!estado) return { guardado: false, estado };
+  // Bonus repetido (p. ej. «Jugar desde el principio»): sin premio, pero sí avanza de escena; si no, el juego vuelve al inicio del bonus.
+  if (estado.coleccionados.includes(ID_PREMIO)) {
+    const sinPremio = { ...estado, progreso: { ...estado.progreso, escena: 'reja' } };
+    return { guardado: guardar(almacen, sinPremio), estado: sinPremio, repetido: true };
+  }
   const cantidad = Math.min(TOPE_CHURUS, Math.max(0, Math.floor(partida.churus)));
   const premio = ganarChurus(estado, cantidad, ID_PREMIO);
   if (premio.error) return { guardado: false, estado };
