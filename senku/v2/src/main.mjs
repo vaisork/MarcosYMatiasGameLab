@@ -57,6 +57,8 @@ import {
   ajustarLienzoLetterbox,
   crearCatalogoArte,
   dibujarAvisoCarga,
+  rutasArteEscena,
+  destinosEscena,
   renderizarEscena,
 } from './render/canvas.mjs';
 import {
@@ -1120,7 +1122,16 @@ export function arrancarSenku2({
   const catalogoArte = crearCatalogoArte();
   let rutaFondo = rutaFondoEscena(escenaActual.id) || (escenaActual.fondo.ruta
     ? resolverRutaArte(escenaActual.fondo.ruta) : null);
-  catalogoArte.precargar(rutasPrecargaArte({
+  // Sólo la escena actual bloquea («Cargando arte»); las escenas a las que se puede ir bajan en segundo plano.
+  function precargarArteEscena(rutasBase) {
+    catalogoArte.precargar([...rutasBase, ...rutasArteEscena(escenaActual)]);
+    for (const id of destinosEscena(escenaActual)) {
+      for (const ruta of [...rutasPrecargaArte({ escenaId: id }), ...rutasArteEscena(registro.obtener(id))]) {
+        catalogoArte.cargar(ruta);
+      }
+    }
+  }
+  precargarArteEscena(rutasPrecargaArte({
     escenaId: escenaActual.id,
     tiposEnemigo: enemigos.map((e) => `${e.tipo}_${e.variante}`),
   }));
@@ -1149,7 +1160,7 @@ export function arrancarSenku2({
     definicionEnemigos = escenaActual.enemigos;
     rutaFondo = rutaFondoEscena(escenaActual.id) || (escenaActual.fondo.ruta
       ? resolverRutaArte(escenaActual.fondo.ruta) : null);
-    catalogoArte.precargar([rutaFondo, ...rutasPrecargaArte({ escenaId: escenaActual.id })]);
+    precargarArteEscena([rutaFondo, ...rutasPrecargaArte({ escenaId: escenaActual.id })]);
     viaje = null;
     mostrarAviso('', 0);
     camaraSuaveX = Math.max(0, Math.min(escenaActual.limites.w - ANCHO_LOGICO,
@@ -1661,12 +1672,27 @@ export function arrancarSenku2({
 
   animacionId = ventana.requestAnimationFrame(ciclo);
 
+  // Pestaña oculta: para el bucle y la música; al volver reanuda sin un salto de tiempo.
+  function alCambiarVisibilidad() {
+    if (documento.visibilityState === 'hidden') {
+      if (animacionId) ventana.cancelAnimationFrame(animacionId);
+      animacionId = null;
+      musica.pausar();
+    } else if (!animacionId) {
+      ultimoTiempo = performance.now();
+      animacionId = ventana.requestAnimationFrame(ciclo);
+      musica.reanudar();
+    }
+  }
+  documento.addEventListener?.('visibilitychange', alCambiarVisibilidad);
+
   function detener() {
     if (animacionId) {
       ventana.cancelAnimationFrame(animacionId);
       animacionId = null;
     }
     entrada.destruir();
+    documento.removeEventListener?.('visibilitychange', alCambiarVisibilidad);
     ventana.removeEventListener('resize', redimensionar);
     ventana.removeEventListener('orientationchange', redimensionar);
     if (ventana.visualViewport) {
