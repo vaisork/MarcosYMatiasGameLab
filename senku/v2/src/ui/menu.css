@@ -431,6 +431,97 @@
   }
 }
 
+/* Adaptabilidad para celular en horizontal (844x390) */
+@media (max-height: 500px) {
+  .modal-menu {
+    padding: 6px;
+    align-items: flex-start;
+  }
+
+  .modal-menu-contenido {
+    max-height: 98vh;
+    border-radius: 12px;
+  }
+
+  .senku-menu {
+    padding: 10px 14px 16px;
+  }
+
+  .menu-cabecera {
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    gap: 8px;
+    padding-right: 48px;
+  }
+
+  .menu-titulo {
+    font-size: 1.25rem;
+  }
+
+  .menu-subtitulo {
+    font-size: 0.75rem;
+    margin-top: 2px;
+  }
+
+  .menu-saldo {
+    min-height: 36px;
+    padding: 4px 12px;
+    gap: 8px;
+  }
+
+  .saldo-etiqueta {
+    font-size: 0.75rem;
+  }
+
+  .saldo-cantidad {
+    font-size: 1rem;
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .tarjeta-preview {
+    height: 110px;
+  }
+
+  .tarjeta-cuerpo {
+    padding: 8px 10px;
+    gap: 4px;
+  }
+
+  .tarjeta-titulo {
+    font-size: 1rem;
+  }
+
+  .tarjeta-descripcion {
+    font-size: 0.75rem;
+    line-height: 1.25;
+    margin-bottom: 4px;
+  }
+
+  .tarjeta-acciones {
+    padding-top: 6px;
+  }
+
+  .btn-traje {
+    padding: 6px 12px;
+    min-height: 36px;
+    font-size: 0.85rem;
+  }
+
+  .btn-cerrar-menu {
+    top: 8px;
+    right: 8px;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    font-size: 1rem;
+  }
+}
+
 /* ==========================================================================
    Contenedor Modal / Overlay para integración en el juego (Senku 2)
    ========================================================================== */
