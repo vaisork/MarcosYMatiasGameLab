@@ -114,7 +114,7 @@ export function rutasPrecargaArte({ escenaId = 'taqueria', tiposEnemigo = Object
   const rel = [
     FONDOS_ESCENA[escenaId],
     ...Object.values(HOJAS_JUGADOR),
-    HOJA_JEFE_GATO,
+    escenaId === 'cima' && HOJA_JEFE_GATO, // 525 KB: sólo donde vive el jefe
     ...tiposEnemigo.map((t) => (HOJAS_ENEMIGO[t] || HOJA_ENEMIGO_DEFECTO).ruta),
     ...Object.values(IMAGENES_OBJETO),
   ].filter(Boolean);

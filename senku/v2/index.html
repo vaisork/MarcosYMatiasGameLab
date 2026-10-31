@@ -441,8 +441,13 @@
       const vincularBotonInmediato = (id) => {
         const el = document.getElementById(id);
         if (!el) return;
+        // Un toque dispara pointerdown y touchstart: un solo clic por toque (si no, Pausa abre y cierra).
+        let ultimo = -Infinity;
         const ejecutar = (e) => {
           if (e.cancelable && e.type !== 'pointerdown') e.preventDefault();
+          const ahora = performance.now();
+          if (ahora - ultimo < 400) return;
+          ultimo = ahora;
           el.click();
         };
         el.addEventListener('pointerdown', (e) => {

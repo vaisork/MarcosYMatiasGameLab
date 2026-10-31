@@ -57,6 +57,8 @@ import {
   ajustarLienzoLetterbox,
   crearCatalogoArte,
   dibujarAvisoCarga,
+  rutasArteEscena,
+  destinosEscena,
   renderizarEscena,
 } from './render/canvas.mjs';
 import {
@@ -776,13 +778,12 @@ export function arrancarSenku2({
   registro.registrar(escenaDespenadero);
   registro.registrar(escenaCima);
 
-  const escenaId = estadoJugador.progreso?.escena === 'desierto'
-    ? 'reja' : (estadoJugador.progreso?.escena || 'taqueria');
-  if (escenaId !== estadoJugador.progreso?.escena) {
-    estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: escenaId } };
+  // Se reanuda donde se guardó; una escena desconocida vuelve a la taquería.
+  let escenaActual = registro.obtener(estadoJugador.progreso?.escena) || registro.obtener('taqueria');
+  if (escenaActual.id !== estadoJugador.progreso?.escena) {
+    estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: escenaActual.id } };
     if (almacen) guardar(almacen, estadoJugador);
   }
-  let escenaActual = registro.obtener(escenaId) || registro.obtener('taqueria');
 
   function actualizarNombreEscena() {
     const nombre = documento.getElementById('nombre-escena');
@@ -807,6 +808,7 @@ export function arrancarSenku2({
   const lanzador = crearLanzador();
   // Música por zona; el jefe despierto cambia a su pieza. N o el botón ♪ la apagan.
   const musica = crearMusica(ventana);
+  let alPulsarMusica = null;
   const btnMusica = documento.createElement?.('button');
   if (btnMusica) {
     btnMusica.id = 'btn-musica';
@@ -815,7 +817,8 @@ export function arrancarSenku2({
     const pintarBoton = () => { btnMusica.textContent = musica.activa ? '♪' : '♪̸'; btnMusica.style.opacity = musica.activa ? '1' : '.55'; };
     pintarBoton();
     btnMusica.addEventListener('click', () => { musica.alternar(); pintarBoton(); });
-    ventana.addEventListener?.('keydown', (e) => { if (e.code === 'KeyN') { musica.alternar(); pintarBoton(); } });
+    alPulsarMusica = (e) => { if (e.code === 'KeyN') { musica.alternar(); pintarBoton(); } };
+    ventana.addEventListener?.('keydown', alPulsarMusica);
     documento.getElementById('btn-pausa')?.before?.(btnMusica);
   }
   function actualizarMusica() {
@@ -825,6 +828,7 @@ export function arrancarSenku2({
   }
   let jefe = null;
   const ID_VICTORIA_JEFE = 'jefe-gato-mecanico';
+  const CAPITULO_REINICIABLE = [ID_VICTORIA_JEFE, 'llave-camioneta', 'anclador-despenadero', 'lanzador-cima'];
   function prepararJefe() {
     if (escenaActual.id !== 'cima' || tiene(ID_VICTORIA_JEFE)) { jefe = null; return; }
     jefe = crearJefe({ x: 2200, suelo: SUELO_CIMA, arenaMinX: ARENA.minX, arenaMaxX: ARENA.maxX });
@@ -834,9 +838,11 @@ export function arrancarSenku2({
     const boton = documento.getElementById('btn-gancho');
     if (boton) boton.hidden = !(escenaActual.id === 'despenadero' && tiene('anclador-despenadero'));
   }
+  // Al recargar dentro del despeñadero con el anclador, el botón táctil debe aparecer.
+  actualizarBotonGancho();
 
   function alPulsarTecla(e) {
-    if (viaje && ['Space', 'Enter', 'Escape'].includes(e.code)) {
+    if (viaje?.cinematica && ['Space', 'Enter', 'Escape'].includes(e.code)) {
       saltarCinematica();
       e.preventDefault();
     } else if (e.key === 'Escape') {
@@ -945,8 +951,9 @@ export function arrancarSenku2({
   }
   if (btnSubir) btnSubir.onclick = intentarSubir;
 
+  // Sólo la cinemática de la familia se salta: al abordar, Espacio o un toque no deben brincarse el bonus.
   function saltarCinematica() {
-    if (!viaje) return false;
+    if (!viaje?.cinematica) return false;
     cambiarEscena(viaje.destino, { curar: true });
     return true;
   }
@@ -1115,7 +1122,16 @@ export function arrancarSenku2({
   const catalogoArte = crearCatalogoArte();
   let rutaFondo = rutaFondoEscena(escenaActual.id) || (escenaActual.fondo.ruta
     ? resolverRutaArte(escenaActual.fondo.ruta) : null);
-  catalogoArte.precargar(rutasPrecargaArte({
+  // Sólo la escena actual bloquea («Cargando arte»); las escenas a las que se puede ir bajan en segundo plano.
+  function precargarArteEscena(rutasBase) {
+    catalogoArte.precargar([...rutasBase, ...rutasArteEscena(escenaActual)]);
+    for (const id of destinosEscena(escenaActual)) {
+      for (const ruta of [...rutasPrecargaArte({ escenaId: id }), ...rutasArteEscena(registro.obtener(id))]) {
+        catalogoArte.cargar(ruta);
+      }
+    }
+  }
+  precargarArteEscena(rutasPrecargaArte({
     escenaId: escenaActual.id,
     tiposEnemigo: enemigos.map((e) => `${e.tipo}_${e.variante}`),
   }));
@@ -1144,7 +1160,7 @@ export function arrancarSenku2({
     definicionEnemigos = escenaActual.enemigos;
     rutaFondo = rutaFondoEscena(escenaActual.id) || (escenaActual.fondo.ruta
       ? resolverRutaArte(escenaActual.fondo.ruta) : null);
-    catalogoArte.precargar([rutaFondo, ...rutasPrecargaArte({ escenaId: escenaActual.id })]);
+    precargarArteEscena([rutaFondo, ...rutasPrecargaArte({ escenaId: escenaActual.id })]);
     viaje = null;
     mostrarAviso('', 0);
     camaraSuaveX = Math.max(0, Math.min(escenaActual.limites.w - ANCHO_LOGICO,
@@ -1152,6 +1168,14 @@ export function arrancarSenku2({
     reiniciarEscena({ puntoEntrada, curar });
     actualizarNombreEscena();
     actualizarCamioneta();
+  }
+
+  // Jugar otra vez: revive enemigos, llave y jefe. Churus, trajes y garras se conservan (sin re-cobrar churus).
+  let temporizadorFinal = null;
+  function volverAJugarCapitulo() {
+    const capitulo = (id) => id.includes(':derrotado:') || CAPITULO_REINICIABLE.includes(id);
+    estadoJugador = { ...estadoJugador, coleccionados: estadoJugador.coleccionados.filter((id) => !capitulo(id)) };
+    cambiarEscena('taqueria', { curar: true });
   }
 
   // 8. Bucle principal de juego
@@ -1258,9 +1282,9 @@ export function arrancarSenku2({
             guardarProgreso();
             mostrarAviso('¡Venciste al Gato Mecánico!', 2.5);
             // Deja ver al jefe desarmarse antes de la pantalla final.
-            ventana.setTimeout?.(() => mostrarFinal(documento, ventana,
+            temporizadorFinal = ventana.setTimeout?.(() => mostrarFinal(documento, ventana,
               resumenCapitulo(estadoJugador, registro.listar()), {
-                alVolverAJugar: () => cambiarEscena('taqueria', { curar: true }),
+                alVolverAJugar: volverAJugarCapitulo,
               }), 2600);
           }
         }
@@ -1643,10 +1667,24 @@ export function arrancarSenku2({
     contexto.restore();
   }
 
-  const alTocarCinematica = () => { if (viaje) saltarCinematica(); };
+  const alTocarCinematica = () => { saltarCinematica(); };
   canvas.addEventListener?.('pointerdown', alTocarCinematica);
 
   animacionId = ventana.requestAnimationFrame(ciclo);
+
+  // Pestaña oculta: para el bucle y la música; al volver reanuda sin un salto de tiempo.
+  function alCambiarVisibilidad() {
+    if (documento.visibilityState === 'hidden') {
+      if (animacionId) ventana.cancelAnimationFrame(animacionId);
+      animacionId = null;
+      musica.pausar();
+    } else if (!animacionId) {
+      ultimoTiempo = performance.now();
+      animacionId = ventana.requestAnimationFrame(ciclo);
+      musica.reanudar();
+    }
+  }
+  documento.addEventListener?.('visibilitychange', alCambiarVisibilidad);
 
   function detener() {
     if (animacionId) {
@@ -1654,12 +1692,16 @@ export function arrancarSenku2({
       animacionId = null;
     }
     entrada.destruir();
+    documento.removeEventListener?.('visibilitychange', alCambiarVisibilidad);
     ventana.removeEventListener('resize', redimensionar);
     ventana.removeEventListener('orientationchange', redimensionar);
     if (ventana.visualViewport) {
       ventana.visualViewport.removeEventListener('resize', redimensionar);
     }
     ventana.removeEventListener('keydown', alPulsarTecla);
+    if (alPulsarMusica) ventana.removeEventListener('keydown', alPulsarMusica);
+    musica.detener();
+    if (temporizadorFinal) ventana.clearTimeout?.(temporizadorFinal);
     canvas.removeEventListener?.('pointerdown', alTocarCinematica);
     if (btnSubir) btnSubir.onclick = null;
     if (btnTraje) {
