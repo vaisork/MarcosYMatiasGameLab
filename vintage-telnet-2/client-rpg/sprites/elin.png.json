@@ -1,0 +1,14 @@
+{
+  "asset_id": "nhal_elin",
+  "prompt": "Transparent 3x4 sprite atlas: Elin, adult Vesperi wood artisan after a work injury; portray respectfully with a subtle wrapped support on one hand, no dramatic injury. Warm brown fur/skin, large rounded ears, kind amber eyes, silver-brown hair braided and pinned, muted plum overshirt, cream shirt, forest-green skirt/trousers, soft leather shoes, calm practical expression, empty hands. Rows front, left profile, back, right profile; three walking poses per row; exact 64x96 frames, consistent size and baseline; figure about 72px high, feet at y=92. Crisp 16-bit pixel art, transparent background, no props, no text, no grid, no watermark.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193f8-2944-71a2-ada9-257c632641a3/exec-81865716-b518-4c69-9c86-8421010badb0.png",
+  "source_dimensions": "887x1774",
+  "normalization": "crop into 3 columns by 4 rows; nearest resize each cell to 64x96; body about 72px high, baseline y=92",
+  "frame_size": [
+    64,
+    96
+  ],
+  "bytes": 84803,
+  "sha256": "a404fcf4be9aebd3ff8d072a288ce2d28cabcf58492388e4e95e16e1b448e8f5"
+}

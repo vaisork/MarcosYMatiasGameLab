@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_suelo_hojas",
+  "prompt": "Detailed late-16-bit indie pixel art, three-quarter top-down Nhal forest trail carpeted with red, gold and brown autumn leaves. Middle track visibly crushed and flattened by passing loads; whole leaves at margins; old tree and roots at one side, hollow root with tiny mushrooms; a subtle fresh leaf drift from canopy without depicting animal. Olive greens, bark brown, amber, warm upper-left light. 1280x960, 20x15 tiles. Broad clear west-to-east path; centered broad exits west and east; continuous solid roots/trunks north and south except actual exits. Keep obstacles outside central pass. No people, creatures, characters, text, UI, watermark. Crisp pixel-art clusters.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193f8-2944-71a2-ada9-257c632641a3/exec-4b9df082-9898-4826-9835-80ecd532609b.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Lanczos resize to 1280x960, WebP",
+  "quality": 46,
+  "bytes": 245510,
+  "sha256": "8eaf5fc94bdcd51d0d925975219e131326bf4f5bfaab0f4a65b1a20d2a285e60"
+}

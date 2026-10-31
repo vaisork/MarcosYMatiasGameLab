@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_umbral_elin",
+  "prompt": "Detailed late-16-bit indie pixel art, three-quarter top-down threshold of quiet Vesperi woodworking home. Open wooden doorway set into tree-root dwelling, gentle warm interior light, repaired vessel on low support with a small scrape, simple listening bench outside, moss, bark, leaves and wood shavings; intimate, no person. 1280x960, 20x15 tiles. Clear approach and foreground; exactly one centered broad west exit; solid tree/house boundary north, east and south. Props outside path. No people, creatures, characters, text, UI, watermark. Crisp pixel art.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193f8-2944-71a2-ada9-257c632641a3/exec-4156c3f7-bec0-4f20-a645-c6344be9fd25.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Lanczos resize to 1280x960, WebP",
+  "quality": 66,
+  "bytes": 249744,
+  "sha256": "7d3fc84a512caac47738210423e4c03ce23fb4d968c12eea7a2a4810d373825b"
+}

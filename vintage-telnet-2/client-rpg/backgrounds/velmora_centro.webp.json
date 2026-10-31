@@ -1,0 +1,11 @@
+{
+  "asset_id": "velmora_centro",
+  "prompt": "Detailed late-16-bit indie pixel art, three-quarter top-down broad central Vesperi clearing of Velmora. Living roots form paths around low tree-root homes, benches and one shared communal table; suggest village voices only through warm lamp-lit doorways, without depicting people. Olive foliage, bark, moss, golden lamp accents, warm upper-left light. 1280x960, 20x15 tiles. Broad open center and four continuous cardinal routes with centered exits north, south, east and west; solid trunks/roots between exits; low homes/benches only at edges, never obstruct paths. No people, creatures, characters, text, UI, watermark. Crisp detailed pixel-art clusters.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193f8-2944-71a2-ada9-257c632641a3/exec-e5aa5c05-62ba-4f5e-ad9f-f1c39369114a.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Lanczos resize to 1280x960, WebP",
+  "quality": 40,
+  "bytes": 244950,
+  "sha256": "2c49b5287e293c50cfe8304f0067cda18bbdf1d71919b7f29ce44d11d3550b19"
+}

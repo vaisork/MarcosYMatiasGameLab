@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_taller_cortezas",
+  "prompt": "Detailed late-16-bit indie pixel art, three-quarter top-down open-sided Vesperi woodland craft workshop. Two low benches, repaired vessels on one and arranged roof pieces on the other; daily knife marks, plank floor with living roots growing through gaps. Forest surrounds structure, warm upper-left light, olive, bark, moss, warm wood. 1280x960, 20x15 tiles. Clear central lane to centered broad south and east exits; solid trunk/root boundary north and west; benches and roots outside the lane. No people, creatures, characters, text, UI, watermark. Crisp pixel art, no blur or 3D.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193f8-2944-71a2-ada9-257c632641a3/exec-44185a58-fbaa-41e1-a035-a1dcb0ee34c5.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Lanczos resize to 1280x960, WebP",
+  "quality": 50,
+  "bytes": 246918,
+  "sha256": "ddd67493c9aef99882b3c27fb97947e8558eab02d82c29f916d7ee52da1ab065"
+}

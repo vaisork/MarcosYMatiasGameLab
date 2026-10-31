@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_tronco_acostado",
+  "prompt": "Detailed late-16-bit indie pixel art, three-quarter top-down Nhal forest with enormous old fallen tree; broken crown branches hold small white and brown mushrooms; trunk broad, damp, soft and splintered, mossy; path winds around its firm base, calm clearing beyond north. Warm upper-left light, olive canopy, roots and leaves. 1280x960, 20x15 tiles. Clearly walkable route and centered broad exits west, east and north; trunk/root mass beside bypass, never across exits; solid south edge. No people, creatures, characters, text, UI, watermark. Crisp pixel clusters.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193f8-2944-71a2-ada9-257c632641a3/exec-b402abdb-68d1-42ca-a3e4-f94b1a2005e4.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Lanczos resize to 1280x960, WebP",
+  "quality": 34,
+  "bytes": 242190,
+  "sha256": "288866330e4ea05f24ea5aa65fae929b45870c61e971f7b97889c90bf4e87167"
+}

@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_secadero_sombra",
+  "prompt": "Detailed late-16-bit indie pixel art, three-quarter top-down Nhal forest drying place under broad-leaf canopy. A narrow warm shaft of sun lands on a small repaired wooden toy and repaired vessel on a low drying support; golden dust floats in the beam. Deep trunks, roots, ferns and leaf litter frame the clearing. Dim woodland except the beam; olive greens, muted amber, earthy brown, warm wood, moss, warm upper-left light. 1280x960, 20x15 tiles. Clear central floor. Exactly one exit: broad centered west opening. Continuous solid tree/root border north and south and narrow solid margin east. Environment only: no people, creatures, characters, text, UI, watermark. Crisp pixel clusters, no blur or 3D.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193f8-2944-71a2-ada9-257c632641a3/exec-3bd72649-201e-4126-b42b-5e3ac62b7e58.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Lanczos resize to 1280x960, WebP",
+  "quality": 68,
+  "bytes": 247956,
+  "sha256": "e8c216c320d71251eec65a4f23ccdf3a729dd94ea9d77a6c7eeee24d6ad41fc4"
+}

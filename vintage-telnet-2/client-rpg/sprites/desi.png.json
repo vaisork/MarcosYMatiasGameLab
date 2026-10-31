@@ -1,0 +1,14 @@
+{
+  "asset_id": "nhal_desi",
+  "prompt": "Transparent 3x4 sprite atlas: Desi, adult Vesperi woman repairing household pieces in the Nhal forest workshop. Sturdy practical build, warm brown fur/skin, large rounded Vesperi ears, expressive amber eyes, dark chestnut hair tied back, moss-green work tunic, ochre apron with small tool loops, leggings and boots, focused friendly expression, modest repair tool at belt, empty hands. Rows front, left profile, back, right profile; three walking poses per row; exact 64x96 frames, consistent size and baseline; figure about 72px high, feet at y=92. Crisp 16-bit pixel art, transparent background, no props, no text, no grid, no watermark.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193f8-2944-71a2-ada9-257c632641a3/exec-d3d323d0-2d02-4df7-b712-129a581b40c2.png",
+  "source_dimensions": "887x1774",
+  "normalization": "crop into 3 columns by 4 rows; nearest resize each cell to 64x96; body about 72px high, baseline y=92",
+  "frame_size": [
+    64,
+    96
+  ],
+  "bytes": 95181,
+  "sha256": "b0a60f762c2399d96b243ae0554af8b0db02e8c063a18ae2c32915a021bed28a"
+}

@@ -1,0 +1,11 @@
+{
+  "asset_id": "nhal_senda_recipiente",
+  "prompt": "Detailed late-16-bit indie pixel art, three-quarter top-down Nhal short quiet forest path between the village story patio and Elin’s workhouse. Layered olive ferns, soft roots, worn natural path, repaired woven basket with a fabric strip near east approach; warm upper-left light, earthy bark and moss. 1280x960, 20x15 tiles. Broad clear walking path west to east, centered broad exits west and east, continuous solid trunks/root/fern boundary north and south. Props stay outside path. Environment only: no people, creatures, characters, text, UI, watermark. Crisp pixel clusters, no blur or 3D.",
+  "generator": "image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193f8-2944-71a2-ada9-257c632641a3/exec-49659797-8719-40fb-b41d-fda7e6077a1c.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Lanczos resize to 1280x960, WebP",
+  "quality": 42,
+  "bytes": 248016,
+  "sha256": "c05df5a27479744f0ab2258e0af45c85b799e52f68c61f2098c6ab63ba2208c2"
+}
