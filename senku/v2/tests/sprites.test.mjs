@@ -142,7 +142,9 @@ test('selección de hoja: traje activo, enemigo por tipo y fondo por escena', ()
   for (const tipo of ['llave', 'botiquin', 'anclador', 'garras', 'lanzador_ratones']) {
     assert.ok(IMAGENES_OBJETO[tipo], `Objeto ${tipo} sin imagen`);
   }
-  assert.ok(rutasPrecargaArte().includes(resolverRutaArte(HOJA_JEFE_GATO)));
+  // La hoja del jefe (525 KB) sólo se precarga en la cima.
+  assert.ok(rutasPrecargaArte({ escenaId: 'cima' }).includes(resolverRutaArte(HOJA_JEFE_GATO)));
+  assert.ok(!rutasPrecargaArte({ escenaId: 'taqueria' }).includes(resolverRutaArte(HOJA_JEFE_GATO)));
 });
 
 test('fotograma: rejilla 4x2 de 96 px', () => {
