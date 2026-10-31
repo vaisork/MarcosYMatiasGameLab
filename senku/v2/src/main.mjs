@@ -834,6 +834,22 @@ export function arrancarSenku2({
     jefe = crearJefe({ x: 2200, suelo: SUELO_CIMA, arenaMinX: ARENA.minX, arenaMaxX: ARENA.maxX });
   }
   const tiene = (id) => estadoJugador.coleccionados.includes(id);
+  // Tras vencer al Gato Mecánico queda un botón para volver a abrir la tarjeta final y jugar otra vez.
+  const btnRejugar = documento.createElement?.('button');
+  function actualizarBotonRejugar() {
+    if (btnRejugar) btnRejugar.hidden = !tiene(ID_VICTORIA_JEFE);
+  }
+  if (btnRejugar) {
+    btnRejugar.id = 'btn-rejugar';
+    btnRejugar.className = 'hud-pildora hud-btn';
+    btnRejugar.textContent = '🔁';
+    btnRejugar.setAttribute('aria-label', 'Jugar el capítulo otra vez');
+    btnRejugar.title = 'Jugar el capítulo otra vez';
+    btnRejugar.addEventListener('click', () => mostrarFinal(documento, ventana,
+      resumenCapitulo(estadoJugador, registro.listar()), { alVolverAJugar: volverAJugarCapitulo }));
+    documento.getElementById('btn-pausa')?.before?.(btnRejugar);
+    actualizarBotonRejugar();
+  }
   function actualizarBotonGancho() {
     const boton = documento.getElementById('btn-gancho');
     if (boton) boton.hidden = !(escenaActual.id === 'despenadero' && tiene('anclador-despenadero'));
@@ -1170,12 +1186,13 @@ export function arrancarSenku2({
     actualizarCamioneta();
   }
 
-  // Jugar otra vez: revive enemigos, llave y jefe. Churus, trajes y garras se conservan (sin re-cobrar churus).
+  // Jugar otra vez desde la ciudad: revive enemigos, llave y jefe. Churus, trajes y garras se conservan (sin re-cobrar churus).
   let temporizadorFinal = null;
   function volverAJugarCapitulo() {
     const capitulo = (id) => id.includes(':derrotado:') || CAPITULO_REINICIABLE.includes(id);
     estadoJugador = { ...estadoJugador, coleccionados: estadoJugador.coleccionados.filter((id) => !capitulo(id)) };
-    cambiarEscena('taqueria', { curar: true });
+    actualizarBotonRejugar();
+    cambiarEscena('ciudad', { curar: true });
   }
 
   // 8. Bucle principal de juego
@@ -1280,6 +1297,7 @@ export function arrancarSenku2({
             estadoJugador = { ...estadoJugador,
               coleccionados: [...new Set([...estadoJugador.coleccionados, ID_VICTORIA_JEFE])] };
             guardarProgreso();
+            actualizarBotonRejugar();
             mostrarAviso('¡Venciste al Gato Mecánico!', 2.5);
             // Deja ver al jefe desarmarse antes de la pantalla final.
             temporizadorFinal = ventana.setTimeout?.(() => {
