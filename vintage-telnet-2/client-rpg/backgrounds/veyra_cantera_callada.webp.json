@@ -1,0 +1,12 @@
+{
+  "asset_id": "veyra_cantera_callada",
+  "prompt": "Use case: stylized-concept. 1280×960 full-bleed background for 2D pixel-art RPG room veyra_cantera_callada, the quiet old quarry outside Vaisgard. Three-quarter overhead, crisp deliberate chunky 16-bit pixels. Pale cut limestone walls and floor, visible old hand-tool marks, a single enormous unfinished block in the middle-right with roots growing over it, a small stone bench beside a thin fissure. Keep a broad walkable dirt-and-stone approach from the exact north-center edge down through the center into the room; room is a dead end below and has no south exit. Leave ample flat walkable quarry floor around the center and open space near the left and right middle for roaming creatures; no rubble or roots blocking the path. Cool quiet light, earth between stones, muted moss and sandstone. Enclosed quarry walls around outer edges, with only a clear north-center entrance. Pixel art, not photoreal, no smooth 3D or painterly finish. No creatures, characters, people, text, signs, UI, border, watermark.",
+  "generator": "OpenAI image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d71-76a3-8530-fc21446b1313/exec-b4b966aa-9bf2-48f8-93ff-6fd773f9b2f8.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3; Lanczos 640x480 then nearest-neighbor 1280x960; quantized 64-color palette; lossless WebP",
+  "quality": "lossless 64-color indexed palette",
+  "bytes": 239876,
+  "sha256": "ffa97e959057fef2b74d0ca3a11f971f12e51c1ec2c9b090d9b421e7751b8d54",
+  "palette_colors": 64
+}

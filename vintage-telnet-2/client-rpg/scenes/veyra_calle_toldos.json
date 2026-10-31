@@ -98,5 +98,6 @@
       ]
     }
   ],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/veyra_calle_toldos.webp"
 }

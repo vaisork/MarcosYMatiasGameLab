@@ -1,0 +1,12 @@
+{
+  "asset_id": "veyra_colina_vista",
+  "prompt": "Use case: stylized-concept. 1280×960 4:3 full-bleed map background for RPG room veyra_colina_vista, Colina de las Procedencias. Create readable late-16-bit pixel art, clean chunky pixels, muted greens, ochres, stone grey, distant blue mountains. Three-quarter overhead view looking from a hilltop toward the old Veyra basin. A broad dirt footpath runs vertically from the exact north edge to exact south edge, clear and walkable throughout; keep the two exits unobstructed. At the top/north, visible old walls and rooftops of Vaisgard; below/south, terrain opens into branching countryside paths toward fields, rock and trees, with a distant blue mountain ridge. A few low unlettered trail markers beside the central path; windblown grasses. No cliffs or objects over the path, no other edge exits. Map-like composition, no horizon sky. No people or creatures, no text, signs, UI, border, watermark. Pixel art, not photorealistic, not smooth 3D.",
+  "generator": "OpenAI image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d71-76a3-8530-fc21446b1313/exec-412a326e-9277-448e-9365-b456aba1f126.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3; Lanczos 640x480 then nearest-neighbor 1280x960; quantized 64-color palette; lossless WebP",
+  "quality": "lossless 64-color indexed palette",
+  "bytes": 209352,
+  "sha256": "c0b737658e298a5dc18f934ce99ba15d846f46498889d404b6517d490d5efcd4",
+  "palette_colors": 64
+}

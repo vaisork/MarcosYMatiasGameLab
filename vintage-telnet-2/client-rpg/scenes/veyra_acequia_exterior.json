@@ -105,5 +105,6 @@
       ]
     }
   ],
-  "npcs": []
+  "npcs": [],
+  "background": "backgrounds/veyra_acequia_exterior.webp"
 }

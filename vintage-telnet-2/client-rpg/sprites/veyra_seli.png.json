@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_seli",
+  "npc_id": "veyra_seli",
+  "generation_tool": "OpenAI image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d71-76a3-8530-fc21446b1313/exec-14712504-1e29-4549-b28e-45d2b42f346a.png",
+  "source_dimensions": "887x1774",
+  "dimensions": "192x384",
+  "cell_size": "64x96",
+  "layout": "3 columns × 4 rows; down, left, right, up; three walk poses per direction",
+  "normalization": "Lanczos resize to 192x384; RGBA transparency preserved",
+  "quality": "native generation; 12-frame transparent atlas",
+  "bytes": 131061,
+  "sha256": "912fe1b3f7a3e5f096782a92e558a48b60cf01943f7a610ad803a6999d50be3d",
+  "prompt": "Use case: stylized-concept. Create one genuine transparent-background RPG walking sprite atlas for Seli (veyra_seli), a Marevyn NPC and skilled patcher of old-town awnings. Match the crisp detailed pixel-JRPG style and compact body proportions of existing Marevyn sprite atlas Mira; teal-green skin and small subtle aquatic ear-fins, no scales or horns. Seli's distinct outfit: practical muted red, slate-blue and grey patchwork work clothes that echo the awnings she repairs, sleeves held back with a narrow leather tie, small hip pouch with separated dry thread and damp cloth; hands free, calm focused face. Sheet layout exactly 3 columns × 4 rows, 64×96 per cell (192×384 total after normalization); rows face down/front, left, right, up/back; three different clean walking poses in each row, same identity and size, whole body inside each cell, feet align near y=92. Transparent alpha; pixel edges and readable limited colors. No ground, shadow, props in hand, additional people or sprites, text, grid, labels, border, checkerboard or watermark."
+}

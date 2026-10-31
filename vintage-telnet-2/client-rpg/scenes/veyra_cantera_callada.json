@@ -79,5 +79,6 @@
       ]
     }
   ],
-  "npcs": []
+  "npcs": [],
+  "background": "backgrounds/veyra_cantera_callada.webp"
 }

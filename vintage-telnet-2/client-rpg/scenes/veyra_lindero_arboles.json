@@ -105,5 +105,6 @@
       ]
     }
   ],
-  "npcs": []
+  "npcs": [],
+  "background": "backgrounds/veyra_lindero_arboles.webp"
 }

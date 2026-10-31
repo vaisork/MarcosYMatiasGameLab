@@ -1,0 +1,12 @@
+{
+  "asset_id": "veyra_barrio_cargas",
+  "prompt": "Use case: stylized-concept. Full-bleed 1280×960 pixel-art room background for a 2D RPG. Scene veyra_barrio_cargas, Vaisgard's narrow warehouse street: pale stone pavement in a straight horizontal lane reaching the exact west and east edge openings; keep a wide unobstructed walkable band across the entire center, especially both exits. Muted limestone townhouses line upper and lower sides, two to three stories suggested through 3/4 overhead rooflines; exterior stone stairs climb along facades to upper homes; low warehouse doors and stacked sacks/crates sit near walls but never obstruct the center road or doorways. A single clear painted stopping line across a flat stone near one side of the lane marks where carts wait while leaving store doors clear. Pixel art with chunky crisp visible pixels and late 16-bit palette, warm dust, no realism, no text. Keep outer boundaries closed except east-west center exits; no people, carts, creatures, signs, UI, border, watermark.",
+  "generator": "OpenAI image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d71-76a3-8530-fc21446b1313/exec-91f03019-2849-44d2-b8df-2d0f98be8086.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3; Lanczos 640x480 then nearest-neighbor 1280x960; quantized 64-color palette; lossless WebP",
+  "quality": "lossless 64-color indexed palette",
+  "bytes": 190962,
+  "sha256": "538c648a8e586f31681754b43079ec9c5bfc359c5476d28a3677b0b5bb4972ad",
+  "palette_colors": 64
+}

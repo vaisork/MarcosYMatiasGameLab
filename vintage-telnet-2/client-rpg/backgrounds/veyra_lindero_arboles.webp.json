@@ -1,0 +1,12 @@
+{
+  "asset_id": "veyra_lindero_arboles",
+  "prompt": "Use case: stylized-concept. 1280×960 4:3 full-bleed RPG room background: veyra_lindero_arboles, entrance from Vaisgard to the Nhal forest. Crisp late-16-bit pixel-art game map, three-quarter overhead, moist earth, deep greens, warm stone. Three groups of trees gradually close around a broad central path. A clear continuous route crosses from exact west edge to exact east edge and branches south from the center to the exact south edge; keep those exits open and all paths walkable. On the west, glimpse the pale gate and old stone wall of Vaisgard; on the east, roots increasingly lift the soil and forest foliage grows denser toward Nhal. At south, a small side trail heads toward an old quarry. Three distinct tree clusters frame the path, do not cover or block it; visible damp earth and drifting leaves. Muted green light and atmosphere. No north exit; close north edge with trees. No person, creatures, signs, text, UI, border or watermark. No photorealistic or 3D render; clear pixel clusters and pixel-art texture.",
+  "generator": "OpenAI image_gen nativo",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d71-76a3-8530-fc21446b1313/exec-47771111-26b1-4aef-8341-c1d621a65aad.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "center crop to 4:3; Lanczos 640x480 then nearest-neighbor 1280x960; quantized 64-color palette; lossless WebP",
+  "quality": "lossless 64-color indexed palette",
+  "bytes": 234692,
+  "sha256": "36080ad3bcff866f574ae8f53faedf2a78dbdc173092cf69ed0da4edd0ba2db5",
+  "palette_colors": 64
+}
