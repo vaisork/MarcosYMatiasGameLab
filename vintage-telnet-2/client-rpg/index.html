@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#070d16">
   <title>Vaisgard RPG</title>
   <link rel="stylesheet" href="/client-rpg/rpg.css">
+  <script src="/client-rpg/sonido.js" defer></script>
   <script src="/client-rpg/rpg.js" defer></script>
 </head>
 <body>
@@ -17,6 +18,7 @@
       <h1 class="brand-title">Vaisgard</h1>
     </div>
     <div class="header-tools">
+      <button type="button" class="portal-btn sound-toggle" aria-pressed="true" aria-label="Silenciar sonido">🔊</button>
       <button id="logout" type="button" class="portal-btn" hidden>Salir</button>
     </div>
   </header>
@@ -66,6 +68,7 @@
               <canvas id="minimap-canvas" width="48" height="36" aria-hidden="true"></canvas>
             </div>
           </div>
+          <button type="button" class="hud-menu-btn hud-sound-btn sound-toggle" aria-pressed="true" aria-label="Silenciar sonido">🔊</button>
           <button id="pause" class="hud-menu-btn" type="button" aria-label="Abrir menú">
             <span class="btn-menu-bars" aria-hidden="true">
               <svg class="svg-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 3h12v2H2V3zm0 4h12v2H2V7zm0 4h12v2H2v-2z" fill="currentColor"/></svg>
@@ -166,6 +169,8 @@
       <div class="panel-account-tools">
         <button id="panel-select-char" type="button">Elegir personaje</button>
         <button id="panel-logout" type="button">Cerrar sesión</button>
+        <button id="toggle-music" type="button" aria-pressed="true">Música: sí</button>
+        <button id="toggle-sfx" type="button" aria-pressed="true">Efectos: sí</button>
       </div>
       <details>
         <summary>Historial del relato</summary>

@@ -102,6 +102,9 @@ let lines=[], lineIndex=0, letters=0, letterTime=0, narrativeKey='', refreshing=
 let dialogueExpanded=false;
 let mutationVersion=0, applyVersion=0, pollTimer=null, polling=false, pollAgain=false;
 const reduced=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Sonido (sonido.js): opcional; el cliente funciona igual sin él.
+const sonido=(nombre,retraso=0)=>globalThis.VaisgardSonido?.fx(nombre,retraso);
+let lastAction=null, stepMark=0;
 const battleLocked=()=>busy||Boolean(pending)||selectedRound===snapshot?.character?.combat?.round;
 
 function resizeCanvas(){
@@ -125,14 +128,14 @@ if(typeof window!=='undefined'&&window.addEventListener){
  window.addEventListener('resize',resizeCanvas);
 }
 
-function panel(open){$('panel').hidden=!open;keys.clear();}
+function panel(open){if(open&&$('panel').hidden)sonido('menu');$('panel').hidden=!open;keys.clear();}
 function back(){
  if(dialogueExpanded){toggleDialogueExpand();return;}
- if(battleGroup){battleGroup=null;renderBattleMenu();}
- else if(viewMode==='creation'&&snapshot?.characters?.length){viewMode='characters';render();}
- else if(viewMode==='characters'){viewMode='welcome';render();}
- else if(!$('panel').hidden&&menuGroup){menuGroup=null;focus=null;render();}
- else{panel($('panel').hidden);render();}
+ if(battleGroup){sonido('cancelar');battleGroup=null;renderBattleMenu();}
+ else if(viewMode==='creation'&&snapshot?.characters?.length){sonido('cancelar');viewMode='characters';render();}
+ else if(viewMode==='characters'){sonido('cancelar');viewMode='welcome';render();}
+ else if(!$('panel').hidden&&menuGroup){sonido('cancelar');menuGroup=null;focus=null;render();}
+ else{if(!$('panel').hidden)sonido('cancelar');panel($('panel').hidden);render();}
 }
 function advance(){
  const line=lines[lineIndex]||'';
@@ -173,12 +176,19 @@ function paintLine(){
  }
 }
 function updatePresentation(previous,next){
+ const sameCharacter=Boolean(next.character&&next.character.id===previous?.character?.id);
  if(!next.character||next.character.id!==previous?.character?.id){selectedRound=null;lastCombat=null;outcome=null;animation=null;lines=[];narrativeKey='';document.body.classList.remove('battling');}
  if(!next.character)return;
  const old=previous?.character?.combat, combat=next.character?.combat;
- if(combat&&!old){battleEnteredAt=performance.now();battleStart=previous||next;outcome=null;selectedRound=null;battleGroup=null;panel(false);}
+ if(combat&&!old){sonido('batalla');battleEnteredAt=performance.now();battleStart=previous||next;outcome=null;selectedRound=null;battleGroup=null;panel(false);}
  if(combat){
-  if(old&&combat.round!==old.round){selectedRound=null;battleGroup=null;animation={at:performance.now(),enemy:old.hp-combat.hp,player:previous.character.hp-next.character.hp,oldEnemy:old.hp,oldPlayer:previous.character.hp};}
+  if(old&&combat.round!==old.round){selectedRound=null;battleGroup=null;animation={at:performance.now(),enemy:old.hp-combat.hp,player:previous.character.hp-next.character.hp,oldEnemy:old.hp,oldPlayer:previous.character.hp};
+   // Golpe/crítico/fallo se deducen de las variaciones reales de PV de la ronda (el servidor no marca críticos).
+   if(animation.enemy>0)sonido(animation.enemy>=combat.hp_max*.25?'critico':'golpe');
+   else if(lastAction&&!['defender','usar','huir'].includes(lastAction.id))sonido('fallo');
+   if(animation.player>0)sonido('herido',260);else if(animation.player<0)sonido('curar',260);
+   lastAction=null;
+  }
   lastCombat=combat;
  }
  if(old&&!combat){
@@ -189,7 +199,10 @@ function updatePresentation(previous,next){
   const fled=next.room?.id!==previous.room?.id&&!defeated;
   outcome={title:defeated?'Has caído':fled?'A salvo':xp>0||loot.length?'Victoria':'Fin del combate',text:[xp?`+${xp} XP`:null,...loot.map(i=>`${i.name} ×${i.quantity}`),defeated?'El servidor te ha llevado a un lugar seguro.':fled?'Has abandonado el encuentro.':null].filter(Boolean).join(' · ')};
   selectedRound=null;animation=null;keys.clear();
+  sonido(defeated?'derrota':fled?'huir':outcome.title==='Victoria'?'victoria':'confirmar');
  }
+ if(sameCharacter&&next.character.level>(previous.character.level||next.character.level))sonido('nivel',old&&!combat?1700:0);
+ else if(sameCharacter&&!combat&&!old&&next.character.hp>previous.character.hp&&lastAction&&performance.now()-lastAction.at<5000)sonido('curar');
  const text=(next.narrative||[]).map(e=>typeof e==='string'?e:e.text).filter(Boolean), key=JSON.stringify(text);
  if(key!==narrativeKey){
   const oldText=JSON.parse(narrativeKey||'[]');let common=0;while(common<text.length&&common<oldText.length&&text[common]===oldText[common])common++;
@@ -409,6 +422,7 @@ async function apply(next,version=mutationVersion){
  }
  if(next?.csrf_token)latestCsrfToken=next.csrf_token;
  const changed=next.room?.id!==snapshot?.room?.id||next.character?.id!==snapshot?.character?.id;
+ if(snapshot?.room&&next.room&&next.room.id!==snapshot.room.id&&next.character?.id===snapshot.character?.id&&!hadCombat)sonido('sala');
  updatePresentation(snapshot,next);snapshot=next;
  if(!next.authenticated){scene=null;viewMode='welcome';render();return;}
  if(!next.character||next.pending_approval||next.character.status!=='approved'||!next.room){
@@ -792,9 +806,15 @@ function drawMinimap(){
  mCtx.stroke();
 }
 
+function syncMusic(inGame){
+ const S=globalThis.VaisgardSonido;if(!S)return;
+ const room=inGame?snapshot?.room:null, combat=snapshot?.character?.combat;
+ S.musica(!room?null:combat?S.temaBatalla(combat,room.region):outcome?null:S.temaSala(room));
+}
 function render(){
  const auth=Boolean(snapshot?.authenticated);
  const inGame=auth&&snapshot?.character?.status==='approved'&&!snapshot?.pending_approval&&viewMode==='game';
+ syncMusic(inGame);
  if(typeof document!=='undefined'&&document.body){
   document.body.classList.toggle('in-entry',!inGame);
  }
@@ -897,6 +917,8 @@ async function perform(action){
  for(const key of ['target','topic','confirmed'])if(offered[key]!==undefined)payload[key]=offered[key];
  if(offered.confirmation){if(!window.confirm(offered.confirmation))return;payload.confirmed=true;}
  if(snapshot.character.combat){selectedRound=snapshot.character.combat.round;battleGroup=null;}
+ lastAction={id:offered.id,at:performance.now()};
+ if(offered.id!=='mover')sonido('confirmar');
  await send(payload);
 }
 async function send(payload){
@@ -964,7 +986,7 @@ function draw(time){
  const density=canvasRect?.width?canvas.width/canvasRect.width:1;
  const dt=Math.min((time-lastTime)/1000,.04);lastTime=time;ctx.imageSmoothingEnabled=false;
  const currentLine=lines[lineIndex]||snapshot?.room?.description||'';
- if(time-letterTime>25&&letters<currentLine.length){letters=reduced?currentLine.length:letters+1;letterTime=time;paintLine();}
+ if(time-letterTime>25&&letters<currentLine.length){letters=reduced?currentLine.length:letters+1;letterTime=time;paintLine();if(letters%3===0&&focus&&snapshot?.room?.npcs?.some(n=>n.id===focus))sonido('hablar');}
 
  if(ctx.clearRect)ctx.clearRect(0,0,canvas.width,canvas.height);
 
@@ -1007,7 +1029,7 @@ function draw(time){
   if(key&&!busy&&!pending&&$('panel').hidden){
    const [dx,dy,dir]=bindings[key];facing=dir;
    const x=player.x+dx*dt*4,y=player.y+dy*dt*4;
-   if(!blocked(x,y)){player.x=x;player.y=y;moving=true;walk+=dt*9;}
+   if(!blocked(x,y)){player.x=x;player.y=y;moving=true;walk+=dt*9;if(Math.floor(walk/3)!==stepMark){stepMark=Math.floor(walk/3);sonido('paso');}}
   }
   const actors=[...entities().map(e=>({...e,x:e.at[0],y:e.at[1]})),{...player,sprite:'avatar',id:'player'}].sort((a,b)=>a.y-b.y);
   for(const a of actors){

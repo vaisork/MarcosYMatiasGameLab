@@ -14,7 +14,7 @@ class RpgRouteTests(unittest.TestCase):
   for path in ('/client-rpg/../server/app.py','/client-rpg/index.html','/client-rpg/scenes/../../runtime/x.json','/client-rpg/otro.js','/client-rpg/scenes/Edran.json','/client-rpg/tilesets/../evil.json','/client-rpg/tiled/otro.json','/client-rpg/tiled/edran_acequia.tmj'):
    self.assertEqual(self.c.get(path).status_code,404,path)
  def test_whitelisted_tileset_assets_served(self):
-  for path in ('/client-rpg/tilesets/edran.json','/client-rpg/sprites/edran-tiles.png'):
+  for path in ('/client-rpg/tilesets/edran.json','/client-rpg/sprites/edran-tiles.png','/client-rpg/sonido.js'):
    r=self.c.get(path);self.addCleanup(r.close);self.assertEqual(r.status_code,200,path)
  def test_backgrounds_are_served_and_paths_stay_restricted(self):
   for name in ('edran_salida_huertos','edran_acequia','edran_surcos','edran_battle'):
