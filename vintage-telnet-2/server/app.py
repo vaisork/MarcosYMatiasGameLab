@@ -1,4 +1,5 @@
 """Flask transport for the new authoritative engine."""
+import gzip
 import hmac
 import json
 import os
@@ -6,6 +7,7 @@ from pathlib import Path
 import re
 import secrets
 import sqlite3
+import threading
 import time
 from urllib.parse import urlsplit
 import uuid
@@ -47,9 +49,16 @@ def create_app(config=None):
         else:raise RuntimeError('SECRET_KEY must be configured privately')
     store=Store(Path(app.config['DATA_DIR'])/'world.sqlite3');clock=app.config.get('CLOCK',time.time)
     app.extensions['store']=store
+    content_cache={};content_lock=threading.Lock()
     def engine():
         moment=clock()
-        return Engine(Content(app.config['CONTENT_DIR']),lambda:moment,app.config.get('RNG'),app.config['TIMEZONE'])
+        root=Path(app.config['CONTENT_DIR']).resolve()
+        with content_lock:
+            signature=tuple((str(path.relative_to(root)),path.stat().st_mtime_ns,path.stat().st_size) for path in sorted(root.rglob('*.json')))
+            cached=content_cache.get(root)
+            if cached is None or cached[0]!=signature:
+                cached=(signature,Content(root));content_cache[root]=cached
+        return Engine(cached[1],lambda:moment,app.config.get('RNG'),app.config['TIMEZONE'])
     def csrf():
         if 'csrf' not in session:session['csrf']=secrets.token_urlsafe(32)
         return session['csrf']
@@ -138,6 +147,15 @@ def create_app(config=None):
         response.headers['X-Content-Type-Options']='nosniff'
         response.headers['Content-Security-Policy']="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob:; connect-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
         if request.path.startswith('/api/'):response.headers['Cache-Control']='no-store'
+        content_type=response.mimetype or ''
+        compressible=(content_type in ('text/html','text/css','application/javascript','text/javascript','application/json') or content_type.endswith('+json'))
+        if compressible:response.vary.add('Accept-Encoding')
+        if compressible and request.accept_encodings['gzip']>0 and not response.headers.get('Content-Encoding'):
+            response.direct_passthrough=False
+            body=response.get_data()
+            if len(body)>1024:
+                response.set_data(gzip.compress(body,mtime=0))
+                response.headers['Content-Encoding']='gzip'
         return response
 
     @app.errorhandler(RuleError)
