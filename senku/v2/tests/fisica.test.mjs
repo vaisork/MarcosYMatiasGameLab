@@ -4,6 +4,7 @@ import {
   crearCuerpo,
   actualizarCuerpo,
   solapanAABB,
+  solapanRecogible,
   GRAVEDAD_DEFECTO,
   FUERZA_SALTO_DEFECTO,
   TIEMPO_SALTO_MAX_DEFECTO,
@@ -139,6 +140,8 @@ test('entrada: mapearCodigoTecla reconoce flechas, WASD y espacio', () => {
   assert.equal(mapearCodigoTecla('Space'), ACCIONES.SALTO);
   assert.equal(mapearCodigoTecla('ArrowUp'), ACCIONES.SALTO);
   assert.equal(mapearCodigoTecla('KeyW'), ACCIONES.SALTO);
+  assert.equal(mapearCodigoTecla('KeyJ'), ACCIONES.ATACAR);
+  assert.equal(mapearCodigoTecla('KeyX'), ACCIONES.ATACAR);
   assert.equal(mapearCodigoTecla('KeyQ'), null);
 });
 
@@ -181,7 +184,7 @@ test('entrada: crearManejadorEntrada procesa eventos simulados de teclado y tác
   assert.deepEqual(entrada.obtenerEstado(), {
     izquierda: false,
     derecha: false,
-    salto: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
+    salto: false, atacar: false, arriba: false, abajo: false, vector: { x: 0, y: 0 }
   });
 
   // Presionar KeyA (izquierda)
@@ -271,6 +274,36 @@ test('salto variable: tocar rápido da salto pequeño; mantener presionado da sa
     alturaSaltoLargo >= alturaSaltoCorto * 2,
     'El salto largo debe ser al menos el doble de alto que el corto'
   );
+});
+
+test('coyote: acepta el salto durante los 100 ms tras dejar el borde', () => {
+  const c = crearCuerpo({ x: 0, y: 100, vy: 30, tiempoCoyote: 0.08 });
+  actualizarCuerpo(c, { salto: true }, [], null, 1 / 60);
+  assert.ok(c.vy < 0);
+  assert.equal(c.tiempoCoyote, 0);
+});
+
+test('buffer: conserva la pulsación y salta al aterrizar dentro de 120 ms', () => {
+  const suelo = [{ x: 0, y: 100, w: 200, h: 20 }];
+  const c = crearCuerpo({ x: 20, y: 50, vy: 210 });
+  actualizarCuerpo(c, { salto: true }, suelo, null, 1 / 60);
+  assert.ok(c.tiempoBufferSalto > 0);
+  c.tiempoBufferSalto = 0.08;
+  c.y = 62; c.vy = 200;
+  actualizarCuerpo(c, { salto: false }, suelo, null, 1 / 60);
+  assert.ok(c.vy < 0, 'buffer ejecuta el salto al tocar la plataforma');
+});
+
+test('recogible: tolera el pequeño margen entre sprite y hitbox', () => {
+  assert.equal(solapanRecogible({ x: 0, y: 0, w: 96, h: 90 }, { x: 101, y: 30, w: 22, h: 58 }), true);
+});
+
+test('la caída acelera más que la subida', () => {
+  const arriba = crearCuerpo({ y: 100, vy: -100 });
+  const abajo = crearCuerpo({ y: 100, vy: 100 });
+  actualizarCuerpo(arriba, {}, [], null, 1 / 60);
+  actualizarCuerpo(abajo, {}, [], null, 1 / 60);
+  assert.ok(abajo.vy - 100 > arriba.vy + 100);
 });
 
 test('salto variable responde tanto a teclado como a botones táctiles', () => {

@@ -11,6 +11,7 @@ import {
   reiniciarCombate,
   HP_INICIAL_SENKU,
   TIEMPO_INVULNERABILIDAD_DEFECTO,
+  atacarEnemigo,
 } from '../src/core/combate.mjs';
 import { crearCuerpo } from '../src/core/fisica.mjs';
 import { crearEnemigo } from '../src/core/enemigos.mjs';
@@ -198,6 +199,8 @@ test('resolverContactoEnemigo: choque frontal daña a Senku y aplica retroceso',
   assert.equal(estado.hp, 90);
   assert.equal(estado.invulnerable, true);
   assert.ok(senku.vx < 0); // Retroceso hacia la izquierda (alejándose del enemigo)
+  assert.ok(senku.vy < 0, 'el golpe también levanta al jugador');
+  assert.equal(senku.enSuelo, false);
   assert.equal(enemigo.vivo, true);
 });
 
@@ -336,4 +339,14 @@ test('hámster contra 1 HP: limita la vida a 0, derrota y rechaza golpes posteri
   assert.equal(siguiente.hp, 0);
   assert.equal(estado.hp, 0);
   assert.equal(estado.totalGolpesRecibidos, 1);
+});
+
+test('zarpazo alcanza delante del gato y derrota al enemigo', () => {
+  const gato = crearCuerpo({ x: 100, y: 200, w: 96, h: 90, mirando: 1 });
+  const raton = crearEnemigo({ id: 'raton-zarpazo', tipo: 'raton', x: 275, y: 220 });
+  assert.equal(atacarEnemigo(gato, raton).exito, false);
+  raton.x = 205;
+  const resultado = atacarEnemigo(gato, raton);
+  assert.equal(resultado.enemigoDerrotado, true);
+  assert.equal(raton.vivo, false);
 });

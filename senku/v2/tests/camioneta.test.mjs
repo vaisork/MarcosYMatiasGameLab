@@ -53,13 +53,13 @@ test('sin llave no se puede subir; botón y tecla E muestran la pista', () => {
 });
 
 test('último enemigo por pisotón suelta una sola llave recogible, en cualquier orden', () => {
-  for (const indices of [[0, 1, 2], [2, 0, 1]]) {
+  for (const ordenReverso of [false, true]) {
     const { juego } = iniciar();
-    const orden = indices.map((i) => juego.enemigos[i]);
-    pisar(juego, orden[0]);
-    pisar(juego, orden[1]);
+    const orden = [...juego.enemigos];
+    if (ordenReverso) orden.reverse();
+    for (const enemigo of orden.slice(0, -1)) pisar(juego, enemigo);
     assert.equal(juego.escena.objetos.some((o) => o.tipo === 'llave'), false);
-    pisar(juego, orden[2]);
+    pisar(juego, orden.at(-1));
     const llaves = juego.escena.objetos.filter((o) => o.tipo === 'llave');
     assert.equal(llaves.length, 1);
     assert.equal(llaves[0].recogido, undefined);
@@ -124,6 +124,7 @@ test('persistencia: derrotas parciales, llave pendiente, inventario y escena sob
   ({ juego } = iniciar(almacen));
   assert.equal(juego.enemigos[0].vivo, false);
   limpiarTaqueria(juego, juego.enemigos.filter((e) => e.vivo));
+  const saldoTrasRecogidas = juego.estadoJugador().churus;
   juego.detener();
   ({ juego } = iniciar(almacen));
   assert.ok(juego.escena.objetos.some((o) => o.tipo === 'llave'));
@@ -139,6 +140,6 @@ test('persistencia: derrotas parciales, llave pendiente, inventario y escena sob
   assert.equal(juego.escena.id, 'reja');
   assert.ok(cargar(almacen).estado.coleccionados.includes('llave-camioneta'));
   assert.equal(juego.obtenerTrajeActivo().id, 'rata');
-  assert.equal(juego.estadoJugador().churus, 8);
+  assert.equal(juego.estadoJugador().churus, saldoTrasRecogidas);
   juego.detener();
 });

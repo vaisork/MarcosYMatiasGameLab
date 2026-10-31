@@ -7,7 +7,7 @@ test('validarEscena aprueba una escena con formato correcto', () => {
   const resultado = validarEscena(escenaTaqueria);
   assert.equal(resultado.valida, true);
   assert.equal(resultado.escena.id, 'taqueria');
-  assert.equal(resultado.escena.limites.w, 1280);
+  assert.equal(resultado.escena.limites.w, 3840);
   assert.equal(resultado.escena.limites.h, 720);
   assert.equal(resultado.escena.plataformas.length, escenaTaqueria.plataformas.length);
 });
@@ -72,7 +72,8 @@ test('escena taquería cumple proporciones 16:9 y salida aprobada hacia la reja'
   assert.equal(resultado.valida, true);
   const escena = resultado.escena;
 
-  assert.equal(escena.limites.w / escena.limites.h, 16 / 9);
+  assert.equal(escena.limites.w / 1280, 3);
+  assert.equal(escena.limites.h, 720);
   assert.ok(escena.plataformas.some((p) => p.tipo === 'suelo'), 'debe tener un suelo');
   assert.ok(escena.plataformas.filter((p) => p.tipo === 'plataforma').length >= 2, 'debe tener al menos 2-3 plataformas');
 
