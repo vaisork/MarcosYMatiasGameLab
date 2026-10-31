@@ -1,6 +1,8 @@
 // Dibujo de la Cima: fondo de cumbre al atardecer, Gato Mecánico, ataques, ratones del lanzador
 // y barra de vida del jefe. Arte propio, todo en Canvas (sin imágenes externas).
 
+import { catalogoArteEnUso, dibujarObjeto, HOJA_JEFE_GATO, resolverRutaArte } from './sprites.mjs';
+
 const W = 1280;
 const H = 720;
 
@@ -91,6 +93,34 @@ function engrane(ctx, cx, cy, r, dientes, angulo, color) {
 export function dibujarJefe(ctx, jefe, tiempo = 0) {
   if (!jefe || (jefe.derrotado && jefe.tiempo > 1.6)) return;
   const { x, y, w, h } = jefe;
+  const catalogo = catalogoArteEnUso();
+  const imagen = catalogo?.obtener(resolverRutaArte(HOJA_JEFE_GATO));
+  if (ctx && imagen) {
+    const cuadro = jefe.derrotado ? 11
+      : jefe.parpadeo > 0 ? 10
+        : jefe.estado === 'aviso' ? 6
+          : jefe.estado === 'embestida' ? 7
+            : jefe.estado === 'salto' ? 8
+              : jefe.estado === 'aturdido' ? 9
+                : Math.floor(tiempo * 8) % 6;
+    const sx = (cuadro % 4) * 220;
+    const sy = Math.floor(cuadro / 4) * 170;
+    const cx = x + w / 2;
+    ctx.save();
+    if (jefe.derrotado) ctx.globalAlpha = Math.max(0, 1 - jefe.tiempo / 1.6);
+    ctx.fillStyle = 'rgba(0,0,0,.3)';
+    ctx.beginPath();
+    ctx.ellipse(cx, jefe.suelo + 4, w * 0.45, 10, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.translate(cx, 0);
+    ctx.scale(jefe.mirando || -1, 1);
+    ctx.translate(-cx, 0);
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(imagen, sx, sy, 220, 170, x, y, w, h);
+    ctx.restore();
+    dibujarEfectosJefe(ctx, jefe);
+    return;
+  }
   ctx.save();
   if (jefe.derrotado) {
     ctx.globalAlpha = Math.max(0, 1 - jefe.tiempo / 1.6);
@@ -219,6 +249,36 @@ export function dibujarJefe(ctx, jefe, tiempo = 0) {
   ctx.restore();
 }
 
+function dibujarEfectosJefe(ctx, jefe) {
+  ctx.save();
+  for (const o of jefe.ondas || []) {
+    ctx.fillStyle = 'rgba(210, 170, 120, 0.85)';
+    ctx.beginPath();
+    ctx.moveTo(o.x, o.y + o.h);
+    ctx.quadraticCurveTo(o.x + o.w / 2, o.y - 12, o.x + o.w, o.y + o.h);
+    ctx.fill();
+  }
+  for (const t of jefe.tornillos || []) {
+    ctx.save();
+    ctx.translate(t.x + t.w / 2, t.y + t.h / 2);
+    ctx.rotate(t.giro);
+    ctx.fillStyle = '#9aa3ad';
+    ctx.beginPath();
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * Math.PI * 2;
+      ctx.lineTo(Math.cos(a) * 11, Math.sin(a) * 11);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = '#3d424a';
+    ctx.beginPath();
+    ctx.arc(0, 0, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+  ctx.restore();
+}
+
 export function dibujarProyectiles(ctx, lanzador) {
   if (!lanzador) return;
   for (const p of lanzador.proyectiles) {
@@ -256,6 +316,12 @@ export function dibujarLanzadorEnLomo(ctx, cuerpo) {
   ctx.save();
   ctx.translate(x, y);
   ctx.scale(dir, 1);
+  if (dibujarObjeto(ctx, catalogoArteEnUso(), {
+    tipo: 'lanzador_ratones', x: -34, y: -20, w: 68, h: 40,
+  })) {
+    ctx.restore();
+    return;
+  }
   ctx.fillStyle = '#c0392b';
   ctx.fillRect(-22, -10, 44, 16);
   ctx.fillStyle = '#2a2d33';
@@ -275,6 +341,12 @@ export function dibujarObjetoLanzador(ctx, objeto, tiempo = 0) {
   ctx.beginPath();
   ctx.arc(cx, cy, 32, 0, Math.PI * 2);
   ctx.fill();
+  if (dibujarObjeto(ctx, catalogoArteEnUso(), {
+    tipo: 'lanzador_ratones', x: cx - 48, y: cy - 32, w: 96, h: 64,
+  }, tiempo)) {
+    ctx.restore();
+    return;
+  }
   dibujarLanzadorEnLomo(ctx, { x: cx - 48, y: cy - 16, w: 96, h: 90, mirando: 1 });
   ctx.restore();
 }

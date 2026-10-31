@@ -19,6 +19,7 @@ import {
   HOJAS_ENEMIGO,
   HOJAS_JUGADOR,
   IMAGENES_OBJETO,
+  HOJA_JEFE_GATO,
   RETRATOS_MENU,
   configuracionEnemigo,
   crearAnimadorEnemigos,
@@ -138,6 +139,10 @@ test('selección de hoja: traje activo, enemigo por tipo y fondo por escena', ()
   }
   assert.deepEqual(Object.keys(HOJAS_JUGADOR), ['original', 'rata']);
   assert.ok(Object.keys(IMAGENES_OBJETO).includes('churu'));
+  for (const tipo of ['llave', 'botiquin', 'anclador', 'garras', 'lanzador_ratones']) {
+    assert.ok(IMAGENES_OBJETO[tipo], `Objeto ${tipo} sin imagen`);
+  }
+  assert.ok(rutasPrecargaArte().includes(resolverRutaArte(HOJA_JEFE_GATO)));
 });
 
 test('fotograma: rejilla 4x2 de 96 px', () => {

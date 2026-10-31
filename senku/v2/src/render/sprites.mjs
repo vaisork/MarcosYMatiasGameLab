@@ -27,6 +27,15 @@ export const FONDOS_ESCENA = Object.freeze({
   desierto: 'assets/fondos/desierto.webp',
 });
 
+export const HOJA_JEFE_GATO = 'assets/jefe/gato_mecanico.png';
+let catalogoArteActual = null;
+
+// Permite a los renderizadores especializados compartir el catálogo que ya carga main.
+export function catalogoArteEnUso(catalogo) {
+  if (catalogo?.obtener) catalogoArteActual = catalogo;
+  return catalogoArteActual;
+}
+
 // Tipo de enemigo (src/data/enemigos.mjs) -> hoja y escala de dibujo respecto al fotograma.
 export const HOJAS_ENEMIGO = Object.freeze({
   cucaracha: { ruta: 'assets/enemigos/hamster_cafe.png', escala: 0.85 },
@@ -42,8 +51,10 @@ const HOJA_ENEMIGO_DEFECTO = HOJAS_ENEMIGO.cucaracha;
 
 export const IMAGENES_OBJETO = Object.freeze({
   churu: 'assets/objetos/churu.png',
+  llave: 'assets/objetos/llave.png',
   botiquin: 'assets/objetos/botiquin.png',
   garras_escalada: 'assets/objetos/garras_escalada.png',
+  garras: 'assets/objetos/garras_escalada.png',
   anclador: 'assets/objetos/anclador.png',
   lanzador_ratones: 'assets/objetos/lanzador_ratones.png',
   raton_proyectil: 'assets/objetos/raton_proyectil.png',
@@ -103,6 +114,7 @@ export function rutasPrecargaArte({ escenaId = 'taqueria', tiposEnemigo = Object
   const rel = [
     FONDOS_ESCENA[escenaId],
     ...Object.values(HOJAS_JUGADOR),
+    HOJA_JEFE_GATO,
     ...tiposEnemigo.map((t) => (HOJAS_ENEMIGO[t] || HOJA_ENEMIGO_DEFECTO).ruta),
     ...Object.values(IMAGENES_OBJETO),
   ].filter(Boolean);
@@ -379,6 +391,7 @@ function dibujarFotograma(ctx, imagen, frame, cuerpo, escala, mirando, alpha = 1
 
 // Devuelve true si dibujó con arte; false => usar el rectángulo de respaldo.
 export function dibujarJugador(ctx, catalogo, { cuerpo, trajeId, combate = null, tiempo = 0 }) {
+  catalogoArteEnUso(catalogo);
   const imagen = catalogo?.obtener(rutaHojaJugador(trajeId));
   if (!ctx || !imagen || !cuerpo) return false;
 
@@ -394,6 +407,7 @@ export function dibujarJugador(ctx, catalogo, { cuerpo, trajeId, combate = null,
 // Devuelve true si el enemigo se manejó con arte (incluye no dibujar al terminar la derrota);
 // false => rectángulo de respaldo.
 export function dibujarEnemigo(ctx, catalogo, animador, enemigo, tiempo = 0) {
+  catalogoArteEnUso(catalogo);
   const cfg = configuracionEnemigo(enemigo);
   const imagen = catalogo?.obtener(cfg.ruta);
   if (!ctx || !imagen || !animador || !enemigo) return false;
@@ -404,6 +418,7 @@ export function dibujarEnemigo(ctx, catalogo, animador, enemigo, tiempo = 0) {
 
 // Objetos recogibles {tipo, x, y, w, h}: imagen encajada en su caja, apoyada en la base, con flote suave.
 export function dibujarObjeto(ctx, catalogo, objeto, tiempo = 0) {
+  catalogoArteEnUso(catalogo);
   const rel = IMAGENES_OBJETO[objeto?.tipo];
   const imagen = rel && catalogo?.obtener(resolverRutaArte(rel));
   if (!ctx || !imagen) return false;
