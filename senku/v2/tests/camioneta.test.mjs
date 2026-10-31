@@ -106,12 +106,12 @@ test('cinemática de la familia se puede saltar con Escape', () => {
   juego.detener();
 });
 
-test('un guardado antiguo en desierto entra por la reja nueva', () => {
+test('un guardado en desierto continúa en el desierto (el bonus ya guarda la reja)', () => {
   const almacen = memoria();
   guardar(almacen, { ...estadoNuevo(), progreso: { escena: 'desierto' } });
   const { juego } = iniciar(almacen);
-  assert.equal(juego.escena.id, 'reja');
-  assert.equal(cargar(almacen).estado.progreso.escena, 'reja');
+  assert.equal(juego.escena.id, 'desierto');
+  assert.equal(cargar(almacen).estado.progreso.escena, 'desierto');
   juego.detener();
 });
 
