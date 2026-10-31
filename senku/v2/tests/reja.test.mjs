@@ -62,7 +62,7 @@ test('patrulla, salto y persecución producen movimiento distinto', () => {
 test('oleadas conservan daño definido por tipo', () => {
   const hamster = crearEnemigo(escenaReja.enemigos.find((e) => e.tipo === 'hamster'));
   const raton = crearEnemigo(escenaReja.enemigos.find((e) => e.tipo === 'raton'));
-  assert.equal(hamster.dano, 2);
-  assert.equal(raton.dano, 1);
+  assert.equal(hamster.dano, 20);
+  assert.equal(raton.dano, 10);
   assert.ok(escenaReja.enemigos.every((e) => Number.isInteger(e.oleada) && e.oleada > 0));
 });

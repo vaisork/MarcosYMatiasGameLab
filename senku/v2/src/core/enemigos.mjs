@@ -1,7 +1,7 @@
 // Lógica pura de enemigos para Senku 2: creación, patrulla simple y daño.
 // Sin dependencias de DOM ni navegador; tolerante a valores creativos nulos.
 
-import { obtenerPlantillaEnemigo } from '../data/enemigos.mjs';
+import { obtenerPlantillaEnemigo, nivelEnemigo } from '../data/enemigos.mjs';
 
 export function crearEnemigo({
   id = null,
@@ -30,8 +30,10 @@ export function crearEnemigo({
   const anchoFinal = w ?? plantilla?.ancho ?? 32;
   const altoFinal = h ?? plantilla?.alto ?? 32;
   const velocidadFinal = velocidad ?? plantilla?.velocidadPatrulla ?? 0;
-  const hpFinal = hp !== undefined ? hp : (plantilla?.hp ?? null);
-  const danoFinal = (dano !== undefined && dano !== null) ? dano : (plantilla?.dano ?? null);
+  // hp/dano explícitos mandan; si vienen vacíos (null/undefined) se usa el nivel del tipo y variante.
+  const nivel = nivelEnemigo(tipo, variante);
+  const hpFinal = hp ?? nivel.golpes;
+  const danoFinal = dano ?? nivel.dano;
   const pisableFinal = pisable !== undefined ? Boolean(pisable) : (plantilla?.pisable ?? true);
   const colorFinal = color ?? plantilla?.color ?? '#888888';
   const colorDetalleFinal = colorDetalle ?? plantilla?.colorDetalle ?? '#444444';
@@ -62,6 +64,7 @@ export function crearEnemigo({
     velocidad: velocidadFinal,
     patrulla: configPatrulla,
     hp: hpFinal,
+    hpMax: hpFinal,
     dano: danoFinal,
     pisable: pisableFinal,
     vivo: estaVivo,

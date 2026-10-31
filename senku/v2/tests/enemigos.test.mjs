@@ -15,9 +15,9 @@ test('catálogo de datos de enemigos contiene plantillas y daño configurado', (
   assert.ok(CATALOGO_ENEMIGOS.rata_menor);
   assert.ok(CATALOGO_ENEMIGOS.hamster);
   assert.equal(CATALOGO_ENEMIGOS.cucaracha.hp, null);
-  assert.equal(CATALOGO_ENEMIGOS.cucaracha.dano, 1);
-  assert.equal(CATALOGO_ENEMIGOS.rata_menor.dano, 1);
-  assert.equal(CATALOGO_ENEMIGOS.hamster.dano, 2);
+  assert.equal(CATALOGO_ENEMIGOS.cucaracha.dano, 6);
+  assert.equal(CATALOGO_ENEMIGOS.rata_menor.dano, 15);
+  assert.equal(CATALOGO_ENEMIGOS.hamster.dano, 20);
   assert.equal(CATALOGO_ENEMIGOS.cucaracha.recompensaChurus, null);
 
   const plantilla = obtenerPlantillaEnemigo('cucaracha');
@@ -39,8 +39,8 @@ test('crearEnemigo inicializa con plantilla y valores por defecto', () => {
   assert.equal(cucaracha.y, 200);
   assert.equal(cucaracha.w, 36);
   assert.equal(cucaracha.h, 20);
-  assert.equal(cucaracha.hp, null);
-  assert.equal(cucaracha.dano, 1);
+  assert.equal(cucaracha.hp, 1);
+  assert.equal(cucaracha.dano, 6);
   assert.equal(cucaracha.vivo, true);
   assert.equal(cucaracha.pisable, true);
 });

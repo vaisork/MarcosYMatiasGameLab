@@ -323,8 +323,10 @@ test('integración: botiquín en escena desierto se recoge y respeta tope en 100
 
   // Limpiar taquería y recoger llave para subir a la camioneta
   for (const enemigo of [...juego.enemigos]) {
-    Object.assign(juego.senku, { x: enemigo.x, y: enemigo.y - juego.senku.h + 3, vy: 100 });
-    juego.avanzarPaso(0);
+    for (let i = 0; i < 5 && enemigo.vivo; i++) {
+      Object.assign(juego.senku, { x: enemigo.x, y: enemigo.y - juego.senku.h + 3, vy: 100 });
+      juego.avanzarPaso(0);
+    }
   }
   const llave = juego.escena.objetos.find((o) => o.tipo === 'llave');
   assert.ok(llave, 'Debe aparecer la llave');

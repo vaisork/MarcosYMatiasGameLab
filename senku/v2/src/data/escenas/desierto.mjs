@@ -50,7 +50,7 @@ export const escenaDesierto = {
     return { id: `desierto-enemigo-${i + 1}`, tipo: hamster ? 'hamster' : 'raton',
       variante: i % 4 < 2 ? 'negro' : 'cafe', comportamiento: ['patrulla', 'salta', 'persigue', 'emboscada'][i % 4],
       oleada: Math.floor(i / 2) + 1, x, y: sueloEn(x) - h, w: 72, h, velocidad: 72 + (i % 5) * 8,
-      patrulla: { minX: x - 90, maxX: x + 220 }, hp: null, dano: hamster ? 2 : 1, pisable: true };
+      patrulla: { minX: x - 90, maxX: x + 220 }, hp: null, pisable: true };
   }),
   objetos: [
     { ...botiquinDesierto, id: 'botiquin-desierto-1', x: 868, y: 311 },

@@ -1,11 +1,11 @@
 // Catálogo de definiciones de datos para enemigos en Senku 2.
-// Enemigos pequeños del parque causan 1 punto de daño por golpe.
-// HP de enemigos se conserva en null para que el pisotón los derrote de un golpe.
+// Golpes y daño por tipo en NIVELES_ENEMIGO (Javier, 31/10/2026: más difícil).
 
-export const DANO_CUCARACHA = 1;
-export const DANO_RATA = 1;
-export const DANO_RATON = 1;
-export const DANO_HAMSTER = 2;
+// Daño a Senku (100 HP). Ver NIVELES_ENEMIGO para los golpes que aguanta cada uno.
+export const DANO_CUCARACHA = 6;
+export const DANO_RATA = 15;
+export const DANO_RATON = 10;
+export const DANO_HAMSTER = 20;
 
 export const CATALOGO_ENEMIGOS = {
   cucaracha: {
@@ -61,6 +61,20 @@ export const CATALOGO_ENEMIGOS = {
     colorDetalle: '#a04000',
   },
 };
+
+// Dificultad (Javier, 31/10/2026): golpes para eliminar y daño a Senku (100 HP) por tipo.
+export const NIVELES_ENEMIGO = Object.freeze({
+  raton_negro: { golpes: 1, dano: DANO_RATON },
+  raton_cafe: { golpes: 2, dano: DANO_RATA },
+  rata_menor: { golpes: 2, dano: DANO_RATA },
+  hamster: { golpes: 3, dano: DANO_HAMSTER },
+  cucaracha: { golpes: 1, dano: DANO_CUCARACHA },
+});
+
+export function nivelEnemigo(tipo, variante) {
+  if (tipo === 'rata') tipo = 'rata_menor';
+  return NIVELES_ENEMIGO[`${tipo}_${variante || 'negro'}`] || NIVELES_ENEMIGO[tipo] || { golpes: null, dano: null };
+}
 
 export function obtenerPlantillaEnemigo(tipo) {
   if (!tipo || typeof tipo !== 'string') return null;
