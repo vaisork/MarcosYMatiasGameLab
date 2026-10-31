@@ -5,6 +5,7 @@ export const ACCIONES = {
   IZQUIERDA: 'izquierda',
   DERECHA: 'derecha',
   SALTO: 'salto',
+  ATACAR: 'atacar',
 };
 
 // Mapeo puro de códigos de teclado a acciones
@@ -20,6 +21,9 @@ export function mapearCodigoTecla(codigo) {
     case 'Space':
     case 'KeyW':
       return ACCIONES.SALTO;
+    case 'KeyJ':
+    case 'KeyX':
+      return ACCIONES.ATACAR;
     default:
       return null;
   }
@@ -44,6 +48,7 @@ export function crearEstadoEntrada() {
     izquierda: false,
     derecha: false,
     salto: false,
+    atacar: false,
     arriba: false,
     abajo: false,
     vector: { x: 0, y: 0 },
@@ -67,17 +72,20 @@ export function crearManejadorEntrada({
     let tieneIzq = joystick.izquierda || botonesPresionados.has(ACCIONES.IZQUIERDA);
     let tieneDer = joystick.derecha || botonesPresionados.has(ACCIONES.DERECHA);
     let tieneSalto = botonesPresionados.has(ACCIONES.SALTO);
+    let tieneAtaque = botonesPresionados.has(ACCIONES.ATACAR);
 
     for (const codigo of codigosTeclasPresionadas) {
       const accion = mapearCodigoTecla(codigo);
       if (accion === ACCIONES.IZQUIERDA) tieneIzq = true;
       if (accion === ACCIONES.DERECHA) tieneDer = true;
       if (accion === ACCIONES.SALTO) tieneSalto = true;
+      if (accion === ACCIONES.ATACAR) tieneAtaque = true;
     }
 
     estado.izquierda = tieneIzq;
     estado.derecha = tieneDer;
     estado.salto = tieneSalto;
+    estado.atacar = tieneAtaque;
     estado.arriba = joystick.arriba;
     estado.abajo = joystick.abajo;
     estado.vector = { x: joystick.x, y: joystick.y };
@@ -278,6 +286,7 @@ export function crearManejadorEntrada({
   if (elementosBotones.izquierda) conectarBoton(elementosBotones.izquierda, ACCIONES.IZQUIERDA);
   if (elementosBotones.derecha) conectarBoton(elementosBotones.derecha, ACCIONES.DERECHA);
   if (elementosBotones.salto) conectarBoton(elementosBotones.salto, ACCIONES.SALTO);
+  if (elementosBotones.atacar) conectarBoton(elementosBotones.atacar, ACCIONES.ATACAR);
 
   function obtenerEstado() {
     return { ...estado, vector: { ...estado.vector } };

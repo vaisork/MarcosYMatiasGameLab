@@ -8,12 +8,12 @@ export const escenaTaqueria = {
   limites: {
     x: 0,
     y: 0,
-    w: 1280,
+    w: 3840,
     h: 720,
   },
   puntoEntrada: {
     x: 100,
-    y: 558, // Pies sobre la banqueta (y=600); h del jugador = 42
+    y: 510, // Pies sobre la banqueta (y=600); gato de 90 px
   },
   fondo: {
     ruta: 'senku/v2/assets/fondos/taqueria.webp',
@@ -26,7 +26,7 @@ export const escenaTaqueria = {
   // Las plataformas son semisólidas (solo se pisa la cara superior) y se dibujan casi invisibles.
   plataformas: [
     // Banqueta del dibujo: ~83 % de la altura
-    { id: 'suelo-banqueta', x: 0, y: 600, w: 1280, h: 120, tipo: 'suelo' },
+    { id: 'suelo-banqueta', x: 0, y: 600, w: 3840, h: 120, tipo: 'suelo' },
     // Parachoques trasero de la camioneta
     { id: 'parachoques', x: 220, y: 514, w: 105, h: 14, tipo: 'plataforma' },
     // Caja de madera junto a la camioneta
@@ -59,6 +59,15 @@ export const escenaTaqueria = {
     { id: 'parapeto-izquierdo', x: 635, y: 245, w: 115, h: 14, tipo: 'plataforma' },
     // Cornisa derecha del techo
     { id: 'parapeto-derecho', x: 1165, y: 245, w: 110, h: 14, tipo: 'plataforma' },
+    ...Array.from({ length: 2 }, (_, pantalla) => {
+      const offset = (pantalla + 1) * 1280;
+      return [
+        { id: `taqueria-cajas-${pantalla}`, x: offset + 140, y: 520, w: 180, h: 18, tipo: 'plataforma' },
+        { id: `taqueria-toldo-${pantalla}`, x: offset + 420, y: 440, w: 260, h: 18, tipo: 'plataforma' },
+        { id: `taqueria-mesa-${pantalla}`, x: offset + 760, y: 510, w: 190, h: 18, tipo: 'plataforma' },
+        { id: `taqueria-techo-${pantalla}`, x: offset + 1010, y: 400, w: 210, h: 18, tipo: 'plataforma' },
+      ];
+    }).flat(),
   ],
   disparadores: [
     { id: 'camioneta', x: 90, y: 430, w: 255, h: 170,
@@ -77,16 +86,25 @@ export const escenaTaqueria = {
     { id: 'churu-7', tipo: 'churu', x: 850, y: 246, w: 22, h: 58, recogido: false }, // sobre toldo-taqueria
     { id: 'churu-8', tipo: 'churu', x: 1210, y: 195, w: 22, h: 58, recogido: false }, // sobre parapeto-derecho
     { id: 'botiquin-1', tipo: 'botiquin', x: 1060, y: 475, w: 36, h: 36, recogido: false }, // sobre mesa-derecha
+    ...Array.from({ length: 2 }, (_, pantalla) => {
+      const offset = (pantalla + 1) * 1280;
+      return [
+        { id: `taqueria-churu-${pantalla}-1`, tipo: 'churu', x: offset + 205, y: 462, w: 30, h: 66 },
+        { id: `taqueria-churu-${pantalla}-2`, tipo: 'churu', x: offset + 520, y: 374, w: 30, h: 66 },
+        { id: `taqueria-churu-${pantalla}-3`, tipo: 'churu', x: offset + 825, y: 444, w: 30, h: 66 },
+        { id: `taqueria-churu-${pantalla}-secreto`, tipo: 'churu', x: offset + 1080, y: 300, w: 30, h: 66, secreto: true },
+      ];
+    }).flat(),
   ],
   // Enemigos (hámster/ratón en arte) con rectángulos provisionales y valores creativos pendientes en null
   enemigos: [
     {
       id: 'cucaracha-suelo-1',
-      tipo: 'cucaracha',
+      tipo: 'raton',
       x: 620,
-      y: 580, // Sobre la banqueta (y=600, h=20)
-      w: 36,
-      h: 20,
+      y: 554, // Sobre la banqueta (y=600, h=46)
+      w: 72,
+      h: 46,
       velocidad: 70,
       patrulla: { minX: 600, maxX: 900 },
       hp: null,
@@ -97,11 +115,11 @@ export const escenaTaqueria = {
     },
     {
       id: 'cucaracha-barra-2',
-      tipo: 'cucaracha',
+      tipo: 'hamster',
       x: 850,
-      y: 451, // Sobre la barra de tacos (y=471, h=20)
-      w: 36,
-      h: 20,
+      y: 423, // Sobre la barra de tacos (y=471, h=48)
+      w: 72,
+      h: 48,
       velocidad: 50,
       patrulla: { minX: 830, maxX: 1000 },
       hp: null,
@@ -113,17 +131,27 @@ export const escenaTaqueria = {
     {
       id: 'rata-suelo-3',
       tipo: 'rata_menor',
-      x: 1000,
-      y: 574, // Sobre la banqueta (y=600, h=26)
-      w: 44,
-      h: 26,
+      x: 1160,
+      y: 554, // Sobre la banqueta (y=600, h=46)
+      w: 72,
+      h: 46,
       velocidad: 95,
-      patrulla: { minX: 960, maxX: 1240 },
+      patrulla: { minX: 1130, maxX: 1272 },
       hp: null,
       dano: null,
       pisable: true,
       color: '#7f8c8d',
       colorDetalle: '#2c3e50',
     },
+    ...Array.from({ length: 8 }, (_, i) => {
+      const pantalla = Math.floor(i / 4) + 1;
+      const x = pantalla * 1280 + 120 + (i % 4) * 275;
+      const tipo = i % 2 ? 'hamster' : 'raton';
+      const h = tipo === 'hamster' ? 48 : 46;
+      return { id: `taqueria-enemigo-${i + 1}`, tipo, variante: i % 2 ? 'cafe' : 'negro',
+        comportamiento: ['patrulla', 'salta', 'persigue', 'patrulla'][i % 4], x,
+        y: 600 - h, w: 72, h, velocidad: 72 + i * 4,
+        patrulla: { minX: x - 70, maxX: x + 200 }, hp: null, dano: 1, pisable: true };
+    }),
   ],
 };

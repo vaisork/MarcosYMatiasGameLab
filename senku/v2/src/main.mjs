@@ -14,7 +14,7 @@ import {
   alternarTraje,
   desbloquearTraje,
 } from './core/trajes_activo.mjs';
-import { crearCuerpo, actualizarCuerpo, solapanAABB } from './core/fisica.mjs';
+import { crearCuerpo, actualizarCuerpo, solapanAABB, solapanRecogible, ANCHO_GATO_JUEGO, ALTURA_GATO_JUEGO } from './core/fisica.mjs';
 import { crearRegistroEscenas } from './core/escenas.mjs';
 import { escenaCiudad } from './data/escenas/ciudad.mjs';
 import { escenaTaqueria } from './data/escenas/taqueria.mjs';
@@ -29,6 +29,7 @@ import {
   reiniciarCombate,
   HP_INICIAL_SENKU,
   TIEMPO_INVULNERABILIDAD_DEFECTO,
+  atacarEnemigo,
 } from './core/combate.mjs';
 import { recogerBotiquin } from './core/botiquin.mjs';
 import { ganarChurus } from './core/economia.mjs';
@@ -571,8 +572,8 @@ export function arrancarSenku2({
   const senku = crearCuerpo({
     x: escenaActual.puntoEntrada.x,
     y: escenaActual.puntoEntrada.y,
-    w: 54,
-    h: 42,
+    w: ANCHO_GATO_JUEGO,
+    h: ALTURA_GATO_JUEGO,
   });
   refrescarVistaTraje();
 
@@ -693,6 +694,7 @@ export function arrancarSenku2({
   }
 
   let enSueloPrevio = true;
+  let ataquePresionadoPrevio = false;
   senku.tiempoAterrizaje = 0;
 
   const efectosRecogida = [];
@@ -764,6 +766,8 @@ export function arrancarSenku2({
     senku.enSuelo = false;
     senku.saltando = false;
     senku.tiempoSalto = 0;
+    senku.tiempoCoyote = 0;
+    senku.tiempoBufferSalto = 0;
 
     // Restaurar posiciones sin revivir enemigos ya derrotados
     restaurarEnemigos();
@@ -843,6 +847,8 @@ export function arrancarSenku2({
     catalogoArte.precargar([rutaFondo, ...rutasPrecargaArte({ escenaId: escenaActual.id })]);
     viaje = null;
     mostrarAviso('', 0);
+    camaraSuaveX = Math.max(0, Math.min(escenaActual.limites.w - ANCHO_LOGICO,
+      (puntoEntrada?.x ?? escenaActual.puntoEntrada.x) - ANCHO_LOGICO * 0.38));
     reiniciarEscena({ puntoEntrada, curar });
     actualizarNombreEscena();
     actualizarCamioneta();
@@ -852,6 +858,7 @@ export function arrancarSenku2({
   let animacionId = null;
   let ultimoTiempo = performance.now();
   let tiempoAcumulado = 0;
+  let camaraSuaveX = 0;
 
   function avanzarPaso(dt = 1 / 60) {
     actualizarControlesHabilidades(documento, estadoJugador);
@@ -889,6 +896,19 @@ export function arrancarSenku2({
     if (!menuAbierto) {
       // Física del jugador
       const estadoEntrada = entrada.obtenerEstado();
+      if (estadoEntrada.atacar && !ataquePresionadoPrevio) {
+        for (const enemigo of enemigos) {
+          if (!enemigo.activo || !enemigo.vivo) continue;
+          const ataque = atacarEnemigo(senku, enemigo);
+          if (ataque.enemigoDerrotado) {
+            estadoJugador = { ...estadoJugador,
+              coleccionados: [...new Set([...estadoJugador.coleccionados, idDerrota(enemigo.id)])] };
+            guardarProgreso();
+            soltarLlave(enemigo);
+          }
+        }
+      }
+      ataquePresionadoPrevio = estadoEntrada.atacar;
       actualizarCuerpo(
         senku,
         estadoEntrada,
@@ -931,6 +951,7 @@ export function arrancarSenku2({
         }
         if (resContacto.contacto && resContacto.tipo === 'golpe') {
           actualizarHUDVida();
+          if (resContacto.golpeado) mostrarAviso(`¡Golpe! -${enemigo.dano || 1} HP`, 0.8);
           // Al llegar a 0 de vida, reiniciar la escena con vida llena
           if (estadoCombate.hp === 0 || resContacto.muerto || estadoCombate.derrotado) {
             reiniciarEscena();
@@ -939,7 +960,7 @@ export function arrancarSenku2({
         }
       }
       for (const objeto of escenaActual.objetos) {
-        if (objeto.recogido || !solapanAABB(senku, objeto)) continue;
+        if (objeto.recogido || !solapanRecogible(senku, objeto)) continue;
         if (objeto.tipo === 'churu') {
           objeto.recogido = true;
           const resEco = ganarChurus(estadoJugador, 1, objeto.id);
@@ -982,15 +1003,6 @@ export function arrancarSenku2({
             actualizarHUDVida();
             mostrarAviso('+25 Vida');
           }
-        } else if (objeto.tipo === 'churu' && escenaActual.id === 'reja') {
-          const res = ganarChurus(estadoJugador, 1, objeto.id);
-          if (!res.error) {
-            objeto.recogido = true;
-            estadoJugador = res;
-            guardarProgreso();
-            if (elChurus) elChurus.textContent = String(estadoJugador.churus);
-            mostrarAviso('+1 Churu');
-          }
         }
       }
       actualizarCamioneta();
@@ -1004,8 +1016,15 @@ export function arrancarSenku2({
 
     avanzarPaso(dt);
 
-    const camaraX = Math.max(0, Math.min(escenaActual.limites.w - ANCHO_LOGICO,
-      senku.x + senku.w / 2 - ANCHO_LOGICO / 2));
+    const minimoCamara = escenaActual.limites.minX ?? 0;
+    const maximoCamara = Math.max(minimoCamara, escenaActual.limites.maxX - ANCHO_LOGICO);
+    const pantallaX = senku.x - camaraSuaveX;
+    let objetivoCamara = camaraSuaveX;
+    if (pantallaX < ANCHO_LOGICO * 0.38) objetivoCamara = senku.x - ANCHO_LOGICO * 0.38;
+    else if (pantallaX + senku.w > ANCHO_LOGICO * 0.62) objetivoCamara = senku.x + senku.w - ANCHO_LOGICO * 0.62;
+    objetivoCamara = Math.max(minimoCamara, Math.min(maximoCamara, objetivoCamara));
+    camaraSuaveX += (objetivoCamara - camaraSuaveX) * (1 - Math.exp(-8 * dt));
+    const camaraX = Math.max(minimoCamara, Math.min(maximoCamara, camaraSuaveX));
     // Dibujado de escena base
     renderizarEscena({
       ctx,
