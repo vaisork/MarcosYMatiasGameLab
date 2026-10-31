@@ -24,6 +24,8 @@ import { crearAnclador, soltarAnclador } from './core/anclador.mjs';
 import { pasoMovilidad } from './core/movilidad.mjs';
 import { dibujarDespenadero, dibujarAnclador } from './render/despenadero.mjs';
 import { escenaCima, ARENA, SUELO_CIMA } from './data/escenas/cima.mjs';
+import { resumenCapitulo } from './core/resumen.mjs';
+import { mostrarFinal } from './ui/final.mjs';
 import { crearJefe, despertar, actualizarJefe, golpearJefe, danoAJugador, esPisoton } from './core/jefe_gato.mjs';
 import { crearLanzador, actualizarDisparo, actualizarProyectiles } from './core/lanzador.mjs';
 import { dibujarJefe, dibujarProyectiles, dibujarLanzadorEnLomo, dibujarObjetoLanzador,
@@ -1214,7 +1216,6 @@ export function arrancarSenku2({
             mostrarAviso('¡El Gato Mecánico despierta!', 2);
           }
           if (jefe.estado !== 'dormido' && !jefe.derrotado) senku.x = Math.max(senku.x, ARENA.minX);
-          const yaDerrotado = jefe.derrotado;
           actualizarJefe(jefe, senku, dt);
           if (esPisoton(jefe, senku) && golpearJefe(jefe, 1)) senku.vy = -620;
           const dano = danoAJugador(jefe, senku);
@@ -1229,11 +1230,17 @@ export function arrancarSenku2({
               }
             }
           }
-          if (jefe.derrotado && !yaDerrotado) {
+          // Se registra una sola vez, venga el último golpe de un ratón o de un pisotón.
+          if (jefe.derrotado && !tiene(ID_VICTORIA_JEFE)) {
             estadoJugador = { ...estadoJugador,
               coleccionados: [...new Set([...estadoJugador.coleccionados, ID_VICTORIA_JEFE])] };
             guardarProgreso();
-            mostrarAviso('¡Venciste al Gato Mecánico! Fin del capítulo México.', 6);
+            mostrarAviso('¡Venciste al Gato Mecánico!', 2.5);
+            // Deja ver al jefe desarmarse antes de la pantalla final.
+            ventana.setTimeout?.(() => mostrarFinal(documento, ventana,
+              resumenCapitulo(estadoJugador, registro.listar()), {
+                alVolverAJugar: () => cambiarEscena('taqueria', { curar: true }),
+              }), 2600);
           }
         }
       }
@@ -1402,6 +1409,10 @@ export function arrancarSenku2({
     if (pantallaX < ANCHO_LOGICO * 0.38) objetivoCamara = senku.x - ANCHO_LOGICO * 0.38;
     else if (pantallaX + senku.w > ANCHO_LOGICO * 0.62) objetivoCamara = senku.x + senku.w - ANCHO_LOGICO * 0.62;
     objetivoCamara = Math.max(minimoCamara, Math.min(maximoCamara, objetivoCamara));
+    // Pelea con el Gato Mecánico: la arena mide una pantalla; la cámara la encuadra completa.
+    if (escenaActual.id === 'cima' && jefe && jefe.estado !== 'dormido' && !jefe.derrotado) {
+      objetivoCamara = ARENA.minX;
+    }
     camaraSuaveX += (objetivoCamara - camaraSuaveX) * (1 - Math.exp(-8 * dt));
     const camaraX = Math.max(minimoCamara, Math.min(maximoCamara, camaraSuaveX));
     // Dibujado de escena base
@@ -1655,6 +1666,7 @@ export function arrancarSenku2({
     senku,
     get escena() { return escenaActual; },
     get jefe() { return jefe; },
+    get lanzador() { return lanzador; },
     estadoJugador: () => estadoJugador,
     estadoCombate,
     enemigos,
