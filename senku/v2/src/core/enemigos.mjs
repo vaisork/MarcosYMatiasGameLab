@@ -86,6 +86,18 @@ export function actualizarEnemigo(enemigo, dt = 0, limites = null, jugador = nul
   const velocidad = enemigo.velocidad ?? 0;
   enemigo.fase += paso;
 
+  // Retroceso suave al recibir golpe de Senku
+  if (enemigo.tiempoRetroceso > 0) {
+    enemigo.tiempoRetroceso = Math.max(0, enemigo.tiempoRetroceso - paso);
+    enemigo.x += enemigo.vx * paso;
+    enemigo.vx *= Math.max(0, 1 - paso * 6);
+    if (limites) {
+      enemigo.x = Math.max(limites.minX ?? 0,
+        Math.min((limites.maxX ?? Infinity) - enemigo.w, enemigo.x));
+    }
+    return enemigo;
+  }
+
   if (enemigo.comportamiento === 'salta') {
     enemigo.y = enemigo.baseY - Math.abs(Math.sin(enemigo.fase * 3.2)) * 72;
   } else {
@@ -98,8 +110,19 @@ export function actualizarEnemigo(enemigo, dt = 0, limites = null, jugador = nul
     if (Math.abs(distancia) < alcance) {
       enemigo.mirando = distancia < 0 ? -1 : 1;
       const impulso = enemigo.comportamiento === 'emboscada' && enemigo.fase % 3 > 2.2 ? 2.1 : 1;
-      enemigo.x += enemigo.mirando * velocidad * impulso * paso;
       enemigo.vx = enemigo.mirando * velocidad * impulso;
+      enemigo.x += enemigo.vx * paso;
+
+      // Respetar límite de patrulla si está configurado para no salir de su pantalla
+      if (enemigo.patrulla) {
+        if (enemigo.patrulla.minX !== null && enemigo.x < enemigo.patrulla.minX) {
+          enemigo.x = enemigo.patrulla.minX;
+        }
+        if (enemigo.patrulla.maxX !== null && enemigo.x + enemigo.w > enemigo.patrulla.maxX) {
+          enemigo.x = enemigo.patrulla.maxX - enemigo.w;
+        }
+      }
+
       if (limites) enemigo.x = Math.max(limites.minX ?? 0,
         Math.min((limites.maxX ?? Infinity) - enemigo.w, enemigo.x));
       return enemigo;

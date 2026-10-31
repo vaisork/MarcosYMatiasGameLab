@@ -781,7 +781,33 @@ export function dibujarPrimerPlanoTaqueria(ctx, cameraX, tiempo, anchoTotal = 38
 
 // Parallax Taquería / Ciudad tradicional mexicana
 // Capas con velocidades exactas: cielo 0.1, lejano 0.3, medio 0.6, primer plano 1.0
-export function dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoTotal = ANCHO_LOGICO) {
+const RUTAS_CAPAS_PARALAJE = { taqueria: 'ciudad', ciudad: 'ciudad', reja: 'reja', desierto: 'desierto' };
+
+function dibujarCapasIlustradas(ctx, catalogoArte, escenaId, cameraX) {
+  const prefijo = RUTAS_CAPAS_PARALAJE[escenaId];
+  if (!ctx || !catalogoArte || !prefijo) return false;
+  const capas = [
+    ['cielo', 0.1],
+    ['lejano', 0.3],
+    ['medio', 0.6],
+  ].map(([nombre, factor]) => ({
+    imagen: catalogoArte.obtener(`assets/fondos/paralaje/${prefijo}_${nombre}.webp`),
+    factor,
+  }));
+  if (capas.some((capa) => !capa.imagen)) return false;
+
+  for (const { imagen, factor } of capas) {
+    const ancho = imagen.naturalWidth || ANCHO_LOGICO;
+    const offset = -(((cameraX || 0) * factor) % ancho);
+    for (let x = offset - ancho; x < ANCHO_LOGICO; x += ancho) {
+      ctx.drawImage(imagen, x, 0, ancho, ALTO_LOGICO);
+    }
+  }
+  return true;
+}
+
+export function dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoTotal = ANCHO_LOGICO, catalogoArte = null) {
+  if (dibujarCapasIlustradas(ctx, catalogoArte, 'taqueria', cameraX)) return;
   if (!ctx) return;
   ctx.save();
 
@@ -862,7 +888,8 @@ export function dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoTotal = ANCHO
 
 // Parallax Reja del Parque (7 pantallas de ancho = 8960 px)
 // Capas: cielo 0.1, lejano 0.3, medio 0.6
-export function dibujarParalajeReja(ctx, cameraX, tiempo, anchoTotal = 8960) {
+export function dibujarParalajeReja(ctx, cameraX, tiempo, anchoTotal = 8960, catalogoArte = null) {
+  if (dibujarCapasIlustradas(ctx, catalogoArte, 'reja', cameraX)) return;
   if (!ctx) return;
   ctx.save();
 
@@ -933,12 +960,14 @@ export function dibujarParalajeReja(ctx, cameraX, tiempo, anchoTotal = 8960) {
 }
 
 // Parallax Desierto abierto (5 pantallas de ancho = 6400 px)
-export function dibujarParalajeDesierto(ctx, cameraX, tiempo, anchoTotal = 6400) {
+export function dibujarParalajeDesierto(ctx, cameraX, tiempo, anchoTotal = 6400, catalogoArte = null) {
+  if (dibujarCapasIlustradas(ctx, catalogoArte, 'desierto', cameraX)) return;
   dibujarParalajeReja(ctx, cameraX, tiempo, anchoTotal);
 }
 
 // Parallax Ciudad
-export function dibujarParalajeCiudad(ctx, cameraX, tiempo, anchoTotal = 1280) {
+export function dibujarParalajeCiudad(ctx, cameraX, tiempo, anchoTotal = 1280, catalogoArte = null) {
+  if (dibujarCapasIlustradas(ctx, catalogoArte, 'ciudad', cameraX)) return;
   dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoTotal);
 }
 
@@ -1024,14 +1053,14 @@ export function renderizarEscena({
     dibujarParalajeDespenadero(ctx, cameraX, tiempo);
   } else if (escena.id === 'cima') {
     dibujarParalajeCima(ctx, cameraX, tiempo);
-} else if (escena.id === 'reja') {
-    dibujarParalajeReja(ctx, cameraX, tiempo, anchoEscena);
+  } else if (escena.id === 'reja') {
+    dibujarParalajeReja(ctx, cameraX, tiempo, anchoEscena, catalogoArte);
   } else if (escena.id === 'desierto' || fondoCfg.estilo === 'desierto') {
-    dibujarParalajeDesierto(ctx, cameraX, tiempo, anchoEscena);
+    dibujarParalajeDesierto(ctx, cameraX, tiempo, anchoEscena, catalogoArte);
   } else if (escena.id === 'ciudad' || fondoCfg.estilo === 'ciudad') {
-    dibujarParalajeCiudad(ctx, cameraX, tiempo, anchoEscena);
+    dibujarParalajeCiudad(ctx, cameraX, tiempo, anchoEscena, catalogoArte);
   } else if (escena.id === 'taqueria') {
-    dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoEscena);
+    dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoEscena, catalogoArte);
   } else if (imagenFondo) {
     ctx.drawImage(imagenFondo, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
   } else {
