@@ -57,11 +57,22 @@ export const PIEZAS = {
              C2:1 C3:1 C2:1 C3:1 C2:1 C3:1 C2:1 C3:1 B1:1 B2:1 B1:1 B2:1 E2:1 E3:1 E2:1 E3:1`),
     percusion: [1, 0.6, 1, 0.6],
   },
+  // Guatemala: marimba ligera sobre bajo de aventura.
+  guatemala: {
+    tempo: 156, onda: 'triangle', ondaBajo: 'square', compas: 4,
+    melodia: m(`G4:1 B4:1 D5:2 G5:1 D5:1 B4:2 A4:1 C5:1 E5:2 A5:1 E5:1 C5:2
+                G4:1 B4:1 D5:1 G5:1 F5:1 D5:1 B4:2 A4:1 C5:1 E5:1 A5:1 G5:4`),
+    bajo: m(`G2:1 D3:1 G2:1 D3:1 G2:1 D3:1 G2:1 D3:1 A2:1 E3:1 A2:1 E3:1 A2:1 E3:1 A2:1 E3:1
+             G2:1 D3:1 G2:1 D3:1 F2:1 C3:1 F2:1 C3:1 A2:1 E3:1 A2:1 E3:1 D2:1 A2:1 D2:1 A2:1`),
+    percusion: [0.8, 0.3, 0.6, 0.3],
+  },
 };
 
 export const PIEZA_POR_ESCENA = {
   ciudad: 'fiesta', taqueria: 'fiesta', reja: 'desierto', desierto: 'desierto',
   despenadero: 'aventura', cima: 'aventura',
+  'guatemala-antigua': 'guatemala', 'guatemala-chichicastenango': 'guatemala',
+  'guatemala-selva': 'aventura', 'guatemala-tikal': 'guatemala',
 };
 
 export function duracionEnTiempos(voz) {

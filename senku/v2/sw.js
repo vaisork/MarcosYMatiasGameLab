@@ -1,6 +1,6 @@
 // Service Worker para Senku 2 — Caché offline versionado y soporte PWA
 // Versión actual de la caché
-const VERSION_CACHE = 'senku2-v18';
+const VERSION_CACHE = 'senku2-v19';
 
 // Recursos esenciales que forman la base del juego para jugar sin conexión
 const RECURSOS_PRECACHE = [
@@ -28,6 +28,7 @@ const RECURSOS_PRECACHE = [
   './src/core/resumen.mjs',
   './src/core/economia.mjs',
   './src/core/jefe_gato.mjs',
+  './src/core/jefe_balam.mjs',
   './src/core/lanzador.mjs',
   './src/data/trajes.mjs',
   './src/data/escenas/despenadero.mjs',
@@ -35,6 +36,7 @@ const RECURSOS_PRECACHE = [
   './src/data/escenas/guatemala.mjs',
   './src/render/despenadero.mjs',
   './src/render/cima.mjs',
+  './src/render/balam.mjs',
   './src/audio/musica.mjs',
   './src/ui/portada.mjs',
   './src/ui/final.mjs',

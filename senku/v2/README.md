@@ -16,11 +16,13 @@ La camioneta arranca durante dos segundos y muestra «¡Senku toma el volante! �
 
 El auto familiar llega y estaciona, la familia baja y el niño pregunta «Mamá, mamá, ¿podemos ir al parque del desierto?»; su madre responde «Sí, ahorita vamos». Senku entra primero por la reja y recorre siete pantallas continuas con cámara, tres capas de paralaje, secretos, Churus y oleadas de ratones y hámsters negros y cafés. Flechas/A/D mueven a Senku; Espacio/▲/W permiten saltar y Espacio/Enter/Escape saltan la cinemática. M abre el armario y T cambia de traje.
 
-La música por zona queda pendiente: todavía no hay reproductor de música; `cambiarEscena` conserva el punto de conexión para enlazarla.
+La música chiptune se genera con Web Audio y cambia por zona; N o el botón ♪ la apagan.
 
 ## Capítulo 2 — Guatemala
 
-Tras vencer al Gato Mecánico, «Continuar a Guatemala» abre el recorrido de Antigua, Chichicastenango, Petén y Tikal. Cada escena tiene dos fondos pintados de 1280×720; el tucán, coatí y mono usan hojas animadas de 384×192. Balam tiene arte de jefe de 880×510, y el tuk-tuk del bonus y el fragmento de jade ya tienen assets. Las habilidades, salud, churus y perfiles de daño siguen las reglas vigentes de México. La lógica de Balam y el bonus del tuk-tuk quedan para su etapa de integración.
+Tras vencer al Gato Mecánico, «Continuar a Guatemala» abre cuatro tramos: Antigua, Chichicastenango, selva del Petén y Tikal. Cada tramo tiene dos fondos pintados de 1280×720; tucán, coatí y mono usan hojas animadas de 384×192. Las habilidades, salud, churus y perfiles de daño siguen las reglas actualizadas de México. En Tikal, Balam alterna carreras telegrafiadas, salto con ondas y lluvia de jade en tres fases; zarpazos y pisotones lo derrotan. Al vencerlo aparece resumen y «Volver a jugar Guatemala», que conserva el avance mexicano y los Churus.
+
+La música procedural cambia por zona y usa la pieza de tensión durante cada jefe. El tuk-tuk y su arte ya están preparados; el bonus jugable del tuk-tuk queda pendiente.
 
 Decisión técnica (2026-10-23): `coleccionados` conserva los IDs de enemigos derrotados y `llave-camioneta` como inventario; `progreso.escena` guarda el destino. Se mantiene el formato versión 1 y las claves de Legacy intactas. Si se recarga antes de recoger la llave, esta reaparece cerca del punto original de la rata; las derrotas parciales también se conservan. Reiniciar por falta de vida conserva estos avances.
 
@@ -36,7 +38,7 @@ Saltar siempre está disponible; Subir aparece junto a él al acercarse a la cam
 
 `estadoJugador.habilidades.disparar` y `.lanzagranadas` controlan los botones de armas: sólo el booleano `true` los muestra. Se guardan dentro de `senku2_save` versión 1; guardados anteriores reciben ambos flags en `false`. Todavía no hay mecánica de armas ni forma de desbloquearlas jugando. El consumidor que implemente esos desbloqueos debe activar el flag y guardar el estado; el HUD refleja cambios durante el siguiente paso del juego.
 
-Caché PWA: `senku2-v6`. Evidencia visual previa en `../../senku2/hud/`: móvil 844×390 (con y sin habilidades) y escritorio 1366×768. Safe-area se aplica a los cuatro bordes; la simulación de viewport no sustituye una prueba en teléfono físico.
+Caché PWA vigente: `senku2-v19`. Evidencia visual previa en `../../senku2/hud/`: móvil 844×390 (con y sin habilidades) y escritorio 1366×768. Safe-area se aplica a los cuatro bordes; la simulación de viewport no sustituye una prueba en teléfono físico.
 
 ## Auditoría de recorrido (2026-10-30)
 

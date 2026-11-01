@@ -7,6 +7,8 @@ import { crearEnemigo, daniarEnemigo } from '../src/core/enemigos.mjs';
 import { arrancarSenku2 } from '../src/main.mjs';
 import { estadoNuevo, guardar, cargar } from '../src/core/store.mjs';
 import { golpearJefe } from '../src/core/jefe_gato.mjs';
+import { golpearBalam } from '../src/core/jefe_balam.mjs';
+import { mostrarFinal } from '../src/ui/final.mjs';
 import { renderizarEscena } from '../src/render/canvas.mjs';
 import { resumenCapitulo } from '../src/core/resumen.mjs';
 import { escenaCima } from '../src/data/escenas/cima.mjs';
@@ -144,5 +146,61 @@ test('tras derrotar al Gato Mecánico, continuar a Guatemala guarda progreso sin
   assert.equal(estado.churus, 17);
   assert.ok(estado.coleccionados.includes('jefe-gato-mecanico'));
   assert.ok(estado.coleccionados.includes('llave-camioneta'));
+  juego.detener();
+});
+
+test('el final de Guatemala ofrece repetir el capítulo y llama al reinicio', () => {
+  let final;
+  const botones = { '#final-seguir': boton(), '#final-volver': boton() };
+  const capa = { style: {}, setAttribute() {}, querySelector: (selector) => botones[selector], remove() {} };
+  const documento = { body: { appendChild: (nodo) => { final = nodo; } },
+    getElementById: () => null, createElement: () => capa };
+  let repeticiones = 0;
+  mostrarFinal(documento, {}, { churus: 8, enemigos: 2, secretosEncontrados: 1, secretosTotales: 3 }, {
+    capitulo: 'CAPÍTULO 2 · GUATEMALA', titulo: '¡Balam descansa!',
+    etiquetaVolver: 'Volver a jugar Guatemala', alVolverAJugar: () => { repeticiones++; },
+  });
+  assert.match(final.innerHTML, /CAPÍTULO 2 · GUATEMALA/);
+  assert.match(final.innerHTML, /Volver a jugar Guatemala/);
+  botones['#final-volver'].oyentes.click[0]();
+  assert.equal(repeticiones, 1);
+});
+
+test('victoria de Balam se guarda y repetir Guatemala limpia solo su avance', () => {
+  const almacen = memoria();
+  guardar(almacen, { ...estadoNuevo(), progreso: { escena: 'guatemala-tikal' }, churus: 42,
+    coleccionados: ['jefe-gato-mecanico', 'antigua-churu-1', 'guatemala-antigua:derrotado:antigua-coati-1'] });
+  const temporizadores = [], capas = [];
+  const nodos = { 'lienzo-juego': { ...boton(), getContext: () => null }, 'btn-subir': boton(), 'aviso-viaje': boton() };
+  const documento = {
+    body: { appendChild() {} }, getElementById: (id) => nodos[id] || null, querySelector: () => null,
+    createElement() {
+      const botones = { '#final-guatemala': boton(), '#final-seguir': boton(), '#final-volver': boton() };
+      const capa = { ...boton(), querySelector: (selector) => botones[selector] || null, botones };
+      capas.push(capa); return capa;
+    },
+  };
+  const ventana = { localStorage: almacen, location: { href: '', search: '' },
+    addEventListener() {}, removeEventListener() {}, requestAnimationFrame: () => 1, cancelAnimationFrame() {},
+    setTimeout(fn) { temporizadores.push(fn); return temporizadores.length; }, clearTimeout() {},
+    setInterval: () => 1, clearInterval() {} };
+  const juego = arrancarSenku2({ documento, ventana });
+  juego.senku.x = 1400;
+  juego.avanzarPaso(1 / 60);
+  assert.ok(juego.jefeBalam);
+  juego.jefeBalam.hp = 1;
+  assert.equal(golpearBalam(juego.jefeBalam), true);
+  juego.avanzarPaso(1 / 60);
+  temporizadores.at(-1)();
+  capas.at(-1).botones['#final-volver'].oyentes.click[0]();
+
+  const partida = cargar(almacen).estado;
+  assert.equal(juego.escena.id, 'guatemala-antigua');
+  assert.equal(partida.progreso.escena, 'guatemala-antigua');
+  assert.equal(partida.churus, 42);
+  assert.ok(partida.coleccionados.includes('jefe-gato-mecanico'));
+  assert.ok(!partida.coleccionados.includes('jefe-balam-tikal'));
+  assert.ok(!partida.coleccionados.includes('guatemala-antigua:derrotado:antigua-coati-1'));
+  assert.ok(!partida.coleccionados.includes('antigua-churu-1'));
   juego.detener();
 });
