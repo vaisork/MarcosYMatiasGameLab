@@ -2205,6 +2205,90 @@
       "kind": "material",
       "sell_price": 50,
       "description": "Una escama curva de cristal vivo, desprendida durante la muda de la Sierpe."
+    },
+    "hebraleta": {
+      "id": "hebraleta",
+      "name": "Hebraleta fresca",
+      "kind": "material",
+      "description": "Pez alargado y plateado de los canales lentos de Lethra.",
+      "sell_price": 2
+    },
+    "raspacanto": {
+      "id": "raspacanto",
+      "name": "Raspacanto de fondo",
+      "kind": "material",
+      "description": "Pez robusto que se adhiere a las piedras sumergidas de vados y remansos.",
+      "sell_price": 3
+    },
+    "velo_arroyo": {
+      "id": "velo_arroyo",
+      "name": "Velo de arroyo",
+      "kind": "material",
+      "description": "Pez pequeño y ágil de aletas amplias, propio de corrientes claras.",
+      "sell_price": 2
+    },
+    "friacola": {
+      "id": "friacola",
+      "name": "Fríacola de montaña",
+      "kind": "material",
+      "description": "Pez compacto de tonos azules que busca los remansos fríos de Hoshai.",
+      "sell_price": 4
+    },
+    "provision_hojas": {
+      "id": "provision_hojas",
+      "name": "Provisión de hojas tiernas",
+      "kind": "consumable",
+      "effect": "basic_provision",
+      "description": "Una comida sencilla preparada en un taller. Recupera salud y reduce fatiga como una provisión de camino."
+    },
+    "provision_sendero": {
+      "id": "provision_sendero",
+      "name": "Provisión del sendero",
+      "kind": "consumable",
+      "effect": "basic_provision",
+      "description": "Una comida sencilla preparada en un taller. Recupera salud y reduce fatiga como una provisión de camino."
+    },
+    "provision_roca": {
+      "id": "provision_roca",
+      "name": "Provisión de roca y cuerda",
+      "kind": "consumable",
+      "effect": "basic_provision",
+      "description": "Una comida sencilla preparada en un taller. Recupera salud y reduce fatiga como una provisión de camino."
+    },
+    "provision_resina": {
+      "id": "provision_resina",
+      "name": "Provisión de resina dulce",
+      "kind": "consumable",
+      "effect": "basic_provision",
+      "description": "Una comida sencilla preparada en un taller. Recupera salud y reduce fatiga como una provisión de camino."
+    },
+    "provision_juncos": {
+      "id": "provision_juncos",
+      "name": "Provisión de juncos",
+      "kind": "consumable",
+      "effect": "basic_provision",
+      "description": "Una comida sencilla preparada en un taller. Recupera salud y reduce fatiga como una provisión de camino."
+    },
+    "provision_cumbre": {
+      "id": "provision_cumbre",
+      "name": "Provisión de la cumbre",
+      "kind": "consumable",
+      "effect": "basic_provision",
+      "description": "Una comida sencilla preparada en un taller. Recupera salud y reduce fatiga como una provisión de camino."
+    },
+    "provision_taller": {
+      "id": "provision_taller",
+      "name": "Provisión de taller",
+      "kind": "consumable",
+      "effect": "basic_provision",
+      "description": "Una comida sencilla preparada en un taller. Recupera salud y reduce fatiga como una provisión de camino."
+    },
+    "provision_compartida": {
+      "id": "provision_compartida",
+      "name": "Provisión compartida",
+      "kind": "consumable",
+      "effect": "basic_provision",
+      "description": "Una comida sencilla preparada en un taller. Recupera salud y reduce fatiga como una provisión de camino."
     }
   },
   "quests": {
@@ -2548,6 +2632,56 @@
       "paid_text": "Terminaste el encargo de Oma y recibiste 40 sellos."
     }
   },
+  "quest_templates": {
+    "valdren_entrega": {
+      "kind": "deliver",
+      "region": "edran",
+      "board_room": "valdren_cobertizo",
+      "board_npc": "edran_bren",
+      "destination_room": "valdren_fragua",
+      "target_npc": "edran_daro",
+      "title": "Llevar un aviso a la fragua",
+      "instruction": "Bren dejó un recado para Daro. Llévaselo a la fragua y escucha su respuesta.",
+      "base_xp": 5,
+      "base_seals": 2
+    },
+    "valdren_observar": {
+      "kind": "observe_creature",
+      "region": "edran",
+      "board_room": "valdren_cobertizo",
+      "board_npc": "edran_bren",
+      "destination_room": "edran_surcos",
+      "creature": "espinajo_rastrojo",
+      "title": "Observar al Espinajo",
+      "instruction": "Desde una distancia segura, observa al Espinajo del rastrojo en los surcos.",
+      "base_xp": 5,
+      "base_seals": 2
+    },
+    "valdren_escoltar_numen": {
+      "kind": "escort_numen",
+      "region": "edran",
+      "board_room": "valdren_cobertizo",
+      "board_npc": "edran_bren",
+      "destination_room": "valdren_plaza",
+      "title": "Acompañar a tu Númen a la plaza",
+      "instruction": "Viaja con tu Númen activo hasta la plaza de Valdren; el Númen te acompaña por el camino.",
+      "base_xp": 5,
+      "base_seals": 2
+    },
+    "valdren_traer_material": {
+      "kind": "bring_material",
+      "region": "edran",
+      "board_room": "valdren_cobertizo",
+      "board_npc": "edran_bren",
+      "destination_room": "valdren_fragua",
+      "target_npc": "edran_daro",
+      "item": "hierro_viejo",
+      "title": "Llevar hierro viejo a Daro",
+      "instruction": "Lleva una pieza de hierro viejo a Daro, en la fragua, para que la separe de sus herramientas.",
+      "base_xp": 5,
+      "base_seals": 2
+    }
+  },
   "secrets": {
     "lio_fragua": {
       "flag": "edran_lio_dibujo_fragua",
@@ -2692,6 +2826,188 @@
       "room": "korven_grieta_fuente",
       "flag": "sec_grieta_concha",
       "title": "La concha de piedra"
+    }
+  },
+  "recipes": {
+    "provision_hojas": {
+      "id": "provision_hojas",
+      "name": "Provisión de hojas tiernas",
+      "materials": {
+        "fibra_junco": 2,
+        "semillas_camino": 1
+      },
+      "seals": 3,
+      "output": "provision_hojas"
+    },
+    "provision_sendero": {
+      "id": "provision_sendero",
+      "name": "Provisión del sendero",
+      "materials": {
+        "rama_flexible": 1,
+        "semillas_camino": 2
+      },
+      "seals": 3,
+      "output": "provision_sendero"
+    },
+    "provision_roca": {
+      "id": "provision_roca",
+      "name": "Provisión de roca y cuerda",
+      "materials": {
+        "piedra_veteada": 1,
+        "cuerda_recuperada": 1
+      },
+      "seals": 4,
+      "output": "provision_roca"
+    },
+    "provision_resina": {
+      "id": "provision_resina",
+      "name": "Provisión de resina dulce",
+      "materials": {
+        "resina_pino": 1,
+        "semillas_camino": 1
+      },
+      "seals": 3,
+      "output": "provision_resina"
+    },
+    "provision_juncos": {
+      "id": "provision_juncos",
+      "name": "Provisión de juncos",
+      "materials": {
+        "fibra_junco": 2,
+        "cuerda_recuperada": 1
+      },
+      "seals": 4,
+      "output": "provision_juncos"
+    },
+    "provision_cumbre": {
+      "id": "provision_cumbre",
+      "name": "Provisión de la cumbre",
+      "materials": {
+        "resina_pino": 2,
+        "piedra_veteada": 1
+      },
+      "seals": 4,
+      "output": "provision_cumbre"
+    },
+    "provision_taller": {
+      "id": "provision_taller",
+      "name": "Provisión de taller",
+      "materials": {
+        "rama_flexible": 1,
+        "piedra_veteada": 1,
+        "cuerda_recuperada": 1
+      },
+      "seals": 5,
+      "output": "provision_taller"
+    },
+    "provision_compartida": {
+      "id": "provision_compartida",
+      "name": "Provisión compartida",
+      "materials": {
+        "semillas_camino": 1,
+        "fibra_junco": 1,
+        "resina_pino": 1
+      },
+      "seals": 5,
+      "output": "provision_compartida"
+    }
+  },
+  "fishing": {
+    "hoshai_agua_fria": {
+      "id": "hoshai_agua_fria",
+      "fish": [
+        {
+          "item": "friacola",
+          "rarity": "comun"
+        }
+      ]
+    },
+    "edran_puente_juncos": {
+      "id": "edran_puente_juncos",
+      "fish": [
+        {
+          "item": "velo_arroyo",
+          "rarity": "comun"
+        },
+        {
+          "item": "raspacanto",
+          "rarity": "poco_comun"
+        }
+      ]
+    },
+    "lethra_cruce_canales": {
+      "id": "lethra_cruce_canales",
+      "fish": [
+        {
+          "item": "hebraleta",
+          "rarity": "comun"
+        },
+        {
+          "item": "raspacanto",
+          "rarity": "poco_comun"
+        }
+      ]
+    },
+    "lethra_raices_observacion": {
+      "id": "lethra_raices_observacion",
+      "fish": [
+        {
+          "item": "hebraleta",
+          "rarity": "comun"
+        },
+        {
+          "item": "raspacanto",
+          "rarity": "poco_comun"
+        }
+      ]
+    },
+    "lethra_escucha_aves": {
+      "id": "lethra_escucha_aves",
+      "fish": [
+        {
+          "item": "hebraleta",
+          "rarity": "comun"
+        },
+        {
+          "item": "raspacanto",
+          "rarity": "poco_comun"
+        }
+      ]
+    },
+    "lethra_orilla_silente": {
+      "id": "lethra_orilla_silente",
+      "fish": [
+        {
+          "item": "raspacanto",
+          "rarity": "comun"
+        },
+        {
+          "item": "velo_arroyo",
+          "rarity": "poco_comun"
+        }
+      ]
+    }
+  },
+  "crafting_stations": {
+    "valdren_fragua": {
+      "id": "valdren_fragua",
+      "npc": "edran_daro"
+    },
+    "korven_taller_juntas": {
+      "id": "korven_taller_juntas",
+      "npc": "korven_beran"
+    },
+    "lethra_taller_fibras": {
+      "id": "lethra_taller_fibras",
+      "npc": "lethra_mira"
+    },
+    "hoshai_taller_apoyos": {
+      "id": "hoshai_taller_apoyos",
+      "npc": "hoshai_daren"
+    },
+    "nhal_taller_cortezas": {
+      "id": "nhal_taller_cortezas",
+      "npc": "nhal_desi"
     }
   }
 }

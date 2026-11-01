@@ -5,6 +5,8 @@
 **Referencia Canónica:** `vintage-telnet/FISHING_CANON.md` (PR #634).  
 **Alcance:** Definir el contrato técnico, inventario `archivo:línea`, homologación de salas VT1→VT2, modelo económico/antifarmeo con simulación y plan de pruebas sin alterar código ni contenido en esta fase.
 
+**Implementación v1 (2026-11-01):** La solicitud de VT2 ola 3 paso 2 autoriza ejecutar la propuesta en el motor actual. `content/world.json` contiene las cuatro especies y las seis salas; `server/engine.py` ofrece `pescar`, con 50% de captura, 35% de fallo, 15% de observación, cooldown personal de 120 s, cardumen compartido de 900 s y coste de 3 fatiga. La rama ejecuta también los contenidos JSON; esto describe el código local de esta entrega, no producción ni integración. La propuesta alternativa de exigir caña no se usa.
+
 ---
 
 ## 1. Hallazgo Crítico de Auditoría: Geografía VT1 vs VT2

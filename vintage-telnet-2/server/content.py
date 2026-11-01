@@ -2,12 +2,13 @@
 import json
 from pathlib import Path
 
-TABLES = ('regions','rooms','npcs','creatures','stories','items','quests','secrets')
+TABLES = ('regions','rooms','npcs','creatures','stories','items','quests','quest_templates','secrets','recipes')
 
 class Content:
     def __init__(self, root):
         self.root = Path(root)
         self.data = {key:{} for key in TABLES}
+        self.fishing={};self.crafting_stations={}
         files = sorted((self.root/'regions').glob('*.json'))
         if (self.root/'world.json').is_file():
             files.insert(0,self.root/'world.json')
@@ -20,6 +21,9 @@ class Content:
                     if key in self.data[table] and self.data[table][key] != value:
                         raise ValueError(f'Duplicate conflicting {table}:{key} in {filename.name}')
                     self.data[table][key] = value
+            if filename.name=='world.json':
+                self.fishing=document.get('fishing',{})
+                self.crafting_stations=document.get('crafting_stations',{})
         for npc_id, npc in self.npcs.items():
             if npc.get('id', npc_id) != npc_id:
                 raise ValueError(f'NPC identity mismatch: {npc_id}')
@@ -94,8 +98,56 @@ class Content:
                 if found.get('item') not in self.items:raise ValueError(f'Unknown search item for {region_id}')
         for quest_id,quest in self.quests.items():
             if quest.get('accept_room') not in self.rooms or not set(quest.get('required_rooms',[])).issubset(self.rooms):raise ValueError(f'Invalid quest rooms {quest_id}')
+        self.validate_quest_templates()
+        for recipe_id,recipe in self.recipes.items():
+            if recipe.get('output') not in self.items or not 2<=len(recipe.get('materials',{}))<=3 or type(recipe.get('seals')) is not int or recipe['seals']<0:
+                raise ValueError(f'Invalid crafting recipe {recipe_id}')
+            if any(item not in self.items or self.items[item].get('kind')!='material' or type(quantity) is not int or quantity<1 for item,quantity in recipe['materials'].items()):
+                raise ValueError(f'Invalid crafting materials for {recipe_id}')
+        for room_id,station in self.crafting_stations.items():
+            npc_id=station.get('npc')
+            if station.get('id')!=room_id or room_id not in self.rooms or npc_id not in self.npcs or npc_id not in self.rooms[room_id].get('npcs',[]):
+                raise ValueError(f'Invalid crafting station {room_id}')
+        for room_id,table in self.fishing.items():
+            fish=table.get('fish',[])
+            if table.get('id')!=room_id or room_id not in self.rooms or not fish or any(entry.get('item') not in self.items or self.items[entry['item']].get('kind')!='material' for entry in fish):
+                raise ValueError(f'Invalid fishing table for {room_id}')
 
     def __getattr__(self, key):
         if key in TABLES:
             return self.data[key]
         raise AttributeError(key)
+
+    def validate_quest_templates(self):
+        """Reject daily job templates that point outside the authored world."""
+        required = {'deliver', 'observe_creature', 'escort_numen', 'bring_material'}
+        for template_id, template in self.quest_templates.items():
+            kind = template.get('kind')
+            if kind not in required:
+                raise ValueError(f'Invalid quest template kind {template_id}: {kind}')
+            for field in ('board_room', 'destination_room'):
+                if template.get(field) not in self.rooms:
+                    raise ValueError(f'Unknown {field} in quest template {template_id}: {template.get(field)}')
+            if template.get('region') not in self.regions or any(self.rooms[template[field]]['region'] != template['region'] for field in ('board_room', 'destination_room')):
+                raise ValueError(f'Quest template {template_id} rooms must belong to its region')
+            if any(type(template.get(field)) is not int or template[field] < 1 for field in ('base_xp', 'base_seals')):
+                raise ValueError(f'Invalid reward in quest template {template_id}')
+            for field in ('board_npc', 'target_npc'):
+                npc_id = template.get(field)
+                if npc_id and npc_id not in self.npcs:
+                    raise ValueError(f'Unknown {field} in quest template {template_id}: {npc_id}')
+            if template['board_npc'] not in self.rooms[template['board_room']].get('npcs', []):
+                raise ValueError(f'Quest template {template_id} board NPC is not at its board room')
+            if kind in ('deliver', 'bring_material') and template.get('target_npc') not in self.rooms[template['destination_room']].get('npcs', []):
+                raise ValueError(f'Quest template {template_id} target NPC is not at its destination')
+            if kind == 'observe_creature':
+                creature_id = template.get('creature')
+                if creature_id not in self.creatures:
+                    raise ValueError(f'Unknown creature in quest template {template_id}: {creature_id}')
+                room = self.rooms[template['destination_room']]
+                if not any(signal.get('creature') == creature_id for signal in [*room.get('signals', []), *room.get('wildlife_pool', [])]):
+                    raise ValueError(f'Quest template {template_id} creature is not present at its destination')
+            if kind == 'bring_material':
+                item_id = template.get('item')
+                if item_id not in self.items or self.items[item_id].get('kind') != 'material':
+                    raise ValueError(f'Unknown material in quest template {template_id}: {item_id}')

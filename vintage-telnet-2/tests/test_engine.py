@@ -14,6 +14,47 @@ class FixedRandom:
  def random(self):return 0
 
 class JourneyTests(unittest.TestCase):
+ def test_server_calendar_starts_and_ends_a_shared_feria(self):
+  self.create()
+  with self.app.extensions['store'].transaction() as db:
+   char=self.app.extensions['store'].load(db.execute('SELECT * FROM characters').fetchone());char['state']['seals']=20;self.app.extensions['store'].save(db,char)
+  self.clock.now=2*24*3600+11*3600 # Saturday in the simulated UTC calendar.
+  self.action('mover','salir');state=self.client.get('/api/state').json
+  self.assertEqual(state['world_event']['event_id'],'feria')
+  self.assertTrue(any(line['text']=='La feria llena el pueblo de puestos, música y juegos tranquilos.' for line in state['scene']))
+  purchase=next(action for action in state['actions'] if action['id']=='comprar')
+  self.assertEqual(purchase['cost'],7)
+  bought=self.action('comprar','food')
+  self.assertEqual(bought['character']['seals'],13)
+  self.clock.now=2*24*3600+16*3600
+  self.assertIsNone(self.client.get('/api/state').json['world_event'])
+  self.clock.now=14*24*3600+22*3600 # The 15th, during its local evening window.
+  self.assertEqual(self.client.get('/api/state').json['world_event']['event_id'],'lluvia_estrellas')
+  self.clock.now+=3600
+  self.assertIsNone(self.client.get('/api/state').json['world_event'])
+
+ def test_director_can_start_a_temporary_event_for_every_player(self):
+  self.create()
+  other=self.app.test_client()
+  self.assertEqual(self.post(other,'/api/account/register',{'username':'another-player','password':'testpass123'}).status_code,201)
+  created=self.post(other,'/api/character/create',{'name':'Otro camino','species':'humano','class_id':'sombra'})
+  other_id=created.json['character']['id']
+  self.assertEqual(self.post(self.master,'/api/master/approve',{'character_id':other_id}).status_code,200)
+  other.get('/api/state')
+  self.action('mover','salir')
+  denied=self.post(self.client,'/api/master/world-event',{'operation':'start','event_id':'feria','duration_hours':2})
+  self.assertEqual(denied.status_code,403)
+  invalid=self.post(self.master,'/api/master/world-event',{'operation':'start','event_id':'feria','duration_hours':13})
+  self.assertEqual(invalid.status_code,400)
+  started=self.post(self.master,'/api/master/world-event',{'operation':'start','event_id':'lluvia_estrellas','duration_hours':2})
+  self.assertEqual(started.status_code,200,started.json)
+  state=self.client.get('/api/state').json
+  self.assertEqual(state['world_event']['id'],started.json['world_event']['id'])
+  self.assertIn('estrellas fugaces',state['scene'][-1]['text'])
+  self.assertEqual(other.get('/api/state').json['world_event']['id'],state['world_event']['id'])
+  self.clock.now+=2*3600
+  self.assertIsNone(self.client.get('/api/state').json['world_event'])
+
  def test_home_screen_manifest_and_icons_are_public_and_scoped_to_game(self):
   import struct
   def get(path):
@@ -250,6 +291,31 @@ class JourneyTests(unittest.TestCase):
   self.sequence+=1;data={'id':id,'request_id':f'test-action-{self.sequence}'}
   if target is not None:data['target']=target
   data.update(extra);response=self.post(self.client,'/api/action',data);self.assertEqual(response.status_code,200,response.json);return response.json
+ def test_speedwalk_uses_known_routes_and_stops_at_danger(self):
+  self.create();self.action('mover','salir');self.action('mover','norte');self.action('mover','sur')
+  result=self.post(self.client,'/api/action',{'text':'ir a Campo de prueba','request_id':'speedwalk-known'})
+  self.assertEqual(result.status_code,200,result.json)
+  self.assertEqual(result.json['room']['id'],'field')
+  self.assertIn('Recorriste 1 de 1 sala.',result.json['narrative'][0]['text'])
+  self.assertTrue(any(event['kind']=='danger' for event in result.json['narrative']))
+  self.action('mover','sur')
+  invalid=self.post(self.client,'/api/action',{'text':'e','request_id':'speedwalk-unknown-edge'})
+  self.assertIn(invalid.status_code,(400,409))
+  self.assertEqual(self.client.get('/api/state').json['room']['id'],'town')
+ def test_speedwalk_sequence_and_thematic_help(self):
+  path=Path(self.temp.name)/'content/world.json';data=json.loads(path.read_text());data['rooms']['field']['signals']=[];data['rooms']['field']['exits']['este']='ridge'
+  data['rooms']['ridge']={'id':'ridge','name':'Loma de prueba','region':'humano','kind':'wilderness','description':'Una loma despejada.','exits':{'oeste':'field','este':'camp'}}
+  data['rooms']['camp']={'id':'camp','name':'Campamento de prueba','region':'humano','kind':'wilderness','description':'Un claro junto al camino.','exits':{'oeste':'ridge'}};path.write_text(json.dumps(data))
+  self.create();self.action('mover','salir');self.action('mover','norte');self.action('mover','este');self.action('mover','este')
+  moved=self.post(self.client,'/api/action',{'text':'2o s','request_id':'speedwalk-sequence'})
+  self.assertEqual(moved.status_code,200,moved.json);self.assertEqual(moved.json['room']['id'],'town')
+  self.assertIn('Recorriste 3 de 3 salas.',moved.json['narrative'][0]['text'])
+  help_result=self.post(self.client,'/api/action',{'text':'ayuda numen','request_id':'help-numen'})
+  self.assertEqual(help_result.status_code,200)
+  self.assertIn('Tu Númen',help_result.json['narrative'][0]['text'])
+  all_help=self.post(self.client,'/api/action',{'text':'ayuda temas','request_id':'help-all'})
+  self.assertEqual(all_help.status_code,200)
+  self.assertEqual(sum(label in all_help.json['narrative'][0]['text'] for label in ('Moverse','Hablar','Combatir','Tu Númen','Encargos','Hablar con tu hermano')),6)
  def wildlife_fixture(self,creature,**context):
   file=Path(self.temp.name)/'content/world.json';data=json.loads(file.read_text())
   data['creatures'][creature]={'name':creature,'description':'Una presencia animal observada.'}
@@ -478,6 +544,31 @@ class JourneyTests(unittest.TestCase):
   self.assertTrue(any('pasarela sigue firme' in line['text'] for line in moved['scene']))
   talked=self.post(other,'/api/action',{'id':'hablar','target':'worker','topic':'trabajo','request_id':'observer-dialogue'}).json
   self.assertFalse(any('Te reconoce' in line['text'] for line in talked['narrative']))
+
+ def test_party_action_needs_another_live_player_in_the_same_room(self):
+  path=Path(self.temp.name)/'content/world.json';content=json.loads(path.read_text())
+  content['rooms']['field']['actions'].append({'id':'doble_palanca','label':'Bajar las dos palancas','text':'Ambos bajan las palancas y la luz marca un sendero lateral.','requires_party_action':True,'set_flags':['two_players_helped'],'forbids_flags':['two_players_helped']})
+  path.write_text(json.dumps(content))
+  self.create();self.action('mover','salir');self.action('mover','norte')
+  solo=self.client.get('/api/state').json
+  challenge=next(item for item in solo['actions'] if item['id']=='doble_palanca')
+  self.assertTrue(challenge['disabled']);self.assertIn('otro jugador',challenge['reason'])
+  denied=self.post(self.client,'/api/action',{'id':'doble_palanca','request_id':'party-action-alone'})
+  self.assertEqual(denied.status_code,409);self.assertIn('otro jugador',denied.json['message'])
+  other=self.app.test_client()
+  self.assertEqual(self.post(other,'/api/account/register',{'username':'companion','password':'testpass123'}).status_code,201)
+  created=self.post(other,'/api/character/create',{'name':'Compañera','species':'humano','class_id':'sombra'})
+  self.assertEqual(created.status_code,201)
+  self.assertEqual(self.post(self.master,'/api/master/approve',{'character_id':created.json['character']['id']}).status_code,200)
+  self.assertEqual(self.post(other,'/api/action',{'id':'mover','target':'salir','request_id':'party-two-town'}).status_code,200)
+  self.assertEqual(self.post(other,'/api/action',{'id':'mover','target':'norte','request_id':'party-two-field'}).status_code,200)
+  together=self.client.get('/api/state').json
+  challenge=next(item for item in together['actions'] if item['id']=='doble_palanca')
+  self.assertFalse(challenge.get('disabled',False))
+  completed=self.post(self.client,'/api/action',{'id':'doble_palanca','request_id':'party-action-together'})
+  self.assertEqual(completed.status_code,200,completed.json)
+  self.assertTrue(any('Ambos bajan las palancas' in line['text'] for line in completed.json['narrative']))
+  self.assertEqual(self.action('mover','sur')['room']['id'],'town')
 
  def test_narrative_clock_and_owned_home(self):
   self.create();self.action('mover','salir');self.action('mirar');day=self.client.get('/api/state').json

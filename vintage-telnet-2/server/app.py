@@ -19,6 +19,7 @@ from .content import Content
 from .engine import Engine, RuleError
 from . import social
 from . import mechanics
+from . import world_events
 import re
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -75,6 +76,9 @@ def create_app(config=None):
         world.setdefault('presence',{})[str(char['id'])]={k:char[k] for k in ('id','name','species','class_id')}
         world['presence'][str(char['id'])].update(room=char['state']['location'],at=e.clock())
 
+    def update_world_calendar(e,world):
+        world_events.update(world,e.clock(),e.timezone.key)
+
     def settle_combat(db,e,world):
         groups={}
         for row in db.execute("SELECT * FROM characters WHERE status='approved' AND json_extract(state,'$.combat') IS NOT NULL").fetchall():
@@ -97,6 +101,7 @@ def create_app(config=None):
         if not char:return result
         if char['status']!='approved':result.update(character=dict({k:char[k] for k in ('id','name','species','class_id','status')},gender=char['state'].get('gender')),pending_approval=True);return result
         world=store.world(db)
+        update_world_calendar(e,world)
         settle_combat(db,e,world)
         char=selected(db)
         changed=e.tick(char,world)
@@ -394,7 +399,7 @@ def create_app(config=None):
                 heartbeat(e,char,world);store.save_world(db,world);store.save(db,char);result=e.snapshot(char,world);result['social']=social.snapshot(db,world,char,e,e.clock());result.update(authenticated=True,csrf_token=csrf());
                 if char['state'].get('tester_enabled') is True:result['tester']={'enabled':True,'destinations':tester_destinations(e,char)}
                 return jsonify(result)
-            e=engine();world=store.world(db);settle_combat(db,e,world);char=selected(db);e.tick(char,world)
+            e=engine();world=store.world(db);update_world_calendar(e,world);settle_combat(db,e,world);char=selected(db);e.tick(char,world)
             command=str(intent.get('text','')).strip()
             social_command=(intent.get('id')=='social' or command.casefold() in ('quien','quién','quienes','quiénes','grupo','grupo aceptar','grupo salir','salir grupo','dejar de seguir','dejar seguir','confirmar regalo','confirmar dar') or command.casefold().startswith(('seguir ','seguir\t','grupo invitar ','invitar ','susurrar ','dar ')))
             if social_command:
@@ -462,6 +467,7 @@ def create_app(config=None):
             places=dict(db.execute("SELECT id,COALESCE(json_array_length(state,'$.visited'),0) FROM characters"))
             numenes_by_id={r['id']:json.loads(r['state']).get('numenes',{}) for r in db.execute('SELECT id,state FROM characters')}
             now=clock()
+            e=engine();world=store.world(db);update_world_calendar(e,world);store.save_world(db,world)
             for row in rows:
                 if row['status']=='approved':
                     numenes=numenes_by_id[row['id']]
@@ -470,7 +476,22 @@ def create_app(config=None):
                 row['places_visited']=places.get(row['id'],0)
             ficha=dict(engine().content.vaisork_ficha)
             if ficha:ficha.update(portrait='/client/art/players/vaisork-anime-v1.webp',full_body='/client/art/players/vaisork-anime-cuerpo-completo-v1.webp')
-            return jsonify(authenticated=True,csrf_token=csrf(),pending=[r for r in rows if r['status']=='pending'],approved=[r for r in rows if r['status']=='approved'],vaisork=ficha)
+            return jsonify(authenticated=True,csrf_token=csrf(),pending=[r for r in rows if r['status']=='pending'],approved=[r for r in rows if r['status']=='approved'],vaisork=ficha,world_event=world.get('active_event'))
+
+    @app.post('/api/master/world-event')
+    def master_world_event():
+        if not session.get('master'):raise RuleError('Esta decisión pertenece al DM.',403)
+        data=payload()
+        with store.transaction() as db:
+            e=engine();world=store.world(db);update_world_calendar(e,world)
+            if data.get('operation')=='stop':
+                world.pop('active_event',None)
+            elif data.get('operation')=='start':
+                try:world_events.activate(world,data.get('event_id'),e.clock(),data.get('duration_hours'))
+                except ValueError as error:raise RuleError(str(error))
+            else:raise RuleError('Elige iniciar o terminar un evento.')
+            store.save_world(db,world)
+            return jsonify(world_event=world.get('active_event'),csrf_token=csrf())
 
     @app.get('/api/master/vaisork')
     def master_vaisork():

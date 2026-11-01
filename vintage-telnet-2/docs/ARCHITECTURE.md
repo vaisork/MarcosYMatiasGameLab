@@ -6,7 +6,7 @@ Esta construcción implementa un mundo textual original con el canon del PDF de 
 
 `client/app.js` presenta el snapshot y envía una intención a `/api/action`. El cliente no decide dinero, daño, descubrimiento, horario, propiedad ni permisos. Flask comprueba sesión, aprobación del personaje, CSRF e identidad de petición; SQLite abre una transacción `BEGIN IMMEDIATE`. El motor actualiza los encuentros compartidos y el mundo, resuelve el texto contra posibilidades disponibles, valida la decisión y persiste personaje y mundo juntos. La tabla `requests` impide ejecutar dos veces una petición; reutilizar una identidad con una intención diferente produce409. Un fallo revierte la transacción completa.
 
-`server/app.py` es transporte y autenticación; `server/store.py` es persistencia; `server/content.py` carga y valida el catálogo; `server/mechanics.py` contiene matemática cerrada; `server/engine.py` resuelve mundo, acciones y narración. El cliente representa esos mismos datos. No existe una segunda lista de posiciones, una economía cliente ni un mundo paralelo.
+`server/app.py` es transporte y autenticación; `server/store.py` es persistencia; `server/content.py` carga y valida el catálogo; `server/mechanics.py` contiene matemática cerrada; `server/engine.py` resuelve mundo, acciones y narración; `server/world_events.py` determina eventos compartidos por calendario y reloj de servidor. El cliente representa esos mismos datos. No existe una segunda lista de posiciones, una economía cliente ni un mundo paralelo.
 
 ## Datos y privacidad
 

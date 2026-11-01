@@ -45,6 +45,15 @@ def allowed(item,state,world):
          and check_attribute_requirement(item,state))
 
 class Engine:
+    HELP_TOPICS = {
+        'moverse': ('Moverse', 'Usa norte, sur, este u oeste para salir de una sala.', 'En el mapa, elige un lugar conocido y toca «Ir a».', 'Escribe «n n e» para seguir pasos que ya conoces.'),
+        'hablar': ('Hablar', 'Elige un tema disponible junto al personaje.', 'Puedes escribir «hablar con nombre tema».', 'Para conversar con otro jugador, usa «decir» si está aquí.'),
+        'combatir': ('Combatir', 'Observa la señal y revisa las opciones antes de acercarte.', 'Elige una respuesta disponible en cada ronda.', 'Puedes huir cuando el combate lo permita.'),
+        'numen': ('Tu Númen', 'Obsérvalo y acércate con paciencia.', 'Usa las opciones para cuidarlo y darle comida.', 'El menú Compañero muestra su estado y lo que necesita.'),
+        'encargos': ('Encargos', 'Pregunta a los personajes de los pueblos.', 'Revisa el Diario para ver tus encargos y sus avances.', 'Regresa con quien te lo pidió cuando esté listo.'),
+        'hermano': ('Hablar con tu hermano', 'Usa «decir mensaje» si está en la misma sala.', 'El mensaje llega a quienes están aquí ahora.', 'El mapa te ayuda a volver a lugares que ya conoces.'),
+    }
+
     def __init__(self,content,clock,rng=None,timezone='UTC'):self.content=content;self.clock=clock;self.rng=rng or random.SystemRandom();self.timezone=ZoneInfo(timezone)
 
     def allowed(self,item,state,world):
@@ -205,6 +214,13 @@ class Engine:
         value=str(value).capitalize()
         description=weather.get(str(value).lower(),weather.get(value,'')) if isinstance(weather,dict) else ''
         return {'time_of_day':phase,'weather':value,'weather_description':description,'region':room['region'],'timestamp':now}
+
+    def purchase_price(self,item,world):
+        price=item.get('price',0)
+        event=world.get('active_event') or {}
+        if event.get('event_id')=='feria' and event.get('ends_at',0)>self.clock():
+            return max(1,int(price*.9+.5))
+        return price
 
     def people(self,room,state,world,ambient):
         people=[]
@@ -620,6 +636,56 @@ class Engine:
             if destination not in state[key]:state[key].append(destination)
         state['visits'][destination]=state['visits'].get(destination,0)+1
 
+    def known_neighbors(self,character,state):
+        known=set(state['known']);neighbors={room:{} for room in known};region=self.region_for(character['species'])[1]
+        for pair in state['routes']:
+            if len(pair)!=2 or not set(pair).issubset(known):continue
+            for source,destination in (pair,tuple(reversed(pair))):
+                exits={'salir':region['settlement']} if source==state['home'] else dict(self.content.rooms.get(source,{}).get('exits',{}))
+                if source==region['settlement']:exits['hogar']=state['home']
+                for direction,target in exits.items():
+                    if target==destination:neighbors.setdefault(source,{})[direction]=destination
+        return neighbors
+
+    def known_route(self,character,state,destination):
+        neighbors=self.known_neighbors(character,state);start=state['location']
+        queue=[(start,[])];seen={start}
+        for room,path in queue:
+            if room==destination:return path
+            for direction,target in neighbors.get(room,{}).items():
+                if target not in seen:seen.add(target);queue.append((target,path+[direction]))
+        return None
+
+    def speedwalk(self,character,world,intent):
+        state=character['state'];neighbors=self.known_neighbors(character,state)
+        if state.get('combat'):raise RuleError('No puedes viajar mientras estás en combate.',409)
+        steps=intent.get('steps')
+        if 'target' in intent:
+            def normalize(value):
+                value=''.join(c for c in unicodedata.normalize('NFKD',str(value)) if not unicodedata.combining(c)).casefold()
+                return ' '.join(re.sub(r'[^\w\s]',' ',value).split())
+            known=[]
+            for room_id in state['known']:
+                room=self.room({**character,'state':{**state,'location':room_id}},world)
+                if normalize(room['name'])==normalize(intent['target']) or strip_articles(normalize(room['name']))==strip_articles(normalize(intent['target'])):known.append(room_id)
+            if len(known)!=1:raise RuleError('Elige el nombre exacto de una sala conocida.')
+            steps=self.known_route(character,state,known[0])
+            if steps is None:raise RuleError('Todavía no conoces un camino hasta ese lugar.')
+        if not steps:
+            state['events']=[event('info','Ya estás en ese lugar conocido.')];return
+        if len(steps)>30:raise RuleError('Ese recorrido es demasiado largo; prueba hasta 30 pasos.')
+        cursor=state['location']
+        for direction in steps:
+            target=neighbors.get(cursor,{}).get(direction)
+            if not target:raise RuleError('El recorrido incluye un paso que todavía no conoces; no te has movido.')
+            cursor=target
+        moved=0;stopped=''
+        for direction in steps:
+            self.apply_action(character,world,{'id':'mover','target':direction});moved+=1
+            if state.get('combat') or any(item.get('kind')=='danger' for item in state.get('events',[])):
+                stopped=f' El camino se detuvo en {self.room(character,world)["name"]} al aparecer una señal de peligro.';break
+        total=len(steps);state['events'].insert(0,event('info',f'Recorriste {moved} de {total} {"sala" if total==1 else "salas"}.{stopped}'))
+
     def add_item(self,state,item_id):
         if self.content.items[item_id].get('kind')=='weapon':
             state['inventory'].append(dict(self.content.items[item_id],catalog_id=item_id,id=item_id+':'+uuid.uuid4().hex,quantity=1,condition='intact'))
@@ -759,7 +825,17 @@ class Engine:
         for npc in self.people(room,state,world,self.ambient(room,world)):
             actions += [{'id':'hablar','target':npc['id'],'topic':topic,'label':f"{npc['name']} · {value.get('label',topic) if isinstance(value,dict) else topic}"} for topic,value in npc.get('topics',{}).items() if not isinstance(value,dict) or self.allowed(value,state,world)]
         for item in room.get('actions',[]):
-            if self.allowed(item,state,world):actions.append({'id':item['id'],'label':item['label']})
+            if self.allowed(item,state,world):
+                choice={'id':item['id'],'label':item['label']}
+                if item.get('requires_party_action'):
+                    now=self.clock();presence=world.get('presence',{})
+                    together=isinstance(presence,dict) and any(
+                        isinstance(entry,dict) and str(cid)!=str(character['id'])
+                        and entry.get('room')==state['location'] and now-entry.get('at',0)<=30
+                        for cid,entry in presence.items())
+                    if not together:
+                        choice.update(disabled=True,reason='Necesitas que otro jugador esté contigo en esta sala para hacerlo.')
+                actions.append(choice)
         for signal in room.get('signals',[]):
             cid=signal['creature']
             if cid in self.content.creatures and self.allowed(signal,state,world) and signal_present(dict(signal,persistent_trace=False),room,world,self.clock()):
@@ -863,7 +939,8 @@ class Engine:
                 else:
                     explanation=item.get('description','Va a tu mochila.')
                 suffix=' · '+' · '.join(details) if details else ''
-                actions.append({'id':'comprar','target':item_id,'label':f"Comprar {item['name']} · {item['price']} sellos{suffix}",'reason':explanation})
+                price=self.purchase_price(item,world)
+                actions.append({'id':'comprar','target':item_id,'label':f"Comprar {item['name']} · {price} sellos{suffix}",'reason':explanation})
         # Shop sections: the client groups purchases and sales by what kind of thing they are.
         for choice in actions:
             if choice['id'] not in ('comprar','vender'):continue
@@ -872,7 +949,7 @@ class Engine:
             choice['category']={'weapon':'armas','armor':'armaduras','accessory':'joyas','consumable':'pociones','numen_food':'pociones','material':'materiales'}.get(kind,'otros')
             if kind in ('armor','accessory'):choice['slot']=item.get('slot','torso')
         for choice in actions:
-            cost=self.content.items[choice['target']]['price'] if choice['id']=='comprar' else {'afinar':12,'reparar':8,'recuperacion':18}.get(choice['id'])
+            cost=self.purchase_price(self.content.items[choice['target']],world) if choice['id']=='comprar' else {'afinar':12,'reparar':8,'recuperacion':18}.get(choice['id'])
             if cost is None:continue
             choice['cost']=cost
             if state['seals']<cost and not (choice['id']=='recuperacion' and choice.get('disabled')):
@@ -930,6 +1007,26 @@ class Engine:
                     disabled=bonded_count>=m.MAX_BONDED_NUMENES
                     reason=f'Ya has alcanzado el límite de {m.MAX_BONDED_NUMENES} Númenes vinculados (R06).' if disabled else 'El animal ha aceptado tu compañía por voluntad propia.'
                     actions.append({'id':'vincular_numen','target':mod['id'],'label':'Aceptar el vínculo y darle nombre','disabled':disabled,'reason':reason})
+        if not combat:
+            fishing=self.content.fishing.get(room['id'])
+            if fishing:
+                now=self.clock();last=state.get('fishing',{}).get(room['id'],0)
+                stock=world.get('fishing_stock',{}).get(room['id'],0)
+                disabled=state.get('fatigue',0)>=70 or last+120>now or stock>now
+                reason=('Necesitas descansar antes de mantener el sedal.' if state.get('fatigue',0)>=70 else
+                        'El cardumen volverá a este tramo más tarde.' if stock>now else
+                        'Espera un poco antes de volver a lanzar el sedal.' if last+120>now else '')
+                actions.append({'id':'pescar','label':'Pescar','disabled':disabled,'reason':reason})
+            station=self.content.crafting_stations.get(room['id'],{}).get('npc')
+            present={npc['id'] for npc in self.people(room,state,world,self.ambient(room,world))}
+            if station and station in present:
+                actions.append({'id':'recetas','label':'Listar recetas'})
+                for recipe_id,recipe in self.content.recipes.items():
+                    missing=any(sum(i.get('quantity',1) for i in state['inventory'] if i.get('catalog_id',i['id'])==item_id)<qty
+                                for item_id,qty in recipe['materials'].items())
+                    actions.append({'id':'fabricar','target':recipe_id,'label':f"Fabricar {recipe['name']}",
+                                    'disabled':state.get('seals',0)<recipe['seals'] or missing,
+                                    'reason':f"Necesitas {recipe['seals']} sellos y los materiales de la receta."})
         story_ids={item['id'] for item in room.get('actions',[])}
         numen_prio={'observar_numen','aproximar_numen','confiar_numen','calmar_numen','vincular_numen','cuidar_numen','alimentar_numen','nombrar_numen','activar_numen','descansar_numen','apoyo_numen','traer_numen','alimentar_lejos'}
         actions.sort(key=lambda action:0 if action['id'] in story_ids or action['id'] in ('cobrar','examinar_criatura','buscar','combatir','acercarse','retirarse','calmar') or action['id'] in numen_prio else 1)
@@ -945,11 +1042,31 @@ class Engine:
             return ' '.join(re.sub(r'[^\w\s]',' ',value).split())
         if text.strip().casefold().startswith('decir '):return {'id':'decir','text':text.strip()[6:]}
         typed=normalize(text);state=character['state'];room=self.room(character,world);matches=[]
+        if typed in ('recetas','lista de recetas','listar recetas'):
+            return {'id':'recetas'}
         if typed in ('mira','mirar','l') or strip_articles(typed) in ('mira','mirar'):typed='mirar'
         elif typed.startswith('mira '):typed='mirar '+typed[5:]
         elif typed.startswith('l '):typed='mirar '+typed[2:]
         elif typed in ('i','inv','inventario') or strip_articles(typed) in ('i','inv','inventario'):return {'id':'inventario'}
-        elif typed in ('ayuda',) or strip_articles(typed) in ('ayuda',):return {'id':'ayuda'}
+        elif typed=='ayuda' or typed.startswith('ayuda '):
+            topic=typed[6:].strip() if typed.startswith('ayuda ') else ''
+            if topic in ('temas','todo'):topic='*'
+            if topic:
+                aliases={'movimiento':'moverse','mover':'moverse','viajar':'moverse','numenes':'numen','compañero':'numen','companero':'numen','encargo':'encargos','hermano':'hermano','social':'hermano'}
+                topic=aliases.get(topic,topic)
+                if topic!='*' and topic not in self.HELP_TOPICS:raise RuleError('Temas de ayuda: moverse, hablar, combatir, Númen, encargos, hermano.')
+            return {'id':'ayuda','target':topic}
+        elif typed.startswith('ir a '):
+            return {'id':'speedwalk','target':typed[5:].strip()}
+        elif (len(typed.split())>1 or typed[:1].isdigit()) and re.fullmatch(r'(?:\d*[nsewo]|\d*(?:norte|sur|este|oeste|arriba|abajo|salir|hogar))(?:\s+\d*[nsewo]|\s+\d*(?:norte|sur|este|oeste|arriba|abajo|salir|hogar))*',typed):
+            steps=[]
+            for token in typed.split():
+                match=re.fullmatch(r'(\d*)(n|s|e|o|norte|sur|este|oeste|arriba|abajo|salir|hogar)',token)
+                count=int(match.group(1) or 1);direction=match.group(2)
+                direction={'n':'norte','s':'sur','e':'este','o':'oeste'}.get(direction,direction)
+                if count<1 or count>20 or len(steps)+count>30:raise RuleError('Ese recorrido es demasiado largo; prueba hasta 30 pasos.')
+                steps.extend([direction]*count)
+            return {'id':'speedwalk','steps':steps}
         elif typed=='x':typed='examinar'
         elif typed.startswith('x '):typed='examinar '+typed[2:].strip()
         choices=self.actions(character,world)
@@ -1001,6 +1118,9 @@ class Engine:
                 if base_name!=item.get('name',target):aliases.add(normalize(id+' '+base_name))
                 cat=item.get('catalog_id') or str(item.get('id',target)).split(':')[0]
                 aliases.add(normalize(id+' '+cat))
+            elif id=='fabricar':
+                recipe=self.content.recipes.get(target,{})
+                aliases.update((normalize('fabricar '+recipe.get('name',target)),normalize('fabricar '+target)))
             elif id in ('combatir','evaluar','acercarse','retirarse','examinar_criatura','calmar'):
                 creature=self.creature_prose(room,target)
                 aliases.add(normalize(id+' '+creature.get('name',target)))
@@ -1162,9 +1282,65 @@ class Engine:
         state=character['state'];room=self.room(character,world);action=intent.get('id');target=intent.get('target')
         now_clock=self.clock()
         returned_after_hours=(now_clock-state.get('last_active',now_clock))>=4*3600
+        if action=='speedwalk':
+            self.speedwalk(character,world,intent);return
         if action in ('ayuda','inventario'):
-            text='Comandos básicos: mirar, observar, examinar <objeto>, ir <salida>, hablar con <nombre>, inventario.' if action=='ayuda' else 'Inventario: '+('; '.join(f"{item['name']} ({item.get('quantity',1)})" for item in state['inventory']) or 'vacío')+'.'
+            if action=='ayuda':
+                if not target:text='Comandos básicos: mirar, observar, examinar <objeto>, ir <salida>, hablar con <nombre>, inventario.'
+                else:
+                    fichas=list(self.HELP_TOPICS.values()) if target=='*' else [self.HELP_TOPICS[target]]
+                    text='\n\n'.join('\n'.join(ficha) for ficha in fichas)
+            else:text='Inventario: '+('; '.join(f"{item['name']} ({item.get('quantity',1)})" for item in state['inventory']) or 'vacío')+'.'
             state['events']=[event('info',text)];return
+        if action=='recetas':
+            station=self.content.crafting_stations.get(room['id'],{}).get('npc')
+            present={npc['id'] for npc in self.people(room,state,world,self.ambient(room,world))}
+            if not station or station not in present:raise RuleError('Aquí no hay un taller disponible.',409)
+            rows=[]
+            for recipe in self.content.recipes.values():
+                materials=', '.join(f"{quantity} {self.content.items[item]['name']}" for item,quantity in recipe['materials'].items())
+                rows.append(f"fabricar {recipe['name']} — {materials} y {recipe['seals']} sellos")
+            state['events']=[event('info','Recetas disponibles:\n'+'\n'.join(rows))];return
+        if action=='pescar':
+            fish=self.content.fishing.get(room['id'],{}).get('fish')
+            if state.get('combat') or not fish:raise RuleError('Aquí no puedes pescar.',409)
+            now=self.clock();last=state.setdefault('fishing',{}).get(room['id'],0)
+            stock=world.setdefault('fishing_stock',{}).get(room['id'],0)
+            if state.get('fatigue',0)>=70:raise RuleError('El cansancio de tus brazos pide una pausa antes de pescar.',409)
+            if last+120>now:raise RuleError('Espera un poco antes de volver a lanzar el sedal.',409)
+            if stock>now:raise RuleError('El agua está tranquila; el cardumen volverá más tarde.',409)
+            state['fishing'][room['id']]=now
+            state['fatigue']=min(100,state['fatigue']+m.fatigue_cost(state,3))
+            roll=self.rng.random()
+            if roll<0.5:
+                weights=[{'comun':3,'poco_comun':1,'raro':0.5}.get(entry.get('rarity','comun'),1) for entry in fish]
+                pick=self.rng.random()*sum(weights);choice=fish[-1]
+                for entry,weight in zip(fish,weights):
+                    pick-=weight
+                    if pick<0:choice=entry;break
+                self.add_item(state,choice['item']);world['fishing_stock'][room['id']]=now+900
+                name=self.content.items[choice['item']]['name']
+                state['events']=[event('discovery',f"Entre el agua ves un {name}."),event('action',f"Guardas {name} en la mochila.")]
+            elif roll<0.85:
+                state['events']=[event('world','El sedal se mueve un instante; el pez se suelta y vuelve al agua.')]
+            else:
+                state['events']=[event('world','Una silueta cruza entre las plantas, lejos de tu alcance. El agua vuelve a quedar quieta.')]
+            return
+        if action=='fabricar':
+            station=self.content.crafting_stations.get(room['id'],{}).get('npc')
+            present={npc['id'] for npc in self.people(room,state,world,self.ambient(room,world))}
+            recipe=self.content.recipes.get(target)
+            if not station or station not in present:raise RuleError('Aquí no hay un taller disponible.',409)
+            if not recipe:raise RuleError('Esa receta no existe.',404)
+            if state.get('seals',0)<recipe['seals']:raise RuleError(f"Necesitas {recipe['seals']} sellos para fabricar {recipe['name']}.",409)
+            missing=[item for item,qty in recipe['materials'].items() if sum(i.get('quantity',1) for i in state['inventory'] if i.get('catalog_id',i['id'])==item)<qty]
+            if missing:raise RuleError('Te faltan materiales para esa receta.',409)
+            state['seals']-=recipe['seals']
+            self.effects(state,world,{'consume_items':recipe['materials']})
+            self.add_item(state,recipe['output'])
+            state['ledger'].append({'kind':'craft','recipe':target,'amount':-recipe['seals'],'at':now_clock})
+            state['events']=[event('action',f"Con ayuda de {self.content.npcs[station]['name']} fabricas {recipe['name']} y guardas el resultado.")]
+            return
         if action=='saludar':
             npc=next((n for n in self.people(room,state,world,self.ambient(room,world)) if n['id']==target),None)
             if not npc or state['combat']:raise RuleError('No puedes conversar con ese personaje ahora.',409)
@@ -1448,7 +1624,7 @@ class Engine:
             state['seals']-=18;state['hp']=max(state['hp'],.9*m.hp_max(state));state['fatigue']=0;state['wound']={'grave':'moderada','moderada':'leve','leve':None,None:None}[state['wound']];state['rest_budget']=None
             state['ledger'].append({'kind':'recovery','amount':-18,'at':self.clock()});state['events']=[event('action','La atención del servicio te permite preparar la siguiente salida.')]
         elif action=='comprar':
-            item=self.content.items[target];price=item['price']
+            item=self.content.items[target];price=self.purchase_price(item,world)
             if not isinstance(price,int) or price<0 or state['seals']<price:raise RuleError('No tienes sellos suficientes para esta compra.',409)
             state['seals']-=price;self.add_item(state,target);state['ledger'].append({'kind':'purchase','item':target,'amount':-price,'at':self.clock()});state['events']=[event('action',f"Pagas {price} sellos por {item['name']} y lo guardas con tus pertenencias. Te quedan {state['seals']} sellos.")]
             if item.get('kind')=='weapon':state['events'].append(event('info','La pieza está en tu inventario; equiparla será una decisión aparte.'))
@@ -1844,12 +2020,16 @@ class Engine:
             quests.append(entry)
         char['goal_book']=achievement_book.book(state,self.content,world)
         char['goals']=achievement_book.goals(state,self.content,world)
+        active_event=world.get('active_event')
+        scene=self.narrative(character,world)
+        if active_event and active_event.get('scene') and room.get('kind') in active_event.get('room_kinds',[]):
+            scene.append(event('world',active_event['scene']))
         return {'version':world['version'],'character':char,'attribute_effects':dict(m.ATTRIBUTE_EFFECTS),'numenes':state.get('numenes',{'active':None,'bonded':[],'encounters':{}}),'daily_errands':daily_errands.snapshot(self,character),'room':{'id':room['id'],'name':room['name'],'region':room['region'],'kind':room['kind'],'description':room['description'],
             **({'art_variant':room['art_variant']} if room.get('art_variant') else {}),
             'npcs':[{'id':n['id'],'name':n['name'],'role':n.get('role',''),'description':n.get('description',''),'topics':[t for t,v in n.get('topics',{}).items() if not isinstance(v,dict) or self.allowed(v,state,world)]} for n in people],
             'exits':[{'direction':d,'label':d.capitalize()} for d in room.get('exits',{})]},
             'presence':[{k:v[k] for k in ('id','name','species','class_id')} for v in world.get('presence',{}).values() if v['id']!=character['id'] and v['room']==state['location'] and self.clock()-v['at']<30],
             'chat':[{k:v[k] for k in ('id','sender_id','sender','text','at')} for v in world.get('chat',[]) if v['room']==state['location'] and self.clock()-v['at']<600 and character['id'] in v['recipients']][-30:],
-            'narrative':state.get('events') or self.narrative(character,world),'scene':self.narrative(character,world),'actions':self.actions(character,world),
+            'narrative':state.get('events') or scene,'scene':scene,'world_event':active_event,'actions':self.actions(character,world),
             'map':{'nodes':nodes,'edges':[p for p in state['routes'] if set(p).issubset(known)],'routes':routes,'frontiers':frontiers,**({'recovery':state['last_recovery']} if state.get('last_recovery') else {})},
             'inventory':state['inventory'],'bestiary':[{**entry,'behavior':list(entry.get('behavior',[])),**({'illustration':self.content.creatures[cid]['illustration']} if self.content.creatures.get(cid,{}).get('illustration') else {})} for cid,entry in state['bestiary'].items()],'journal':state['journal'],'secrets':{'found':sum(1 for secret in getattr(self.content,'secrets',{}).values() if secret.get('flag') in state['flags'] or 'participated:'+str(secret.get('flag')) in state['flags'])},'quests':quests,'ambient':ambient}

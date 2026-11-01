@@ -33,6 +33,8 @@ def _candidates(engine, region):
                      and content.creatures.get(signal['creature'], {}).get('combatant_kind') != 'human'})
     if common:
         candidates.append(('defeat', common))
+    candidates.extend(('template', (template_id, template)) for template_id, template in engine.content.quest_templates.items()
+                      if template.get('region') == region)
     return candidates
 
 
@@ -43,6 +45,11 @@ def generate(engine, date, region):
     rng.shuffle(candidates)
     errands = []
     for kind, options in candidates[:3]:
+        if kind == 'template':
+            template_id, template = options
+            errands.append({'id': f"template:{template_id}", 'kind': template['kind'], 'target': template.get('creature') or template.get('destination_room') or template.get('item'),
+                            'template_id': template_id, 'room': template['destination_room'], 'title': template['title'], 'instruction': template['instruction']})
+            continue
         target = rng.choice(options)
         if kind == 'visit':
             title = f"Visita {target['name']}"
@@ -92,10 +99,17 @@ def snapshot(engine, character):
     streak = record.get('streak', state.get('daily_errand_streak', 0))
     if last and last < date and date != (datetime.fromisoformat(last).date() + timedelta(days=1)).isoformat():
         streak = 0
+    level = max(1, state.get('level', 1))
+    entries = []
+    for errand in errands:
+        template = engine.content.quest_templates.get(errand.get('template_id'), {})
+        entries.append({**errand, 'completed': errand['id'] in completed,
+                        'reward': template.get('base_xp', mechanics.EXPLORATION_XP['behavior']) * (level if template else 1),
+                        'seals': template.get('base_seals', 0) * level})
     return {
         'date': date,
         'region': region,
-        'errands': [{**errand, 'completed': errand['id'] in completed, 'reward': mechanics.EXPLORATION_XP['behavior']} for errand in errands],
+        'errands': entries,
         'streak': streak,
         'complete': len(errands) == 3 and all(errand['id'] in completed for errand in errands),
     }
@@ -105,9 +119,15 @@ def _complete(engine, state, record, errands, errand):
     if errand['id'] in record['completed']:
         return
     record['completed'].append(errand['id'])
-    gain = mechanics.EXPLORATION_XP['behavior']
+    template = engine.content.quest_templates.get(errand.get('template_id'), {})
+    level = max(1, state.get('level', 1))
+    gain = template.get('base_xp', mechanics.EXPLORATION_XP['behavior']) * (level if template else 1)
     state['xp'] += gain
-    state['events'].append({'kind': 'reward', 'text': f'+{gain} experiencia: recado diario completado.'})
+    seals = template.get('base_seals', 0) * level
+    if seals:
+        state['seals'] += seals
+    reward = f'+{gain} experiencia'+(f' y {seals} sellos' if seals else '')
+    state['events'].append({'kind': 'reward', 'text': f'{reward}: recado diario completado.'})
     engine.advance_levels(state)
     if len(errands) == 3 and len(record['completed']) == 3 and record.get('last_complete_date') != record['date']:
         previous = record.get('last_complete_date')
@@ -134,6 +154,24 @@ def record_action(engine, character, intent, region_before, combat_before=False)
             or errand['kind'] == 'examine' and region_before == errand['target'] and action in ('examinar', 'examinar_criatura')
             or errand['kind'] == 'talk' and region_before == record['region'] and action == 'hablar' and intent.get('target') == errand['target']
         )
+        template = engine.content.quest_templates.get(errand.get('template_id'))
+        if template:
+            room = state.get('location')
+            kind = template['kind']
+            if kind == 'deliver':
+                matches = action == 'hablar' and intent.get('target') == template['target_npc'] and room == template['destination_room']
+            elif kind == 'observe_creature':
+                matches = action == 'examinar_criatura' and intent.get('target') == template['creature'] and room == template['destination_room']
+            elif kind == 'escort_numen':
+                active = mechanics.get_active_numen(state)
+                matches = action == 'mover' and room == template['destination_room'] and active is not None
+            elif kind == 'bring_material':
+                has_item = any(item.get('catalog_id', item['id']) == template['item'] and item.get('quantity', 1) > 0 for item in state.get('inventory', []))
+                matches = action == 'hablar' and intent.get('target') == template['target_npc'] and room == template['destination_room'] and has_item
+                if matches:
+                    stack = next(item for item in state['inventory'] if item.get('catalog_id', item['id']) == template['item'] and item.get('quantity', 1) > 0)
+                    if stack.get('quantity', 1) > 1: stack['quantity'] -= 1
+                    else: state['inventory'].remove(stack)
         if matches:
             _complete(engine, state, record, errands, errand)
 
