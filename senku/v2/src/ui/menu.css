@@ -605,3 +605,36 @@
 .modal-menu .menu-cabecera {
   padding-right: 56px;
 }
+
+/* Tienda: muestra el catálogo completo con desplazamiento en pantallas compactas. */
+.modal-menu-contenido { max-width: 1280px; max-height: 94vh; }
+.senku-menu { max-width: none; padding: 18px; }
+.menu-cabecera { padding-bottom: 12px; margin-bottom: 12px; }
+.menu-grid { grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 12px; }
+.tarjeta-preview { height: clamp(92px, 15vh, 150px); }
+.tarjeta-imagen { padding: 4px; }
+.tarjeta-cuerpo { padding: 9px; }
+.tarjeta-nombre { font-size: .95rem; line-height: 1.2; }
+.tarjeta-acciones { margin-top: 8px; }
+.precio-traje { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.precio-traje img { width: 17px; height: 17px; object-fit: contain; }
+.btn { min-height: 40px; padding: 7px 9px; }
+
+@media (max-width: 600px) and (orientation: portrait) {
+  .menu-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-height: 500px) {
+  .modal-menu { align-items: flex-start; padding: 4px; }
+  .modal-menu-contenido { max-height: 98vh; }
+  .senku-menu { padding: 8px 12px; }
+  .menu-cabecera { gap: 6px; padding-bottom: 7px; margin-bottom: 7px; }
+  .menu-titulo { font-size: 1.15rem; }
+  .menu-subtitulo { font-size: .72rem; }
+  .menu-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .tarjeta-preview { height: 84px; }
+  .tarjeta-badge { top: 4px; right: 4px; padding: 3px 6px; font-size: .58rem; }
+  .tarjeta-nombre { font-size: .75rem; }
+  .tarjeta-cuerpo { padding: 6px; }
+  .btn, .bloqueado-aviso { min-height: 32px; font-size: .7rem; }
+}

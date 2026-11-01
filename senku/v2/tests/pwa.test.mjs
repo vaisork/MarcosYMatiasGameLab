@@ -79,6 +79,7 @@ test('sw.js: versión de caché y recursos precacheados declarados', () => {
   assert.ok(fs.existsSync(RUTA_SW), 'El archivo sw.js debe existir');
   assert.match(VERSION_CACHE, /^senku2-v\d+$/, 'La versión de caché debe seguir el formato senku2-vN');
   assert.ok(Array.isArray(RECURSOS_PRECACHE), 'RECURSOS_PRECACHE debe ser una lista');
+  assert.equal(VERSION_CACHE, 'senku2-v21');
 
   // Recursos críticos presentes
   const recursosEsperados = [
@@ -99,6 +100,10 @@ test('sw.js: versión de caché y recursos precacheados declarados', () => {
 
   for (const recurso of recursosEsperados) {
     assert.ok(RECURSOS_PRECACHE.includes(recurso), `Debe precachear ${recurso}`);
+  }
+  for (const id of ['explorador', 'vaquero', 'ninja', 'magico', 'especial', 'chef', 'mexicano', 'espacial', 'dinosaurio', 'playa', 'sigilo', 'punk']) {
+    assert.ok(RECURSOS_PRECACHE.includes(`./assets/personajes/menu_${id}.webp`), `Debe precachear el retrato ${id}`);
+    assert.ok(!RECURSOS_PRECACHE.includes(`./assets/personajes/sprite_${id}.png`), `La hoja ${id} se carga al equiparla`);
   }
 });
 

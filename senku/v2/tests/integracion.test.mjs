@@ -25,8 +25,9 @@ function crearAlmacenEnMemoria() {
   };
 }
 
-test('CATALOGO_MENU: incluye Senku Original y Senku Rata con precios pendientes en null', () => {
+test('CATALOGO_MENU: incluye catálogo completo y conserva el desbloqueo secreto de la rata', () => {
   assert.ok(Array.isArray(CATALOGO_MENU), 'CATALOGO_MENU debe ser un arreglo');
+  assert.equal(CATALOGO_MENU.length, 14);
   const original = CATALOGO_MENU.find((t) => t.id === ID_ORIGINAL);
   const rata = CATALOGO_MENU.find((t) => t.id === ID_RATA);
 
@@ -47,7 +48,7 @@ test('stubEconomia.equipar: equipa trajes poseídos y respeta equivalencias de L
 
   // Intentar equipar rata bloqueada falla
   const resRataBloqueada = stubEconomia.equipar(estadoBase, ID_RATA);
-  assert.equal(resRataBloqueada.error, 'traje_no_poseido');
+  assert.equal(resRataBloqueada.error, 'traje_bloqueado');
 
   // Con secreto_legacy en trajes: equipar rata tiene éxito
   const estadoConSecreto = {
@@ -93,11 +94,11 @@ test('stubEconomia.comprarTraje: soporta ítems con precio numérico y valida sa
   assert.ok(resRico.trajes.includes('prueba_item'));
 });
 
-test('flujo menú completo: partida nueva muestra Rata como Próximamente sin compra', () => {
+test('flujo menú completo: partida nueva muestra el traje exclusivo como secreto sin compra', () => {
   const estadoInicial = estadoNuevo(); // churus: 0, trajes: ['original'], equipado: 'original'
 
   const tarjetas = crearModelo(estadoInicial, CATALOGO_MENU);
-  assert.equal(tarjetas.length, 2);
+  assert.equal(tarjetas.length, 14);
 
   const tOriginal = tarjetas.find((t) => t.id === ID_ORIGINAL);
   assert.equal(tOriginal.estado, 'equipado');
@@ -106,7 +107,7 @@ test('flujo menú completo: partida nueva muestra Rata como Próximamente sin co
 
   const tRata = tarjetas.find((t) => t.id === ID_RATA);
   assert.equal(tRata.estado, 'bloqueado');
-  assert.equal(tRata.etiqueta, 'Próximamente');
+  assert.equal(tRata.etiqueta, 'Secreto');
   assert.equal(tRata.accion, null, 'No debe permitir compra si el precio es null');
   assert.equal(tRata.deshabilitado, true);
 
@@ -185,7 +186,7 @@ test('persistencia y store: los estados tras cambio de traje en menú son válid
 
   const cargado = cargar(almacen);
   assert.ok(cargado.estado, 'Debe cargar el estado guardado');
-  assert.equal(cargado.estado.equipado, ID_SECRETO_LEGACY);
+  assert.equal(cargado.estado.equipado, ID_RATA);
   assert.ok(tieneTraje(cargado.estado, ID_RATA));
 });
 

@@ -1,185 +1,77 @@
-// Trajes activos para Senku 2.
-// Define catálogo de trajes provisionales, equipamiento y aspecto del Senku provisional.
-// Decisión D2 (Javier): El traje de rata de v2 es el MISMO traje secreto de Legacy ('secreto_legacy').
-// Regla: Todo valor creativo pendiente (precios) va como null; no inventar cifras ni arte.
+// Adaptador de compatibilidad de vestuario para partidas y llamadas existentes.
+import { TRAJES } from '../data/trajes.mjs';
 
 export const ID_ORIGINAL = 'original';
 export const ID_RATA = 'rata';
 export const ID_SECRETO_LEGACY = 'secreto_legacy';
 
-export const CATALOGO_TRAJES = Object.freeze({
-  [ID_ORIGINAL]: Object.freeze({
-    id: ID_ORIGINAL,
-    nombre: 'Original',
-    etiqueta: 'Senku',
-    color: '#e67e22',       // Naranja cálido provisional
-    colorBorde: '#9c4d0a',  // Borde marrón anaranjado
-    colorOjo: '#2c3e50',    // Ojo oscuro
-    precio: null,           // Sin precio definido (siempre desbloqueado)
-    siempreDesbloqueado: true,
-    equivaleA: Object.freeze([]),
-  }),
-  [ID_RATA]: Object.freeze({
-    id: ID_RATA,
-    nombre: 'Rata',
-    etiqueta: 'Senku Rata',
-    color: '#7f8c8d',       // Gris rata provisional limpio
-    colorBorde: '#34495e',  // Borde pizarra
-    colorOjo: '#e74c3c',    // Ojo rojizo representativo
-    colorDetalle: '#f1948a',// Detalle interior de orejas
-    precio: null,           // Pendiente creativo D2 (no inventar cifras)
-    siempreDesbloqueado: false,
-    equivaleA: Object.freeze([ID_SECRETO_LEGACY]),
-  }),
-});
+const acentos = ['#4f83cc', '#9462bb', '#db4e68', '#c084fc', '#e67e22', '#68a85c'];
+export const CATALOGO_TRAJES = Object.freeze(Object.fromEntries(Object.entries(TRAJES).map(([id, traje], i) => [id, Object.freeze({
+  ...traje,
+  nombre: id === ID_ORIGINAL ? 'Original' : id === ID_RATA ? 'Rata' : traje.nombre,
+  etiqueta: id === ID_ORIGINAL ? 'Senku' : id === ID_RATA ? 'Senku Rata' : traje.nombre,
+  color: id === ID_ORIGINAL ? '#e67e22' : id === ID_RATA ? '#7f8c8d' : acentos[i % acentos.length],
+  colorBorde: id === ID_ORIGINAL ? '#9c4d0a' : id === ID_RATA ? '#34495e' : '#302040',
+  colorOjo: id === ID_RATA ? '#e74c3c' : '#2c3e50',
+  colorDetalle: id === ID_RATA ? '#f1948a' : undefined,
+})])));
 
-/**
- * Devuelve la definición del catálogo para un identificador de traje.
- * Trata 'secreto_legacy' y 'rata' como el mismo traje (decisión D2).
- */
 export function obtenerDefinicionTraje(id) {
-  if (id === ID_RATA || id === ID_SECRETO_LEGACY) {
-    return CATALOGO_TRAJES[ID_RATA];
-  }
-  return CATALOGO_TRAJES[ID_ORIGINAL];
+  return CATALOGO_TRAJES[id === ID_SECRETO_LEGACY ? ID_RATA : id] || null;
 }
 
-/**
- * Determina si dos identificadores corresponden al mismo traje.
- */
-export function esMismoTraje(idA, idB) {
-  if (idA === idB) return true;
-  const esRataA = idA === ID_RATA || idA === ID_SECRETO_LEGACY;
-  const esRataB = idB === ID_RATA || idB === ID_SECRETO_LEGACY;
-  return esRataA && esRataB;
+export function esMismoTraje(a, b) {
+  return a === b || ([ID_RATA, ID_SECRETO_LEGACY].includes(a) && [ID_RATA, ID_SECRETO_LEGACY].includes(b));
 }
 
-/**
- * Consulta si el jugador posee el traje especificado en su estado de guardado.
- * 'original' siempre se posee.
- * 'rata' se posee si 'trajes' contiene 'rata' o 'secreto_legacy'.
- */
-export function tieneTraje(estado, idTraje) {
+export function tieneTraje(estado, id) {
   if (!estado || typeof estado !== 'object') return false;
-  if (idTraje === ID_ORIGINAL) return true;
+  if (id === ID_ORIGINAL) return true;
   const lista = Array.isArray(estado.trajes) ? estado.trajes : [];
-  if (idTraje === ID_RATA || idTraje === ID_SECRETO_LEGACY) {
-    return lista.includes(ID_RATA) || lista.includes(ID_SECRETO_LEGACY);
-  }
-  return lista.includes(idTraje);
+  if (id === ID_RATA || id === ID_SECRETO_LEGACY) return lista.includes(ID_RATA) || lista.includes(ID_SECRETO_LEGACY);
+  return lista.includes(id);
 }
 
-/**
- * Devuelve el precio del traje.
- * REGLA: Valores creativos pendientes van como null; no inventar cifras.
- */
-export function obtenerPrecioTraje(idTraje) {
-  const def = obtenerDefinicionTraje(idTraje);
-  return def ? def.precio : null;
-}
+export function obtenerPrecioTraje(id) { return obtenerDefinicionTraje(id)?.precio ?? null; }
 
-/**
- * Equipa un traje si el jugador lo posee.
- * Función pura: devuelve un nuevo estado sin mutar el original.
- */
-export function equiparTraje(estado, idTraje) {
+export function equiparTraje(estado, id) {
   if (!estado || typeof estado !== 'object' || Array.isArray(estado)) {
     return { exito: false, motivo: 'estado_invalido', estado: null };
   }
-
-  const posee = tieneTraje(estado, idTraje);
-  if (!posee) {
-    return {
-      exito: false,
-      motivo: 'traje_no_poseido',
-      traje: idTraje,
-      precio: obtenerPrecioTraje(idTraje),
-      estado,
-    };
+  const def = obtenerDefinicionTraje(id);
+  if (!def) return { exito: false, motivo: 'traje_desconocido', traje: id, estado };
+  if (!tieneTraje(estado, id)) {
+    return { exito: false, motivo: 'traje_no_poseido', traje: id, precio: def.precio, estado };
   }
-
-  const equipadoActual = estado.equipado || ID_ORIGINAL;
-  if (esMismoTraje(equipadoActual, idTraje)) {
-    return {
-      exito: true,
-      yaEquipado: true,
-      traje: equipadoActual,
-      estado,
-    };
-  }
-
-  // Mantener coherencia con la lista 'trajes' para normalizar() de store.mjs
-  let idDestino = idTraje;
-  if (idTraje === ID_RATA || idTraje === ID_SECRETO_LEGACY) {
-    const lista = Array.isArray(estado.trajes) ? estado.trajes : [];
-    if (lista.includes(idTraje)) {
-      idDestino = idTraje;
-    } else if (lista.includes(ID_SECRETO_LEGACY)) {
-      idDestino = ID_SECRETO_LEGACY;
-    } else if (lista.includes(ID_RATA)) {
-      idDestino = ID_RATA;
-    }
-  }
-
-  const nuevoEstado = {
-    ...estado,
-    equipado: idDestino,
-  };
-
-  return {
-    exito: true,
-    yaEquipado: false,
-    traje: idDestino,
-    estado: nuevoEstado,
-  };
+  let idReal = id === ID_SECRETO_LEGACY ? ID_RATA : id;
+  if (idReal === ID_RATA && Array.isArray(estado.trajes) && !estado.trajes.includes(ID_RATA)
+      && estado.trajes.includes(ID_SECRETO_LEGACY)) idReal = ID_SECRETO_LEGACY;
+  const equipado = estado.equipado || ID_ORIGINAL;
+  if (esMismoTraje(equipado, idReal)) return { exito: true, yaEquipado: true, traje: equipado, estado };
+  return { exito: true, yaEquipado: false, traje: idReal, estado: { ...estado, equipado: idReal } };
 }
 
-/**
- * Obtiene la definición del traje actualmente equipado en el estado.
- */
 export function obtenerTrajeActivo(estado) {
-  const equipado = estado && typeof estado.equipado === 'string' ? estado.equipado : ID_ORIGINAL;
-  return obtenerDefinicionTraje(equipado);
+  return obtenerDefinicionTraje(typeof estado?.equipado === 'string' ? estado.equipado : ID_ORIGINAL)
+    || obtenerDefinicionTraje(ID_ORIGINAL);
 }
 
-/**
- * Devuelve el aspecto visual y etiqueta para Senku provisional según traje o estado.
- */
 export function obtenerAspectoSenku(trajeOEstado) {
-  if (trajeOEstado && typeof trajeOEstado === 'object' && ('equipado' in trajeOEstado || 'trajes' in trajeOEstado)) {
-    return obtenerTrajeActivo(trajeOEstado);
-  }
-  return obtenerDefinicionTraje(trajeOEstado);
+  return trajeOEstado && typeof trajeOEstado === 'object' && ('equipado' in trajeOEstado || 'trajes' in trajeOEstado)
+    ? obtenerTrajeActivo(trajeOEstado) : obtenerDefinicionTraje(trajeOEstado);
 }
 
-/**
- * Alterna entre el traje original y el traje de rata si está desbloqueado.
- */
 export function alternarTraje(estado) {
-  if (!estado || typeof estado !== 'object') {
-    return { exito: false, motivo: 'estado_invalido', estado };
-  }
-  const activo = obtenerTrajeActivo(estado);
-  const siguiente = activo.id === ID_RATA ? ID_ORIGINAL : ID_RATA;
-  return equiparTraje(estado, siguiente);
+  if (!estado || typeof estado !== 'object') return { exito: false, motivo: 'estado_invalido', estado };
+  return equiparTraje(estado, obtenerTrajeActivo(estado).id === ID_RATA ? ID_ORIGINAL : ID_RATA);
 }
 
-/**
- * Desbloquea un traje añadiéndolo a la lista sin mutar el estado.
- */
-export function desbloquearTraje(estado, idTraje = ID_RATA) {
-  if (!estado || typeof estado !== 'object' || Array.isArray(estado)) {
-    return { exito: false, motivo: 'estado_invalido', estado: null };
-  }
+export function desbloquearTraje(estado, id = ID_RATA) {
+  if (!estado || typeof estado !== 'object' || Array.isArray(estado)) return { exito: false, motivo: 'estado_invalido', estado: null };
   const lista = Array.isArray(estado.trajes) ? [...estado.trajes] : [ID_ORIGINAL];
-  if (!lista.includes(idTraje)) {
-    lista.push(idTraje);
+  const equivalente = id === ID_SECRETO_LEGACY ? ID_RATA : id;
+  for (const desbloqueado of [equivalente, ...(equivalente === ID_RATA ? [ID_SECRETO_LEGACY] : [])]) {
+    if (!lista.includes(desbloqueado)) lista.push(desbloqueado);
   }
-  return {
-    exito: true,
-    estado: {
-      ...estado,
-      trajes: lista,
-    },
-  };
+  return { exito: true, estado: { ...estado, trajes: lista } };
 }

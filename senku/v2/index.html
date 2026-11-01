@@ -150,6 +150,7 @@
     }
     #btn-gancho { grid-area: gancho; }
     #btn-subir { grid-area: subir; }
+    #btn-hablar-rata { grid-area: subir; border-color: #f0abfc; background: #581c87e6; }
     #btn-atacar { grid-area: ataque; }
     #btn-salto { grid-area: salto; }
     #btn-desliz { grid-area: desliz; width: 62px; height: 62px; border-color: #a78bfa; background: #2e1065e6; }
@@ -200,7 +201,7 @@
     .btn-gancho.apuntando, .btn-gancho.presionado, .btn-gancho:active {
       background: #0369a1;
       border-color: #7dd3fc;
-      box-shadow: 0 0 16px #38bdf8, inset 0 2px 4px #bae6fd;
+      box-shadow: 0 3px 8px #0008, inset 0 2px 4px #bae6fd;
       transform: scale(0.94);
     }
 
@@ -210,8 +211,8 @@
       animation: pulsoSubir 1.5s ease-in-out infinite;
     }
     @keyframes pulsoSubir {
-      0%, 100% { box-shadow: 0 4px 12px #0006, 0 0 0 0 rgba(52, 211, 153, 0.5); }
-      50% { box-shadow: 0 4px 12px #0006, 0 0 0 8px rgba(52, 211, 153, 0); }
+      0%, 100% { box-shadow: 0 4px 12px #0006, 0 0 0 0 rgba(0, 0, 0, 0.38); }
+      50% { box-shadow: 0 4px 12px #0006, 0 0 0 8px rgba(0, 0, 0, 0); }
     }
     .btn-subir.presionado, .btn-subir:active {
       background: #047857;
@@ -244,7 +245,7 @@
       background: linear-gradient(180deg, rgba(42, 28, 18, 0.96) 0%, rgba(20, 14, 10, 0.98) 100%);
       border: 3px solid #f59e0b;
       border-radius: 18px;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85), inset 0 2px 4px rgba(254, 240, 138, 0.35);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85), inset 0 2px 4px rgba(255, 255, 255, 0.12);
       text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
       pointer-events: none;
       box-sizing: border-box;
@@ -424,6 +425,9 @@
         <button id="btn-subir" class="btn-control btn-subir" aria-label="Subir a la camioneta" hidden>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11l7-7 7 7M12 4v16"/></svg>
           <span>Subir</span>
+        </button>
+        <button id="btn-hablar-rata" class="btn-control" aria-label="Hablar con la rata" hidden>
+          <span class="icono-accion" aria-hidden="true">🐭</span><span>Hablar</span>
         </button>
         <button id="btn-atacar" class="btn-control btn-atacar" aria-label="Atacar / Zarpazo">
           <span class="icono-accion" aria-hidden="true">🐾</span>

@@ -38,7 +38,11 @@ Saltar siempre está disponible; Subir aparece junto a él al acercarse a la cam
 
 `estadoJugador.habilidades.disparar` y `.lanzagranadas` controlan los botones de armas: sólo el booleano `true` los muestra. Se guardan dentro de `senku2_save` versión 1; guardados anteriores reciben ambos flags en `false`. Todavía no hay mecánica de armas ni forma de desbloquearlas jugando. El consumidor que implemente esos desbloqueos debe activar el flag y guardar el estado; el HUD refleja cambios durante el siguiente paso del juego.
 
-Caché PWA vigente: `senku2-v20`. Evidencia visual previa en `../../senku2/hud/`: móvil 844×390 (con y sin habilidades) y escritorio 1366×768. Safe-area se aplica a los cuatro bordes; la simulación de viewport no sustituye una prueba en teléfono físico.
+Caché PWA vigente: `senku2-v21`. Evidencia visual previa en `../../senku2/hud/`: móvil 844×390 (con y sin habilidades) y escritorio 1366×768. Safe-area se aplica a los cuatro bordes; la simulación de viewport no sustituye una prueba en teléfono físico.
+
+## Tienda de trajes (2026-11-01)
+
+El menú M ofrece los 12 trajes comprables por Churus, además del «Traje inicial» y el «Traje exclusivo». La compra pide confirmación y las compras y el traje equipado se guardan en `senku2_save`. El traje exclusivo no tiene precio: se desbloquea al acercarse a la rata de la taquería y hablar con ella con E o con el botón táctil. Sólo se carga la hoja de sprites equipada; los retratos del catálogo se precargan para que la tienda funcione sin conexión.
 
 ## Auditoría de recorrido (2026-10-30)
 

@@ -1,6 +1,6 @@
 // Service Worker para Senku 2 — Caché offline versionado y soporte PWA
 // Versión actual de la caché
-const VERSION_CACHE = 'senku2-v20';
+const VERSION_CACHE = 'senku2-v21';
 
 // Recursos esenciales que forman la base del juego para jugar sin conexión
 const RECURSOS_PRECACHE = [
@@ -80,7 +80,19 @@ const RECURSOS_PRECACHE = [
   './assets/personajes/menu_original.webp',
   './assets/portada/portada.webp',
   './assets/personajes/menu_rata.webp',
-  './assets/personajes/sprite_original.png',
+  // Retratos para la tienda; las hojas se guardan por runtime al equipar cada traje.
+  './assets/personajes/menu_explorador.webp',
+  './assets/personajes/menu_vaquero.webp',
+  './assets/personajes/menu_ninja.webp',
+  './assets/personajes/menu_magico.webp',
+  './assets/personajes/menu_especial.webp',
+  './assets/personajes/menu_chef.webp',
+  './assets/personajes/menu_mexicano.webp',
+  './assets/personajes/menu_espacial.webp',
+  './assets/personajes/menu_dinosaurio.webp',
+  './assets/personajes/menu_playa.webp',
+  './assets/personajes/menu_sigilo.webp',
+  './assets/personajes/menu_punk.webp',
   './assets/bonus/cable-chispa.webp',
   './assets/bonus/camion-carga.webp',
   './assets/bonus/camioneta-equipaje.webp',
@@ -92,7 +104,6 @@ const RECURSOS_PRECACHE = [
   './assets/bonus/piedras.webp',
   './assets/bonus/rama-jacaranda.webp',
   './assets/bonus/saguaro.webp',
-  './assets/personajes/sprite_rata.png',
   '../../assets/icon/senku-icon-192.png',
   '../../assets/icon/matiasgamelab-icon-192.png',
 ];

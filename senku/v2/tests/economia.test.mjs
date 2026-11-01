@@ -110,6 +110,28 @@ test('saldo insuficiente no desbloquea ni descuenta parcialmente', () => {
   assert.deepEqual(estado, conSaldo(6));
 });
 
+test('la tienda compra con saldo, rechaza saldo corto, equipa y persiste el traje comprado', () => {
+  const sinSaldo = conSaldo(9);
+  assert.deepEqual(comprarTraje(sinSaldo, 'explorador'), { error: 'saldo_insuficiente' });
+  assert.deepEqual(sinSaldo.trajes, ['original']);
+
+  const comprado = comprarTraje(conSaldo(20), 'explorador');
+  assert.equal(comprado.churus, 10);
+  assert.ok(comprado.trajes.includes('explorador'));
+  const equipado = equipar(comprado, 'explorador');
+  assert.equal(equipado.equipado, 'explorador');
+  const almacen = memoria();
+  assert.equal(guardar(almacen, equipado), true);
+  assert.deepEqual(cargar(almacen).estado, equipado);
+});
+
+test('el traje exclusivo de rata no admite compra ni precio', () => {
+  assert.equal(TRAJES.rata.precio, null);
+  assert.deepEqual(comprarTraje(conSaldo(1000), 'rata'), { error: 'precio_no_definido' });
+  const desbloqueado = desdeLegacy(memoria({ senku_secret: '1' }));
+  assert.equal(equipar(desbloqueado, 'rata').equipado, 'rata');
+});
+
 test('precio null siempre bloquea la compra sin cambiar nada', () => {
   const estado = congelar(conSaldo());
   assert.deepEqual(comprarTraje(estado, 'rata', TRAJES), { error: 'precio_no_definido' });

@@ -64,12 +64,12 @@ export function crearModelo(estado, catalogo) {
     } else {
       estadoTarjeta = 'bloqueado';
       if (precio === null) {
-        etiqueta = 'Próximamente';
+        etiqueta = item.condicion ? 'Secreto' : 'Próximamente';
         accion = null;
         deshabilitado = true;
-        motivo = 'precio_no_definido';
+        motivo = item.condicion ? 'secreto' : 'precio_no_definido';
       } else {
-        etiqueta = 'Comprar';
+        etiqueta = churusActuales < precio ? 'Bloqueado' : 'Comprar';
         accion = 'comprar';
         if (churusActuales < precio) {
           deshabilitado = true;
