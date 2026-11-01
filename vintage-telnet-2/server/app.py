@@ -17,6 +17,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from .store import Store
 from .content import Content
 from .engine import Engine, RuleError
+from . import social
 from . import mechanics
 import re
 
@@ -99,8 +100,9 @@ def create_app(config=None):
         settle_combat(db,e,world)
         char=selected(db)
         changed=e.tick(char,world)
+        e.sync_achievements(char,world)
         heartbeat(e,char,world);store.save_world(db,world)
-        store.save(db,char);result.update(e.snapshot(char,world));
+        store.save(db,char);result.update(e.snapshot(char,world));result['social']=social.snapshot(db,world,char,e,e.clock())
         if char['state'].get('tester_enabled') is True:result['tester']={'enabled':True,'destinations':tester_destinations(e,char)}
         return result
 
@@ -389,11 +391,22 @@ def create_app(config=None):
                 if previous['intent']!=encoded:raise RuleError('Esa identidad de petición ya corresponde a otra acción.',409)
                 e=engine();world=store.world(db);settle_combat(db,e,world);char=selected(db)
                 if e.tick(char,world):store.save_world(db,world)
-                heartbeat(e,char,world);store.save_world(db,world);store.save(db,char);result=e.snapshot(char,world);result.update(authenticated=True,csrf_token=csrf());
+                heartbeat(e,char,world);store.save_world(db,world);store.save(db,char);result=e.snapshot(char,world);result['social']=social.snapshot(db,world,char,e,e.clock());result.update(authenticated=True,csrf_token=csrf());
                 if char['state'].get('tester_enabled') is True:result['tester']={'enabled':True,'destinations':tester_destinations(e,char)}
                 return jsonify(result)
-            e=engine();world=store.world(db);settle_combat(db,e,world);char=selected(db);e.tick(char,world);e.apply(char,world,e.parse_intent(char,world,intent));heartbeat(e,char,world);store.save_world(db,world);store.save(db,char)
-            result=e.snapshot(char,world);result.update(authenticated=True,csrf_token=csrf())
+            e=engine();world=store.world(db);settle_combat(db,e,world);char=selected(db);e.tick(char,world)
+            command=str(intent.get('text','')).strip()
+            social_command=(intent.get('id')=='social' or command.casefold() in ('quien','quién','quienes','quiénes','grupo','grupo aceptar','grupo salir','salir grupo','dejar de seguir','dejar seguir','confirmar regalo','confirmar dar') or command.casefold().startswith(('seguir ','seguir\t','grupo invitar ','invitar ','susurrar ','dar ')))
+            if social_command:
+                try:
+                    if not social.run(db,world,char,e,command,e.clock()):raise RuleError('No entendí esa acción social.')
+                except ValueError as error:raise RuleError(str(error))
+            else:
+                parsed=e.parse_intent(char,world,intent);previous_location=char['state'].get('location');e.apply(char,world,parsed)
+                if char['state'].get('location')!=previous_location:
+                    social.stop_following(world,char['id']);social.follow_move(db,world,char,e)
+            heartbeat(e,char,world);store.save_world(db,world);store.save(db,char)
+            result=e.snapshot(char,world);result['social']=social.snapshot(db,world,char,e,e.clock());result.update(authenticated=True,csrf_token=csrf())
             if char['state'].get('tester_enabled') is True:result['tester']={'enabled':True,'destinations':tester_destinations(e,char)}
             db.execute('INSERT INTO requests VALUES(?,?,?,?)',(char['id'],request_id,encoded,json.dumps(result,ensure_ascii=False)))
             return jsonify(result)

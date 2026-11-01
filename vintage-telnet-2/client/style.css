@@ -528,7 +528,7 @@ html body #navigation .travel-pad button:hover:not(:disabled){border-color:var(-
 html body #navigation .travel-pad svg{width:20px;height:20px}
 html body #navigation .travel-pad .travel-center:not(button){color:var(--gold-dark);font-size:16px}
 html.reading-adventure body .app{padding-bottom:var(--nav-h)}
-html body #navigation .game-tabs{grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
+html body #navigation .game-tabs{grid-template-columns:repeat(8,minmax(0,1fr));gap:2px}
 html body #navigation .game-tabs button{height:46px;min-height:0;padding:3px 1px;gap:2px}
 html body #navigation .game-tabs button svg{width:18px;height:18px}
 html body #navigation .game-tabs .tab-label{font-size:11px;line-height:1.1;letter-spacing:-.3px}
@@ -1152,3 +1152,17 @@ body .field input,body .field select{font-size:16px}
  html body .mobile-hud .hud-bar{min-width:0;font-size:11px}
  html body .mobile-hud .hud-track{min-width:24px}
 }
+/* Goals notebook: touch-sized, readable on narrow screens. */
+.goal-card{padding:12px;border:1px solid #c8b36b;border-radius:12px;background:#fff9e8}
+.goal-card h3{margin-top:7px}
+.achievement-entry{display:flex;align-items:center;gap:12px;padding:11px 8px;border-bottom:1px solid #c8b36b66}
+.achievement-entry:last-child{border-bottom:0}
+.achievement-medal{display:grid;place-items:center;flex:0 0 42px;height:42px;border:2px solid #a9a9a9;border-radius:50%;color:#777;background:#f0eee8;font-size:22px}
+.achievement-entry.is-unlocked .achievement-medal{border-color:#da9b17;color:#9b6400;background:#fff0bd}
+.achievement-copy{min-width:0;flex:1}
+.achievement-copy h3{font-size:15px}
+.achievement-copy p{font-size:13px;margin:2px 0 5px}
+.achievement-copy small{display:block;text-align:right;font-size:11px;color:#6a5741}
+.achievement-progress{height:8px;overflow:hidden;border-radius:99px;background:#e2ddce}
+.achievement-progress span{display:block;height:100%;border-radius:inherit;background:#9b7a2d}
+@media(min-width:600px){.goal-card{padding:15px}.achievement-entry{padding:13px 10px}}

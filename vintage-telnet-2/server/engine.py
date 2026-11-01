@@ -10,6 +10,8 @@ import uuid
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from . import mechanics as m
+from . import achievements as achievement_book
+from . import daily_errands
 
 ARTICLES = {'el', 'la', 'los', 'las', 'un', 'una', 'al', 'del'}
 
@@ -402,6 +404,8 @@ class Engine:
                 has_weapon=bool(state['equipment'].get('weapon'))
                 class_action_ids={a['id'] for a in m.CLASS_ACTIONS.get(player['class_id'],[])}
                 contribution=(chosen=='atacar' and has_weapon) or chosen=='capacidad' or chosen in class_action_ids or (player is primary and chosen in ('defender','esquivar','bloquear','resistir'))
+                if contribution and not combat.get('cooperation_counted'):
+                    self.record_cooperative_activity(state);combat['cooperation_counted']=True
                 state['_class']=player['class_id'];state['_now']=now;lines,outcome=m.resolve_round(state,creature,self.rng,respond=False);state.pop('_class',None);state.pop('_now',None)
                 state['events']=lines;state['last_active']=now;changed=True
                 if outcome=='fled':self.flee(player,world);continue
@@ -538,6 +542,7 @@ class Engine:
         if local_victory not in state['flags']:state['flags'].append(local_victory)
         for flag in creature.get('victory_flags',[]):
             if flag not in state['flags']:state['flags'].append(flag)
+        daily_errands.record_victory(self,character,combat['creature'],state['location'])
         self.update_quests(state,world,{'id':'vencer','target':combat['creature']})
         material=creature.get('material')
         if salvage and creature.get('loot'):
@@ -1073,10 +1078,39 @@ class Engine:
         self.sync_dragon_participation(character,world)
         state=character['state']
         before=self.exploration_facts(state)
+        region_before=daily_errands.region_for(self,character)
+        combat_before=bool(state.get('combat'))
         # Initialize at the first mutation, never on GET or load. Old achievements
         # are receipts, not pending rewards; new achievements still earn XP now.
         self.apply_action(character,world,intent)
+        daily_errands.record_action(self,character,intent,region_before,combat_before)
+        self.record_social_activity(state,world,intent)
         self.reward_exploration(state,before)
+        self.sync_achievements(character,world)
+
+    def record_social_activity(self,state,world,intent):
+        """Count successful social actions without storing message text or identities."""
+        action=intent.get('id')
+        social_actions={'decir','seguir','dejar_seguir','grupo','invitar_grupo','aceptar_grupo',
+                        'salir_grupo','dar','susurrar'}
+        if action not in social_actions:return
+        if action=='decir':
+            now=self.clock();room=state.get('location')
+            others=[entry for entry in world.get('presence',{}).values()
+                    if entry.get('room')==room and now-entry.get('at',0)<30]
+            if not others:return
+        stats=state.setdefault('social_stats',{})
+        stats[action]=stats.get(action,0)+1
+
+    def record_cooperative_activity(self,state):
+        stats=state.setdefault('social_stats',{})
+        stats['cooperative_battles']=stats.get('cooperative_battles',0)+1
+
+    def sync_achievements(self,character,world):
+        state=character['state']
+        for achievement in achievement_book.update(state,self.content,world):
+            state.setdefault('events',[]).append(event('discovery',
+                f"¡Nuevo logro: {achievement['name']}! {achievement['description']}. Medalla cosmética añadida a tu libreta."))
 
     def reward_exploration(self,state,before):
         receipts=state.setdefault('exploration_xp',list(before))
@@ -1702,7 +1736,9 @@ class Engine:
                 if payments:entry['paid_amount']=payments[-1]['amount']
                 entry['summary']=quest.get('paid_text','Este encargo ya está completado.')
             quests.append(entry)
-        return {'version':world['version'],'character':char,'attribute_effects':dict(m.ATTRIBUTE_EFFECTS),'numenes':state.get('numenes',{'active':None,'bonded':[],'encounters':{}}),'room':{'id':room['id'],'name':room['name'],'region':room['region'],'kind':room['kind'],'description':room['description'],
+        char['goal_book']=achievement_book.book(state,self.content,world)
+        char['goals']=achievement_book.goals(state,self.content,world)
+        return {'version':world['version'],'character':char,'attribute_effects':dict(m.ATTRIBUTE_EFFECTS),'numenes':state.get('numenes',{'active':None,'bonded':[],'encounters':{}}),'daily_errands':daily_errands.snapshot(self,character),'room':{'id':room['id'],'name':room['name'],'region':room['region'],'kind':room['kind'],'description':room['description'],
             **({'art_variant':room['art_variant']} if room.get('art_variant') else {}),
             'npcs':[{'id':n['id'],'name':n['name'],'role':n.get('role',''),'description':n.get('description',''),'topics':[t for t,v in n.get('topics',{}).items() if not isinstance(v,dict) or self.allowed(v,state,world)]} for n in people],
             'exits':[{'direction':d,'label':d.capitalize()} for d in room.get('exits',{})]},
