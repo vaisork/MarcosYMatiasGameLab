@@ -361,10 +361,211 @@ export const ScalePresets = {
     scaleFactor: 0.38,
     label: 'Escala mesa (38 cm)'
   },
+  REAL: {
+    id: 'real',
+    name: 'Tamaño real (~0.75 m)',
+    scaleFactor: 0.75,
+    label: 'Tamaño real (75 cm)'
+  },
   LIFESIZE: {
     id: 'lifesize',
     name: 'Escala real 1:1',
-    scaleFactor: 0.95,
-    label: 'Escala real (95 cm)'
+    scaleFactor: 0.75,
+    label: 'Escala real (75 cm)'
   }
 };
+
+export class DogPlacementLogic {
+  /**
+   * Calcula el factor de escala para normalizar el perro a tamaño real (~0.75 m de largo).
+   * Determina el largo principal a partir del Box3 (eje longitudinal craneal-caudal).
+   */
+  static calculateRealScale(boxSize = { x: 1, y: 1, z: 1 }, targetLength = 0.75) {
+    const length = Math.max(boxSize.z || 0, boxSize.x || 0, 1e-4);
+    return targetLength / length;
+  }
+
+  /**
+   * Calcula la posición inicial del perro para que aparezca a 0.6 m frente al usuario,
+   * a la altura del pecho/mesa, garantizando que nunca quede encima del usuario.
+   * En AR con hit-test, se coloca sobre la superficie detectada.
+   */
+  static calculateInitialPosition({
+    cameraPosition = { x: 0, y: 1.6, z: 0 },
+    cameraForward = { x: 0, y: 0, z: -1 },
+    distance = 0.6,
+    tableHeight = 0.95,
+    isAR = false,
+    hitTestPose = null
+  } = {}) {
+    if (isAR && hitTestPose) {
+      return {
+        x: hitTestPose.x,
+        y: hitTestPose.y,
+        z: hitTestPose.z
+      };
+    }
+
+    // Dirección horizontal (proyectada en plano XZ)
+    let fx = cameraForward.x || 0;
+    let fz = cameraForward.z !== undefined ? cameraForward.z : -1;
+    const len = Math.hypot(fx, fz);
+    if (len < 1e-4) {
+      fx = 0;
+      fz = -1;
+    } else {
+      fx /= len;
+      fz /= len;
+    }
+
+    const camX = cameraPosition.x || 0;
+    const camY = cameraPosition.y !== undefined ? cameraPosition.y : 1.6;
+    const camZ = cameraPosition.z || 0;
+
+    // Colocar a 0.6 m frente al usuario
+    const x = camX + fx * distance;
+    const z = camZ + fz * distance;
+
+    // Altura: a la altura de la mesa / pecho, garantizando que esté por debajo de los ojos del usuario
+    // (nunca encima del usuario)
+    const chestHeight = camY - 0.45;
+    const y = Math.max(0.65, Math.min(tableHeight, chestHeight));
+
+    return { x, y, z };
+  }
+}
+
+export class ThumbstickControlLogic {
+  /**
+   * Palanca derecha:
+   * arriba/abajo = escala continua 0.15× a 4× (suave, alrededor del centro del perro)
+   * izquierda/derecha = girar el perro
+   */
+  static mapRightStick({
+    stickX = 0,
+    stickY = 0,
+    currentScaleMultiplier = 1.0,
+    currentRotationY = 0,
+    deltaSec = 0.016,
+    scaleSpeed = 1.0,
+    rotSpeed = 2.0,
+    minMultiplier = 0.15,
+    maxMultiplier = 4.0,
+    deadzone = 0.12
+  } = {}) {
+    let scaleMultiplier = currentScaleMultiplier;
+    let rotationY = currentRotationY;
+
+    if (Math.abs(stickX) > deadzone) {
+      // stickX > 0 (derecha) rota el perro
+      rotationY -= stickX * rotSpeed * deltaSec;
+    }
+
+    if (Math.abs(stickY) > deadzone) {
+      // En gamepads stick hacia arriba es negativo. stickY < 0 => agrandar; stickY > 0 => reducir
+      const scaleDelta = Math.exp(-stickY * scaleSpeed * deltaSec);
+      scaleMultiplier = Math.max(minMultiplier, Math.min(maxMultiplier, currentScaleMultiplier * scaleDelta));
+    }
+
+    return { scaleMultiplier, rotationY };
+  }
+
+  /**
+   * Palanca izquierda:
+   * Modo normal:
+   * arriba/abajo = subir/bajar el perro
+   * izquierda/derecha = acercar/alejar el perro hacia el usuario
+   *
+   * Modo locomoción (manteniendo gatillo izquierdo en VR):
+   * desplaza suavemente la posición del usuario/rig sin tener que caminar físicamente.
+   */
+  static mapLeftStick({
+    stickX = 0,
+    stickY = 0,
+    currentPosition = { x: 0, y: 0.95, z: -0.6 },
+    cameraPosition = { x: 0, y: 1.6, z: 0 },
+    cameraForward = { x: 0, y: 0, z: -1 },
+    deltaSec = 0.016,
+    moveSpeed = 0.7,
+    deadzone = 0.12,
+    isLocomotion = false,
+    cameraRigPosition = { x: 0, y: 0, z: 0 }
+  } = {}) {
+    if (isLocomotion) {
+      // Locomoción suave del usuario en VR
+      let fx = cameraForward.x || 0;
+      let fz = cameraForward.z !== undefined ? cameraForward.z : -1;
+      const flen = Math.hypot(fx, fz) || 1;
+      fx /= flen; fz /= flen;
+      // Vector perpendicular (strafe derecha)
+      const rx = -fz;
+      const rz = fx;
+
+      const newRig = { ...cameraRigPosition };
+      if (Math.abs(stickY) > deadzone) {
+        // stickY < 0 (adelante): avanzar
+        const step = -stickY * moveSpeed * deltaSec;
+        newRig.x += fx * step;
+        newRig.z += fz * step;
+      }
+      if (Math.abs(stickX) > deadzone) {
+        // stickX (lateral): strafe
+        const step = stickX * moveSpeed * deltaSec;
+        newRig.x += rx * step;
+        newRig.z += rz * step;
+      }
+      return {
+        handled: 'locomotion',
+        cameraRigPosition: newRig,
+        position: currentPosition
+      };
+    }
+
+    // Manipulación del perro
+    let newY = currentPosition.y;
+    let newX = currentPosition.x;
+    let newZ = currentPosition.z;
+
+    // Subir / Bajar con stick Y
+    if (Math.abs(stickY) > deadzone) {
+      // stickY < 0 (arriba): sube perro
+      newY += -stickY * moveSpeed * deltaSec;
+      newY = Math.max(0.3, Math.min(2.0, newY));
+    }
+
+    // Acercar / Alejar con stick X hacia/desde el usuario
+    if (Math.abs(stickX) > deadzone) {
+      const dx = currentPosition.x - cameraPosition.x;
+      const dz = currentPosition.z - cameraPosition.z;
+      const dist = Math.hypot(dx, dz) || 0.6;
+      const dirX = dx / dist;
+      const dirZ = dz / dist;
+
+      // stickX > 0 (derecha) aleja el perro; stickX < 0 (izquierda) acerca el perro
+      const newDist = Math.max(0.25, Math.min(3.0, dist + stickX * moveSpeed * deltaSec));
+      newX = cameraPosition.x + dirX * newDist;
+      newZ = cameraPosition.z + dirZ * newDist;
+    }
+
+    return {
+      handled: 'dog_move',
+      position: { x: newX, y: newY, z: newZ },
+      cameraRigPosition
+    };
+  }
+
+  /**
+   * Procesa botones A, B, X, Y con detección de flanco de subida (pulsación única)
+   */
+  static processButtons({
+    current = { a: false, b: false, x: false, y: false },
+    previous = { a: false, b: false, x: false, y: false }
+  } = {}) {
+    const actions = [];
+    if (current.a && !previous.a) actions.push('bring_to_front');
+    if (current.b && !previous.b) actions.push('toggle_panel');
+    if (current.x && !previous.x) actions.push('prev_dissection');
+    if (current.y && !previous.y) actions.push('next_dissection');
+    return actions;
+  }
+}
