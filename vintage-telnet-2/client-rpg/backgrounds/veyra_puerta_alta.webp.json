@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_puerta_alta",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-71c6-79e0-a15e-d020a34de00d/exec-3e593464-2d0b-4bf7-bdf4-09dd9cd22301.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Center crop to 4:3 if needed, Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP compression",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 76,
+  "bytes": 240860,
+  "sha256": "c96d183bd56c5d0e9eadf450661856120818123201fb6769a6120628f1387888",
+  "prompt": "Detailed 16-bit indie RPG scene of the Puerta del Camino Alto, Veyra’s northern stone city gate climbing toward Hoshai. A compact gravel ramp passes north to south, with a safe platform beside it; wall towers and pennants stay at far margins. 4:3 three-quarter overhead, open lanes at exact north and south edges, warm limestone, cool gravel shade, daylight, no people, actors, creatures, carts, players, Vaisork, Númenes, text, UI or watermark."
+}

@@ -77,25 +77,19 @@ la escena sólo aporta su celda visual. La señal condicionada por
 salida norte y el combate compartido siguen bajo autoridad del motor. No se
 duplican ni alteran en el cliente.
 
-## Arte pendiente
+## Estado de arte — CM-20, 2026-10-31
 
-- Fondos de las 32 salas: `client-rpg/backgrounds/<room_id>.webp`, 1280×960,
-  ≤250000 bytes, sin actores; `asset_id` igual al id de sala. Se omite el campo
-  `background` mientras el archivo no exista.
-- Fondo de combate regional: `backgrounds/veyra_battle.webp`.
-- Atlas NPC 192×384, celdas 64×96: `sprites/veyra_arel.png`,
-  `sprites/veyra_bela.png`, `sprites/veyra_doma.png`, `sprites/veyra_nera.png`,
-  `sprites/veyra_seli.png` y `sprites/veyra_tov.png`.
-- Criatura nueva sin sprite/mapping RPG: `dragon_aguas_antiguas`; reservar
-  `sprites/dragon_aguas_antiguas.png` (48×48) y
-  `sprites/dragon_aguas_antiguas-battle.png` (192×192). Las otras criaturas
-  usan los sprites compartidos existentes (`aguaculebra`, `cienfango`,
-  `espinajo`, `forajido`, `mordesombra`, `quebrarrocas`, `bravucon`,
-  `salteador`, `negociante`).
+El lote Veyra Arte 03 añadió fondos a diez salas (`veyra_plaza_rutas`, las
+cinco `veyra_puerta_*` del lote, `veyra_rampa_grava`, `veyra_sala_cuidados`,
+`veyra_terraplen_roca` y `veyra_vega_abierta`), más el fondo regional de batalla
+y los atlas NPC de Doma y Tov. La conexión de batalla por región también
+atiende escenas Veyra sin propiedad explícita. Detalle, prompts, hashes y
+validación en [RPG_VEYRA_ARTE_03.md](RPG_VEYRA_ARTE_03.md).
 
-No se generaron imágenes ni se enlazaron rutas inexistentes. Próximo lote:
-ilustrar los fondos Veyra y de combate, los seis NPC y el dragón; integrar su
-mapping y adaptar las máscaras Tiled a los fondos, conservando prueba de rutas.
+Quedan fuera de ese lote los fondos de las otras 22 salas, los atlas de Arel,
+Bela, Nera y Seli, y los sprites RPG del dragón de Aguas Antiguas. Las
+ilustraciones de las otras salas corresponden a las agentes paralelas del
+encargo CM-20; esta actualización no modifica sus escenas ni sus fuentes Tiled.
 
 ## Validación
 

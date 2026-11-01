@@ -44,9 +44,9 @@ function svgNode(name){
 }
 
 const keys=new Set(), images={};
-const npcSprites={edran_bren:'bren',edran_daro:'daro',edran_iria:'iria',edran_elva:'elva',edran_sena:'sena',edran_nela:'nela',edran_oren:'oren',edran_aren:'aren',korven_ved:'ved',korven_beran:'beran',korven_ruma:'ruma',korven_neru:'neru',korven_oma:'oma',korven_taren:'taren',hoshai_yesa:'yesa',hoshai_iria:'hoshai_iria',lethra_nima:'nima',lethra_sola:'sola',lethra_mira:'mira',lethra_ume:'ume',lethra_nera_mercado:'nera',nhal_varo:'varo',nhal_leris:'leris',nhal_sira:'sira',veyra_bela:'veyra_bela',veyra_nera:'veyra_nera',veyra_seli:'veyra_seli',nhal_desi:'desi',nhal_elin:'elin',veyra_arel:'veyra_arel'};
+const npcSprites={edran_bren:'bren',edran_daro:'daro',edran_iria:'iria',edran_elva:'elva',edran_sena:'sena',edran_nela:'nela',edran_oren:'oren',edran_aren:'aren',korven_ved:'ved',korven_beran:'beran',korven_ruma:'ruma',korven_neru:'neru',korven_oma:'oma',korven_taren:'taren',hoshai_yesa:'yesa',hoshai_iria:'hoshai_iria',lethra_nima:'nima',lethra_sola:'sola',lethra_mira:'mira',lethra_ume:'ume',lethra_nera_mercado:'nera',nhal_varo:'varo',nhal_leris:'leris',nhal_sira:'sira',veyra_bela:'veyra_bela',veyra_nera:'veyra_nera',veyra_seli:'veyra_seli',nhal_desi:'desi',nhal_elin:'elin',veyra_arel:'veyra_arel',veyra_doma:'veyra_doma',veyra_tov:'veyra_tov'};
 const npcSpriteNames=new Set(Object.values(npcSprites));
-const creatureSprites={cienfango:'cienfango',espinajo_rastrojo:'espinajo',mordelinde:'mordelinde',cornalomo:'cornalomo',salteador_veterano:'salteador',salteador_desesperado:'salteador',forajido_camino:'forajido',salteadora_negociante:'negociante',salteador_bravucon:'bravucon',cascapedernal:'cascapedernal',rasgacumbres:'rasgacumbres',saltacresta:'saltacresta',unapiedra:'unapiedra',colagrieta:'colagrieta',quebrarrocas:'quebrarrocas',dragon_aguas_antiguas:'dragon_aguas_antiguas',cortacorriente:'cortacorriente',dorsalodo:'dorsalodo',pinzajunco:'pinzajunco',saltalodo:'saltalodo',tragacharco:'tragacharco',faucecieno:'faucecieno',sombranutria:'sombranutria',mordijunco:'mordijunco',aguaculebra:'aguaculebra',raizacapa:'raizacapa',mordesombra:'mordesombra',quebracascara:'quebracascara',escarbaraiz:'escarbaraiz'};
+const creatureSprites={cienfango:'cienfango',espinajo_rastrojo:'espinajo',mordelinde:'mordelinde',cornalomo:'cornalomo',salteador_veterano:'salteador',salteador_desesperado:'salteador',forajido_camino:'forajido',salteadora_negociante:'negociante',salteador_bravucon:'bravucon',cascapedernal:'cascapedernal',rasgacumbres:'rasgacumbres',saltacresta:'saltacresta',unapiedra:'unapiedra',colagrieta:'colagrieta',quebrarrocas:'quebrarrocas',dragon_aguas_antiguas:'dragon_aguas_antiguas',cortacorriente:'cortacorriente',dorsalodo:'dorsalodo',pinzajunco:'pinzajunco',saltalodo:'saltalodo',tragacharco:'tragacharco',faucecieno:'faucecieno',sombranutria:'sombranutria',mordijunco:'mordijunco',aguaculebra:'aguaculebra',raizacapa:'raizacapa',mordesombra:'mordesombra',quebracascara:'quebracascara',escarbaraiz:'escarbaraiz',rondamusgo:'rondamusgo',rasgacorteza:'rasgacorteza',clavaespina:'clavaespina',garfarrama:'garfarrama',roecorteza:'roecorteza',hilaria_niebla:'hilaria_niebla',tronchacolmillo:'tronchacolmillo',velomembrana:'velomembrana'};
 for(const name of ['avatar','avatar-battle','lina',...Object.values(npcSprites),...Object.values(creatureSprites).flatMap(name=>[name,`${name}-battle`])]){
  images[name]=new Image();
  images[name].src=`/client-rpg/sprites/${name}.png`;
@@ -76,6 +76,7 @@ function battleBackgroundImage(sc=scene){
  if(sc&&'battle_background' in sc){
   return typeof sc.battle_background==='string'?backgroundImage(sc.battle_background):null;
  }
+ if(snapshot?.room?.region==='veyra')return backgroundImage('backgrounds/veyra_battle.webp');
  return (snapshot?.room?.region==='edran'?backgroundImage('backgrounds/ui_battle.webp'):null)||backgroundImage('backgrounds/edran_battle.webp');
 }
 const tilesetData={};

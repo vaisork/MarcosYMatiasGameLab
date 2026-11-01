@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_puerta_campos",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-71c6-79e0-a15e-d020a34de00d/exec-1ead47f5-b2fc-4428-ad22-211e4a1d671c.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Center crop to 4:3 if needed, Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP compression",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 56,
+  "bytes": 241550,
+  "sha256": "790c141e43b2485586d34b9e377f8982d9ad95ba4f8eb6ca7475c46aebfdb5d1",
+  "prompt": "Edit of the generated 16-bit RPG background: remove the northern arch and replace it with continuous high grey stone wall; close west edge with wall/buildings; preserve the southern road as it curves east. Canon exits only south and east, with no road touching north/west. Original prompt: detailed old-city gate of Veyra at fields, 4:3 three-quarter overhead, warm daylight, pale stone and field crops, environment only."
+}

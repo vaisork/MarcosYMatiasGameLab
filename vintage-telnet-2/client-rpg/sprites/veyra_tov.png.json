@@ -1,0 +1,14 @@
+{
+  "asset_id": "veyra_tov",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-71c6-79e0-a15e-d020a34de00d/exec-8b3295a5-6356-4e0d-a18a-9483b9f3cb54.png",
+  "source_dimensions": "1086x1448",
+  "normalization": "Split generated transparent 3x4 atlas into 12 cells, preserve alpha, scale each full-body pose proportionally into 64x96 with common baseline",
+  "dimensions": [
+    192,
+    384
+  ],
+  "bytes": 50182,
+  "sha256": "cc2ecc02ae192eb428ef38289271ec9a0130109e321b9b84e109e6d44d771aca",
+  "prompt": "Canonical Dravak woman Tov, sturdy compact stone porter, practical work clothes and subtle natural stone plates, no armor; 16-bit pixel RPG walking sprite atlas with four directions and three poses per direction, 3 columns x 4 rows, transparent background, full body, no cargo or text."
+}

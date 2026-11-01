@@ -100,5 +100,7 @@
         9
       ]
     }
-  ]
+  ],
+  "background": "backgrounds/veyra_puerta_piedra.webp",
+  "battle_background": "backgrounds/veyra_battle.webp"
 }

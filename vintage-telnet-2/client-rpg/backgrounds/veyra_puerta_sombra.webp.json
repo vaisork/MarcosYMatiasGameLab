@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_puerta_sombra",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-71c6-79e0-a15e-d020a34de00d/exec-8e614057-44f0-4d5c-9d97-167d1ff4dd20.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Center crop to 4:3 if needed, Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP compression",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 60,
+  "bytes": 247104,
+  "sha256": "b3b6f2be13072e26e8f0a2a60fbb2241d97d1e54488d42098c79d968e314409e",
+  "prompt": "Edit of the generated 16-bit RPG background: preserve the mossy wooden gate leaf beside the road, close north and south boundaries continuously with wall, hedge and dense woodland; remove any northward gate or path. One wide road west-east only, 4:3 three-quarter overhead, humid green daylight. Canon exits only east and west; no extra trails or openings. Environment only, no actors, people, creatures, players, Vaisork, Númenes, text or UI."
+}

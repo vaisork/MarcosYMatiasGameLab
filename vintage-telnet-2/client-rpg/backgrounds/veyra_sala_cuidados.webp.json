@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_sala_cuidados",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-71c6-79e0-a15e-d020a34de00d/exec-0b8acd72-ad44-489f-8cc2-0e5651f582f6.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Center crop to 4:3 if needed, Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP compression",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 88,
+  "bytes": 231144,
+  "sha256": "e1a9f48ec4c02d3d9f94d3d6f7e98db21a6911009454676a95d97d58ee31bf31",
+  "prompt": "Detailed 16-bit indie RPG care room in Vaisgard: simple cots, clean table, a basin for used water physically separate from clean water, and neatly prepared care supplies. 4:3 fixed three-quarter overhead interior; one clear broad walking lane extends from room center to exact west edge, only opening; cots and table at top and right; gentle daylight, cool shade and warm wood, no people, patients, creatures, actors, players, Vaisork, Númenes, text, UI or watermark."
+}
