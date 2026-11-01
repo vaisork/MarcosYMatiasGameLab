@@ -12,7 +12,7 @@ const enemigo = (id, tipo, x, y = 554, extra = {}) => ({
   comportamiento: extra.comportamiento || 'patrulla', hp: null, pisable: true, ...extra,
 });
 
-function crearEscena({ id, nombre, colorRespaldo, colorSuelo, colorPlataforma, plataformas, enemigos, objetos, destino }) {
+function crearEscena({ id, nombre, colorRespaldo, colorSuelo, colorPlataforma, plataformas, enemigos, objetos, destino, bonus }) {
   return {
     id, nombre,
     limites: { x: 0, y: 0, w: 2560, h: 720 },
@@ -23,10 +23,10 @@ function crearEscena({ id, nombre, colorRespaldo, colorSuelo, colorPlataforma, p
     enemigos,
     objetos,
     secretos: objetos.filter((o) => o.secreto).map((o) => o.id),
-    disparadores: destino ? [{
+    disparadores: [...(destino ? [{
       id: `${id}-salida`, x: 2538, y: 0, w: 22, h: 720,
       destino, accion: 'pasar', puntoEntrada: { x: 40, y: 510 },
-    }] : [],
+    }] : []), ...(bonus ? [bonus] : [])],
   };
 }
 
@@ -45,6 +45,11 @@ export const escenaAntigua = crearEscena({
   objetos: [churu('antigua-churu-1', 410), churu('antigua-churu-2', 1010, 299),
     churu('antigua-churu-secreto', 1770, 359, true), botiquin('antigua-botiquin', 1450)],
   destino: 'guatemala-chichicastenango',
+  bonus: {
+    id: 'tuk-tuk-antigua', x: 2190, y: 420, w: 300, h: 180,
+    destino: 'guatemala-chichicastenango', rutaBonus: './bonus-tuk-tuk.html',
+    accion: 'subir', etiqueta: 'Subir', requiere: null,
+  },
 });
 
 export const escenaChichicastenango = crearEscena({

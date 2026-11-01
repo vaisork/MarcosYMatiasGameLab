@@ -955,7 +955,9 @@ export function arrancarSenku2({
     if (btnSubir) btnSubir.hidden = !zona || !!viaje || menuAbierto;
     if (zona && !viaje && !avisoRestante) {
       if (!zona.requiere) {
-        mostrarAviso('¡El camión está listo! Pulsa E o Subir.', 0.5);
+        mostrarAviso(zona.id === 'tuk-tuk-antigua'
+          ? '¡El tuk-tuk está listo! Pulsa E o Subir.'
+          : '¡El camión está listo! Pulsa E o Subir.', 0.5);
       } else {
         mostrarAviso(estadoJugador.coleccionados.includes(zona.requiere)
           ? '¡Ya tienes la llave! Pulsa E o Subir.'
@@ -1174,6 +1176,7 @@ export function arrancarSenku2({
   }));
   catalogoArte.cargar(resolverRutaArte('assets/fondos/camioneta_reja.webp'));
   catalogoArte.cargar(resolverRutaArte('assets/jefe/balam.png'));
+  catalogoArte.cargar(resolverRutaArte('assets/bonus/tuk-tuk-antigua.webp'));
   const animadorEnemigos = crearAnimadorEnemigos();
 
   function cambiarEscena(destino, { puntoEntrada, curar = false } = {}) {
@@ -1261,8 +1264,8 @@ export function arrancarSenku2({
         if (viaje.tiempo < 2.5) return;
       } else if (viaje.tiempo < 2) return;
       if (viaje.tipo !== 'camion' && viaje.tiempo < 5) {
-        mostrarAviso(viaje.tipo === 'camion'
-          ? '¡Senku sube al camión! ¡A juntar Churus!'
+        mostrarAviso(viaje.tipo === 'tuk-tuk-antigua'
+          ? '¡Senku sube al tuk-tuk! ¡A juntar Churus!'
           : '¡Senku toma el volante! ¡A juntar Churus!', 0);
         return;
       }

@@ -30,7 +30,10 @@ test('Guatemala: cuatro escenas válidas, conectadas y con dos fondos pintados c
     assert.ok(escena.objetos.some((o) => o.tipo === 'botiquin'));
     assert.ok(escena.objetos.some((o) => o.tipo === 'churu'));
   }
-  assert.deepEqual(escenaAntigua.disparadores.map((d) => d.destino), ['guatemala-chichicastenango']);
+  assert.equal(escenaAntigua.disparadores.find((d) => d.accion === 'pasar').destino, 'guatemala-chichicastenango');
+  const bonusTukTuk = escenaAntigua.disparadores.find((d) => d.id === 'tuk-tuk-antigua');
+  assert.equal(bonusTukTuk.rutaBonus, './bonus-tuk-tuk.html');
+  assert.equal(bonusTukTuk.destino, 'guatemala-chichicastenango');
   assert.deepEqual(escenaChichicastenango.disparadores.map((d) => d.destino), ['guatemala-selva']);
   assert.deepEqual(escenaSelva.disparadores.map((d) => d.destino), ['guatemala-tikal']);
   assert.equal(escenaTikal.disparadores.length, 0, 'Tikal termina en la arena reservada para el jefe del diseño');
@@ -146,6 +149,14 @@ test('tras derrotar al Gato Mecánico, continuar a Guatemala guarda progreso sin
   assert.equal(estado.churus, 17);
   assert.ok(estado.coleccionados.includes('jefe-gato-mecanico'));
   assert.ok(estado.coleccionados.includes('llave-camioneta'));
+  Object.assign(juego.senku, { x: 2240, y: 500, vy: 0 });
+  juego.avanzarPaso(1 / 60);
+  assert.equal(nodos['btn-subir'].hidden, false);
+  assert.equal(juego.intentarSubir(), true);
+  juego.avanzarPaso(2.5);
+  assert.match(juego.avisoViaje(), /sube al tuk-tuk/i);
+  juego.avanzarPaso(3);
+  assert.equal(ventana.location.href, './bonus-tuk-tuk.html');
   juego.detener();
 });
 
