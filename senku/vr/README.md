@@ -104,5 +104,10 @@ a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, 
 - `src/poder.mjs`: barrita y ratoncitos del Ultra Gato (lógica pura, sin Three).
 - `src/mundo.js`: ciudad instanciada; `src/sonido.js`: sonidos Web Audio;
   `src/estilos.js`: cuerdas, patas y sus dibujos (menú y texturas).
+- Carteles de ciudad: 20 anuncios en `src/carteles.mjs`, con 14 texturas WebP
+  compartidas; placas con volumen, marcos de focos instanciados, tres bandas
+  LED, neones, un panel giratorio y un globo publicitario animado. No añaden
+  colisiones ni luces dinámicas. Las seis ilustraciones nuevas llevan sus
+  rótulos pintados por código al cargarse.
 - Churu: `../v2/assets/objetos/churu.png`. Récord en `localStorage` (`senku_vr_record`).
 - Pruebas: `node --test senku/vr/tests/*.test.mjs`.

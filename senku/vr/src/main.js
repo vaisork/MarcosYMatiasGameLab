@@ -1125,6 +1125,7 @@ renderer.setAnimationLoop(() => {
   }
   if (menuAbierto) { if (renderer.xr.isPresenting) actualizarMenuVR(); }
   else if (jugando) actualizar(dt);
+  mundo.carteles.animar(ahora);
   renderer.render(scene, camera);
 });
 
@@ -1183,4 +1184,4 @@ botonVR.addEventListener('click', async () => {
 
 // Para pruebas desde la consola: senku.disparar(0), senku.soltar(0)... y
 // senku.avanzar(dt) corre un paso del juego aunque la pestaña esté oculta.
-window.senku = { avanzar: (dt) => { if (jugando && !menuAbierto) actualizar(dt); renderer.render(scene, camera); }, jugadora, manos, churus, eleccion, enemigos, vida, abrirMenu, cerrarMenu, menuLienzo, activar, golpearEnemigo, alternarEscalada, total: () => totalChurus, barra, ratoncitos, poder: (i = 1) => lanzarPoder(manos[i]), disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; } };
+window.senku = { avanzar: (dt) => { if (jugando && !menuAbierto) actualizar(dt); mundo.carteles.animar(performance.now()); renderer.render(scene, camera); }, jugadora, manos, churus, eleccion, enemigos, vida, abrirMenu, cerrarMenu, menuLienzo, activar, golpearEnemigo, alternarEscalada, total: () => totalChurus, barra, ratoncitos, poder: (i = 1) => lanzarPoder(manos[i]), disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; } };
