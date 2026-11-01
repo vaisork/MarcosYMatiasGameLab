@@ -10,7 +10,7 @@ import { CUERDAS, PATAS, tramoCuerda, muestraCuerda, muestraPata, leerEleccion, 
 
 const ALCANCE = 40, VEL_GARRA = 260, ENFRIAR = 0.35, ENFRIAR_TIRON = 1.0, CUERPO = 1.0;
 const CLAVE_RECORD = 'senku_vr_record', CLAVE_TOTAL = 'senku_vr_churus_total';
-const ENEMIGOS_MAX = 12, REAPARECER = 5;
+const ENEMIGOS_MAX = 24, REAPARECER = 3; // Matías pidió más ratones (antes 12 y 5 s)
 const $ = (id) => document.getElementById(id);
 
 // --- Render y escena ---------------------------------------------------------
