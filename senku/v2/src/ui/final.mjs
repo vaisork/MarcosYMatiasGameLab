@@ -24,7 +24,7 @@ function fanfarria(ventana) {
   }
 }
 
-export function mostrarFinal(documento, ventana, resumen, { alVolverAJugar, alSeguir } = {}) {
+export function mostrarFinal(documento, ventana, resumen, { alVolverAJugar, alSeguir, alContinuarGuatemala } = {}) {
   if (!documento?.body || documento.getElementById('final-capitulo')) return null;
   const capa = documento.createElement('div');
   capa.id = 'final-capitulo';
@@ -53,6 +53,7 @@ export function mostrarFinal(documento, ventana, resumen, { alVolverAJugar, alSe
       </div>
       <p style="margin:14px 0 16px;font-size:13px;opacity:.75">Idea y dirección: Matías y Javier · Senku es el gato de la casa</p>
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button id="final-guatemala" style="background:#9bd18b;color:#18351e">Continuar a Guatemala</button>
         <button id="final-seguir" style="background:#f2c14e;color:#2a1a08">Seguir explorando</button>
         <button id="final-volver" style="background:#ffffff22;color:#fff">Jugar desde el principio</button>
       </div>
@@ -60,6 +61,7 @@ export function mostrarFinal(documento, ventana, resumen, { alVolverAJugar, alSe
   documento.body.appendChild(capa);
   const cerrar = () => capa.remove();
   capa.querySelector('#final-seguir')?.addEventListener('click', () => { cerrar(); alSeguir?.(); });
+  capa.querySelector('#final-guatemala')?.addEventListener('click', () => { cerrar(); alContinuarGuatemala?.(); });
   capa.querySelector('#final-volver')?.addEventListener('click', () => { cerrar(); alVolverAJugar?.(); });
   fanfarria(ventana);
   return capa;

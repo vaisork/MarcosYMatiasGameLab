@@ -46,6 +46,9 @@ export const HOJAS_ENEMIGO = Object.freeze({
   raton_cafe: { ruta: 'assets/enemigos/raton_cafe.png', escala: 0.85 },
   hamster_negro: { ruta: 'assets/enemigos/hamster_negro.png', escala: 0.85 },
   hamster_cafe: { ruta: 'assets/enemigos/hamster_cafe.png', escala: 0.85 },
+  tucan_ladron: { ruta: 'assets/enemigos/tucan_ladron.svg', escala: 0.85 },
+  coati: { ruta: 'assets/enemigos/coati.svg', escala: 0.85 },
+  mono_aullador: { ruta: 'assets/enemigos/mono_aullador.svg', escala: 0.85 },
 });
 const HOJA_ENEMIGO_DEFECTO = HOJAS_ENEMIGO.cucaracha;
 

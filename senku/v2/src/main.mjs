@@ -34,6 +34,7 @@ import { crearLanzador, actualizarDisparo, actualizarProyectiles } from './core/
 import { dibujarJefe, dibujarProyectiles, dibujarLanzadorEnLomo, dibujarObjetoLanzador,
   dibujarBarraJefe, dibujarPuertaArena } from './render/cima.mjs';
 import { escenaReja } from './data/escenas/reja.mjs';
+import { escenasGuatemala } from './data/escenas/guatemala.mjs';
 import { crearManejadorEntrada } from './core/entrada.mjs';
 import { crearEnemigo, actualizarEnemigos } from './core/enemigos.mjs';
 import {
@@ -780,6 +781,8 @@ export function arrancarSenku2({
   registro.registrar(escenaDesierto);
   registro.registrar(escenaDespenadero);
   registro.registrar(escenaCima);
+  for (const escena of escenasGuatemala) registro.registrar(escena);
+  const escenasMexico = registro.listar().filter(({ id }) => !id.startsWith('guatemala-'));
 
   // Se reanuda donde se guardó; una escena desconocida vuelve a la taquería.
   let escenaActual = registro.obtener(estadoJugador.progreso?.escena) || registro.obtener('taqueria');
@@ -849,7 +852,10 @@ export function arrancarSenku2({
     btnRejugar.setAttribute('aria-label', 'Jugar desde el principio');
     btnRejugar.title = 'Jugar desde el principio';
     btnRejugar.addEventListener('click', () => mostrarFinal(documento, ventana,
-      resumenCapitulo(estadoJugador, registro.listar()), { alVolverAJugar: volverAJugarCapitulo }));
+      resumenCapitulo(estadoJugador, escenasMexico), {
+        alVolverAJugar: volverAJugarCapitulo,
+        alContinuarGuatemala: () => cambiarEscena('guatemala-antigua', { curar: true }),
+      }));
     documento.getElementById('btn-pausa')?.before?.(btnRejugar);
     actualizarBotonRejugar();
   }
@@ -1318,8 +1324,9 @@ export function arrancarSenku2({
             temporizadorFinal = ventana.setTimeout?.(() => {
               mostrarAviso('', 0); // que el aviso no asome sobre la tarjeta final
               mostrarFinal(documento, ventana,
-                resumenCapitulo(estadoJugador, registro.listar()), {
+                resumenCapitulo(estadoJugador, escenasMexico), {
                   alVolverAJugar: volverAJugarCapitulo,
+                  alContinuarGuatemala: () => cambiarEscena('guatemala-antigua', { curar: true }),
                 });
             }, 2600);
           }

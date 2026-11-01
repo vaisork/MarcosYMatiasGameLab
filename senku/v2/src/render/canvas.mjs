@@ -984,6 +984,56 @@ export function dibujarParalajeCiudad(ctx, cameraX, tiempo, anchoTotal = 1280, c
   dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoTotal);
 }
 
+function dibujarFondoGuatemala(ctx, escena, cameraX) {
+  const estilo = escena.id;
+  const fondos = {
+    'guatemala-antigua': ['#f3bd91', '#865e70', '#645b73'],
+    'guatemala-chichicastenango': ['#e9cb8d', '#97724e', '#b75549'],
+    'guatemala-selva': ['#a4bd7d', '#536f54', '#304c3e'],
+    'guatemala-tikal': ['#a9bd83', '#77684d', '#4e5541'],
+  };
+  const [cielo, lejos, cerca] = fondos[estilo] || fondos['guatemala-antigua'];
+  ctx.fillStyle = cielo;
+  ctx.fillRect(0, 0, ANCHO_LOGICO, 600);
+  ctx.save();
+  ctx.translate(-cameraX * 0.18, 0);
+  for (let x = -360; x < ANCHO_LOGICO + 720; x += 640) {
+    if (estilo === 'guatemala-antigua') {
+      ctx.fillStyle = lejos;
+      ctx.beginPath(); ctx.moveTo(x, 455); ctx.lineTo(x + 235, 145); ctx.lineTo(x + 475, 455); ctx.fill();
+      ctx.fillStyle = '#5d5368';
+      ctx.beginPath(); ctx.moveTo(x + 145, 335); ctx.lineTo(x + 235, 145); ctx.lineTo(x + 325, 335); ctx.fill();
+      ctx.fillStyle = cerca; ctx.fillRect(x + 35, 390, 190, 175);
+      ctx.fillRect(x + 285, 350, 180, 215);
+      ctx.fillStyle = '#f0d8aa';
+      for (const wx of [x + 70, x + 145, x + 320, x + 395]) ctx.fillRect(wx, 430, 24, 38);
+      ctx.fillStyle = '#d9b98b'; ctx.fillRect(x + 250, 440, 20, 125);
+    } else if (estilo === 'guatemala-chichicastenango') {
+      ctx.fillStyle = lejos; ctx.fillRect(x + 35, 430, 560, 150);
+      for (let i = 0; i < 6; i += 1) {
+        ctx.fillStyle = ['#c34d49', '#e2a842', '#477c65', '#52769a'][i % 4];
+        ctx.fillRect(x + 20 + i * 96, 315 + (i % 2) * 28, 82, 115);
+        ctx.fillStyle = '#f1d69b'; ctx.fillRect(x + 20 + i * 96, 315 + (i % 2) * 28, 82, 12);
+      }
+    } else if (estilo === 'guatemala-selva') {
+      ctx.fillStyle = lejos; ctx.fillRect(x + 65, 205, 36, 390); ctx.fillRect(x + 440, 160, 48, 430);
+      ctx.fillStyle = cerca;
+      for (const [cx, cy, r] of [[75, 200, 105], [165, 235, 85], [445, 170, 125], [535, 225, 90]]) {
+        ctx.beginPath(); ctx.arc(x + cx, cy, r, 0, Math.PI * 2); ctx.fill();
+      }
+    } else {
+      ctx.fillStyle = lejos;
+      ctx.fillRect(x + 40, 440, 520, 150);
+      ctx.beginPath(); ctx.moveTo(x + 150, 440); ctx.lineTo(x + 290, 210); ctx.lineTo(x + 430, 440); ctx.fill();
+      ctx.fillStyle = cerca; ctx.fillRect(x + 250, 265, 80, 175);
+      ctx.fillRect(x + 225, 250, 130, 18); ctx.fillRect(x + 200, 300, 180, 18);
+      ctx.fillRect(x + 175, 350, 230, 18); ctx.fillRect(x + 145, 400, 290, 22);
+      ctx.fillStyle = '#d8c89f'; ctx.fillRect(x + 278, 370, 24, 70);
+    }
+  }
+  ctx.restore();
+}
+
 // Elementos de la Reja del Parque en el primer plano
 function dibujarReja(ctx) {
   ctx.fillStyle = '#473c32';
@@ -1104,6 +1154,8 @@ export function renderizarEscena({
     dibujarParalajeCiudad(ctx, cameraX, tiempo, anchoEscena, catalogoParalaje);
   } else if (escena.id === 'taqueria') {
     dibujarParalajeTaqueria(ctx, cameraX, tiempo, anchoEscena, catalogoParalaje);
+  } else if (fondoCfg.estilo === 'guatemala') {
+    dibujarFondoGuatemala(ctx, escena, cameraX);
   } else if (imagenFondo) {
     ctx.drawImage(imagenFondo, 0, 0, ANCHO_LOGICO, ALTO_LOGICO);
   } else {
