@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f4f0">
+  <meta name="description" content="Propuesta de un atlas 3D de anatomía veterinaria en realidad aumentada y virtual para Medicina Veterinaria, UNITEC campus Toluca.">
+  <title>VetAR · Propuesta para UNITEC</title>
+  <style>
+    :root{color-scheme:light;--ink:#172326;--muted:#5f6d70;--line:#dce2de;--paper:#f4f4f0;--panel:#fff;--green:#146b5b;--mint:#dceee8;--gold:#c38a3d;--shadow:0 14px 40px #152b2610;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);line-height:1.55}
+    a{color:var(--green)}
+    .masthead{padding:14px clamp(16px,4vw,48px);display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);background:#f9faf7}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-mark{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--green);color:var(--green);font-family:Georgia,serif;font-size:20px}
+    .brand small{display:block;font-size:11px;letter-spacing:.14em;color:var(--green);font-weight:700}
+    .brand strong{font-size:15px}
+    .tag{font-size:13px;color:var(--muted);text-align:right}
+    main{max-width:1040px;margin:0 auto;padding:0 clamp(16px,4vw,32px) 48px}
+    .hero{padding:clamp(32px,6vw,64px) 0 24px}
+    .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);font-weight:700;margin:0 0 10px}
+    h1{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(30px,5vw,48px);line-height:1.12;margin:0 0 16px}
+    h2{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(23px,3vw,30px);margin:0 0 14px}
+    h3{font-size:16px;margin:0 0 6px}
+    .lead{font-size:clamp(16px,2vw,19px);color:var(--muted);max-width:720px;margin:0 0 24px}
+    .actions{display:flex;flex-wrap:wrap;gap:10px}
+    .btn{display:inline-block;padding:11px 18px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;border:1px solid var(--green)}
+    .btn.primary{background:var(--green);color:#fff}
+    .btn.ghost{background:#fff;color:var(--green)}
+    section{margin-top:40px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow)}
+    .card p{margin:0;color:var(--muted);font-size:15px}
+    .card .num{font-family:Georgia,serif;font-size:30px;color:var(--green);line-height:1;margin-bottom:6px}
+    .compare{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:15px}
+    .compare th,.compare td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+    .compare th{background:var(--mint);font-weight:600}
+    .compare tr:last-child td{border-bottom:0}
+    .phases{counter-reset:fase;display:grid;gap:12px}
+    .phase{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:10px;padding:16px 20px}
+    .phase h3::before{counter-increment:fase;content:"Fase " counter(fase) " · ";color:var(--green)}
+    .phase p{margin:0;color:var(--muted);font-size:15px}
+    .note{background:#fff8ec;border:1px solid #f0dcb8;border-radius:10px;padding:14px 18px;font-size:14px;color:#5b4a2c}
+    .table-wrap{overflow-x:auto}
+    footer{border-top:1px solid var(--line);padding:22px clamp(16px,4vw,48px);font-size:13px;color:var(--muted);text-align:center}
+  </style>
+</head>
+<body>
+<header class="masthead">
+  <div class="brand"><span class="brand-mark" aria-hidden="true">V</span><div><small>VETAR</small><strong>Atlas veterinario inmersivo</strong></div></div>
+  <div class="tag">Propuesta para UNITEC<br>Medicina Veterinaria, campus Toluca</div>
+</header>
+<main>
+  <div class="hero">
+    <p class="eyebrow">Propuesta académica</p>
+    <h1>Anatomía veterinaria que se puede tomar con las manos</h1>
+    <p class="lead">Un atlas 3D que los alumnos exploran en el navegador, en realidad aumentada sobre la mesa del aula o en un laboratorio virtual con los lentes Meta Quest 3. Esta muestra gratuita enseña cómo funciona con el esqueleto y los órganos de un perro.</p>
+    <div class="actions"><a class="btn primary" href="index.html">Abrir la muestra</a><a class="btn ghost" href="#con-presupuesto">Qué se haría con presupuesto</a></div>
+  </div>
+
+  <section aria-labelledby="hoy">
+    <h2 id="hoy">Qué hace hoy la muestra</h2>
+    <div class="grid">
+      <div class="card"><div class="num">138</div><h3>Estructuras del perro</h3><p>Esqueleto completo por regiones, dientes y 17 órganos torácicos y abdominales, cada uno con nombre en español y en latín.</p></div>
+      <div class="card"><div class="num">AR</div><h3>Realidad aumentada</h3><p>Con el Meta Quest 3, el perro aparece a color sobre una mesa real. Se toma con las manos, se gira y se desarma pieza por pieza.</p></div>
+      <div class="card"><div class="num">VR</div><h3>Laboratorio virtual</h3><p>El mismo atlas en un aula virtual con mesa de exploración e iluminación clínica, sin distracciones.</p></div>
+      <div class="card"><div class="num">✓</div><h3>Modo examen</h3><p>«Toca el húmero»: el alumno localiza estructuras y obtiene puntaje y tiempo al instante.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="comparar">
+    <h2 id="comparar">Realidad aumentada o virtual: probar las dos</h2>
+    <div class="table-wrap">
+    <table class="compare">
+      <tr><th></th><th>Realidad aumentada</th><th>Realidad virtual</th></tr>
+      <tr><td>Qué ve el alumno</td><td>El aula real y el modelo encima de la mesa</td><td>Un laboratorio virtual completo</td></tr>
+      <tr><td>Ventaja</td><td>Puede trabajar con compañeros y profesor a la vista, sin aislarse</td><td>Máxima concentración y escala libre del modelo</td></tr>
+      <tr><td>Ideal para</td><td>Clases en grupo y prácticas guiadas</td><td>Estudio individual y exámenes</td></tr>
+    </table>
+    </div>
+  </section>
+
+  <section id="con-presupuesto" aria-labelledby="presupuesto">
+    <h2 id="presupuesto">Qué se haría con presupuesto</h2>
+    <div class="grid">
+      <div class="card"><h3>Atlas completo</h3><p>Músculos, nervios, vasos y piel por capas, con modelos anatómicos de grado profesional con licencia para uso educativo.</p></div>
+      <div class="card"><h3>Más especies</h3><p>Gato, caballo, vaca y otras especies del plan de estudios, con la misma forma de uso.</p></div>
+      <div class="card"><h3>Casos clínicos</h3><p>Fracturas, patologías y cirugías frecuentes sobre el modelo, para pasar de la anatomía a la clínica.</p></div>
+      <div class="card"><h3>Seguimiento del profesor</h3><p>Panel web por grupo y alumno: exámenes, calificaciones, tiempo de práctica y temas que más cuestan.</p></div>
+      <div class="card"><h3>Acceso privado</h3><p>Cuenta para cada alumno y profesor, con el contenido del curso y sus avances guardados.</p></div>
+      <div class="card"><h3>Kit listo para el aula</h3><p>Meta Quest 3 configurados, capacitación a profesores y soporte durante el semestre.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="fases">
+    <h2 id="fases">Ruta de trabajo</h2>
+    <div class="phases">
+      <div class="phase"><h3>Muestra</h3><p>Esta versión gratuita: esqueleto y órganos del perro, en navegador, realidad aumentada y virtual. Sirve para que profesores y alumnos la prueben.</p></div>
+      <div class="phase"><h3>Piloto con un grupo</h3><p>Atlas canino completo con músculos, modo examen y panel del profesor, con un grupo durante un parcial para medir resultados.</p></div>
+      <div class="phase"><h3>Implementación</h3><p>Más especies, casos clínicos, cuentas para toda la carrera y kit de lentes para el laboratorio.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="note">El costo de cada fase se define según el alcance que elija la universidad: número de alumnos, especies, cantidad de lentes y meses de soporte.</p>
+  </section>
+</main>
+<footer><strong>Muestra educativa sin fines de lucro.</strong> Modelos: Virginia Tech Virtual Animal Project / VT-ARIES — CC BY-NC-SA 4.0 (<a href="https://github.com/VT-ARIES/Anatomy">github.com/VT-ARIES/Anatomy</a>). UNITEC es marca de su respectivo titular; esta propuesta no está afiliada ni respaldada por la universidad.</footer>
+</body>
+</html>
