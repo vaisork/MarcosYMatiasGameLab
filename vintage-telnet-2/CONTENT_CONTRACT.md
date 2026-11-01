@@ -14,6 +14,12 @@ Historia: `id`, `title`, `premise`, `steps` (lista de flags/textos de diario), `
 
 Región: `id`, `name`, `identity`, `settlement`, `species`, `weather` (variantes físicas) y `source`. Criaturas: datos canónicos y señales previas; sus valores de combate sólo entran desde el contrato cerrado de Jugabilidad.
 
+### Crafteo y pesca v1
+
+`recipes` registra recetas por id con `name`, `materials` (2–3 ids de materiales y cantidades), `seals` y `output` (ítem existente). Cada registro `crafting_stations.<sala>` tiene `id` igual al id de sala y el campo `npc` del servicio que debe estar presente. `fabricar <receta>` consume materiales y sellos y añade el resultado; `recetas` lista las opciones. Las ocho recetas actuales producen provisiones con el efecto ya existente, sin bonificaciones de combate.
+
+Cada registro `fishing.<sala>` tiene `id` igual al id de sala y una lista `fish` de especies (`item` y `rarity`). La pesca v1 está limitada a las seis salas homologadas en `docs/VT2_PESCA.md`, usa el inventario y precio de venta existentes, tiene un intento personal cada 120 segundos, 3 de fatiga y agota el cardumen durante 900 segundos tras una captura. No pesca durante combate ni con fatiga desde 70; no genera daño ni encuentros.
+
 La composición combina espacio, transición, hora, clima, actividad, amenaza y memoria con prioridad y ritmo; no concatena todas las capas en cada lectura ni sustituye escenas concretas por frases genéricas.
 
 Piloto MUD clásico: `brief` es un resumen editorial opcional de la geografía permanente. Sólo se usa en navegación tras la primera visita; `mirar` devuelve siempre la descripción completa mediante un evento `LOOK`. Un estado que cambia `description` sin su propio `brief` descarta el resumen anterior. Lo mismo ocurre al cambiar la descripción por ausencia de una criatura. Las capas dinámicas, amenazas, acciones y salidas conservan sus contratos. El encabezado muestra el lugar; `LOCATION` permanece en el historial, sin repetirse en la terminal. No extender los seis resúmenes del piloto masivamente sin una revisión regional.

@@ -989,6 +989,26 @@ class Engine:
                     disabled=bonded_count>=m.MAX_BONDED_NUMENES
                     reason=f'Ya has alcanzado el límite de {m.MAX_BONDED_NUMENES} Númenes vinculados (R06).' if disabled else 'El animal ha aceptado tu compañía por voluntad propia.'
                     actions.append({'id':'vincular_numen','target':mod['id'],'label':'Aceptar el vínculo y darle nombre','disabled':disabled,'reason':reason})
+        if not combat:
+            fishing=self.content.fishing.get(room['id'])
+            if fishing:
+                now=self.clock();last=state.get('fishing',{}).get(room['id'],0)
+                stock=world.get('fishing_stock',{}).get(room['id'],0)
+                disabled=state.get('fatigue',0)>=70 or last+120>now or stock>now
+                reason=('Necesitas descansar antes de mantener el sedal.' if state.get('fatigue',0)>=70 else
+                        'El cardumen volverá a este tramo más tarde.' if stock>now else
+                        'Espera un poco antes de volver a lanzar el sedal.' if last+120>now else '')
+                actions.append({'id':'pescar','label':'Pescar','disabled':disabled,'reason':reason})
+            station=self.content.crafting_stations.get(room['id'],{}).get('npc')
+            present={npc['id'] for npc in self.people(room,state,world,self.ambient(room,world))}
+            if station and station in present:
+                actions.append({'id':'recetas','label':'Listar recetas'})
+                for recipe_id,recipe in self.content.recipes.items():
+                    missing=any(sum(i.get('quantity',1) for i in state['inventory'] if i.get('catalog_id',i['id'])==item_id)<qty
+                                for item_id,qty in recipe['materials'].items())
+                    actions.append({'id':'fabricar','target':recipe_id,'label':f"Fabricar {recipe['name']}",
+                                    'disabled':state.get('seals',0)<recipe['seals'] or missing,
+                                    'reason':f"Necesitas {recipe['seals']} sellos y los materiales de la receta."})
         story_ids={item['id'] for item in room.get('actions',[])}
         numen_prio={'observar_numen','aproximar_numen','confiar_numen','calmar_numen','vincular_numen','cuidar_numen','alimentar_numen','nombrar_numen','activar_numen','descansar_numen','apoyo_numen','traer_numen','alimentar_lejos'}
         actions.sort(key=lambda action:0 if action['id'] in story_ids or action['id'] in ('cobrar','examinar_criatura','buscar','combatir','acercarse','retirarse','calmar') or action['id'] in numen_prio else 1)
@@ -1004,6 +1024,8 @@ class Engine:
             return ' '.join(re.sub(r'[^\w\s]',' ',value).split())
         if text.strip().casefold().startswith('decir '):return {'id':'decir','text':text.strip()[6:]}
         typed=normalize(text);state=character['state'];room=self.room(character,world);matches=[]
+        if typed in ('recetas','lista de recetas','listar recetas'):
+            return {'id':'recetas'}
         if typed in ('mira','mirar','l') or strip_articles(typed) in ('mira','mirar'):typed='mirar'
         elif typed.startswith('mira '):typed='mirar '+typed[5:]
         elif typed.startswith('l '):typed='mirar '+typed[2:]
@@ -1078,6 +1100,9 @@ class Engine:
                 if base_name!=item.get('name',target):aliases.add(normalize(id+' '+base_name))
                 cat=item.get('catalog_id') or str(item.get('id',target)).split(':')[0]
                 aliases.add(normalize(id+' '+cat))
+            elif id=='fabricar':
+                recipe=self.content.recipes.get(target,{})
+                aliases.update((normalize('fabricar '+recipe.get('name',target)),normalize('fabricar '+target)))
             elif id in ('combatir','evaluar','acercarse','retirarse','examinar_criatura','calmar'):
                 creature=self.creature_prose(room,target)
                 aliases.add(normalize(id+' '+creature.get('name',target)))
@@ -1249,6 +1274,55 @@ class Engine:
                     text='\n\n'.join('\n'.join(ficha) for ficha in fichas)
             else:text='Inventario: '+('; '.join(f"{item['name']} ({item.get('quantity',1)})" for item in state['inventory']) or 'vacío')+'.'
             state['events']=[event('info',text)];return
+        if action=='recetas':
+            station=self.content.crafting_stations.get(room['id'],{}).get('npc')
+            present={npc['id'] for npc in self.people(room,state,world,self.ambient(room,world))}
+            if not station or station not in present:raise RuleError('Aquí no hay un taller disponible.',409)
+            rows=[]
+            for recipe in self.content.recipes.values():
+                materials=', '.join(f"{quantity} {self.content.items[item]['name']}" for item,quantity in recipe['materials'].items())
+                rows.append(f"fabricar {recipe['name']} — {materials} y {recipe['seals']} sellos")
+            state['events']=[event('info','Recetas disponibles:\n'+'\n'.join(rows))];return
+        if action=='pescar':
+            fish=self.content.fishing.get(room['id'],{}).get('fish')
+            if state.get('combat') or not fish:raise RuleError('Aquí no puedes pescar.',409)
+            now=self.clock();last=state.setdefault('fishing',{}).get(room['id'],0)
+            stock=world.setdefault('fishing_stock',{}).get(room['id'],0)
+            if state.get('fatigue',0)>=70:raise RuleError('El cansancio de tus brazos pide una pausa antes de pescar.',409)
+            if last+120>now:raise RuleError('Espera un poco antes de volver a lanzar el sedal.',409)
+            if stock>now:raise RuleError('El agua está tranquila; el cardumen volverá más tarde.',409)
+            state['fishing'][room['id']]=now
+            state['fatigue']=min(100,state['fatigue']+m.fatigue_cost(state,3))
+            roll=self.rng.random()
+            if roll<0.5:
+                weights=[{'comun':3,'poco_comun':1,'raro':0.5}.get(entry.get('rarity','comun'),1) for entry in fish]
+                pick=self.rng.random()*sum(weights);choice=fish[-1]
+                for entry,weight in zip(fish,weights):
+                    pick-=weight
+                    if pick<0:choice=entry;break
+                self.add_item(state,choice['item']);world['fishing_stock'][room['id']]=now+900
+                name=self.content.items[choice['item']]['name']
+                state['events']=[event('discovery',f"Entre el agua ves un {name}."),event('action',f"Guardas {name} en la mochila.")]
+            elif roll<0.85:
+                state['events']=[event('world','El sedal se mueve un instante; el pez se suelta y vuelve al agua.')]
+            else:
+                state['events']=[event('world','Una silueta cruza entre las plantas, lejos de tu alcance. El agua vuelve a quedar quieta.')]
+            return
+        if action=='fabricar':
+            station=self.content.crafting_stations.get(room['id'],{}).get('npc')
+            present={npc['id'] for npc in self.people(room,state,world,self.ambient(room,world))}
+            recipe=self.content.recipes.get(target)
+            if not station or station not in present:raise RuleError('Aquí no hay un taller disponible.',409)
+            if not recipe:raise RuleError('Esa receta no existe.',404)
+            if state.get('seals',0)<recipe['seals']:raise RuleError(f"Necesitas {recipe['seals']} sellos para fabricar {recipe['name']}.",409)
+            missing=[item for item,qty in recipe['materials'].items() if sum(i.get('quantity',1) for i in state['inventory'] if i.get('catalog_id',i['id'])==item)<qty]
+            if missing:raise RuleError('Te faltan materiales para esa receta.',409)
+            state['seals']-=recipe['seals']
+            self.effects(state,world,{'consume_items':recipe['materials']})
+            self.add_item(state,recipe['output'])
+            state['ledger'].append({'kind':'craft','recipe':target,'amount':-recipe['seals'],'at':now_clock})
+            state['events']=[event('action',f"Con ayuda de {self.content.npcs[station]['name']} fabricas {recipe['name']} y guardas el resultado.")]
+            return
         if action=='saludar':
             npc=next((n for n in self.people(room,state,world,self.ambient(room,world)) if n['id']==target),None)
             if not npc or state['combat']:raise RuleError('No puedes conversar con ese personaje ahora.',409)
