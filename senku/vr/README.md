@@ -9,16 +9,53 @@ columpiarse por una ciudad del desierto y juntar churus contra el reloj.
 2. Entra a <https://vaisork.github.io/MarcosYMatiasGameLab/senku/vr/>.
 3. Pulsa **Entrar en VR**.
 
-Gatillo: lanzar garra (mantener = columpiarse, soltar = salir volando).
-Agarre: tirón rápido. Palanca izquierda: caminar; derecha: girar (30° por
-pasos en modo cómodo, suave si se apaga). A/X: saltar. B/Y: menú de garras
-(apuntar con el rayo y elegir con el gatillo; el juego y el reloj se pausan).
-**Impulso con el brazo:** con la garra enganchada, jalar el control rápido
-hacia ti/atrás te impulsa por la cuerda hacia el ancla (vibra un poco).
+Palanca izquierda: caminar; derecha: girar (30° por pasos en modo cómodo,
+suave si se apaga). Gatillo: lanzar garra (mantener = columpiarse, soltar =
+salir volando). Agarre: con la garra enganchada, tirón; con la mano en una
+pared, escalar; si no, tirón hacia donde apuntas. A/X: saltar. B/Y: menú de
+garras (apuntar con el rayo y elegir con el gatillo; el juego y el reloj se
+pausan). **Impulso con el brazo:** con la garra enganchada, jalar el control
+rápido hacia ti/atrás te impulsa por la cuerda hacia el ancla (vibra un poco).
 
-Sin visor: clic izquierdo/derecho = garras, Q/E = tirón, F o rueda = jalar
-(impulso), M = menú, WASD, espacio, ratón para mirar (en celular hay botones
-táctiles «Jalar» y «≡»).
+Sin visor: clic izquierdo/derecho = garras (clic a un ratón cerca = zarpazo),
+Q/E = tirón, F o rueda = jalar (impulso, o jalar un ratón atrapado), C = agarrarse
+a la pared de enfrente y subir con W, M = menú, WASD, espacio, ratón para mirar
+(en celular hay botones táctiles «Jalar» y «≡»).
+
+## Versión 3 (pedido de Matías): ratones y escalar
+
+- **Ratones** en calles y azoteas (máximo 12 a la vez; al vencer uno reaparece
+  otro en 5 s en otro lugar). Negro: 1 golpe, café: 2, hámster (más grande): 3;
+  pips rojos sobre la cabeza = golpes que faltan. Persiguen a Senku a menos de
+  18 m y en su mismo nivel; el de azotea no se baja, el de calle no entra a
+  edificios. Animación procedural: saltitos y balanceo al caminar, giran hacia
+  Senku, se aplastan al golpe y «poof» de nube al vencerlos.
+- **Atacar**: zarpazo = mano a ≥ 2.5 m/s a menos de 0.9 m del ratón (vibra y
+  suena, 0.35 s entre zarpazos). Lanzar la garra a un ratón lo atrapa (se queda
+  quieto, la mira se pone roja al apuntarle); jalar la cuerda (agarre, brazo
+  hacia ti o F) lo acerca de un brinco y lo golpea. Sin recargas.
+- **Vida**: 3 corazones en el HUD de la muñeca. Si un ratón te toca pierdes uno
+  (1.5 s de invulnerabilidad y un empujón). Sin corazones vuelves al inicio
+  con todos tus churus.
+- **Churus**: cada ratón vencido suelta 1/2/3 que vuelan hacia ti y suman al
+  total acumulado (`localStorage` `senku_vr_churus_total`, «Total» en el HUD).
+  Servirán para desbloquear cosas; todavía no hay tienda.
+- **Escalar**: agarre con la mano tocando una pared (a 0.45 m) → el cuerpo se
+  mueve al revés de la mano (`escalar()`), sin gravedad; con las dos manos se
+  promedian. Al soltar sales lanzada al revés de la mano (×1.4, tope 12 m/s).
+  Sin visor: C frente a una pared (≤ 2.5 m) te pega a ella; W/S sube y baja,
+  A/D de lado, espacio salta hacia atrás; al llegar arriba pisas la azotea.
+- Al entrar en VR aparece el aviso «Palanca izquierda: caminar · Agarre en una
+  pared: escalar».
+- Modelos: `modelos/raton_negro.glb`, `raton_cafe.glb`, `hamster.glb` (Meshy
+  desde los sprites de Senku 2, ~9k triángulos y textura JPEG, < 1 MB cada
+  uno). Cada GLB se carga una vez con `GLTFLoader`; los ratones son clones que
+  comparten geometría y un `MeshLambertMaterial` solo con el mapa de color
+  (sin PBR ni sombras). Apuntar a un ratón usa esferas, no triángulos.
+- Lógica pura en `src/enemigos.mjs` (tipos, golpes, persecución, vida, pared,
+  escalada) con pruebas en `tests/enemigos.test.mjs`. Para probar sin visor
+  desde la consola: `senku.avanzar(dt)` corre un paso aunque la pestaña esté
+  oculta; `senku.enemigos`, `senku.vida`, `senku.total()`.
 
 ## Versión 2 (pedidos de Matías)
 
@@ -36,6 +73,7 @@ táctiles «Jalar» y «≡»).
 
 - Three.js 0.170.0 desde jsDelivr (importmap), sin build.
 - `src/fisica.mjs`: física pura (cuerda-péndulo, gravedad, azoteas), sin Three.
+- `src/enemigos.mjs`: ratones, vida y escalada (lógica pura, sin Three).
 - `src/mundo.js`: ciudad instanciada; `src/sonido.js`: sonidos Web Audio;
   `src/estilos.js`: cuerdas, patas y sus dibujos (menú y texturas).
 - Churu: `../v2/assets/objetos/churu.png`. Récord en `localStorage` (`senku_vr_record`).
