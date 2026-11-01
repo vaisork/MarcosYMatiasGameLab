@@ -596,6 +596,13 @@ def preparation(combat):
  if not combat.get('prepared'):return None
  return combat.get('prepared_action') or combat['profile'].get('prepared_action',{'name':'Acción preparada','accuracy':60,'interruptible':True,'frontal':True})
 
+def preparations_for(profile,hp):
+ phase2=profile.get('preparations_fase2')
+ if phase2 and hp<=profile['hp']*profile.get('fase2_umbral',.5):
+  bonus=profile.get('fase2_accuracy_bonus',0)
+  return [dict(prep,accuracy=prep.get('accuracy',profile['accuracy'])+bonus) for prep in phase2]
+ return profile.get('preparations',[])
+
 def capability_hint(class_id, prepared=None):
  if class_id=='artifice' and prepared:
   if not prepared.get('interruptible',False):return f"{prepared['name']} no puede interrumpirse. El disparo sólo hará daño si acierta; puedes elegir una defensa o huir."
@@ -733,6 +740,7 @@ def is_vaisork(state):
 
 def resolve_round(state, creature, rng, respond=True):
  combat=state['combat']; profile=combat['profile']; intervention=combat.pop('intervention',None) or {'id':'atacar'}
+ previous_creature_hp=combat['hp']
  action=intervention['id']; target=intervention.get('target'); a=state['attributes']; penalty,power=penalties(state)
  cls=state.get('_class') or state.get('class_id','juramentado')
  if action=='capacidad':
@@ -917,6 +925,8 @@ def resolve_round(state, creature, rng, respond=True):
  elif action=='resistir':reduction=max(0,min(.38,.0055*(a['resistencia']-10))-penalty/100)
  enemy_accuracy-=gear_bonus(state,'esquiva')
  combat['_response']={'accuracy':enemy_accuracy,'reduction':reduction,'guard':guard,'signature':signature,'action':action}
+ if profile.get('preparations_fase2') and combat['hp']>0 and previous_creature_hp>profile['hp']*profile.get('fase2_umbral',.5)>=combat['hp']:
+  events.append({'kind':'danger','text':profile.get('aviso_fase2','El rival cambia de ritmo y prepara respuestas más intensas.')})
  if not respond:
   combat['round']+=1;combat['cooldown']=max(0,combat.get('cooldown',0)-1)
   if 'cooldowns' in combat:combat['cooldowns']={k:max(0,v-1) for k,v in combat['cooldowns'].items() if v>1}
@@ -943,7 +953,7 @@ def resolve_round(state, creature, rng, respond=True):
    prose='finta_vacio' if action=='finta_vacio' else 'borrar_foco'
    events.append({'kind':'combat','text':ACTION_PROSE[prose]['opening'].format(c=creature['name'])})
  combat['round']+=1;combat['cooldown']=max(0,combat.get('cooldown',0)-1)
- preps=profile.get('preparations')
+ preps=preparations_for(profile,combat['hp'])
  if preps and state['hp']>0 and combat['hp']>0:
   combat['prepared']=True
   next_prep=preps[combat['round']%len(preps)]
@@ -1048,6 +1058,52 @@ for creature_id,spec in MINOR_FAUNA.items():
  if 'intention' in spec:
   MINOR_INTENTIONS[creature_id]=spec['intention']
   PROFILES[creature_id].update(prepared=True,prepared_action=dict(spec['intention'],accuracy=PROFILES[creature_id]['accuracy']))
+
+# Grieta Madre fauna stays on its authored level instead of scaling from early-game profiles.
+GRIETA_FAUNA = {
+ 'tallagrietas': {'profile':{'hp':105,'accuracy':62,'damage':13,'reduction':.05,'evasion':15,'level':11,'category':'peligroso'},
+  'intention':{'id':'latigazo_pared','name':'Latigazo desde la pared','accuracy':66,'interruptible':True,'frontal':False,'tell':'El Tallagrietas se pega a la pared y enrosca la cola, plana como una laja. Va a soltar un latigazo de lado: puedes adelantarte antes de que lo suelte.'},
+  'observation':'El Tallagrietas prepara el latigazo desde la pared. Puedes interrumpirlo antes de que suelte la cola.',
+  'withdrawal':'Te apartas de la pared. El Tallagrietas se aplana contra la roca y deja libre el paso.',
+  'prose':{'hit':['{n} suelta la cola desde la pared y te golpea de lado.','La cola plana de {n} te alcanza al cruzar la cueva.'],'miss':['{n} azota la pared; te apartas antes del golpe.','El latigazo de {n} corta el aire junto a ti.']}},
+ 'cuarzarana': {'profile':{'hp':110,'accuracy':64,'damage':13,'reduction':.10,'evasion':10,'level':12,'category':'peligroso'},
+  'intention':{'id':'lluvia_esquirlas','name':'Lluvia de esquirlas','accuracy':68,'interruptible':False,'frontal':False,'tell':'La Cuarzaraña frota las patas contra el techo y empiezan a caer esquirlas brillantes. No puedes detenerla: apártate o rompe su vista.'},
+  'observation':'La Cuarzaraña lanza esquirlas desde arriba. Puedes esquivar o borrar su foco.',
+  'withdrawal':'Te alejas del techo de cristal. La Cuarzaraña recoge sus patas entre las grietas.',
+  'prose':{'hit':['{n} sacude el techo y una lluvia de esquirlas te alcanza.','Las patas de {n} raspan el cristal; varias esquirlas te golpean.'],'miss':['Las esquirlas caen donde estabas; te apartas a tiempo.','La lluvia de cristal de {n} se estrella contra el suelo.']}},
+ 'vetasierpe': {'profile':{'hp':120,'accuracy':62,'damage':14,'reduction':.10,'evasion':5,'level':13,'category':'peligroso'},
+  'intention':{'id':'abrazo_anillos','name':'Abrazo de anillos','accuracy':70,'interruptible':True,'frontal':True,'tell':'La Vetasierpe junta sus anillos y se lanza de frente para rodearte. Puedes interrumpirla o cubrirte.'},
+  'observation':'La Vetasierpe junta sus anillos antes de lanzarse de frente. Puedes interrumpirla o usar guardia.',
+  'withdrawal':'Retrocedes fuera del alcance de sus anillos. La Vetasierpe vuelve a enroscarse entre las piedras.',
+  'prose':{'hit':['{n} se enrosca en tu brazo y aprieta antes de soltarte.','Los anillos de {n} te rodean y te sacuden.'],'miss':['Te apartas antes de que {n} cierre sus anillos.','{n} pasa de largo y vuelve a enroscarse entre las piedras.']}},
+ 'rodacanto': {'profile':{'hp':130,'accuracy':60,'damage':15,'reduction':.20,'evasion':0,'level':14,'category':'peligroso'},
+  'intention':{'id':'rodada_canto','name':'Rodada','accuracy':72,'interruptible':False,'frontal':True,'tell':'El Rodacanto se hace bola; sus placas crujen como cantos de río. Va a rodar de frente y ya nadie lo para: cúbrete o salta a un lado.'},
+  'observation':'El Rodacanto rueda de frente y no se le puede detener. Usa guardia frontal o velo.',
+  'withdrawal':'Te apartas del paso. El Rodacanto se desenrolla y vuelve a su rincón de cantos.',
+  'prose':{'hit':['{n} se hace bola y te golpea al rodar.','Las placas de {n} chocan contra ti como cantos de río.'],'miss':['{n} rueda por donde estabas y choca contra la pared.','Saltas a un lado; {n} pasa sin alcanzarte.']}},
+ 'espinacuarzo': {'profile':{'hp':140,'accuracy':66,'damage':16,'reduction':.15,'evasion':10,'level':15,'category':'peligroso'},
+  'intention':{'id':'erizar_puas','name':'Erizar púas','accuracy':72,'interruptible':False,'frontal':False,'tell':'El Espinacuarzo levanta las placas del lomo y hace vibrar sus púas. No puedes detenerlo: apártate o rompe su vista.'},
+  'observation':'El Espinacuarzo hace vibrar sus púas sin apuntar al frente. Puedes esquivar o borrar su foco.',
+  'withdrawal':'Sales de su alcance. El Espinacuarzo baja las púas y se queda entre las geodas.',
+  'prose':{'hit':['Las púas de {n} vibran y te alcanzan al acercarte.','{n} sacude el lomo; una púa te golpea el hombro.'],'miss':['Te apartas y las púas de {n} silban junto a ti.','Las púas de {n} rebotan contra la piedra.']}},
+ 'brasaluz': {'profile':{'hp':150,'accuracy':66,'damage':17,'reduction':.10,'evasion':5,'level':16,'category':'peligroso'},
+  'intention':{'id':'vaho_tibio','name':'Vaho caliente','accuracy':72,'interruptible':True,'frontal':True,'tell':'El Brasaluz toma aire y su vientre se enciende. Va a lanzar un vaho caliente de frente: puedes interrumpirlo o cubrirte.'},
+  'observation':'El Brasaluz reúne aire caliente antes de soltarlo de frente. Puedes interrumpirlo o usar guardia.',
+  'withdrawal':'Te apartas de la grieta caliente. El Brasaluz deja de exhalar vapor y vuelve a su rincón.',
+  'prose':{'hit':['El vaho de {n} te alcanza con una ráfaga caliente.','{n} exhala vapor y te empuja contra la roca.'],'miss':['Te apartas mientras el vaho de {n} cubre el suelo.','El vapor caliente de {n} pasa por encima de tu hombro.']}},
+ 'callaecos': {'profile':{'hp':130,'accuracy':68,'damage':16,'reduction':0,'evasion':20,'level':17,'category':'peligroso'},
+  'intention':{'id':'salto_silencio','name':'Salto en silencio','accuracy':74,'interruptible':True,'frontal':False,'tell':'De pronto no oyes tus propios pasos. El Callaecos se agacha en lo oscuro: saltará de lado. Haz ruido o golpea antes de que salte.'},
+  'observation':'El Callaecos prepara un salto lateral. Puedes interrumpirlo antes de que desaparezca en la oscuridad.',
+  'withdrawal':'Retrocedes haciendo sonar las piedras. El Callaecos se aleja hacia una grieta oscura.',
+  'prose':{'hit':['{n} salta desde el silencio y te alcanza de lado.','{n} aparece junto a ti y te golpea antes de retirarse.'],'miss':['Haces ruido y {n} pierde el salto entre las sombras.','{n} salta junto a ti; alcanzas a apartarte.']}},
+}
+for creature_id,spec in GRIETA_FAUNA.items():
+ PROFILES[creature_id]=dict(spec['profile'],family=creature_id,prepared=True)
+ intention=spec['intention']
+ PROFILES[creature_id]['prepared_action']=dict(intention)
+ THREAT_OBSERVATIONS[creature_id]=spec['observation'];CREATURE_PROSE[creature_id]=spec['prose']
+ PEACEFUL_WITHDRAWALS[creature_id]=spec['withdrawal']
+ MINOR_INTENTIONS[creature_id]=intention
 # Prey, rivals and predators all scale with level; overwhelming fauna stays fixed.
 SCALED_CATEGORIES=('favorable','comparable','peligroso')
 AVOIDABLE_CATEGORIES=('peligroso','abrumador')
@@ -1154,3 +1210,67 @@ CREATURE_PROSE['dragon_aguas_antiguas'] = {
 }
 THREAT_OBSERVATIONS['dragon_aguas_antiguas'] = 'Observa las corrientes de vapor y el movimiento de sus aletas antes de cada ataque para anticipar su preparación.'
 PEACEFUL_WITHDRAWALS['dragon_aguas_antiguas'] = 'Retrocedes despacio hacia la entrada de la bóveda. El dragón repliega sus alas y vuelve a reposar sobre el pedestal de las aguas.'
+
+_GRIETA_WEAR = {
+ 'tejecristal': [
+  'Algunos hilos del Tejecristal pierden tensión, aunque la red aún cubre el telar.',
+  'La araña recoge una pata y su telar vibra con cada respiración.',
+  'Varios hilos se han roto; el Tejecristal apenas logra sostenerse.',
+  'El Tejecristal se recoge en el centro de su red, temblando bajo los hilos sueltos.'
+ ],
+ 'quebrarrocas_canoso': [
+  'El polvo se desprende de la coraza del Canoso, que sigue protegiendo el nido.',
+  'Una de sus patas cede y su respiración levanta polvo entre las piedras.',
+  'La coraza blanqueada tiene grietas nuevas; el Canoso se apoya contra la roca.',
+  'El Canoso baja el cuerpo sobre las piedras, cansado, pero no deja el nido.'
+ ],
+ 'sierpe_veta_madre': [
+  'Algunas escamas de la Sierpe pierden su brillo, pero sus anillos aún rodean la veta.',
+  'La luz bajo las escamas parpadea; la Sierpe se mueve con una pausa entre cada anillo.',
+  'La Sierpe necesita apoyar la cabeza en la roca para alzarse; varias escamas se han opacado.',
+  'La Sierpe baja la cabeza y respira hondo. La luz de sus anillos late con esfuerzo.'
+ ]
+}
+for creature_id,profile,preparations in (
+ ('quebrarrocas_canoso',
+  {'hp':220,'accuracy':66,'damage':20,'reduction':.20,'evasion':0,'level':16,'category':'abrumador','family':'quebrarrocas_canoso'},
+  [
+   {'id':'empuje_anclado','name':'Empuje anclado','accuracy':70,'interruptible':False,'frontal':True,'tell':'El Quebrarrocas Canoso afirma el cuerpo contra los bloques: prepara un empuje frontal imposible de interrumpir. Usa guardia, esquiva o huye.'},
+   {'id':'zarpazo_losa','name':'Zarpazo de losa','accuracy':68,'interruptible':True,'frontal':False,'tell':'El Canoso levanta una pata cubierta de polvo blanco para dar un zarpazo lateral. Puedes interrumpirlo antes del golpe.'},
+   {'id':'temblor_lecho','name':'Temblor del lecho','accuracy':74,'interruptible':False,'frontal':False,'tell':'El suelo vibra en todas direcciones bajo el Canoso. No es frontal ni se puede interrumpir: esquiva o huye.'}
+  ]),
+ ('tejecristal',
+  {'hp':190,'accuracy':68,'damage':18,'reduction':.15,'evasion':10,'level':17,'category':'abrumador','family':'tejecristal'},
+  [
+   {'id':'hilos_cuarzo','name':'Hilos de cuarzo','accuracy':72,'interruptible':True,'frontal':False,'tell':'El Tejecristal tensa los hilos de cuarzo alrededor de tus piernas. Puedes cortar la tensión antes de que te alcance.'},
+   {'id':'embestida_patas','name':'Embestida de patas','accuracy':70,'interruptible':False,'frontal':True,'tell':'El Tejecristal recoge sus patas y se lanza de frente. No puedes interrumpirlo: usa guardia o esquiva.'},
+   {'id':'telar_que_canta','name':'El telar que canta','accuracy':76,'interruptible':False,'frontal':False,'tell':'Todos los hilos vibran y el telar canta a la vez. No puedes detenerlo ni cubrirte de frente: esquiva o huye.'}
+  ]),
+ ('sierpe_veta_madre',
+  {'hp':300,'accuracy':70,'damage':21,'reduction':.25,'evasion':5,'level':20,'category':'abrumador','family':'sierpe_veta_madre',
+   'fase2_umbral':.5,'fase2_accuracy_bonus':4,'desgaste':_GRIETA_WEAR['sierpe_veta_madre'],
+   'aviso_fase2':'Las vetas se encienden bajo las escamas de la Sierpe. Sus anillos brillan más; el combate entra en una segunda fase.'},
+  [
+   {'id':'rodada_anillos','name':'Rodada de anillos','accuracy':72,'interruptible':False,'frontal':True,'tell':'La Sierpe se cierra en un anillo inmenso y va a rodar de frente. No se puede interrumpir: usa guardia, esquiva o huye.'},
+   {'id':'lluvia_cristal','name':'Lluvia de cristal','accuracy':70,'interruptible':True,'frontal':False,'tell':'La Sierpe sacude las escamas y prepara una lluvia de fragmentos. Puedes interrumpirla antes de que caigan.'},
+   {'id':'pulso_veta','name':'Pulso de la veta','accuracy':76,'interruptible':False,'frontal':False,'tell':'Todas las vetas se encienden a la vez y el suelo late. No se puede cortar ni bloquear: Sombra puede borrar el foco; cualquiera puede esquivar o huir.'},
+   {'id':'mordida_cuarzo','name':'Mordida de cuarzo','accuracy':72,'interruptible':True,'frontal':True,'tell':'La Sierpe abre la mandíbula de cristal y se lanza de frente. Puedes interrumpirla antes de que muerda o cubrirte.'}
+  ])
+):
+ profile.update(prepared=True,preparations=preparations,prepared_action=preparations[0],desgaste=_GRIETA_WEAR[creature_id])
+ if creature_id=='sierpe_veta_madre':
+  profile['preparations_fase2']=[preparations[2],preparations[1],preparations[2],preparations[0]]
+ PROFILES[creature_id]=profile
+ THREAT_OBSERVATIONS[creature_id]='Observa sus movimientos antes de cada respuesta para anticipar la preparación.'
+ CREATURE_PROSE[creature_id]={
+  'hit':[f"{{n}} responde con su {preparations[0]['name'].lower()} y te alcanza.",f"{{n}} te golpea al cambiar de preparación."],
+  'miss':[f"La respuesta de {{n}} pasa junto a ti.",f"Te apartas y el golpe de {{n}} choca contra la piedra."]
+ }
+ PEACEFUL_WITHDRAWALS[creature_id]=f"Retrocedes sin acorralar a {creature_id.replace('_',' ')}. La criatura conserva su territorio."
+if 'dragon_aguas_antiguas' not in PROFILES['dragon_aguas_antiguas']:
+ PROFILES['dragon_aguas_antiguas']['desgaste']=[
+  'Algunas escamas del dragón han perdido su brillo. Mantiene la cola rodeando el manantial y sigue cada movimiento con sus ojos dorados.',
+  'La respiración del dragón sacude el vapor a tirones. Una de sus alas queda baja, pero todavía se interpone entre tú y el manantial.',
+  'El guardián necesita apoyar una garra contra el pedestal para levantarse. El agua tiembla bajo su pecho fatigado y su rugido sale más ronco.',
+  'El dragón ya no logra sostener las alas abiertas. Baja la cabeza sobre la piedra tibia, respira hondo y protege con la cola el último borde del manantial.'
+ ]

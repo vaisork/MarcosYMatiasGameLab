@@ -286,15 +286,14 @@ class Engine:
         for signal in room.get('signals',[]):
             if self.allowed(signal,state,world) and signal_present(signal,room,world,self.clock()):
                 sig_text=signal['text']
-                if signal.get('creature')=='dragon_aguas_antiguas':
-                    d_hp=world.get('creature_states',{}).get(f"{room['id']}:dragon_aguas_antiguas",{}).get('hp',m.PROFILES['dragon_aguas_antiguas']['hp'])
-                    max_hp=m.PROFILES['dragon_aguas_antiguas']['hp']
-                    if d_hp<max_hp:
-                        if d_hp>max_hp*.75:hp_s="Algunas escamas del dragón han perdido su brillo. Mantiene la cola rodeando el manantial y sigue cada movimiento con sus ojos dorados."
-                        elif d_hp>max_hp*.50:hp_s="La respiración del dragón sacude el vapor a tirones. Una de sus alas queda baja, pero todavía se interpone entre tú y el manantial."
-                        elif d_hp>max_hp*.25:hp_s="El guardián necesita apoyar una garra contra el pedestal para levantarse. El agua tiembla bajo su pecho fatigado y su rugido sale más ronco."
-                        else:hp_s="El dragón ya no logra sostener las alas abiertas. Baja la cabeza sobre la piedra tibia, respira hondo y protege con la cola el último borde del manantial."
-                        sig_text=f"{sig_text} {hp_s}"
+                cid=signal.get('creature');profile=m.PROFILES.get(cid,{})
+                wear=self.content.creatures.get(cid,{}).get('desgaste') or profile.get('desgaste')
+                if isinstance(wear,list) and len(wear)==4:
+                    creature_hp=world.get('creature_states',{}).get(f"{room['id']}:{cid}",{}).get('hp',profile.get('hp',0))
+                    max_hp=profile.get('hp',0)
+                    if 0<=creature_hp<max_hp:
+                        tier=0 if creature_hp>max_hp*.75 else 1 if creature_hp>max_hp*.50 else 2 if creature_hp>max_hp*.25 else 3
+                        sig_text=f"{sig_text} {wear[tier]}"
                 layers['danger']=event('danger' if m.PROFILES.get(signal['creature'],{}).get('category') not in (None,'favorable') else 'trace',sig_text);break
         visits=state['visits'].get(room['id'],0)
         recall=visits<=2 or visits%3==2
@@ -444,7 +443,7 @@ class Engine:
             for player in remaining:
                 if player['state']['combat']:
                     shared=player['state']['combat'];shared.update(hp=animal['hp'],prepared=False)
-                    preps=shared['profile'].get('preparations')
+                    preps=m.preparations_for(shared['profile'],animal['hp'])
                     if preps:
                         shared.update(prepared=True,prepared_action=preps[combat['round']%len(preps)])
                         player['state']['events'].append(event('danger',shared['prepared_action']['tell']))
@@ -1316,7 +1315,7 @@ class Engine:
             ckey=f"{state['location']}:{target}"
             saved_hp=world.get('creature_states',{}).get(ckey,{}).get('hp')
             start_hp=saved_hp if (saved_hp is not None and saved_hp>0) else profile['hp']
-            preps=profile.get('preparations')
+            preps=m.preparations_for(profile,start_hp)
             prep_action=preps[0] if preps else profile.get('prepared_action')
             state['combat']={'creature':target,'profile':profile,'hp':start_hp,'round':0,'next_round':self.clock()+4,'prepared':bool(prep_action),'prepared_action':prep_action,'cooldown':0}
             world.setdefault('creature_states',{}).setdefault(ckey,{})['hp']=start_hp
