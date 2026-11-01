@@ -27,6 +27,7 @@
   .jugando #hud { display: block; position: fixed; top: 12px; left: 12px; background: rgba(42,24,64,.75); padding: 8px 14px; border-radius: 12px; font-weight: 700; line-height: 1.4; }
   .jugando #mira { display: block; position: fixed; left: 50%; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border: 3px solid rgba(255,255,255,.8); border-radius: 50%; }
   #mira.lista { border-color: #7dffb0; transform: scale(1.3); }
+  #mira.raton { border-color: #ff5a5a; }
   .jugando #aviso:not([hidden]) { display: block; position: fixed; top: 22%; left: 50%; transform: translateX(-50%); background: rgba(42,24,64,.85); padding: 12px 20px; border-radius: 14px; font-size: 22px; font-weight: 800; text-align: center; max-width: calc(100% - 32px); }
   .tactil #tactil { display: grid; position: fixed; right: 12px; bottom: 12px; grid-template-columns: repeat(2, 84px); gap: 10px; }
   #tactil button { height: 70px; padding: 0; background: rgba(255,111,154,.85); color: #fff; touch-action: none; }
@@ -48,28 +49,29 @@
   .pista { display: none; position: fixed; left: 12px; bottom: 12px; font-size: 13px; background: rgba(42,24,64,.6); padding: 6px 10px; border-radius: 10px; }
 </style>
 <script type="importmap">
-{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }
 </script>
 </head>
 <body>
 <div id="inicio">
   <div class="tarjeta">
     <h1>Senku <span>VR</span></h1>
-    <p class="lema">¡Eres Senku! Lanza tus garras de gata, colúmpiate entre los edificios y junta todos los churus lo más rápido que puedas.</p>
+    <p class="lema">¡Eres Senku! Lanza tus garras de gata, colúmpiate entre los edificios, junta todos los churus y ¡espanta a los ratones de la ciudad!</p>
     <h2>Con el visor (Meta Quest)</h2>
     <ul>
+      <li><b>Palanca izquierda</b>: ¡caminar! <b>Palanca derecha</b>: girar.</li>
       <li><b>Gatillo</b>: lanza la garra. Mantenlo para columpiarte, suéltalo para salir volando.</li>
-      <li><b>Botón de agarre</b>: ¡tirón rápido hacia donde apuntas!</li>
-      <li><b>Palanca izquierda</b>: caminar. <b>Palanca derecha</b>: girar.</li>
+      <li><b>Botón de agarre</b> con la mano en una pared: te agarras y <b>escalas</b> jalando con los brazos; suelta con impulso para saltar. Con la garra enganchada: tirón. Si no: tirón hacia donde apuntas.</li>
       <li><b>¡Impulso!</b> Con la garra enganchada, jala el brazo rápido hacia ti y sales disparada hacia la garra.</li>
+      <li><b>Ratones</b>: dales un <b>zarpazo</b> moviendo la mano rápido cerca de ellos, o lánzales la garra y jala. Negro: 1 golpe, café: 2, hámster: 3. Sueltan churus que vuelan hacia ti.</li>
+      <li>Si te tocan, pierdes un corazón (tienes 3 en la muñeca). Sin corazones vuelves al inicio, con tus churus.</li>
       <li><b>A / X</b>: saltar. <b>B / Y</b>: menú de garras (apunta con el rayo y elige con el gatillo).</li>
-      <li>Las garras se recargan solas: cuando las uñas brillan, ya están listas.</li>
     </ul>
     <h2>Sin visor (compu o celular)</h2>
     <ul>
-      <li><b>Clic izquierdo / derecho</b>: garra izquierda / derecha (mantén para columpiarte).</li>
+      <li><b>Clic izquierdo / derecho</b>: garra izquierda / derecha (mantén para columpiarte). Clic a un ratón cerca = zarpazo; lejos, la garra lo atrapa y <b>F</b> lo jala.</li>
       <li><b>Q / E</b>: tirón. <b>F</b> o <b>rueda</b>: jalar la cuerda (impulso). <b>M</b>: menú de garras.</li>
-      <li><b>WASD</b>: caminar. <b>Espacio</b>: saltar. <b>Ratón</b>: mirar.</li>
+      <li><b>WASD</b>: caminar. <b>Espacio</b>: saltar. <b>C</b> frente a una pared: agarrarte y subir con <b>W</b>. <b>Ratón</b>: mirar.</li>
       <li>En el celular: arrastra a la izquierda para caminar y a la derecha para mirar.</li>
     </ul>
     <label><input type="checkbox" id="vineta" checked> Sombra anti-mareo cuando vas rápido</label>

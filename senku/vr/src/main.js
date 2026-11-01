@@ -1,12 +1,15 @@
 // Senku VR: eres Senku, una gatita con garras que se columpia por la ciudad.
 import * as THREE from 'three';
-import { paso, crearCuerda, soltar, tiron, impulsoBrazo } from './fisica.mjs';
-import { crearMundo } from './mundo.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { paso, crearCuerda, soltar, tiron, impulsoBrazo, resolverCajas, IMPULSO, AJUSTES } from './fisica.mjs';
+import { TIPOS, ZARPAZO, VIDA, crearEnemigo, golpear, esZarpazo, pasoEnemigo, tocaEnemigo, crearVida, recibirDano, tocaPared, escalar, soltarEscalada } from './enemigos.mjs';
+import { crearMundo, CUADRA } from './mundo.js';
 import { iniciarSonido, sonar } from './sonido.js';
 import { CUERDAS, PATAS, tramoCuerda, muestraCuerda, muestraPata, leerEleccion, guardarEleccion } from './estilos.js';
 
 const ALCANCE = 40, VEL_GARRA = 260, ENFRIAR = 0.35, ENFRIAR_TIRON = 1.0, CUERPO = 1.0;
-const CLAVE_RECORD = 'senku_vr_record';
+const CLAVE_RECORD = 'senku_vr_record', CLAVE_TOTAL = 'senku_vr_churus_total';
+const ENEMIGOS_MAX = 12, REAPARECER = 5;
 const $ = (id) => document.getElementById(id);
 
 // --- Render y escena ---------------------------------------------------------
@@ -40,6 +43,10 @@ let vineta = true, yaw = 0, pitch = 0;
 const leerRecord = () => { try { return Number(localStorage.getItem(CLAVE_RECORD)) || null; } catch { return null; } };
 const guardarRecord = (s) => { try { localStorage.setItem(CLAVE_RECORD, String(s)); } catch { /* sin almacenamiento */ } };
 let record = leerRecord();
+const leerTotal = () => { try { return Number(localStorage.getItem(CLAVE_TOTAL)) || 0; } catch { return 0; } };
+let totalChurus = leerTotal(); // churus acumulados (para desbloquear cosas después)
+const sumarChurus = (n) => { totalChurus += n; try { localStorage.setItem(CLAVE_TOTAL, String(totalChurus)); } catch { /* sin almacenamiento */ } };
+const vida = crearVida();
 const eleccion = leerEleccion(); // {cuerda, pata, comodo}
 let menuAbierto = false, pausaDesde = 0, impulsando = 0;
 const estiloCuerda = () => CUERDAS.find((c) => c.id === eleccion.cuerda) || CUERDAS[0];
@@ -96,6 +103,7 @@ const geoCuerda = new THREE.CylinderGeometry(0.02, 0.02, 1, 6).translate(0, 0.5,
 const geoGancho = new THREE.SphereGeometry(0.18, 10, 8);
 const matGancho = new THREE.MeshBasicMaterial({ color: 0xff6f9a });
 const matMira = new THREE.MeshBasicMaterial({ color: 0x7dffb0, depthTest: false, transparent: true, opacity: 0.85 });
+const matMiraRaton = new THREE.MeshBasicMaterial({ color: 0xff5a5a, depthTest: false, transparent: true, opacity: 0.9 });
 const geoMira = new THREE.RingGeometry(0.25, 0.4, 16);
 
 // Material de cuerda propio por mano (cada una repite su textura según su largo).
@@ -125,7 +133,7 @@ function aplicarEstilos() {
 const manos = [0, 1].map((i) => {
   const m = {
     i, lado: i === 0 ? 'left' : 'right', garra: crearGarra(), cuerda: null, lanzando: null, destello: 0,
-    enfriar: 0, enfriarTiron: 0, apretado: false, gamepad: null, botones: [],
+    enfriar: 0, enfriarTiron: 0, enfriarZarpazo: 0, apretado: false, gamepad: null, botones: [], presa: null, escalando: false, velMano: new THREE.Vector3(), deltaMano: new THREE.Vector3(),
     soporte: new THREE.Object3D(), control: renderer.xr.getController(i), grip: renderer.xr.getControllerGrip(i), manoAntes: null, vibroImp: 0,
     linea: new THREE.Mesh(geoCuerda, materialCuerda(estiloCuerda())), gancho: new THREE.Mesh(geoGancho, matGancho), mira: new THREE.Mesh(geoMira, matMira),
   };
@@ -141,13 +149,14 @@ const manos = [0, 1].map((i) => {
   m.control.addEventListener('disconnected', () => { m.gamepad = null; });
   m.control.addEventListener('selectstart', () => disparar(m));
   m.control.addEventListener('selectend', () => soltarMano(m));
-  m.control.addEventListener('squeezestart', () => tirar(m));
+  m.control.addEventListener('squeezestart', () => agarrar(m));
+  m.control.addEventListener('squeezeend', () => soltarAgarre(m));
   rig.add(m.control, m.grip);
   return m;
 });
 
 // HUD: en VR va en la muñeca izquierda; sin visor, en HTML.
-const hud = crearPanel(0.17, 0.085, 384);
+const hud = crearPanel(0.2, 0.1, 448);
 hud.mesh.position.set(0, 0.05, 0.16);
 hud.mesh.rotation.x = -1.0;
 const aviso = crearPanel(1.4, 0.35);
@@ -217,6 +226,20 @@ function golpe(origen, dir) {
   raycaster.set(origen, dir);
   return raycaster.intersectObject(mundo.edificios, false)[0]?.point || null;
 }
+// Ratón apuntado (antes que el edificio de atrás): devuelve el enemigo o null.
+// Se prueba contra una esfera por ratón (nada de triángulos: barato en el Quest).
+function golpeEnemigo(origen, dir) {
+  raycaster.set(origen, dir);
+  let mejor = null, dist = ALCANCE;
+  for (const e of enemigos) {
+    if (e.estado !== 'camina' && e.estado !== 'golpeado') continue;
+    esfera.set(posEnemigo(e), TIPOS[e.tipo].radio + 0.25);
+    if (raycaster.ray.intersectSphere(esfera, v2) && origen.distanceTo(v2) < dist) { mejor = e; dist = origen.distanceTo(v2); }
+  }
+  if (!mejor) return null;
+  const p = golpe(origen, dir);
+  return p && origen.distanceTo(p) < dist ? null : mejor;
+}
 
 // Ayuda de puntería para niños: si falla, prueba un conito alrededor.
 function buscarAncla(origen, dir) {
@@ -240,14 +263,17 @@ function disparar(m) {
   empezar();
   const o = new THREE.Vector3(), d = new THREE.Vector3();
   rayo(m, o, d);
-  const p = buscarAncla(o, d);
-  m.lanzando = { objetivo: p || o.clone().addScaledVector(d, ALCANCE), acierta: !!p, t: 0, dist: p ? o.distanceTo(p) : ALCANCE };
+  const pe = golpeEnemigo(o, d);
+  if (pe && !renderer.xr.isPresenting && o.distanceTo(posEnemigo(pe)) < 2.4) { golpearEnemigo(pe, m); return; } // sin visor: clic de cerca = zarpazo
+  const p = pe ? posEnemigo(pe).clone() : buscarAncla(o, d);
+  m.lanzando = { objetivo: p || o.clone().addScaledVector(d, ALCANCE), acierta: !!p, presa: pe, t: 0, dist: p ? o.distanceTo(p) : ALCANCE };
   sonar.lanzar(eleccion.cuerda);
   vibrar(m, 0.3, 20);
 }
 
 function soltarMano(m) {
   m.apretado = false;
+  if (m.presa) { if (m.presa.estado === 'atrapado') m.presa.estado = 'camina'; m.presa = null; m.enfriar = ENFRIAR; }
   if (!m.cuerda) return;
   cuerdas.splice(cuerdas.indexOf(m.cuerda), 1);
   m.cuerda = null;
@@ -272,8 +298,42 @@ function tirar(m) {
   vibrar(m, 0.8, 60);
 }
 
+// Botón de agarre: tirón si hay garra enganchada, jalar si atrapaste un ratón,
+// escalar si la mano toca una pared; si no, el tirón de siempre hacia donde apuntas.
+function agarrar(m) {
+  if (!jugando || menuAbierto) return;
+  if (m.cuerda) return tirar(m);
+  if (m.presa) return jalarPresa(m);
+  if (renderer.xr.isPresenting) {
+    m.grip.getWorldPosition(v1);
+    if (tocaPared(v1, mundo.cajas)) { m.escalando = true; empezar(); sonar.agarrar(); vibrar(m, 0.5, 30); return; }
+  }
+  tirar(m);
+}
+function soltarAgarre(m) {
+  if (!m.escalando) return;
+  m.escalando = false;
+  if (!manos.some((x) => x.escalando)) { soltarEscalada(jugadora, m.velMano); if (jugadora.vel.y > 2) sonar.impulso(); }
+}
+
+// Sin visor: C frente a una pared te agarra; W/S sube y baja, A/D de lado, espacio salta.
+let escaladaTeclado = false;
+function alternarEscalada() {
+  if (!jugando || menuAbierto) return;
+  if (escaladaTeclado) { escaladaTeclado = false; return; }
+  camera.getWorldPosition(v1); camera.getWorldDirection(v2);
+  const p = golpe(v1, v2), caja = p && tocaPared(p, mundo.cajas, 0.1);
+  if (!caja || v1.distanceTo(p) > 2.5) { mostrarAviso(['Acércate a una pared para escalar'], 1.5); sonar.fallo(); return; }
+  escaladaTeclado = caja; empezar(); sonar.agarrar();
+  v2.y = 0; v2.normalize(); // el cuerpo se pega a la pared (así al llegar arriba pisa la azotea)
+  jugadora.pos.x = p.x - v2.x * 0.5; jugadora.pos.z = p.z - v2.z * 0.5;
+}
+const escalando = () => escaladaTeclado || manos.some((m) => m.escalando);
+
 function saltar() {
-  if (!jugando || !jugadora.enSuelo) return;
+  if (!jugando) return;
+  if (escaladaTeclado) { escaladaTeclado = false; camera.getWorldDirection(v1); jugadora.vel.y = 7; jugadora.vel.x = -v1.x * 4; jugadora.vel.z = -v1.z * 4; return; }
+  if (!jugadora.enSuelo) return;
   jugadora.vel.y = 7.5;
   empezar();
 }
@@ -309,7 +369,9 @@ function actualizarMano(m, dt) {
     dibujarLinea(m, v1, v2.lerpVectors(v1, L.objetivo, p));
     if (p >= 1) {
       m.lanzando = null;
-      if (L.acierta && m.apretado) {
+      if (L.presa && L.presa.estado !== 'poof' && L.presa.estado !== 'muerto') { // atrapado: se queda quieto hasta que jales o sueltes
+        if (m.apretado) { m.presa = L.presa; L.presa.estado = 'atrapado'; L.presa.t = 0; sonar.enganchar(eleccion.cuerda); vibrar(m, 0.6, 40); }
+      } else if (L.acierta && m.apretado) {
         m.cuerda = crearCuerda(jugadora.pos, L.objetivo);
         cuerdas.push(m.cuerda);
         if (jugadora.enSuelo) jugadora.vel.y += 7; // salto de arranque: el columpio empieza en el aire
@@ -320,6 +382,9 @@ function actualizarMano(m, dt) {
         m.enfriar = ENFRIAR * 0.5;
       }
     }
+  } else if (m.presa) {
+    if (m.presa.estado !== 'atrapado') m.presa = null;
+    else dibujarLinea(m, v1, posEnemigo(m.presa));
   } else if (m.cuerda) {
     dibujarLinea(m, v1, v2.set(m.cuerda.ancla.x, m.cuerda.ancla.y, m.cuerda.ancla.z));
   } else if (m.destello > 0) {
@@ -328,17 +393,19 @@ function actualizarMano(m, dt) {
 
   // Mira: dónde se engancharía la garra ahora mismo (en VR, una por mano; sin visor, la de en medio).
   m.mira.visible = false;
-  if (!m.cuerda && !m.lanzando && (renderer.xr.isPresenting || m.i === 0)) {
+  if (!m.cuerda && !m.presa && !m.lanzando && (renderer.xr.isPresenting || m.i === 0)) {
     const o = new THREE.Vector3(), d = new THREE.Vector3();
     rayo(m, o, d);
-    const p = golpe(o, d);
+    const pe = golpeEnemigo(o, d);
+    const p = pe ? posEnemigo(pe) : golpe(o, d);
     if (p) {
       m.mira.visible = true;
+      m.mira.material = pe ? matMiraRaton : matMira;
       m.mira.position.copy(p);
       m.mira.lookAt(o);
       m.mira.scale.setScalar(0.5 + o.distanceTo(p) * 0.04);
     }
-    if (!renderer.xr.isPresenting) $('mira').classList.toggle('lista', !!p);
+    if (!renderer.xr.isPresenting) { $('mira').classList.toggle('lista', !!p); $('mira').classList.toggle('raton', !!pe); }
   }
 }
 
@@ -405,6 +472,7 @@ addEventListener('keydown', (e) => {
   if (e.code === 'KeyE') tirar(manos[1]);
   if (e.code === 'KeyV') alternarVineta();
   if (e.code === 'KeyM') alternarMenu();
+  if (e.code === 'KeyC') alternarEscalada();
   if (e.code === 'Escape' && menuAbierto) cerrarMenu();
 });
 // Rueda del ratón = un jalón corto.
@@ -471,7 +539,7 @@ function mostrarAviso(lineas, seg = 2.5) {
 let hudTexto = '';
 function actualizarHUD() {
   const t = inicio === null ? 0 : (fin ?? performance.now()) - inicio;
-  const lineas = [`Churus ${juntados}/${churus.length}`, `Tiempo ${reloj(t)}`, record ? `Récord ${reloj(record)}` : 'Récord: -'];
+  const lineas = ['♥'.repeat(vida.vida) + '♡'.repeat(VIDA.max - vida.vida) + `  Churus ${juntados}/${churus.length}`, `Total ${totalChurus} · Tiempo ${reloj(t)}`, record ? `Récord ${reloj(record)}` : 'Récord: -'];
   const texto = lineas.join('|');
   if (texto === hudTexto) return;
   hudTexto = texto;
@@ -509,6 +577,196 @@ function reiniciarRonda() {
   mostrarAviso(['¡Nueva ronda! Junta los churus']);
 }
 
+// --- Ratones enemigos (v3) ------------------------------------------------------
+// Cada GLB se carga una vez; cada ratón es un clon que comparte geometría y
+// textura (Lambert solo con color: barato en el Quest). Máximo ENEMIGOS_MAX.
+const enemigosGrupo = new THREE.Group();
+scene.add(enemigosGrupo);
+const enemigos = [];
+const vE = new THREE.Vector3(), esfera = new THREE.Sphere();
+const posEnemigo = (e) => vE.set(e.pos.x, e.pos.y + 0.3, e.pos.z);
+const matPip = new THREE.SpriteMaterial({ map: (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 32;
+  const g = c.getContext('2d'); g.fillStyle = '#ff3b5c'; g.beginPath(); g.arc(16, 16, 12, 0, 7); g.fill();
+  g.fillStyle = '#fff'; g.beginPath(); g.arc(12, 12, 4, 0, 7); g.fill();
+  return new THREE.CanvasTexture(c);
+})(), depthTest: false });
+const matPoof = new THREE.SpriteMaterial({ map: (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 64;
+  const g = c.getContext('2d'); g.fillStyle = 'rgba(255,255,255,0.9)';
+  for (const [x, y, r] of [[32, 32, 18], [16, 36, 12], [48, 36, 12], [24, 20, 11], [40, 20, 11], [32, 48, 10]]) { g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); }
+  return new THREE.CanvasTexture(c);
+})(), transparent: true, depthWrite: false });
+
+// Dónde pueden aparecer: cruces de calles y azotetas anchas (no muy altas).
+const nidos = [];
+for (let i = -3; i < 3; i++) for (let j = -3; j < 3; j++) nidos.push({ x: (i + 0.5) * CUADRA, y: 0, z: (j + 0.5) * CUADRA, caja: null });
+for (const c of mundo.cajas) if (c.max.y < 28 && c.max.x - c.min.x > 8 && c.max.z - c.min.z > 8) nidos.push({ x: (c.min.x + c.max.x) / 2, y: c.max.y, z: (c.min.z + c.max.z) / 2, caja: c });
+
+const modelos = {};
+async function cargarModelos() {
+  const loader = new GLTFLoader();
+  await Promise.all(Object.keys(TIPOS).map(async (tipo) => {
+    const g = await loader.loadAsync(`modelos/${tipo === 'negro' ? 'raton_negro' : tipo === 'cafe' ? 'raton_cafe' : 'hamster'}.glb`);
+    const malla = g.scene.getObjectByProperty('isMesh', true);
+    malla.material = new THREE.MeshLambertMaterial({ map: malla.material.map });
+    malla.geometry.computeBoundingBox();
+    const b = malla.geometry.boundingBox;
+    malla.geometry.translate(0, -b.min.y, 0); // origen en las patas
+    modelos[tipo] = { geo: malla.geometry, mat: malla.material, alto: b.max.y - b.min.y };
+  }));
+  for (let k = 0; k < ENEMIGOS_MAX; k++) aparecer(k % 6 === 5 ? 'hamster' : k % 3 === 2 ? 'cafe' : 'negro');
+}
+cargarModelos().catch((err) => console.error('No se pudieron cargar los ratones', err));
+
+function aparecer(tipo, viejo = null) {
+  const lejos = nidos.filter((n) => Math.hypot(n.x - jugadora.pos.x, n.z - jugadora.pos.z) > 8 && !enemigos.some((e) => e.nido === n && e !== viejo));
+  const nido = lejos[Math.floor(Math.random() * lejos.length)];
+  if (!nido) return;
+  const md = modelos[tipo], T = TIPOS[tipo];
+  const e = viejo || crearEnemigo(tipo, nido, nido.caja);
+  if (viejo) Object.assign(e, crearEnemigo(tipo, nido, nido.caja), { grupo: e.grupo, malla: e.malla, pips: e.pips, poof: e.poof });
+  else {
+    e.grupo = new THREE.Group();
+    e.malla = new THREE.Mesh(md.geo, md.mat);
+    e.malla.scale.setScalar(T.escala);
+    e.pips = [0, 1, 2].slice(0, T.golpes).map((k) => { const s = new THREE.Sprite(matPip); s.scale.setScalar(0.16); s.position.set((k - (T.golpes - 1) / 2) * 0.18, md.alto * T.escala + 0.25, 0); return s; });
+    e.poof = new THREE.Sprite(matPoof); e.poof.visible = false; e.poof.position.y = 0.4;
+    e.grupo.add(e.malla, e.poof, ...e.pips);
+    enemigosGrupo.add(e.grupo);
+    enemigos.push(e);
+  }
+  e.nido = nido; e.fase = Math.random() * 6; e.murio = 0;
+  e.grupo.visible = true; e.malla.scale.setScalar(T.escala); e.pips.forEach((p) => { p.visible = true; });
+}
+
+function golpearEnemigo(e, m) {
+  const r = golpear(e);
+  if (!r) return;
+  if (m) { if (m.presa === e) m.presa = null; vibrar(m, 0.9, r.vencido ? 120 : 60); }
+  empezar();
+  e.pips.forEach((p, k) => { p.visible = k < e.golpes; });
+  if (r.vencido) {
+    sonar.poof();
+    e.murio = performance.now();
+    e.poof.visible = true; e.poof.scale.setScalar(0.3);
+    for (let k = 0; k < r.churus; k++) soltarChuru(e, k);
+  } else { sonar.zarpazo(); sonar.chillido(); }
+}
+
+// Jalar la cuerda con un ratón atrapado: lo acerca de un brinco y lo golpea.
+function jalarPresa(m) {
+  const e = m.presa;
+  if (!e) return;
+  v1.set(jugadora.pos.x - e.pos.x, 0, jugadora.pos.z - e.pos.z);
+  const d = v1.length();
+  if (d > 2) { v1.multiplyScalar(1.5 / d); e.pos.x += v1.x; e.pos.z += v1.z; }
+  sonar.tiron();
+  golpearEnemigo(e, m);
+  m.presa = null; m.enfriar = ENFRIAR;
+}
+
+// Churus que sueltan los ratones: vuelan hacia Senku y suman al total acumulado.
+const voladores = [];
+function soltarChuru(e, k) {
+  let v = voladores.find((x) => !x.sprite.visible);
+  if (!v) { v = { sprite: new THREE.Sprite(matChuru), desde: new THREE.Vector3(), t: 0 }; v.sprite.scale.set(0.35, 0.93, 1); scene.add(v.sprite); voladores.push(v); }
+  v.desde.set(e.pos.x + (k - 1) * 0.4, e.pos.y + 0.6, e.pos.z); v.t = -k * 0.12;
+  v.sprite.position.copy(v.desde); v.sprite.visible = true;
+}
+function actualizarVoladores(dt) {
+  v2.set(jugadora.pos.x, jugadora.pos.y + 0.3, jugadora.pos.z);
+  for (const v of voladores) {
+    if (!v.sprite.visible) continue;
+    v.t += dt / 0.8;
+    const k = Math.max(0, v.t) ** 2;
+    v.sprite.position.lerpVectors(v.desde, v2, Math.min(1, k));
+    v.sprite.position.y += Math.sin(Math.min(1, k) * Math.PI) * 1.2;
+    if (v.t >= 1) { v.sprite.visible = false; sumarChurus(1); sonar.churu(); manos.forEach((m) => vibrar(m, 0.3, 30)); }
+  }
+}
+
+function actualizarEnemigos(dt, t) {
+  vida.invulnerable = Math.max(0, vida.invulnerable - dt);
+  actualizarVoladores(dt);
+  for (const m of manos) m.enfriarZarpazo = Math.max(0, m.enfriarZarpazo - dt);
+  const cabeza = { x: jugadora.pos.x, y: jugadora.pos.y, z: jugadora.pos.z };
+  for (const e of enemigos) {
+    const T = TIPOS[e.tipo];
+    const camino = pasoEnemigo(e, cabeza, dt, mundo.cajas);
+    e.grupo.position.set(e.pos.x, e.pos.y, e.pos.z);
+    // Animación procedural: saltitos y balanceo al caminar, aplastarse al golpe, poof al vencer.
+    const f = t * 9 + e.fase;
+    e.grupo.rotation.y = e.dir;
+    if (e.estado === 'camina') { e.grupo.position.y += camino ? Math.abs(Math.sin(f)) * 0.08 : Math.sin(f * 0.3) * 0.01; e.malla.rotation.z = camino ? Math.sin(f) * 0.12 : 0; e.malla.scale.set(T.escala, T.escala, T.escala); }
+    else if (e.estado === 'atrapado') { e.malla.rotation.z = Math.sin(t * 40) * 0.2; e.malla.scale.set(T.escala, T.escala, T.escala); }
+    else if (e.estado === 'golpeado') { const k = 1 - e.t / 0.35; e.malla.scale.set(T.escala * (1.3 - k * 0.3), T.escala * (0.5 + k * 0.5), T.escala); e.malla.rotation.z = 0; }
+    else if (e.estado === 'poof') { const k = 1 - e.t / 0.3; e.malla.scale.setScalar(T.escala * (1 - k)); e.poof.scale.setScalar(0.5 + k * 2.2); e.poof.position.y = 0.4 + k * 0.8; }
+    else if (e.estado === 'muerto') {
+      e.poof.visible = false; e.grupo.visible = false;
+      if (performance.now() - e.murio > REAPARECER * 1000) aparecer(e.tipo, e);
+      continue;
+    }
+    // Zarpazo en VR: mano rápida cerca del ratón.
+    if (renderer.xr.isPresenting && (e.estado === 'camina' || e.estado === 'atrapado')) {
+      for (const m of manos) {
+        if (m.enfriarZarpazo > 0) continue;
+        m.garra.getWorldPosition(v1);
+        if (esZarpazo(m.velMano.length(), v1.distanceTo(posEnemigo(e)))) { m.enfriarZarpazo = ZARPAZO.enfriar; golpearEnemigo(e, m); }
+      }
+    }
+    // Si te toca, pierdes un corazón y sales empujada.
+    if (tocaEnemigo(e, cabeza) && recibirDano(vida)) {
+      sonar.dano(); sonar.chillido();
+      manos.forEach((m) => vibrar(m, 1, 150));
+      v1.set(jugadora.pos.x - e.pos.x, 0, jugadora.pos.z - e.pos.z).normalize();
+      jugadora.vel.x += v1.x * 6; jugadora.vel.z += v1.z * 6; jugadora.vel.y = Math.max(jugadora.vel.y, 4);
+      e.estado = 'golpeado'; e.t = 0.6;
+      if (vida.vida > 0) mostrarAviso([`¡Ay! Te quedan ${vida.vida} ${vida.vida === 1 ? 'corazón' : 'corazones'}`], 1.5);
+      else reaparecer();
+    }
+  }
+}
+
+// Sin corazones: vuelves al inicio con tus churus (nada cruel).
+function reaparecer() {
+  jugadora.pos.x = 0; jugadora.pos.y = CUERPO; jugadora.pos.z = 0;
+  jugadora.vel.x = jugadora.vel.y = jugadora.vel.z = 0;
+  manos.forEach((m) => { soltarMano(m); m.escalando = false; });
+  escaladaTeclado = false;
+  Object.assign(vida, crearVida(), { invulnerable: 3 });
+  mostrarAviso(['¡Ay! Los ratones te ganaron', 'Vuelves al inicio con tus churus'], 3);
+}
+
+// --- Escalar (v3) ---------------------------------------------------------------
+// VR: el cuerpo se mueve al revés de la(s) mano(s) agarrada(s); sin gravedad.
+// Teclado: W/S sube y baja, A/D de lado por la pared. Al llegar a la azotea, pisas.
+function actualizarEscalada(dt) {
+  const agarradas = manos.filter((m) => m.escalando);
+  if (agarradas.length) {
+    v1.set(0, 0, 0);
+    for (const m of agarradas) v1.add(m.deltaMano);
+    v1.divideScalar(agarradas.length);
+    if (v1.length() < 1.5) escalar(jugadora, v1); // saltos del seguimiento se ignoran
+  } else {
+    const my = (teclas.has('KeyW') ? 1 : 0) - (teclas.has('KeyS') ? 1 : 0) + joystick.y;
+    const mx = (teclas.has('KeyD') ? 1 : 0) - (teclas.has('KeyA') ? 1 : 0) + joystick.x;
+    camera.getWorldDirection(v2); v2.y = 0; v2.normalize(); v2.cross(ARRIBA);
+    escalar(jugadora, { x: -v2.x * mx * 2 * dt, y: -my * 3 * dt, z: -v2.z * mx * 2 * dt });
+    const c = escaladaTeclado, { x, z } = jugadora.pos; // se acabó la pared por un lado: caes
+    if (x < c.min.x - 1.1 || x > c.max.x + 1.1 || z < c.min.z - 1.1 || z > c.max.z + 1.1) escaladaTeclado = false;
+    else if (jugadora.pos.y >= c.max.y + AJUSTES.suelo) { // llegaste arriba: te subes a la azotea
+      v1.set((c.min.x + c.max.x) / 2 - x, 0, (c.min.z + c.max.z) / 2 - z).normalize();
+      jugadora.pos.x += v1.x; jugadora.pos.z += v1.z; jugadora.pos.y = c.max.y + AJUSTES.suelo;
+      escaladaTeclado = false;
+    }
+  }
+  jugadora.enSuelo = false;
+  if (jugadora.pos.y < AJUSTES.suelo) { jugadora.pos.y = AJUSTES.suelo; jugadora.enSuelo = true; }
+  resolverCajas(jugadora, mundo.cajas);
+  if (jugadora.enSuelo && escaladaTeclado) escaladaTeclado = false; // llegaste a la azotea (o al suelo)
+}
+
 // --- Impulso con el brazo ------------------------------------------------------
 // En VR: velocidad de la mano = cambio de la posición del grip relativa al rig
 // (así no cuenta el vuelo del cuerpo), girada a orientación de mundo.
@@ -516,11 +774,21 @@ function impulsar(dt) {
   impulsando = Math.max(0, impulsando - dt);
   for (const m of manos) {
     let vm = null;
+    m.deltaMano.set(0, 0, 0); m.velMano.set(0, 0, 0);
     if (renderer.xr.isPresenting) {
-      if (m.manoAntes && dt > 0) vm = v1.subVectors(m.grip.position, m.manoAntes).divideScalar(dt).applyQuaternion(rig.quaternion);
+      if (m.manoAntes && dt > 0) {
+        m.deltaMano.subVectors(m.grip.position, m.manoAntes).applyQuaternion(rig.quaternion);
+        vm = m.velMano.copy(m.deltaMano).divideScalar(dt);
+      }
       m.manoAntes = (m.manoAntes || new THREE.Vector3()).copy(m.grip.position);
-    } else if (m.cuerda && jalandoSinVisor()) { // sin visor: como si la mano se alejara del ancla a 3.5 m/s
-      vm = v1.set(jugadora.pos.x - m.cuerda.ancla.x, jugadora.pos.y - m.cuerda.ancla.y, jugadora.pos.z - m.cuerda.ancla.z).setLength(3.5);
+    } else if ((m.cuerda || m.presa) && jalandoSinVisor()) { // sin visor: como si la mano se alejara del ancla a 3.5 m/s
+      const a = m.cuerda ? m.cuerda.ancla : posEnemigo(m.presa);
+      vm = v1.set(jugadora.pos.x - a.x, jugadora.pos.y - a.y, jugadora.pos.z - a.z).setLength(3.5);
+    }
+    if (vm && m.presa) { // jalar la cuerda con el ratón atrapado lo daña
+      v2.subVectors(posEnemigo(m.presa), rig.position).normalize();
+      if (-vm.dot(v2) > IMPULSO.umbral * 1.5) jalarPresa(m);
+      continue;
     }
     if (!vm || !m.cuerda) continue;
     const a = impulsoBrazo(jugadora, vm, m.cuerda.ancla, dt);
@@ -663,12 +931,14 @@ function actualizar(dt) {
   const ahora = performance.now();
   leerControles(dt);
   impulsar(dt);
-  for (let k = 0; k < 2; k++) paso(jugadora, cuerdas, dt / 2, { empuje, cajas: mundo.cajas });
+  if (escalando()) actualizarEscalada(dt);
+  else for (let k = 0; k < 2; k++) paso(jugadora, cuerdas, dt / 2, { empuje, cajas: mundo.cajas });
   rig.position.set(jugadora.pos.x, jugadora.pos.y - CUERPO, jugadora.pos.z);
   if (!renderer.xr.isPresenting) camera.rotation.set(pitch, yaw, 0);
   rig.updateMatrixWorld(true);
   manos.forEach((m) => actualizarMano(m, dt));
   recogerChurus(ahora / 1000);
+  actualizarEnemigos(dt, ahora / 1000);
   if (reinicioEn && ahora > reinicioEn) reiniciarRonda();
   if (avisoHasta && ahora > avisoHasta) { aviso.mesh.visible = false; $('aviso').hidden = true; avisoHasta = 0; }
 
@@ -729,6 +999,7 @@ botonVR.addEventListener('click', async () => {
     jugar();
     manos.forEach((m) => m.control.add(m.garra));
     colocarHUD();
+    mostrarAviso(['Palanca izquierda: caminar', 'Agarre en una pared: escalar'], 6);
     s.addEventListener('end', () => {
       sesion = null;
       rig.rotation.y = 0;
@@ -744,5 +1015,6 @@ botonVR.addEventListener('click', async () => {
   }
 });
 
-// Para pruebas desde la consola: senku.disparar(0), senku.soltar(0)...
-window.senku = { jugadora, manos, churus, eleccion, abrirMenu, cerrarMenu, menuLienzo, activar, disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; } };
+// Para pruebas desde la consola: senku.disparar(0), senku.soltar(0)... y
+// senku.avanzar(dt) corre un paso del juego aunque la pestaña esté oculta.
+window.senku = { avanzar: (dt) => { if (jugando && !menuAbierto) actualizar(dt); renderer.render(scene, camera); }, jugadora, manos, churus, eleccion, enemigos, vida, abrirMenu, cerrarMenu, menuLienzo, activar, golpearEnemigo, alternarEscalada, total: () => totalChurus, disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; } };

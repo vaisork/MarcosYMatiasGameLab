@@ -64,6 +64,11 @@ export const sonar = {
   tiron: () => { tono('sawtooth', 180, 700, 0.2, 0.12); soplo(500, 2500, 0.25, 0.3); },
   churu: () => [880, 1175, 1568].forEach((f, i) => tono('sine', f, f * 1.01, 0.18, 0.22, i * 0.07)),
   record: () => [523, 659, 784, 1047, 784, 1047].forEach((f, i) => tono('square', f, f, 0.16, 0.08, i * 0.13)),
+  zarpazo: () => { soplo(1200, 300, 0.12, 0.35); tono('square', 1800, 2400, 0.05, 0.06); },
+  chillido: () => tono('sawtooth', 2200, 3200, 0.12, 0.06),
+  poof: () => { soplo(600, 150, 0.3, 0.35); [660, 880, 1320].forEach((f, i) => tono('triangle', f, f * 1.2, 0.12, 0.12, i * 0.05)); },
+  dano: () => { tono('square', 220, 110, 0.25, 0.12); soplo(200, 80, 0.2, 0.2); },
+  agarrar: () => soplo(400, 900, 0.08, 0.2),
   viento(rapidez) {
     if (!ctx) return;
     const k = Math.min(1, Math.max(0, (rapidez - 3) / 30));
