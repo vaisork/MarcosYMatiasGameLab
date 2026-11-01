@@ -7,6 +7,30 @@ from server.content import Content
 
 
 class RpgSceneTests(unittest.TestCase):
+    def test_every_content_room_has_a_scene_and_all_exits(self):
+        """The RPG client map covers every authored room and its complete exit contract."""
+        import importlib.util
+        root = Path(__file__).resolve().parents[1]
+        content = Content(root / 'content')
+        scene_dir = root / 'client-rpg/scenes'
+        tiled_dir = root / 'client-rpg/tiled'
+        scene_ids = {path.stem for path in scene_dir.glob('*.json')}
+        self.assertEqual(scene_ids, set(content.rooms))
+        spec = importlib.util.spec_from_file_location('tiled_to_scene', root / 'scripts/tiled-to-scene.py')
+        converter = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(converter)
+        for room_id, room in content.rooms.items():
+            with self.subTest(room=room_id):
+                scene_path = scene_dir / f'{room_id}.json'
+                tiled_path = tiled_dir / f'{room_id}.tmj'
+                self.assertTrue(scene_path.is_file(), f'Missing scene {scene_path}')
+                self.assertTrue(tiled_path.is_file(), f'Missing Tiled source {tiled_path}')
+                scene = json.loads(scene_path.read_text(encoding='utf-8'))
+                tiled = json.loads(tiled_path.read_text(encoding='utf-8'))
+                self.assertEqual(scene['room'], room_id)
+                self.assertEqual({e['direction'] for e in scene['exits']}, set(room.get('exits', {})))
+                self.assertEqual(converter.tiled_to_scene(tiled), scene)
+
     def test_scenes_match_authored_world_and_map_bounds(self):
         root = Path(__file__).resolve().parents[1]
         content = Content(root / 'content')
@@ -637,7 +661,7 @@ class RpgSceneTests(unittest.TestCase):
                     self.assertEqual(meta['sha256'], hashlib.sha256(asset.read_bytes()).hexdigest())
                     self.assertEqual(meta['bytes'], asset.stat().st_size)
                     self.assertLessEqual(asset.stat().st_size, 250000)
-        self.assertEqual(exits_total, 13)
+        self.assertEqual(exits_total, 14)
         for sprite_name in ('oma',):
             asset = root / 'client-rpg/sprites' / f'{sprite_name}.png'
             meta = json.loads(asset.with_suffix('.png.json').read_text())
@@ -772,8 +796,7 @@ class RpgSceneTests(unittest.TestCase):
     def test_korven_complete_region_and_boundary_exits(self):
         root = Path(__file__).resolve().parents[1]
         content = Content(root / 'content')
-        korven_rooms = [r for r in content.rooms if (r.startswith('korven_') or r == 'brumak_centro')
-                        and (root / 'client-rpg/scenes' / f'{r}.json').is_file()]
+        korven_rooms = [r for r in content.rooms if r.startswith('korven_') or r == 'brumak_centro']
         self.assertTrue(korven_rooms)
 
         for rid in korven_rooms:
@@ -782,8 +805,7 @@ class RpgSceneTests(unittest.TestCase):
             scene = json.loads(scene_path.read_text(encoding='utf-8'))
             self.assertEqual(scene['room'], rid)
 
-            content_exits = {direction for direction, target in content.rooms[rid].get('exits', {}).items()
-                             if (root / 'client-rpg/scenes' / f'{target}.json').is_file()}
+            content_exits = set(content.rooms[rid].get('exits', {}))
             scene_exits = {e['direction'] for e in scene.get('exits', [])}
             self.assertEqual(scene_exits, content_exits, f'Discrepancia de salidas en {rid}')
 
@@ -805,6 +827,87 @@ class RpgSceneTests(unittest.TestCase):
         korven_npcs = {'korven_ved', 'korven_beran', 'korven_ruma', 'korven_neru', 'korven_oma', 'korven_taren'}
         present_npcs = {npc for rid in korven_rooms for npc in content.rooms[rid].get('npcs', [])}
         self.assertTrue(korven_npcs <= present_npcs)
+
+    def test_korven_grieta_scenes_sources_and_reachable_exits(self):
+        """Grieta rooms use canonical actors, complete exits and walkable Tiled source maps."""
+        import importlib.util
+        import hashlib
+        from collections import deque
+        root = Path(__file__).resolve().parents[1]
+        content = Content(root / 'content')
+        spec = importlib.util.spec_from_file_location('tiled_to_scene', root / 'scripts/tiled-to-scene.py')
+        converter = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(converter)
+        room_ids = sorted(rid for rid in content.rooms if rid.startswith('korven_grieta_'))
+        self.assertEqual(len(room_ids), 16)
+        for room_id in ['korven_cauce_observacion', *room_ids]:
+            room = content.rooms[room_id]
+            scene_path = root / 'client-rpg/scenes' / f'{room_id}.json'
+            tiled_path = root / 'client-rpg/tiled' / f'{room_id}.tmj'
+            with self.subTest(room=room_id):
+                scene = json.loads(scene_path.read_text(encoding='utf-8'))
+                tiled = json.loads(tiled_path.read_text(encoding='utf-8'))
+                self.assertEqual(converter.tiled_to_scene(tiled), scene)
+                self.assertEqual(converter.scene_to_tiled(scene), tiled)
+                if room_id.startswith('korven_grieta_'):
+                    self.assertEqual(scene['background'], f'backgrounds/{room_id}.webp')
+                    expected_battle = ('backgrounds/korven_grieta_sierpe_battle.webp'
+                                       if room_id == 'korven_grieta_corazon'
+                                       else 'backgrounds/korven_grieta_battle.webp')
+                    self.assertEqual(scene['battle_background'], expected_battle)
+                    for relative in (scene['background'], scene['battle_background']):
+                        asset = root / 'client-rpg' / relative
+                        self.assertTrue(asset.is_file(), relative)
+                        meta = json.loads(asset.with_suffix('.webp.json').read_text())
+                        self.assertEqual(meta['dimensions'], [1280, 960])
+                        self.assertEqual(meta['asset_id'], asset.stem)
+                        self.assertEqual(meta['sha256'], hashlib.sha256(asset.read_bytes()).hexdigest())
+                        self.assertEqual(meta['bytes'], asset.stat().st_size)
+                        self.assertLessEqual(asset.stat().st_size, 250000)
+                self.assertEqual({e['direction'] for e in scene['exits']}, set(room.get('exits', {})))
+                self.assertEqual({n['id'] for n in scene['npcs']}, set(room.get('npcs', [])))
+                expected = {s['creature'] for s in room.get('signals', []) + room.get('wildlife_pool', [])}
+                self.assertEqual({c['id'] for c in scene['creatures']}, expected)
+                solid = scene['layers']['solid']
+                actors = scene['npcs'] + scene['creatures']
+                points = [tuple(p) for p in scene['spawn'].values()] + [tuple(a['at']) for a in actors]
+                self.assertEqual(len(points), len(set(points)))
+                queue = deque([tuple(scene['spawn']['default'])])
+                seen = set(queue)
+                while queue:
+                    x, y = queue.popleft()
+                    for nx, ny in ((x-1,y),(x+1,y),(x,y-1),(x,y+1)):
+                        if 0 <= nx < 20 and 0 <= ny < 15 and solid[ny][nx] == '.' and (nx,ny) not in seen:
+                            seen.add((nx,ny)); queue.append((nx,ny))
+                for at in points:
+                    self.assertEqual(solid[at[1]][at[0]], '.')
+                    self.assertIn(at, seen)
+                portals = set()
+                for ex in scene['exits']:
+                    x,y,w,h = ex['rect']
+                    portal = {(px,py) for py in range(y,y+h) for px in range(x,x+w)}
+                    portals |= portal
+                    self.assertTrue(portal & seen, ex['direction'])
+                for y in range(15):
+                    for x in range(20):
+                        if x in (0,19) or y in (0,14):
+                            self.assertEqual(solid[y][x] == '.', (x,y) in portals, (room_id,x,y))
+        channel = json.loads((root / 'client-rpg/scenes/korven_cauce_observacion.json').read_text())
+        self.assertEqual(content.rooms['korven_cauce_observacion']['exits']['sur'], 'korven_grieta_boca')
+        self.assertEqual({e['direction'] for e in channel['exits']}, {'norte','este','sur'})
+
+        creature_ids = sorted({s['creature'] for rid in room_ids
+                               for s in content.rooms[rid].get('signals', [])})
+        self.assertEqual(len(creature_ids), 10)
+        for creature_id in creature_ids:
+            for suffix, dimensions in (('', [48, 48]), ('-battle', [256, 256]
+                    if creature_id in {'tejecristal', 'quebrarrocas_canoso', 'sierpe_veta_madre'}
+                    else [192, 192])):
+                asset = root / 'client-rpg/sprites' / f'{creature_id}{suffix}.png'
+                meta = json.loads(asset.with_suffix('.png.json').read_text())
+                self.assertEqual(meta['dimensions'], dimensions)
+                self.assertEqual(meta['sha256'], hashlib.sha256(asset.read_bytes()).hexdigest())
+                self.assertEqual(meta['bytes'], asset.stat().st_size)
 
     def test_lethra_complete_region_and_boundary_exits(self):
         from collections import deque

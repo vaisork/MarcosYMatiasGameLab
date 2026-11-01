@@ -1,0 +1,15 @@
+{
+  "asset_id": "quebrarrocas_canoso",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-714c45d7-b382-41b5-9fc0-7b3f74e940dd.png",
+  "reference": "client/art/bestiary/quebrarrocas_canoso-anime-v1.webp",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 3945,
+  "sha256": "65ac4c918a2b927b99fdac1107faa56c96fecd8b2830176d755e9b30f6ec0a9a",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 48x48 RGBA with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 48x48 map sprite for quebrarrocas_canoso; canonical bestiary illustration retained as anatomy, markings and color reference; compact full-body 3/4 view; crisp readable painted pixel-JRPG silhouette; no scenery, floor, shadow, text, frame or extra creature."
+}

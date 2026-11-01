@@ -175,6 +175,17 @@ for(const name of lethraCreatures){
  assert.equal(battle.readUInt32BE(20),192,`${name} battle sprite height`);
 }
 console.log('RPG Lethra fauna: map and battle sprites at 48×48 / 192×192 OK');
+const grietaCreatures={tallagrietas:192,cuarzarana:192,vetasierpe:192,rodacanto:192,espinacuarzo:192,tejecristal:256,callaecos:192,brasaluz:192,quebrarrocas_canoso:256,sierpe_veta_madre:256};
+for(const [id,battleSize] of Object.entries(grietaCreatures)){
+ assert.equal(vm.runInContext(`creatureSprites['${id}']`,context),id,`${id} maps to its dedicated sprite`);
+ const map=fs.readFileSync(new URL(`../client-rpg/sprites/${id}.png`,import.meta.url));
+ const battle=fs.readFileSync(new URL(`../client-rpg/sprites/${id}-battle.png`,import.meta.url));
+ assert.equal(map.readUInt32BE(16),48,`${id} map width`);assert.equal(map.readUInt32BE(20),48,`${id} map height`);
+ assert.equal(battle.readUInt32BE(16),battleSize,`${id} battle width`);assert.equal(battle.readUInt32BE(20),battleSize,`${id} battle height`);
+ assert.equal(map.readUInt8(25),6,`${id} map sprite keeps RGBA transparency`);
+ assert.equal(battle.readUInt8(25),6,`${id} battle sprite keeps RGBA transparency`);
+}
+console.log('RPG Grieta fauna: ten canonical mappings, transparent 48×48 maps, 192×192 battle sprites and 256px bosses OK');
 // Verify actual avatar collision geometry, not just point-cell flood fill.
 const regionFiles=fs.readdirSync(new URL('../content/regions/',import.meta.url)).filter(f=>f.endsWith('.json'));
 const rooms=Object.assign({},...regionFiles.map(f=>JSON.parse(fs.readFileSync(new URL('../content/regions/'+f,import.meta.url))).rooms||{}));
@@ -236,7 +247,8 @@ for(const [id,map] of maps.filter(([id,map])=>map.background&&(id.startsWith('ko
   assert.equal(vm.runInContext('blocked(...actor.at)',context),false,`${id}: ${actor.id} feet overlap obstacle`);
  }
  if(map.creatures.length){
-  assert.equal(map.battle_background,'backgrounds/korven_battle.webp');
+  const expectedBattle=id==='korven_grieta_corazon'?'backgrounds/korven_grieta_sierpe_battle.webp':id.startsWith('korven_grieta_')?'backgrounds/korven_grieta_battle.webp':'backgrounds/korven_battle.webp';
+  assert.equal(map.battle_background,expectedBattle);
   vm.runInContext('backgrounds[scene.battle_background]={complete:true,naturalWidth:1280}',context);
   assert.equal(vm.runInContext('battleBackgroundImage()===backgrounds[scene.battle_background]',context),true);
  }

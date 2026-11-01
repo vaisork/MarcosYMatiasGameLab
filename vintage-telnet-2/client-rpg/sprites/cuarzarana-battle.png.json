@@ -1,0 +1,15 @@
+{
+  "asset_id": "cuarzarana-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-1b711157-344d-43ac-b3dc-957ab40634ab.png",
+  "reference": "client/art/bestiary/cuarzarana-anime-v1.webp",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 53606,
+  "sha256": "651ca7b72ae9f92a0e8602c8d8dfb8571342df53b7cb8da6e53a66574e5f9c97",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 192x192 RGBA canvas with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 192x192 JRPG battle sprite of cuarzarana, based on its canonical bestiary illustration for anatomy, markings and palette. Full-body expressive 3/4 combat pose; crisp painted pixel-RPG clusters, centered with alpha padding; no scenery, ground, shadow, text, effects or extra creature."
+}

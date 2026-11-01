@@ -1,0 +1,16 @@
+{
+  "asset_id": "korven_grieta_mirador",
+  "source": "OpenAI image_gen nativo",
+  "reference": "client-rpg/backgrounds/korven_senda_viento.webp",
+  "prompt": "Use case stylized-concept; navigable 1280x960, 20x15 tile Korven Grieta Madre room korven_grieta_mirador. Ref Korven established map art for pixel-like painted material, crisp clusters, gray slate with fine blue-white luminous quartz and occasional warm mineral reflection. Scene: Safe natural ledge above cavern void crossed by distant glowing veins, hollow geode at inner wall.. Elevated three-quarter overhead, readable connected walkable floor, full bleed, no actors/creatures/text/UI/grid/border/watermark; respect actual room exits.",
+  "normalization": "crop/resize bilinear to 1280x960; WebP quality 72, method 3",
+  "bytes": 247714,
+  "sha256": "e22d4ea3245c30901971183c3c4af0139f789fdee5fb1f2c596e2950d522541d",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-c310778f-e46f-401b-9c0c-1b9b2366b32a.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "review": "SELF_REVIEW_PASS"
+}

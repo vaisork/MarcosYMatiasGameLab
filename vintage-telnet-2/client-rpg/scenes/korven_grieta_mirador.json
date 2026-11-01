@@ -1,0 +1,83 @@
+{
+  "room": "korven_grieta_mirador",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "gggggggggppggggggggg",
+      "ggggppppppppppppgggg",
+      "gggppppppppppppppggg",
+      "ggpppcppppppppcpppgg",
+      "ggppppppppppppppppgg",
+      "ggppppcppppppcppppgg",
+      "ggppppppppppppppppgp",
+      "ggpppppppppppppppppp",
+      "ggppppcppppppcppppgg",
+      "ggppppppppppppppppgg",
+      "ggpppcppppppppcpppgg",
+      "ggppppppppppppppppgg",
+      "gggppppppppppppppggg",
+      "ggggppppppppppppgggg",
+      "gggggggggggggggggggg"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "1111............1111",
+      "111..............111",
+      "11...1........1...11",
+      "11................11",
+      "11................11",
+      "11................1.",
+      "11..................",
+      "11................11",
+      "11................11",
+      "11...1........1...11",
+      "11................11",
+      "111..............111",
+      "1111............1111",
+      "11111111111111111111"
+    ]
+  },
+  "background": "backgrounds/korven_grieta_mirador.webp",
+  "battle_background": "backgrounds/korven_grieta_battle.webp"
+}

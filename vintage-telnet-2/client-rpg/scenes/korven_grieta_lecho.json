@@ -1,0 +1,70 @@
+{
+  "room": "korven_grieta_lecho",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ]
+  },
+  "npcs": [],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "gggggggggppggggggggg",
+      "ggggppppppppppppgggg",
+      "gggppppppppppppppggg",
+      "ggpppcppppppppcpppgg",
+      "ggppppppppppppppppgg",
+      "ggpppppcppppcpppppgg",
+      "ggppppppppppppppppgg",
+      "ggppppppppppppppppgg",
+      "ggpppppcppppcpppppgg",
+      "ggppppppppppppppppgg",
+      "ggpppcppppppppcpppgg",
+      "ggppppppppppppppppgg",
+      "gggppppppppppppppggg",
+      "ggggppppppppppppgggg",
+      "gggggggggggggggggggg"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "1111............1111",
+      "111..............111",
+      "11...1........1...11",
+      "11................11",
+      "11................11",
+      "11................11",
+      "11................11",
+      "11................11",
+      "11................11",
+      "11...1........1...11",
+      "11................11",
+      "111..............111",
+      "1111............1111",
+      "11111111111111111111"
+    ]
+  },
+  "background": "backgrounds/korven_grieta_lecho.webp",
+  "battle_background": "backgrounds/korven_grieta_battle.webp"
+}

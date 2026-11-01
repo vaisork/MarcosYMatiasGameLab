@@ -1,0 +1,14 @@
+{
+  "asset_id": "korven_grieta_battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-022aa0ed-286e-4456-9c72-40592beb0355.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "bytes": 232982,
+  "sha256": "cd7652f2702122a783ad6a58a0ff86e2a44f83c16f491a48098f02870880ed8c",
+  "normalization": "Crop/resize bilinear 1280x960; WebP quality 80, method 3.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original 1280x960 JRPG combat arena background for Grieta Madre korven_grieta_battle: dark Korven slate, luminous blue-white quartz veins, small warm mineral highlights, broad empty floor and negative space for combat sprites; no actors, text or UI."
+}

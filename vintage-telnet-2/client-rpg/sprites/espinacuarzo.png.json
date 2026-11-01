@@ -1,0 +1,15 @@
+{
+  "asset_id": "espinacuarzo",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-8c65513d-84e1-4a98-93b6-c1dc48657deb.png",
+  "reference": "client/art/bestiary/espinacuarzo-anime-v1.webp",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 3154,
+  "sha256": "bb933c630987bc12589370de60cd52ac6fba43f3d9884dd439ab4ecfad49d410",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 48x48 RGBA with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 48x48 map sprite for espinacuarzo; canonical bestiary illustration retained as anatomy, markings and color reference; compact full-body 3/4 view; crisp readable painted pixel-JRPG silhouette; no scenery, floor, shadow, text, frame or extra creature."
+}

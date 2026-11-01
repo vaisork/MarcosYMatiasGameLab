@@ -1,0 +1,15 @@
+{
+  "asset_id": "rodacanto-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-a0106b81-5b3f-493d-b628-550fe348a2c3.png",
+  "reference": "client/art/bestiary/rodacanto-anime-v1.webp",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 70916,
+  "sha256": "3648c5617b37da414ca4bac419cb1434cdddcc3fd7d56cc0681e2385722d5bd6",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 192x192 RGBA canvas with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 192x192 JRPG battle sprite of rodacanto, based on its canonical bestiary illustration for anatomy, markings and palette. Full-body expressive 3/4 combat pose; crisp painted pixel-RPG clusters, centered with alpha padding; no scenery, ground, shadow, text, effects or extra creature."
+}

@@ -1,0 +1,15 @@
+{
+  "asset_id": "tejecristal",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-3ea03ce5-3e57-4d8e-9fb3-1e78aa1d8bdf.png",
+  "reference": "client/art/bestiary/tejecristal-anime-v1.webp",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 3262,
+  "sha256": "6a5511b834668ca1822397235e0a845390eadf3e52c0f486242e4488f1626044",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 48x48 RGBA with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 48x48 map sprite for tejecristal; canonical bestiary illustration retained as anatomy, markings and color reference; compact full-body 3/4 view; crisp readable painted pixel-JRPG silhouette; no scenery, floor, shadow, text, frame or extra creature."
+}

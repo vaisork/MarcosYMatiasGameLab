@@ -1,0 +1,16 @@
+{
+  "asset_id": "korven_grieta_vapores",
+  "source": "OpenAI image_gen nativo",
+  "reference": "client-rpg/backgrounds/korven_senda_viento.webp",
+  "prompt": "Natural underground cave of irregular dark slate with narrow cracks releasing small white mineral steam pulses, pale dust beside walls, warm amber in fissures against cool gray-blue rock, clear connected center path. No tents, buildings, furniture, actors or text.",
+  "normalization": "Crop/resize bilinear 1280x960; WebP quality 76, method 3.",
+  "bytes": 230294,
+  "sha256": "12d391d10f3413d3334678838adc1106f9857c502fa399b06e15a3ff2693f777",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-aa539cda-1fa8-46f3-9893-17a809089f02.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "review": "SELF_REVIEW_PASS"
+}

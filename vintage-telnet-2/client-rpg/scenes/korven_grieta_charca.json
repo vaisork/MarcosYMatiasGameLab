@@ -1,0 +1,78 @@
+{
+  "room": "korven_grieta_charca",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "vetasierpe",
+      "at": [
+        5,
+        6
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "ggggppppppppppppgggg",
+      "gggppppppppppppppggg",
+      "ggppccppppppppccppgg",
+      "ggppppppppppppppppgg",
+      "ggppppppwwwwppppppgg",
+      "ggppppppwwwwppppppgp",
+      "ggppppppwwpppppppppp",
+      "ggppppppppppppppppgg",
+      "ggppppppppppppppppgg",
+      "ggppcppppppppppcppgg",
+      "ggppppppppppppppppgg",
+      "gggppppppppppppppggg",
+      "ggggppppppppppppgggg",
+      "gggggggggggggggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "1111............1111",
+      "111..............111",
+      "11..11........11..11",
+      "11................11",
+      "11......1111......11",
+      "11......1111......1.",
+      "11......11..........",
+      "11................11",
+      "11................11",
+      "11..1..........1..11",
+      "11................11",
+      "111..............111",
+      "1111............1111",
+      "11111111111111111111"
+    ]
+  },
+  "background": "backgrounds/korven_grieta_charca.webp",
+  "battle_background": "backgrounds/korven_grieta_battle.webp"
+}

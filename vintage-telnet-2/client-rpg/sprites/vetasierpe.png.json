@@ -1,0 +1,15 @@
+{
+  "asset_id": "vetasierpe",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-3b9f0db1-0fdc-4bd6-88e7-94e3a861f30c.png",
+  "reference": "client/art/bestiary/vetasierpe-anime-v1.webp",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 5498,
+  "sha256": "b6fee983650a49ef608752b58bdb5945317ef011e36f13d66073363791545fa7",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 48x48 RGBA with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 48x48 map sprite for vetasierpe; canonical bestiary illustration retained as anatomy, markings and color reference; compact full-body 3/4 view; crisp readable painted pixel-JRPG silhouette; no scenery, floor, shadow, text, frame or extra creature."
+}

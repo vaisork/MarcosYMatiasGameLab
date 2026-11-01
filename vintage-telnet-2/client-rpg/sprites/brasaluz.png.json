@@ -1,0 +1,15 @@
+{
+  "asset_id": "brasaluz",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-ba382674-f806-49b1-99ff-861c7cb7a07a.png",
+  "reference": "client/art/bestiary/brasaluz-anime-v1.webp",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 3516,
+  "sha256": "7f691ca65e0c3bf5b18da6fc22b5d315d3d729bf9b4f5ad9300a32d9322723a8",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 48x48 RGBA with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 48x48 map sprite for brasaluz; canonical bestiary illustration retained as anatomy, markings and color reference; compact full-body 3/4 view; crisp readable painted pixel-JRPG silhouette; no scenery, floor, shadow, text, frame or extra creature."
+}

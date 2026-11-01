@@ -303,8 +303,8 @@
         1,
         1,
         1,
-        1,
-        1,
+        2,
+        2,
         1,
         1,
         1,
@@ -616,8 +616,8 @@
         1,
         1,
         1,
-        1,
-        1,
+        0,
+        0,
         1,
         1,
         1,
@@ -673,6 +673,18 @@
           "height": 0,
           "rotation": 0,
           "visible": true
+        },
+        {
+          "id": 4,
+          "name": "sur",
+          "type": "spawn",
+          "point": true,
+          "x": 160,
+          "y": 208,
+          "width": 0,
+          "height": 0,
+          "rotation": 0,
+          "visible": true
         }
       ]
     },
@@ -686,7 +698,7 @@
       "y": 0,
       "objects": [
         {
-          "id": 4,
+          "id": 5,
           "name": "norte",
           "type": "exit",
           "x": 144,
@@ -704,7 +716,7 @@
           ]
         },
         {
-          "id": 5,
+          "id": 6,
           "name": "este",
           "type": "exit",
           "x": 304,
@@ -718,6 +730,24 @@
               "name": "direction",
               "type": "string",
               "value": "este"
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "name": "sur",
+          "type": "exit",
+          "x": 144,
+          "y": 224,
+          "width": 32,
+          "height": 16,
+          "rotation": 0,
+          "visible": true,
+          "properties": [
+            {
+              "name": "direction",
+              "type": "string",
+              "value": "sur"
             }
           ]
         }
@@ -743,7 +773,7 @@
       "y": 0,
       "objects": [
         {
-          "id": 6,
+          "id": 8,
           "name": "cascapedernal",
           "type": "creature",
           "point": true,
@@ -762,7 +792,7 @@
           ]
         },
         {
-          "id": 7,
+          "id": 9,
           "name": "colagrieta",
           "type": "creature",
           "point": true,
@@ -781,7 +811,7 @@
           ]
         },
         {
-          "id": 8,
+          "id": 10,
           "name": "quebrarrocas",
           "type": "creature",
           "point": true,
@@ -803,7 +833,7 @@
     }
   ],
   "nextlayerid": 7,
-  "nextobjectid": 9,
+  "nextobjectid": 11,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tileheight": 16,

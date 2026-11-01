@@ -1,0 +1,16 @@
+{
+  "asset_id": "korven_grieta_geodas",
+  "source": "OpenAI image_gen nativo",
+  "reference": "client-rpg/backgrounds/korven_senda_viento.webp",
+  "prompt": "Use case stylized-concept; navigable 1280x960, 20x15 tile Korven Grieta Madre room korven_grieta_geodas. Ref Korven established map art for pixel-like painted material, crisp clusters, gray slate with fine blue-white luminous quartz and occasional warm mineral reflection. Scene: Sparse forest of tall rounded geodes and crossing mineral threads around clear path.. Elevated three-quarter overhead, readable connected walkable floor, full bleed, no actors/creatures/text/UI/grid/border/watermark; respect actual room exits.",
+  "normalization": "crop/resize bilinear to 1280x960; WebP quality 60, method 3",
+  "bytes": 242690,
+  "sha256": "dc979e375e0425e6a54f3e4f288677dc3218f758fa3587eb2be0ce7c28e7409e",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-4f314307-20f7-4fa4-93ea-46600cc4dfc8.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "review": "SELF_REVIEW_PASS"
+}
