@@ -28,6 +28,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.05, 500);
 camera.rotation.order = 'YXZ';
 camera.position.set(0, 1.6, 0);
+const puntoCamara = new THREE.Vector3();
 const rig = new THREE.Group();
 rig.add(camera);
 scene.add(rig);
@@ -1125,12 +1126,18 @@ renderer.setAnimationLoop(() => {
   }
   if (menuAbierto) { if (renderer.xr.isPresenting) actualizarMenuVR(); }
   else if (jugando) actualizar(dt);
+  mundo.carteles.animar(ahora);
+  mundo.vida.animar(ahora, jugadora.pos);
+  camera.getWorldPosition(puntoCamara);
+  mundo.domo.position.copy(puntoCamara);
   renderer.render(scene, camera);
 });
 
 // --- Inicio y VR -----------------------------------------------------------------
 function jugar() {
   iniciarSonido();
+  mundo.carteles.encenderFaroles(performance.now());
+  mundo.vida.iniciar(performance.now());
   vineta = $('vineta').checked;
   jugando = true;
   $('inicio').hidden = true;
@@ -1183,4 +1190,4 @@ botonVR.addEventListener('click', async () => {
 
 // Para pruebas desde la consola: senku.disparar(0), senku.soltar(0)... y
 // senku.avanzar(dt) corre un paso del juego aunque la pestaña esté oculta.
-window.senku = { avanzar: (dt) => { if (jugando && !menuAbierto) actualizar(dt); renderer.render(scene, camera); }, jugadora, manos, churus, eleccion, enemigos, vida, abrirMenu, cerrarMenu, menuLienzo, activar, golpearEnemigo, alternarEscalada, total: () => totalChurus, barra, ratoncitos, poder: (i = 1) => lanzarPoder(manos[i]), disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; } };
+window.senku = { avanzar: (dt) => { if (jugando && !menuAbierto) actualizar(dt); const ahora = performance.now(); mundo.carteles.animar(ahora); mundo.vida.animar(ahora, jugadora.pos); renderer.render(scene, camera); }, jugadora, manos, churus, eleccion, enemigos, vida, vidaCiudad: mundo.vida, abrirMenu, cerrarMenu, menuLienzo, activar, golpearEnemigo, alternarEscalada, total: () => totalChurus, barra, ratoncitos, poder: (i = 1) => lanzarPoder(manos[i]), disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; } };

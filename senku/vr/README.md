@@ -104,5 +104,23 @@ a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, 
 - `src/poder.mjs`: barrita y ratoncitos del Ultra Gato (lógica pura, sin Three).
 - `src/mundo.js`: ciudad instanciada; `src/sonido.js`: sonidos Web Audio;
   `src/estilos.js`: cuerdas, patas y sus dibujos (menú y texturas).
+- Carteles de ciudad: 20 anuncios en `src/carteles.mjs`, con 14 texturas WebP
+  compartidas; placas con volumen, marcos de focos instanciados, tres bandas
+  LED, neones, un panel giratorio y un globo publicitario animado. No añaden
+  colisiones ni luces dinámicas. Las seis ilustraciones nuevas llevan sus
+  rótulos pintados por código al cargarse.
+- Arquitectura de ciudad en `src/mundo.js`: atlas procedural compartido para
+  ventanas con marco y alféizar; alturas y paletas por barrio; balcones,
+  toldos, equipos y escaleras de azotea; pasos peatonales, bordillos, puestos,
+  coches, faroles y parques en lotes instanciados. El mobiliario y las marcas
+  viales se limitan al centro jugable; los edificios simplifican sus fachadas
+  a distancia. Dirección visual y presupuesto en `docs/ARTE_CIUDAD.md`.
+- Vida urbana: 12 coches siguen rutas cerradas, 9 gatos pasean o miran desde
+  fachadas, las palomas del parque despegan al acercarse Senku y tres parvadas
+  cruzan el horizonte. Un dirigible deriva sobre la ciudad; la ropa y las hojas
+  se mecen con animaciones de lote a 30 Hz. Algunas ventanas se vuelven cálidas
+  durante el anochecer progresivo. Sonido urbano grave sintetizado con Web Audio.
+- `src/vida.mjs`: rutas, huida de palomas y curva de anochecer, con pruebas en
+  `tests/vida.test.mjs`.
 - Churu: `../v2/assets/objetos/churu.png`. Récord en `localStorage` (`senku_vr_record`).
 - Pruebas: `node --test senku/vr/tests/*.test.mjs`.
