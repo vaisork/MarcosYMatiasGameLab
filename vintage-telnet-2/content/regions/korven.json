@@ -2842,7 +2842,8 @@
       "return": "Subes hacia la luz por el aire tibio; el eco se queda abajo, llamando desde el Descenso.",
       "examine": {
         "techo": "El agua sale por tres grietas separadas. Una gota cae de cada una, siempre en el mismo orden.",
-        "goteo": "El sonido baja hacia las salas hondas: grave, medio y agudo, como tambor, campana y silbido."
+        "goteo": "El sonido baja hacia las salas hondas: grave, medio y agudo, como tambor, campana y silbido.",
+        "cristal": "El cristal tibio guarda una lucecita con forma de criatura. No es la criatura: es el recuerdo brillante de su fuerza."
       },
       "exits": {
         "norte": "korven_grieta_boca",
@@ -2862,7 +2863,27 @@
           "persistent_trace": false
         }
       ],
-      "actions": [],
+      "actions": [
+        {
+          "id": "ecos_cristal_tibio",
+          "label": "Recoger el cristal tibio",
+          "text": "Encuentras un cristal tibio entre las gotas. Una figura luminosa aparece un instante en su interior y vuelve a brillar dentro de la piedra.",
+          "requires_level": 20,
+          "requires_classes": [
+            "arcano"
+          ],
+          "requires_flags": [
+            "ecos_escucha"
+          ],
+          "forbids_flags": [
+            "ecos_cristal_tibio"
+          ],
+          "set_flags": [
+            "ecos_cristal_tibio"
+          ],
+          "journal": "Recogiste el cristal tibio de la Sala de los Ecos Tibios; guarda un recuerdo brillante de fuerza."
+        }
+      ],
       "exit_requirements": {
         "sur": {
           "requires_level": 12,
@@ -3045,7 +3066,8 @@
       "return": "Los hilos se inclinan hacia el Telar. Al pasar, una nota breve te sigue por el camino.",
       "examine": {
         "red": "Un insecto de cristal quedó atrapado entre los hilos. Sus alas transparentes reflejan la luz.",
-        "geoda": "Cada geoda devuelve un pasillo distinto. Si miras de lado, los reflejos desaparecen."
+        "geoda": "Cada geoda devuelve un pasillo distinto. Si miras de lado, los reflejos desaparecen.",
+        "cristal": "En el centro de la geoda, una lucecita conserva la forma de una criatura. Es un recuerdo brillante; la criatura no está lastimada."
       },
       "exits": {
         "este": "korven_grieta_descenso",
@@ -3063,7 +3085,27 @@
           "persistent_trace": false
         }
       ],
-      "actions": []
+      "actions": [
+        {
+          "id": "ecos_cristal_geoda",
+          "label": "Recoger el cristal de la geoda",
+          "text": "Abres con cuidado la geoda por una juntura natural. Dentro hay un cristal pequeño que guarda una lucecita con forma de criatura.",
+          "requires_level": 20,
+          "requires_classes": [
+            "arcano"
+          ],
+          "requires_flags": [
+            "ecos_escucha"
+          ],
+          "forbids_flags": [
+            "ecos_cristal_geoda"
+          ],
+          "set_flags": [
+            "ecos_cristal_geoda"
+          ],
+          "journal": "Recogiste el cristal de una geoda del Bosque de Geodas; una lucecita conserva el recuerdo de su fuerza."
+        }
+      ]
     },
     "korven_grieta_telar": {
       "id": "korven_grieta_telar",
@@ -3186,7 +3228,8 @@
       "return": "Subes hacia el Descenso. Al avanzar al sur, el silencio se abre alrededor de las tres columnas.",
       "examine": {
         "columnas": "La larga suena como tambor; la mediana, como campana; la corta, como silbido. La grieta escucha primero lo más hondo.",
-        "suelo": "El polvo está quieto alrededor de las columnas. No hay huellas cerca de la grieta."
+        "suelo": "El polvo está quieto alrededor de las columnas. No hay huellas cerca de la grieta.",
+        "cristal": "Al tocarlo junto a la veta de eco, el cristal opaco se enciende. Guarda un recuerdo de fuerza, aunque no emite sonido."
       },
       "exits": {
         "norte": "korven_grieta_descenso",
@@ -3309,6 +3352,26 @@
             "grieta_veta_eco"
           ],
           "journal": "Escuchaste con tus placas el orden de la veta de eco."
+        },
+        {
+          "id": "ecos_cristal_sordo",
+          "label": "Recoger el cristal que no suena",
+          "text": "La Galería Sorda no responde a tu voz. Al apoyar la mano junto a la veta de eco, un cristal opaco se enciende sin hacer ruido.",
+          "requires_level": 20,
+          "requires_classes": [
+            "arcano"
+          ],
+          "requires_flags": [
+            "ecos_escucha",
+            "grieta_veta_eco"
+          ],
+          "forbids_flags": [
+            "ecos_cristal_sordo"
+          ],
+          "set_flags": [
+            "ecos_cristal_sordo"
+          ],
+          "journal": "Recogiste el cristal silencioso de la Galería Sorda, junto a la veta de eco."
         }
       ]
     },
@@ -3704,6 +3767,44 @@
           ],
           "scope": "world",
           "journal": "Cierre: la Sierpe mudó la piel y se durmió junto a la veta más honda. Las losas de Brumak quedaron quietas."
+        },
+        {
+          "id": "ecos_escuchar_muda",
+          "label": "Escuchar la piel mudada",
+          "text": "La piel que dejó la Sierpe es transparente como un vitral. Al tocarla oyes cosas: un rugido lejano, un aleteo, el crujir de unas patas de cristal. Son ecos. La piel te muestra tres lugares de la Grieta donde todavía brillan cristales llenos de ecos.",
+          "requires_level": 20,
+          "requires_classes": [
+            "arcano"
+          ],
+          "requires_flags": [
+            "korven_grieta_en_calma"
+          ],
+          "forbids_flags": [
+            "ecos_escucha"
+          ],
+          "set_flags": [
+            "ecos_escucha"
+          ],
+          "journal": "La piel mudada de la Sierpe te mostró tres cristales de la Grieta que guardan el recuerdo brillante de criaturas a las que venciste."
+        },
+        {
+          "id": "ecos_unir_cristales",
+          "label": "Unir los tres cristales",
+          "text": "Juntas los tres cristales sobre la piel mudada. Se funden en uno solo, del tamaño de tu mano, y dentro empiezan a nadar lucecitas con forma de criaturas: todas las que has vencido. Ninguna está lastimada; son el recuerdo de su fuerza. Ahora eres Arcano de los Ecos.",
+          "requires_level": 20,
+          "requires_classes": [
+            "arcano"
+          ],
+          "requires_flags": [
+            "ecos_cristal_tibio",
+            "ecos_cristal_sordo",
+            "ecos_cristal_geoda"
+          ],
+          "forbids_flags": [
+            "especializacion:arcano_ecos"
+          ],
+          "set_specialization": "arcano_ecos",
+          "journal": "Cierre: uniste los tres cristales y juraste como Arcano de los Ecos. En tu cristal brillan los recuerdos de fuerza de las criaturas que has vencido."
         }
       ]
     }
@@ -3760,7 +3861,9 @@
         "korven_aviso_localizado": "Oma dejó una advertencia para la franja concreta, sin señalar como inseguro todo el cauce.",
         "hallazgo:piedra_veteada": "Reconoce lo que llevas: «Piedra veteada. Es de por aquí; mira el suelo cuando vuelvas a pasar.»",
         "korven_notas_comparacion": "La nota doblada descansa entre las tablillas de su fecha con el hueco de la hora bien visible. Oma la consulta con calma, sin esconder la esquina gastada.",
-        "korven_notas_ejemplo": "La nota doblada reposa en la mesa de entrada sujeta por una piedra pulida. Oma señala su casilla vacía al recibir avisos y pregunta la hora antes de sacar conclusiones."
+        "korven_notas_ejemplo": "La nota doblada reposa en la mesa de entrada sujeta por una piedra pulida. Oma señala su casilla vacía al recibir avisos y pregunta la hora antes de sacar conclusiones.",
+        "ecos_escucha": "Oma baja la voz para no tapar el rumor de la veta. «La piel de la Sierpe te mostró tres lugares, ¿verdad? Cada cristal responde distinto. Mira bien dónde lo encuentras y deja que la luz te cuente lo demás». ",
+        "rango:defensor:brumak": "Oma aparta sus tablillas y te saluda con respeto. «Defensor de Brumak. La gente del cauce sabe que cuidaste este lugar». "
       },
       "schedule": [
         "día"

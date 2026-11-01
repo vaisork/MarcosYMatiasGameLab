@@ -2838,7 +2838,8 @@
         "hallazgo:fibra_junco": "Reconoce lo que llevas: «Fibra de junco. Es de por aquí; mira el suelo cuando vuelvas a pasar.»",
         "lethra_reunion_pano": "Nima espera que el paño esté seco antes de cubrir la mesa.",
         "lethra_reunion_cubierta": "Nima mantiene los cuencos bajo la cubierta de la cocina.",
-        "lethra_hilo_completado": "Nima remueve la olla con una sonrisa serena: «Las canciones de Narevia siguen sonando mientras haya lumbre en esta cocina.»"
+        "lethra_hilo_completado": "Nima remueve la olla con una sonrisa serena: «Las canciones de Narevia siguen sonando mientras haya lumbre en esta cocina.»",
+        "rango:defensor:narevia": "Nima sonríe al verte. «Defensor de Narevia. La gente de la orilla sabe que cuidaste el paso»."
       }
     },
     "lethra_nera_mercado": {

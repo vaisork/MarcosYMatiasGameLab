@@ -2892,7 +2892,8 @@
       "day": "Seran mantiene las cajas bajo la lona y comprueba su tablilla.",
       "night": "Permanece junto al farol para vigilar las cargas.",
       "memory": {
-        "hoshai_polea_acordada": "Seran baja el palo al reconocerte. «La cuenta del transporte sigue pendiente de revisión.»"
+        "hoshai_polea_acordada": "Seran baja el palo al reconocerte. «La cuenta del transporte sigue pendiente de revisión.»",
+        "rango:defensor:khariel": "Seran deja la lona a un lado. «Defensor de Khariel. Tu ayuda todavía se nota cuando sopla el viento»."
       },
       "states": [
         {

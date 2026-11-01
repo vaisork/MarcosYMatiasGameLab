@@ -50,6 +50,61 @@ CLASSES = {
  'sombra': {'name':'Sombra','signature':'Borrar el Foco','signature_id':'borrar_foco','effect':'Reduce su precisión; si falla, abre tu siguiente ataque.','cooldown':4,'weapon':'punal_camino','actions':CLASS_ACTIONS['sombra']},
  'artifice': {'name':'Artífice','signature':'Tiro de Interrupción','signature_id':'tiro_interrupcion','effect':'Un disparo acertado corta la carga o reduce su precisión.','cooldown':2,'weapon':'arco_ruta','actions':CLASS_ACTIONS['artifice']},
 }
+# Especializaciones de nivel 20 (docs: entregas claude2/vt2-especializaciones/DISENO.md).
+SPECIALIZATIONS = {
+ 'arcano_ecos': {'name':'Arcano de los Ecos','base':'arcano','level':20},
+ 'juramentado_heroico': {'name':'Juramentado Heroico','base':'juramentado','level':20},
+}
+SPEC_ACTIONS = {
+ 'arcano_ecos': [
+  {'id':'invocar_eco','name':'Invocar Eco','label':'Invocar Eco','description':'Llamas el eco brillante de una criatura que venciste: pelea a tu lado 3 rondas y atrae miradas.','cooldown':6,'cost':6},
+  {'id':'velo_espectral','name':'Velo Espectral','label':'Velo Espectral','description':'Durante una ronda (4 segundos) los golpes te atraviesan como si fueras niebla.','cooldown':6,'cost':5},
+ ],
+ 'juramentado_heroico': [
+  {'id':'inspirar_valentia','name':'Inspirar Valentía','label':'Inspirar Valentía','description':'Atacas gritando tu juramento: tu grupo gana precisión, aguante y firmeza por unas rondas.','cooldown':6,'cost':4},
+ ],
+}
+ECO_ROUNDS, ECO_ACCURACY, ECO_DISTRACTION, ECO_FATIGUE, ECO_FACTOR, ECO_MAX = 3, 70, 10, 1.5, .4, 8
+VELO_ROUNDS = 1
+# rango: (precisión, ahorro de fatiga, reducción de daño, rondas)
+INSPIRE = {'escudero':(5,.15,0,2),'defensor':(6,.20,0,3),'campeon':(8,.25,.05,3),'heroe':(10,.30,.08,3)}
+RANK_ORDER = ('escudero','defensor','campeon','heroe')
+HERO_RANKS = {
+ 'escudero': lambda flags: any(f.startswith('encargo_pagado:') for f in flags),
+ 'defensor:valdren': lambda flags: bool({'victoria:edran_prado:cornalomo','victoria:edran_canal_compuerta:forajido_camino'} & flags),
+ 'defensor:khariel': lambda flags: 'victoria:hoshai_campamento_lona:forajido_camino' in flags,
+ 'defensor:brumak': lambda flags: bool({'victoria:korven_almacen_cruce:forajido_camino','victoria:korven_grieta_nido:quebrarrocas_canoso','victoria:korven_grieta_telar:tejecristal'} & flags),
+ 'defensor:narevia': lambda flags: 'victoria:lethra_orilla_silente:dorsalodo' in flags,
+ 'defensor:velmora': lambda flags: 'victoria:nhal_raiz_marcada:rasgacorteza' in flags,
+ 'defensor:vaisgard': lambda flags: bool({'victoria:veyra_mazmorra_galeria_ecos:quebrarrocas','victoria:veyra_mazmorra_cornisa:mordesombra'} & flags),
+ 'campeon:veyra': lambda flags: bool({'victoria:veyra_mazmorra_boveda_guardian:dragon_aguas_antiguas','participated:dragon_vencido'} & flags),
+ 'campeon:korven': lambda flags: {'victoria:korven_grieta_nido:quebrarrocas_canoso','victoria:korven_grieta_telar:tejecristal'} <= flags,
+ 'heroe': lambda flags: 'victoria:korven_grieta_corazon:sierpe_veta_madre' in flags or sum(f.startswith('rango:campeon:') for f in flags)>=3,
+}
+def ranks_from_flags(flags):
+ flags=set(flags)
+ ranks={f'rango:{rank}' for rank,qualifies in HERO_RANKS.items() if qualifies(flags)}
+ if any(r.startswith('rango:defensor:') for r in ranks):ranks.add('rango:defensor')
+ return ranks
+def specialization(state): return (state.get('especializacion') or {}).get('id')
+def class_actions(state, cls): return CLASS_ACTIONS.get(cls,[])+SPEC_ACTIONS.get(specialization(state),[])
+def eco_power(creature_id): return clamp(rounded(ECO_FACTOR*PROFILES[creature_id]['damage']),3,ECO_MAX)
+def ecos(state, exclude=()):
+ """Ecos = criaturas vencidas (bandera personal victoria:<sala>:<criatura>), sin humanos."""
+ found={f.rsplit(':',1)[1] for f in state.get('flags',[]) if f.startswith('victoria:')}
+ return sorted(({'id':c,'power':eco_power(c)} for c in found if c in PROFILES and c not in exclude),key=lambda e:-e['power'])
+def hero_rank(state):
+ ranks=[f.split(':')[1] for f in state.get('flags',[]) if f.startswith('rango:') and f.split(':')[1] in RANK_ORDER]
+ return max(ranks,key=RANK_ORDER.index) if ranks else None
+def tick_effects(combat):
+ for key in ('eco','inspirado'):
+  if combat.get(key):
+   combat[key]['rounds']-=1
+   if combat[key]['rounds']<=0:combat.pop(key)
+ if combat.get('velo'):
+  combat['velo']-=1
+  if combat['velo']<=0:combat.pop('velo')
+
 WEAPONS = {
  'espada_juramento': {'id':'espada_juramento','name':'Espada de juramento','kind':'weapon','damage':10,'block':True,'activated':True},
  'varita_aprendiz': {'id':'varita_aprendiz','name':'Varita de aprendiz','kind':'weapon','damage':7,'focus':True,'activated':True},
@@ -174,7 +229,8 @@ def use_consumable(state,item):
  return f"Usas {item['name']}: "+(', '.join(parts) if parts else 'no notas cambios')+'.'
 
 def hp_max(state):
- a=state.get('attributes') or {}; return 100+1.25*(state.get('level',1)-1)+2.5*(a.get('resistencia',10)-10)+.5*(a.get('voluntad',10)-10)+gear_bonus(state,'vida')
+ a=state.get('attributes') or {}; base=100+1.25*(state.get('level',1)-1)+2.5*(a.get('resistencia',10)-10)+.5*(a.get('voluntad',10)-10)+gear_bonus(state,'vida')
+ return base*(.9 if state.get('class_id')=='arcano' and specialization(state)=='arcano_ecos' else 1)
 # One lifetime reward per room, secret, journal text, ending flag, quest or behavior.
 EXPLORATION_XP = {'room':1, 'secret':10, 'clue':3, 'closure':25, 'quest':15, 'behavior':3}
 def xp_next(level): return rounded(100+18*(level-1)+.25*(level-1)**2)
@@ -747,6 +803,8 @@ def resolve_round(state, creature, rng, respond=True):
   action=CLASSES[cls].get('signature_id','guardia_comprometida')
  weapon=next((i for i in state['inventory'] if i['id']==state['equipment']['weapon']),None)
  accuracy=clamp(55+.45*(a['destreza']-10)+.18*(a['percepcion']-10)+.5*(cg(state)-8*(profile['level']-1)/99)-penalty-profile.get('evasion',0)+gear_bonus(state,'precision'),25,90)
+ inspired=combat.get('inspirado')
+ if inspired:accuracy=min(95,accuracy+inspired['acc'])
  if cls=='arcano':stat_bonus=.48*(a['intelecto']-10)+.12*(a['voluntad']-10)
  elif cls=='sombra':stat_bonus=.48*(a['agilidad']-10)+.12*(a['percepcion']-10)
  elif cls=='artifice':stat_bonus=.48*(a['destreza']-10)+.12*(a['percepcion']-10)
@@ -760,7 +818,7 @@ def resolve_round(state, creature, rng, respond=True):
         'impulso_arcano':4,'velo_contencion':5,'destello_frio':4,
         'borrar_foco':5,'golpe_apertura':5,'distraccion':4,
         'tiro_interrupcion':5,'traba_campo':5,'balsamo_campo':2,
-        'apoyo_numen':0}
+        'apoyo_numen':0,'invocar_eco':6,'velo_espectral':5,'inspirar_valentia':4}
  if action=='defender':action=target
  if action=='usar':
   item=next((i for i in state['inventory'] if i['id']==target),None)
@@ -873,6 +931,22 @@ def resolve_round(state, creature, rng, respond=True):
   before_hp=state['hp'];state['hp']=min(hp_max(state),state['hp']+15);healed=rounded(state['hp']-before_hp)
   state['fatigue']=max(0,state['fatigue']-20)
   events.append({'kind':'action','text':ACTION_PROSE['balsamo_campo']['cast'].format(h=healed)})
+ elif action=='invocar_eco':
+  combat.setdefault('cooldowns',{})['invocar_eco']=7
+  eco=intervention.get('eco') or {}
+  combat['eco']={'id':eco.get('id'),'name':eco.get('name','un eco'),'power':eco.get('power',3),'rounds':ECO_ROUNDS}
+  events.append({'kind':'action','text':f"Usas Invocar Eco. Alzas tu cristal y llamas al eco de {combat['eco']['name']}. Una figura de luz aparece a tu lado, lista para pelear."})
+ elif action=='velo_espectral':
+  combat.setdefault('cooldowns',{})['velo_espectral']=7;combat['velo']=VELO_ROUNDS
+  events.append({'kind':'action','text':'Usas Velo Espectral. Te envuelves en luz. Tu cuerpo brilla y se vuelve ligero como niebla.'})
+ elif action=='inspirar_valentia':
+  combat.setdefault('cooldowns',{})['inspirar_valentia']=7
+  acc,fat,red,rounds=INSPIRE[intervention.get('rank') or hero_rank(state) or 'escudero']
+  current=combat.get('inspirado')
+  inspired=dict(current) if current else {'acc':acc,'fat':fat,'red':red,'rounds':rounds}
+  inspired['rounds']=max(inspired.get('rounds',0),rounds)
+  combat['inspirado']=inspired
+  events.append({'kind':'action','text':'Usas Inspirar Valentía. Levantas tu espada y gritas tu juramento. Tu voz llena el lugar y sientes que nadie aquí está solo.'})
  elif action=='apoyo_numen':
   active=get_active_numen(state)
   if active:
@@ -900,7 +974,7 @@ def resolve_round(state, creature, rng, respond=True):
   else:
    events.append({'kind':'action','text':'No tienes un compañero Númen activo a tu lado.'})
 
- attack=action=='atacar' or (signature and cls=='artifice')
+ attack=action in ('atacar','inspirar_valentia') or (signature and cls=='artifice')
  if attack and not weapon:
   attack=False;events.append({'kind':'action','text':'Sin un arma activa no puedes ejecutar el ataque físico de tu formación.'})
  if attack:
@@ -914,7 +988,14 @@ def resolve_round(state, creature, rng, respond=True):
     elif not prepared:
      enemy_accuracy-=15;events.append({'kind':'combat','text':'El disparo le hace perder precisión en su siguiente respuesta.'})
   else:events.append({'kind':'combat','text':weapon_prose(weapon,'miss',creature['name'],0,combat['round'])})
- state['fatigue']=min(100,state['fatigue']+fatigue_cost(state,costs.get(action,4)))
+ eco=combat.get('eco')
+ if eco:
+  enemy_accuracy-=ECO_DISTRACTION
+  if rng.random()*100<ECO_ACCURACY:
+   eco_damage=max(1,rounded(eco['power']*(1-profile['reduction'])));combat['hp']-=eco_damage
+   events.append({'kind':'combat','text':f"El eco de {eco['name']} se lanza contra {creature['name']}: {eco_damage} de daño."})
+ spent=fatigue_cost(state,costs.get(action,4))*(ECO_FATIGUE if eco else 1)*(1-(inspired or {}).get('fat',0))
+ state['fatigue']=min(100,state['fatigue']+spent)
  if combat['hp']<=0:return events,'victory'
  if action in DEFENSE_PROSE:events.append({'kind':'action','text':defense_prose(action,creature['name'],combat['round'])})
  if action=='esquivar':enemy_accuracy-=.48*(a['agilidad']-10)+.12*(a['percepcion']-10)-penalty
@@ -924,11 +1005,13 @@ def resolve_round(state, creature, rng, respond=True):
   reduction=max(0,min(.32+_block_bonus,.10+.0035*(a['destreza']-10)+_block_bonus)-penalty/100)
  elif action=='resistir':reduction=max(0,min(.38,.0055*(a['resistencia']-10))-penalty/100)
  enemy_accuracy-=gear_bonus(state,'esquiva')
- combat['_response']={'accuracy':enemy_accuracy,'reduction':reduction,'guard':guard,'signature':signature,'action':action}
+ if inspired:reduction+=inspired['red']
+ phase=combat.get('velo',0)>0
+ combat['_response']={'accuracy':enemy_accuracy,'reduction':reduction,'guard':guard,'signature':signature,'action':action,'phase':phase}
  if profile.get('preparations_fase2') and combat['hp']>0 and previous_creature_hp>profile['hp']*profile.get('fase2_umbral',.5)>=combat['hp']:
   events.append({'kind':'danger','text':profile.get('aviso_fase2','El rival cambia de ritmo y prepara respuestas más intensas.')})
  if not respond:
-  combat['round']+=1;combat['cooldown']=max(0,combat.get('cooldown',0)-1)
+  combat['round']+=1;combat['cooldown']=max(0,combat.get('cooldown',0)-1);tick_effects(combat)
   if 'cooldowns' in combat:combat['cooldowns']={k:max(0,v-1) for k,v in combat['cooldowns'].items() if v>1}
   return events,'ongoing'
  connected=rng.random()*100<clamp(enemy_accuracy,20,90)
@@ -938,8 +1021,9 @@ def resolve_round(state, creature, rng, respond=True):
   if barrier>0:
    absorbed=min(damage,barrier);damage-=absorbed
    events.append({'kind':'combat','text':ACTION_PROSE['velo_contencion']['absorb'].format(a=absorbed,c=creature['name'])})
-  if is_vaisork(state):damage=0
-  if damage>0:
+  if is_vaisork(state) or phase:damage=0
+  if phase:events.append({'kind':'combat','text':f"El golpe de {creature['name']} te atraviesa como si fueras niebla. No sientes nada."})
+  elif damage>0:
    state['hp']-=damage;wound(state,damage)
    events.append({'kind':'combat','text':creature_prose(creature,'hit',damage,combat['round'])})
   elif barrier>0:
@@ -952,7 +1036,7 @@ def resolve_round(state, creature, rng, respond=True):
    combat['opening']=True
    prose='finta_vacio' if action=='finta_vacio' else 'borrar_foco'
    events.append({'kind':'combat','text':ACTION_PROSE[prose]['opening'].format(c=creature['name'])})
- combat['round']+=1;combat['cooldown']=max(0,combat.get('cooldown',0)-1)
+ combat['round']+=1;combat['cooldown']=max(0,combat.get('cooldown',0)-1);tick_effects(combat)
  preps=preparations_for(profile,combat['hp'])
  if preps and state['hp']>0 and combat['hp']>0:
   combat['prepared']=True

@@ -381,6 +381,27 @@
             "success_text": "Tu porte sereno y firme inspira confianza inmediata en los viajeros, que agradecen tu ayuda aliviados.",
             "fail_text": "El ruido de los carros casi tapa tus palabras, pero tu gesto cordial calma su confusión y logran entenderte."
           }
+        },
+        {
+          "id": "juramento_pronunciar",
+          "label": "Pronunciar el juramento",
+          "text": "Te paras en medio de la plaza, donde se cruzan las cinco rutas. Levantas tu espada y dices tu juramento en voz alta: cuidar los caminos y a quien camine por ellos. Recuerdas el asentimiento de Arel. Una señora deja su canasta, un niño se sube a una caja para verte. Ahora eres Juramentado Heroico.",
+          "requires_level": 20,
+          "requires_classes": [
+            "juramentado"
+          ],
+          "requires_flags": [
+            "juramento_puerta_campos",
+            "juramento_puerta_alta",
+            "juramento_puerta_piedra",
+            "juramento_puerta_juncos",
+            "juramento_puerta_sombra"
+          ],
+          "forbids_flags": [
+            "especializacion:juramentado_heroico"
+          ],
+          "set_specialization": "juramentado_heroico",
+          "journal": "Cierre: pronunciaste tu juramento en la Plaza de las Cinco Rutas y te convertiste en Juramentado Heroico. Prometiste cuidar los caminos y a quien los recorre."
         }
       ],
       "dawn": "Los mensajeros comparan destinos antes de que la plaza reciba carros. Quienes han dormido en los patios ajustan cubiertas mirando el cielo.",
@@ -1480,7 +1501,27 @@
       },
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "juramento_puerta_campos",
+          "label": "Prometer cuidar este camino",
+          "text": "Te detienes junto a la puerta que lleva hacia los campos de Edran. Prometes cuidar el paso y ayudar a quien lo recorra. La ruta sigue abierta para todos.",
+          "requires_level": 20,
+          "requires_classes": [
+            "juramentado"
+          ],
+          "requires_flags": [
+            "juramento_iniciado"
+          ],
+          "forbids_flags": [
+            "juramento_puerta_campos"
+          ],
+          "set_flags": [
+            "juramento_puerta_campos"
+          ],
+          "journal": "Ante la puerta hacia los campos de Edran, prometiste cuidar el camino y a quien lo recorra."
+        }
+      ],
       "brief": "La Puerta de los Campos, en los muros viejos de Vaisgard.",
       "wildlife_pool": [
         {
@@ -1519,7 +1560,27 @@
       },
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "juramento_puerta_alta",
+          "label": "Prometer cuidar este camino",
+          "text": "Te detienes junto a la puerta que lleva al camino alto de Hoshai. Prometes cuidar el paso y ayudar a quien lo recorra. La ruta sigue abierta para todos.",
+          "requires_level": 20,
+          "requires_classes": [
+            "juramentado"
+          ],
+          "requires_flags": [
+            "juramento_iniciado"
+          ],
+          "forbids_flags": [
+            "juramento_puerta_alta"
+          ],
+          "set_flags": [
+            "juramento_puerta_alta"
+          ],
+          "journal": "Ante la puerta al camino alto de Hoshai, prometiste cuidar el camino y a quien lo recorra."
+        }
+      ],
       "dawn": "La grava está húmeda de rocío, y los primeros viajeros suben pisando con cuidado. Detrás, en los patios, empiezan a oírse voces.",
       "dusk": "Los viajeros que bajan dejan pasar una carga que llega tarde. Por encima de la puerta, la sierra todavía tiene luz, aunque la rampa ya está en sombra.",
       "brief": "La Puerta del Camino Alto y su plataforma de carga.",
@@ -1577,6 +1638,25 @@
           "scope": "player",
           "journal": "La carga de Tov está detenida por un separador roto, no desaparecida.",
           "requires_npc": "veyra_tov"
+        },
+        {
+          "id": "juramento_puerta_piedra",
+          "label": "Prometer cuidar este camino",
+          "text": "Te detienes junto a la puerta que lleva al camino de piedra hacia Korven. Prometes cuidar el paso y ayudar a quien lo recorra. La ruta sigue abierta para todos.",
+          "requires_level": 20,
+          "requires_classes": [
+            "juramentado"
+          ],
+          "requires_flags": [
+            "juramento_iniciado"
+          ],
+          "forbids_flags": [
+            "juramento_puerta_piedra"
+          ],
+          "set_flags": [
+            "juramento_puerta_piedra"
+          ],
+          "journal": "Ante la puerta al camino de piedra hacia Korven, prometiste cuidar el camino y a quien lo recorra."
         }
       ],
       "brief": "La puerta del camino de Korven, con sus ventanas pequeñas.",
@@ -1617,7 +1697,27 @@
       },
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "juramento_puerta_juncos",
+          "label": "Prometer cuidar este camino",
+          "text": "Te detienes junto a la puerta que lleva a los canales de Lethra. Prometes cuidar el paso y ayudar a quien lo recorra. La ruta sigue abierta para todos.",
+          "requires_level": 20,
+          "requires_classes": [
+            "juramentado"
+          ],
+          "requires_flags": [
+            "juramento_iniciado"
+          ],
+          "forbids_flags": [
+            "juramento_puerta_juncos"
+          ],
+          "set_flags": [
+            "juramento_puerta_juncos"
+          ],
+          "journal": "Ante la puerta a los canales de Lethra, prometiste cuidar el camino y a quien lo recorra."
+        }
+      ],
       "brief": "La puerta de los canales, con su tabla para el calzado.",
       "wildlife_pool": [
         {
@@ -1656,7 +1756,27 @@
       },
       "npcs": [],
       "signals": [],
-      "actions": [],
+      "actions": [
+        {
+          "id": "juramento_puerta_sombra",
+          "label": "Prometer cuidar este camino",
+          "text": "Te detienes junto a la puerta que lleva al sendero de sombra hacia Nhal. Prometes cuidar el paso y ayudar a quien lo recorra. La ruta sigue abierta para todos.",
+          "requires_level": 20,
+          "requires_classes": [
+            "juramentado"
+          ],
+          "requires_flags": [
+            "juramento_iniciado"
+          ],
+          "forbids_flags": [
+            "juramento_puerta_sombra"
+          ],
+          "set_flags": [
+            "juramento_puerta_sombra"
+          ],
+          "journal": "Ante la puerta al sendero de sombra hacia Nhal, prometiste cuidar el camino y a quien lo recorra."
+        }
+      ],
       "brief": "La puerta del bosque, con su hoja vieja contra el muro.",
       "wildlife_pool": [
         {
@@ -3278,6 +3398,25 @@
             "veyra_recados_turnos"
           ],
           "journal": "Arel carraspea y se pasa la mano por el cuello con una mueca de cansancio, sosteniendo una tablilla donde las letras se amontonan al final. «Me da pena que alguien se marche con el aviso a medias solo porque ya me he quedado ronca de tanto vocear»."
+        },
+        "juramento": {
+          "requires_level": 20,
+          "requires_classes": [
+            "juramentado"
+          ],
+          "requires_flags": [
+            "rango:escudero",
+            "rango:defensor"
+          ],
+          "forbids_flags": [
+            "juramento_iniciado",
+            "especializacion:juramentado_heroico"
+          ],
+          "text": "Arel escucha tu historia sin interrumpirte. «Ya ayudaste a otras personas y defendiste un lugar. Si de verdad quieres cuidar todos los caminos, visita las cinco puertas y vuelve a esta plaza. Entonces podrás decir tu juramento».",
+          "set_flags": [
+            "juramento_iniciado"
+          ],
+          "journal": "Arel te propuso una prueba en la Plaza de las Cinco Rutas: visitar las cinco puertas y prometer cuidar cada camino antes de pronunciar tu juramento."
         }
       },
       "day": "Recibe recados junto al armazón.",
@@ -3289,7 +3428,10 @@
         "encargo_veyra_aviso_comprobar": "Arel sabe que preferiste confirmar con Tov antes de alterar la lista de llegadas.",
         "encargo_pagado:vaisgard_aviso_carga": "Arel muestra la copia del aviso que llevaste. «Tov, puerta de piedra, separador roto. Nera conserva la procedencia.»",
         "veyra_recados_copia": "Junto al cartel viejo cuelga una copia hermosa de renglones anchos y claros. Arel deja leer sin prisas hasta el último renglón y ofrece su voz a quien la necesita, descansando la garganta entre preguntas.",
-        "veyra_recados_turnos": "Arel espera a que el patio quede en calma antes de comenzar su lectura. La tablilla sigue en el banco y las palabras del final llegan tan claras y tranquilas como las del principio, sin forzar la voz."
+        "veyra_recados_turnos": "Arel espera a que el patio quede en calma antes de comenzar su lectura. La tablilla sigue en el banco y las palabras del final llegan tan claras y tranquilas como las del principio, sin forzar la voz.",
+        "rango:heroe": "Arel se pone de pie y varias personas del patio voltean. «Héroe de Vaisgard. Las cinco rutas saben tu nombre».",
+        "rango:defensor:vaisgard": "Arel levanta una mano para saludarte. «Defensor de Vaisgard. Ya sabes lo que significa cuidar un camino lleno de gente». ",
+        "rango:campeon:veyra": "Arel te reconoce entre la gente. «Campeón de Veyra. Tu hazaña ya forma parte de las historias de estas rutas»."
       },
       "states": [
         {

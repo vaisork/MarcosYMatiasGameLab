@@ -1166,3 +1166,28 @@ body .field input,body .field select{font-size:16px}
 .achievement-progress{height:8px;overflow:hidden;border-radius:99px;background:#e2ddce}
 .achievement-progress span{display:block;height:100%;border-radius:inherit;background:#9b7a2d}
 @media(min-width:600px){.goal-card{padding:15px}.achievement-entry{padding:13px 10px}}
+
+/* Especializaciones: identidad, rangos y ecos con lectura compacta en móvil. */
+.character-name{min-width:0}
+.character-name>div:first-child{min-width:0}
+.character-title{display:inline-flex;align-items:center;margin:4px 0 0;padding:4px 9px;border:1px solid #c89b43;border-radius:999px;background:#fff4d8;color:#624817;font-size:13px;font-weight:700}
+.specialization-panel{display:grid;gap:8px;padding:14px 0;border-bottom:1px solid var(--line)}
+.specialization-panel h2,.specialization-panel h3{margin:0}
+.specialization-current{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:16px}
+.rank-list,.rank-checklist{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.rank-list li,.rank-check{display:flex;align-items:flex-start;gap:8px;padding:7px 9px;border-radius:8px;background:#f6f1e5}
+.rank-checkmark{flex:0 0 20px;text-align:center;font-weight:800;color:#777}
+.rank-earned .rank-checkmark{color:#267341}
+.specialization-panel progress{width:100%;height:14px;accent-color:#9b7a2d}
+.bestiary-creature-title{display:grid;gap:5px;min-width:0}
+.bestiary-creature-title h3{margin:0;min-width:0}
+.echo-badge{display:inline-flex;width:max-content;max-width:100%;flex-wrap:wrap;align-items:center;gap:5px;border:1px solid #b68b36;background:#fff3ce;color:#624817;font-size:12px}
+.echo-badge>span[aria-hidden]{letter-spacing:1px;color:#a36f00}
+.echo-power{font-weight:600}
+.action-description{line-height:1.35}
+@media(max-width:600px){
+ html body .specialization-panel{gap:7px;padding:12px 0}
+ html body .character-title{font-size:12px}
+ html body .echo-badge{font-size:11px}
+ html body .quick-actions .action-grid .specialization-action{min-height:64px}
+}

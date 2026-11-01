@@ -402,12 +402,15 @@ class Engine:
                     return True
                 chosen=combat.get('intervention',{}).get('id','atacar')
                 has_weapon=bool(state['equipment'].get('weapon'))
-                class_action_ids={a['id'] for a in m.CLASS_ACTIONS.get(player['class_id'],[])}
+                class_action_ids={a['id'] for a in m.class_actions(state,player['class_id'])}
                 contribution=(chosen=='atacar' and has_weapon) or chosen=='capacidad' or chosen in class_action_ids or (player is primary and chosen in ('defender','esquivar','bloquear','resistir'))
                 if contribution and not combat.get('cooperation_counted'):
                     self.record_cooperative_activity(state);combat['cooperation_counted']=True
                 state['_class']=player['class_id'];state['_now']=now;lines,outcome=m.resolve_round(state,creature,self.rng,respond=False);state.pop('_class',None);state.pop('_now',None)
                 state['events']=lines;state['last_active']=now;changed=True
+                if combat.get('_response',{}).get('action')=='inspirar_valentia':
+                    for other in active:
+                        if other is not player:other['state']['combat']['inspirado']=dict(combat['inspirado'])
                 if outcome=='fled':self.flee(player,world);continue
                 combat['eligible']=combat.get('eligible',False) or contribution;animal['hp']=max(0,combat['hp']);prepared=combat.get('prepared',False)
                 if creature_id=='dragon_aguas_antiguas' and contribution:
@@ -433,10 +436,12 @@ class Engine:
                 damage=max(1,m.rounded(combat['profile']['damage']*(1-reply.get('reduction',0))*(1-state.get('armor_reduction',0))*(1-reply.get('guard',0))))
                 barrier=combat.pop('barrier',0)
                 damage=max(0,damage-barrier)
-                if m.is_vaisork(state):damage=0
+                if m.is_vaisork(state) or reply.get('phase'):damage=0
                 if damage>0:
                     state['hp']-=damage;m.wound(state,damage)
-                state['events'].append(event('combat',m.creature_prose(creature,'hit',damage,combat['round'])))
+                if reply.get('phase'):
+                    state['events'].append(event('combat',f"El golpe de {creature['name']} te atraviesa como si fueras niebla. No sientes nada."))
+                else:state['events'].append(event('combat',m.creature_prose(creature,'hit',damage,combat['round'])))
                 if state['hp']<=0:self.death(primary,world)
             else:
                 state['events'].append(event('combat',m.creature_prose(creature,'miss',0,combat['round'])))
@@ -498,6 +503,7 @@ class Engine:
 
     def flee(self,character,world):
         state=character['state'];room=self.room(character,world)
+        if m.specialization(state)=='juramentado_heroico':state['valor_apagado_hasta']=self.clock()+600
         destinations=list(room.get('exits',{}).values())
         self.clear_attention(character,world)
         if destinations:
@@ -542,6 +548,7 @@ class Engine:
         if local_victory not in state['flags']:state['flags'].append(local_victory)
         for flag in creature.get('victory_flags',[]):
             if flag not in state['flags']:state['flags'].append(flag)
+        self.sync_ranks(state)
         daily_errands.record_victory(self,character,combat['creature'],state['location'])
         self.update_quests(state,world,{'id':'vencer','target':combat['creature']})
         material=creature.get('material')
@@ -662,8 +669,21 @@ class Engine:
             cls=character['class_id'];context=room.get('combat_context',{})
             prepared=m.preparation(combat)
             class_acts=[]
-            for act in m.CLASSES.get(cls,{}).get('actions',[]):
+            for act in m.class_actions(state,cls):
                 aid=act['id']
+                if aid=='invocar_eco':
+                    human_ids={cid for cid,creature in self.content.creatures.items() if creature.get('combatant_kind')=='human'}
+                    available=m.ecos(state,human_ids)[:3]
+                    focus=bool(weapon.get('focus'))
+                    cd=combat.get('cooldowns',{}).get(aid,0)
+                    for eco in available:
+                        name=self.content.creatures.get(eco['id'],{}).get('name',eco['id'].replace('_',' ').title())
+                        valid=focus
+                        reason=f'Recarga: {cd} rondas' if cd else ('Necesitas un foco arcano para llamar un eco.' if not focus else act['description'])
+                        class_acts.append({'id':aid,'target':eco['id'],'label':f"Invocar eco: {name} (fuerza {eco['power']})",'description':act['description'],'disabled':bool(cd) or not valid,'reason':reason})
+                    if not available:
+                        class_acts.append({'id':aid,'label':act['label'],'description':act['description'],'disabled':True,'reason':'Aún no tienes ecos de criaturas vencidas.'})
+                    continue
                 cd=combat.get('cooldowns',{}).get(aid,0)
                 if act.get('signature') and combat.get('cooldown',0)>cd:cd=combat['cooldown']
                 valid=True;invalid_reason=''
@@ -677,6 +697,12 @@ class Engine:
                     elif prepared and not prepared.get('interruptible',False):valid=False;invalid_reason='Esta acción preparada no puede interrumpirse.'
                 elif aid in ('velo_contencion','destello_frio'):
                     if not weapon.get('focus'):valid=False;invalid_reason='Necesitas un foco arcano para esta capacidad.'
+                elif aid=='velo_espectral':
+                    if not weapon.get('focus'):valid=False;invalid_reason='Necesitas un foco arcano para esta capacidad.'
+                    elif world.get('encounters',{}).get(f"{state['location']}:{combat['creature']}") not in (None,character.get('id')):
+                        valid=False;invalid_reason='El Velo solo protege a quien recibe la respuesta del rival.'
+                elif aid=='inspirar_valentia' and state.get('valor_apagado_hasta',0)>self.clock():
+                    valid=False;invalid_reason=f"Huiste hace poco. Tu valor vuelve en {math.ceil((state['valor_apagado_hasta']-self.clock())/60)} min."
                 elif aid=='borrar_foco':
                     if not context.get('focus_break_possible',True):valid=False;invalid_reason='El entorno no permite romper la línea visual.'
                 elif aid=='finta_vacio':
@@ -1244,7 +1270,13 @@ class Engine:
         if state['combat']:
             combat=state['combat']
             if combat.get('intervention'):raise RuleError('Ya has decidido tu intervención para esta ronda.',409)
-            combat['intervention']={'id':action,'target':target};state['events']=[event('action','Tu decisión queda preparada para la próxima respuesta de tu rival.')]
+            intervention={'id':action,'target':target}
+            if action=='invocar_eco':
+                human_ids={cid for cid,creature in self.content.creatures.items() if creature.get('combatant_kind')=='human'}
+                eco=next((e for e in m.ecos(state,human_ids) if e['id']==target),None)
+                if not eco:raise RuleError('Ese eco no forma parte de tus victorias.',409)
+                intervention['eco']={'id':target,'name':self.content.creatures[target]['name'],'power':eco['power']}
+            combat['intervention']=intervention;state['events']=[event('action','Tu decisión queda preparada para la próxima respuesta de tu rival.')]
             return
         if action=='mirar_direccion':
             state['events']=[event('world',room['look'][target])]
@@ -1397,6 +1429,7 @@ class Engine:
             state['seals']+=amount;state['ledger'].append({'kind':'errand','family':family,'quest':target,'at':now,'amount':amount});instance['status']='paid'
             paid_flag='encargo_pagado:'+target
             if paid_flag not in state['flags']:state['flags'].append(paid_flag)
+            self.sync_ranks(state)
             speaker=self.quest_speaker(quest,room,state,world)
             delivery=quest.get('delivery_text')
             state['events']=([event('world',delivery)] if delivery else [])
@@ -1599,6 +1632,7 @@ class Engine:
         else:
             authored=next(a for a in room.get('actions',[]) if a['id']==action)
             self.effects(state,world,authored)
+            effect_events=list(state.get('events',[]))
             if authored.get('next'):
                 if authored['next'] not in self.content.rooms:raise RuleError('La escena no tiene un destino válido.',409)
                 self.visit(state,authored['next']);self.encounter(character,world);self.observe(state,self.room(character,world),world)
@@ -1615,7 +1649,7 @@ class Engine:
                     if fatigue:state['fatigue']=min(100,state['fatigue']+m.fatigue_cost(state,fatigue))
                 else:
                     if check.get('success_text'):text=check['success_text']
-            state['events']=[event('action',text)]
+            state['events']=[event('action',text),*effect_events]
         for cid in state['bestiary']:
             if cid not in known_before and action!='examinar_criatura':
                 state['events'].append(event('discovery',f"Añades {state['bestiary'][cid]['name']} al bestiario."))
@@ -1627,7 +1661,43 @@ class Engine:
         state['last_active']=now_clock
         m.sync_numenes(state,now_clock)
 
+    def sync_ranks(self,state):
+        # Todo Juramentado junta rangos (Arel los pide para jurar); solo el Heroico obtiene bonos en combate.
+        if state.get('class_id')!='juramentado':return
+        feminine=state.get('gender')=='femenino'
+        names={
+            'escudero':'Escudera' if feminine else 'Escudero',
+            'defensor:valdren':f"Defensor{'a' if feminine else ''} de Valdren",
+            'defensor:khariel':f"Defensor{'a' if feminine else ''} de Khariel",
+            'defensor:brumak':f"Defensor{'a' if feminine else ''} de Brumak",
+            'defensor:narevia':f"Defensor{'a' if feminine else ''} de Narevia",
+            'defensor:velmora':f"Defensor{'a' if feminine else ''} de Velmora",
+            'defensor:vaisgard':f"Defensor{'a' if feminine else ''} de Vaisgard",
+            'campeon:veyra':'Campeona de Veyra' if feminine else 'Campeón de Veyra',
+            'campeon:korven':'Campeona de Korven' if feminine else 'Campeón de Korven',
+            'heroe':'Heroína de Vaisgard' if feminine else 'Héroe de Vaisgard',
+        }
+        existing=set(state.setdefault('flags',[]))
+        for flag in sorted(m.ranks_from_flags(existing)):
+            if flag in existing:continue
+            state['flags'].append(flag);existing.add(flag)
+            key=flag.removeprefix('rango:')
+            if key=='defensor':continue
+            state.setdefault('events',[]).append(event('world',f"¡Ahora eres {names[key]}! La gente va a recordar lo que hiciste."))
+
     def effects(self,state,world,item):
+        if 'set_specialization' in item:
+            selected=item['set_specialization'];current=m.specialization(state)
+            if selected is None:
+                if not current or 'reconsideracion_usada' in state.get('flags',[]):raise RuleError('No puedes reconsiderar este juramento.',409)
+            elif selected not in m.SPECIALIZATIONS:
+                raise RuleError('La especialización no existe.',409)
+            elif current:
+                raise RuleError('Ya tienes una especialización activa.',409)
+            elif m.SPECIALIZATIONS[selected]['base']!=state.get('class_id'):
+                raise RuleError('Esa especialización no corresponde a tu clase.',409)
+            elif state.get('level',1)<m.SPECIALIZATIONS[selected]['level']:
+                raise RuleError('Necesitas alcanzar el nivel requerido para esta especialización.',409)
         for item_id,quantity in item.get('give_items',{}).items():
             if item_id not in self.content.items or not isinstance(quantity,int) or not 1<=quantity<=3:raise RuleError('La entrega no tiene un objeto válido.',409)
         for item_id,quantity in item.get('consume_items',{}).items():
@@ -1651,6 +1721,18 @@ class Engine:
             if known not in self.content.rooms:raise RuleError('El descubrimiento no pertenece al mundo.',409)
             if known not in state['known']:state['known'].append(known)
         if item.get('journal') and item['journal'] not in state['journal']:state['journal'].append(item['journal'])
+        if 'set_specialization' in item:
+            selected=item['set_specialization'];old=m.specialization(state)
+            if old:state['flags']=[flag for flag in state['flags'] if flag!=f'especializacion:{old}']
+            if selected is None:
+                state['especializacion']={'id':None,'desde':self.clock(),'reconsiderada':True}
+                state['flags'].append('reconsideracion_usada')
+            else:
+                state['especializacion']={'id':selected,'desde':self.clock(),'reconsiderada':'reconsideracion_usada' in state.get('flags',[])}
+                flag=f'especializacion:{selected}'
+                if flag not in state['flags']:state['flags'].append(flag)
+            state['hp']=min(state['hp'],m.hp_max(state))
+            self.sync_ranks(state)
 
     def update_quests(self,state,world,intent,room=None):
         for qid,instance in state['quests'].items():
@@ -1714,6 +1796,24 @@ class Engine:
             if creature.get('illustration') and creature.get('combatant_kind')=='human':safe_combat['illustration']=creature['illustration']
         char={key:character[key] for key in ('id','name','species','class_id','status')}
         char['gender']=state.get('gender')
+        char['especializacion']=state.get('especializacion')
+        ranked=sorted((flag for flag in state.get('flags',[]) if flag.startswith('rango:')),key=lambda f:(m.RANK_ORDER.index(f.split(':')[1]) if f.split(':')[1] in m.RANK_ORDER else -1,f))
+        feminine=state.get('gender')=='femenino'
+        rank_titles=[]
+        for flag in ranked:
+            key=flag.removeprefix('rango:')
+            if key=='escudero':title='Escudera' if feminine else 'Escudero'
+            elif key=='defensor':continue
+            elif key.startswith('defensor:'):title=f"Defensor{'a' if feminine else ''} de {key.split(':',1)[1].capitalize()}"
+            elif key.startswith('campeon:'):title=f"Campeona de {key.split(':',1)[1].capitalize()}" if feminine else f"Campeón de {key.split(':',1)[1].capitalize()}"
+            elif key=='heroe':title='Heroína de Vaisgard' if feminine else 'Héroe de Vaisgard'
+            else:continue
+            rank_titles.append({'id':flag,'name':title})
+        high=m.hero_rank(state)
+        char['rangos']=rank_titles
+        char['titulo']=(rank_titles[-1]['name'] if rank_titles else None) if high else None
+        human_ids={cid for cid,creature in self.content.creatures.items() if creature.get('combatant_kind')=='human'}
+        char['ecos']=[{'id':eco['id'],'name':self.content.creatures.get(eco['id'],{}).get('name',eco['id']),'power':eco['power']} for eco in m.ecos(state,human_ids)]
         portrait=state.get('portrait')
         if isinstance(portrait,str) and re.fullmatch(r'/client/art/players/[a-z0-9-]+\.webp',portrait):char['portrait']=portrait
         if m.is_vaisork(state):char['vaisork']=True

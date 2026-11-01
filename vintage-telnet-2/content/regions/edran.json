@@ -3709,7 +3709,8 @@
       },
       "memory": {
         "hallazgo:semillas_camino": "«Las semillas que se encuentran junto al camino también cuentan de qué campo viene una carga. Si aún conservas alguna, compara su forma cuando vuelvas a pasar.»",
-        "encargo_pagado:valdren_recado_forja": "Daro señala la tiza junto a la abrazadera. «Es la medida que trajiste de Bren. Ahora puedo comparar la pieza.»"
+        "encargo_pagado:valdren_recado_forja": "Daro señala la tiza junto a la abrazadera. «Es la medida que trajiste de Bren. Ahora puedo comparar la pieza.»",
+        "rango:defensor:valdren": "Daro deja el martillo y se quita la gorra. «¡El Defensor de Valdren! Pásale, que aquí siempre hay lugar para ti»."
       },
       "day": "Daro separa una pieza para quien necesita comprobarla antes de recogerla.",
       "night": "Daro revisa medidas junto a las piezas frías, dejando apagado el hogar.",
