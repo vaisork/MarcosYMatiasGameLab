@@ -140,6 +140,13 @@ class EspecializacionesTests(unittest.TestCase):
         self.assertEqual(primary['state']['hp'],before)
         self.assertIsNotNone(ally['state']['combat'].get('inspirado'))
 
+    def test_juramentado_earns_ranks_before_swearing(self):
+        state=m.new_state('humano','juramentado','home:test',self.now);state.update(flags=['encargo_pagado:x','victoria:edran_prado:cornalomo'])
+        self.engine.sync_ranks(state)
+        self.assertIn('rango:escudero',state['flags']);self.assertIn('rango:defensor',state['flags'])
+        other=m.new_state('humano','arcano','home:test',self.now);other.update(flags=['encargo_pagado:x'])
+        self.engine.sync_ranks(other);self.assertNotIn('rango:escudero',other['flags'])
+
     def test_heroic_rank_sync_is_announced_once_and_snapshot_exposes_it(self):
         state=m.new_state('humano','juramentado','home:test',self.now);state.update(level=20,gender='femenino',flags=['encargo_pagado:x','victoria:edran_prado:cornalomo'])
         self.engine.effects(state,{'flags':[]},{'set_specialization':'juramentado_heroico'})

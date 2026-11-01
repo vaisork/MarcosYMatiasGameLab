@@ -1662,7 +1662,8 @@ class Engine:
         m.sync_numenes(state,now_clock)
 
     def sync_ranks(self,state):
-        if m.specialization(state)!='juramentado_heroico':return
+        # Todo Juramentado junta rangos (Arel los pide para jurar); solo el Heroico obtiene bonos en combate.
+        if state.get('class_id')!='juramentado':return
         feminine=state.get('gender')=='femenino'
         names={
             'escudero':'Escudera' if feminine else 'Escudero',
