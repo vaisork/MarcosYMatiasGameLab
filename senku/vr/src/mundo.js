@@ -2,10 +2,11 @@
 // con ventanas en shader, tinacos, cactus y posiciones de churus.
 import * as THREE from 'three';
 import { CARTELES } from './carteles.mjs';
+import { PALETA_CIUDAD, crearPerfilLejano, luzVertice } from './arte.mjs';
 
 export const CUADRA = 26; // separación entre centros de manzana (calle incluida)
 const N = 6;              // manzanas de -N a N
-const HORIZONTE = new THREE.Color('#f6c58f');
+const HORIZONTE = new THREE.Color(PALETA_CIUDAD.niebla);
 
 function azar(semilla) { // mulberry32: ciudad igual en cada partida
   return () => {
@@ -17,21 +18,61 @@ function azar(semilla) { // mulberry32: ciudad igual en cada partida
 }
 
 function cielo() {
-  const mat = new THREE.ShaderMaterial({
-    side: THREE.BackSide, depthWrite: false, fog: false,
-    uniforms: { sol: { value: new THREE.Vector3(0.45, 0.55, -0.7).normalize() } },
-    vertexShader: 'varying vec3 vDir; void main(){ vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
-    fragmentShader: `uniform vec3 sol; varying vec3 vDir;
-      void main(){
-        float h = clamp(vDir.y, 0.0, 1.0);
-        vec3 c = mix(vec3(0.965,0.773,0.561), vec3(0.98,0.88,0.62), smoothstep(0.0,0.08,h));
-        c = mix(c, vec3(0.42,0.70,0.95), smoothstep(0.06,0.5,h));
-        float d = max(dot(normalize(vDir), sol), 0.0);
-        c += vec3(1.0,0.9,0.6) * (smoothstep(0.9975,0.999,d) + pow(d, 60.0) * 0.35);
-        gl_FragColor = vec4(c, 1.0);
-      }`,
-  });
-  return new THREE.Mesh(new THREE.SphereGeometry(420, 24, 12), mat);
+  const c = document.createElement('canvas'); c.width = 1024; c.height = 512;
+  const g = c.getContext('2d');
+  const cielo = g.createLinearGradient(0, 0, 0, 512);
+  cielo.addColorStop(0, PALETA_CIUDAD.cieloAlto);
+  cielo.addColorStop(0.31, '#9a5f7b');
+  cielo.addColorStop(0.56, PALETA_CIUDAD.cieloMedio);
+  cielo.addColorStop(0.68, PALETA_CIUDAD.horizonte);
+  cielo.addColorStop(0.76, '#d68e83');
+  cielo.addColorStop(1, '#6b637c');
+  g.fillStyle = cielo; g.fillRect(0, 0, c.width, c.height);
+
+  // Velos de cirros y cúmulos estilizados, pintados una sola vez en la textura.
+  let seed = 781;
+  const rand = () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
+  for (let i = 0; i < 92; i++) {
+    const x = rand() * 1024, y = 72 + rand() * 157, w = 18 + rand() * 84, h = 3 + rand() * 8;
+    const nube = g.createLinearGradient(x, y - h * 1.4, x, y + h * 1.4);
+    const alpha = 0.15 + rand() * 0.18;
+    nube.addColorStop(0, 'rgba(255,218,215,0)'); nube.addColorStop(0.5, `rgba(255,231,214,${alpha})`);
+    nube.addColorStop(1, 'rgba(255,218,215,0)');
+    g.fillStyle = nube; g.beginPath(); g.ellipse(x, y, w, h, (rand() - 0.5) * 0.12, 0, Math.PI * 2); g.fill();
+  }
+  // Ruido de baja frecuencia evita bandas y agrupa cirros en nubes orgánicas.
+  const nx = 33, ny = 13, noise = Array.from({ length: nx * ny }, rand);
+  const cieloPx = g.getImageData(0, 0, c.width, 258), pix = cieloPx.data;
+  for (let y = 0; y < 258; y++) for (let x = 0; x < 1024; x++) {
+    const gx = x / (1024 / (nx - 1)), gy = y / (258 / (ny - 1)), ix = Math.min(nx - 2, Math.floor(gx)), iy = Math.min(ny - 2, Math.floor(gy));
+    const tx = (gx - ix) ** 2 * (3 - 2 * (gx - ix)), ty = (gy - iy) ** 2 * (3 - 2 * (gy - iy));
+    const a = noise[iy * nx + ix] * (1 - tx) + noise[iy * nx + ix + 1] * tx;
+    const b = noise[(iy + 1) * nx + ix] * (1 - tx) + noise[(iy + 1) * nx + ix + 1] * tx;
+    const nube = Math.max(0, a * (1 - ty) + b * ty - 0.52) * 0.16 * Math.sin(Math.PI * y / 258);
+    const n = (rand() - 0.5) * 1.6, k = (y * 1024 + x) * 4;
+    pix[k] = pix[k] * (1 - nube) + 255 * nube + n;
+    pix[k + 1] = pix[k + 1] * (1 - nube) + 222 * nube + n;
+    pix[k + 2] = pix[k + 2] * (1 - nube) + 215 * nube + n;
+  }
+  g.putImageData(cieloPx, 0, 0);
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+  tex.generateMipmaps = false; tex.minFilter = THREE.LinearFilter; tex.magFilter = THREE.LinearFilter;
+  const mat = new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide, depthWrite: false, fog: false });
+  return new THREE.Mesh(new THREE.SphereGeometry(420, 64, 48), mat);
+}
+
+function crearSol() {
+  const c = document.createElement('canvas'); c.width = c.height = 256;
+  const g = c.getContext('2d');
+  const halo = g.createRadialGradient(128, 128, 18, 128, 128, 128);
+  halo.addColorStop(0, 'rgba(255,246,211,1)'); halo.addColorStop(0.15, 'rgba(255,232,185,.96)');
+  halo.addColorStop(0.27, 'rgba(255,207,150,.34)'); halo.addColorStop(0.58, 'rgba(255,185,137,.12)');
+  halo.addColorStop(1, 'rgba(255,175,140,0)');
+  g.fillStyle = halo; g.fillRect(0, 0, 256, 256);
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+  const sol = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, fog: false, toneMapped: false }));
+  sol.position.set(115, 105, -245); sol.scale.set(62, 62, 1);
+  return sol;
 }
 
 function suelo() {
@@ -317,14 +358,99 @@ function materialEdificio() {
   return mat;
 }
 
+function geometriaConLuz(geometria) {
+  const pos = geometria.attributes.position, nor = geometria.attributes.normal;
+  const color = new Float32Array(pos.count * 3);
+  for (let i = 0; i < pos.count; i++) {
+    const luz = luzVertice({ x: pos.getX(i), y: pos.getY(i), z: pos.getZ(i), nx: nor.getX(i), ny: nor.getY(i), nz: nor.getZ(i) });
+    color[i * 3] = luz; color[i * 3 + 1] = luz; color[i * 3 + 2] = luz;
+  }
+  geometria.setAttribute('color', new THREE.BufferAttribute(color, 3));
+  return geometria;
+}
+
+function crearCordillera(scene) {
+  const puntos = 72, radio = 322, base = -26;
+  const posiciones = [], colores = [], indices = [];
+  const paleta = ['#776a85', '#70647f', '#665b78', '#7c6b80', '#685e77'].map((c) => new THREE.Color(c));
+  for (let i = 0; i <= puntos; i++) {
+    const a = (i / puntos - 0.5) * 2.4;
+    const distancia = Math.abs(Math.atan2(Math.sin(a - 0.37), Math.cos(a - 0.37)));
+    const volcan = Math.max(0, 1 - distancia / 0.15) * 62 - (distancia < 0.018 ? 3 : 0);
+    const borde = Math.min(1, i / (puntos * 0.1), (puntos - i) / (puntos * 0.1));
+    const cresta = base + (3 + 8 * Math.sin(a * 5.1 + 1) + 5 * Math.sin(a * 11.3) + volcan - base) * borde;
+    const x = Math.sin(a) * radio, z = -Math.cos(a) * radio;
+    posiciones.push(x, base, z, x, cresta, z);
+    const tono = paleta[Math.floor(i / 4) % paleta.length];
+    for (let v = 0; v < 2; v++) { colores.push(tono.r, tono.g, tono.b); }
+    if (i < puntos) {
+      const n = i * 2;
+      indices.push(n, n + 1, n + 2, n + 1, n + 3, n + 2);
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(posiciones, 3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colores, 3)); geo.setIndex(indices); geo.computeVertexNormals();
+  scene.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide, fog: true })));
+}
+
+function crearSkyline(scene, radio, capa) {
+  const perfiles = crearPerfilLejano(2137 + capa * 271, capa ? 40 : 56);
+  const geo = geometriaConLuz(new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0));
+  const mat = new THREE.MeshLambertMaterial({ color: 0xffffff, vertexColors: true });
+  const malla = new THREE.InstancedMesh(geo, mat, perfiles.length);
+  const m = new THREE.Matrix4(), o = new THREE.Object3D();
+  const tonos = ['#aa8090', '#8c7890', '#b27d78', '#777a91', '#a18b84'].map((c) => new THREE.Color(c));
+  perfiles.forEach((p, i) => {
+    const a = p.angulo;
+    o.position.set(Math.sin(a) * radio, -1 + p.alto * 0.5, -Math.cos(a) * radio);
+    o.rotation.y = a; o.scale.set(p.ancho, p.alto, p.fondo); o.updateMatrix(); m.copy(o.matrix);
+    malla.setMatrixAt(i, m); malla.setColorAt(i, tonos[(p.color + capa) % tonos.length]);
+  });
+  malla.instanceMatrix.needsUpdate = true; malla.instanceColor.needsUpdate = true; malla.computeBoundingSphere();
+  malla.frustumCulled = true;
+  scene.add(malla);
+}
+
+function crearMar(scene) {
+  // Franja de costa detrás de la trama urbana, compuesta en una sola malla.
+  const posiciones = [-280, -18, -306, 280, -18, -306, 280, 12, -306, -280, 12, -306];
+  const arriba = new THREE.Color('#c58b91'), abajo = new THREE.Color('#587d91');
+  const colores = [];
+  for (const y of [-18, -18, 12, 12]) {
+    const t = (y + 18) / 30, tono = abajo.clone().lerp(arriba, t);
+    colores.push(tono.r, tono.g, tono.b);
+  }
+  const indices = [0, 1, 2, 0, 2, 3];
+  let seed = 9917;
+  const rand = () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
+  for (let i = 0; i < 36; i++) {
+    const x = -265 + rand() * 530, y = -12 + rand() * 22, w = 8 + rand() * 48, h = 0.12 + rand() * 0.22;
+    const start = posiciones.length / 3;
+    posiciones.push(x, y, -305.8, x + w, y, -305.8, x + w, y + h, -305.8, x, y + h, -305.8);
+    const tono = new THREE.Color(i % 4 === 0 ? '#f0c0a0' : '#a4b0ae');
+    for (let v = 0; v < 4; v++) colores.push(tono.r, tono.g, tono.b);
+    indices.push(start, start + 1, start + 2, start, start + 2, start + 3);
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(posiciones, 3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colores, 3)); geo.setIndex(indices);
+  scene.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true, fog: true, side: THREE.DoubleSide, toneMapped: false })));
+}
+
 export function crearMundo(scene) {
   const r = azar(1337);
   scene.background = HORIZONTE;
-  scene.fog = new THREE.Fog(HORIZONTE, 70, 300);
-  scene.add(new THREE.HemisphereLight(0xcfe8ff, 0xd8a36a, 1.6));
-  const sol = new THREE.DirectionalLight(0xfff0d0, 1.8);
+  scene.fog = new THREE.Fog(HORIZONTE, 105, 540);
+  scene.add(new THREE.HemisphereLight(0xffd8c2, 0x806779, 1.42));
+  const sol = new THREE.DirectionalLight(0xffe4c2, 1.15);
   sol.position.set(45, 55, -70);
-  scene.add(sol, cielo(), suelo());
+  const domo = cielo();
+  scene.add(sol, domo, crearSol(), suelo());
+  crearCordillera(scene);
+  crearSkyline(scene, 197, 0);
+  crearSkyline(scene, 249, 1);
+  crearMar(scene);
 
   const colores = ['#e07a5f', '#f2cc8f', '#81b29a', '#3d9ca8', '#f4a6b7', '#b8a1d9', '#e9c46a', '#f28f3b', '#9bd36a', '#f7ede2'].map((c) => new THREE.Color(c));
   const cajas = [], tinacos = [], cactus = [], churus = [];
@@ -361,8 +487,9 @@ export function crearMundo(scene) {
   churus.push(new THREE.Vector3(0, 1.3, -6), new THREE.Vector3(0, 12.5, -13)); // uno a pie y uno de práctica
 
   // Edificios: una sola malla instanciada.
-  const caja = new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0);
-  const edificios = new THREE.InstancedMesh(caja, materialEdificio(), cajas.length);
+  const caja = geometriaConLuz(new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0));
+  const edificio = materialEdificio(); edificio.vertexColors = true;
+  const edificios = new THREE.InstancedMesh(caja, edificio, cajas.length);
   const m = new THREE.Matrix4();
   cajas.forEach((c, k) => {
     m.makeScale(c.max.x - c.min.x, c.max.y, c.max.z - c.min.z).setPosition((c.min.x + c.max.x) / 2, 0, (c.min.z + c.max.z) / 2);
@@ -391,5 +518,5 @@ export function crearMundo(scene) {
 
   const carteles = crearCarteles(cajas, scene);
 
-  return { edificios, cajas: cajas.map(({ min, max }) => ({ min, max })), churus, carteles };
+  return { edificios, cajas: cajas.map(({ min, max }) => ({ min, max })), churus, carteles, domo };
 }

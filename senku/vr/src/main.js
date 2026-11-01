@@ -28,6 +28,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.05, 500);
 camera.rotation.order = 'YXZ';
 camera.position.set(0, 1.6, 0);
+const puntoCamara = new THREE.Vector3();
 const rig = new THREE.Group();
 rig.add(camera);
 scene.add(rig);
@@ -1126,6 +1127,8 @@ renderer.setAnimationLoop(() => {
   if (menuAbierto) { if (renderer.xr.isPresenting) actualizarMenuVR(); }
   else if (jugando) actualizar(dt);
   mundo.carteles.animar(ahora);
+  camera.getWorldPosition(puntoCamara);
+  mundo.domo.position.copy(puntoCamara);
   renderer.render(scene, camera);
 });
 
