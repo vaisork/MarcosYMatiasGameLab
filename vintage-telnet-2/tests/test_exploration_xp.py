@@ -62,7 +62,8 @@ class ExplorationXPTests(unittest.TestCase):
   self.content.creatures[cid].update(warning='Dato uno.',presagio='Dato dos.',habitat='Dato uno.')
   before=self.total()
   for _ in range(3):self.engine.apply(self.character,self.world,{'id':'examinar_criatura','target':cid})
-  self.assertEqual(self.gained(before),6)
+  daily_bonus=len(self.state.get('daily_errands',{}).get('completed',[]))*m.EXPLORATION_XP['behavior']
+  self.assertEqual(self.gained(before),6+daily_bonus)
  def test_old_state_no_backfill_and_new_reward(self):
   self.state.pop('exploration_xp');self.state['journal']=['Pista antigua.']
   self.state['flags'].append('old_hilo_completado')

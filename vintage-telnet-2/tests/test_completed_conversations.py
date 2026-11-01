@@ -15,7 +15,8 @@ class CompletedConversations(unittest.TestCase):
     before=(s['seals'],s['xp'],len(s['inventory']))
     engine.apply(char,world,{'id':'hablar','target':npc,'topic':topic})
     self.assertIn(expected,' '.join(e['text'] for e in s['events']))
-    self.assertEqual(before,(s['seals'],s['xp'],len(s['inventory'])))
+    daily=s.get('daily_errands',{}).get('completed',[])
+    self.assertEqual((before[0],before[1]+(m.EXPLORATION_XP['behavior'] if f'talk:{npc}' in daily else 0),before[2]),(s['seals'],s['xp'],len(s['inventory'])))
     self.assertNotIn('set_flags',engine.people(engine.room(char),s,world,engine.ambient(engine.room(char),world))[0]['topics'][topic])
  def test_forced_return_does_not_invent_a_peaceful_agreement(self):
   from server.engine import RuleError

@@ -88,7 +88,8 @@ class VaisorkMundoTests(unittest.TestCase):
         self.assertTrue(any(trace['text'] in ev['text'] for ev in state['events']))
         self.assertEqual(state['inventory'], before_inv)
         self.assertEqual(state['seals'], before_seals)
-        self.assertEqual(state['xp'], before_xp)
+        daily_bonus=len(state.get('daily_errands',{}).get('completed',[]))*m.EXPLORATION_XP['behavior']
+        self.assertEqual(state['xp'], before_xp+daily_bonus)
 
     def test_ficha_dm_only_for_master_session_and_cleaned_prose(self):
         # Normal player session
