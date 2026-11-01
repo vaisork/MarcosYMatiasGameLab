@@ -1,0 +1,89 @@
+{
+  "room": "korven_grieta_geodas",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "este",
+      "rect": [
+        19,
+        6,
+        1,
+        2
+      ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "este": [
+      18,
+      7
+    ],
+    "sur": [
+      10,
+      13
+    ]
+  },
+  "npcs": [],
+  "creatures": [
+    {
+      "id": "espinacuarzo",
+      "at": [
+        5,
+        6
+      ]
+    }
+  ],
+  "layers": {
+    "ground": [
+      "gggggggggggggggggggg",
+      "ggggppppppppppppgggg",
+      "gggppppppppppppppggg",
+      "ggppcppcppppcppcppgg",
+      "ggppppppppppppppppgg",
+      "ggppppcppppppcppppgg",
+      "ggppppppppppppppppgp",
+      "ggpppppppppppppppppp",
+      "ggppppcppppppcppppgg",
+      "ggppppppppppppppppgg",
+      "ggpppcppppppppcpppgg",
+      "ggppppppppppppppppgg",
+      "gggppppppppppppppggg",
+      "ggggppppppppppppgggg",
+      "gggggggggppggggggggg"
+    ],
+    "solid": [
+      "11111111111111111111",
+      "1111............1111",
+      "111..............111",
+      "11..1..1....1..1..11",
+      "11................11",
+      "11................11",
+      "11................1.",
+      "11..................",
+      "11................11",
+      "11................11",
+      "11...1........1...11",
+      "11................11",
+      "111..............111",
+      "1111............1111",
+      "111111111..111111111"
+    ]
+  }
+}

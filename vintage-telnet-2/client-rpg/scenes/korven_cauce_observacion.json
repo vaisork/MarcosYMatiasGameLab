@@ -25,6 +25,15 @@
         1,
         2
       ]
+    },
+    {
+      "direction": "sur",
+      "rect": [
+        9,
+        14,
+        2,
+        1
+      ]
     }
   ],
   "spawn": {
@@ -39,6 +48,10 @@
     "este": [
       18,
       7
+    ],
+    "sur": [
+      10,
+      13
     ]
   },
   "npcs": [],
@@ -81,7 +94,7 @@
       "ggggggppppppppgggggg",
       "gggggggppppppggggggg",
       "ggggggggppppgggggggg",
-      "gggggggggggggggggggg"
+      "gggggggggppggggggggg"
     ],
     "solid": [
       "111111111..111111111",
@@ -98,7 +111,7 @@
       "111111........111111",
       "1111111......1111111",
       "11111111....11111111",
-      "11111111111111111111"
+      "111111111..111111111"
     ]
   },
   "battle_background": "backgrounds/korven_battle.webp"
