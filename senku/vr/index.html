@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Senku VR</title>
+<style>
+  :root { --rosa: #ff6f9a; --morado: #2a1840; --crema: #fff6ea; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #f6c58f; font-family: system-ui, sans-serif; color: var(--crema); touch-action: none; user-select: none; -webkit-user-select: none; }
+  canvas { display: block; }
+  #inicio { position: fixed; inset: 0; display: grid; place-items: center; padding: 16px; background: linear-gradient(180deg, rgba(66,140,220,.55), rgba(246,197,143,.75)); overflow: auto; }
+  .tarjeta { max-width: 560px; width: 100%; background: rgba(42,24,64,.88); border-radius: 22px; padding: 22px 22px 18px; box-shadow: 0 10px 40px rgba(0,0,0,.3); }
+  h1 { margin: 0 0 4px; font-size: clamp(34px, 8vw, 54px); color: #fff; letter-spacing: .5px; }
+  h1 span { color: var(--rosa); }
+  .lema { margin: 0 0 14px; font-size: 18px; }
+  h2 { margin: 14px 0 6px; font-size: 16px; color: #ffd27a; }
+  ul { margin: 0; padding-left: 20px; line-height: 1.45; }
+  .botones { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+  button { font: inherit; font-weight: 700; border: 0; border-radius: 14px; padding: 14px 20px; cursor: pointer; }
+  #entrar-vr { background: var(--rosa); color: #fff; font-size: 20px; flex: 1 1 200px; }
+  #entrar-vr:disabled { background: #6b5a78; color: #cbbfd6; cursor: not-allowed; }
+  #sin-visor { background: #ffd27a; color: var(--morado); flex: 1 1 160px; }
+  label { display: inline-flex; gap: 8px; align-items: center; margin-top: 12px; }
+  #sin-vr { color: #ffd27a; font-size: 14px; margin: 10px 0 0; }
+  #inicio[hidden], #hud, #mira, #aviso, #tactil { display: none; }
+  .jugando #hud { display: block; position: fixed; top: 12px; left: 12px; background: rgba(42,24,64,.75); padding: 8px 14px; border-radius: 12px; font-weight: 700; line-height: 1.4; }
+  .jugando #mira { display: block; position: fixed; left: 50%; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border: 3px solid rgba(255,255,255,.8); border-radius: 50%; }
+  #mira.lista { border-color: #7dffb0; transform: scale(1.3); }
+  .jugando #aviso:not([hidden]) { display: block; position: fixed; top: 22%; left: 50%; transform: translateX(-50%); background: rgba(42,24,64,.85); padding: 12px 20px; border-radius: 14px; font-size: 22px; font-weight: 800; text-align: center; max-width: calc(100% - 32px); }
+  .tactil #tactil { display: grid; position: fixed; right: 12px; bottom: 12px; grid-template-columns: repeat(2, 84px); gap: 10px; }
+  #tactil button { height: 70px; padding: 0; background: rgba(255,111,154,.85); color: #fff; touch-action: none; }
+  #tactil #t-saltar, #tactil #t-tiron { background: rgba(255,210,122,.9); color: var(--morado); }
+  .tactil .pista { display: block; }
+  .pista { display: none; position: fixed; left: 12px; bottom: 12px; font-size: 13px; background: rgba(42,24,64,.6); padding: 6px 10px; border-radius: 10px; }
+</style>
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+<div id="inicio">
+  <div class="tarjeta">
+    <h1>Senku <span>VR</span></h1>
+    <p class="lema">¡Eres Senku! Lanza tus garras de gata, colúmpiate entre los edificios y junta todos los churus lo más rápido que puedas.</p>
+    <h2>Con el visor (Meta Quest)</h2>
+    <ul>
+      <li><b>Gatillo</b>: lanza la garra. Mantenlo para columpiarte, suéltalo para salir volando.</li>
+      <li><b>Botón de agarre</b>: ¡tirón rápido hacia donde apuntas!</li>
+      <li><b>Palanca izquierda</b>: caminar. <b>Palanca derecha</b>: girar.</li>
+      <li><b>A / X</b>: saltar. <b>B / Y</b>: poner o quitar la sombra anti-mareo.</li>
+      <li>Las garras se recargan solas: cuando las uñas brillan, ya están listas.</li>
+    </ul>
+    <h2>Sin visor (compu o celular)</h2>
+    <ul>
+      <li><b>Clic izquierdo / derecho</b>: garra izquierda / derecha (mantén para columpiarte).</li>
+      <li><b>Q / E</b>: tirón. <b>WASD</b>: caminar. <b>Espacio</b>: saltar. <b>Ratón</b>: mirar.</li>
+      <li>En el celular: arrastra a la izquierda para caminar y a la derecha para mirar.</li>
+    </ul>
+    <label><input type="checkbox" id="vineta" checked> Sombra anti-mareo cuando vas rápido</label>
+    <div class="botones">
+      <button id="entrar-vr">Entrar en VR</button>
+      <button id="sin-visor">Jugar sin visor</button>
+    </div>
+    <p id="sin-vr" hidden>Este navegador no tiene VR. Ábrelo en el navegador del Meta Quest, o juega sin visor.</p>
+  </div>
+</div>
+<div id="hud"></div>
+<div id="mira"></div>
+<div id="aviso" hidden></div>
+<div id="tactil">
+  <button id="t-izq">Garra I</button><button id="t-der">Garra D</button>
+  <button id="t-tiron">Tirón</button><button id="t-saltar">Saltar</button>
+</div>
+<div class="pista">Izquierda: caminar · Derecha: mirar</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
