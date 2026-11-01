@@ -4,6 +4,8 @@
 
 Juego de exploración y lectura con interfaz anime, mundo persistente, comercio, combate, mapa descubierto y especies 3D. El servidor Python mantiene las partidas en SQLite; el navegador sólo presenta acciones y resultados. El director se abre por separado en `/dm`.
 
+Los eventos temporales del calendario y su control DM están descritos en [Eventos del mundo](docs/VT2_EVENTOS_MUNDO.md).
+
 ## Origen de esta versión
 
 **Vintage Telnet 2 se empezó desde cero**, por petición de Javier, para construir un mundo más rico y una lectura más clara. Se conserva el canon del prompt maestro; no se copió la historia ni la narración descartada del juego anterior. Se aprovecharon selectivamente ideas y funciones útiles del anterior —orientación por mapa descubierto, algunas reglas y experiencia de operación— y se adaptaron a esta implementación. El servidor y el contenido de esta versión viven en esta carpeta; no dependen de importar el motor anterior.

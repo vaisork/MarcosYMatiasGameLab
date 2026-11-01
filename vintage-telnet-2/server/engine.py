@@ -215,6 +215,13 @@ class Engine:
         description=weather.get(str(value).lower(),weather.get(value,'')) if isinstance(weather,dict) else ''
         return {'time_of_day':phase,'weather':value,'weather_description':description,'region':room['region'],'timestamp':now}
 
+    def purchase_price(self,item,world):
+        price=item.get('price',0)
+        event=world.get('active_event') or {}
+        if event.get('event_id')=='feria' and event.get('ends_at',0)>self.clock():
+            return max(1,int(price*.9+.5))
+        return price
+
     def people(self,room,state,world,ambient):
         people=[]
         for npc_id in room.get('npcs',[]):
@@ -922,7 +929,8 @@ class Engine:
                 else:
                     explanation=item.get('description','Va a tu mochila.')
                 suffix=' · '+' · '.join(details) if details else ''
-                actions.append({'id':'comprar','target':item_id,'label':f"Comprar {item['name']} · {item['price']} sellos{suffix}",'reason':explanation})
+                price=self.purchase_price(item,world)
+                actions.append({'id':'comprar','target':item_id,'label':f"Comprar {item['name']} · {price} sellos{suffix}",'reason':explanation})
         # Shop sections: the client groups purchases and sales by what kind of thing they are.
         for choice in actions:
             if choice['id'] not in ('comprar','vender'):continue
@@ -931,7 +939,7 @@ class Engine:
             choice['category']={'weapon':'armas','armor':'armaduras','accessory':'joyas','consumable':'pociones','numen_food':'pociones','material':'materiales'}.get(kind,'otros')
             if kind in ('armor','accessory'):choice['slot']=item.get('slot','torso')
         for choice in actions:
-            cost=self.content.items[choice['target']]['price'] if choice['id']=='comprar' else {'afinar':12,'reparar':8,'recuperacion':18}.get(choice['id'])
+            cost=self.purchase_price(self.content.items[choice['target']],world) if choice['id']=='comprar' else {'afinar':12,'reparar':8,'recuperacion':18}.get(choice['id'])
             if cost is None:continue
             choice['cost']=cost
             if state['seals']<cost and not (choice['id']=='recuperacion' and choice.get('disabled')):
@@ -1606,7 +1614,7 @@ class Engine:
             state['seals']-=18;state['hp']=max(state['hp'],.9*m.hp_max(state));state['fatigue']=0;state['wound']={'grave':'moderada','moderada':'leve','leve':None,None:None}[state['wound']];state['rest_budget']=None
             state['ledger'].append({'kind':'recovery','amount':-18,'at':self.clock()});state['events']=[event('action','La atención del servicio te permite preparar la siguiente salida.')]
         elif action=='comprar':
-            item=self.content.items[target];price=item['price']
+            item=self.content.items[target];price=self.purchase_price(item,world)
             if not isinstance(price,int) or price<0 or state['seals']<price:raise RuleError('No tienes sellos suficientes para esta compra.',409)
             state['seals']-=price;self.add_item(state,target);state['ledger'].append({'kind':'purchase','item':target,'amount':-price,'at':self.clock()});state['events']=[event('action',f"Pagas {price} sellos por {item['name']} y lo guardas con tus pertenencias. Te quedan {state['seals']} sellos.")]
             if item.get('kind')=='weapon':state['events'].append(event('info','La pieza está en tu inventario; equiparla será una decisión aparte.'))
@@ -2002,12 +2010,16 @@ class Engine:
             quests.append(entry)
         char['goal_book']=achievement_book.book(state,self.content,world)
         char['goals']=achievement_book.goals(state,self.content,world)
+        active_event=world.get('active_event')
+        scene=self.narrative(character,world)
+        if active_event and active_event.get('scene') and room.get('kind') in active_event.get('room_kinds',[]):
+            scene.append(event('world',active_event['scene']))
         return {'version':world['version'],'character':char,'attribute_effects':dict(m.ATTRIBUTE_EFFECTS),'numenes':state.get('numenes',{'active':None,'bonded':[],'encounters':{}}),'daily_errands':daily_errands.snapshot(self,character),'room':{'id':room['id'],'name':room['name'],'region':room['region'],'kind':room['kind'],'description':room['description'],
             **({'art_variant':room['art_variant']} if room.get('art_variant') else {}),
             'npcs':[{'id':n['id'],'name':n['name'],'role':n.get('role',''),'description':n.get('description',''),'topics':[t for t,v in n.get('topics',{}).items() if not isinstance(v,dict) or self.allowed(v,state,world)]} for n in people],
             'exits':[{'direction':d,'label':d.capitalize()} for d in room.get('exits',{})]},
             'presence':[{k:v[k] for k in ('id','name','species','class_id')} for v in world.get('presence',{}).values() if v['id']!=character['id'] and v['room']==state['location'] and self.clock()-v['at']<30],
             'chat':[{k:v[k] for k in ('id','sender_id','sender','text','at')} for v in world.get('chat',[]) if v['room']==state['location'] and self.clock()-v['at']<600 and character['id'] in v['recipients']][-30:],
-            'narrative':state.get('events') or self.narrative(character,world),'scene':self.narrative(character,world),'actions':self.actions(character,world),
+            'narrative':state.get('events') or scene,'scene':scene,'world_event':active_event,'actions':self.actions(character,world),
             'map':{'nodes':nodes,'edges':[p for p in state['routes'] if set(p).issubset(known)],'routes':routes,'frontiers':frontiers,**({'recovery':state['last_recovery']} if state.get('last_recovery') else {})},
             'inventory':state['inventory'],'bestiary':[{**entry,'behavior':list(entry.get('behavior',[])),**({'illustration':self.content.creatures[cid]['illustration']} if self.content.creatures.get(cid,{}).get('illustration') else {})} for cid,entry in state['bestiary'].items()],'journal':state['journal'],'secrets':{'found':sum(1 for secret in getattr(self.content,'secrets',{}).values() if secret.get('flag') in state['flags'] or 'participated:'+str(secret.get('flag')) in state['flags'])},'quests':quests,'ambient':ambient}

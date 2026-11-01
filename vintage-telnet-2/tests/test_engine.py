@@ -14,6 +14,47 @@ class FixedRandom:
  def random(self):return 0
 
 class JourneyTests(unittest.TestCase):
+ def test_server_calendar_starts_and_ends_a_shared_feria(self):
+  self.create()
+  with self.app.extensions['store'].transaction() as db:
+   char=self.app.extensions['store'].load(db.execute('SELECT * FROM characters').fetchone());char['state']['seals']=20;self.app.extensions['store'].save(db,char)
+  self.clock.now=2*24*3600+11*3600 # Saturday in the simulated UTC calendar.
+  self.action('mover','salir');state=self.client.get('/api/state').json
+  self.assertEqual(state['world_event']['event_id'],'feria')
+  self.assertTrue(any(line['text']=='La feria llena el pueblo de puestos, música y juegos tranquilos.' for line in state['scene']))
+  purchase=next(action for action in state['actions'] if action['id']=='comprar')
+  self.assertEqual(purchase['cost'],7)
+  bought=self.action('comprar','food')
+  self.assertEqual(bought['character']['seals'],13)
+  self.clock.now=2*24*3600+16*3600
+  self.assertIsNone(self.client.get('/api/state').json['world_event'])
+  self.clock.now=14*24*3600+22*3600 # The 15th, during its local evening window.
+  self.assertEqual(self.client.get('/api/state').json['world_event']['event_id'],'lluvia_estrellas')
+  self.clock.now+=3600
+  self.assertIsNone(self.client.get('/api/state').json['world_event'])
+
+ def test_director_can_start_a_temporary_event_for_every_player(self):
+  self.create()
+  other=self.app.test_client()
+  self.assertEqual(self.post(other,'/api/account/register',{'username':'another-player','password':'testpass123'}).status_code,201)
+  created=self.post(other,'/api/character/create',{'name':'Otro camino','species':'humano','class_id':'sombra'})
+  other_id=created.json['character']['id']
+  self.assertEqual(self.post(self.master,'/api/master/approve',{'character_id':other_id}).status_code,200)
+  other.get('/api/state')
+  self.action('mover','salir')
+  denied=self.post(self.client,'/api/master/world-event',{'operation':'start','event_id':'feria','duration_hours':2})
+  self.assertEqual(denied.status_code,403)
+  invalid=self.post(self.master,'/api/master/world-event',{'operation':'start','event_id':'feria','duration_hours':13})
+  self.assertEqual(invalid.status_code,400)
+  started=self.post(self.master,'/api/master/world-event',{'operation':'start','event_id':'lluvia_estrellas','duration_hours':2})
+  self.assertEqual(started.status_code,200,started.json)
+  state=self.client.get('/api/state').json
+  self.assertEqual(state['world_event']['id'],started.json['world_event']['id'])
+  self.assertIn('estrellas fugaces',state['scene'][-1]['text'])
+  self.assertEqual(other.get('/api/state').json['world_event']['id'],state['world_event']['id'])
+  self.clock.now+=2*3600
+  self.assertIsNone(self.client.get('/api/state').json['world_event'])
+
  def test_home_screen_manifest_and_icons_are_public_and_scoped_to_game(self):
   import struct
   def get(path):
