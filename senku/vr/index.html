@@ -32,6 +32,19 @@
   #tactil button { height: 70px; padding: 0; background: rgba(255,111,154,.85); color: #fff; touch-action: none; }
   #tactil #t-saltar, #tactil #t-tiron { background: rgba(255,210,122,.9); color: var(--morado); }
   .tactil .pista { display: block; }
+  #menu { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 16px; background: rgba(20,10,35,.55); overflow: auto; }
+  #menu[hidden] { display: none; }
+  #menu .tarjeta { background: #2f1c48; }
+  #menu h2 { font-size: 18px; margin: 12px 0 8px; }
+  .opciones { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .opcion { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; background: #4a3168; color: #fff; border: 4px solid transparent; font-size: 14px; }
+  .opcion img { width: 100%; max-width: 72px; aspect-ratio: 1; }
+  .opcion.elegida { border-color: var(--rosa); }
+  #menu-listo { background: var(--rosa); color: #fff; width: 100%; margin-top: 14px; font-size: 20px; }
+  #abrir-menu { background: #b8a1d9; color: var(--morado); flex: 1 1 100%; }
+  #t-menu { display: none; }
+  .jugando #t-menu { display: block; position: fixed; top: 12px; right: 12px; padding: 10px 16px; font-size: 22px; background: rgba(42,24,64,.8); color: #fff; }
+  @media (max-width: 480px) { .opciones { grid-template-columns: repeat(3, 1fr); } }
   .pista { display: none; position: fixed; left: 12px; bottom: 12px; font-size: 13px; background: rgba(42,24,64,.6); padding: 6px 10px; border-radius: 10px; }
 </style>
 <script type="importmap">
@@ -48,19 +61,22 @@
       <li><b>Gatillo</b>: lanza la garra. Mantenlo para columpiarte, suéltalo para salir volando.</li>
       <li><b>Botón de agarre</b>: ¡tirón rápido hacia donde apuntas!</li>
       <li><b>Palanca izquierda</b>: caminar. <b>Palanca derecha</b>: girar.</li>
-      <li><b>A / X</b>: saltar. <b>B / Y</b>: poner o quitar la sombra anti-mareo.</li>
+      <li><b>¡Impulso!</b> Con la garra enganchada, jala el brazo rápido hacia ti y sales disparada hacia la garra.</li>
+      <li><b>A / X</b>: saltar. <b>B / Y</b>: menú de garras (apunta con el rayo y elige con el gatillo).</li>
       <li>Las garras se recargan solas: cuando las uñas brillan, ya están listas.</li>
     </ul>
     <h2>Sin visor (compu o celular)</h2>
     <ul>
       <li><b>Clic izquierdo / derecho</b>: garra izquierda / derecha (mantén para columpiarte).</li>
-      <li><b>Q / E</b>: tirón. <b>WASD</b>: caminar. <b>Espacio</b>: saltar. <b>Ratón</b>: mirar.</li>
+      <li><b>Q / E</b>: tirón. <b>F</b> o <b>rueda</b>: jalar la cuerda (impulso). <b>M</b>: menú de garras.</li>
+      <li><b>WASD</b>: caminar. <b>Espacio</b>: saltar. <b>Ratón</b>: mirar.</li>
       <li>En el celular: arrastra a la izquierda para caminar y a la derecha para mirar.</li>
     </ul>
     <label><input type="checkbox" id="vineta" checked> Sombra anti-mareo cuando vas rápido</label>
     <div class="botones">
       <button id="entrar-vr">Entrar en VR</button>
       <button id="sin-visor">Jugar sin visor</button>
+      <button id="abrir-menu">Garras y comodidad</button>
     </div>
     <p id="sin-vr" hidden>Este navegador no tiene VR. Ábrelo en el navegador del Meta Quest, o juega sin visor.</p>
   </div>
@@ -71,6 +87,18 @@
 <div id="tactil">
   <button id="t-izq">Garra I</button><button id="t-der">Garra D</button>
   <button id="t-tiron">Tirón</button><button id="t-saltar">Saltar</button>
+  <button id="t-jalar">Jalar</button>
+</div>
+<button id="t-menu" aria-label="Menú de garras">≡</button>
+<div id="menu" hidden>
+  <div class="tarjeta">
+    <h1>Garras de <span>Senku</span></h1>
+    <p class="lema">Todo es gratis: elige tu cuerda y tu pata.</p>
+    <h2>Cuerda</h2><div class="opciones" id="menu-cuerda"></div>
+    <h2>Pata</h2><div class="opciones" id="menu-pata"></div>
+    <label><input type="checkbox" id="menu-comodo"> Modo cómodo (sombra fuerte y giro por pasos)</label>
+    <button id="menu-listo">¡Listo!</button>
+  </div>
 </div>
 <div class="pista">Izquierda: caminar · Derecha: mirar</div>
 <script type="module" src="src/main.js"></script>
