@@ -545,6 +545,31 @@ class JourneyTests(unittest.TestCase):
   talked=self.post(other,'/api/action',{'id':'hablar','target':'worker','topic':'trabajo','request_id':'observer-dialogue'}).json
   self.assertFalse(any('Te reconoce' in line['text'] for line in talked['narrative']))
 
+ def test_party_action_needs_another_live_player_in_the_same_room(self):
+  path=Path(self.temp.name)/'content/world.json';content=json.loads(path.read_text())
+  content['rooms']['field']['actions'].append({'id':'doble_palanca','label':'Bajar las dos palancas','text':'Ambos bajan las palancas y la luz marca un sendero lateral.','requires_party_action':True,'set_flags':['two_players_helped'],'forbids_flags':['two_players_helped']})
+  path.write_text(json.dumps(content))
+  self.create();self.action('mover','salir');self.action('mover','norte')
+  solo=self.client.get('/api/state').json
+  challenge=next(item for item in solo['actions'] if item['id']=='doble_palanca')
+  self.assertTrue(challenge['disabled']);self.assertIn('otro jugador',challenge['reason'])
+  denied=self.post(self.client,'/api/action',{'id':'doble_palanca','request_id':'party-action-alone'})
+  self.assertEqual(denied.status_code,409);self.assertIn('otro jugador',denied.json['message'])
+  other=self.app.test_client()
+  self.assertEqual(self.post(other,'/api/account/register',{'username':'companion','password':'testpass123'}).status_code,201)
+  created=self.post(other,'/api/character/create',{'name':'Compañera','species':'humano','class_id':'sombra'})
+  self.assertEqual(created.status_code,201)
+  self.assertEqual(self.post(self.master,'/api/master/approve',{'character_id':created.json['character']['id']}).status_code,200)
+  self.assertEqual(self.post(other,'/api/action',{'id':'mover','target':'salir','request_id':'party-two-town'}).status_code,200)
+  self.assertEqual(self.post(other,'/api/action',{'id':'mover','target':'norte','request_id':'party-two-field'}).status_code,200)
+  together=self.client.get('/api/state').json
+  challenge=next(item for item in together['actions'] if item['id']=='doble_palanca')
+  self.assertFalse(challenge.get('disabled',False))
+  completed=self.post(self.client,'/api/action',{'id':'doble_palanca','request_id':'party-action-together'})
+  self.assertEqual(completed.status_code,200,completed.json)
+  self.assertTrue(any('Ambos bajan las palancas' in line['text'] for line in completed.json['narrative']))
+  self.assertEqual(self.action('mover','sur')['room']['id'],'town')
+
  def test_narrative_clock_and_owned_home(self):
   self.create();self.action('mover','salir');self.action('mirar');day=self.client.get('/api/state').json
   self.clock.now=22*3600;night=self.action('mirar');self.assertNotEqual(day['narrative'],night['narrative']);self.assertEqual(night['ambient']['time_of_day'],'Noche')

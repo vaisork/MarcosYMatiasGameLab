@@ -10,6 +10,8 @@ NPC: `id`, `name`, `species`, `role`, `home_room`, `description`, `topics` (tema
 
 Acción narrativa: `id`, `label`, `text`, `set_flags` (lista), `requires_flags` (lista), `forbids_flags` (lista), `scope` (`player` o `world`, predeterminado player), `next` (sala existente opcional), `journal` (texto opcional). Las acciones sociales no conceden números inventados de XP, monedas, estadísticas o botín. Las recompensas mecánicas existentes requieren contrato de Jugabilidad consumido por el backend.
 
+`requires_party_action: true` mantiene la acción visible pero deshabilitada hasta que otro personaje tenga presencia reciente en la misma sala. El servidor vuelve a comprobar la presencia al ejecutar; la explicación indica que hace falta un compañero. Estas acciones son opcionales y no deben cerrar salidas de la historia principal.
+
 Historia: `id`, `title`, `premise`, `steps` (lista de flags/textos de diario), `source` (canon anterior o ampliación autorizada). Todo flag utilizado debe tener significado en el mundo y al menos una consecuencia observable en texto, diálogo o acceso.
 
 Región: `id`, `name`, `identity`, `settlement`, `species`, `weather` (variantes físicas) y `source`. Criaturas: datos canónicos y señales previas; sus valores de combate sólo entran desde el contrato cerrado de Jugabilidad.

@@ -2923,7 +2923,21 @@
           "persistent_trace": false
         }
       ],
-      "actions": []
+      "actions": [
+        {
+          "id": "palanca_doble_raices",
+          "label": "Accionar las dos palancas",
+          "text": "Tú y tu compañero bajan las palancas al mismo tiempo. Una luz recorre los filamentos y dibuja un mapa breve en la pared; el sendero hacia la charca sigue abierto para todos.",
+          "requires_party_action": true,
+          "set_flags": [
+            "reto_dos_palancas"
+          ],
+          "forbids_flags": [
+            "reto_dos_palancas"
+          ],
+          "journal": "Junto a otro viajero, activaste las dos palancas de Raíces de Piedra."
+        }
+      ]
     },
     "korven_grieta_charca": {
       "id": "korven_grieta_charca",
@@ -2957,6 +2971,19 @@
         }
       ],
       "actions": [
+        {
+          "id": "vetasierpe_dos_voces",
+          "label": "Llamar juntas a la Vetasierpe",
+          "text": "Tú y tu compañero marcan un ritmo suave en el borde. La Vetasierpe responde con dos círculos luminosos y deja una señal en el fondo; la criatura conserva su espacio y el paso sigue libre.",
+          "requires_party_action": true,
+          "set_flags": [
+            "reto_vetasierpe_dos_voces"
+          ],
+          "forbids_flags": [
+            "reto_vetasierpe_dos_voces"
+          ],
+          "journal": "La Vetasierpe respondió al ritmo que marcaste con otro viajero."
+        },
         {
           "id": "seguir_ondas_fondo",
           "label": "Seguir las ondas del fondo",
@@ -3537,6 +3564,19 @@
       "npcs": [],
       "signals": [],
       "actions": [
+        {
+          "id": "puerta_dos_llaves_grieta",
+          "label": "Girar las dos llaves de la puerta lateral",
+          "text": "Tú y tu compañero giran las llaves a la vez. La puerta lateral se abre sobre una pared de cristales; el pasaje principal permanece disponible aunque sigas solo.",
+          "requires_party_action": true,
+          "set_flags": [
+            "reto_dos_llaves_grieta"
+          ],
+          "forbids_flags": [
+            "reto_dos_llaves_grieta"
+          ],
+          "journal": "Abriste con otro viajero la puerta lateral de dos llaves en la Grieta Madre."
+        },
         {
           "id": "sello_clara_tibia",
           "label": "Unir las vetas clara y tibia",

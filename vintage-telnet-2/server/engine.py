@@ -825,7 +825,17 @@ class Engine:
         for npc in self.people(room,state,world,self.ambient(room,world)):
             actions += [{'id':'hablar','target':npc['id'],'topic':topic,'label':f"{npc['name']} · {value.get('label',topic) if isinstance(value,dict) else topic}"} for topic,value in npc.get('topics',{}).items() if not isinstance(value,dict) or self.allowed(value,state,world)]
         for item in room.get('actions',[]):
-            if self.allowed(item,state,world):actions.append({'id':item['id'],'label':item['label']})
+            if self.allowed(item,state,world):
+                choice={'id':item['id'],'label':item['label']}
+                if item.get('requires_party_action'):
+                    now=self.clock();presence=world.get('presence',{})
+                    together=isinstance(presence,dict) and any(
+                        isinstance(entry,dict) and str(cid)!=str(character['id'])
+                        and entry.get('room')==state['location'] and now-entry.get('at',0)<=30
+                        for cid,entry in presence.items())
+                    if not together:
+                        choice.update(disabled=True,reason='Necesitas que otro jugador esté contigo en esta sala para hacerlo.')
+                actions.append(choice)
         for signal in room.get('signals',[]):
             cid=signal['creature']
             if cid in self.content.creatures and self.allowed(signal,state,world) and signal_present(dict(signal,persistent_trace=False),room,world,self.clock()):
