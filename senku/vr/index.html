@@ -42,6 +42,7 @@
   .opcion img { width: 100%; max-width: 72px; aspect-ratio: 1; }
   .opcion.elegida { border-color: var(--rosa); }
   #menu-listo { background: var(--rosa); color: #fff; width: 100%; margin-top: 14px; font-size: 20px; }
+  #menu-fps { background: #b8a1d9; color: var(--morado); margin-top: 12px; }
   #abrir-menu { background: #b8a1d9; color: var(--morado); flex: 1 1 100%; }
   #t-menu { display: none; }
   .jugando #t-menu { display: block; position: fixed; top: 12px; right: 12px; padding: 10px 16px; font-size: 22px; background: rgba(42,24,64,.8); color: #fff; }
@@ -108,6 +109,7 @@
     <h2>Cuerda</h2><div class="opciones" id="menu-cuerda"></div>
     <h2>Pata</h2><div class="opciones" id="menu-pata"></div>
     <label><input type="checkbox" id="menu-comodo"> Modo cómodo (sombra fuerte y giro por pasos)</label>
+    <button id="menu-fps">Medidor de FPS: NO</button>
     <button id="menu-listo">¡Listo!</button>
   </div>
 </div>

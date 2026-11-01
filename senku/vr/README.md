@@ -46,8 +46,8 @@ a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, 
 
 ## Versión 3 (pedido de Matías): ratones y escalar
 
-- **Ratones** en calles y azoteas (máximo 12 a la vez; al vencer uno reaparece
-  otro en 5 s en otro lugar). Negro: 1 golpe, café: 2, hámster (más grande): 3;
+- **Ratones** en calles y azoteas (máximo 24 a la vez; al vencer uno reaparece
+  otro en 3 s en otro lugar). Negro: 1 golpe, café: 2, hámster (más grande): 3;
   pips rojos sobre la cabeza = golpes que faltan. Persiguen a Senku a menos de
   18 m y en su mismo nivel; el de azotea no se baja, el de calle no entra a
   edificios. Animación procedural: saltitos y balanceo al caminar, giran hacia
@@ -71,9 +71,9 @@ a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, 
   pared: escalar».
 - Modelos: `modelos/raton_negro.glb`, `raton_cafe.glb`, `hamster.glb` (Meshy
   desde los sprites de Senku 2, ~9k triángulos y textura JPEG, < 1 MB cada
-  uno). Cada GLB se carga una vez con `GLTFLoader`; los ratones son clones que
-  comparten geometría y un `MeshLambertMaterial` solo con el mapa de color
-  (sin PBR ni sombras). Apuntar a un ratón usa esferas, no triángulos.
+  uno). Cada GLB se carga una vez; sus clones comparten geometrías y materiales
+  Lambert. `SkeletonUtils.clone` conserva esqueletos si un modelo los incluye.
+  Apuntar a un ratón usa esferas, no triángulos.
 - Lógica pura en `src/enemigos.mjs` (tipos, golpes, persecución, vida, pared,
   escalada) con pruebas en `tests/enemigos.test.mjs`. Para probar sin visor
   desde la consola: `senku.avanzar(dt)` corre un paso aunque la pestaña esté
@@ -94,6 +94,9 @@ a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, 
 ## Técnica
 
 - Three.js 0.170.0 desde jsDelivr (importmap), sin build.
+- En XR: foveación 0.8, framebuffer 0.85 y sombras dinámicas desactivadas para
+  Quest 2. Objetivo de rendimiento: 72 FPS; medidor opcional desde «Garras y
+  comodidad».
 - `src/fisica.mjs`: física pura (cuerda-péndulo, gravedad, azoteas), sin Three.
 - `src/enemigos.mjs`: ratones, vida y escalada (lógica pura, sin Three).
 - `src/poder.mjs`: barrita y ratoncitos del Ultra Gato (lógica pura, sin Three).
