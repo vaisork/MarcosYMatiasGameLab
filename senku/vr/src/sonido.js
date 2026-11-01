@@ -40,9 +40,26 @@ function soplo(f0, f1, dur, vol = 0.25) {
   s.start(t, Math.random() * 0.5, dur);
 }
 
+// Cada estilo de cuerda suena distinto (todo sintetizado, barato).
+const LANZAR = {
+  normal: () => soplo(800, 4000, 0.15),
+  telarana: () => soplo(2500, 7000, 0.12, 0.3),
+  cadena: () => [0, 0.04, 0.08].forEach((r) => tono('square', 2400, 1900, 0.03, 0.05, r)),
+  estambre: () => tono('sine', 300, 750, 0.18, 0.2),
+  laser: () => tono('sawtooth', 1900, 380, 0.18, 0.08),
+};
+const ENGANCHAR = {
+  normal: () => { tono('triangle', 900, 260, 0.12, 0.3); soplo(300, 120, 0.08, 0.3); },
+  telarana: () => soplo(1800, 600, 0.1, 0.35),
+  cadena: () => { tono('square', 1300, 1250, 0.06, 0.08); tono('triangle', 600, 300, 0.1, 0.2); },
+  estambre: () => tono('sine', 500, 900, 0.1, 0.25),
+  laser: () => { tono('sine', 1500, 1500, 0.08, 0.12); tono('square', 400, 200, 0.12, 0.05); },
+};
+
 export const sonar = {
-  lanzar: () => soplo(800, 4000, 0.15),
-  enganchar: () => { tono('triangle', 900, 260, 0.12, 0.3); soplo(300, 120, 0.08, 0.3); },
+  lanzar: (estilo) => (LANZAR[estilo] || LANZAR.normal)(),
+  enganchar: (estilo) => (ENGANCHAR[estilo] || ENGANCHAR.normal)(),
+  impulso: () => soplo(350, 1400, 0.22, 0.2),
   fallo: () => tono('sine', 300, 150, 0.15, 0.1),
   tiron: () => { tono('sawtooth', 180, 700, 0.2, 0.12); soplo(500, 2500, 0.25, 0.3); },
   churu: () => [880, 1175, 1568].forEach((f, i) => tono('sine', f, f * 1.01, 0.18, 0.22, i * 0.07)),

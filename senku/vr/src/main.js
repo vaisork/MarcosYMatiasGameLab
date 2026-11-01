@@ -1,8 +1,9 @@
 // Senku VR: eres Senku, una gatita con garras que se columpia por la ciudad.
 import * as THREE from 'three';
-import { paso, crearCuerda, soltar, tiron } from './fisica.mjs';
+import { paso, crearCuerda, soltar, tiron, impulsoBrazo } from './fisica.mjs';
 import { crearMundo } from './mundo.js';
 import { iniciarSonido, sonar } from './sonido.js';
+import { CUERDAS, PATAS, tramoCuerda, muestraCuerda, muestraPata, leerEleccion, guardarEleccion } from './estilos.js';
 
 const ALCANCE = 40, VEL_GARRA = 260, ENFRIAR = 0.35, ENFRIAR_TIRON = 1.0, CUERPO = 1.0;
 const CLAVE_RECORD = 'senku_vr_record';
@@ -39,6 +40,10 @@ let vineta = true, yaw = 0, pitch = 0;
 const leerRecord = () => { try { return Number(localStorage.getItem(CLAVE_RECORD)) || null; } catch { return null; } };
 const guardarRecord = (s) => { try { localStorage.setItem(CLAVE_RECORD, String(s)); } catch { /* sin almacenamiento */ } };
 let record = leerRecord();
+const eleccion = leerEleccion(); // {cuerda, pata, comodo}
+let menuAbierto = false, pausaDesde = 0, impulsando = 0;
+const estiloCuerda = () => CUERDAS.find((c) => c.id === eleccion.cuerda) || CUERDAS[0];
+const estiloPata = () => PATAS.find((p) => p.id === eleccion.pata) || PATAS[0];
 
 // --- Garras de gato (Senku: atigrada gris con deditos rosas) -------------------
 function crearGarra() {
@@ -53,7 +58,7 @@ function crearGarra() {
   const brazo = new THREE.CylinderGeometry(0.042, 0.048, 0.26, 12).rotateX(Math.PI / 2);
   pieza(brazo, pelo, [0, 0.005, 0.15]);
   const anillo = new THREE.CylinderGeometry(0.0445, 0.0475, 0.022, 12).rotateX(Math.PI / 2);
-  pieza(anillo, raya, [0, 0.005, 0.11]); pieza(anillo, raya, [0, 0.005, 0.18]);
+  const anillos = [0, 1, 2, 3, 4].map((k) => pieza(anillo, raya, [0, 0.005, 0.07 + k * 0.045]));
   pieza(esfera, rosa, [0, -0.03, 0.01], [0.026, 0.012, 0.022]);
   const una = new THREE.ConeGeometry(0.0075, 0.05, 6);
   for (let k = 0; k < 4; k++) {
@@ -63,7 +68,7 @@ function crearGarra() {
     const u = pieza(una, unas, [x, 0.003, z - 0.03]);
     u.rotation.x = -Math.PI / 2 - 0.3;
   }
-  g.userData = { unas, rosa };
+  g.userData = { unas, rosa, pelo, raya, anillos };
   return g;
 }
 
@@ -88,18 +93,41 @@ function crearPanel(w, h, px = 512) {
 }
 
 const geoCuerda = new THREE.CylinderGeometry(0.02, 0.02, 1, 6).translate(0, 0.5, 0);
-const matCuerda = new THREE.MeshBasicMaterial({ color: 0xffe3ec });
 const geoGancho = new THREE.SphereGeometry(0.18, 10, 8);
 const matGancho = new THREE.MeshBasicMaterial({ color: 0xff6f9a });
 const matMira = new THREE.MeshBasicMaterial({ color: 0x7dffb0, depthTest: false, transparent: true, opacity: 0.85 });
 const geoMira = new THREE.RingGeometry(0.25, 0.4, 16);
 
+// Material de cuerda propio por mano (cada una repite su textura según su largo).
+function materialCuerda(e) {
+  const map = e.periodo ? new THREE.CanvasTexture(tramoCuerda(e.id)) : null;
+  if (map) { map.wrapS = map.wrapT = THREE.RepeatWrapping; map.colorSpace = THREE.SRGBColorSpace; }
+  return new THREE.MeshBasicMaterial({
+    color: map ? 0xffffff : e.color, map, transparent: e.id === 'telarana' || !!e.brilla,
+    blending: e.brilla ? THREE.AdditiveBlending : THREE.NormalBlending, depthWrite: !e.brilla,
+  });
+}
+
+function aplicarEstilos() {
+  const e = estiloCuerda(), p = estiloPata();
+  matGancho.color.set(e.gancho);
+  for (const m of manos) {
+    m.linea.material.map?.dispose(); m.linea.material.dispose();
+    m.linea.material = materialCuerda(e);
+    const u = m.garra.userData;
+    u.pelo.color.setHex(p.pelo); u.pelo.emissive.setHex(p.metal || 0);
+    u.raya.color.setHex(p.raya);
+    u.rosa.emissive.setHex(p.brillo || 0);
+    u.anillos.forEach((a, k) => { a.visible = p.rayas.includes(k); });
+  }
+}
+
 const manos = [0, 1].map((i) => {
   const m = {
     i, lado: i === 0 ? 'left' : 'right', garra: crearGarra(), cuerda: null, lanzando: null, destello: 0,
     enfriar: 0, enfriarTiron: 0, apretado: false, gamepad: null, botones: [],
-    soporte: new THREE.Object3D(), control: renderer.xr.getController(i),
-    linea: new THREE.Mesh(geoCuerda, matCuerda), gancho: new THREE.Mesh(geoGancho, matGancho), mira: new THREE.Mesh(geoMira, matMira),
+    soporte: new THREE.Object3D(), control: renderer.xr.getController(i), grip: renderer.xr.getControllerGrip(i), manoAntes: null, vibroImp: 0,
+    linea: new THREE.Mesh(geoCuerda, materialCuerda(estiloCuerda())), gancho: new THREE.Mesh(geoGancho, matGancho), mira: new THREE.Mesh(geoMira, matMira),
   };
   m.soporte.position.set(i === 0 ? -0.2 : 0.2, -0.2, -0.38);
   m.soporte.rotation.set(0.15, i === 0 ? -0.1 : 0.1, 0);
@@ -114,7 +142,7 @@ const manos = [0, 1].map((i) => {
   m.control.addEventListener('selectstart', () => disparar(m));
   m.control.addEventListener('selectend', () => soltarMano(m));
   m.control.addEventListener('squeezestart', () => tirar(m));
-  rig.add(m.control);
+  rig.add(m.control, m.grip);
   return m;
 });
 
@@ -207,13 +235,14 @@ const empezar = () => { if (inicio === null) inicio = performance.now(); };
 
 function disparar(m) {
   m.apretado = true;
+  if (menuAbierto) { if (m.hover) activar(m.hover); return; }
   if (!jugando || m.enfriar > 0 || m.lanzando || m.cuerda) return;
   empezar();
   const o = new THREE.Vector3(), d = new THREE.Vector3();
   rayo(m, o, d);
   const p = buscarAncla(o, d);
   m.lanzando = { objetivo: p || o.clone().addScaledVector(d, ALCANCE), acierta: !!p, t: 0, dist: p ? o.distanceTo(p) : ALCANCE };
-  sonar.lanzar();
+  sonar.lanzar(eleccion.cuerda);
   vibrar(m, 0.3, 20);
 }
 
@@ -254,7 +283,9 @@ function dibujarLinea(m, desde, hasta) {
   const l = v3.length();
   m.linea.position.copy(desde);
   m.linea.quaternion.setFromUnitVectors(ARRIBA, v3.divideScalar(l || 1));
-  m.linea.scale.set(1, l, 1);
+  const e = estiloCuerda(), mapa = m.linea.material.map;
+  m.linea.scale.set(e.grosor, l, e.grosor);
+  if (mapa) { mapa.repeat.set(1, l / e.periodo); if (e.brilla) mapa.offset.y = -performance.now() / 400; }
   m.linea.visible = m.gancho.visible = true;
   m.gancho.position.copy(hasta);
 }
@@ -266,7 +297,8 @@ function actualizarMano(m, dt) {
   const listo = m.enfriar === 0;
   m.garra.userData.unas.color.setHex(listo ? 0xffffff : 0x6d6d6d);
   m.garra.userData.unas.emissive.setHex(listo ? 0x552233 : 0x000000);
-  m.garra.userData.rosa.color.setHex(m.enfriarTiron === 0 ? 0xf29bb0 : 0x8a6670);
+  m.garra.userData.rosa.color.setHex(estiloPata().rosa);
+  if (m.enfriarTiron > 0) m.garra.userData.rosa.color.multiplyScalar(0.55);
 
   m.garra.getWorldPosition(v1); // la cuerda sale de la zarpa
   m.linea.visible = m.gancho.visible = false;
@@ -281,7 +313,7 @@ function actualizarMano(m, dt) {
         m.cuerda = crearCuerda(jugadora.pos, L.objetivo);
         cuerdas.push(m.cuerda);
         if (jugadora.enSuelo) jugadora.vel.y += 7; // salto de arranque: el columpio empieza en el aire
-        sonar.enganchar();
+        sonar.enganchar(eleccion.cuerda);
         vibrar(m, 0.6, 40);
       } else {
         if (!L.acierta) sonar.fallo();
@@ -312,6 +344,8 @@ function actualizarMano(m, dt) {
 
 // --- Controles -------------------------------------------------------------------
 const teclas = new Set();
+let jalarHasta = 0, jalarToque = false;
+const jalandoSinVisor = () => teclas.has('KeyF') || jalarToque || performance.now() < jalarHasta;
 const joystick = { x: 0, y: 0 };
 let giroArmado = true;
 const empuje = { x: 0, y: 0, z: 0 };
@@ -325,7 +359,7 @@ function girar(ang) {
   jugadora.pos.z += v1.z - v2.z;
 }
 
-function leerControles() {
+function leerControles(dt) {
   let mx = 0, my = 0; // x = derecha, y = adelante
   if (renderer.xr.isPresenting) {
     for (const m of manos) {
@@ -335,10 +369,11 @@ function leerControles() {
       const pulsado = (k) => !!gp.buttons[k]?.pressed;
       const nuevo = (k) => pulsado(k) && !m.botones[k];
       if (m.lado === 'left') { mx += ax; my -= ay; }
-      else if (Math.abs(ax) > 0.7 && giroArmado) { girar(-Math.sign(ax) * Math.PI / 6); giroArmado = false; }
+      else if (!eleccion.comodo) { if (Math.abs(ax) > 0.2) girar(-ax * 2.2 * dt); } // giro suave
+      else if (Math.abs(ax) > 0.7 && giroArmado) { girar(-Math.sign(ax) * Math.PI / 6); giroArmado = false; } // giro por pasos
       else if (Math.abs(ax) < 0.3) giroArmado = true;
       if (nuevo(4)) saltar();      // A / X
-      if (nuevo(5)) alternarVineta(); // B / Y
+      if (nuevo(5)) alternarMenu(); // B / Y
       m.botones = gp.buttons.map((b) => b.pressed);
     }
   } else {
@@ -369,14 +404,18 @@ addEventListener('keydown', (e) => {
   if (e.code === 'KeyQ') tirar(manos[0]);
   if (e.code === 'KeyE') tirar(manos[1]);
   if (e.code === 'KeyV') alternarVineta();
+  if (e.code === 'KeyM') alternarMenu();
+  if (e.code === 'Escape' && menuAbierto) cerrarMenu();
 });
+// Rueda del ratón = un jalón corto.
+addEventListener('wheel', () => { if (jugando && !menuAbierto) jalarHasta = performance.now() + 180; }, { passive: true });
 addEventListener('keyup', (e) => teclas.delete(e.code));
 addEventListener('blur', () => teclas.clear());
 
 const lienzo = renderer.domElement;
 lienzo.addEventListener('contextmenu', (e) => e.preventDefault());
 lienzo.addEventListener('mousedown', (e) => {
-  if (!jugando || renderer.xr.isPresenting) return;
+  if (!jugando || menuAbierto || renderer.xr.isPresenting) return;
   if (document.pointerLockElement !== lienzo) lienzo.requestPointerLock?.()?.catch?.(() => {});
   if (e.button === 0) disparar(manos[0]);
   if (e.button === 2) disparar(manos[1]);
@@ -417,6 +456,8 @@ boton('t-izq', () => disparar(manos[0]), () => soltarMano(manos[0]));
 boton('t-der', () => disparar(manos[1]), () => soltarMano(manos[1]));
 boton('t-tiron', () => tirar(manos[0]));
 boton('t-saltar', saltar);
+boton('t-jalar', () => { jalarToque = true; }, () => { jalarToque = false; });
+$('t-menu').addEventListener('click', () => alternarMenu());
 
 // --- HUD y avisos ----------------------------------------------------------------
 const reloj = (ms) => { const s = Math.floor(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
@@ -468,12 +509,160 @@ function reiniciarRonda() {
   mostrarAviso(['¡Nueva ronda! Junta los churus']);
 }
 
+// --- Impulso con el brazo ------------------------------------------------------
+// En VR: velocidad de la mano = cambio de la posición del grip relativa al rig
+// (así no cuenta el vuelo del cuerpo), girada a orientación de mundo.
+function impulsar(dt) {
+  impulsando = Math.max(0, impulsando - dt);
+  for (const m of manos) {
+    let vm = null;
+    if (renderer.xr.isPresenting) {
+      if (m.manoAntes && dt > 0) vm = v1.subVectors(m.grip.position, m.manoAntes).divideScalar(dt).applyQuaternion(rig.quaternion);
+      m.manoAntes = (m.manoAntes || new THREE.Vector3()).copy(m.grip.position);
+    } else if (m.cuerda && jalandoSinVisor()) { // sin visor: como si la mano se alejara del ancla a 3.5 m/s
+      vm = v1.set(jugadora.pos.x - m.cuerda.ancla.x, jugadora.pos.y - m.cuerda.ancla.y, jugadora.pos.z - m.cuerda.ancla.z).setLength(3.5);
+    }
+    if (!vm || !m.cuerda) continue;
+    const a = impulsoBrazo(jugadora, vm, m.cuerda.ancla, dt);
+    if (a === 0) continue;
+    if (impulsando === 0) sonar.impulso();
+    impulsando = 0.25;
+    m.vibroImp -= dt;
+    if (m.vibroImp <= 0) { vibrar(m, 0.15 + a / 100, 25); m.vibroImp = 0.08; }
+  }
+}
+
+// --- Menú de garras (todo gratis) ---------------------------------------------
+// En VR: panel 3D frente a la jugadora, se apunta con el rayo y se elige con el
+// gatillo (la cuerda elegida sale hasta el botón como vista previa). Sin visor: HTML.
+const MW = 1040, MH = 640;
+const menuLienzo = Object.assign(document.createElement('canvas'), { width: MW, height: MH });
+const menuTex = new THREE.CanvasTexture(menuLienzo);
+menuTex.colorSpace = THREE.SRGBColorSpace;
+const menuMesh = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 1.3 * MH / MW), new THREE.MeshBasicMaterial({ map: menuTex, transparent: true, depthTest: false }));
+menuMesh.renderOrder = 1000;
+menuMesh.visible = false;
+scene.add(menuMesh);
+
+const botonesMenu = [];
+const fila = (lista, tipo, y, muestra) => lista.forEach((e, k) => botonesMenu.push({ tipo, id: e.id, texto: e.nombre, x: 21 + k * 202, y, w: 190, h: 190, img: muestra(e.id, 120) }));
+fila(CUERDAS, 'cuerda', 100, muestraCuerda);
+fila(PATAS, 'pata', 340, muestraPata);
+[['comodo', 'Modo cómodo'], ['sombra', 'Sombra'], ['listo', '¡Listo!']].forEach(([tipo, texto], k) => botonesMenu.push({ tipo, texto, x: 21 + k * 340, y: 545, w: 318, h: 80 }));
+
+const elegido = (b) => (b.tipo === 'cuerda' && eleccion.cuerda === b.id) || (b.tipo === 'pata' && eleccion.pata === b.id) || (b.tipo === 'comodo' && eleccion.comodo) || (b.tipo === 'sombra' && vineta);
+function dibujarMenu() {
+  const g = menuLienzo.getContext('2d');
+  g.clearRect(0, 0, MW, MH);
+  g.fillStyle = 'rgba(42,24,64,0.94)'; g.beginPath(); g.roundRect(0, 0, MW, MH, 36); g.fill();
+  g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#fff';
+  g.font = 'bold 44px system-ui, sans-serif'; g.fillText('Garras de Senku', MW / 2, 40);
+  g.font = 'bold 26px system-ui, sans-serif'; g.fillStyle = '#ffd27a';
+  g.fillText('Cuerda', MW / 2, 82); g.fillText('Pata', MW / 2, 322);
+  const hover = new Set(manos.map((m) => m.hover));
+  for (const b of botonesMenu) {
+    g.fillStyle = hover.has(b) ? '#7a4f9a' : '#4a3168';
+    g.beginPath(); g.roundRect(b.x, b.y, b.w, b.h, 22); g.fill();
+    if (elegido(b)) { g.strokeStyle = '#ff6f9a'; g.lineWidth = 10; g.stroke(); }
+    g.fillStyle = '#fff';
+    if (b.img) { g.drawImage(b.img, b.x + 35, b.y + 8); g.font = 'bold 28px system-ui, sans-serif'; g.fillText(b.texto, b.x + b.w / 2, b.y + 160); }
+    else { g.font = 'bold 34px system-ui, sans-serif'; g.fillText(b.tipo === 'listo' ? b.texto : `${b.texto}: ${elegido(b) ? 'SÍ' : 'NO'}`, b.x + b.w / 2, b.y + b.h / 2); }
+  }
+  menuTex.needsUpdate = true;
+}
+
+function actualizarMenuVR() {
+  let cambio = false;
+  for (const m of manos) {
+    const o = new THREE.Vector3(), d = new THREE.Vector3();
+    rayo(m, o, d);
+    raycaster.set(o, d);
+    const h = raycaster.intersectObject(menuMesh, false)[0];
+    const x = h && h.uv.x * MW, y = h && (1 - h.uv.y) * MH;
+    const b = h ? botonesMenu.find((k) => x >= k.x && x <= k.x + k.w && y >= k.y && y <= k.y + k.h) || null : null;
+    if (b !== m.hover) { m.hover = b; cambio = true; if (b) vibrar(m, 0.1, 10); }
+    m.mira.visible = false;
+    m.linea.visible = m.gancho.visible = false;
+    if (h) { m.garra.getWorldPosition(v1); dibujarLinea(m, v1, h.point); }
+  }
+  if (cambio) dibujarMenu();
+}
+
+// Menú HTML (compu, celular y pantalla de inicio): mismos botones y dibujos.
+const menuHTML = $('menu');
+for (const [tipo, lista, muestra] of [['cuerda', CUERDAS, muestraCuerda], ['pata', PATAS, muestraPata]]) {
+  const cont = $(`menu-${tipo}`);
+  for (const e of lista) {
+    const b = document.createElement('button');
+    b.className = 'opcion'; b.dataset.tipo = tipo; b.dataset.id = e.id;
+    b.innerHTML = `<img alt="" src="${muestra(e.id, 96).toDataURL()}"><span>${e.nombre}</span>`;
+    b.addEventListener('click', () => activar({ tipo, id: e.id }));
+    cont.append(b);
+  }
+}
+$('menu-comodo').addEventListener('change', () => activar({ tipo: 'comodo' }));
+$('menu-listo').addEventListener('click', () => cerrarMenu());
+
+function sincronizarMenu() {
+  for (const b of menuHTML.querySelectorAll('.opcion')) b.classList.toggle('elegida', eleccion[b.dataset.tipo] === b.dataset.id);
+  $('menu-comodo').checked = eleccion.comodo;
+  $('vineta').checked = vineta;
+  dibujarMenu();
+}
+
+function activar(b) {
+  if (b.tipo === 'cuerda') { eleccion.cuerda = b.id; iniciarSonido(); sonar.enganchar(b.id); }
+  else if (b.tipo === 'pata') eleccion.pata = b.id;
+  else if (b.tipo === 'comodo') eleccion.comodo = !eleccion.comodo;
+  else if (b.tipo === 'sombra') vineta = !vineta;
+  else if (b.tipo === 'listo') { cerrarMenu(); return; }
+  manos.forEach((m) => vibrar(m, 0.3, 20));
+  guardarEleccion(eleccion);
+  aplicarEstilos();
+  sincronizarMenu();
+}
+
+function abrirMenu() {
+  if (menuAbierto) return;
+  menuAbierto = true;
+  pausaDesde = performance.now();
+  sincronizarMenu();
+  if (renderer.xr.isPresenting) {
+    camera.getWorldPosition(v1); camera.getWorldDirection(v2);
+    v2.y = 0; v2.normalize();
+    menuMesh.position.copy(v1).addScaledVector(v2, 1.2);
+    menuMesh.position.y -= 0.1;
+    menuMesh.lookAt(v1.x, menuMesh.position.y, v1.z);
+    menuMesh.visible = true;
+  } else {
+    menuHTML.hidden = false;
+    if (document.pointerLockElement) document.exitPointerLock();
+  }
+}
+
+function cerrarMenu() {
+  if (!menuAbierto) return;
+  menuAbierto = false;
+  const pausa = performance.now() - pausaDesde; // el reloj no corre con el menú abierto
+  if (inicio !== null && fin === null) inicio += pausa;
+  if (reinicioEn) reinicioEn += pausa;
+  menuMesh.visible = false;
+  menuHTML.hidden = true;
+  manos.forEach((m) => { m.hover = null; m.manoAntes = null; });
+  clock.getDelta();
+  if (jugando && !renderer.xr.isPresenting && !matchMedia('(pointer: coarse)').matches) lienzo.requestPointerLock?.()?.catch?.(() => {});
+}
+const alternarMenu = () => (menuAbierto ? cerrarMenu() : abrirMenu());
+$('abrir-menu').addEventListener('click', abrirMenu);
+aplicarEstilos();
+
 // --- Bucle -----------------------------------------------------------------------
 const clock = new THREE.Clock();
 let fuerzaVineta = 0;
 function actualizar(dt) {
   const ahora = performance.now();
-  leerControles();
+  leerControles(dt);
+  impulsar(dt);
   for (let k = 0; k < 2; k++) paso(jugadora, cuerdas, dt / 2, { empuje, cajas: mundo.cajas });
   rig.position.set(jugadora.pos.x, jugadora.pos.y - CUERPO, jugadora.pos.z);
   if (!renderer.xr.isPresenting) camera.rotation.set(pitch, yaw, 0);
@@ -484,7 +673,11 @@ function actualizar(dt) {
   if (avisoHasta && ahora > avisoHasta) { aviso.mesh.visible = false; $('aviso').hidden = true; avisoHasta = 0; }
 
   const rapidez = Math.hypot(jugadora.vel.x, jugadora.vel.y, jugadora.vel.z);
-  const meta = vineta ? Math.min(0.85, Math.max(0, (rapidez - 6) / 20)) : 0;
+  // Viñeta: el modo cómodo la fuerza y la cierra antes; también al impulsarse.
+  let meta = 0;
+  if (eleccion.comodo) meta = Math.min(0.95, Math.max(0, (rapidez - 3) / 10));
+  else if (vineta) meta = Math.min(0.9, Math.max(0, (rapidez - 4) / 14));
+  if (impulsando > 0 && (eleccion.comodo || vineta)) meta = Math.max(meta, eleccion.comodo ? 0.75 : 0.55);
   fuerzaVineta += (meta - fuerzaVineta) * Math.min(1, dt * 4);
   matVineta.uniforms.f.value = fuerzaVineta;
   malla.visible = fuerzaVineta > 0.01;
@@ -494,7 +687,8 @@ function actualizar(dt) {
 
 renderer.setAnimationLoop(() => {
   const dt = Math.min(clock.getDelta(), 1 / 30);
-  if (jugando) actualizar(dt);
+  if (menuAbierto) { if (renderer.xr.isPresenting) actualizarMenuVR(); }
+  else if (jugando) actualizar(dt);
   renderer.render(scene, camera);
 });
 
@@ -542,6 +736,7 @@ botonVR.addEventListener('click', async () => {
       manos.forEach((m) => m.soporte.add(m.garra));
       colocarHUD();
       aviso.mesh.visible = false;
+      cerrarMenu();
     });
   } catch (err) {
     $('sin-vr').hidden = false;
@@ -550,4 +745,4 @@ botonVR.addEventListener('click', async () => {
 });
 
 // Para pruebas desde la consola: senku.disparar(0), senku.soltar(0)...
-window.senku = { jugadora, manos, churus, disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; } };
+window.senku = { jugadora, manos, churus, eleccion, abrirMenu, cerrarMenu, menuLienzo, activar, disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; } };

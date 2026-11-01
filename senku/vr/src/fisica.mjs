@@ -94,3 +94,23 @@ export function tiron(e, punto, fuerza = 14) {
   e.vel.x += (d.x / dist) * fuerza; e.vel.y += (d.y / dist) * fuerza + 2; e.vel.z += (d.z / dist) * fuerza;
   return e;
 }
+
+// Impulso con el brazo ("arm-pump"): con la garra enganchada, jalar la mano
+// rápido alejándola del ancla (hacia ti / hacia atrás) empuja el cuerpo hacia
+// el ancla, por la cuerda. velMano en m/s (mundo, sin el movimiento del cuerpo).
+// Umbral para ignorar movimientos normales, ganancia y tope para que no se abuse;
+// velocidades de mano absurdas (saltos del seguimiento) se ignoran.
+export const IMPULSO = { umbral: 1.2, ganancia: 9, tope: 26, manoMax: 12 };
+
+// Devuelve la aceleración aplicada (m/s², 0 si no hubo impulso) y suma a e.vel.
+export function impulsoBrazo(e, velMano, ancla, dt, o = IMPULSO) {
+  const d = resta(ancla, e.pos);
+  const dist = largo(d);
+  if (dist === 0 || largo(velMano) > o.manoMax) return 0;
+  const u = { x: d.x / dist, y: d.y / dist, z: d.z / dist };
+  const jalon = -(velMano.x * u.x + velMano.y * u.y + velMano.z * u.z);
+  if (jalon <= o.umbral) return 0;
+  const a = Math.min(o.tope, (jalon - o.umbral) * o.ganancia);
+  e.vel.x += u.x * a * dt; e.vel.y += u.y * a * dt; e.vel.z += u.z * a * dt;
+  return a;
+}
