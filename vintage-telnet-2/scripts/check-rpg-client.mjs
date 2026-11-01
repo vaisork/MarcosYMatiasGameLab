@@ -2,7 +2,7 @@
 import vm from 'node:vm';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
-const element=()=>({hidden:true,dataset:{},classList:{add(){},remove(){},toggle(){}},append(){},replaceChildren(){},addEventListener(){},getContext(){return {};},querySelector(){return null;},querySelectorAll(){return [];}});
+const element=()=>({hidden:true,dataset:{},children:[],classList:{add(){},remove(){},toggle(){}},append(...children){this.children.push(...children);},replaceChildren(...children){this.children=[...children];},addEventListener(){},getContext(){return {};},querySelector(){return null;},querySelectorAll(){return [];}});
 const nodes=new Map();const requests=[];
 const context=vm.createContext({console,performance:{now:()=>0},matchMedia:()=>({matches:true}),Image:class{},setInterval(){},setTimeout(){},clearTimeout(){},fetch:async(path,options)=>{if(options?.body)requests.push(JSON.parse(options.body));return {ok:true,headers:{get:()=>null},json:async()=>JSON.parse(vm.runInContext('JSON.stringify(snapshot)',context))};},document:{getElementById:id=>{if(!nodes.has(id))nodes.set(id,element());return nodes.get(id);},createElement:element,querySelectorAll:()=>[],addEventListener(){},body:element()},window:{addEventListener(){},confirm:()=>true}});
 const source=fs.readFileSync(new URL('../client-rpg/rpg.js',import.meta.url),'utf8').replace('void poll();','');
@@ -26,6 +26,15 @@ vm.runInContext(`updatePresentation(snapshot,{...snapshot,character:{...snapshot
 assert.equal(vm.runInContext('outcome.title',context),'Victoria');
 assert.match(vm.runInContext('outcome.text',context),/14 XP.*Fibra ×1/);
 console.log('RPG client: offered actions, disabled state, round lock, HP deltas and snapshot rewards OK');
+vm.runInContext(`
+snapshot={character:{especializacion:{id:'arcano_ecos'},combat:{creature:'espinajo_rastrojo',round:0,hp:40,hp_max:40}},actions:[{id:'invocar_eco',label:'Invocar eco: Espinajo (fuerza 3)',target:'espinajo_rastrojo',cooldown:6,cooldown_remaining:2,disabled:true,reason:'Recarga: 2 rondas'}]};
+battleGroup=null;renderBattleMenu();
+`,context);
+assert.ok(nodes.get('battle-menu').children.some(item=>item.children?.some(child=>child.textContent==='Arcano de los Ecos')),'Specialization has its own battle menu group');
+vm.runInContext(`battleGroup='Arcano de los Ecos';renderBattleMenu();`,context);
+assert.match(nodes.get('battle-menu').children[0].children.map(child=>child.textContent||'').join(' '),/Invocar eco: Espinajo/);
+assert.match(nodes.get('battle-menu').children[0].children.map(child=>child.textContent||'').join(' '),/2 rondas restantes/);
+console.log('RPG battle menu: specialization action and remaining cooldown shown OK');
 // Render contract: cached full-room background, optional front after actors, tiles fallback.
 vm.runInContext(`
 outcome=null;animation=null;snapshot={character:{},room:{npcs:[]},actions:[]};

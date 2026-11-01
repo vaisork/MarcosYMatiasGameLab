@@ -218,6 +218,15 @@ class ClassCombatTests(unittest.TestCase):
         destello_after = next(a for a in acts_after if a['id'] == 'destello_frio')
         self.assertTrue(destello_after['disabled'])
         self.assertIn('Recarga', destello_after['reason'])
+        state['especializacion'] = {'id': 'arcano_ecos'}
+        velo_ready = next(a for a in self.engine.actions(char, {'flags': [], 'deaths': {}}) if a['id'] == 'velo_espectral')
+        self.assertEqual(velo_ready['cooldown'], 6)
+        self.assertEqual(velo_ready['cooldown_remaining'], 0)
+        state['combat']['cooldowns'] = {'velo_espectral': 3}
+        velo = next(a for a in self.engine.actions(char, {'flags': [], 'deaths': {}}) if a['id'] == 'velo_espectral')
+        self.assertEqual(velo['cooldown'], 6)
+        self.assertEqual(velo['cooldown_remaining'], 3)
+        self.assertTrue(velo['disabled'])
 
     def test_legacy_capacidad_compatibility(self):
         # When an older client sends action='capacidad', it maps to signature action
