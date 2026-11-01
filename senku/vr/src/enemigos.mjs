@@ -6,7 +6,9 @@ export const TIPOS = {
   cafe: { golpes: 2, churus: 2, escala: 0.55, vel: 2.0, radio: 0.6 },
   hamster: { golpes: 3, churus: 3, escala: 0.8, vel: 1.6, radio: 0.9 },
 };
-export const ZARPAZO = { velMin: 2.5, alcance: 0.9, enfriar: 0.35 };
+// alcance: distancia de lado (XZ) mano–ratón; alto: cuánto puede estar la mano por encima del ratón
+// (el ratón está a ras de suelo y la mano de un niño de pie, a ~1 m).
+export const ZARPAZO = { velMin: 1.8, alcance: 1.3, alto: 1.5, enfriar: 0.35 };
 export const VIDA = { max: 3, invulnerable: 1.5 };
 export const ESCALADA = { ganancia: 1.4, velMax: 12, margen: 0.45 };
 const PERSECUCION = 18, MISMO_NIVEL = 3.5;
@@ -24,7 +26,9 @@ export function golpear(e) {
   return { vencido: false, churus: 0 };
 }
 
-export const esZarpazo = (velMano, dist, o = ZARPAZO) => velMano >= o.velMin && dist <= o.alcance;
+// mano y raton = {x,y,z}; radio = tamaño del ratón (el hámster es más grande).
+export const esZarpazo = (velMano, mano, raton, radio = 0, o = ZARPAZO) =>
+  velMano >= o.velMin && Math.hypot(mano.x - raton.x, mano.z - raton.z) <= o.alcance + radio && mano.y - raton.y <= o.alto && mano.y - raton.y >= -0.5;
 
 const dentroXZ = (p, c, m) => p.x > c.min.x - m && p.x < c.max.x + m && p.z > c.min.z - m && p.z < c.max.z + m;
 

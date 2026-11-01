@@ -14,9 +14,12 @@ test('golpes por tipo y churus que sueltan: 1/2/3', () => {
 });
 
 test('zarpazo: mano rápida y cerca', () => {
-  assert.ok(esZarpazo(4, 0.5));
-  assert.ok(!esZarpazo(1, 0.5), 'lenta');
-  assert.ok(!esZarpazo(4, ZARPAZO.alcance + 0.5), 'lejos');
+  const raton = { x: 0, y: 0, z: 0 };
+  assert.ok(esZarpazo(4, { x: 0.5, y: 0.3, z: 0 }, raton));
+  assert.ok(esZarpazo(2, { x: 0.8, y: 1.1, z: 0.3 }, raton), 'niño de pie: mano a ~1 m sobre el ratón');
+  assert.ok(!esZarpazo(1, { x: 0.5, y: 0.3, z: 0 }, raton), 'lenta');
+  assert.ok(!esZarpazo(4, { x: ZARPAZO.alcance + 0.5, y: 0.5, z: 0 }, raton), 'lejos de lado');
+  assert.ok(!esZarpazo(4, { x: 0.2, y: ZARPAZO.alto + 0.5, z: 0 }, raton), 'muy arriba');
 });
 
 test('el ratón se acerca a Senku en su nivel y no entra a edificios', () => {
