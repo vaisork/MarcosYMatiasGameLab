@@ -22,7 +22,7 @@ La música chiptune se genera con Web Audio y cambia por zona; N o el botón ♪
 
 Tras vencer al Gato Mecánico, «Continuar a Guatemala» abre cuatro tramos: Antigua, Chichicastenango, selva del Petén y Tikal. Cada tramo tiene dos fondos pintados de 1280×720; tucán, coatí y mono usan hojas animadas de 384×192. Las habilidades, salud, churus y perfiles de daño siguen las reglas actualizadas de México. En Tikal, Balam alterna carreras telegrafiadas, salto con ondas y lluvia de jade en tres fases; zarpazos y pisotones lo derrotan. Al vencerlo aparece resumen y «Volver a jugar Guatemala», que conserva el avance mexicano y los Churus.
 
-La música procedural cambia por zona y usa la pieza de tensión durante cada jefe. El tuk-tuk y su arte ya están preparados; el bonus jugable del tuk-tuk queda pendiente.
+La música procedural cambia por zona y usa la pieza de tensión durante cada jefe. En Antigua, el tuk-tuk abre un bonus de hasta 30 segundos; al terminar avanza a Chichicastenango y guarda el premio una sola vez.
 
 Decisión técnica (2026-10-23): `coleccionados` conserva los IDs de enemigos derrotados y `llave-camioneta` como inventario; `progreso.escena` guarda el destino. Se mantiene el formato versión 1 y las claves de Legacy intactas. Si se recarga antes de recoger la llave, esta reaparece cerca del punto original de la rata; las derrotas parciales también se conservan. Reiniciar por falta de vida conserva estos avances.
 
@@ -38,7 +38,7 @@ Saltar siempre está disponible; Subir aparece junto a él al acercarse a la cam
 
 `estadoJugador.habilidades.disparar` y `.lanzagranadas` controlan los botones de armas: sólo el booleano `true` los muestra. Se guardan dentro de `senku2_save` versión 1; guardados anteriores reciben ambos flags en `false`. Todavía no hay mecánica de armas ni forma de desbloquearlas jugando. El consumidor que implemente esos desbloqueos debe activar el flag y guardar el estado; el HUD refleja cambios durante el siguiente paso del juego.
 
-Caché PWA vigente: `senku2-v19`. Evidencia visual previa en `../../senku2/hud/`: móvil 844×390 (con y sin habilidades) y escritorio 1366×768. Safe-area se aplica a los cuatro bordes; la simulación de viewport no sustituye una prueba en teléfono físico.
+Caché PWA vigente: `senku2-v20`. Evidencia visual previa en `../../senku2/hud/`: móvil 844×390 (con y sin habilidades) y escritorio 1366×768. Safe-area se aplica a los cuatro bordes; la simulación de viewport no sustituye una prueba en teléfono físico.
 
 ## Auditoría de recorrido (2026-10-30)
 

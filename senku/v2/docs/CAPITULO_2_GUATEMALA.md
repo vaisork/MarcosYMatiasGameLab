@@ -1,6 +1,6 @@
 # Capítulo 2 — Guatemala
 
-**Estado:** cuatro escenas, arte base, lógica de Balam y recorrido de jefe integrados. Bonus jugable del tuk-tuk pendiente.
+**Estado:** cuatro escenas, arte base, lógica de Balam, recorrido de jefe y bonus del tuk-tuk integrados.
 **Dirección:** continuar el viaje de Senku después del Gato Mecánico, con plataformas, exploración y combate aptos para jugar en familia.
 
 ## Recorrido
@@ -35,7 +35,7 @@ Jaguar de piedra y jade, guardián de la plaza. No es un villano ni un objeto qu
 
 ## Bonus y cierre
 
-**Tuk-tuk de Antigua (pendiente):** recorrido de 30 segundos por calles y adoquines. Senku recoge hasta 30 Churus y esquiva cajas, puestos y baches; tiene tres corazones y conserva lo recogido si se queda sin ellos. El bonus reutilizará la economía y el patrón de los bonus de vehículos del capítulo 1.
+**Tuk-tuk de Antigua:** al acercarse al tuk-tuk al final de Antigua, Senku sube para un recorrido de hasta 30 segundos por calles empedradas. Recoge hasta 30 Churus y esquiva macetas de bugambilia, cables y tucanes ladrones; tiene tres corazones y conserva lo recogido si se queda sin ellos. Al terminar, el premio se guarda una sola vez y continúa a Chichicastenango, incluso si se vuelve a jugar.
 
 Al vencer a Balam, la plaza vuelve a estar tranquila y aparece un resumen de Churus, enemigos y secretos. Repetir el capítulo 1 seguirá disponible desde su control de reinicio. Tikal no se presenta como ruina vacía: habitantes, guías y conservación del sitio deben aparecer en textos y arte finales.
 
@@ -46,4 +46,4 @@ Al vencer a Balam, la plaza vuelve a estar tranquila y aparece un resumen de Chu
 - Arte: ocho fondos por tramo, hojas transparentes de los tres enemigos, hoja de 12 poses de Balam, ilustración del tuk-tuk y fragmento de jade.
 - `src/core/jefe_balam.mjs` define tres fases y ataques avisados; `src/render/balam.mjs` dibuja la hoja, ataques y barra. Zarpazo y pisotón registran la victoria y abren resumen con opción de repetir Guatemala.
 - `src/audio/musica.mjs` asigna música a los cuatro tramos y reutiliza la pieza de jefe para Balam.
-- Pendiente: bonus jugable del tuk-tuk y validación visual en navegador.
+- `bonus-tuk-tuk.html` y `src/bonus_tuk_tuk.mjs` implementan el juego, controles táctiles y teclado, cierre idempotente y continuación a Chichicastenango. El arte usa el asset `assets/bonus/tuk-tuk-antigua.webp`.

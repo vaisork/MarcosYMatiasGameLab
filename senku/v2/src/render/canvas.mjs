@@ -1182,6 +1182,11 @@ export function renderizarEscena({
   } else if (escena.id === 'ciudad' || fondoCfg.estilo === 'ciudad') {
     dibujarCamionParada(ctx);
   }
+  if (escena.id === 'guatemala-antigua') {
+    const imagen = catalogoArte?.obtener(new URL('../../assets/bonus/tuk-tuk-antigua.webp', import.meta.url).href);
+    const disparador = escena.disparadores?.find((d) => d.id === 'tuk-tuk-antigua');
+    if (imagen && disparador) ctx.drawImage(imagen, disparador.x - 4, 455, 300, 145);
+  }
 
   // 3. Plataformas dibujadas como objetos ambientales; escenas pintadas pueden pedir plataformas encima.
   const debeDibujarPlataformas = escenaPintada
