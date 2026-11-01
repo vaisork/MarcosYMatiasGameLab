@@ -1,0 +1,14 @@
+{
+  "asset_id": "veyra_doma",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-71c6-79e0-a15e-d020a34de00d/exec-b4c3bf07-b9c2-4666-94be-9c2bbbcc69b7.png",
+  "source_dimensions": "1086x1448",
+  "normalization": "Split generated transparent 3x4 atlas into 12 cells, preserve alpha, scale each full-body pose proportionally into 64x96 with common baseline",
+  "dimensions": [
+    192,
+    384
+  ],
+  "bytes": 47012,
+  "sha256": "75c7cf70a19f27665c525be8c8562e3e1c40f7f0d63aab8cace2fb35e366a87a",
+  "prompt": "Canonical human caretaker Doma, practical clean clothes, calm adult male; 16-bit pixel RPG walking sprite atlas with four directions and three poses per direction, 3 columns x 4 rows, transparent background, full body, no extra props or text."
+}

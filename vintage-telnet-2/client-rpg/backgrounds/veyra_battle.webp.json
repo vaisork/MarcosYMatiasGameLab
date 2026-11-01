@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_battle",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-71c6-79e0-a15e-d020a34de00d/exec-5ae68f0f-cef1-4ba7-be46-53adc8e175af.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Center crop to 4:3 if needed, Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP compression",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 72,
+  "bytes": 238678,
+  "sha256": "6d1a88087dbed250637a5be59e31905e79ae797fbe19b378f78d47a05c63b673",
+  "prompt": "Detailed 16-bit indie JRPG regional combat clearing in the Cuenca de Veyra, beside a pale-stone road and shallow stream, low hills, cultivated greenery and old stonework far behind. 4:3 landscape, slight low three-quarter camera for foreground player and rear enemy sprites, broad flat uncluttered center and foreground, warm daylight from upper left, olive greens, pale limestone, blue water, no people, creatures, actors, players, Vaisork, Númenes, weapons, text, HUD or watermark."
+}

@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_rampa_grava",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-71c6-79e0-a15e-d020a34de00d/exec-de9d75e2-1c61-467a-9018-121270abef5c.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Center crop to 4:3 if needed, Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP compression",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 64,
+  "bytes": 244448,
+  "sha256": "fc56ac9c534526b65395ad0dec2bfe15a65988e71df96ae364d8369e82d538ca",
+  "prompt": "Detailed 16-bit indie RPG hillside road in Veyra ascending toward Hoshai. Rain-washed gravel gathers in a hollow beside the rising road, with a broad resting pullout. 4:3 three-quarter overhead, the climb reaches exact north and south edges, hollow stays beside the continuous road; pale rocky slopes and muted tawny grass, cool bright daylight, no people, carts, actors, creatures, players, Vaisork, Númenes, text, UI or watermark."
+}

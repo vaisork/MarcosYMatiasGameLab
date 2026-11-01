@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_puerta_juncos",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-71c6-79e0-a15e-d020a34de00d/exec-7056b08f-bd75-45c9-9751-759bf2452a7f.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Center crop to 4:3 if needed, Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP compression",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 76,
+  "bytes": 216518,
+  "sha256": "02bf73dcc7ad6e791d86a928abc549791fecbdeaa11a89596de363d8f34295ad",
+  "prompt": "Detailed 16-bit indie RPG scene of Veyra’s damp canal side gate, a simple boot-cleaning plank and hook beside the passage; shallow water and reeds lead toward wet grassy hollows. 4:3 three-quarter overhead, broad uninterrupted muddy stone path runs north to south to exact edges, props and reeds at margins, soft overcast daylight, muted grey stone and reed green, no people, actors, creatures, players, Vaisork, Númenes, text, UI or watermark."
+}

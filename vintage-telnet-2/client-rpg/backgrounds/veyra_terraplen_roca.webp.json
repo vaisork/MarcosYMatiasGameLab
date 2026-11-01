@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_terraplen_roca",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-71c6-79e0-a15e-d020a34de00d/exec-3fa31532-144d-4d89-9cf5-16bfb8af4b23.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Center crop to 4:3 if needed, Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP compression",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 68,
+  "bytes": 243614,
+  "sha256": "748204426e39ea0b77c4533a4defdc6408eac0d4f3a96aa31dc29286ef6e60d9",
+  "prompt": "Detailed 16-bit indie RPG pale stone road between Veyra and Korven. Clear stones mark the route; a dry arroyo cuts across the land and the road crosses via a broad sloped entry. 4:3 three-quarter overhead, clearly walkable east-west road reaches both exact side edges and crosses the arroyo continuously; stones and pale grass at margins, soft daylight, grey and ochre palette, no people, carts, actors, creatures, players, Vaisork, Númenes, text, UI or watermark."
+}

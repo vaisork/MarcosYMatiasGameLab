@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_plaza_rutas",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-71c6-79e0-a15e-d020a34de00d/exec-f2e6794d-16fc-4715-b976-e5a09335d978.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Center crop to 4:3 if needed, Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP compression",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 76,
+  "bytes": 223760,
+  "sha256": "f932e3a34f4462b460e0f6c3b6596ba71c2f1ec63a552657d045c3ca0690b6c9",
+  "prompt": "Detailed 16-bit indie RPG plaza in the Cuenca de Veyra, a broad old-city junction with enormous smooth ancient stones used as benches; four routes continue north, south, east and west. 4:3 three-quarter overhead, broad clear cross-shaped paving reaches all four exact canvas edges, benches and buildings only at margins, no horizon, warm upper-left daylight, limestone, subtle olive greenery, no people, actors, creatures, players, Vaisork, Númenes, text, UI or watermark."
+}

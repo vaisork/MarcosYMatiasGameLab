@@ -822,6 +822,16 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/veyra_puerta_piedra.webp"
+    },
+    {
+      "name": "battle_background",
+      "type": "string",
+      "value": "backgrounds/veyra_battle.webp"
     }
   ],
   "tilesets": [

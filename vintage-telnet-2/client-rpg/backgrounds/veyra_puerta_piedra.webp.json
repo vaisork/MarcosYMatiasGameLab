@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_puerta_piedra",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-71c6-79e0-a15e-d020a34de00d/exec-92a52f56-0352-450e-8b97-466b0a8c84f0.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Center crop to 4:3 if needed, Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP compression",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 76,
+  "bytes": 232594,
+  "sha256": "342ac47e0fe21fcb3877b19fc7a23f50b84b44b0cbdb0b874d766f325f016d98",
+  "prompt": "Detailed 16-bit indie RPG scene of Veyra’s east-west gate road toward dry rocky Korven, low walls with small slit windows and a dry stony channel crossed by a broad gently inclined road. 4:3 three-quarter overhead, continuous east-west road reaches both exact side edges, gate and dusty details at margins, bright dry daylight, pale grey stone and ochre dust, no people, carts, actors, creatures, players, Vaisork, Númenes, text, UI or watermark."
+}

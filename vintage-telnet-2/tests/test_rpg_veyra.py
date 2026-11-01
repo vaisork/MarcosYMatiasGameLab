@@ -19,6 +19,12 @@ BOUNDARIES = {
     ('veyra_hondonada_canales', 'sur', 'lethra_ribera_seca'),
     ('veyra_lindero_arboles', 'este', 'nhal_arbol_umbral'),
 }
+ILLUSTRATED_ART_03 = {
+    'veyra_plaza_rutas', 'veyra_puerta_alta', 'veyra_puerta_campos',
+    'veyra_puerta_juncos', 'veyra_puerta_piedra', 'veyra_puerta_sombra',
+    'veyra_rampa_grava', 'veyra_sala_cuidados', 'veyra_terraplen_roca',
+    'veyra_vega_abierta',
+}
 ART_ROOMS = {
     'vaisgard_mercado', 'veyra_acequia_exterior', 'veyra_archivo_cargas',
     'veyra_barrio_cargas', 'veyra_calle_toldos', 'veyra_cantera_callada',
@@ -30,6 +36,10 @@ ART_ROOMS = {
     'veyra_mazmorra_recorridos_fin', 'veyra_mazmorra_umbral',
     'veyra_pastos_exteriores', 'veyra_patio_agua', 'veyra_patio_porte',
     'veyra_patio_senales',
+    'veyra_plaza_rutas', 'veyra_puerta_alta', 'veyra_puerta_campos',
+    'veyra_puerta_juncos', 'veyra_puerta_piedra', 'veyra_puerta_sombra',
+    'veyra_rampa_grava', 'veyra_sala_cuidados', 'veyra_terraplen_roca',
+    'veyra_vega_abierta',
 }
 
 
@@ -73,7 +83,9 @@ class RpgVeyraTests(unittest.TestCase):
                     self.assertIn('quality', meta)
                 else:
                     self.assertNotIn('background', scene)
-                if rid == 'veyra_mazmorra_boveda_guardian':
+                if rid in ILLUSTRATED_ART_03:
+                    self.assertEqual(scene['battle_background'], 'backgrounds/veyra_battle.webp')
+                elif rid == 'veyra_mazmorra_boveda_guardian':
                     self.assertEqual(scene['battle_background'], 'backgrounds/veyra_boveda_battle.webp')
                     self.assertEqual(tiled['properties'][-1]['name'], 'battle_background')
                 else:

@@ -1,0 +1,15 @@
+{
+  "asset_id": "veyra_vega_abierta",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-71c6-79e0-a15e-d020a34de00d/exec-cfca47e9-6371-4be6-bc38-bb4d74b9af4d.png",
+  "source_dimensions": "1448x1086",
+  "normalization": "Center crop to 4:3 if needed, Lanczos downsample to 640x480, nearest-neighbour upscale to 1280x960, WebP compression",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 56,
+  "bytes": 248864,
+  "sha256": "fe73525243e2911e1de781882f5563ca4dc78154d8daaa7276e985f3d7539b82",
+  "prompt": "Detailed 16-bit indie RPG open meadow crossroads marked by one wooden post, compacted earth around it; routes lead north toward Veyra, west toward Edran pastures and east toward canals. 4:3 three-quarter overhead, broad paths branch from the post to exact north, west, east edges only; south edge remains grassy; low grass at margins, warm daylight, no fences, people, animals, actors, creatures, players, Vaisork, Númenes, text, UI or watermark."
+}

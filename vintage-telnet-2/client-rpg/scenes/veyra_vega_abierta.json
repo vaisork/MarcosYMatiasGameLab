@@ -98,5 +98,7 @@
       ]
     }
   ],
-  "npcs": []
+  "npcs": [],
+  "background": "backgrounds/veyra_vega_abierta.webp",
+  "battle_background": "backgrounds/veyra_battle.webp"
 }
