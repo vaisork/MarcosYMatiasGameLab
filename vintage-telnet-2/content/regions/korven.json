@@ -1012,6 +1012,15 @@
           "overrides": {
             "day": "El silbido de la entrada tapa el contacto con el agua. La mujer espera a que afloje y baja un poco más; su vecino repite la última cuenta."
           }
+        },
+        {
+          "requires_flags": [
+            "korven_grieta_en_calma"
+          ],
+          "overrides": {
+            "day": "Por la mañana el agua sale tibia. Los vecinos lavan sin encoger los hombros por el frío.",
+            "dawn": "Al amanecer, el agua sale tibia de la cisterna y sube vapor entre las manos de quienes lavan."
+          }
         }
       ],
       "focus": [
@@ -1198,6 +1207,16 @@
         }
       ],
       "brief": "El mirador de las grietas.",
+      "states": [
+        {
+          "requires_flags": [
+            "korven_grieta_en_calma"
+          ],
+          "overrides": {
+            "night": "Las grietas del Mirador brillan con hilos de luz que laten despacio."
+          }
+        }
+      ],
       "wildlife_pool": [
         {
           "creature": "cascapedernal",
@@ -1261,7 +1280,8 @@
       },
       "exits": {
         "norte": "korven_mirador_grietas",
-        "este": "korven_plataforma_escucha"
+        "este": "korven_plataforma_escucha",
+        "sur": "korven_grieta_boca"
       },
       "arrivals": {},
       "npcs": [],
@@ -1302,6 +1322,60 @@
           ],
           "text": "Aquí también hay piedras partidas con la cara limpia y el polvo viejo alrededor, igual que la losa que encontraste. Todas las grietas son antiguas, pero alguien, o algo, las ha vuelto a abrir. Y todas se abrieron igual: empujadas desde abajo. Pones la mano en el suelo. Está quieto. Por ahora.",
           "journal": "En el Cauce de piedras movidas comprobaste que las grietas viejas se vuelven a abrir empujadas desde abajo."
+        },
+        {
+          "id": "grieta_seguir_notas",
+          "label": "Seguir las notas de Oma hasta la grieta del sur",
+          "text": "Alineas las fechas y las marcas que Oma dejó en sus tablillas. Una losa del extremo sur se levantó un poco; debajo entra una corriente tibia. La abertura queda señalada para cualquiera que vuelva.",
+          "requires_flags": [
+            "korven_misterio_cauce_resuelto"
+          ],
+          "forbids_flags": [
+            "korven_grieta_abierta"
+          ],
+          "set_flags": [
+            "korven_grieta_abierta"
+          ],
+          "scope": "world",
+          "journal": "Las notas de Oma te llevaron a una grieta respirando aire tibio al sur del cauce."
+        },
+        {
+          "id": "grieta_sentir_vibracion",
+          "label": "Apoyar las placas en la piedra y seguir el temblor",
+          "text": "Apoyas las placas contra la losa. La vibración pasa por ellas y se pierde hacia el sur. Al presionar una junta, la piedra cede lo suficiente para dejar una abertura.",
+          "requires_species": [
+            "dravak"
+          ],
+          "requires_flags": [
+            "sec_d_vibracion"
+          ],
+          "forbids_flags": [
+            "korven_grieta_abierta"
+          ],
+          "set_flags": [
+            "korven_grieta_abierta"
+          ],
+          "scope": "world",
+          "journal": "Seguiste con tus placas el temblor hasta una losa que tapa la grieta del sur."
+        },
+        {
+          "id": "grieta_ver_polvo",
+          "label": "Buscar de dónde sale el polvo fresco",
+          "text": "El polvo nuevo no cae desde arriba: sale por una junta del extremo sur. Sigues el rastro, encuentras el borde de una losa levantada y abres paso.",
+          "requires_flags": [
+            "korven_presion_abajo"
+          ],
+          "requires_attribute": {
+            "percepcion": 13
+          },
+          "forbids_flags": [
+            "korven_grieta_abierta"
+          ],
+          "set_flags": [
+            "korven_grieta_abierta"
+          ],
+          "scope": "world",
+          "journal": "El polvo fresco sale de una junta bajo la losa del extremo sur."
         }
       ],
       "wildlife_pool": [
@@ -1321,7 +1395,30 @@
           "persistent_trace": false
         }
       ],
-      "brief": "El cauce de las piedras movidas."
+      "brief": "El cauce de las piedras movidas.",
+      "exit_requirements": {
+        "sur": {
+          "requires_flags": [
+            "korven_grieta_abierta"
+          ],
+          "requires_level": 10,
+          "text": "Una losa partida tapa una grieta que respira aire tibio. Sin una pista de Oma no sabes por dónde moverla; y quien baja necesita experiencia (nivel 10)."
+        }
+      },
+      "states": [
+        {
+          "requires_flags": [
+            "korven_grieta_en_calma"
+          ],
+          "overrides": {
+            "description": "Las losas del cauce ya no se mueven. El polvo viejo se ha asentado y por la grieta del sur sube aire tibio con un brillo azul.",
+            "brief": "El cauce permanece quieto alrededor de la grieta azul.",
+            "day": "Los cargadores cruzan sin esperar el siguiente temblor. El polvo no cae de los bordes.",
+            "night": "La abertura del sur deja subir un hilo de luz azul. El cauce queda quieto.",
+            "return": "Las caras de piedra siguen en su sitio; la grieta del sur respira aire tibio."
+          }
+        }
+      ]
     },
     "korven_plataforma_escucha": {
       "id": "korven_plataforma_escucha",
@@ -1343,6 +1440,12 @@
             "korven_notas_observado"
           ],
           "text": "Debajo del pliegue alguien dibujó un cuenco gracioso con patitas gordas de lagarto y una nota en broma: «Si el cuenco sale corriendo por el temblor, ¡apuntar hacia dónde huye!». Oma debió de sonreír al dibujarlo entre tanta piedra seria."
+        },
+        "cuenco hondo": {
+          "text": "El agua del cuenco no tiembla parejo: las ondas siempre empiezan del lado sur, como si algo girara allá abajo.",
+          "requires_flags": [
+            "korven_presion_abajo"
+          ]
         }
       },
       "exits": {
@@ -1449,6 +1552,17 @@
             "korven_notas_ejemplo"
           ],
           "text": "Recuerdas lo que decidiste con Oma. La nota doblada reposa en la mesa de entrada sujeta por una piedra pulida. Oma señala su casilla vacía al recibir avisos y pregunta la hora antes de sacar conclusiones."
+        }
+      ],
+      "states": [
+        {
+          "requires_flags": [
+            "korven_grieta_en_calma"
+          ],
+          "overrides": {
+            "description": "El agua del cuenco por fin se queda quieta. Oma puede llenar la casilla «no vi pasar» sin esperar otra vibración.",
+            "brief": "El cuenco está quieto junto al registro de Oma."
+          }
         }
       ]
     },
@@ -2685,6 +2799,913 @@
       },
       "source": "Ampliación original autorizada: recuperación local del contrato existente",
       "brief": "La casa de cuidados de Brumak."
+    },
+    "korven_grieta_boca": {
+      "id": "korven_grieta_boca",
+      "name": "Boca de la Grieta",
+      "region": "korven",
+      "kind": "landmark",
+      "description": "La losa partida se alza sobre una escalera de piedra natural. El aire que sube huele a roca mojada y tierra fría. Detrás de ti aún se ve un pedazo de Brumak; más abajo, la luz se vuelve azul. Junto a la entrada hay suelo firme para descansar y revisar tus provisiones.",
+      "brief": "La luz de Brumak se queda arriba; abajo respira el aire tibio.",
+      "day": "La claridad alcanza los primeros escalones y deja ver la cuerda atada al cauce. Más abajo, las paredes guardan la sombra.",
+      "night": "La noche cubre la entrada. Una veta pálida dibuja el borde del primer escalón.",
+      "rain": "El agua golpea la losa y cae en gotas gruesas. Al tocar el piso de la cueva, cada gota suena más hondo.",
+      "clear": "Con el cielo despejado, una franja de luz entra por la grieta y termina antes del segundo descanso.",
+      "return": "Al subir, vuelven el aire fresco y el ruido del cauce. La cuerda te guía hasta la luz de Brumak.",
+      "examine": {
+        "losa": "La cara de abajo está lisa por el roce. No ves marcas de cincel ni cortes rectos.",
+        "cuerda": "La cuerda baja desde el cauce y queda al alcance de tu mano."
+      },
+      "exits": {
+        "norte": "korven_cauce_observacion",
+        "sur": "korven_grieta_ecos"
+      },
+      "arrivals": {
+        "korven_cauce_observacion": "Te deslizas bajo la losa y bajas por escalones irregulares. El murmullo del cauce se apaga a tu espalda; la cuerda sigue junto a ti."
+      },
+      "npcs": [],
+      "signals": [],
+      "actions": [],
+      "safe": true
+    },
+    "korven_grieta_ecos": {
+      "id": "korven_grieta_ecos",
+      "name": "Sala de los Ecos Tibios",
+      "region": "korven",
+      "kind": "wilderness",
+      "description": "La cueva se ensancha y el techo se pierde en la penumbra. Tres grietas dejan caer agua: primero una nota grave, luego una media y al final una aguda. Tu respiración vuelve desde el fondo con un eco tibio.",
+      "brief": "Tres gotas marcan el camino hacia la oscuridad.",
+      "day": "Una hebra de luz baja desde la entrada y se rompe en los charcos antes de tocar el fondo.",
+      "night": "En la oscuridad, las gotas suenan más cerca. La grave cae primero; dos notas la siguen.",
+      "rain": "La lluvia acelera el goteo, pero las tres notas conservan su orden: grave, medio, agudo.",
+      "clear": "Aunque no cae lluvia, el agua sigue marcando su ritmo bajo la piedra.",
+      "return": "Subes hacia la luz por el aire tibio; el eco se queda abajo, llamando desde el Descenso.",
+      "examine": {
+        "techo": "El agua sale por tres grietas separadas. Una gota cae de cada una, siempre en el mismo orden.",
+        "goteo": "El sonido baja hacia las salas hondas: grave, medio y agudo, como tambor, campana y silbido."
+      },
+      "exits": {
+        "norte": "korven_grieta_boca",
+        "oeste": "korven_grieta_raices",
+        "este": "korven_grieta_cantos",
+        "sur": "korven_grieta_descenso"
+      },
+      "arrivals": {
+        "korven_grieta_boca": "El goteo te alcanza antes que la luz. A cada paso, las paredes se apartan y las notas duran más."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "tallagrietas",
+          "level": 11,
+          "text": "Una cola plana raspa la pared y desaparece entre dos grietas. El Tallagrietas se mueve cerca, inquieto por algo que suena más abajo.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": [],
+      "exit_requirements": {
+        "sur": {
+          "requires_level": 12,
+          "text": "La pendiente se vuelve empinada y resbalosa. Necesitas nivel 12 para bajar con seguridad."
+        }
+      }
+    },
+    "korven_grieta_raices": {
+      "id": "korven_grieta_raices",
+      "name": "Raíces de Piedra",
+      "region": "korven",
+      "kind": "wilderness",
+      "description": "Columnas de roca se abren alrededor de una charca, como raíces que sostienen el techo. Hilos de cristal opaco cruzan los huecos. En el barro ves huellas pequeñas que se detienen de golpe.",
+      "brief": "Raíces de piedra y hilos finos cubren el paso.",
+      "day": "La luz azulada rebota entre las columnas y deja manchas claras en el suelo.",
+      "night": "Los hilos vibran con cada gota. No corre viento, pero la roca zumba bajito.",
+      "rain": "La humedad se filtra desde arriba y oscurece las raíces de piedra.",
+      "clear": "Una claridad tenue recorre los cristales opacos y se pierde entre las columnas.",
+      "return": "Al volver, las columnas parecen más juntas. Sus sombras forman pasillos que no estaban ahí.",
+      "examine": {
+        "filamentos": "Son delgados y quebradizos; si los tocas, tiemblan como cuerdas de vidrio.",
+        "pared": "Varias marcas paralelas suben por la roca y desaparecen bajo una cornisa."
+      },
+      "exits": {
+        "este": "korven_grieta_ecos",
+        "oeste": "korven_grieta_charca"
+      },
+      "arrivals": {
+        "korven_grieta_ecos": "Las paredes se levantan en columnas gruesas. El aire húmedo te enfría la cara y algo raspa sobre tu cabeza."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "cuarzarana",
+          "level": 12,
+          "text": "Unas patas finas se afirman en el techo. La Cuarzaraña sacude polvo brillante y se esconde entre las geodas.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "korven_grieta_charca": {
+      "id": "korven_grieta_charca",
+      "name": "Charca de los Cristales",
+      "region": "korven",
+      "kind": "wilderness",
+      "description": "Una charca poco profunda refleja cristales azules bajo el agua. Ondas anchas cruzan la superficie aunque no caiga nada. En la orilla opuesta, la piedra se curva bajo una cornisa oscura.",
+      "brief": "Las ondas cruzan la charca sin que caiga una gota.",
+      "day": "La luz del techo dibuja líneas azules en el fondo; las ondas las estiran y las rompen.",
+      "night": "Sin luz directa, notas primero el temblor en tus botas. Después aparecen círculos en el agua.",
+      "rain": "El fondo reluce bajo la lluvia, pero la orilla se vuelve resbalosa.",
+      "clear": "La charca queda quieta por un instante. Luego una onda nace en el centro y llega a tus pies.",
+      "return": "El agua parece lisa al volver. Un círculo se abre bajo la superficie y se pierde junto a la cornisa.",
+      "examine": {
+        "fondo": "En el barro hay huellas curvas, más anchas que la charca. Algo enorme pasó por aquí y siguió bajo la piedra.",
+        "borde": "Las marcas llegan hasta la roca y continúan debajo de la cornisa."
+      },
+      "exits": {
+        "este": "korven_grieta_raices"
+      },
+      "arrivals": {
+        "korven_grieta_raices": "El pasaje se estrecha y el aire se enfría. Al salir de entre las columnas, encuentras agua clara bajo una cornisa baja."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "vetasierpe",
+          "level": 13,
+          "text": "Los círculos se abren desde el centro. Unos anillos de cristal se deslizan bajo la charca y desaparecen.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": [
+        {
+          "id": "seguir_ondas_fondo",
+          "label": "Seguir las ondas del fondo",
+          "text": "Sigues las curvas con la vista. Cruzan toda la charca y continúan bajo la piedra, mucho más anchas que el agua.",
+          "requires_examined": [
+            "fondo"
+          ],
+          "forbids_flags": [
+            "sec_grieta_huellas"
+          ],
+          "set_flags": [
+            "sec_grieta_huellas"
+          ],
+          "journal": "Bajo la charca encontraste huellas curvas, más anchas que el agua. Algo enorme se mueve bajo la roca."
+        }
+      ]
+    },
+    "korven_grieta_cantos": {
+      "id": "korven_grieta_cantos",
+      "name": "Pozo de los Cantos",
+      "region": "korven",
+      "kind": "wilderness",
+      "description": "Un pozo ancho corta la sala. Sus piedras son lisas y redondas, como cantos de río. Algunas chocan cuando un temblor pasa por la pared; el sonido rueda hasta perderse abajo.",
+      "brief": "Piedras redondas chocan en el fondo del pozo.",
+      "day": "Los cantos brillan como gotas quietas y dejan una franja clara alrededor del pozo.",
+      "night": "Una piedra rueda en la oscuridad. Oyes tres golpes antes de que todo quede en silencio.",
+      "rain": "El goteo se reúne al fondo. El agua pasa sobre las piedras sin borrar sus marcas.",
+      "clear": "Sin lluvia, el pozo guarda un silencio profundo que se rompe con un choque de piedras.",
+      "return": "El pozo sigue entre tú y la salida. Al cruzar, una vibración hace rodar un canto bajo tus botas.",
+      "examine": {
+        "cantos": "El agua los alisó durante mucho tiempo. Ninguno tiene caras rectas ni marcas de herramienta.",
+        "pared": "Un temblor breve hace que tres cantos choquen. El eco sube por la pared."
+      },
+      "exits": {
+        "oeste": "korven_grieta_ecos"
+      },
+      "arrivals": {
+        "korven_grieta_ecos": "Una piedra rueda frente a ti, golpea otras dos y se detiene al borde de un pozo oscuro."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "rodacanto",
+          "level": 14,
+          "text": "Los cantos chocan y una criatura acorazada se hace bola entre ellos. El Rodacanto tiembla, listo para rodar.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "korven_grieta_descenso": {
+      "id": "korven_grieta_descenso",
+      "name": "Escalera de las Vetas",
+      "region": "korven",
+      "kind": "landmark",
+      "description": "Una pendiente amplia baja en curvas entre paredes de cristal. Tres vetas se encienden una después de otra y muestran dónde apoyar el pie. Bajo un escalón suelto asoma un papel doblado.",
+      "brief": "Tres vetas de luz bajan hacia caminos distintos.",
+      "day": "La luz de las vetas marca los descansos y deja el fondo en sombra.",
+      "night": "El vapor humedece los bordes. Las vetas alumbran tus pasos, una por una.",
+      "rain": "Desde arriba llega el mismo goteo de tres notas: grave, medio y agudo.",
+      "clear": "El aire se queda quieto. Una veta azul se enciende y luego otra, más abajo.",
+      "return": "Subes siguiendo la veta más clara. Los sonidos de la sala de los ecos vuelven poco a poco.",
+      "examine": {
+        "peldaño suelto": "Un borde de papel asoma bajo la piedra. La tinta se conserva, aunque el doblez está gastado.",
+        "vetas": "La luz corre por cada veta y despierta la siguiente. No alcanzas a ver dónde comienza el brillo."
+      },
+      "exits": {
+        "norte": "korven_grieta_ecos",
+        "oeste": "korven_grieta_geodas",
+        "este": "korven_grieta_vapores",
+        "sur": "korven_grieta_sorda"
+      },
+      "arrivals": {
+        "korven_grieta_ecos": "La pendiente baja en curvas. El eco queda arriba mientras tres líneas de luz te guían hacia la oscuridad."
+      },
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "sacar_papel_doblado",
+          "label": "Sacar el papel doblado",
+          "text": "Desdoblas el papel con cuidado. La letra dice: «Primero el tambor, luego la campana, al último el silbido». Abajo, el cantero anotó que volvió cuando notó que el aire se calentaba.",
+          "requires_examined": [
+            "peldaño suelto"
+          ],
+          "forbids_flags": [
+            "sec_grieta_nota"
+          ],
+          "set_flags": [
+            "sec_grieta_nota"
+          ],
+          "journal": "La nota del cantero ordena los sonidos: tambor, campana y silbido."
+        }
+      ]
+    },
+    "korven_grieta_geodas": {
+      "id": "korven_grieta_geodas",
+      "name": "Bosque de Geodas",
+      "region": "korven",
+      "kind": "wilderness",
+      "description": "Geodas altas brotan del suelo como troncos redondos. Hilos de cuarzo cruzan el paso y vibran al cambiar el aire. Una pequeña forma de cristal quedó atrapada en una red, con sus alas aún extendidas.",
+      "brief": "Geodas altas rodean una red de cuarzo que vibra.",
+      "day": "La luz azul corre por los hilos y se divide en puntos pequeños sobre la roca.",
+      "night": "Cuando el vapor moja la red, sus hilos cantan con un zumbido fino.",
+      "rain": "Las gotas tensan los hilos y hacen sonar la red como una cuerda larga.",
+      "clear": "Los cristales relucen sin deslumbrarte. Entre dos geodas, una hebra tiembla sola.",
+      "return": "Los hilos se inclinan hacia el Telar. Al pasar, una nota breve te sigue por el camino.",
+      "examine": {
+        "red": "Un insecto de cristal quedó atrapado entre los hilos. Sus alas transparentes reflejan la luz.",
+        "geoda": "Cada geoda devuelve un pasillo distinto. Si miras de lado, los reflejos desaparecen."
+      },
+      "exits": {
+        "este": "korven_grieta_descenso",
+        "sur": "korven_grieta_telar"
+      },
+      "arrivals": {
+        "korven_grieta_descenso": "A ambos lados se levantan geodas redondas. El paso se estrecha y varios hilos vibran aunque no los toques."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "espinacuarzo",
+          "level": 15,
+          "text": "Algo raspa entre las geodas. Un lomo cubierto de púas se aplana detrás de una formación alta.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "korven_grieta_telar": {
+      "id": "korven_grieta_telar",
+      "name": "El Telar de Cuarzo",
+      "region": "korven",
+      "kind": "landmark",
+      "description": "Hilos tensos cruzan toda la sala y responden con notas distintas cuando pasa el aire. En el centro, una araña larguísima recorre la red. Sus patas tocan el cuarzo sin romperlo.",
+      "brief": "Una red de cuarzo canta alrededor de su tejedora.",
+      "day": "Un rayo atraviesa los hilos y pinta un arco pálido sobre el suelo.",
+      "night": "El vapor empaña las hebras y vuelve grave el canto del Telar.",
+      "rain": "El aire húmedo deja oír todas las notas juntas, como un arpa de cristal.",
+      "clear": "Una corriente leve cruza la red y hace vibrar una nota clara sobre tu cabeza.",
+      "return": "Dejas atrás el canto del Telar. Una veta clara baja desde la roca hacia el Mirador.",
+      "examine": {
+        "hilos": "La red se sostiene entre las geodas. No ves postes ni soportes rectos.",
+        "suelo": "La seda mineral brilla donde han pasado las patas de la araña."
+      },
+      "exits": {
+        "norte": "korven_grieta_geodas",
+        "sur": "korven_grieta_mirador"
+      },
+      "arrivals": {
+        "korven_grieta_geodas": "Una nota aguda se sostiene en el aire. Al avanzar, los hilos empiezan a cantar a tu alrededor."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "tejecristal",
+          "level": 17,
+          "text": "Una sombra larguísima recorre el Telar. La Tejecristal se acerca y el cuarzo suena como un arpa.",
+          "persistent_trace": false,
+          "forbids_flags": [
+            "victoria:korven_grieta_telar:tejecristal"
+          ]
+        }
+      ],
+      "actions": [],
+      "exit_requirements": {
+        "sur": {
+          "requires_flags": [
+            "grieta_veta_clara"
+          ],
+          "text": "La veta clara aún no ha abierto el paso al Mirador."
+        }
+      }
+    },
+    "korven_grieta_mirador": {
+      "id": "korven_grieta_mirador",
+      "name": "Mirador de Cristal",
+      "region": "korven",
+      "kind": "landmark",
+      "description": "Una repisa natural se asoma a un vacío lleno de vetas cruzadas. A la altura de tu pecho sobresale una geoda hueca. Dentro, ni siquiera el eco parece atreverse a entrar.",
+      "brief": "Las vetas se cruzan en el vacío bajo la repisa.",
+      "day": "La luz rebota dentro de la geoda y vuelve suave, sin lastimarte los ojos.",
+      "night": "Hilos de luz palpitan en las grietas. El resplandor llega desde abajo y no tiembla.",
+      "rain": "Desde la repisa ves el pasaje que vuelve a la Antecámara; gotas finas corren por la pared.",
+      "clear": "El aire quieto deja ver cómo las vetas se juntan mucho más abajo.",
+      "return": "La repisa queda al este, frente al centro de las vetas. El aire tibio sube desde allí.",
+      "examine": {
+        "geoda": "Si susurras dentro, la geoda devuelve tu voz más grave y redonda.",
+        "vacío": "Las vetas se cruzan hacia una sala central, muy por debajo de la repisa."
+      },
+      "exits": {
+        "norte": "korven_grieta_telar",
+        "este": "korven_grieta_antecamara"
+      },
+      "arrivals": {
+        "korven_grieta_telar": "El canto de la red se apaga a tu espalda. La roca se abre y deja un vacío lleno de luz bajo tus pies.",
+        "korven_grieta_antecamara": "Un pasaje lateral termina en una repisa estrecha. Desde ahí ves las vetas suspendidas en la oscuridad."
+      },
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "susurrar_geoda",
+          "label": "Susurrar dentro de la geoda",
+          "text": "Susurras una frase. La geoda te la devuelve, grave y redonda; por un instante, parece que la cueva te responde.",
+          "requires_examined": [
+            "geoda"
+          ],
+          "forbids_flags": [
+            "sec_grieta_geoda"
+          ],
+          "set_flags": [
+            "sec_grieta_geoda"
+          ],
+          "journal": "La geoda del Mirador devolvió tu voz con un tono más grave."
+        }
+      ],
+      "exit_requirements": {
+        "norte": {
+          "requires_flags": [
+            "grieta_veta_clara"
+          ],
+          "text": "La veta que baja desde el Telar aún no ha quedado quieta."
+        }
+      },
+      "states": [
+        {
+          "requires_flags": [
+            "korven_grieta_en_calma"
+          ],
+          "overrides": {
+            "night": "De noche, las grietas del vacío brillan como hilos. La luz late despacio y mantiene quieta la repisa."
+          }
+        }
+      ]
+    },
+    "korven_grieta_sorda": {
+      "id": "korven_grieta_sorda",
+      "name": "Galería Sorda",
+      "region": "korven",
+      "kind": "wilderness",
+      "description": "La galería se traga el ruido de tus botas. Del techo cuelgan tres columnas de cristal: larga, mediana y corta. Al fondo, una figura se agacha en una grieta y no hace ningún sonido.",
+      "brief": "Tres columnas esperan el orden grave, medio y agudo.",
+      "day": "La poca luz dibuja las columnas. En esta sala puedes ver tu aliento, pero no oírlo.",
+      "night": "Una gota cae del techo y pierde el sonido antes de tocar el suelo.",
+      "rain": "La humedad opaca el cristal. Las columnas conservan sus tamaños y sus notas.",
+      "clear": "El silencio cubre la sala como una manta. Solo notas el polvo que cae de una columna.",
+      "return": "Subes hacia el Descenso. Al avanzar al sur, el silencio se abre alrededor de las tres columnas.",
+      "examine": {
+        "columnas": "La larga suena como tambor; la mediana, como campana; la corta, como silbido. La grieta escucha primero lo más hondo.",
+        "suelo": "El polvo está quieto alrededor de las columnas. No hay huellas cerca de la grieta."
+      },
+      "exits": {
+        "norte": "korven_grieta_descenso",
+        "sur": "korven_grieta_antecamara"
+      },
+      "arrivals": {
+        "korven_grieta_descenso": "El rumor del Descenso se apaga detrás de ti. Das un paso más y ya no escuchas ni tus botas."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "callaecos",
+          "level": 17,
+          "text": "De pronto pierdes el sonido de tus propios pasos. Algo se agacha al fondo y cambia de sitio sin dejar eco.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": [
+        {
+          "id": "eco_golpe_larga",
+          "label": "Golpear la columna larga",
+          "text": "La columna larga responde con un tono grave. La vibración pasa por el suelo y se queda bajo tus pies.",
+          "requires_flags": [
+            "victoria:korven_grieta_sorda:callaecos"
+          ],
+          "forbids_flags": [
+            "grieta_eco_1"
+          ],
+          "set_flags": [
+            "grieta_eco_1"
+          ]
+        },
+        {
+          "id": "eco_golpe_mediana",
+          "label": "Golpear la columna mediana",
+          "text": "La columna mediana suena clara. Las dos notas permanecen juntas en el aire quieto.",
+          "requires_flags": [
+            "victoria:korven_grieta_sorda:callaecos",
+            "grieta_eco_1"
+          ],
+          "forbids_flags": [
+            "grieta_eco_2"
+          ],
+          "set_flags": [
+            "grieta_eco_2"
+          ]
+        },
+        {
+          "id": "eco_golpe_corta",
+          "label": "Golpear la columna corta",
+          "text": "La nota aguda completa la secuencia. Una veta sonora recorre la roca hasta la Antecámara.",
+          "requires_flags": [
+            "victoria:korven_grieta_sorda:callaecos",
+            "grieta_eco_2"
+          ],
+          "forbids_flags": [
+            "grieta_veta_eco"
+          ],
+          "set_flags": [
+            "grieta_veta_eco"
+          ],
+          "journal": "Hiciste sonar grave, medio y agudo; la veta de eco respondió."
+        },
+        {
+          "id": "eco_mediana_antes",
+          "label": "Probar la columna mediana",
+          "text": "La nota sale chueca y la grieta no responde. La primera debe ser la más grave.",
+          "requires_flags": [
+            "victoria:korven_grieta_sorda:callaecos"
+          ],
+          "forbids_flags": [
+            "grieta_eco_1",
+            "grieta_eco_2"
+          ]
+        },
+        {
+          "id": "eco_corta_antes",
+          "label": "Probar la columna corta",
+          "text": "El silbido se pierde sin respuesta. Empieza por la columna más larga y su nota grave.",
+          "requires_flags": [
+            "victoria:korven_grieta_sorda:callaecos"
+          ],
+          "forbids_flags": [
+            "grieta_eco_1",
+            "grieta_eco_2"
+          ]
+        },
+        {
+          "id": "eco_descifrar",
+          "label": "Descifrar el orden de las columnas",
+          "text": "Juntas las tres pistas: primero grave, luego medio y al final agudo. La veta de eco despierta bajo la roca.",
+          "requires_flags": [
+            "victoria:korven_grieta_sorda:callaecos"
+          ],
+          "requires_attribute": {
+            "intelecto": 16
+          },
+          "forbids_flags": [
+            "grieta_veta_eco"
+          ],
+          "set_flags": [
+            "grieta_veta_eco"
+          ],
+          "journal": "Descifraste el acertijo y despertaste la veta de eco."
+        },
+        {
+          "id": "eco_sentir_dravak",
+          "label": "Escuchar la veta con las placas",
+          "text": "Tus placas sienten primero el pulso grave, después el medio y al final el agudo. La veta de eco despierta.",
+          "requires_flags": [
+            "victoria:korven_grieta_sorda:callaecos"
+          ],
+          "requires_species": [
+            "dravak"
+          ],
+          "forbids_flags": [
+            "grieta_veta_eco"
+          ],
+          "set_flags": [
+            "grieta_veta_eco"
+          ],
+          "journal": "Escuchaste con tus placas el orden de la veta de eco."
+        }
+      ]
+    },
+    "korven_grieta_vapores": {
+      "id": "korven_grieta_vapores",
+      "name": "Grietas de Vapor",
+      "region": "korven",
+      "kind": "wilderness",
+      "description": "Varias grietas sueltan vapor tibio en pulsos. Polvo blanco cubre el suelo y unas huellas anchas pasan junto al muro. Tres temblores sacuden la roca; luego, todo queda quieto.",
+      "brief": "Vapor tibio, polvo blanco y huellas cruzan el suelo.",
+      "day": "Una nube baja brilla un instante cuando pasa frente a la veta naranja.",
+      "night": "El agua que entra por las fisuras sale convertida en niebla. La pared parece respirar.",
+      "rain": "Las nubes de vapor destacan contra la roca oscura y esconden el otro extremo del paso.",
+      "clear": "Una bocanada de calor mueve el polvo, aunque el aire de la cueva sigue frío.",
+      "return": "Vuelves hacia el Descenso siguiendo el aire más frío que entra desde el oeste.",
+      "examine": {
+        "polvo": "Hay placas enormes cubiertas de polvo claro. Las huellas pasan entre ellas y se dirigen al sur.",
+        "fisuras": "El vapor sale en tres pulsos. Después, el suelo descansa unos segundos."
+      },
+      "exits": {
+        "oeste": "korven_grieta_descenso",
+        "sur": "korven_grieta_nido"
+      },
+      "arrivals": {
+        "korven_grieta_descenso": "Una bocanada tibia te roza la cara. El polvo blanco se levanta y deja ver huellas anchas junto a la pared."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "brasaluz",
+          "level": 16,
+          "text": "Una luz naranja palpita dentro de una grieta. Algo toma aire y el calor sube hasta tus manos.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "korven_grieta_nido": {
+      "id": "korven_grieta_nido",
+      "name": "Nido del Canoso",
+      "region": "korven",
+      "kind": "landmark",
+      "description": "La cámara es lisa, salvo por un montón de placas blanqueadas en el centro. Un Quebrarrocas Canoso vigila el paso, rodeado por galerías pequeñas que suben hacia el cauce. No parece buscar pelea: protege su nido.",
+      "brief": "El Canoso guarda su nido y las galerías que suben a Brumak.",
+      "day": "El polvo blanco cubre el lomo del Canoso como una capa de sal. Bajo sus placas se mueven pequeñas sombras.",
+      "night": "El vapor baja y deja visible el refugio al fondo de la cámara.",
+      "rain": "Las gotas limpian caminos finos sobre las placas viejas del nido.",
+      "clear": "El aire se despeja. El Canoso sigue atento, entre tú y sus galerías.",
+      "return": "El Canoso se queda sobre sus piedras. Puedes volver al vapor mientras él vigila el nido.",
+      "examine": {
+        "placas": "Las placas son gruesas y pesadas. Bajo el polvo ves grietas antiguas, pero no sangre.",
+        "nido": "Las galerías pequeñas suben hacia el cauce de Brumak. El Canoso no aparta la mirada de ellas."
+      },
+      "exits": {
+        "norte": "korven_grieta_vapores",
+        "sur": "korven_grieta_fuente"
+      },
+      "arrivals": {
+        "korven_grieta_vapores": "Los tres temblores se detienen frente a un montón de placas. El vapor se abre y deja ver al guardián del nido."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "quebrarrocas_canoso",
+          "level": 16,
+          "text": "El Quebrarrocas más viejo se coloca entre tú y el nido. Su lomo está blanco de polvo; sus crías se esconden en las galerías.",
+          "persistent_trace": false,
+          "forbids_flags": [
+            "victoria:korven_grieta_nido:quebrarrocas_canoso"
+          ]
+        }
+      ],
+      "actions": [],
+      "exit_requirements": {
+        "sur": {
+          "requires_flags": [
+            "grieta_veta_tibia"
+          ],
+          "text": "El Canoso todavía protege el paso a la Fuente Tibia."
+        }
+      }
+    },
+    "korven_grieta_fuente": {
+      "id": "korven_grieta_fuente",
+      "name": "Fuente Tibia",
+      "region": "korven",
+      "kind": "landmark",
+      "description": "Agua tibia llena una poza pequeña y suelta vapor bajo el techo. Al lado hay una piedra lisa con forma de concha, cubierta por una costra clara. En un rincón seco descansa una piel de cristal, mudada en una sola pieza.",
+      "brief": "Una poza humeante y una muda de cristal descansan en silencio.",
+      "day": "El vapor sube en una hebra delgada y se deshace antes de tocar el techo.",
+      "night": "La niebla se posa en la muda y vuelve tibio el aire de la sala.",
+      "rain": "La lluvia entra por una fisura, pero el agua de la poza conserva su calor.",
+      "clear": "El vapor se levanta sin prisa. La poza sigue tibia aunque el aire de afuera se enfríe.",
+      "return": "El agua aún está tibia cuando vuelves desde la Antecámara. La piel de cristal conserva su forma.",
+      "examine": {
+        "piedra tibia": "Bajo la costra aparece una concha de piedra. Esta forma estuvo en el fondo del agua mucho antes de llegar aquí.",
+        "muda": "La piel conserva la curva de unos anillos enormes. No tiene sangre ni partes rotas."
+      },
+      "exits": {
+        "norte": "korven_grieta_nido",
+        "oeste": "korven_grieta_antecamara"
+      },
+      "arrivals": {
+        "korven_grieta_nido": "El calor del nido queda atrás. Entras en una sala tranquila donde el agua tibia humea en una poza.",
+        "korven_grieta_antecamara": "El pasaje se estrecha junto a la poza. Una concha de piedra asoma bajo la costra clara."
+      },
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "limpiar_concha",
+          "label": "Limpiar la concha de piedra",
+          "text": "Retiras la costra sin romperla. La forma lisa estuvo bajo el agua hace mucho, como las conchas fósiles de Veyra.",
+          "requires_examined": [
+            "piedra tibia"
+          ],
+          "forbids_flags": [
+            "sec_grieta_concha"
+          ],
+          "set_flags": [
+            "sec_grieta_concha"
+          ],
+          "journal": "La piedra tibia conserva la forma de una concha que fue fondo de agua."
+        }
+      ],
+      "safe": true,
+      "exit_requirements": {
+        "norte": {
+          "requires_flags": [
+            "grieta_veta_tibia"
+          ],
+          "text": "El Canoso todavía protege el paso desde el nido."
+        }
+      }
+    },
+    "korven_grieta_antecamara": {
+      "id": "korven_grieta_antecamara",
+      "name": "Antecámara de las Tres Vetas",
+      "region": "korven",
+      "kind": "landmark",
+      "description": "La roca forma una cámara redonda. Tres huecos se abren en una pared: uno claro como cristal, otro tibio como vapor y el último tan oscuro que parece guardar el sonido. Una puerta de piedra cierra el paso hacia el sur.",
+      "brief": "Tres vetas se encuentran ante una puerta cerrada.",
+      "day": "Cada hueco se enciende por separado. El brillo del tercero llega con un pulso profundo.",
+      "night": "Una corriente tibia sale por debajo de la puerta del sur y mueve el vapor junto al suelo.",
+      "rain": "Gotas pequeñas se juntan alrededor del sello y reflejan las tres vetas.",
+      "clear": "Las tres vetas guardan su brillo. Desde el otro lado de la puerta llega un pulso lento.",
+      "return": "Los pasos laterales vuelven al Mirador y a la Fuente Tibia. La puerta del sur sigue cerrada.",
+      "examine": {
+        "sello": "Tres huecos —cristal, vapor y sonido— rodean una frase: «Dos vetas que canten juntas despiertan a la tercera».",
+        "pared": "Las líneas de las tres vetas apuntan hacia la puerta. Una vibración tibia llega desde el otro lado."
+      },
+      "exits": {
+        "norte": "korven_grieta_sorda",
+        "oeste": "korven_grieta_mirador",
+        "este": "korven_grieta_fuente",
+        "sur": "korven_grieta_corazon"
+      },
+      "arrivals": {
+        "korven_grieta_sorda": "El silencio de la galería se rompe con una nota baja. Entras en una cámara donde se encuentran tres vetas.",
+        "korven_grieta_mirador": "Bajas desde la repisa por un pasaje estrecho. Tres huecos brillan en la pared al final.",
+        "korven_grieta_fuente": "El vapor se disipa al entrar. Frente a ti, una puerta de piedra cierra el paso al sur."
+      },
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "sello_clara_tibia",
+          "label": "Unir las vetas clara y tibia",
+          "text": "El cristal y el vapor vibran juntos. El sello responde con una nota baja y la puerta del sur se abre.",
+          "requires_flags": [
+            "grieta_veta_clara",
+            "grieta_veta_tibia"
+          ],
+          "forbids_flags": [
+            "grieta_sello_abierto"
+          ],
+          "set_flags": [
+            "grieta_sello_abierto"
+          ]
+        },
+        {
+          "id": "sello_clara_eco",
+          "label": "Unir las vetas clara y de eco",
+          "text": "El cristal y el sonido vibran juntos. El sello responde con una nota baja y la puerta del sur se abre.",
+          "requires_flags": [
+            "grieta_veta_clara",
+            "grieta_veta_eco"
+          ],
+          "forbids_flags": [
+            "grieta_sello_abierto"
+          ],
+          "set_flags": [
+            "grieta_sello_abierto"
+          ]
+        },
+        {
+          "id": "sello_tibia_eco",
+          "label": "Unir las vetas tibia y de eco",
+          "text": "El vapor y el sonido vibran juntos. El sello responde con una nota baja y la puerta del sur se abre.",
+          "requires_flags": [
+            "grieta_veta_tibia",
+            "grieta_veta_eco"
+          ],
+          "forbids_flags": [
+            "grieta_sello_abierto"
+          ],
+          "set_flags": [
+            "grieta_sello_abierto"
+          ]
+        }
+      ],
+      "exit_requirements": {
+        "sur": {
+          "requires_flags": [
+            "grieta_sello_abierto"
+          ],
+          "requires_level": 16,
+          "text": "El sello necesita dos vetas y experiencia para que cruces con seguridad. Requiere nivel 16."
+        }
+      }
+    },
+    "korven_grieta_corazon": {
+      "id": "korven_grieta_corazon",
+      "name": "Corazón de la Veta Madre",
+      "region": "korven",
+      "kind": "landmark",
+      "description": "La puerta se abre a una bóveda inmensa. Las vetas del techo bajan como ríos de luz y se juntan en el centro. Allí respira una serpiente de cristal vivo, con anillos tan anchos como una carreta. Una geoda ocupa cada ojo. El vapor se enrosca entre sus escamas. Sus costados suben y bajan despacio. Cada respiración hace temblar el polvo. La Sierpe no parece furiosa; acaba de despertar. Cuando se mueve, la montaña cruje y sus anillos empujan las losas de Brumak.",
+      "brief": "Una Sierpe de cristal respira bajo la montaña.",
+      "day": "La luz azul pasa por las escamas de la Sierpe como agua bajo el hielo.",
+      "night": "El vapor rodea los anillos cada vez que la Sierpe respira. La bóveda entera brilla con cada pulso.",
+      "rain": "El techo refleja cientos de vetas. Todas parecen dirigirse hacia la Sierpe.",
+      "clear": "El polvo cae en silencio. Luego el cuerpo inmenso se mueve y la bóveda cruje.",
+      "return": "La puerta norte es la única salida mientras la Sierpe siga en el corazón de la cueva.",
+      "examine": {
+        "ojo": "La geoda refleja tu figura muchas veces. La Sierpe no parece furiosa; parece recién despierta.",
+        "vetas": "Cada pulso de luz levanta polvo del techo. El cuerpo de la Sierpe crece mientras duerme y empuja la roca."
+      },
+      "exits": {
+        "norte": "korven_grieta_antecamara",
+        "sur": "korven_grieta_lecho"
+      },
+      "arrivals": {
+        "korven_grieta_antecamara": "La puerta cede y el aire tibio te envuelve. Más allá, la bóveda se abre tan alto que no alcanzas a ver su techo."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "sierpe_veta_madre",
+          "level": 20,
+          "text": "Todas las vetas laten a la vez. La Sierpe abre un ojo de geoda y sus anillos rozan el suelo.",
+          "persistent_trace": false,
+          "forbids_flags": [
+            "victoria:korven_grieta_corazon:sierpe_veta_madre",
+            "korven_grieta_en_calma"
+          ]
+        }
+      ],
+      "actions": [],
+      "exit_requirements": {
+        "sur": {
+          "requires_flags": [
+            "victoria:korven_grieta_corazon:sierpe_veta_madre"
+          ],
+          "text": "La Sierpe todavía ocupa el corazón de la cueva."
+        }
+      }
+    },
+    "korven_grieta_lecho": {
+      "id": "korven_grieta_lecho",
+      "name": "Lecho de la Muda",
+      "region": "korven",
+      "kind": "landmark",
+      "description": "Una espiral de cristal viejo descansa junto a la veta más honda. La Sierpe se enroscó bajo la roca y duerme; su luz pulsa despacio, como una respiración tranquila. En el suelo quedó la piel que mudó, entera y brillante.",
+      "brief": "La muda descansa junto a la veta, que ya no empuja la roca.",
+      "day": "La luz recorre la piel mudada y se apaga en cada anillo.",
+      "night": "Una nube suave de vapor llega desde el corazón. La veta late sin mover el suelo.",
+      "rain": "El polvo cae del techo y se queda quieto alrededor de la muda.",
+      "clear": "La bóveda permanece quieta. La luz de la veta se enciende y se apaga con calma.",
+      "return": "La espiral de cristal sigue junto a la veta; hacia el norte está el corazón donde duerme la Sierpe.",
+      "examine": {
+        "muda": "La piel conserva cada anillo. Debajo no hay una herida: la Sierpe solo cambió de piel.",
+        "veta": "Su pulso es lento y parejo. Las losas de Brumak dejaron de moverse."
+      },
+      "exits": {
+        "norte": "korven_grieta_corazon"
+      },
+      "arrivals": {
+        "korven_grieta_corazon": "La luz se calma a tu espalda. Junto a la veta descansa una espiral de cristal que brilla sin moverse."
+      },
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "reclamar_premio_grieta_juramentado",
+          "label": "Tomar la Espada de la Veta Madre",
+          "text": "La espada espera junto a la muda. Su guarda descansa sobre una placa lisa y la hoja conserva un hilo azul de luz.",
+          "requires_classes": [
+            "juramentado"
+          ],
+          "requires_flags": [
+            "victoria:korven_grieta_corazon:sierpe_veta_madre"
+          ],
+          "forbids_flags": [
+            "grieta_premio_recibido"
+          ],
+          "set_flags": [
+            "grieta_premio_recibido"
+          ],
+          "give_items": {
+            "espada_veta_madre": 1,
+            "amuleto_veta_tibia": 1,
+            "escama_veta": 3
+          }
+        },
+        {
+          "id": "reclamar_premio_grieta_arcano",
+          "label": "Tomar el Báculo de Cuarzo Cantor",
+          "text": "Al levantar el báculo, el cuarzo responde con una nota clara que llena la bóveda.",
+          "requires_classes": [
+            "arcano"
+          ],
+          "requires_flags": [
+            "victoria:korven_grieta_corazon:sierpe_veta_madre"
+          ],
+          "forbids_flags": [
+            "grieta_premio_recibido"
+          ],
+          "set_flags": [
+            "grieta_premio_recibido"
+          ],
+          "give_items": {
+            "baculo_cuarzo_cantor": 1,
+            "amuleto_veta_tibia": 1,
+            "escama_veta": 3
+          }
+        },
+        {
+          "id": "reclamar_premio_grieta_sombra",
+          "label": "Tomar los Colmillos de Geoda",
+          "text": "Las dos hojas reflejan la luz azul en direcciones distintas, como dos cristales abiertos.",
+          "requires_classes": [
+            "sombra"
+          ],
+          "requires_flags": [
+            "victoria:korven_grieta_corazon:sierpe_veta_madre"
+          ],
+          "forbids_flags": [
+            "grieta_premio_recibido"
+          ],
+          "set_flags": [
+            "grieta_premio_recibido"
+          ],
+          "give_items": {
+            "colmillos_geoda": 1,
+            "amuleto_veta_tibia": 1,
+            "escama_veta": 3
+          }
+        },
+        {
+          "id": "reclamar_premio_grieta_artifice",
+          "label": "Tomar el Arco de Cristal Hondo",
+          "text": "El arco es ligero. Sus vetas tensas vibran cuando lo tomas, al mismo ritmo que la cueva.",
+          "requires_classes": [
+            "artifice"
+          ],
+          "requires_flags": [
+            "victoria:korven_grieta_corazon:sierpe_veta_madre"
+          ],
+          "forbids_flags": [
+            "grieta_premio_recibido"
+          ],
+          "set_flags": [
+            "grieta_premio_recibido"
+          ],
+          "give_items": {
+            "arco_cristal_hondo": 1,
+            "amuleto_veta_tibia": 1,
+            "escama_veta": 3
+          }
+        },
+        {
+          "id": "grieta_escuchar_silencio",
+          "label": "Apoyar la mano en la veta dormida",
+          "text": "Apoyas la mano en el cristal. La veta responde una vez y queda en silencio. Las losas del cauce dejan de subir; el cuenco ya no tiembla.",
+          "requires_flags": [
+            "victoria:korven_grieta_corazon:sierpe_veta_madre"
+          ],
+          "forbids_flags": [
+            "korven_grieta_en_calma"
+          ],
+          "set_flags": [
+            "korven_grieta_en_calma"
+          ],
+          "scope": "world",
+          "journal": "Cierre: la Sierpe mudó la piel y se durmió junto a la veta más honda. Las losas de Brumak quedaron quietas."
+        }
+      ]
     }
   },
   "npcs": {
@@ -2716,6 +3737,20 @@
             "korven_notas_ejemplo"
           ],
           "journal": "Oma abre dos carpetas de cuero y las vuelve a cerrar suspirando, con un papel arrugado en las manos. Las esquinas están blandas de tanto doblarlo. «Esta nota siempre vuelve a mi mesa; no sé dónde guardarla para que ayude de verdad»."
+        },
+        "grieta madre": {
+          "requires_flags": [
+            "korven_presion_abajo"
+          ],
+          "text": "Oma junta las tablillas antes de responder. «Si las ondas empiezan al sur, quiero saber qué las mueve. Compruébalo y vuelve a contármelo. Abajo la piedra contesta. No bajes sin experiencia, al menos nivel 10, ni sin pociones.»"
+        },
+        "vetas": {
+          "requires_flags": [
+            "grieta_veta_clara",
+            "grieta_veta_tibia",
+            "grieta_veta_eco"
+          ],
+          "text": "«Una sola veta es una nota; dos ya son una canción. Si haces que dos canten juntas, quizá despierten a la tercera.»"
         }
       },
       "day": "Recibe observaciones y compara posiciones de bloques.",
@@ -2759,6 +3794,21 @@
             "description": "La nota doblada reposa en la mesa de entrada sujeta por una piedra pulida. Oma señala su casilla vacía al recibir avisos y pregunta la hora antes de sacar conclusiones.",
             "topics": {
               "la nota que siempre vuelve": "Le propones dejar la nota en la mesa de entrada como recordatorio de lo que falta preguntar. Oma sonríe y apoya una piedra lisa sobre el papel. «La escribí yo misma; creía que preguntar la hora me haría parecer despistada». Ahora, antes de anotar un aviso, pregunta siempre a qué hora sonó la roca. «En Nhal saben dejar sitio a quien todavía no ha hablado; seguro que allí podría aprender mucho»."
+            }
+          }
+        },
+        {
+          "requires_flags": [
+            "korven_grieta_en_calma"
+          ],
+          "overrides": {
+            "topics": {
+              "silencio": {
+                "text": "Oma anota el final de la vibración en su tablilla. «Por fin una nota que dice: ya no. La Sierpe mudó la piel y se durmió; el cauce puede descansar.»"
+              },
+              "grieta": {
+                "text": "«Ya no se mueve. Apunté que la Sierpe mudó la piel y se quedó dormida. No sabemos qué hará cuando despierte, pero hoy las cargas pueden pasar sin ese temblor.»"
+              }
             }
           }
         }

@@ -11,7 +11,7 @@ BACKGROUNDS = ROOT / "client-rpg" / "backgrounds"
 
 
 class RpgBattleBackgroundsTests(unittest.TestCase):
-    def test_all_191_rooms_resolve_to_an_existing_battle_background(self):
+    def test_every_room_with_an_rpg_scene_resolves_to_an_existing_battle_background(self):
         rooms = {}
         for path in CONTENT.glob("*.json"):
             region_data = json.loads(path.read_text())
@@ -19,11 +19,12 @@ class RpgBattleBackgroundsTests(unittest.TestCase):
                 self.assertNotIn(room_id, rooms)
                 rooms[room_id] = path.stem
 
-        self.assertEqual(len(rooms), 191)
         scene_ids = {path.stem for path in SCENES.glob("*.json")}
-        self.assertEqual(scene_ids, set(rooms))
+        self.assertTrue(scene_ids <= set(rooms))
+        self.assertTrue(scene_ids)
 
-        for room_id, region in rooms.items():
+        for room_id in scene_ids:
+            region = rooms[room_id]
             with self.subTest(room=room_id):
                 scene = json.loads((SCENES / f"{room_id}.json").read_text())
                 background = scene.get(

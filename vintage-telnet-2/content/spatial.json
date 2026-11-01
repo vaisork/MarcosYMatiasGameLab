@@ -765,6 +765,70 @@
     "veyra_mazmorra_recorridos_fin": [
       13,
       22
+    ],
+    "korven_grieta_boca": [
+      3,
+      20
+    ],
+    "korven_grieta_ecos": [
+      3,
+      21
+    ],
+    "korven_grieta_raices": [
+      2,
+      21
+    ],
+    "korven_grieta_charca": [
+      1,
+      21
+    ],
+    "korven_grieta_cantos": [
+      4,
+      21
+    ],
+    "korven_grieta_descenso": [
+      3,
+      22
+    ],
+    "korven_grieta_geodas": [
+      2,
+      22
+    ],
+    "korven_grieta_telar": [
+      2,
+      23
+    ],
+    "korven_grieta_mirador": [
+      2,
+      24
+    ],
+    "korven_grieta_sorda": [
+      3,
+      23
+    ],
+    "korven_grieta_vapores": [
+      4,
+      22
+    ],
+    "korven_grieta_nido": [
+      4,
+      23
+    ],
+    "korven_grieta_fuente": [
+      4,
+      24
+    ],
+    "korven_grieta_antecamara": [
+      3,
+      24
+    ],
+    "korven_grieta_corazon": [
+      3,
+      25
+    ],
+    "korven_grieta_lecho": [
+      3,
+      26
     ]
   },
   "homes": {
@@ -12011,6 +12075,258 @@
         [
           68,
           84
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_nido",
+      "to": "korven_grieta_vapores",
+      "points": [
+        [
+          16,
+          92
+        ],
+        [
+          16,
+          88
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_nido",
+      "to": "korven_grieta_fuente",
+      "points": [
+        [
+          16,
+          92
+        ],
+        [
+          16,
+          96
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_corazon",
+      "to": "korven_grieta_antecamara",
+      "points": [
+        [
+          12,
+          100
+        ],
+        [
+          12,
+          96
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_corazon",
+      "to": "korven_grieta_lecho",
+      "points": [
+        [
+          12,
+          100
+        ],
+        [
+          12,
+          104
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_charca",
+      "to": "korven_grieta_raices",
+      "points": [
+        [
+          4,
+          84
+        ],
+        [
+          8,
+          84
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_vapores",
+      "to": "korven_grieta_descenso",
+      "points": [
+        [
+          16,
+          88
+        ],
+        [
+          12,
+          88
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_boca",
+      "to": "korven_cauce_observacion",
+      "points": [
+        [
+          12,
+          80
+        ],
+        [
+          12,
+          76
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_boca",
+      "to": "korven_grieta_ecos",
+      "points": [
+        [
+          12,
+          80
+        ],
+        [
+          12,
+          84
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_ecos",
+      "to": "korven_grieta_raices",
+      "points": [
+        [
+          12,
+          84
+        ],
+        [
+          8,
+          84
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_ecos",
+      "to": "korven_grieta_cantos",
+      "points": [
+        [
+          12,
+          84
+        ],
+        [
+          16,
+          84
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_ecos",
+      "to": "korven_grieta_descenso",
+      "points": [
+        [
+          12,
+          84
+        ],
+        [
+          12,
+          88
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_telar",
+      "to": "korven_grieta_geodas",
+      "points": [
+        [
+          8,
+          92
+        ],
+        [
+          8,
+          88
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_telar",
+      "to": "korven_grieta_mirador",
+      "points": [
+        [
+          8,
+          92
+        ],
+        [
+          8,
+          96
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_fuente",
+      "to": "korven_grieta_antecamara",
+      "points": [
+        [
+          16,
+          96
+        ],
+        [
+          12,
+          96
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_antecamara",
+      "to": "korven_grieta_sorda",
+      "points": [
+        [
+          12,
+          96
+        ],
+        [
+          12,
+          92
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_antecamara",
+      "to": "korven_grieta_mirador",
+      "points": [
+        [
+          12,
+          96
+        ],
+        [
+          8,
+          96
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_descenso",
+      "to": "korven_grieta_geodas",
+      "points": [
+        [
+          12,
+          88
+        ],
+        [
+          8,
+          88
+        ]
+      ]
+    },
+    {
+      "from": "korven_grieta_descenso",
+      "to": "korven_grieta_sorda",
+      "points": [
+        [
+          12,
+          88
+        ],
+        [
+          12,
+          92
         ]
       ]
     }
