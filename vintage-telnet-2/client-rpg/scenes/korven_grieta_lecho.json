@@ -64,5 +64,7 @@
       "1111............1111",
       "11111111111111111111"
     ]
-  }
+  },
+  "background": "backgrounds/korven_grieta_lecho.webp",
+  "battle_background": "backgrounds/korven_grieta_battle.webp"
 }

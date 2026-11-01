@@ -1,0 +1,16 @@
+{
+  "asset_id": "korven_grieta_corazon",
+  "source": "OpenAI image_gen nativo",
+  "reference": "client-rpg/backgrounds/korven_senda_viento.webp",
+  "prompt": "Use case stylized-concept; navigable 1280x960, 20x15 tile Korven Grieta Madre room korven_grieta_corazon. Ref Korven established map art for pixel-like painted material, crisp clusters, gray slate with fine blue-white luminous quartz and occasional warm mineral reflection. Scene: Vast heart vault, blue-white veins descend from high ceiling and converge over open arena.. Elevated three-quarter overhead, readable connected walkable floor, full bleed, no actors/creatures/text/UI/grid/border/watermark; respect actual room exits.",
+  "normalization": "crop/resize bilinear to 1280x960; WebP quality 60, method 3",
+  "bytes": 247678,
+  "sha256": "c6f998d0421e5740610d84a313d5b704c0e2cf664b60319032ac6efe5b218f59",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-300619c1-b0b0-4201-a6d7-e9b9d9356c99.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "review": "SELF_REVIEW_PASS"
+}

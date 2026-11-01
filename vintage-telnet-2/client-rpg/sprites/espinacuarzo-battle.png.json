@@ -1,0 +1,15 @@
+{
+  "asset_id": "espinacuarzo-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-9a5c0583-deb0-40d3-a2af-83e3168931ef.png",
+  "reference": "client/art/bestiary/espinacuarzo-anime-v1.webp",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 60131,
+  "sha256": "1f354a60150740e4be696545cb973d14bf00ded29af2720f141b2ee3e2d510e0",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 192x192 RGBA canvas with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 192x192 JRPG battle sprite of espinacuarzo, based on its canonical bestiary illustration for anatomy, markings and palette. Full-body expressive 3/4 combat pose; crisp painted pixel-RPG clusters, centered with alpha padding; no scenery, ground, shadow, text, effects or extra creature."
+}

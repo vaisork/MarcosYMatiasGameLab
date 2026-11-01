@@ -31,3 +31,7 @@ cada una de cuatro direcciones. Ninja Adventure sólo permanece en el tileset
 
 La referencia anime para impresión 3D del avatar se entrega fuera del repositorio.
 Inventario técnico, hashes y validación: `docs/VAISGARD_RPG_ARTE.md`.
+
+## Grieta Madre de Korven — 2026-10-31
+
+Fondos de las 16 salas `korven_grieta_*`, arenas `korven_grieta_battle.webp` y `korven_grieta_sierpe_battle.webp`, y los sprites de las diez criaturas de la mazmorra: arte original generado con `image_gen` nativo. Las ilustraciones del bestiario fueron referencia para conservar identidad y anatomía; la normalización y transparencia se prepararon mecánicamente. Inventario, prompts, hashes y validación: `../../docs/RPG_GRIETA_ARTE.md` y sidecars junto a cada recurso.

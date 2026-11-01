@@ -1,0 +1,15 @@
+{
+  "asset_id": "tejecristal-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-b5385668-515b-4153-8fa2-c0fb939fa32c.png",
+  "reference": "client/art/bestiary/tejecristal-anime-v1.webp",
+  "dimensions": [
+    256,
+    256
+  ],
+  "bytes": 100153,
+  "sha256": "957d4a47134599a0bf9b9e053bd78007a8f12f9644889df341db74da8206d857",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 256x256 RGBA canvas with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 256x256 JRPG battle sprite of tejecristal, based on its canonical bestiary illustration for anatomy, markings and palette. Full-body expressive 3/4 combat pose; crisp painted pixel-RPG clusters, centered with alpha padding; no scenery, ground, shadow, text, effects or extra creature."
+}

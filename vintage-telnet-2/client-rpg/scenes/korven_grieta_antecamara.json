@@ -103,5 +103,7 @@
       "1111............1111",
       "111111111..111111111"
     ]
-  }
+  },
+  "background": "backgrounds/korven_grieta_antecamara.webp",
+  "battle_background": "backgrounds/korven_grieta_battle.webp"
 }

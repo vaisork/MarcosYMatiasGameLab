@@ -1,0 +1,15 @@
+{
+  "asset_id": "callaecos-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-a24426a0-f9df-4c90-90bc-4a4baf701d9e.png",
+  "reference": "client/art/bestiary/callaecos-anime-v1.webp",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 46310,
+  "sha256": "759a92664840103df376f123ac8815b2c16ffc567b06e65f87440f1986997eb1",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 192x192 RGBA canvas with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 192x192 JRPG battle sprite of callaecos, based on its canonical bestiary illustration for anatomy, markings and palette. Full-body expressive 3/4 combat pose; crisp painted pixel-RPG clusters, centered with alpha padding; no scenery, ground, shadow, text, effects or extra creature."
+}

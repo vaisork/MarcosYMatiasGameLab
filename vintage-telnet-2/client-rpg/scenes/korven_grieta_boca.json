@@ -77,5 +77,7 @@
       "1111............1111",
       "111111111..111111111"
     ]
-  }
+  },
+  "background": "backgrounds/korven_grieta_boca.webp",
+  "battle_background": "backgrounds/korven_grieta_battle.webp"
 }

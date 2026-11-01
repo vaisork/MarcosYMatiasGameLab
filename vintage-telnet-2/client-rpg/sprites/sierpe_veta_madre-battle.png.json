@@ -1,0 +1,15 @@
+{
+  "asset_id": "sierpe_veta_madre-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-d56e2f8f-dad4-4bea-ba87-6aed8875042e.png",
+  "reference": "client/art/bestiary/sierpe_veta_madre-anime-v1.webp",
+  "dimensions": [
+    256,
+    256
+  ],
+  "bytes": 148877,
+  "sha256": "4bd8e248235b74beed21cfd96275db3c7a738404ccc5f157163883ec56ed7e12",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 256x256 RGBA canvas with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 256x256 JRPG battle sprite of sierpe_veta_madre, based on its canonical bestiary illustration for anatomy, markings and palette. Full-body expressive 3/4 combat pose; crisp painted pixel-RPG clusters, centered with alpha padding; no scenery, ground, shadow, text, effects or extra creature."
+}

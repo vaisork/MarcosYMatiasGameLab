@@ -831,6 +831,7 @@ class RpgSceneTests(unittest.TestCase):
     def test_korven_grieta_scenes_sources_and_reachable_exits(self):
         """Grieta rooms use canonical actors, complete exits and walkable Tiled source maps."""
         import importlib.util
+        import hashlib
         from collections import deque
         root = Path(__file__).resolve().parents[1]
         content = Content(root / 'content')
@@ -849,7 +850,20 @@ class RpgSceneTests(unittest.TestCase):
                 self.assertEqual(converter.tiled_to_scene(tiled), scene)
                 self.assertEqual(converter.scene_to_tiled(scene), tiled)
                 if room_id.startswith('korven_grieta_'):
-                    self.assertNotIn('background', scene, 'Grieta art is still pending')
+                    self.assertEqual(scene['background'], f'backgrounds/{room_id}.webp')
+                    expected_battle = ('backgrounds/korven_grieta_sierpe_battle.webp'
+                                       if room_id == 'korven_grieta_corazon'
+                                       else 'backgrounds/korven_grieta_battle.webp')
+                    self.assertEqual(scene['battle_background'], expected_battle)
+                    for relative in (scene['background'], scene['battle_background']):
+                        asset = root / 'client-rpg' / relative
+                        self.assertTrue(asset.is_file(), relative)
+                        meta = json.loads(asset.with_suffix('.webp.json').read_text())
+                        self.assertEqual(meta['dimensions'], [1280, 960])
+                        self.assertEqual(meta['asset_id'], asset.stem)
+                        self.assertEqual(meta['sha256'], hashlib.sha256(asset.read_bytes()).hexdigest())
+                        self.assertEqual(meta['bytes'], asset.stat().st_size)
+                        self.assertLessEqual(asset.stat().st_size, 250000)
                 self.assertEqual({e['direction'] for e in scene['exits']}, set(room.get('exits', {})))
                 self.assertEqual({n['id'] for n in scene['npcs']}, set(room.get('npcs', [])))
                 expected = {s['creature'] for s in room.get('signals', []) + room.get('wildlife_pool', [])}
@@ -881,6 +895,19 @@ class RpgSceneTests(unittest.TestCase):
         channel = json.loads((root / 'client-rpg/scenes/korven_cauce_observacion.json').read_text())
         self.assertEqual(content.rooms['korven_cauce_observacion']['exits']['sur'], 'korven_grieta_boca')
         self.assertEqual({e['direction'] for e in channel['exits']}, {'norte','este','sur'})
+
+        creature_ids = sorted({s['creature'] for rid in room_ids
+                               for s in content.rooms[rid].get('signals', [])})
+        self.assertEqual(len(creature_ids), 10)
+        for creature_id in creature_ids:
+            for suffix, dimensions in (('', [48, 48]), ('-battle', [256, 256]
+                    if creature_id in {'tejecristal', 'quebrarrocas_canoso', 'sierpe_veta_madre'}
+                    else [192, 192])):
+                asset = root / 'client-rpg/sprites' / f'{creature_id}{suffix}.png'
+                meta = json.loads(asset.with_suffix('.png.json').read_text())
+                self.assertEqual(meta['dimensions'], dimensions)
+                self.assertEqual(meta['sha256'], hashlib.sha256(asset.read_bytes()).hexdigest())
+                self.assertEqual(meta['bytes'], asset.stat().st_size)
 
     def test_lethra_complete_region_and_boundary_exits(self):
         from collections import deque

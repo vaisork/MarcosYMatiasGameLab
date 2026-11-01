@@ -32,7 +32,7 @@
     {
       "id": "rodacanto",
       "at": [
-        5,
+        7,
         6
       ]
     }
@@ -72,5 +72,7 @@
       "1111............1111",
       "11111111111111111111"
     ]
-  }
+  },
+  "background": "backgrounds/korven_grieta_cantos.webp",
+  "battle_background": "backgrounds/korven_grieta_battle.webp"
 }

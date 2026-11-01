@@ -1,0 +1,15 @@
+{
+  "asset_id": "callaecos",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-a18100c2-939f-439d-97d8-c04cdf717fbc.png",
+  "reference": "client/art/bestiary/callaecos-anime-v1.webp",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 3298,
+  "sha256": "f73de24fce86c02ee8d6b508afad3ab6d8ebf3d4dc293d161e7bef09df1ecab9",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 48x48 RGBA with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 48x48 map sprite for callaecos; canonical bestiary illustration retained as anatomy, markings and color reference; compact full-body 3/4 view; crisp readable painted pixel-JRPG silhouette; no scenery, floor, shadow, text, frame or extra creature."
+}

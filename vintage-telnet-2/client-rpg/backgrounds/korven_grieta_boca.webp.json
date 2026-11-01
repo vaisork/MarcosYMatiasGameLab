@@ -1,0 +1,16 @@
+{
+  "asset_id": "korven_grieta_boca",
+  "source": "OpenAI image_gen nativo",
+  "reference": "client-rpg/backgrounds/korven_senda_viento.webp",
+  "prompt": "Use case stylized-concept; navigable 1280x960, 20x15 tile Korven Grieta Madre room korven_grieta_boca. Ref Korven established map art for pixel-like painted material, crisp clusters, gray slate with fine blue-white luminous quartz and occasional warm mineral reflection. Scene: Broad natural stair into damp slate, daylight fading behind, first faint blue-white quartz veins.. Elevated three-quarter overhead, readable connected walkable floor, full bleed, no actors/creatures/text/UI/grid/border/watermark; respect actual room exits.",
+  "normalization": "crop/resize bilinear to 1280x960; WebP quality 52, method 3",
+  "bytes": 245820,
+  "sha256": "5ab5dfaa01ff601cb7cc502cf0af9e5839dce76d2e6b84162f045f74bdec3f7e",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-b86d5b5b-1f93-4201-adb7-fef3e3380be6.png",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "review": "SELF_REVIEW_PASS"
+}

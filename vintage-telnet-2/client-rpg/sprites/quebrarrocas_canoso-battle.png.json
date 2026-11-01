@@ -1,0 +1,15 @@
+{
+  "asset_id": "quebrarrocas_canoso-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-3312e966-d81d-4959-a689-a7828fdd4636.png",
+  "reference": "client/art/bestiary/quebrarrocas_canoso-anime-v1.webp",
+  "dimensions": [
+    256,
+    256
+  ],
+  "bytes": 103733,
+  "sha256": "e912fac8d364abe1ef7624919149904c75c56c31fd2a1c11ccef0406391572cf",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 256x256 RGBA canvas with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 256x256 JRPG battle sprite of quebrarrocas_canoso, based on its canonical bestiary illustration for anatomy, markings and palette. Full-body expressive 3/4 combat pose; crisp painted pixel-RPG clusters, centered with alpha padding; no scenery, ground, shadow, text, effects or extra creature."
+}

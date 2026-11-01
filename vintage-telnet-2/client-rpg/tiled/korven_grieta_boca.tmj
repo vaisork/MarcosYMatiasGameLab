@@ -763,6 +763,16 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/korven_grieta_boca.webp"
+    },
+    {
+      "name": "battle_background",
+      "type": "string",
+      "value": "backgrounds/korven_grieta_battle.webp"
     }
   ],
   "tilesets": [

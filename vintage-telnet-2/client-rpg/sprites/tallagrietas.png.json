@@ -1,0 +1,15 @@
+{
+  "asset_id": "tallagrietas",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-b3aa48fd-f3b1-473c-b834-d8ac14fa98d9.png",
+  "reference": "client/art/bestiary/tallagrietas-anime-v1.webp",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 2645,
+  "sha256": "f5b043275cbc10233b2edf7a18e9f6f900f62e7e26555435081d865dbbff31c3",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 48x48 RGBA with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 48x48 map sprite for tallagrietas; canonical bestiary illustration retained as anatomy, markings and color reference; compact full-body 3/4 view; crisp readable painted pixel-JRPG silhouette; no scenery, floor, shadow, text, frame or extra creature."
+}

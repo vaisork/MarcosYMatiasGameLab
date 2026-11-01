@@ -1,0 +1,15 @@
+{
+  "asset_id": "brasaluz-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-04f4a1e6-6483-405e-a74d-a8ebff77e755.png",
+  "reference": "client/art/bestiary/brasaluz-anime-v1.webp",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 44674,
+  "sha256": "2a090d2bb874692dd674a26f6676a4bc8ce649ee72c0b24584e04ace9c8d0493",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 192x192 RGBA canvas with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 192x192 JRPG battle sprite of brasaluz, based on its canonical bestiary illustration for anatomy, markings and palette. Full-body expressive 3/4 combat pose; crisp painted pixel-RPG clusters, centered with alpha padding; no scenery, ground, shadow, text, effects or extra creature."
+}

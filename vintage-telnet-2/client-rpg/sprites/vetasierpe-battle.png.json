@@ -1,0 +1,15 @@
+{
+  "asset_id": "vetasierpe-battle",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-2245d33f-aa0d-4ced-8c88-3dc210703198.png",
+  "reference": "client/art/bestiary/vetasierpe-anime-v1.webp",
+  "dimensions": [
+    192,
+    192
+  ],
+  "bytes": 73638,
+  "sha256": "07c91e6e21ac892120ef6401ec6823088cb79d8510ad60025479c0f1b9a8b1e0",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 192x192 RGBA canvas with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 192x192 JRPG battle sprite of vetasierpe, based on its canonical bestiary illustration for anatomy, markings and palette. Full-body expressive 3/4 combat pose; crisp painted pixel-RPG clusters, centered with alpha padding; no scenery, ground, shadow, text, effects or extra creature."
+}

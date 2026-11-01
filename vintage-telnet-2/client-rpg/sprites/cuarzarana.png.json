@@ -1,0 +1,15 @@
+{
+  "asset_id": "cuarzarana",
+  "generation_tool": "native image_gen",
+  "source_original": "exec-a3454254-406b-40db-8e37-54d04db5cbcf.png",
+  "reference": "client/art/bestiary/cuarzarana-anime-v1.webp",
+  "dimensions": [
+    48,
+    48
+  ],
+  "bytes": 3604,
+  "sha256": "c12283007fc7c782fb15dc87638b47d5d44d3a76f8708e6fa24b08f895e33a5b",
+  "normalization": "Preserved generated alpha; removed transparent fringe, proportional Lanczos resize into 48x48 RGBA with centered padding.",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Transparent 48x48 map sprite for cuarzarana; canonical bestiary illustration retained as anatomy, markings and color reference; compact full-body 3/4 view; crisp readable painted pixel-JRPG silhouette; no scenery, floor, shadow, text, frame or extra creature."
+}
