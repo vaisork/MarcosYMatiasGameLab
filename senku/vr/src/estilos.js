@@ -16,6 +16,8 @@ export const PATAS = [
   { id: 'negra', nombre: 'Negra', pelo: 0x2a2730, raya: 0x151318, rosa: 0x8a5866, rayas: [] },
   { id: 'robot', nombre: 'Robot', pelo: 0xaab4be, raya: 0x3c4450, rosa: 0x38d6ff, rayas: [0, 2, 4], brillo: 0x0a6a88, metal: 0x1a2230 },
   { id: 'tigre', nombre: 'Tigre', pelo: 0xf28a1e, raya: 0x1a1a1a, rosa: 0x3a2a2a, rayas: [0, 1, 2, 3, 4] },
+  // Diseñada por Matías: blanca con manchas café claro.
+  { id: 'luke', nombre: 'Luke', pelo: 0xf7f4ee, raya: 0xc9a27a, rosa: 0xf2a6b4, rayas: [], manchas: true },
 ];
 
 const hex = (n) => '#' + n.toString(16).padStart(6, '0');
@@ -76,6 +78,7 @@ export function muestraPata(id, lado = 96) {
   g.save(); g.clip();
   g.strokeStyle = hex(p.raya); g.lineWidth = 6;
   p.rayas.forEach((k) => { g.beginPath(); g.arc(48, 120 - k * 9, 46, Math.PI * 1.25, Math.PI * 1.75); g.stroke(); });
+  if (p.manchas) { g.fillStyle = hex(p.raya); [[30, 72, 9], [64, 50, 11], [44, 84, 6], [70, 78, 7]].forEach(([x, y, r]) => { g.beginPath(); g.ellipse(x, y, r, r * 0.75, 0.4, 0, 7); g.fill(); }); }
   g.restore();
   if (p.brillo) { g.shadowColor = hex(p.rosa); g.shadowBlur = 10; }
   g.fillStyle = hex(p.rosa);

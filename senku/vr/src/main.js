@@ -75,7 +75,10 @@ function crearGarra() {
     const u = pieza(una, unas, [x, 0.003, z - 0.03]);
     u.rotation.x = -Math.PI / 2 - 0.3;
   }
-  g.userData = { unas, rosa, pelo, raya, anillos };
+  // Manchas (pata «Luke»): óvalos aplanados sobre el brazo y el dorso de la mano.
+  const manchas = [[0.02, 0.043, 0.06, 0.024], [-0.025, 0.04, 0.13, 0.03], [0.015, 0.045, 0.2, 0.022], [-0.03, 0.025, 0.24, 0.018], [0.03, 0.03, 0.0, 0.02]]
+    .map(([x, y, z, r]) => pieza(esfera, raya, [x, y, z], [r, 0.006, r * 1.3]));
+  g.userData = { unas, rosa, pelo, raya, anillos, manchas };
   return g;
 }
 
@@ -127,6 +130,7 @@ function aplicarEstilos() {
     u.raya.color.setHex(p.raya);
     u.rosa.emissive.setHex(p.brillo || 0);
     u.anillos.forEach((a, k) => { a.visible = p.rayas.includes(k); });
+    u.manchas.forEach((a) => { a.visible = Boolean(p.manchas); });
   }
 }
 
