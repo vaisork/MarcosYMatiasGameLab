@@ -1,6 +1,12 @@
 // Presentation contracts; these functions never invent world state or actions.
 export const speciesNames={humanos:'Humano',humano:'Humano',felaryn:'Felaryn',dravak:'Dravak',marevyn:'Marevyn',vesperi:'Vesperi'};
 export const classNames={juramentado:'Juramentado',arcano:'Arcano',sombra:'Sombra',artifice:'Artífice'};
+export const specializationNames={arcano_ecos:'Arcano de los Ecos',juramentado_heroico:'Juramentado Heroico'};
+export const specializationConfirmations={
+ ecos_unir_cristales:'Al unirlos eliges para siempre ser Arcano de los Ecos. Podrás reconsiderarlo una sola vez mediante otra misión. ¿Quieres elegir esta especialización?',
+ juramento_pronunciar:'Al pronunciarlo eliges para siempre ser Juramentado Heroico. Podrás reconsiderarlo una sola vez mediante otra misión. ¿Quieres hacer este juramento?'
+};
+export function rankStars(power){return '★'.repeat(Math.max(1,Math.min(3,Math.ceil(Number(power||0)/3))))+'☆'.repeat(Math.max(0,3-Math.ceil(Number(power||0)/3)));}
 export const regionNames={veyra:'Cuenca de Veyra',edran:'Llanos de Edran',hoshai:'Sierra de Hoshai',korven:'Pedrales de Korven',lethra:'Aguas de Lethra',nhal:'Bosque de Nhal'};
 export const kindNames={WORLD:'Entorno',LOOK:'El lugar',LOCATION:'Lugar',ACTION:'Tu decisión',NPC:'Voz',DIALOGUE:'Conversación',TRACE:'Señal',DANGER:'Peligro',COMBAT:'Encuentro',DAMAGE:'Daño',DISCOVERY:'Descubrimiento',REWARD:'Progreso',MEMORY:'Recuerdo',INFO:'Información',ERROR:'Aviso',CHAT:'Conversación local'};
 export function events(value){return Array.isArray(value)?value.filter(event=>event&&typeof event.text==='string'&&event.text.trim()).map(event=>({kind:String(event.kind||'WORLD').toUpperCase(),text:event.text,id:event.id??null})):[];}
