@@ -1,0 +1,18 @@
+{
+  "asset_id": "veyra_patio_agua",
+  "prompt": "Patio de agua con pila de piedra dividida entre agua limpia arriba y usada abajo, vasijas apartadas del barro, canales, baranda. Salidas norte, sur y este abiertas. Pixel art detallado tipo JRPG indie tardío de 16 bits, perspectiva top-down 3/4, fondo limpio edge-to-edge, 1280x960 WebP. Solo entorno, sin personajes, criaturas, jugador, Vaisork, Númenes, texto ni interfaz; no inventar ni bloquear salidas.",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d87-7663-aeb1-512fff3635ae/exec-91591ea5-7aaf-4a7e-867c-e900142806ac.png",
+  "source_dimensions": [
+    1448,
+    1086
+  ],
+  "dimensions": [
+    1280,
+    960
+  ],
+  "normalization": "center crop to 4:3, Lanczos resize to 1280x960, WebP",
+  "quality": 67,
+  "bytes": 247148,
+  "sha256": "2c7de814685992f51294599c742633725676ced3b6c2383bba4c095b8598ac4a"
+}

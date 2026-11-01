@@ -1,0 +1,18 @@
+{
+  "asset_id": "veyra_pastos_exteriores",
+  "prompt": "Pastos exteriores entre dos lomas redondeadas, hierba corta, flores y bebedero de piedra. Senda recta y ancha recorre la habitación de oeste a este. Pixel art detallado tipo JRPG indie tardío de 16 bits, perspectiva top-down 3/4, fondo limpio edge-to-edge, 1280x960 WebP. Solo entorno, sin personajes, criaturas, jugador, Vaisork, Númenes, texto ni interfaz; no inventar ni bloquear salidas.",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d87-7663-aeb1-512fff3635ae/exec-cc548e61-2a17-4304-bfba-ea209a60e5b6.png",
+  "source_dimensions": [
+    1448,
+    1086
+  ],
+  "dimensions": [
+    1280,
+    960
+  ],
+  "normalization": "center crop to 4:3, Lanczos resize to 1280x960, WebP",
+  "quality": 45,
+  "bytes": 249962,
+  "sha256": "c535fae18b0079638df3ed0ef1a564a2111766690fab5329c97d25eba7bdd42e"
+}

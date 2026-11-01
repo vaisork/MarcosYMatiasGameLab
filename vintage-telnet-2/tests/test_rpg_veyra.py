@@ -1,5 +1,6 @@
 """Veyra scenes preserve the authored exits and keep every route walkable."""
 from collections import deque
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -18,11 +19,17 @@ BOUNDARIES = {
     ('veyra_hondonada_canales', 'sur', 'lethra_ribera_seca'),
     ('veyra_lindero_arboles', 'este', 'nhal_arbol_umbral'),
 }
-ILLUSTRATED = {
+ART_ROOMS = {
     'vaisgard_mercado', 'veyra_acequia_exterior', 'veyra_archivo_cargas',
     'veyra_barrio_cargas', 'veyra_calle_toldos', 'veyra_cantera_callada',
     'veyra_colina_vista', 'veyra_hondonada_canales', 'veyra_huerta_baja',
     'veyra_lindero_arboles',
+    'veyra_mazmorra_boveda_guardian', 'veyra_mazmorra_caudal',
+    'veyra_mazmorra_cornisa', 'veyra_mazmorra_cuencas',
+    'veyra_mazmorra_galeria_ecos', 'veyra_mazmorra_mecanismo',
+    'veyra_mazmorra_recorridos_fin', 'veyra_mazmorra_umbral',
+    'veyra_pastos_exteriores', 'veyra_patio_agua', 'veyra_patio_porte',
+    'veyra_patio_senales',
 }
 
 
@@ -52,10 +59,25 @@ class RpgVeyraTests(unittest.TestCase):
                 self.assertEqual(scene['room'], rid)
                 self.assertEqual(scene['size'], [20, 15])
                 self.assertEqual(scene['tile'], 16)
-                expected_background = f'backgrounds/{rid}.webp' if rid in ILLUSTRATED else None
-                self.assertEqual(scene.get('background'), expected_background)
-                if expected_background:
-                    self.assertTrue((ROOT / 'client-rpg' / expected_background).is_file())
+                if rid in ART_ROOMS:
+                    expected_background = f'backgrounds/{rid}.webp'
+                    background = ROOT / 'client-rpg' / expected_background
+                    sidecar = background.with_suffix('.webp.json')
+                    meta = json.loads(sidecar.read_text())
+                    self.assertEqual(scene['background'], expected_background)
+                    self.assertEqual(meta.get('dimensions', [1280, 960]), [1280, 960])  # el lote 01 no guarda dimensions
+                    self.assertLessEqual(background.stat().st_size, 250000)
+                    self.assertEqual(meta['bytes'], background.stat().st_size)
+                    self.assertEqual(meta['sha256'], hashlib.sha256(background.read_bytes()).hexdigest())
+                    self.assertIn('prompt', meta)
+                    self.assertIn('quality', meta)
+                else:
+                    self.assertNotIn('background', scene)
+                if rid == 'veyra_mazmorra_boveda_guardian':
+                    self.assertEqual(scene['battle_background'], 'backgrounds/veyra_boveda_battle.webp')
+                    self.assertEqual(tiled['properties'][-1]['name'], 'battle_background')
+                else:
+                    self.assertNotIn('battle_background', scene)
                 self.assertEqual({e['direction'] for e in scene['exits']}, set(room['exits']))
                 self.assertEqual(len(scene['exits']), len(room['exits']))
                 self.assertEqual(set(scene['spawn']), {'default', *room['exits']})

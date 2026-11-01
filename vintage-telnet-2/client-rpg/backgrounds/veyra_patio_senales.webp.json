@@ -1,0 +1,18 @@
+{
+  "asset_id": "veyra_patio_senales",
+  "prompt": "Patio de mensajes Veyra: tablillas de madera bajo alero, banco, muro antiguo; ruta transitable oeste-este abierta, tablillas sin letras.",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d87-7663-aeb1-512fff3635ae/exec-63b5dae8-c1d6-4e51-94a3-202f2f35e466.png",
+  "source_dimensions": [
+    1448,
+    1086
+  ],
+  "dimensions": [
+    1280,
+    960
+  ],
+  "normalization": "center crop to 4:3; Lanczos to 1280x960; WebP",
+  "quality": 63,
+  "bytes": 245680,
+  "sha256": "6bb7d040825fe365b42968a589d243070e4cb88945ca07ff956bd36d44dc54c4"
+}

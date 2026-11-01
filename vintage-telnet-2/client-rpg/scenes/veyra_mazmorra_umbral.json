@@ -77,5 +77,6 @@
     ]
   },
   "npcs": [],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/veyra_mazmorra_umbral.webp"
 }

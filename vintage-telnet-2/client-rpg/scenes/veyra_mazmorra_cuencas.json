@@ -98,5 +98,6 @@
       ]
     }
   ],
-  "npcs": []
+  "npcs": [],
+  "background": "backgrounds/veyra_mazmorra_cuencas.webp"
 }

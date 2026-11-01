@@ -1,0 +1,18 @@
+{
+  "asset_id": "veyra_patio_porte",
+  "prompt": "Patio de carga a la sombra, bebedero de piedra, argollas altas y bajas, cinchas y cubeta. Pasaje horizontal oeste-este abierto; sin animales. Pixel art detallado tipo JRPG indie tardío de 16 bits, perspectiva top-down 3/4, fondo limpio edge-to-edge, 1280x960 WebP. Solo entorno, sin personajes, criaturas, jugador, Vaisork, Númenes, texto ni interfaz; no inventar ni bloquear salidas.",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d87-7663-aeb1-512fff3635ae/exec-8ab26050-9e78-4e7a-9f48-d951a2d82436.png",
+  "source_dimensions": [
+    1448,
+    1086
+  ],
+  "dimensions": [
+    1280,
+    960
+  ],
+  "normalization": "center crop to 4:3, Lanczos resize to 1280x960, WebP",
+  "quality": 69,
+  "bytes": 248666,
+  "sha256": "075aa6469723a8022a73e87a64379f27fed09bb85f40c2fa08449b6965a76b7c"
+}

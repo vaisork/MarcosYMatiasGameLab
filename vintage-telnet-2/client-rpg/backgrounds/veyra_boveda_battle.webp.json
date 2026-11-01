@@ -1,0 +1,18 @@
+{
+  "asset_id": "veyra_boveda_battle",
+  "prompt": "Fondo de combate de la Bóveda del Guardián, conservando la cuenca circular antigua y los arcos de piedra suministrados; sin actores.",
+  "generator": "Grok image_gen",
+  "source_image": "/home/jdiaz/proyectos/entregas/equipo/claude2/cm-20/grok-dragon/boveda-batalla.jpg",
+  "source_dimensions": [
+    1280,
+    720
+  ],
+  "dimensions": [
+    1280,
+    960
+  ],
+  "normalization": "center crop to 4:3, Lanczos resize to 1280x960, WebP",
+  "quality": 95,
+  "bytes": 188150,
+  "sha256": "8f512a9beecf72ed8c6d0e0cd1b49158fcc793cf8fd58e96445ce372e5e55035"
+}

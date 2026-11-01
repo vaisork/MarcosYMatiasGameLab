@@ -813,6 +813,11 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/veyra_mazmorra_cuencas.webp"
     }
   ],
   "tilesets": [
