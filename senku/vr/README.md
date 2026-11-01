@@ -19,8 +19,30 @@ rápido hacia ti/atrás te impulsa por la cuerda hacia el ancla (vibra un poco).
 
 Sin visor: clic izquierdo/derecho = garras (clic a un ratón cerca = zarpazo),
 Q/E = tirón, F o rueda = jalar (impulso, o jalar un ratón atrapado), C = agarrarse
-a la pared de enfrente y subir con W, M = menú, WASD, espacio, ratón para mirar
+a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, ratón para mirar
 (en celular hay botones táctiles «Jalar» y «≡»).
+
+## Superpoder «Ultra Gato» (diseñado por Matías, 9 años)
+
+«Te vas balanceando, llenas una barrita derrotando enemigos y disparas ratones.»
+
+- **Barrita** en el HUD de la muñeca izquierda (y en el HUD 2D): negro +1, café
+  +2, hámster +3; llena = 6 (tope). Llena brilla y late, suena una campanita y
+  sale el aviso «¡ULTRA GATO listo!». Se guarda en `localStorage`
+  (`senku_vr_ultra_gato`): no se vacía con el tiempo, al perder los corazones ni
+  al salir del juego; solo disparar la gasta. Los ratones que vencen los
+  ratoncitos no recargan (para que no sea una cadena sin fin).
+- **Disparo**: clic en la palanca derecha (botón 3 del gamepad; zurdas: en
+  cualquiera de las dos). Sin visor: **R**; en celular, botón **⚡**. Salen 5
+  ratoncitos de cuerda (gris, llave dorada que gira; primitivas low-poly) desde
+  la mano hacia adelante en abanico; columpiándose sale 1 de premio. Cada uno
+  busca al ratón vivo más cercano a menos de 25 m (giro suave que se cierra con
+  el tiempo para no quedarse orbitando) y le da 1 golpe (poof y churus como
+  siempre). Los que no encuentran nada vuelan 3 s y acaban en confeti. Sonido
+  «¡boing-zzz!» y vibración.
+- Nombre en `NOMBRE_PODER` y ajustes en `PODER` (`src/poder.mjs`, lógica pura
+  con pruebas en `tests/poder.test.mjs`). Consola: `senku.barra`,
+  `senku.poder()`, `senku.ratoncitos`.
 
 ## Versión 3 (pedido de Matías): ratones y escalar
 
@@ -74,6 +96,7 @@ a la pared de enfrente y subir con W, M = menú, WASD, espacio, ratón para mira
 - Three.js 0.170.0 desde jsDelivr (importmap), sin build.
 - `src/fisica.mjs`: física pura (cuerda-péndulo, gravedad, azoteas), sin Three.
 - `src/enemigos.mjs`: ratones, vida y escalada (lógica pura, sin Three).
+- `src/poder.mjs`: barrita y ratoncitos del Ultra Gato (lógica pura, sin Three).
 - `src/mundo.js`: ciudad instanciada; `src/sonido.js`: sonidos Web Audio;
   `src/estilos.js`: cuerdas, patas y sus dibujos (menú y texturas).
 - Churu: `../v2/assets/objetos/churu.png`. Récord en `localStorage` (`senku_vr_record`).

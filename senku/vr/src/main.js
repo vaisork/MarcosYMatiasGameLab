@@ -5,6 +5,7 @@ import { paso, crearCuerda, soltar, tiron, impulsoBrazo, resolverCajas, IMPULSO,
 import { TIPOS, ZARPAZO, VIDA, crearEnemigo, golpear, esZarpazo, pasoEnemigo, tocaEnemigo, crearVida, recibirDano, tocaPared, escalar, soltarEscalada } from './enemigos.mjs';
 import { crearMundo, CUADRA } from './mundo.js';
 import { iniciarSonido, sonar } from './sonido.js';
+import { NOMBRE_PODER, PODER, CLAVE_PODER, crearBarra, barraLlena, cargarBarra, dispararPoder, masCercano, crearRatoncito, pasoRatoncito, tocaRatoncito } from './poder.mjs';
 import { CUERDAS, PATAS, tramoCuerda, muestraCuerda, muestraPata, leerEleccion, guardarEleccion } from './estilos.js';
 
 const ALCANCE = 40, VEL_GARRA = 260, ENFRIAR = 0.35, ENFRIAR_TIRON = 1.0, CUERPO = 1.0;
@@ -168,6 +169,14 @@ aviso.mesh.position.set(0, 0.1, -2);
 aviso.mesh.visible = false;
 camera.add(aviso.mesh);
 let avisoHasta = 0;
+// Barrita del Ultra Gato en la muñeca, debajo del texto del HUD.
+const matBarraFondo = new THREE.MeshBasicMaterial({ color: 0x2a1840, transparent: true, opacity: 0.85, depthTest: false });
+const matBarra = new THREE.MeshBasicMaterial({ color: 0xffb13d, depthTest: false });
+const barraVR = new THREE.Mesh(new THREE.PlaneGeometry(0.18, 0.02), matBarraFondo);
+const rellenoVR = new THREE.Mesh(new THREE.PlaneGeometry(0.17, 0.012).translate(0.085, 0, 0), matBarra);
+barraVR.position.set(0, -0.064, 0); barraVR.renderOrder = 998;
+rellenoVR.position.set(-0.085, 0, 0.001); rellenoVR.renderOrder = 999;
+barraVR.add(rellenoVR); hud.mesh.add(barraVR);
 function colocarHUD() {
   const m = manos.find((x) => x.lado === 'left') || manos[0];
   m.garra.add(hud.mesh);
@@ -443,6 +452,7 @@ function leerControles(dt) {
       else if (!eleccion.comodo) { if (Math.abs(ax) > 0.2) girar(-ax * 2.2 * dt); } // giro suave
       else if (Math.abs(ax) > 0.7 && giroArmado) { girar(-Math.sign(ax) * Math.PI / 6); giroArmado = false; } // giro por pasos
       else if (Math.abs(ax) < 0.3) giroArmado = true;
+      if (nuevo(3)) lanzarPoder(m); // clic en la palanca (derecha; zurdas: cualquiera)
       if (nuevo(4)) saltar();      // A / X
       if (nuevo(5)) alternarMenu(); // B / Y
       m.botones = gp.buttons.map((b) => b.pressed);
@@ -477,6 +487,7 @@ addEventListener('keydown', (e) => {
   if (e.code === 'KeyV') alternarVineta();
   if (e.code === 'KeyM') alternarMenu();
   if (e.code === 'KeyC') alternarEscalada();
+  if (e.code === 'KeyR') lanzarPoder(manos[1]);
   if (e.code === 'Escape' && menuAbierto) cerrarMenu();
 });
 // Rueda del ratón = un jalón corto.
@@ -529,6 +540,7 @@ boton('t-der', () => disparar(manos[1]), () => soltarMano(manos[1]));
 boton('t-tiron', () => tirar(manos[0]));
 boton('t-saltar', saltar);
 boton('t-jalar', () => { jalarToque = true; }, () => { jalarToque = false; });
+boton('t-poder', () => lanzarPoder(manos[1]));
 $('t-menu').addEventListener('click', () => alternarMenu());
 
 // --- HUD y avisos ----------------------------------------------------------------
@@ -544,11 +556,15 @@ let hudTexto = '';
 function actualizarHUD() {
   const t = inicio === null ? 0 : (fin ?? performance.now()) - inicio;
   const lineas = ['♥'.repeat(vida.vida) + '♡'.repeat(VIDA.max - vida.vida) + `  Churus ${juntados}/${churus.length}`, `Total ${totalChurus} · Tiempo ${reloj(t)}`, record ? `Récord ${reloj(record)}` : 'Récord: -'];
-  const texto = lineas.join('|');
+  const texto = lineas.join('|') + barra.carga;
   if (texto === hudTexto) return;
   hudTexto = texto;
   hud.escribir(lineas);
-  $('hud').innerHTML = lineas.map((l) => `<div>${l}</div>`).join('');
+  const llena = barraLlena(barra);
+  $('poder-relleno').style.width = `${(barra.carga / PODER.lleno) * 100}%`;
+  $('poder').classList.toggle('lleno', llena); $('t-poder').classList.toggle('lleno', llena);
+  rellenoVR.scale.x = Math.max(0.001, barra.carga / PODER.lleno);
+  $('hud-texto').innerHTML = lineas.map((l) => `<div>${l}</div>`).join('');
 }
 
 function recogerChurus(t) {
@@ -644,7 +660,7 @@ function aparecer(tipo, viejo = null) {
   e.grupo.visible = true; e.malla.scale.setScalar(T.escala); e.pips.forEach((p) => { p.visible = true; });
 }
 
-function golpearEnemigo(e, m) {
+function golpearEnemigo(e, m, porPoder = false) {
   const r = golpear(e);
   if (!r) return;
   if (m) { if (m.presa === e) m.presa = null; vibrar(m, 0.9, r.vencido ? 120 : 60); }
@@ -655,6 +671,13 @@ function golpearEnemigo(e, m) {
     e.murio = performance.now();
     e.poof.visible = true; e.poof.scale.setScalar(0.3);
     for (let k = 0; k < r.churus; k++) soltarChuru(e, k);
+    // Los vencidos por los ratoncitos no recargan (si no, sería una cadena sin fin).
+    const lista = !porPoder && cargarBarra(barra, e.tipo);
+    if (!porPoder) guardarBarra();
+    if (lista) {
+      sonar.listo(); manos.forEach((x) => vibrar(x, 0.6, 80));
+      mostrarAviso(['¡ULTRA GATO listo!', renderer.xr.isPresenting ? 'Aprieta la palanca' : matchMedia('(pointer: coarse)').matches ? 'Toca ⚡' : 'Tecla R'], 2.5);
+    }
   } else { sonar.zarpazo(); sonar.chillido(); }
 }
 
@@ -740,6 +763,100 @@ function reaparecer() {
   escaladaTeclado = false;
   Object.assign(vida, crearVida(), { invulnerable: 3 });
   mostrarAviso(['¡Ay! Los ratones te ganaron', 'Vuelves al inicio con tus churus'], 3);
+}
+
+// --- Ultra Gato (superpoder de Matías) -------------------------------------------
+// Con la barrita llena sale una ráfaga de ratoncitos de cuerda que buscan al ratón
+// enemigo más cercano; cada uno da 1 golpe. Los que no encuentran nada: confeti.
+const barra = crearBarra((() => { try { return localStorage.getItem(CLAVE_PODER); } catch { return null; } })());
+const guardarBarra = () => { try { localStorage.setItem(CLAVE_PODER, String(barra.carga)); } catch { /* sin almacenamiento */ } };
+const ratoncitos = [], confetis = [];
+const proto = (() => {
+  const g = new THREE.Group();
+  const gris = new THREE.MeshLambertMaterial({ color: 0x9aa0a8 }), rosa = new THREE.MeshLambertMaterial({ color: 0xf2a6b4 });
+  const oro = new THREE.MeshLambertMaterial({ color: 0xffc83d, emissive: 0x6a4400 }), negro = new THREE.MeshBasicMaterial({ color: 0x111111 });
+  const esf = new THREE.SphereGeometry(1, 8, 6);
+  const pieza = (geo, mat, pos, esc, padre = g) => { const m = new THREE.Mesh(geo, mat); m.position.set(...pos); if (esc) m.scale.set(...esc); padre.add(m); return m; };
+  pieza(esf, gris, [0, 0, 0], [0.1, 0.085, 0.15]); // cuerpo (la nariz mira a +z)
+  pieza(new THREE.ConeGeometry(0.075, 0.13, 8).rotateX(Math.PI / 2), gris, [0, 0.01, 0.19]);
+  pieza(esf, rosa, [0, 0.01, 0.26], [0.018, 0.018, 0.018]);
+  for (const x of [-1, 1]) {
+    pieza(esf, rosa, [x * 0.055, 0.085, 0.1], [0.04, 0.04, 0.008]);
+    pieza(esf, negro, [x * 0.035, 0.04, 0.2], [0.012, 0.012, 0.012]);
+  }
+  pieza(new THREE.CylinderGeometry(0.008, 0.004, 0.18, 5).rotateX(Math.PI / 2 - 0.4), rosa, [0, 0.03, -0.22]);
+  const llave = new THREE.Group(); llave.position.set(0, 0.09, -0.02); g.add(llave);
+  pieza(new THREE.CylinderGeometry(0.008, 0.008, 0.06, 6), oro, [0, 0.03, 0], null, llave);
+  const ala = new THREE.TorusGeometry(0.03, 0.009, 5, 10);
+  for (const x of [-1, 1]) pieza(ala, oro, [x * 0.035, 0.07, 0], null, llave);
+  g.userData.llave = llave;
+  return g;
+})();
+const matConfeti = new THREE.PointsMaterial({ size: 0.12, vertexColors: true });
+const COLORES = [0xff5f8f, 0xffd23f, 0x4fd1a5, 0x5aa9ff, 0xffffff].map((c) => new THREE.Color(c));
+
+function confeti(p) {
+  let c = confetis.find((x) => !x.puntos.visible);
+  if (!c) {
+    const n = 18, geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(n * 3), 3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(Array.from({ length: n }, (_, k) => COLORES[k % COLORES.length].toArray()).flat(), 3));
+    c = { puntos: new THREE.Points(geo, matConfeti), vel: Array.from({ length: n }, () => new THREE.Vector3()), t: 0 };
+    c.puntos.frustumCulled = false; scene.add(c.puntos); confetis.push(c);
+  }
+  const pos = c.puntos.geometry.attributes.position;
+  c.vel.forEach((v, k) => { v.set(Math.random() - 0.5, Math.random() * 0.8 + 0.2, Math.random() - 0.5).multiplyScalar(5); pos.setXYZ(k, p.x, p.y, p.z); });
+  pos.needsUpdate = true; c.t = 0; c.puntos.visible = true;
+}
+
+function lanzarPoder(m) {
+  if (!jugando || menuAbierto) return;
+  const n = dispararPoder(barra, cuerdas.length > 0);
+  if (n) guardarBarra();
+  if (!n) { sonar.fallo(); if (barra.carga < PODER.lleno) mostrarAviso([`${NOMBRE_PODER}: vence ratones para llenar la barrita`], 1.5); return; }
+  empezar();
+  const o = new THREE.Vector3(), d = new THREE.Vector3();
+  rayo(m, o, d);
+  m.garra.getWorldPosition(o); // salen de la mano
+  const lado = new THREE.Vector3().crossVectors(d, ARRIBA).normalize();
+  for (let k = 0; k < n; k++) {
+    let r = ratoncitos.find((x) => !x.malla.visible);
+    if (!r) { r = { malla: proto.clone() }; scene.add(r.malla); ratoncitos.push(r); }
+    v1.copy(d).addScaledVector(lado, (k - (n - 1) / 2) * 0.22).addScaledVector(ARRIBA, 0.12).setLength(PODER.vel);
+    Object.assign(r, crearRatoncito(o, v1), { fase: k });
+    r.malla.visible = true; r.malla.position.copy(o);
+  }
+  sonar.boing();
+  vibrar(m, 1, 250);
+  mostrarAviso([`¡${NOMBRE_PODER}!`], 1.2);
+}
+
+function actualizarPoder(dt, t) {
+  for (const r of ratoncitos) {
+    if (!r.malla.visible) continue;
+    const e = masCercano(r.pos, enemigos);
+    const p = e && { x: e.pos.x, y: e.pos.y + 0.3, z: e.pos.z };
+    const vivo = pasoRatoncito(r, p, dt);
+    r.malla.position.set(r.pos.x, r.pos.y, r.pos.z);
+    r.malla.lookAt(v1.copy(r.malla.position).add(r.vel));
+    r.malla.rotation.z += Math.sin(t * 25 + r.fase) * 0.15; // patitas de cuerda: tiembla
+    r.malla.children.at(-1).rotation.y = t * 18; // la llave da vueltas
+    if (e && tocaRatoncito(r, p, TIPOS[e.tipo].radio)) { r.malla.visible = false; golpearEnemigo(e, null, true); }
+    else if (!vivo) { r.malla.visible = false; confeti(r.pos); }
+  }
+  for (const c of confetis) {
+    if (!c.puntos.visible) continue;
+    c.t += dt;
+    const pos = c.puntos.geometry.attributes.position;
+    c.vel.forEach((v, k) => { v.y -= 9 * dt; pos.setXYZ(k, pos.getX(k) + v.x * dt, pos.getY(k) + v.y * dt, pos.getZ(k) + v.z * dt); });
+    pos.needsUpdate = true;
+    if (c.t > 0.9) c.puntos.visible = false;
+  }
+  // La barrita brilla y late cuando está llena.
+  const llena = barraLlena(barra), k = 0.5 + 0.5 * Math.sin(t * 10);
+  matBarra.color.setHex(0xffb13d);
+  if (llena) matBarra.color.lerp(COLORES[4], k * 0.8);
+  barraVR.scale.setScalar(llena ? 1 + k * 0.12 : 1);
 }
 
 // --- Escalar (v3) ---------------------------------------------------------------
@@ -943,6 +1060,7 @@ function actualizar(dt) {
   manos.forEach((m) => actualizarMano(m, dt));
   recogerChurus(ahora / 1000);
   actualizarEnemigos(dt, ahora / 1000);
+  actualizarPoder(dt, ahora / 1000);
   if (reinicioEn && ahora > reinicioEn) reiniciarRonda();
   if (avisoHasta && ahora > avisoHasta) { aviso.mesh.visible = false; $('aviso').hidden = true; avisoHasta = 0; }
 
@@ -1021,4 +1139,4 @@ botonVR.addEventListener('click', async () => {
 
 // Para pruebas desde la consola: senku.disparar(0), senku.soltar(0)... y
 // senku.avanzar(dt) corre un paso del juego aunque la pestaña esté oculta.
-window.senku = { avanzar: (dt) => { if (jugando && !menuAbierto) actualizar(dt); renderer.render(scene, camera); }, jugadora, manos, churus, eleccion, enemigos, vida, abrirMenu, cerrarMenu, menuLienzo, activar, golpearEnemigo, alternarEscalada, total: () => totalChurus, disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; } };
+window.senku = { avanzar: (dt) => { if (jugando && !menuAbierto) actualizar(dt); renderer.render(scene, camera); }, jugadora, manos, churus, eleccion, enemigos, vida, abrirMenu, cerrarMenu, menuLienzo, activar, golpearEnemigo, alternarEscalada, total: () => totalChurus, barra, ratoncitos, poder: (i = 1) => lanzarPoder(manos[i]), disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; } };
