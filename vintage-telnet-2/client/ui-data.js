@@ -1437,7 +1437,17 @@ const bestiaryThumbnails=Object.freeze({
   "/client/art/bestiary/sombranutria-anime-v1.webp": "/client/art/bestiary/sombranutria-anime-v1-thumb.webp",
   "/client/art/bestiary/tragacharco-anime-v1.webp": "/client/art/bestiary/tragacharco-anime-v1-thumb.webp",
   "/client/art/bestiary/tronchacolmillo-anime-v1.webp": "/client/art/bestiary/tronchacolmillo-anime-v1-thumb.webp",
-  "/client/art/bestiary/velomembrana-anime-v1.webp": "/client/art/bestiary/velomembrana-anime-v1-thumb.webp"
+  "/client/art/bestiary/velomembrana-anime-v1.webp": "/client/art/bestiary/velomembrana-anime-v1-thumb.webp",
+  "/client/art/bestiary/brasaluz-anime-v1.webp": "/client/art/bestiary/brasaluz-anime-v1-thumb.webp",
+  "/client/art/bestiary/callaecos-anime-v1.webp": "/client/art/bestiary/callaecos-anime-v1-thumb.webp",
+  "/client/art/bestiary/cuarzarana-anime-v1.webp": "/client/art/bestiary/cuarzarana-anime-v1-thumb.webp",
+  "/client/art/bestiary/espinacuarzo-anime-v1.webp": "/client/art/bestiary/espinacuarzo-anime-v1-thumb.webp",
+  "/client/art/bestiary/quebrarrocas_canoso-anime-v1.webp": "/client/art/bestiary/quebrarrocas_canoso-anime-v1-thumb.webp",
+  "/client/art/bestiary/rodacanto-anime-v1.webp": "/client/art/bestiary/rodacanto-anime-v1-thumb.webp",
+  "/client/art/bestiary/sierpe_veta_madre-anime-v1.webp": "/client/art/bestiary/sierpe_veta_madre-anime-v1-thumb.webp",
+  "/client/art/bestiary/tallagrietas-anime-v1.webp": "/client/art/bestiary/tallagrietas-anime-v1-thumb.webp",
+  "/client/art/bestiary/tejecristal-anime-v1.webp": "/client/art/bestiary/tejecristal-anime-v1-thumb.webp",
+  "/client/art/bestiary/vetasierpe-anime-v1.webp": "/client/art/bestiary/vetasierpe-anime-v1-thumb.webp"
 });
 export function bestiaryThumbnail(creature){
  const source=creature?.illustration;

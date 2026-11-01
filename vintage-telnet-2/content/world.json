@@ -884,7 +884,8 @@
           "item": "cristal_veta",
           "chance": 0.2
         }
-      ]
+      ],
+      "illustration": "/client/art/bestiary/tallagrietas-anime-v1.webp"
     },
     "cuarzarana": {
       "id": "cuarzarana",
@@ -901,7 +902,8 @@
           "item": "cristal_veta",
           "chance": 0.2
         }
-      ]
+      ],
+      "illustration": "/client/art/bestiary/cuarzarana-anime-v1.webp"
     },
     "vetasierpe": {
       "id": "vetasierpe",
@@ -918,7 +920,8 @@
           "item": "cristal_veta",
           "chance": 0.2
         }
-      ]
+      ],
+      "illustration": "/client/art/bestiary/vetasierpe-anime-v1.webp"
     },
     "rodacanto": {
       "id": "rodacanto",
@@ -935,7 +938,8 @@
           "item": "cristal_veta",
           "chance": 0.2
         }
-      ]
+      ],
+      "illustration": "/client/art/bestiary/rodacanto-anime-v1.webp"
     },
     "espinacuarzo": {
       "id": "espinacuarzo",
@@ -952,7 +956,8 @@
           "item": "cristal_veta",
           "chance": 0.2
         }
-      ]
+      ],
+      "illustration": "/client/art/bestiary/espinacuarzo-anime-v1.webp"
     },
     "brasaluz": {
       "id": "brasaluz",
@@ -969,7 +974,8 @@
           "item": "cristal_veta",
           "chance": 0.2
         }
-      ]
+      ],
+      "illustration": "/client/art/bestiary/brasaluz-anime-v1.webp"
     },
     "callaecos": {
       "id": "callaecos",
@@ -986,7 +992,8 @@
           "item": "cristal_veta",
           "chance": 0.2
         }
-      ]
+      ],
+      "illustration": "/client/art/bestiary/callaecos-anime-v1.webp"
     },
     "quebrarrocas_canoso": {
       "id": "quebrarrocas_canoso",
@@ -1010,7 +1017,8 @@
       ],
       "victory_flags": [
         "grieta_veta_tibia"
-      ]
+      ],
+      "illustration": "/client/art/bestiary/quebrarrocas_canoso-anime-v1.webp"
     },
     "tejecristal": {
       "id": "tejecristal",
@@ -1030,7 +1038,8 @@
       ],
       "victory_flags": [
         "grieta_veta_clara"
-      ]
+      ],
+      "illustration": "/client/art/bestiary/tejecristal-anime-v1.webp"
     },
     "sierpe_veta_madre": {
       "id": "sierpe_veta_madre",
@@ -1048,7 +1057,8 @@
           "chance": 1.0
         }
       ],
-      "victory_flags": []
+      "victory_flags": [],
+      "illustration": "/client/art/bestiary/sierpe_veta_madre-anime-v1.webp"
     }
   },
   "items": {
