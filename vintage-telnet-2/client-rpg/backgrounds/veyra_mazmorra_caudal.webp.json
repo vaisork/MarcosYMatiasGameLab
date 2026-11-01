@@ -1,0 +1,18 @@
+{
+  "asset_id": "veyra_mazmorra_caudal",
+  "prompt": "Use case: illustration-story. Asset type: navigable game background, Vaisgard RPG veyra_mazmorra_caudal. Primary request: long half-submerged ancient water gallery, crisp detailed 16-bit indie pixel art, top-down 3/4 perspective. Canon: smooth submerged limestone floor, black-oak and bronze floodgate deeper inside, chain and ring mounted on dry wall, historic water marks, faint translucent scale caught in an interior grate. Exactly two exits and no others: one doorway centered on the east/right edge at x=1280,y=448, two tiles tall (128px); one doorway centered on the south/bottom edge at x=640,y=960, two tiles wide (128px). Connect both with a clear shallow-water / stone walkway. The entire west/left edge and north/top edge are unbroken ancient wall, with no arch, tunnel, light, or aperture. Full-bleed 4:3, detailed readable pixel clusters, cool turquoise water and gray stone. No actors, dragon, people, player, Vaisork, Numen, text, UI, border or watermark. Do not invent any passage; leave only the exact east and south doors visibly open.",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d87-7663-aeb1-512fff3635ae/exec-3f3e6c38-528c-4ea0-92dc-673889b20a10.png",
+  "source_dimensions": [
+    1448,
+    1086
+  ],
+  "dimensions": [
+    1280,
+    960
+  ],
+  "normalization": "center crop to 4:3, Lanczos resize to 1280x960, WebP",
+  "quality": 77,
+  "bytes": 241702,
+  "sha256": "2f7d8b7706c34e78c3bdd3cc9a56e5102e419e425bc4ea96075b19cfda1ee5d6"
+}

@@ -1,0 +1,17 @@
+{
+  "asset_id": "dragon_aguas_antiguas",
+  "source": "Grok image_gen",
+  "source_image": "/home/jdiaz/proyectos/entregas/equipo/claude2/cm-20/grok-dragon/dragon-mapa.jpg",
+  "source_dimensions": [
+    1024,
+    1024
+  ],
+  "dimensions": [
+    48,
+    48
+  ],
+  "normalization": "Removed neutral white/gray JPG background pixels to alpha; alpha-bounds crop; proportional Lanczos resize and transparent padding; original design unchanged.",
+  "bytes": 4839,
+  "sha256": "b96e2ec6cab48bc795e553c48b55047d5c310c3b0dd023a5065c7cb17b517c9e",
+  "purpose": "map sprite"
+}

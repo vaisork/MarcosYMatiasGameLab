@@ -85,5 +85,7 @@
       ]
     }
   ],
-  "npcs": []
+  "npcs": [],
+  "background": "backgrounds/veyra_mazmorra_boveda_guardian.webp",
+  "battle_background": "backgrounds/veyra_boveda_battle.webp"
 }

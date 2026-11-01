@@ -1,0 +1,18 @@
+{
+  "asset_id": "veyra_mazmorra_boveda_guardian",
+  "prompt": "Use case: illustration-story. Asset type: navigable game background, Vaisgard RPG veyra_mazmorra_boveda_guardian. Primary request: recreate an ancient water-dragon vault in crisp detailed 16-bit indie pixel art, top-down 3/4 perspective. Canon setting: vast stone vault, twelve monumental arches fading into blue mist, a deep circular whirlpool basin around a central pedestal, luminous blue/green/violet reflections. Compose an open dry stone route connecting exactly two visible doorways: a northern doorway centered at x=640, y=0 (two tile widths, 128px wide) and an eastern doorway centered at x=1280, y=448 (two tile heights, 128px tall). The east doorway must be clearly cut through the wall at the center height of the right edge, with a continuous walkable stone path to the central floor. Keep all other perimeter edges solid stone/water wall; no other doors or openings. Leave clear walkable central stone around pedestal and connect both exits. 4:3, 1280x960 composition, pixel-art clustered edges, cool water light, warm stone. Environment only: no dragon, creature, NPC, player, Vaisork, Numen, text, UI, frame or watermark. Do not put water, columns or wall over either specified doorway.",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d87-7663-aeb1-512fff3635ae/exec-5cce6b53-97a4-4077-851d-ec586be60985.png",
+  "source_dimensions": [
+    1448,
+    1086
+  ],
+  "dimensions": [
+    1280,
+    960
+  ],
+  "normalization": "center crop to 4:3, Lanczos resize to 1280x960, WebP",
+  "quality": 59,
+  "bytes": 245730,
+  "sha256": "3996623386a75c9b0fcb9c58230f671bdbf0a9a8cd3dfef71d0319c8cc13411a"
+}

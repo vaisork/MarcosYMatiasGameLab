@@ -90,5 +90,6 @@
     ]
   },
   "npcs": [],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/veyra_mazmorra_mecanismo.webp"
 }

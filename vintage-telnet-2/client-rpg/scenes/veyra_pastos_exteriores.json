@@ -92,5 +92,6 @@
       ]
     }
   ],
-  "npcs": []
+  "npcs": [],
+  "background": "backgrounds/veyra_pastos_exteriores.webp"
 }

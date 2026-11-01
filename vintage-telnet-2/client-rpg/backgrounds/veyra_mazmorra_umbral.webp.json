@@ -1,0 +1,18 @@
+{
+  "asset_id": "veyra_mazmorra_umbral",
+  "prompt": "Cámara baja húmeda de sillares oscuros, pedestal circular claro con tres muescas, hilo de agua hacia compuerta oeste, musgo y último rectángulo de luz. Salidas norte y oeste abiertas. Pixel art detallado tipo JRPG indie tardío de 16 bits, perspectiva top-down 3/4, fondo limpio edge-to-edge, 1280x960 WebP. Solo entorno, sin personajes, criaturas, jugador, Vaisork, Númenes, texto ni interfaz; no inventar ni bloquear salidas.",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d87-7663-aeb1-512fff3635ae/exec-00cf50c5-9f81-4ee1-811c-47c9268e686c.png",
+  "source_dimensions": [
+    1448,
+    1086
+  ],
+  "dimensions": [
+    1280,
+    960
+  ],
+  "normalization": "center crop to 4:3, Lanczos resize to 1280x960, WebP",
+  "quality": 81,
+  "bytes": 239176,
+  "sha256": "a25245c68ad6221946836f267132725213e5e4804816b4868487f8abac59b544"
+}

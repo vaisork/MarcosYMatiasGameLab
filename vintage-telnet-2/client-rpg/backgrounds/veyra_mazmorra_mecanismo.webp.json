@@ -1,0 +1,18 @@
+{
+  "asset_id": "veyra_mazmorra_mecanismo",
+  "prompt": "Cámara enorme con rueda dentada de granito y bronce y tres ejes hacia consolas norte, este y oeste; doble reja occidental y neblina. Pasajes norte, este y oeste abiertos. Pixel art detallado tipo JRPG indie tardío de 16 bits, perspectiva top-down 3/4, fondo limpio edge-to-edge, 1280x960 WebP. Solo entorno, sin personajes, criaturas, jugador, Vaisork, Númenes, texto ni interfaz; no inventar ni bloquear salidas.",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d87-7663-aeb1-512fff3635ae/exec-508d4a62-4bdf-45cb-bdcd-6fe6ace58335.png",
+  "source_dimensions": [
+    1448,
+    1086
+  ],
+  "dimensions": [
+    1280,
+    960
+  ],
+  "normalization": "center crop to 4:3, Lanczos resize to 1280x960, WebP",
+  "quality": 57,
+  "bytes": 243900,
+  "sha256": "f41961d71ebfe4ad3276e69aef4ac8e50309b04ba6599d14b51809ed81e2139e"
+}

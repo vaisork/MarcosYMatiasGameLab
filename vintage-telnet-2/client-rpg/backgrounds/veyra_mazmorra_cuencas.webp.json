@@ -1,0 +1,18 @@
+{
+  "asset_id": "veyra_mazmorra_cuencas",
+  "prompt": "Use case: illustration-story. Asset type: navigable game background, Vaisgard RPG veyra_mazmorra_cuencas. Primary request: three circular dark-glass basins stepping down inside a huge old stone cistern, crisp detailed 16-bit indie pixel art, top-down 3/4 perspective. Water flows over polished lips; massive pillars and a short stone footbridge, subtle old silt and three long claw marks. Exactly three visible exits: west/left edge centered vertically at y=448, two tiles tall; east/right edge centered vertically at y=448, two tiles tall; south/bottom edge centered at x=640, two tiles wide. Make every opening a distinct clear doorway and connect all three to broad dry stone walkways around the basins. Keep north/top edge solid wall with no opening. Full-bleed 4:3 1280x960, luminous turquoise reflections, warm limestone, fine readable pixel clusters. No people, actors, creature, dragon, player, Vaisork, Numen, text, UI, border or watermark. Never place the three exits at top corners or block the side openings.",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d87-7663-aeb1-512fff3635ae/exec-65964a73-1084-4d26-bbc6-e47b5c6c129d.png",
+  "source_dimensions": [
+    1448,
+    1086
+  ],
+  "dimensions": [
+    1280,
+    960
+  ],
+  "normalization": "center crop to 4:3, Lanczos resize to 1280x960, WebP",
+  "quality": 75,
+  "bytes": 245104,
+  "sha256": "c67348e7467be00e8b5f7710c3df1555e7f07dbfd437f98f87faebc0b734447c"
+}

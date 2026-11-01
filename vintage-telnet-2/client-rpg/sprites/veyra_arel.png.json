@@ -1,0 +1,21 @@
+{
+  "asset_id": "veyra_arel",
+  "prompt": "12-frame transparent sprite atlas for Arel, adult female Vesperi route messenger: attentive, large rounded Vesperi ears, tied-back auburn hair, practical teal tunic, cream sleeves, ochre sash, separate urgent and ordinary message sleeves; 3 columns x 4 rows, rows front/left/back/right, three walking poses each, consistent appearance, 16-bit pixel RPG style, no weapon, no scenery or text.",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d87-7663-aeb1-512fff3635ae/exec-116a1d61-8bc6-4f9c-84a9-b045054d5b36.png",
+  "source_dimensions": [
+    1086,
+    1448
+  ],
+  "frame_size": [
+    64,
+    96
+  ],
+  "dimensions": [
+    192,
+    384
+  ],
+  "normalization": "Removed generated neutral checkerboard with alpha mask; split 3x4 atlas; tight alpha crop per frame, proportional resize to 72px body height, centered with feet at baseline y=92; no repainting.",
+  "bytes": 71432,
+  "sha256": "dc38a88b6a8f2ac2b9dba1ca549e36ff006d4c562fa9962a95c3ec38469a71c6"
+}

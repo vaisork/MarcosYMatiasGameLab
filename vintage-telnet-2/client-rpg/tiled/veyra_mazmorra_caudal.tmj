@@ -356,8 +356,8 @@
         0,
         0,
         0,
-        0,
-        0,
+        1,
+        1,
         0,
         0,
         0,
@@ -376,8 +376,8 @@
         0,
         0,
         0,
-        0,
-        0,
+        1,
+        1,
         0,
         0,
         0,
@@ -783,6 +783,11 @@
       "name": "tileset",
       "type": "string",
       "value": "edran"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/veyra_mazmorra_caudal.webp"
     }
   ],
   "tilesets": [

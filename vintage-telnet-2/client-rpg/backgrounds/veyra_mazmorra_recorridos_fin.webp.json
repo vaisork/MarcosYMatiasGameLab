@@ -1,0 +1,18 @@
+{
+  "asset_id": "veyra_mazmorra_recorridos_fin",
+  "prompt": "Sala pequeña y alta con claraboya natural, cuatro arquetas de piedra con huecos diversos, piezas antiguas y escalinata este. Salidas sur y este abiertas. Pixel art detallado tipo JRPG indie tardío de 16 bits, perspectiva top-down 3/4, fondo limpio edge-to-edge, 1280x960 WebP. Solo entorno, sin personajes, criaturas, jugador, Vaisork, Númenes, texto ni interfaz; no inventar ni bloquear salidas.",
+  "generator": "native image_gen",
+  "source_image": "/home/jdiaz/.codex/generated_images/01a193ff-6d87-7663-aeb1-512fff3635ae/exec-8b27d5c2-48b1-4ce9-b69c-3eab5f73653b.png",
+  "source_dimensions": [
+    1448,
+    1086
+  ],
+  "dimensions": [
+    1280,
+    960
+  ],
+  "normalization": "center crop to 4:3, Lanczos resize to 1280x960, WebP",
+  "quality": 77,
+  "bytes": 246666,
+  "sha256": "8dc5d5177c320bc0a3bfd0b0e3ee9977e3d4a0ccdb1ea3baaeec47ab024003f1"
+}

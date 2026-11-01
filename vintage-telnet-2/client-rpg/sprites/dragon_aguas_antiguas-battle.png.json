@@ -1,0 +1,17 @@
+{
+  "asset_id": "dragon_aguas_antiguas-battle",
+  "source": "Grok image_gen",
+  "source_image": "/home/jdiaz/proyectos/entregas/equipo/claude2/cm-20/grok-dragon/dragon-batalla.jpg",
+  "source_dimensions": [
+    1024,
+    1024
+  ],
+  "dimensions": [
+    256,
+    256
+  ],
+  "normalization": "Removed neutral white/gray JPG background pixels to alpha; alpha-bounds crop; proportional Lanczos resize and transparent padding; original design unchanged.",
+  "bytes": 81036,
+  "sha256": "8cc2170a9d3bbfcf99de942b54ad6479bf84d4f136735351a2398e6ec18eef46",
+  "purpose": "battle sprite; 256px source is supported and the client scales it to its combat layout"
+}

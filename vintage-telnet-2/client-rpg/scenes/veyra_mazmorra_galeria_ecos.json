@@ -85,5 +85,6 @@
       ]
     }
   ],
-  "npcs": []
+  "npcs": [],
+  "background": "backgrounds/veyra_mazmorra_galeria_ecos.webp"
 }

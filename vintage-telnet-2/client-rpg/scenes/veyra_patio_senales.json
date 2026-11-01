@@ -85,5 +85,6 @@
       ]
     }
   ],
-  "creatures": []
+  "creatures": [],
+  "background": "backgrounds/veyra_patio_senales.webp"
 }
