@@ -76,8 +76,9 @@ function battleBackgroundImage(sc=scene){
  if(sc&&'battle_background' in sc){
   return typeof sc.battle_background==='string'?backgroundImage(sc.battle_background):null;
  }
- if(snapshot?.room?.region==='veyra')return backgroundImage('backgrounds/veyra_battle.webp');
- return (snapshot?.room?.region==='edran'?backgroundImage('backgrounds/ui_battle.webp'):null)||backgroundImage('backgrounds/edran_battle.webp');
+ const regionalBattleBackgrounds={edran:'edran',korven:'korven',veyra:'veyra',hoshai:'hoshai',lethra:'lethra',nhal:'nhal'};
+ const region=regionalBattleBackgrounds[snapshot?.room?.region]||'edran';
+ return backgroundImage(`backgrounds/${region}_battle.webp`);
 }
 const tilesetData={};
 async function loadTileset(name='edran'){

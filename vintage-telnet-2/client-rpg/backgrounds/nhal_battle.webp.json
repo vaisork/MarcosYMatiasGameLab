@@ -1,0 +1,23 @@
+{
+  "asset_id": "nhal_battle",
+  "generation_tool": "native image_gen",
+  "source_original": "/home/jdiaz/.codex/generated_images/01a19496-3531-7692-93a8-98ab4e98a4bf/exec-ebb1bd1a-5f08-4774-b63f-5dd6b701821b.png",
+  "source_dimensions": [
+    1448,
+    1086
+  ],
+  "normalization": "Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 60,
+  "bytes": 246326,
+  "sha256": "35223bbaadad61d904ad2b60f5d52338937bf4f2d6a043e009d5bcbb2b64e5ea",
+  "style_references": [
+    "backgrounds/korven_battle.webp",
+    "backgrounds/veyra_battle.webp"
+  ],
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Nhal regional battle background: deep forest floor under dense closed canopy, high roots and broad trunks at margins, ferns and leaf litter, green-filtered light, narrow path among trees. Broad open walkable central earth arena. Detailed painted pixel-art JRPG, slight low three-quarter perspective, terrain to all edges, no actors, creatures, weapons, text or HUD. Style and composition referenced korven_battle.webp and veyra_battle.webp."
+}

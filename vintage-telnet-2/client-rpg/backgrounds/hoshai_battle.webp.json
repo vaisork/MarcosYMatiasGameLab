@@ -1,0 +1,23 @@
+{
+  "asset_id": "hoshai_battle",
+  "generation_tool": "native image_gen",
+  "source_original": "/home/jdiaz/.codex/generated_images/01a19496-3531-7692-93a8-98ab4e98a4bf/exec-b95af0ac-e3f8-4217-9bc6-d17e1fb6789f.png",
+  "source_dimensions": [
+    1448,
+    1086
+  ],
+  "normalization": "Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 64,
+  "bytes": 244146,
+  "sha256": "2f8ff870dcf47bc9b80274bc3f7a871aecbde5e76cf246040cbc2dc4bcebc201",
+  "style_references": [
+    "backgrounds/korven_battle.webp",
+    "backgrounds/veyra_battle.webp"
+  ],
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Hoshai regional battle background: high mountain pass, rocky ascending terraces and zigzag path, sparse pines and distant rope-supported shelters, cool crisp daylight, broad open walkable central arena. Detailed painted pixel-art JRPG, slight low three-quarter perspective, terrain to all edges, no actors, creatures, weapons, text or HUD. Style and composition referenced korven_battle.webp and veyra_battle.webp."
+}
