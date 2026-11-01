@@ -69,6 +69,9 @@ export const sonar = {
   poof: () => { soplo(600, 150, 0.3, 0.35); [660, 880, 1320].forEach((f, i) => tono('triangle', f, f * 1.2, 0.12, 0.12, i * 0.05)); },
   dano: () => { tono('square', 220, 110, 0.25, 0.12); soplo(200, 80, 0.2, 0.2); },
   agarrar: () => soplo(400, 900, 0.08, 0.2),
+  // Superpoder (Ultra Gato): campanita de «listo» y el «¡boing-zzz!» al disparar.
+  listo: () => [784, 988, 1175, 1568].forEach((f, i) => tono('triangle', f, f * 1.02, 0.22, 0.18, i * 0.08)),
+  boing: () => { tono('sine', 160, 640, 0.22, 0.35); tono('sine', 640, 220, 0.18, 0.2, 0.2); tono('sawtooth', 95, 120, 0.45, 0.07, 0.2); soplo(2500, 5000, 0.4, 0.12); },
   viento(rapidez) {
     if (!ctx) return;
     const k = Math.min(1, Math.max(0, (rapidez - 3) / 30));

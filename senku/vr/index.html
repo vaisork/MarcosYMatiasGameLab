@@ -46,6 +46,13 @@
   #t-menu { display: none; }
   .jugando #t-menu { display: block; position: fixed; top: 12px; right: 12px; padding: 10px 16px; font-size: 22px; background: rgba(42,24,64,.8); color: #fff; }
   @media (max-width: 480px) { .opciones { grid-template-columns: repeat(3, 1fr); } }
+  #poder { margin-top: 4px; height: 14px; width: 180px; border-radius: 7px; background: rgba(255,255,255,.2); overflow: hidden; }
+  #poder-relleno { height: 100%; width: 0; background: linear-gradient(90deg, #ffb13d, #ffe27a); transition: width .2s; }
+  #poder.lleno { animation: pulso .6s ease-in-out infinite alternate; }
+  #poder.lleno #poder-relleno { background: linear-gradient(90deg, #ffe27a, #fff, #ffe27a); }
+  @keyframes pulso { from { box-shadow: 0 0 4px #ffd23f; } to { box-shadow: 0 0 16px 4px #ffd23f; } }
+  #tactil #t-poder { background: rgba(120,100,140,.7); font-size: 30px; }
+  #tactil #t-poder.lleno { background: #ffd23f; color: var(--morado); animation: pulso .6s ease-in-out infinite alternate; }
   .pista { display: none; position: fixed; left: 12px; bottom: 12px; font-size: 13px; background: rgba(42,24,64,.6); padding: 6px 10px; border-radius: 10px; }
 </style>
 <script type="importmap">
@@ -65,6 +72,7 @@
       <li><b>¡Impulso!</b> Con la garra enganchada, jala el brazo rápido hacia ti y sales disparada hacia la garra.</li>
       <li><b>Ratones</b>: dales un <b>zarpazo</b> moviendo la mano rápido cerca de ellos, o lánzales la garra y jala. Negro: 1 golpe, café: 2, hámster: 3. Sueltan churus que vuelan hacia ti.</li>
       <li>Si te tocan, pierdes un corazón (tienes 3 en la muñeca). Sin corazones vuelves al inicio, con tus churus.</li>
+      <li><b>⚡ ¡Ultra Gato!</b> (idea de Matías): vence ratones para llenar la barrita de la muñeca (negro +1, café +2, hámster +3). Cuando brille, <b>aprieta la palanca derecha</b> (zurdas: cualquiera) y salen 5 ratoncitos de cuerda que persiguen a los ratones. Columpiándote, ¡sale uno de premio! La barrita llena se guarda hasta que la dispares.</li>
       <li><b>A / X</b>: saltar. <b>B / Y</b>: menú de garras (apunta con el rayo y elige con el gatillo).</li>
     </ul>
     <h2>Sin visor (compu o celular)</h2>
@@ -72,6 +80,7 @@
       <li><b>Clic izquierdo / derecho</b>: garra izquierda / derecha (mantén para columpiarte). Clic a un ratón cerca = zarpazo; lejos, la garra lo atrapa y <b>F</b> lo jala.</li>
       <li><b>Q / E</b>: tirón. <b>F</b> o <b>rueda</b>: jalar la cuerda (impulso). <b>M</b>: menú de garras.</li>
       <li><b>WASD</b>: caminar. <b>Espacio</b>: saltar. <b>C</b> frente a una pared: agarrarte y subir con <b>W</b>. <b>Ratón</b>: mirar.</li>
+      <li><b>R</b>: ¡Ultra Gato! cuando la barrita esté llena (en el celular, el botón <b>⚡</b>).</li>
       <li>En el celular: arrastra a la izquierda para caminar y a la derecha para mirar.</li>
     </ul>
     <label><input type="checkbox" id="vineta" checked> Sombra anti-mareo cuando vas rápido</label>
@@ -83,13 +92,13 @@
     <p id="sin-vr" hidden>Este navegador no tiene VR. Ábrelo en el navegador del Meta Quest, o juega sin visor.</p>
   </div>
 </div>
-<div id="hud"></div>
+<div id="hud"><div id="hud-texto"></div><div id="poder" title="Ultra Gato"><div id="poder-relleno"></div></div></div>
 <div id="mira"></div>
 <div id="aviso" hidden></div>
 <div id="tactil">
   <button id="t-izq">Garra I</button><button id="t-der">Garra D</button>
   <button id="t-tiron">Tirón</button><button id="t-saltar">Saltar</button>
-  <button id="t-jalar">Jalar</button>
+  <button id="t-jalar">Jalar</button><button id="t-poder" aria-label="Ultra Gato">⚡</button>
 </div>
 <button id="t-menu" aria-label="Menú de garras">≡</button>
 <div id="menu" hidden>
