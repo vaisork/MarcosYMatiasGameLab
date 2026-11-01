@@ -712,7 +712,7 @@ function actualizarEnemigos(dt, t) {
       for (const m of manos) {
         if (m.enfriarZarpazo > 0) continue;
         m.garra.getWorldPosition(v1);
-        if (esZarpazo(m.velMano.length(), v1.distanceTo(posEnemigo(e)))) { m.enfriarZarpazo = ZARPAZO.enfriar; golpearEnemigo(e, m); }
+        if (esZarpazo(m.velMano.length(), v1, e.pos, TIPOS[e.tipo].radio * 0.5)) { m.enfriarZarpazo = ZARPAZO.enfriar; golpearEnemigo(e, m); }
       }
     }
     // Si te toca, pierdes un corazón y sales empujada.
