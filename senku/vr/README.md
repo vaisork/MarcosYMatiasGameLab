@@ -109,5 +109,11 @@ a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, 
   LED, neones, un panel giratorio y un globo publicitario animado. No añaden
   colisiones ni luces dinámicas. Las seis ilustraciones nuevas llevan sus
   rótulos pintados por código al cargarse.
+- Arquitectura de ciudad en `src/mundo.js`: atlas procedural compartido para
+  ventanas con marco y alféizar; alturas y paletas por barrio; balcones,
+  toldos, equipos y escaleras de azotea; pasos peatonales, bordillos, puestos,
+  coches, faroles y parques en lotes instanciados. El mobiliario y las marcas
+  viales se limitan al centro jugable; los edificios simplifican sus fachadas
+  a distancia. Dirección visual y presupuesto en `docs/ARTE_CIUDAD.md`.
 - Churu: `../v2/assets/objetos/churu.png`. Récord en `localStorage` (`senku_vr_record`).
 - Pruebas: `node --test senku/vr/tests/*.test.mjs`.

@@ -1135,6 +1135,7 @@ renderer.setAnimationLoop(() => {
 // --- Inicio y VR -----------------------------------------------------------------
 function jugar() {
   iniciarSonido();
+  mundo.carteles.encenderFaroles(performance.now());
   vineta = $('vineta').checked;
   jugando = true;
   $('inicio').hidden = true;

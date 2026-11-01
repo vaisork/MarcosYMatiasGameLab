@@ -2,7 +2,7 @@
 // con ventanas en shader, tinacos, cactus y posiciones de churus.
 import * as THREE from 'three';
 import { CARTELES } from './carteles.mjs';
-import { PALETA_CIUDAD, crearPerfilLejano, luzVertice } from './arte.mjs';
+import { PALETA_CIUDAD, crearPerfilLejano, luzVertice, zonaBarrio, alturaBarrio } from './arte.mjs';
 
 export const CUADRA = 26; // separación entre centros de manzana (calle incluida)
 const N = 6;              // manzanas de -N a N
@@ -334,6 +334,29 @@ function crearCarteles(cajas, scene) {
 }
 
 function materialEdificio() {
+  // Atlas único, repetido cada módulo de fachada. Dibujado en código para
+  // evitar descargas y conservar marcos, dinteles y alféizares al acercarse.
+  const lienzo = document.createElement('canvas'); lienzo.width = 512; lienzo.height = 128;
+  const g = lienzo.getContext('2d');
+  const fondos = ['#283c54', '#34505d', '#45394f', '#5c414a'];
+  const vidrios = ['#8ec7cf', '#f6c87e', '#91a7dd', '#e8a2a0'];
+  for (let i = 0; i < 4; i++) {
+    const x = i * 128;
+    g.fillStyle = fondos[i]; g.fillRect(x, 0, 128, 128);
+    g.fillStyle = '#171f31'; g.fillRect(x + 17, 13, 94, 102);
+    const grad = g.createLinearGradient(x + 19, 15, x + 108, 112);
+    grad.addColorStop(0, vidrios[i]); grad.addColorStop(0.72, '#b8d7db'); grad.addColorStop(1, '#68899e');
+    g.fillStyle = grad; g.fillRect(x + 23, 19, 82, 86);
+    g.fillStyle = 'rgba(255,255,255,.5)'; g.fillRect(x + 27, 21, 5, 80);
+    g.fillStyle = '#273246'; g.fillRect(x + 61, 18, 5, 88); g.fillRect(x + 21, 59, 87, 5);
+    g.fillStyle = '#d9c3a2'; g.fillRect(x + 12, 108, 104, 9); g.fillRect(x + 14, 8, 100, 7);
+    if (i === 1 || i === 3) { // maceta / balcón estilizado en el propio atlas
+      g.fillStyle = '#473b46'; g.fillRect(x + 12, 100, 104, 5);
+      g.fillStyle = '#82b57b'; g.fillRect(x + 28, 96, 11, 5); g.fillRect(x + 82, 95, 15, 6);
+    }
+  }
+  const atlas = new THREE.CanvasTexture(lienzo); atlas.colorSpace = THREE.SRGBColorSpace;
+  atlas.generateMipmaps = true; atlas.minFilter = THREE.LinearMipmapLinearFilter; atlas.magFilter = THREE.LinearFilter;
   const mat = new THREE.MeshLambertMaterial({ color: 0xffffff });
   mat.onBeforeCompile = (s) => {
     s.vertexShader = s.vertexShader
@@ -342,20 +365,36 @@ function materialEdificio() {
         vWP = (modelMatrix * instanceMatrix * vec4(transformed, 1.0)).xyz;
         vWN = normalize(mat3(instanceMatrix) * objectNormal);`);
     s.fragmentShader = s.fragmentShader
-      .replace('#include <common>', '#include <common>\nvarying vec3 vWP; varying vec3 vWN;')
+      .replace('#include <common>', `#include <common>\nvarying vec3 vWP; varying vec3 vWN;\nuniform sampler2D uFacadeAtlas;`)
       .replace('#include <color_fragment>', `#include <color_fragment>
         if (vWN.y < 0.5 && vWN.y > -0.5) {
           vec2 c = abs(vWN.x) > 0.5 ? vWP.zy : vWP.xy;
-          vec2 celda = floor(c / vec2(3.0, 3.6));
-          vec2 g = fract(c / vec2(3.0, 3.6));
-          float ventana = step(0.22, g.x) * step(g.x, 0.78) * step(0.3, g.y) * step(g.y, 0.78) * step(3.0, vWP.y);
-          float luz = step(0.6, fract(sin(dot(celda, vec2(12.9898, 78.233))) * 43758.5453));
-          vec3 vidrio = mix(vec3(0.28, 0.42, 0.58), vec3(0.85, 0.95, 1.0), luz * 0.7);
-          diffuseColor.rgb = mix(diffuseColor.rgb, vidrio, ventana);
-          diffuseColor.rgb *= 0.92 + 0.08 * step(0.92, g.y); // franja de piso
+          vec2 celda = floor(c / vec2(3.4, 3.8));
+          vec2 g = fract(c / vec2(3.4, 3.8));
+          float variante = floor(fract(sin(dot(celda, vec2(12.9898, 78.233))) * 43758.5453) * 4.0);
+          vec3 fachada = texture2D(uFacadeAtlas, vec2((variante + g.x) * 0.25, g.y)).rgb;
+          float mascara = step(0.1, g.x) * step(g.x, 0.9) * step(0.02, g.y) * step(g.y, 0.98) * step(3.0, vWP.y);
+          mascara *= 1.0 - smoothstep(75.0, 125.0, length(cameraPosition - vWP));
+          diffuseColor.rgb = mix(diffuseColor.rgb, fachada * diffuseColor.rgb, mascara);
         } else { diffuseColor.rgb *= 1.12; }`);
+    s.uniforms.uFacadeAtlas = { value: atlas };
   };
+  mat.customProgramCacheKey = () => 'senku-fachadas-atlas-v1';
   return mat;
+}
+
+function agregarLote(scene, geometria, material, piezas) {
+  if (!piezas.length) return null;
+  const mesh = new THREE.InstancedMesh(geometria, material, piezas.length);
+  const dummy = new THREE.Object3D();
+  piezas.forEach((p, i) => {
+    dummy.position.set(p.x, p.y, p.z); dummy.rotation.set(p.rx || 0, p.rotY || 0, p.rz || 0);
+    dummy.scale.set(p.sx, p.sy, p.sz); dummy.updateMatrix(); mesh.setMatrixAt(i, dummy.matrix);
+    if (p.color) mesh.setColorAt(i, new THREE.Color(p.color));
+  });
+  mesh.instanceMatrix.needsUpdate = true;
+  if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+  mesh.computeBoundingSphere(); scene.add(mesh); return mesh;
 }
 
 function geometriaConLuz(geometria) {
@@ -452,32 +491,99 @@ export function crearMundo(scene) {
   crearSkyline(scene, 249, 1);
   crearMar(scene);
 
-  const colores = ['#e07a5f', '#f2cc8f', '#81b29a', '#3d9ca8', '#f4a6b7', '#b8a1d9', '#e9c46a', '#f28f3b', '#9bd36a', '#f7ede2'].map((c) => new THREE.Color(c));
   const cajas = [], tinacos = [], cactus = [], churus = [];
-  const vacio = (i, j) => (i === 0 && j === 0) || ((i * 7 + j * 13) % 11 === 0 && Math.abs(i) + Math.abs(j) > 2);
+  const arboles = [], jardineras = [], fuentes = [], bancas = [], faroles = [], puestos = [], coches = [];
+  const balcones = [], toldos = [], cornisas = [], aires = [], antenas = [], escaleras = [];
+  const cruces = [], bordillos = [], banderines = [], letreros = [];
+  const vacio = (i, j) => (i === 0 && j === 0) || ((i * 7 + j * 13) % 11 === 0 && Math.abs(i) + Math.abs(j) > 2) || (i === -3 && j === -2);
 
   for (let i = -N; i <= N; i++) for (let j = -N; j <= N; j++) {
     const cx = i * CUADRA, cz = j * CUADRA;
-    if (vacio(i, j)) { // plaza o lote baldío con cactus
+    if (vacio(i, j)) { // plaza central y pequeño parque de barrio
+      if ((i === 0 && j === 0) || (i === -3 && j === -2)) {
+        const parque = i === 0 && j === 0;
+        const n = parque ? 12 : 8;
+        for (let k = 0; k < n; k++) {
+          const a = k * Math.PI * 2 / n, rad = parque ? 8.2 : 7.4;
+          arboles.push([cx + Math.cos(a) * rad, 0, cz + Math.sin(a) * rad, k % 3]);
+          if (k % 3 !== 0) jardineras.push({ x: cx + Math.cos(a) * 10.2, y: 0.38, z: cz + Math.sin(a) * 10.2, sx: 2.8, sy: 0.76, sz: 1.8, rotY: -a, color: ['#d88e69', '#6f9c7c', '#d9b76d'][k % 3] });
+        }
+        if (parque) {
+          // Fuente baja poligonal con pedestal, agua y surtidor; sin luces.
+          fuentes.push([cx, cz]);
+        }
+        for (let k = 0; k < (parque ? 6 : 4); k++) {
+          const a = k * Math.PI * 2 / (parque ? 6 : 4), rad = parque ? 5.8 : 5.3;
+          bancas.push({ x: cx + Math.cos(a) * rad, y: 0.55, z: cz + Math.sin(a) * rad, sx: 2.6, sy: 0.18, sz: 0.68, rotY: -a, color: '#865b46' });
+        }
+      }
       const n = i === 0 && j === 0 ? 6 : 3;
-      for (let k = 0; k < n; k++) {
+      for (let k = 0; k < n && (i !== 0 || j !== 0) && !(i === -3 && j === -2); k++) {
         const a = (k / n) * Math.PI * 2 + r();
         const rad = i === 0 && j === 0 ? 7 + r() * 2 : r() * 7;
         cactus.push([cx + Math.cos(a) * rad, cz + Math.sin(a) * rad, 1.6 + r() * 1.6]);
       }
       continue;
     }
-    const centro = 1 - Math.min(1, Math.hypot(i, j) / (N * 1.2));
     const partes = r() < 0.35 ? 2 : 1;
     for (let p = 0; p < partes; p++) {
       const w = partes === 1 ? 10 + r() * 7 : 7 + r() * 2;
       const d = 10 + r() * 7;
-      const h = 9 + Math.pow(r(), 1.6) * 40 * (0.5 + centro);
+      const barrio = zonaBarrio(i, j);
+      const h = alturaBarrio(barrio, r());
       const ox = partes === 1 ? 0 : (p === 0 ? -4.6 : 4.6);
       const x = cx + ox, z = cz;
-      cajas.push({ min: { x: x - w / 2, y: 0, z: z - d / 2 }, max: { x: x + w / 2, y: h, z: z + d / 2 }, color: colores[Math.floor(r() * colores.length)] });
+      const paleta = barrio === 'centro' ? ['#72839a', '#9b8790', '#788d87', '#b59079', '#6c7b9c'] : ['#e06e58', '#f2c568', '#6eaaa0', '#f09aaa', '#8c79bb', '#f28e45', '#88b86c', '#f7e7c8'];
+      const color = new THREE.Color(paleta[Math.floor(r() * paleta.length)]);
+      cajas.push({ min: { x: x - w / 2, y: 0, z: z - d / 2 }, max: { x: x + w / 2, y: h, z: z + d / 2 }, color, barrio });
       if (r() < 0.6) tinacos.push([x + (r() - 0.5) * (w - 3), h, z + (r() - 0.5) * (d - 3)]);
+      const frente = (p) => {
+        if (h < 27 && r() < 0.62) {
+          const lado = r() < 0.5 ? -1 : 1, bx = x + lado * (w / 2 + 0.42), bz = z;
+          const by = 4.4 + r() * Math.max(0, Math.min(10, h - 12)), largo = Math.min(8, d - 3);
+          balcones.push({ x: bx, y: by, z: bz, sx: 0.9, sy: 0.18, sz: largo, rotY: Math.PI / 2, color: '#d8b98c' });
+          balcones.push({ x: bx + lado * 0.44, y: by + 0.58, z: bz, sx: 0.12, sy: 0.95, sz: largo, rotY: Math.PI / 2, color: '#f3d7a4' });
+          for (const extremo of [-1, 1]) balcones.push({ x: bx, y: by + 0.58, z: bz + extremo * largo * 0.48, sx: 0.9, sy: 0.95, sz: 0.12, color: '#f3d7a4' });
+        }
+        if (h < 25 && r() < 0.52) toldos.push({ x, y: 3.4, z: z - d / 2 - 0.9, sx: Math.min(w, 8), sy: 0.32, sz: 2.2, rotY: 0, color: ['#ec7865', '#f2c35e', '#63aa9b', '#a78bc1'][p % 4] });
+        if (h < 34 && r() < 0.42) aires.push({ x: x + (r() - 0.5) * (w - 2), y: 2.1 + r() * Math.min(15, h - 3), z: z - d / 2 - 0.28, sx: 1.15, sy: 0.72, sz: 0.62, color: '#ddd2c1' });
+        if (r() < 0.55) cornisas.push({ x, y: h - 0.25, z, sx: w + 0.8, sy: 0.5, sz: d + 0.8, color: '#f3d7a4' });
+        if (h > 29 && r() < 0.28) {
+          antenas.push({ x: x + (r() - 0.5) * w * 0.5, y: h + 2.2, z: z + (r() - 0.5) * d * 0.5, sx: 0.14, sy: 4.4, sz: 0.14, color: '#655d67' });
+          if (d > 12) escaleras.push({ x: x + w / 2 + 0.42, h, z });
+        }
+      };
+      if (Math.abs(i) <= 3 && Math.abs(j) <= 3) frente(p);
       if (r() < 0.04) churus.push(new THREE.Vector3(x, h + 1.6, z)); // churu en azotea
+    }
+  }
+  // Bordillos, cebras y vida de calle en lotes compartidos.
+  for (let i = -N; i <= N; i++) for (let j = -N; j <= N; j++) {
+    if (Math.abs(i) > 4 || Math.abs(j) > 4) continue; // LOD: no cargar mobiliario fuera del centro jugable
+    const x = i * CUADRA, z = j * CUADRA;
+    for (const lado of [-1, 1]) {
+      bordillos.push({ x, y: 0.16, z: z + lado * 9.5, sx: 17.4, sy: 0.32, sz: 0.42, color: '#dfcfb7' });
+      bordillos.push({ x: x + lado * 9.5, y: 0.16, z, sx: 0.42, sy: 0.32, sz: 17.4, color: '#dfcfb7' });
+    }
+    if (Math.abs(i) <= 5 && Math.abs(j) <= 5) {
+      for (let lado of [-1, 1]) for (let k = -3; k <= 3; k++) {
+        cruces.push({ x: x + k * 0.8, y: 0.045, z: z + lado * 2.1, sx: 0.43, sy: 0.055, sz: 3.3, color: '#f5e7c8' });
+        cruces.push({ x: x + lado * 2.1, y: 0.045, z: z + k * 0.8, sx: 3.3, sy: 0.055, sz: 0.43, color: '#f5e7c8' });
+      }
+      if ((i + j) % 2 === 0) {
+        faroles.push({ x: x + 10.3, y: 4.0, z: z + 10.3, sx: 0.28, sy: 7.6, sz: 0.28, color: '#554d5b' });
+      }
+    }
+    if (Math.abs(i) + Math.abs(j) < 7 && (i * 3 + j * 5) % 4 === 0) {
+      coches.push({ x: x + 10.7, y: 0.72, z: z + 4.4, sx: 3.4, sy: 1.05, sz: 1.65, rotY: Math.PI / 2, color: ['#e77965', '#6d9bb0', '#f1c45f', '#697c68'][(i - j + 12) % 4] });
+    }
+    if (Math.abs(i) + Math.abs(j) > 1 && Math.abs(i) + Math.abs(j) < 7 && (i * 7 + j * 11) % 13 === 0) {
+      puestos.push({ x: x + 3, y: 1.5, z: z + 10.6, sx: 3.8, sy: 2.9, sz: 2.4, color: '#b96850' });
+      letreros.push({ x: x + 3, y: 3.15, z: z + 9.35, sx: 3.5, sy: 0.95, sz: 0.12, color: '#f1c45f' });
+      toldos.push({ x: x + 3, y: 3.05, z: z + 10.4, sx: 4.7, sy: 0.28, sz: 3.1, color: '#ef776b' });
+    }
+    if (Math.abs(i) + Math.abs(j) > 4 && (i + j) % 3 === 0) {
+      for (let k = 0; k < 6; k++) banderines.push({ x: x - 4.5 + k * 1.8, y: 6.5 + (k % 2) * 0.25, z: z + 9.1, sx: 0.75, sy: 1.0, sz: 0.08, rotY: 0, color: ['#ed5b68', '#f2c44f', '#51a99a', '#806ba5'][k % 4] });
     }
   }
   // Churus colgando sobre los cruces de calles, a distintas alturas.
@@ -504,6 +610,66 @@ export function crearMundo(scene) {
   tinacos.forEach(([x, y, z], k) => tin.setMatrixAt(k, m.makeTranslation(x, y, z)));
   scene.add(tin);
 
+  const cubeGeo = new THREE.BoxGeometry(1, 1, 1);
+  // setColorAt usa instanceColor; vertexColors exigiría un atributo color que
+  // estas geometrías compartidas no tienen y las dibujaría negras.
+  const cubeBase = new THREE.MeshLambertMaterial({ color: 0xffffff });
+  for (const [nombre, lista] of Object.entries({ bordillos, cruces, balcones, toldos, cornisas, aires, antenas, jardineras, bancas, faroles, puestos, coches, letreros })) {
+    agregarLote(scene, cubeGeo, cubeBase, lista);
+  }
+  agregarLote(scene, new THREE.CylinderGeometry(2.8, 2.8, 0.56, 12), cubeBase, fuentes.map(([x, z]) => ({ x, y: 0.34, z, sx: 1, sy: 1, sz: 1, color: '#d8c7b2' })));
+  agregarLote(scene, new THREE.CylinderGeometry(2.22, 2.22, 0.1, 12), new THREE.MeshBasicMaterial({ color: '#72aeb5' }), fuentes.map(([x, z]) => ({ x, y: 0.66, z, sx: 1, sy: 1, sz: 1 })));
+  agregarLote(scene, new THREE.CylinderGeometry(0.22, 0.36, 0.72, 8), cubeBase, fuentes.map(([x, z]) => ({ x, y: 0.96, z, sx: 1, sy: 1, sz: 1, color: '#d8c7b2' })));
+  const peldaños = [], largueros = [];
+  for (const e of escaleras) {
+    for (const lado of [-1, 1]) largueros.push({ x: e.x, y: e.h / 2, z: e.z + lado * 0.95, sx: 0.14, sy: e.h, sz: 0.14, color: '#756678' });
+    for (let y = 1.3; y < e.h; y += 2.2) peldaños.push({ x: e.x - 0.02, y, z: e.z, sx: 0.24, sy: 0.12, sz: 2.0, color: '#bca9a2' });
+  }
+  agregarLote(scene, cubeGeo, cubeBase, largueros);
+  agregarLote(scene, cubeGeo, cubeBase, peldaños);
+  // Árboles de copa redonda, palmera y ciprés en tres lotes; troncos/copa con color por instancia.
+  const troncos = [], copas = [], palmeras = [];
+  arboles.forEach(([x, y, z, tipo], k) => {
+    const h = tipo === 1 ? 5.2 : tipo === 2 ? 6.4 : 4.3;
+    troncos.push({ x, y: h / 2, z, sx: tipo === 1 ? 0.34 : 0.55, sy: h, sz: tipo === 1 ? 0.34 : 0.55, color: '#72533f' });
+    if (tipo === 1) palmeras.push({ x, y: h + 0.3, z, sx: 2.9, sy: 0.55, sz: 0.9, color: '#6eaa76', rotY: k * 0.8 });
+    else copas.push({ x, y: h + 0.9, z, sx: tipo === 2 ? 2.7 : 2.2, sy: tipo === 2 ? 3.4 : 2.5, sz: tipo === 2 ? 2.7 : 2.2, color: ['#6d9b69', '#85ab72', '#89a87d'][k % 3] });
+  });
+  agregarLote(scene, new THREE.CylinderGeometry(0.5, 0.65, 1, 7), cubeBase, troncos);
+  agregarLote(scene, new THREE.IcosahedronGeometry(1, 1), cubeBase, copas);
+  agregarLote(scene, new THREE.ConeGeometry(1, 1, 6), cubeBase, palmeras);
+  const ruedas = [], cristales = [], patasBanca = [];
+  coches.forEach((c) => {
+    for (const dx of [-0.88, 0.88]) for (const dz of [-1.08, 1.08]) ruedas.push({ x: c.x + dx, y: 0.39, z: c.z + dz, sx: 0.42, sy: 0.42, sz: 0.22, color: '#33343b' });
+    cristales.push({ x: c.x, y: 1.27, z: c.z - 0.12, sx: 1.24, sy: 0.63, sz: 1.2, rotY: c.rotY, color: '#9bc6cf' });
+  });
+  bancas.forEach((b) => {
+    const c = Math.cos(b.rotY), s = Math.sin(b.rotY);
+    for (const x of [-0.9, 0.9]) patasBanca.push({ x: b.x + x * c, y: 0.27, z: b.z - x * s, sx: 0.14, sy: 0.55, sz: 0.14, color: '#51424a' });
+  });
+  agregarLote(scene, new THREE.CylinderGeometry(0.5, 0.5, 1, 8), cubeBase, ruedas.map((p) => ({ ...p, rz: Math.PI / 2 })));
+  agregarLote(scene, cubeGeo, cubeBase, cristales);
+  agregarLote(scene, cubeGeo, cubeBase, patasBanca);
+  const bombillaFarolMat = new THREE.MeshBasicMaterial({ color: '#596170', toneMapped: false });
+  const bombillasFarol = faroles.map((p) => ({ x: p.x, y: 7.82, z: p.z, sx: 0.62, sy: 0.48, sz: 0.62, color: '#ffd793' }));
+  agregarLote(scene, new THREE.SphereGeometry(0.5, 7, 5), bombillaFarolMat, bombillasFarol);
+  // Papeles picados: planos pequeños agrupados, con cuatro colores alegres.
+  const geoPapel = new THREE.BufferGeometry();
+  geoPapel.setAttribute('position', new THREE.Float32BufferAttribute([-0.5, 0.5, 0, 0.5, 0.5, 0, 0, -0.5, 0], 3));
+  geoPapel.computeVertexNormals();
+  agregarLote(scene, geoPapel, new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide }), banderines);
+  // Señalética de taquería sobre material compartido, con texto dibujado una vez.
+  if (letreros.length) {
+    const lienzo = document.createElement('canvas'); lienzo.width = 512; lienzo.height = 128;
+    const g = lienzo.getContext('2d'); g.fillStyle = '#643b42'; g.fillRect(0, 0, 512, 128);
+    g.fillStyle = '#ffd56e'; g.font = '900 76px system-ui'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('TACOS', 256, 65);
+    const tex = new THREE.CanvasTexture(lienzo); tex.colorSpace = THREE.SRGBColorSpace;
+    // La caja de soporte ya está instanciada; el pequeño rótulo ilustrado se comparte.
+    const rotulos = new THREE.InstancedMesh(new THREE.PlaneGeometry(3.5, 0.88), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false }), letreros.length);
+    const o = new THREE.Object3D(); letreros.forEach((p, i) => { o.position.set(p.x, p.y, p.z - 0.08); o.updateMatrix(); rotulos.setMatrixAt(i, o.matrix); });
+    rotulos.instanceMatrix.needsUpdate = true; rotulos.computeBoundingSphere(); scene.add(rotulos);
+  }
+
   // Cactus: tronco + dos brazos con cápsulas instanciadas.
   const cap = new THREE.CapsuleGeometry(0.35, 1, 3, 8);
   const piezas = [];
@@ -517,6 +683,19 @@ export function crearMundo(scene) {
   scene.add(cac);
 
   const carteles = crearCarteles(cajas, scene);
+  let farolesDesde = null;
 
-  return { edificios, cajas: cajas.map(({ min, max }) => ({ min, max })), churus, carteles, domo };
+  return {
+    edificios, cajas: cajas.map(({ min, max }) => ({ min, max })), churus, domo,
+    carteles: {
+      ...carteles,
+      encenderFaroles(tiempo) { farolesDesde = tiempo; },
+      animar(tiempo) {
+        carteles.animar(tiempo);
+        if (farolesDesde === null) return;
+        const encendido = Math.max(0, Math.min(1, (tiempo - farolesDesde) / 3200));
+        bombillaFarolMat.color.setRGB(0.35 + encendido * 0.65, 0.38 + encendido * 0.48, 0.5 + encendido * 0.23);
+      },
+    },
+  };
 }

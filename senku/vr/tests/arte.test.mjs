@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { PALETA_CIUDAD, crearPerfilLejano, luzVertice } from '../src/arte.mjs';
+import { PALETA_CIUDAD, crearPerfilLejano, luzVertice, zonaBarrio, alturaBarrio } from '../src/arte.mjs';
 
 test('la paleta mantiene la tarde cálida y separa el horizonte del cielo', () => {
   assert.equal(PALETA_CIUDAD.horizonte, '#f2b47f');
@@ -24,4 +24,13 @@ test('la luz horneada oscurece bases y esquinas; las cubiertas reciben más luz'
   assert.ok(techo > base);
   assert.ok(esquina < techo);
   assert.ok(esquina > 0.4);
+});
+
+test('el centro reserva las torres y el barrio mexicano mantiene alturas bajas', () => {
+  assert.equal(zonaBarrio(2, -1), 'centro');
+  assert.equal(zonaBarrio(3, -2), 'mexicano');
+  assert.equal(alturaBarrio('centro', 0), 23);
+  assert.equal(alturaBarrio('centro', 1), 61);
+  assert.equal(alturaBarrio('mexicano', 0), 8);
+  assert.equal(alturaBarrio('mexicano', 1), 27);
 });

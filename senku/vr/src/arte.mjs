@@ -10,6 +10,14 @@ export const PALETA_CIUDAD = Object.freeze({
   sombra: '#514755',
 });
 
+export function zonaBarrio(i, j) {
+  return Math.abs(i) <= 2 && Math.abs(j) <= 2 ? 'centro' : 'mexicano';
+}
+
+export function alturaBarrio(zona, azar) {
+  return zona === 'centro' ? 23 + Math.pow(azar, 1.15) * 38 : 8 + Math.pow(azar, 1.4) * 19;
+}
+
 // Multiplicador por esquina: cielo, orientación de la cara, oclusión en bordes
 // y base más oscura. Es color horneado en vértices, no una luz por objeto.
 export function luzVertice({ x, y, z, nx, ny, nz }) {

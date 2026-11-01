@@ -41,6 +41,22 @@ dar volumen a los edificios sin mapas de luz ni sombras en tiempo real.
    desplazado del eje de la mirada inicial.
 6. Niebla cálida funde ciudad y fondo y da profundidad a los edificios.
 
+## Calles y fachadas
+
+- Un atlas procedural de cuatro paños da variación de vidrio, marcos, dinteles,
+  alféizares y jardineras sin cargar imágenes externas. El patrón se simplifica
+  gradualmente con la distancia; los detalles adicionales se limitan al centro
+  jugable.
+- Las torres de centro usan una paleta mineral y alturas de 23–61 m. El barrio
+  mexicano exterior usa fachadas más bajas, colores alegres, toldos, balcones,
+  cornisas, equipos de aire, tinacos, antenas y escaleras de azotea.
+- Bordillos, pasos peatonales, faroles, puestos, coches, bancas, jardineras y
+  papel picado se dibujan con lotes instanciados y geometría compartida. Los
+  faroles cambian de apagados a cálidos tras entrar al juego, con material
+  emisivo básico y sin añadir luces a la escena.
+- La plaza central tiene fuente baja, árboles variados y asientos; un segundo
+  parque aporta otra silueta verde. Los anuncios conservan sus lotes previos.
+
 ## Presupuesto de Quest 2
 
 - El cielo y el halo usan una textura cada uno; nubes, mar y reflejos se pintan
@@ -49,5 +65,8 @@ dar volumen a los edificios sin mapas de luz ni sombras en tiempo real.
   la densidad de 56 a 40 siluetas. Cada lote conserva frustum culling; cordillera
   y mar son una malla cada uno. Se conserva la malla instanciada de edificios.
 - Materiales Lambert/Basic, color estático por vértice y color por instancia.
+- Mobiliario y detalles se agrupan por geometría en lotes instanciados. Torres
+  distantes simplifican atlas y accesorios; los perfiles del horizonte conservan
+  frustum culling. Sin luces dinámicas nuevas ni sombras en tiempo real.
 - Sin luces nuevas, luces animadas, mapas de luz descargados ni sombras en
   tiempo real. El medidor de FPS existente es la comprobación en dispositivo.
