@@ -129,6 +129,18 @@ class EspecializacionesTests(unittest.TestCase):
         self.assertIn('rango:defensor:valdren',state['flags'])
         self.assertTrue(any('Defensor de Valdren' in e['text'] for e in state['events']))
 
+    def test_grieta_boss_gains_party_hp_once_per_extra_player(self):
+        primary=self.combatant('arcano',1,'korven_grieta_corazon');ally=self.combatant('juramentado',2,'korven_grieta_corazon')
+        for c in (primary,ally):c['state']['combat'].update(creature='sierpe_veta_madre',profile=dict(m.PROFILES['sierpe_veta_madre']),hp=300)
+        world={'flags':[],'deaths':{},'encounters':{'korven_grieta_corazon:sierpe_veta_madre':1},'version':0,
+               'creature_states':{'korven_grieta_corazon:sierpe_veta_madre':{'hp':300}}}
+        self.now+=4;self.engine.tick_shared_action([primary,ally],world)
+        animal=world['creature_states']['korven_grieta_corazon:sierpe_veta_madre']
+        self.assertEqual(animal['party'],2);self.assertGreater(animal['hp'],600)
+        self.assertEqual(primary['state']['combat']['profile']['hp'],m.party_hp('sierpe_veta_madre',300,2))
+        hp=animal['hp'];self.now+=4;self.engine.tick_shared_action([primary,ally],world)
+        self.assertLess(world['creature_states']['korven_grieta_corazon:sierpe_veta_madre']['hp'],hp+1)
+
     def test_shared_inspiration_reaches_allies_and_veil_protects_primary(self):
         primary=self.combatant('arcano',1,'valdren_plaza','arcano_ecos')
         ally=self.combatant('juramentado',2,'valdren_plaza','juramentado_heroico')
