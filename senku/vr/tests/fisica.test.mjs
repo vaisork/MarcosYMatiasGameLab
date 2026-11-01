@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { paso, crearCuerda, soltar, resolverCajas, impulsoBrazo, AJUSTES, IMPULSO } from '../src/fisica.mjs';
+import { paso, crearCuerda, soltar, resolverCajas, impulsoBrazo, escalar, soltarEscalada, AJUSTES, IMPULSO, ESCALADA } from '../src/fisica.mjs';
 
 const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
 const jugadora = (x = 0, y = 20, z = 0, vx = 0) => ({ pos: { x, y, z }, vel: { x: vx, y: 0, z: 0 }, enSuelo: false });
@@ -90,4 +90,28 @@ test('impulso: crece con la rapidez del jalón pero tiene tope', () => {
   const e = jugadora(0, 20, 0);
   for (let i = 0; i < 14; i++) impulsoBrazo(e, { x: 0, y: -4, z: 0 }, ancla, 1 / 72);
   assert.ok(e.vel.y > 2 && e.vel.y < 6, `vel.y=${e.vel.y}`);
+});
+
+test('escalar: tirar hacia abajo mueve el cuerpo hacia arriba y suspende la gravedad', () => {
+  const e = jugadora(2, 10, -3, 4);
+  e.vel.y = -5; e.vel.z = 2;
+  assert.equal(escalar(e, { x: 0.2, y: -0.4, z: 0.1 }), true);
+  assert.deepEqual(e.pos, { x: 1.8, y: 10.4, z: -3.1 });
+  assert.deepEqual(e.vel, { x: 0, y: 0, z: 0 });
+});
+
+test('escalar: ignora saltos del seguimiento de la mano', () => {
+  const e = jugadora(2, 10, -3, 4);
+  const antes = structuredClone(e);
+  assert.equal(escalar(e, { x: 0, y: 2, z: 0 }), false);
+  assert.deepEqual(e, antes);
+  assert.equal(escalar(e, { x: Number.NaN, y: 0, z: 0 }), false);
+});
+
+test('soltar escalada: impulsa contra el tirón y limita la velocidad', () => {
+  const e = jugadora();
+  soltarEscalada(e, { x: 0, y: -4, z: 0 });
+  assert.deepEqual(e.vel, { x: 0, y: 4 * ESCALADA.ganancia, z: 0 });
+  soltarEscalada(e, { x: 0, y: -40, z: 0 });
+  assert.equal(Math.hypot(e.vel.x, e.vel.y, e.vel.z), ESCALADA.velMax);
 });

@@ -9,8 +9,9 @@ columpiarse por una ciudad del desierto y juntar churus contra el reloj.
 2. Entra a <https://vaisork.github.io/MarcosYMatiasGameLab/senku/vr/>.
 3. Pulsa **Entrar en VR**.
 
-Palanca izquierda: caminar; derecha: girar (30° por pasos en modo cómodo,
-suave si se apaga). Gatillo: lanzar garra (mantener = columpiarse, soltar =
+Palanca izquierda: caminar; derecha: girar (30° por pasos, configurable en el
+menú; suave si se apaga). La viñeta anti-mareo al moverte rápido también se
+puede activar o desactivar por separado y se guarda. Gatillo: lanzar garra (mantener = columpiarse, soltar =
 salir volando). Agarre: con la garra enganchada, tirón; con la mano en una
 pared, escalar; si no, tirón hacia donde apuntas. A/X: saltar. B/Y: menú de
 garras (apuntar con el rayo y elegir con el gatillo; el juego y el reloj se
@@ -62,8 +63,8 @@ a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, 
 - **Churus**: cada ratón vencido suelta 1/2/3 que vuelan hacia ti y suman al
   total acumulado (`localStorage` `senku_vr_churus_total`, «Total» en el HUD).
   Servirán para desbloquear cosas; todavía no hay tienda.
-- **Escalar**: agarre con la mano tocando una pared (a 0.45 m) → el cuerpo se
-  mueve al revés de la mano (`escalar()`), sin gravedad; con las dos manos se
+- **Escalar**: agarre con la mano tocando una pared o borde (a 0.45 m) → el cuerpo se
+  mueve al revés del tirón de la mano (`escalar()` en `fisica.mjs`), sin gravedad; con las dos manos se
   promedian. Al soltar sales lanzada al revés de la mano (×1.4, tope 12 m/s).
   Sin visor: C frente a una pared (≤ 2.5 m) te pega a ella; W/S sube y baja,
   A/D de lado, espacio salta hacia atrás; al llegar arriba pisas la azotea.
@@ -88,8 +89,9 @@ a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, 
 - Menú de garras (todo gratis): cuerda normal, telaraña, cadena, estambre y
   rayo láser (cada una con su sonido); pata Senku, naranja, negra, robot y tigre.
   Se guarda en `localStorage` (`senku_vr_garras`). Catálogo y dibujos en `src/estilos.js`.
-- Comodidad: viñeta más fuerte por defecto y también al impulsarse; «modo
-  cómodo» (viñeta fuerte + giro por pasos) activado por defecto.
+- Comodidad: viñeta más fuerte por defecto y también al impulsarse; giro por
+  pasos (30°) activado por defecto. La viñeta se activa por separado desde el
+  menú y ambas preferencias se conservan.
 
 ## Técnica
 

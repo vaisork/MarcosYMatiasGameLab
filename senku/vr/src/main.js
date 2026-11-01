@@ -2,8 +2,8 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
-import { paso, crearCuerda, soltar, tiron, impulsoBrazo, resolverCajas, IMPULSO, AJUSTES } from './fisica.mjs';
-import { TIPOS, ZARPAZO, VIDA, crearEnemigo, golpear, esZarpazo, pasoEnemigo, tocaEnemigo, crearVida, recibirDano, tocaPared, escalar, soltarEscalada } from './enemigos.mjs';
+import { paso, crearCuerda, soltar, tiron, impulsoBrazo, resolverCajas, escalar, soltarEscalada, IMPULSO, AJUSTES } from './fisica.mjs';
+import { TIPOS, ZARPAZO, VIDA, crearEnemigo, golpear, esZarpazo, pasoEnemigo, tocaEnemigo, crearVida, recibirDano, tocaPared } from './enemigos.mjs';
 import { crearMundo, CUADRA } from './mundo.js';
 import { iniciarSonido, sonar } from './sonido.js';
 import { NOMBRE_PODER, PODER, CLAVE_PODER, crearBarra, barraLlena, cargarBarra, dispararPoder, masCercano, crearRatoncito, pasoRatoncito, tocaRatoncito } from './poder.mjs';
@@ -52,6 +52,8 @@ let totalChurus = leerTotal(); // churus acumulados (para desbloquear cosas desp
 const sumarChurus = (n) => { totalChurus += n; try { localStorage.setItem(CLAVE_TOTAL, String(totalChurus)); } catch { /* sin almacenamiento */ } };
 const vida = crearVida();
 const eleccion = leerEleccion(); // {cuerda, pata, comodo}
+vineta = eleccion.vineta;
+$('vineta').checked = vineta;
 let menuAbierto = false, pausaDesde = 0, impulsando = 0;
 const estiloCuerda = () => CUERDAS.find((c) => c.id === eleccion.cuerda) || CUERDAS[0];
 const estiloPata = () => PATAS.find((p) => p.id === eleccion.pata) || PATAS[0];
@@ -322,7 +324,7 @@ function agarrar(m) {
   if (m.presa) return jalarPresa(m);
   if (renderer.xr.isPresenting) {
     m.grip.getWorldPosition(v1);
-    if (tocaPared(v1, mundo.cajas)) { m.escalando = true; empezar(); sonar.agarrar(); vibrar(m, 0.5, 30); return; }
+    if (tocaPared(v1, mundo.cajas)) { m.manoAntes = (m.manoAntes || new THREE.Vector3()).copy(m.grip.position); m.escalando = true; empezar(); sonar.agarrar(); vibrar(m, 0.5, 30); return; }
   }
   tirar(m);
 }
@@ -896,7 +898,7 @@ function actualizarEscalada(dt) {
     v1.set(0, 0, 0);
     for (const m of agarradas) v1.add(m.deltaMano);
     v1.divideScalar(agarradas.length);
-    if (v1.length() < 1.5) escalar(jugadora, v1); // saltos del seguimiento se ignoran
+    escalar(jugadora, v1); // la física ignora saltos del seguimiento
   } else {
     const my = (teclas.has('KeyW') ? 1 : 0) - (teclas.has('KeyS') ? 1 : 0) + joystick.y;
     const mx = (teclas.has('KeyD') ? 1 : 0) - (teclas.has('KeyA') ? 1 : 0) + joystick.x;
@@ -965,7 +967,7 @@ const botonesMenu = [];
 const fila = (lista, tipo, y, muestra) => lista.forEach((e, k) => botonesMenu.push({ tipo, id: e.id, texto: e.nombre, x: 21 + k * 202, y, w: 190, h: 190, img: muestra(e.id, 120) }));
 fila(CUERDAS, 'cuerda', 100, muestraCuerda);
 fila(PATAS, 'pata', 340, muestraPata);
-[['comodo', 'Modo cómodo'], ['sombra', 'Sombra'], ['fps', 'Medidor de FPS'], ['listo', '¡Listo!']].forEach(([tipo, texto], k) => botonesMenu.push({ tipo, texto, x: 21 + k * 250, y: 545, w: 230, h: 80 }));
+[['comodo', 'Giro por pasos'], ['sombra', 'Viñeta anti-mareo'], ['fps', 'Medidor de FPS'], ['listo', '¡Listo!']].forEach(([tipo, texto], k) => botonesMenu.push({ tipo, texto, x: 21 + k * 250, y: 545, w: 230, h: 80 }));
 
 const elegido = (b) => (b.tipo === 'cuerda' && eleccion.cuerda === b.id) || (b.tipo === 'pata' && eleccion.pata === b.id) || (b.tipo === 'comodo' && eleccion.comodo) || (b.tipo === 'sombra' && vineta) || (b.tipo === 'fps' && fpsVisible);
 function dibujarMenu() {
@@ -983,7 +985,11 @@ function dibujarMenu() {
     if (elegido(b)) { g.strokeStyle = '#ff6f9a'; g.lineWidth = 10; g.stroke(); }
     g.fillStyle = '#fff';
     if (b.img) { g.drawImage(b.img, b.x + 35, b.y + 8); g.font = 'bold 28px system-ui, sans-serif'; g.fillText(b.texto, b.x + b.w / 2, b.y + 160); }
-    else { g.font = 'bold 27px system-ui, sans-serif'; g.fillText(b.tipo === 'listo' ? b.texto : `${b.texto}: ${elegido(b) ? 'SÍ' : 'NO'}`, b.x + b.w / 2, b.y + b.h / 2); }
+    else {
+      const texto = b.tipo === 'listo' ? b.texto : `${b.texto}: ${elegido(b) ? 'SÍ' : 'NO'}`;
+      g.font = `bold ${b.tipo === 'sombra' ? 18 : 27}px system-ui, sans-serif`;
+      g.fillText(texto, b.x + b.w / 2, b.y + b.h / 2);
+    }
   }
   menuTex.needsUpdate = true;
 }
@@ -1032,10 +1038,11 @@ function activar(b) {
   if (b.tipo === 'cuerda') { eleccion.cuerda = b.id; iniciarSonido(); sonar.enganchar(b.id); }
   else if (b.tipo === 'pata') eleccion.pata = b.id;
   else if (b.tipo === 'comodo') eleccion.comodo = !eleccion.comodo;
-  else if (b.tipo === 'sombra') vineta = !vineta;
+  else if (b.tipo === 'sombra') { vineta = !vineta; eleccion.vineta = vineta; }
   else if (b.tipo === 'fps') { alternarFPS(); return; }
   else if (b.tipo === 'listo') { cerrarMenu(); return; }
   manos.forEach((m) => vibrar(m, 0.3, 20));
+  eleccion.vineta = vineta;
   guardarEleccion(eleccion);
   aplicarEstilos();
   sincronizarMenu();
@@ -1132,7 +1139,7 @@ function jugar() {
   actualizarHUD();
 }
 
-$('vineta').addEventListener('change', (e) => { vineta = e.target.checked; });
+$('vineta').addEventListener('change', (e) => { vineta = e.target.checked; eleccion.vineta = vineta; guardarEleccion(eleccion); });
 $('sin-visor').addEventListener('click', () => {
   jugar();
   if (!matchMedia('(pointer: coarse)').matches) lienzo.requestPointerLock?.()?.catch?.(() => {});
