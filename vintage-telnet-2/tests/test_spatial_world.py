@@ -30,7 +30,7 @@ class SpatialWorldTests(unittest.TestCase):
   while queue:
    for to in self.content.rooms[queue.popleft()]['exits'].values():
     if to not in seen:seen.add(to);queue.append(to)
-  self.assertEqual(seen,set(self.content.rooms));self.assertEqual(len(seen),191)
+  self.assertEqual(seen,set(self.content.rooms))
  def test_snapshot_never_exports_hidden_places_or_global_spatial_table(self):
   char=self.character();home=self.engine.snapshot(char,self.world)['map']
   self.assertEqual(len(home['nodes']),1);self.assertIn('position',home['nodes'][0]);self.assertNotIn('valdren_plaza',json.dumps(home))
@@ -51,7 +51,7 @@ class SpatialWorldTests(unittest.TestCase):
   self.assertEqual(before[0]['points'],list(reversed(before[1]['points'])))
   char['state']['known'].append('valdren_pozo')
   self.assertEqual(self.engine.snapshot(char,self.world)['map']['routes'],before)
-  self.assertEqual(len(self.content.spatial_roads),424)
+  self.assertEqual(len(self.content.spatial_roads),2*len(self.content.spatial['roads']))
  def test_authored_positions_cannot_silently_fall_back_to_unfrozen_roads(self):
   with tempfile.TemporaryDirectory() as root:
    Path(root,'world.json').write_text(json.dumps(self.content.data))

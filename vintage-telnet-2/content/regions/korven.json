@@ -1207,6 +1207,16 @@
         }
       ],
       "brief": "El mirador de las grietas.",
+      "states": [
+        {
+          "requires_flags": [
+            "korven_grieta_en_calma"
+          ],
+          "overrides": {
+            "night": "Las grietas del Mirador brillan con hilos de luz que laten despacio."
+          }
+        }
+      ],
       "wildlife_pool": [
         {
           "creature": "cascapedernal",
