@@ -20,6 +20,10 @@ Región: `id`, `name`, `identity`, `settlement`, `species`, `weather` (variantes
 
 Cada registro `fishing.<sala>` tiene `id` igual al id de sala y una lista `fish` de especies (`item` y `rarity`). La pesca v1 está limitada a las seis salas homologadas en `docs/VT2_PESCA.md`, usa el inventario y precio de venta existentes, tiene un intento personal cada 120 segundos, 3 de fatiga y agota el cardumen durante 900 segundos tras una captura. No pesca durante combate ni con fatiga desde 70; no genera daño ni encuentros.
 
+### Plantillas de recados diarios
+
+`quest_templates` define encargos que se mezclan con los tres recados diarios existentes: `deliver`, `observe_creature`, `escort_numen` y `bring_material`. Cada plantilla declara región, sala y NPC que la ofrece, sala de destino y sus referencias específicas (`target_npc`, `creature` o `item`), además de título, instrucción y recompensas base. El validador exige IDs existentes, presencia de los NPC/criaturas en sus salas y materiales de tipo `material`. La entrega de material consume una unidad. Las recompensas base de experiencia y sellos se multiplican por el nivel del personaje al completar el encargo; las reglas y racha de los recados diarios existentes se conservan.
+
 La composición combina espacio, transición, hora, clima, actividad, amenaza y memoria con prioridad y ritmo; no concatena todas las capas en cada lectura ni sustituye escenas concretas por frases genéricas.
 
 Piloto MUD clásico: `brief` es un resumen editorial opcional de la geografía permanente. Sólo se usa en navegación tras la primera visita; `mirar` devuelve siempre la descripción completa mediante un evento `LOOK`. Un estado que cambia `description` sin su propio `brief` descarta el resumen anterior. Lo mismo ocurre al cambiar la descripción por ausencia de una criatura. Las capas dinámicas, amenazas, acciones y salidas conservan sus contratos. El encabezado muestra el lugar; `LOCATION` permanece en el historial, sin repetirse en la terminal. No extender los seis resúmenes del piloto masivamente sin una revisión regional.

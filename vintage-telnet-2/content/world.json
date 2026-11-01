@@ -2632,6 +2632,56 @@
       "paid_text": "Terminaste el encargo de Oma y recibiste 40 sellos."
     }
   },
+  "quest_templates": {
+    "valdren_entrega": {
+      "kind": "deliver",
+      "region": "edran",
+      "board_room": "valdren_cobertizo",
+      "board_npc": "edran_bren",
+      "destination_room": "valdren_fragua",
+      "target_npc": "edran_daro",
+      "title": "Llevar un aviso a la fragua",
+      "instruction": "Bren dejó un recado para Daro. Llévaselo a la fragua y escucha su respuesta.",
+      "base_xp": 5,
+      "base_seals": 2
+    },
+    "valdren_observar": {
+      "kind": "observe_creature",
+      "region": "edran",
+      "board_room": "valdren_cobertizo",
+      "board_npc": "edran_bren",
+      "destination_room": "edran_surcos",
+      "creature": "espinajo_rastrojo",
+      "title": "Observar al Espinajo",
+      "instruction": "Desde una distancia segura, observa al Espinajo del rastrojo en los surcos.",
+      "base_xp": 5,
+      "base_seals": 2
+    },
+    "valdren_escoltar_numen": {
+      "kind": "escort_numen",
+      "region": "edran",
+      "board_room": "valdren_cobertizo",
+      "board_npc": "edran_bren",
+      "destination_room": "valdren_plaza",
+      "title": "Acompañar a tu Númen a la plaza",
+      "instruction": "Viaja con tu Númen activo hasta la plaza de Valdren; el Númen te acompaña por el camino.",
+      "base_xp": 5,
+      "base_seals": 2
+    },
+    "valdren_traer_material": {
+      "kind": "bring_material",
+      "region": "edran",
+      "board_room": "valdren_cobertizo",
+      "board_npc": "edran_bren",
+      "destination_room": "valdren_fragua",
+      "target_npc": "edran_daro",
+      "item": "hierro_viejo",
+      "title": "Llevar hierro viejo a Daro",
+      "instruction": "Lleva una pieza de hierro viejo a Daro, en la fragua, para que la separe de sus herramientas.",
+      "base_xp": 5,
+      "base_seals": 2
+    }
+  },
   "secrets": {
     "lio_fragua": {
       "flag": "edran_lio_dibujo_fragua",
