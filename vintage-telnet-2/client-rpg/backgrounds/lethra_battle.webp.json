@@ -1,0 +1,23 @@
+{
+  "asset_id": "lethra_battle",
+  "generation_tool": "native image_gen",
+  "source_original": "/home/jdiaz/.codex/generated_images/01a19496-3531-7692-93a8-98ab4e98a4bf/exec-6d775ae9-9ff1-4ddf-8552-4e1eb2da2631.png",
+  "source_dimensions": [
+    1448,
+    1086
+  ],
+  "normalization": "Lanczos resize to 640x480, nearest-neighbour upscale to 1280x960, WebP compression only",
+  "dimensions": [
+    1280,
+    960
+  ],
+  "quality": 60,
+  "bytes": 246712,
+  "sha256": "beb6de77d309ee064ef56f720db3bc9d20729f6b12b6b036420a2dc25e15f31e",
+  "style_references": [
+    "backgrounds/korven_battle.webp",
+    "backgrounds/veyra_battle.webp"
+  ],
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Lethra regional battle background: riverside wetland with braided shallow water, curved firm bank, exposed roots, reeds, low vegetation, distant footbridge and trees, soft bright daylight. Broad open walkable central bank. Detailed painted pixel-art JRPG, slight low three-quarter perspective, terrain to all edges, no actors, creatures, weapons, text or HUD. Style and composition referenced korven_battle.webp and veyra_battle.webp."
+}

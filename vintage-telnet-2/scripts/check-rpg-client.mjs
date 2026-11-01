@@ -546,7 +546,7 @@ for(const [cw,ch] of [[390,844],[780,1688],[1366,768],[2732,1536]]){
 console.log('RPG battle layout: DPR1/DPR2 portrait and desktop rects visible inside viewport OK');
 
 // Battle background contract: optional scene battle_background overrides regional fallback;
-// loading state shows neutral background (never regional forest); absence preserves regional/legacy; whitelist rejects invalid paths.
+// loading state shows neutral background (never regional forest); whitelist rejects invalid paths.
 vm.runInContext(`
 canvas.width = 640; canvas.height = 480;
 draws = []; fills = [];
@@ -554,8 +554,10 @@ snapshot.character = {combat: {creature: 'forajido_camino', name: 'Forajido · n
 snapshot.room = {region: 'edran'};
 scene = {battle_background: 'backgrounds/edran_canal_battle.webp'};
 backgrounds['backgrounds/edran_canal_battle.webp'] = {complete: true, naturalWidth: 1280, naturalHeight: 720};
-backgrounds['backgrounds/ui_battle.webp'] = {complete: true, naturalWidth: 1280, naturalHeight: 720};
 backgrounds['backgrounds/edran_battle.webp'] = {complete: true, naturalWidth: 1280, naturalHeight: 720};
+for (const region of ['edran', 'korven', 'veyra', 'hoshai', 'lethra', 'nhal']) {
+ backgrounds['backgrounds/' + region + '_battle.webp'] = {complete: true, naturalWidth: 1280, naturalHeight: 960};
+}
 `, context);
 
 // 1. Prioridad override: battle_background presente y cargado tiene prioridad sobre ui_battle
@@ -574,23 +576,23 @@ vm.runInContext(`battleDraw(1010);`, context);
 assert.equal(vm.runInContext('draws.some(args => args[0] === backgrounds["backgrounds/ui_battle.webp"])', context), false, 'Interior with loading battle_background must NEVER draw regional forest');
 assert.equal(vm.runInContext('fills.some(args => args[0] === 0 && args[1] === 0 && args[2] === 640 && args[3] === 480)', context), true, 'Neutral background fill is used when battle_background is loading');
 
-// 3. Ausencia de campo: fallback regional (ui_battle para edran) y legado (edran_battle)
+// 3. Ausencia de campo: cada región usa su fondo de batalla
 vm.runInContext(`
 delete scene.battle_background;
 backgrounds['backgrounds/edran_canal_battle.webp'].complete = true;
-snapshot.room = {region: 'edran'};
 draws = []; fills = [];
 `, context);
-assert.equal(vm.runInContext('battleBackgroundImage(scene) === backgrounds["backgrounds/ui_battle.webp"]', context), true, 'Absence with edran region uses ui_battle.webp');
-vm.runInContext(`battleDraw(1020);`, context);
-assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/ui_battle.webp"]', context), true, 'battleDraw uses regional ui_battle in edran');
+for (const region of ['edran', 'korven', 'veyra', 'hoshai', 'lethra', 'nhal']) {
+ context.testRegion = region;
+ vm.runInContext(`snapshot.room = {region: testRegion};`, context);
+ assert.equal(vm.runInContext('battleBackgroundImage(scene) === backgrounds[`backgrounds/${testRegion}_battle.webp`]', context), true, `Absence with ${region} region uses its battle background`);
+}
+vm.runInContext(`snapshot.room = {region: 'edran'}; draws = []; fills = []; battleDraw(1020);`, context);
+assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_battle.webp"]', context), true, 'battleDraw uses edran regional battle background');
 
-// 3b. Región distinta a edran preserva fallback edran_battle legado
-vm.runInContext(`
-snapshot.room = {region: 'valdren'};
-draws = []; fills = [];
-`, context);
-assert.equal(vm.runInContext('battleBackgroundImage(scene) === backgrounds["backgrounds/edran_battle.webp"]', context), true, 'Absence with non-edran region uses edran_battle.webp');
+// Región desconocida preserva el fallback de batalla legado edran
+vm.runInContext(`snapshot.room = {region: 'valdren'}; draws = []; fills = [];`, context);
+assert.equal(vm.runInContext('battleBackgroundImage(scene) === backgrounds["backgrounds/edran_battle.webp"]', context), true, 'Unknown region uses edran_battle.webp fallback');
 vm.runInContext(`battleDraw(1030);`, context);
 assert.equal(vm.runInContext('draws[0][0] === backgrounds["backgrounds/edran_battle.webp"]', context), true, 'battleDraw uses legacy edran_battle for non-edran');
 
@@ -603,7 +605,7 @@ for (const invalid of ['../malicious.webp', 'https://evil.com/bg.webp', '/client
  assert.equal(vm.runInContext('draws.some(args => args[0] === backgrounds["backgrounds/ui_battle.webp"])', context), false, 'Invalid battle_background must not fallback to forest');
 }
 vm.runInContext(`delete scene.battle_background; snapshot.character.combat = null;`, context);
-console.log('RPG battle background: override priority, loading neutral, regional/legacy fallback and whitelist OK');
+console.log('RPG battle background: override priority, loading neutral, six regional fallbacks and whitelist OK');
 
 // Returning from the welcome screen keeps the same room and character IDs.
 // It must still load a scene before movement and action navigation can render.
