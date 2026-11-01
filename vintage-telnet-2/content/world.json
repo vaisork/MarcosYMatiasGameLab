@@ -868,6 +868,187 @@
       ],
       "defeat_text": "El dragón intenta alzar otra vez las alas. No puede. En lugar de rugir, deja escapar un resuello largo que mueve el vapor por última vez. Sus ojos dorados te miran y la cola afloja el círculo que formaba alrededor del manantial. Con cuidado, el guardián se desliza hacia una repisa de piedra junto al agua y recoge las alas para descansar. El remolino, libre de su peso, se abre poco a poco. Un hilo transparente encuentra un canal; luego otro lo sigue. Pronto la cuenca entera canta contra los conductos y la corriente se dirige hacia Veyra. El dragón cierra los ojos. Su pecho sigue subiendo y bajando, tranquilo. Has vencido sin apagar la vida que cuidaba este lugar.",
       "illustration": "/client/art/bestiary/dragon_aguas_antiguas-anime-v1.webp"
+    },
+    "tallagrietas": {
+      "id": "tallagrietas",
+      "name": "Tallagrietas",
+      "region": "korven",
+      "description": "Se pega a las paredes de la Sala de los Ecos Tibios. Su cuerpo delgado cabe en las juntas; la cola plana golpea de lado.",
+      "presagio": "Una laja roza la pared. Algo largo se mueve entre los ecos.",
+      "habitat": "Vive en grietas estrechas y caza desde los costados del paso.",
+      "warning": "Se aplana contra la roca y enrosca la cola. Puedes interrumpir el latigazo antes de que la suelte.",
+      "combat_intro": "Tallagrietas se vuelve hacia ti y prepara su siguiente movimiento.",
+      "defeat_text": "El Tallagrietas se aparta de la pared y deja libre el camino.",
+      "loot": [
+        {
+          "item": "cristal_veta",
+          "chance": 0.2
+        }
+      ]
+    },
+    "cuarzarana": {
+      "id": "cuarzarana",
+      "name": "Cuarzaraña",
+      "region": "korven",
+      "description": "Teje hilos entre las raíces de piedra. Sus patas se afirman en el techo y sacuden esquirlas cuando alguien se acerca.",
+      "presagio": "Algo raspa el techo y cae polvo brillante.",
+      "habitat": "Habita los techos con vetas de cristal quebradizo.",
+      "warning": "Frota las patas y hace caer esquirlas. No puedes interrumpirla: apártate o borra su foco.",
+      "combat_intro": "Cuarzaraña se vuelve hacia ti y prepara su siguiente movimiento.",
+      "defeat_text": "La Cuarzaraña recoge las patas entre las grietas.",
+      "loot": [
+        {
+          "item": "cristal_veta",
+          "chance": 0.2
+        }
+      ]
+    },
+    "vetasierpe": {
+      "id": "vetasierpe",
+      "name": "Vetasierpe",
+      "region": "korven",
+      "description": "Serpentea entre los cristales bajos de la charca. Junta sus anillos para abrazar cualquier cosa que entre en su borde.",
+      "presagio": "El agua se abre en círculos junto a un cuerpo de anillos.",
+      "habitat": "Vive en los charcos tibios y se esconde bajo cornisas de piedra.",
+      "warning": "Junta los anillos y se lanza de frente. Puedes interrumpirla o cubrirte.",
+      "combat_intro": "Vetasierpe se vuelve hacia ti y prepara su siguiente movimiento.",
+      "defeat_text": "La Vetasierpe vuelve a enroscarse entre los cristales.",
+      "loot": [
+        {
+          "item": "cristal_veta",
+          "chance": 0.2
+        }
+      ]
+    },
+    "rodacanto": {
+      "id": "rodacanto",
+      "name": "Rodacanto",
+      "region": "korven",
+      "description": "Una criatura acorazada de placas redondas. Se hace bola entre los cantos y rueda en línea recta.",
+      "presagio": "Tres piedras chocan y una placa redonda se recoge.",
+      "habitat": "Ocupa pozos de cantos lisos donde puede rodar sin atorarse.",
+      "warning": "Se hace bola y rueda de frente; no puedes detenerla. Usa guardia frontal o esquiva.",
+      "combat_intro": "Rodacanto se vuelve hacia ti y prepara su siguiente movimiento.",
+      "defeat_text": "El Rodacanto se desenrolla en un rincón del pozo.",
+      "loot": [
+        {
+          "item": "cristal_veta",
+          "chance": 0.2
+        }
+      ]
+    },
+    "espinacuarzo": {
+      "id": "espinacuarzo",
+      "name": "Espinacuarzo",
+      "region": "korven",
+      "description": "Se oculta en el bosque de geodas. Sus púas transparentes vibran y suenan antes de tocar algo.",
+      "presagio": "Una forma cubierta de púas se aplana detrás de una geoda.",
+      "habitat": "Vive entre geodas altas y evita los espacios abiertos.",
+      "warning": "Eriza las púas sin apuntar a un lado. Apártate o borra su foco.",
+      "combat_intro": "Espinacuarzo se vuelve hacia ti y prepara su siguiente movimiento.",
+      "defeat_text": "El Espinacuarzo baja las púas y vuelve a su rincón.",
+      "loot": [
+        {
+          "item": "cristal_veta",
+          "chance": 0.2
+        }
+      ]
+    },
+    "brasaluz": {
+      "id": "brasaluz",
+      "name": "Brasaluz",
+      "region": "korven",
+      "description": "Un animal de vientre luminoso se refugia en las grietas calientes. Reúne aire antes de lanzar vapor de frente.",
+      "presagio": "Una luz naranja palpita dentro de una fisura y calienta el aire.",
+      "habitat": "Habita cerca de las grietas de vapor, donde mantiene tibio su cuerpo.",
+      "warning": "Toma aire y lanza vaho caliente de frente. Puedes interrumpirlo o cubrirte.",
+      "combat_intro": "Brasaluz se vuelve hacia ti y prepara su siguiente movimiento.",
+      "defeat_text": "El Brasaluz deja de exhalar y vuelve a su grieta.",
+      "loot": [
+        {
+          "item": "cristal_veta",
+          "chance": 0.2
+        }
+      ]
+    },
+    "callaecos": {
+      "id": "callaecos",
+      "name": "Callaecos",
+      "region": "korven",
+      "description": "Se mueve sin ruido por la Galería Sorda. Su cuerpo compacto cambia de sitio en un salto lateral.",
+      "presagio": "Tus pasos dejan de sonar y algo se agacha en la oscuridad.",
+      "habitat": "Vive en galerías donde la roca absorbe el eco.",
+      "warning": "Se agacha para saltar de lado. Haz ruido o golpéalo antes de que salte.",
+      "combat_intro": "Callaecos se vuelve hacia ti y prepara su siguiente movimiento.",
+      "defeat_text": "El Callaecos se retira hacia una grieta oscura.",
+      "loot": [
+        {
+          "item": "cristal_veta",
+          "chance": 0.2
+        }
+      ]
+    },
+    "quebrarrocas_canoso": {
+      "id": "quebrarrocas_canoso",
+      "name": "Quebrarrocas Canoso",
+      "region": "korven",
+      "description": "Un Quebrarrocas muy viejo, con la coraza blanqueada de polvo. Sus crías cavaron las galerías que suben al cauce; cuida el nido, no es malo.",
+      "presagio": "Placas viejas y enormes, polvo blanco y tres pulsos de vibración anuncian su nido.",
+      "habitat": "Vive en la cámara seca donde nacieron las galerías que suben a Brumak.",
+      "warning": "Ancla el cuerpo, protege el nido y alterna empujes, zarpazos y temblores. Su coraza guarda muchos años de polvo.",
+      "combat_intro": "Quebrarrocas Canoso se vuelve hacia ti y prepara su siguiente movimiento.",
+      "defeat_text": "Se echa sobre sus piedras y te deja pasar.",
+      "loot": [
+        {
+          "item": "placa_quebrarrocas",
+          "chance": 1.0
+        },
+        {
+          "item": "cristal_veta",
+          "chance": 0.5
+        }
+      ],
+      "victory_flags": [
+        "grieta_veta_tibia"
+      ]
+    },
+    "tejecristal": {
+      "id": "tejecristal",
+      "name": "Tejecristal",
+      "region": "korven",
+      "description": "Una araña larguísima teje hilos de cuarzo. Cuando la luz pasa por la red, suena como un arpa.",
+      "presagio": "Hilos brillantes, un insecto de cristal atrapado y un zumbido musical anuncian el Telar.",
+      "habitat": "Vive entre las geodas y extiende su telar por la sala más amplia.",
+      "warning": "Alterna una red de cuarzo, una embestida y un canto que hace vibrar el telar.",
+      "combat_intro": "Tejecristal se vuelve hacia ti y prepara su siguiente movimiento.",
+      "defeat_text": "Se recoge en lo alto de su telar y la red queda quieta, como un vitral.",
+      "loot": [
+        {
+          "item": "cristal_veta",
+          "chance": 1.0
+        }
+      ],
+      "victory_flags": [
+        "grieta_veta_clara"
+      ]
+    },
+    "sierpe_veta_madre": {
+      "id": "sierpe_veta_madre",
+      "name": "Sierpe de la Veta Madre",
+      "region": "korven",
+      "description": "Una serpiente inmensa de cristal vivo. Al crecer dormida, sus anillos empujan la roca y levantan las losas de Brumak. No está enojada: está creciendo.",
+      "presagio": "Huellas curvas en la charca, vetas que pulsan en el Descenso, una muda en la Fuente y calor que late en la Antecámara anuncian su presencia.",
+      "habitat": "Habita el corazón de la cueva, alrededor de la veta más honda.",
+      "warning": "Alterna cuatro preparaciones: rodada de anillos, lluvia de cristal, pulso de veta y mordida de cuarzo. Cada clase puede responder de alguna forma.",
+      "combat_intro": "Sierpe de la Veta Madre se vuelve hacia ti y prepara su siguiente movimiento.",
+      "defeat_text": "La Sierpe muda la piel y se enrosca en la veta más honda. Se queda dormida; no muere.",
+      "loot": [
+        {
+          "item": "escama_veta",
+          "chance": 1.0
+        }
+      ],
+      "victory_flags": []
     }
   },
   "items": {
@@ -1935,6 +2116,85 @@
       "sell_price": 3,
       "description": "Aprovechable de Saltalodo.",
       "source": "Combate ligero de presas defensivas (usuario, 2026-10-09)."
+    },
+    "espada_veta_madre": {
+      "id": "espada_veta_madre",
+      "source": "La Grieta Madre de Korven (diseño autorizado 2026-10-31).",
+      "name": "Espada de la Veta Madre",
+      "kind": "weapon",
+      "damage": 21,
+      "activated": true,
+      "block": true,
+      "bonus": {
+        "precision": 4,
+        "vida": 10
+      },
+      "sell_price": 160,
+      "description": "Una hoja clara con guarda firme; su veta azul conserva el ritmo lento de la cueva."
+    },
+    "baculo_cuarzo_cantor": {
+      "id": "baculo_cuarzo_cantor",
+      "source": "La Grieta Madre de Korven (diseño autorizado 2026-10-31).",
+      "name": "Báculo de Cuarzo Cantor",
+      "kind": "weapon",
+      "damage": 18,
+      "activated": true,
+      "focus": true,
+      "bonus": {
+        "vida": 25,
+        "precision": 3
+      },
+      "sell_price": 155,
+      "description": "El cuarzo del extremo devuelve una nota clara cuando lo alzas."
+    },
+    "colmillos_geoda": {
+      "id": "colmillos_geoda",
+      "source": "La Grieta Madre de Korven (diseño autorizado 2026-10-31).",
+      "name": "Colmillos de Geoda",
+      "kind": "weapon",
+      "damage": 18,
+      "activated": true,
+      "bonus": {
+        "precision": 8,
+        "esquiva": 3
+      },
+      "sell_price": 150,
+      "description": "Dos hojas ligeras, pulidas por dentro como geodas abiertas."
+    },
+    "arco_cristal_hondo": {
+      "id": "arco_cristal_hondo",
+      "source": "La Grieta Madre de Korven (diseño autorizado 2026-10-31).",
+      "name": "Arco de Cristal Hondo",
+      "kind": "weapon",
+      "damage": 20,
+      "activated": true,
+      "ranged": true,
+      "bonus": {
+        "precision": 5
+      },
+      "sell_price": 160,
+      "description": "La madera oscura sostiene una veta cristalina que vibra al tensarse."
+    },
+    "amuleto_veta_tibia": {
+      "id": "amuleto_veta_tibia",
+      "source": "La Grieta Madre de Korven (diseño autorizado 2026-10-31).",
+      "name": "Amuleto de la Veta Tibia",
+      "kind": "accessory",
+      "slot": "amuleto",
+      "bonus": {
+        "vida": 25,
+        "esquiva": 4
+      },
+      "sell_price": 90,
+      "description": "Una piedra tibia al tacto, atravesada por una línea azul que pulsa despacio."
+    },
+    "escama_veta": {
+      "id": "escama_veta",
+      "source": "La Grieta Madre de Korven (diseño autorizado 2026-10-31).",
+      "name": "Escama de veta",
+      "kind": "material",
+      "sell_price": 50,
+      "description": "Una escama curva de cristal vivo, desprendida durante la muda de la Sierpe."
     }
   },
   "quests": {
@@ -2256,6 +2516,26 @@
       "delivery_text": "Taren pone tu marca junto a las medidas de la mano y aparta un trozo de arcilla para la prueba.",
       "payment_dialogue": "Esta vez empiezo por lo que necesita mi madre, no por lo que me sale de las manos. Gracias por mirar con calma.",
       "paid_text": "Comparaste las muestras y diste a Taren tu recomendación. Terminaste la consulta; él todavía tiene que fabricar y probar la taza que quiere para su madre."
+    },
+    "korven_grieta_madre": {
+      "id": "korven_grieta_madre",
+      "name": "Averiguar qué mueve las losas",
+      "npc": "korven_oma",
+      "accept_room": "korven_registro_cauce",
+      "required_rooms": [],
+      "required_actions": [],
+      "required_flags": [
+        "korven_grieta_en_calma"
+      ],
+      "payout": 40,
+      "repeatable": false,
+      "family": "korven_grieta_madre",
+      "accept_text": "Oma quiere saber qué empuja las losas del cauce y te pide volver cuando la grieta madre esté en calma.",
+      "accept_dialogue": "Las losas que usan los cargadores siguen subiendo. Ya sabemos que algo se mueve abajo, pero queda la grieta más honda. Averigua qué pasa y vuelve cuando el cauce deje de temblar.",
+      "ready_text": "Oma espera en el Registro del cauce para escuchar lo que encontraste.",
+      "delivery_text": "Le cuentas a Oma que la Sierpe mudó la piel y se quedó dormida en la veta más honda. Ella registra que las losas ya no se mueven.",
+      "payment_dialogue": "«Cuarenta sellos. Hiciste el trabajo completo y ahora puedo escribir que el cauce está quieto.»",
+      "paid_text": "Terminaste el encargo de Oma y recibiste 40 sellos."
     }
   },
   "secrets": {
@@ -2378,6 +2658,30 @@
     "sec_v_fundas": {
       "flag": "sec_v_fundas",
       "title": "Las fundas del relevo"
+    },
+    "grieta_huellas": {
+      "id": "grieta_huellas",
+      "room": "korven_grieta_charca",
+      "flag": "sec_grieta_huellas",
+      "title": "Huellas bajo la charca"
+    },
+    "grieta_nota_cantero": {
+      "id": "grieta_nota_cantero",
+      "room": "korven_grieta_descenso",
+      "flag": "sec_grieta_nota",
+      "title": "La nota del cantero"
+    },
+    "grieta_geoda_cantora": {
+      "id": "grieta_geoda_cantora",
+      "room": "korven_grieta_mirador",
+      "flag": "sec_grieta_geoda",
+      "title": "La geoda que canta"
+    },
+    "grieta_concha": {
+      "id": "grieta_concha",
+      "room": "korven_grieta_fuente",
+      "flag": "sec_grieta_concha",
+      "title": "La concha de piedra"
     }
   }
 }
