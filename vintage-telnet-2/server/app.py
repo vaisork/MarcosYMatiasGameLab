@@ -99,6 +99,7 @@ def create_app(config=None):
         settle_combat(db,e,world)
         char=selected(db)
         changed=e.tick(char,world)
+        e.sync_achievements(char,world)
         heartbeat(e,char,world);store.save_world(db,world)
         store.save(db,char);result.update(e.snapshot(char,world));
         if char['state'].get('tester_enabled') is True:result['tester']={'enabled':True,'destinations':tester_destinations(e,char)}
