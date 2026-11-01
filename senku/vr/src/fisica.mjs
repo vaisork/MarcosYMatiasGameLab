@@ -102,6 +102,26 @@ export function tiron(e, punto, fuerza = 14) {
 // velocidades de mano absurdas (saltos del seguimiento) se ignoran.
 export const IMPULSO = { umbral: 1.2, ganancia: 9, tope: 26, manoMax: 12 };
 
+export const ESCALADA = { ganancia: 1.4, velMax: 12, deltaMax: 0.5 };
+
+// Al tirar de una mano apoyada en la pared, el cuerpo avanza en sentido opuesto.
+// Se ignoran saltos grandes del seguimiento para evitar teletransportes.
+export function escalar(e, deltaMano, deltaMax = ESCALADA.deltaMax) {
+  if (![deltaMano.x, deltaMano.y, deltaMano.z].every(Number.isFinite) || largo(deltaMano) > deltaMax) return false;
+  e.pos.x -= deltaMano.x; e.pos.y -= deltaMano.y; e.pos.z -= deltaMano.z;
+  e.vel.x = e.vel.y = e.vel.z = 0;
+  return true;
+}
+
+// Al soltar, el impulso sigue la dirección contraria al tirón de la mano.
+export function soltarEscalada(e, velMano, o = ESCALADA) {
+  let vx = -velMano.x * o.ganancia, vy = -velMano.y * o.ganancia, vz = -velMano.z * o.ganancia;
+  const v = largo({ x: vx, y: vy, z: vz });
+  if (v > o.velMax) { vx *= o.velMax / v; vy *= o.velMax / v; vz *= o.velMax / v; }
+  e.vel.x = vx || 0; e.vel.y = vy || 0; e.vel.z = vz || 0;
+  return e;
+}
+
 // Devuelve la aceleración aplicada (m/s², 0 si no hubo impulso) y suma a e.vel.
 export function impulsoBrazo(e, velMano, ancla, dt, o = IMPULSO) {
   const d = resta(ancla, e.pos);

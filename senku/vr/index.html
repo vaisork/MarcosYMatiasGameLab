@@ -42,6 +42,7 @@
   .opcion img { width: 100%; max-width: 72px; aspect-ratio: 1; }
   .opcion.elegida { border-color: var(--rosa); }
   #menu-listo { background: var(--rosa); color: #fff; width: 100%; margin-top: 14px; font-size: 20px; }
+  #menu-fps { background: #b8a1d9; color: var(--morado); margin-top: 12px; }
   #abrir-menu { background: #b8a1d9; color: var(--morado); flex: 1 1 100%; }
   #t-menu { display: none; }
   .jugando #t-menu { display: block; position: fixed; top: 12px; right: 12px; padding: 10px 16px; font-size: 22px; background: rgba(42,24,64,.8); color: #fff; }
@@ -83,7 +84,7 @@
       <li><b>R</b>: ¡Ultra Gato! cuando la barrita esté llena (en el celular, el botón <b>⚡</b>).</li>
       <li>En el celular: arrastra a la izquierda para caminar y a la derecha para mirar.</li>
     </ul>
-    <label><input type="checkbox" id="vineta" checked> Sombra anti-mareo cuando vas rápido</label>
+    <label><input type="checkbox" id="vineta" checked> Viñeta anti-mareo al moverte rápido</label>
     <div class="botones">
       <button id="entrar-vr">Entrar en VR</button>
       <button id="sin-visor">Jugar sin visor</button>
@@ -107,7 +108,8 @@
     <p class="lema">Todo es gratis: elige tu cuerda y tu pata.</p>
     <h2>Cuerda</h2><div class="opciones" id="menu-cuerda"></div>
     <h2>Pata</h2><div class="opciones" id="menu-pata"></div>
-    <label><input type="checkbox" id="menu-comodo"> Modo cómodo (sombra fuerte y giro por pasos)</label>
+    <label><input type="checkbox" id="menu-comodo"> Giro por pasos (30°)</label>
+    <button id="menu-fps">Medidor de FPS: NO</button>
     <button id="menu-listo">¡Listo!</button>
   </div>
 </div>

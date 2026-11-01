@@ -94,7 +94,7 @@ export function muestraPata(id, lado = 96) {
 
 const CLAVE = 'senku_vr_garras';
 export function leerEleccion() {
-  const def = { cuerda: 'normal', pata: 'senku', comodo: true };
+  const def = { cuerda: 'normal', pata: 'senku', comodo: true, vineta: true };
   try { return { ...def, ...JSON.parse(localStorage.getItem(CLAVE) || '{}') }; } catch { return def; }
 }
 export function guardarEleccion(e) {

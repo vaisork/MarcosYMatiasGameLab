@@ -1,8 +1,9 @@
 // Senku VR: eres Senku, una gatita con garras que se columpia por la ciudad.
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { paso, crearCuerda, soltar, tiron, impulsoBrazo, resolverCajas, IMPULSO, AJUSTES } from './fisica.mjs';
-import { TIPOS, ZARPAZO, VIDA, crearEnemigo, golpear, esZarpazo, pasoEnemigo, tocaEnemigo, crearVida, recibirDano, tocaPared, escalar, soltarEscalada } from './enemigos.mjs';
+import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
+import { paso, crearCuerda, soltar, tiron, impulsoBrazo, resolverCajas, escalar, soltarEscalada, IMPULSO, AJUSTES } from './fisica.mjs';
+import { TIPOS, ZARPAZO, VIDA, crearEnemigo, golpear, esZarpazo, pasoEnemigo, tocaEnemigo, crearVida, recibirDano, tocaPared } from './enemigos.mjs';
 import { crearMundo, CUADRA } from './mundo.js';
 import { iniciarSonido, sonar } from './sonido.js';
 import { NOMBRE_PODER, PODER, CLAVE_PODER, crearBarra, barraLlena, cargarBarra, dispararPoder, masCercano, crearRatoncito, pasoRatoncito, tocaRatoncito } from './poder.mjs';
@@ -18,7 +19,9 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'hi
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
 renderer.setSize(innerWidth, innerHeight);
 renderer.xr.enabled = true;
-renderer.xr.setFoveation(1);
+renderer.xr.setFoveation(0.8);
+renderer.xr.setFramebufferScaleFactor(0.85);
+renderer.shadowMap.enabled = false;
 document.body.prepend(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -49,6 +52,8 @@ let totalChurus = leerTotal(); // churus acumulados (para desbloquear cosas desp
 const sumarChurus = (n) => { totalChurus += n; try { localStorage.setItem(CLAVE_TOTAL, String(totalChurus)); } catch { /* sin almacenamiento */ } };
 const vida = crearVida();
 const eleccion = leerEleccion(); // {cuerda, pata, comodo}
+vineta = eleccion.vineta;
+$('vineta').checked = vineta;
 let menuAbierto = false, pausaDesde = 0, impulsando = 0;
 const estiloCuerda = () => CUERDAS.find((c) => c.id === eleccion.cuerda) || CUERDAS[0];
 const estiloPata = () => PATAS.find((p) => p.id === eleccion.pata) || PATAS[0];
@@ -319,7 +324,7 @@ function agarrar(m) {
   if (m.presa) return jalarPresa(m);
   if (renderer.xr.isPresenting) {
     m.grip.getWorldPosition(v1);
-    if (tocaPared(v1, mundo.cajas)) { m.escalando = true; empezar(); sonar.agarrar(); vibrar(m, 0.5, 30); return; }
+    if (tocaPared(v1, mundo.cajas)) { m.manoAntes = (m.manoAntes || new THREE.Vector3()).copy(m.grip.position); m.escalando = true; empezar(); sonar.agarrar(); vibrar(m, 0.5, 30); return; }
   }
   tirar(m);
 }
@@ -478,6 +483,14 @@ function alternarVineta() {
   mostrarAviso([vineta ? 'Sombra anti-mareo: SÍ' : 'Sombra anti-mareo: NO']);
 }
 
+function alternarFPS() {
+  fpsVisible = !fpsVisible;
+  fpsFrames = 0; fpsDesde = performance.now();
+  $('menu-fps').textContent = `Medidor de FPS: ${fpsVisible ? 'SÍ' : 'NO'}`;
+  if (menuAbierto && renderer.xr.isPresenting) dibujarMenu();
+  actualizarHUD();
+}
+
 addEventListener('keydown', (e) => {
   teclas.add(e.code);
   if (e.repeat) return;
@@ -553,9 +566,11 @@ function mostrarAviso(lineas, seg = 2.5) {
   $('aviso').hidden = false;
 }
 let hudTexto = '';
+let fpsVisible = false, fpsTexto = 'FPS: --', fpsFrames = 0, fpsDesde = performance.now();
 function actualizarHUD() {
   const t = inicio === null ? 0 : (fin ?? performance.now()) - inicio;
   const lineas = ['♥'.repeat(vida.vida) + '♡'.repeat(VIDA.max - vida.vida) + `  Churus ${juntados}/${churus.length}`, `Total ${totalChurus} · Tiempo ${reloj(t)}`, record ? `Récord ${reloj(record)}` : 'Récord: -'];
+  if (fpsVisible) lineas.push(fpsTexto);
   const texto = lineas.join('|') + barra.carga;
   if (texto === hudTexto) return;
   hudTexto = texto;
@@ -628,12 +643,17 @@ async function cargarModelos() {
   const loader = new GLTFLoader();
   await Promise.all(Object.keys(TIPOS).map(async (tipo) => {
     const g = await loader.loadAsync(`modelos/${tipo === 'negro' ? 'raton_negro' : tipo === 'cafe' ? 'raton_cafe' : 'hamster'}.glb`);
-    const malla = g.scene.getObjectByProperty('isMesh', true);
-    malla.material = new THREE.MeshLambertMaterial({ map: malla.material.map });
-    malla.geometry.computeBoundingBox();
-    const b = malla.geometry.boundingBox;
-    malla.geometry.translate(0, -b.min.y, 0); // origen en las patas
-    modelos[tipo] = { geo: malla.geometry, mat: malla.material, alto: b.max.y - b.min.y };
+    const materiales = new WeakMap();
+    g.scene.traverse((obj) => {
+      if (!obj.isMesh) return;
+      const lambert = (material) => {
+        if (!materiales.has(material)) materiales.set(material, new THREE.MeshLambertMaterial({ map: material.map }));
+        return materiales.get(material);
+      };
+      obj.material = Array.isArray(obj.material) ? obj.material.map(lambert) : lambert(obj.material);
+    });
+    const b = new THREE.Box3().setFromObject(g.scene);
+    modelos[tipo] = { escena: g.scene, alto: b.max.y - b.min.y, baseY: b.min.y };
   }));
   for (let k = 0; k < ENEMIGOS_MAX; k++) aparecer(k % 6 === 5 ? 'hamster' : k % 3 === 2 ? 'cafe' : 'negro');
 }
@@ -648,7 +668,8 @@ function aparecer(tipo, viejo = null) {
   if (viejo) Object.assign(e, crearEnemigo(tipo, nido, nido.caja), { grupo: e.grupo, malla: e.malla, pips: e.pips, poof: e.poof });
   else {
     e.grupo = new THREE.Group();
-    e.malla = new THREE.Mesh(md.geo, md.mat);
+    e.malla = SkeletonUtils.clone(md.escena);
+    e.malla.position.y -= md.baseY;
     e.malla.scale.setScalar(T.escala);
     e.pips = [0, 1, 2].slice(0, T.golpes).map((k) => { const s = new THREE.Sprite(matPip); s.scale.setScalar(0.16); s.position.set((k - (T.golpes - 1) / 2) * 0.18, md.alto * T.escala + 0.25, 0); return s; });
     e.poof = new THREE.Sprite(matPoof); e.poof.visible = false; e.poof.position.y = 0.4;
@@ -723,9 +744,10 @@ function actualizarEnemigos(dt, t) {
     const camino = pasoEnemigo(e, cabeza, dt, mundo.cajas);
     e.grupo.position.set(e.pos.x, e.pos.y, e.pos.z);
     // Animación procedural: saltitos y balanceo al caminar, aplastarse al golpe, poof al vencer.
-    const f = t * 9 + e.fase;
+    const cerca = jugadora.pos.x - e.pos.x < 30 && jugadora.pos.x - e.pos.x > -30 && jugadora.pos.z - e.pos.z < 30 && jugadora.pos.z - e.pos.z > -30;
+    const f = cerca ? t * 9 + e.fase : 0;
     e.grupo.rotation.y = e.dir;
-    if (e.estado === 'camina') { e.grupo.position.y += camino ? Math.abs(Math.sin(f)) * 0.08 : Math.sin(f * 0.3) * 0.01; e.malla.rotation.z = camino ? Math.sin(f) * 0.12 : 0; e.malla.scale.set(T.escala, T.escala, T.escala); }
+    if (e.estado === 'camina') { e.grupo.position.y += cerca ? (camino ? Math.abs(Math.sin(f)) * 0.08 : Math.sin(f * 0.3) * 0.01) : 0; e.malla.rotation.z = cerca && camino ? Math.sin(f) * 0.12 : 0; e.malla.scale.setScalar(T.escala); }
     else if (e.estado === 'atrapado') { e.malla.rotation.z = Math.sin(t * 40) * 0.2; e.malla.scale.set(T.escala, T.escala, T.escala); }
     else if (e.estado === 'golpeado') { const k = 1 - e.t / 0.35; e.malla.scale.set(T.escala * (1.3 - k * 0.3), T.escala * (0.5 + k * 0.5), T.escala); e.malla.rotation.z = 0; }
     else if (e.estado === 'poof') { const k = 1 - e.t / 0.3; e.malla.scale.setScalar(T.escala * (1 - k)); e.poof.scale.setScalar(0.5 + k * 2.2); e.poof.position.y = 0.4 + k * 0.8; }
@@ -792,6 +814,14 @@ const proto = (() => {
   g.userData.llave = llave;
   return g;
 })();
+// Cada disparo crea como máximo seis proyectiles; se preparan para evitar
+// clonar nodos de Three en la primera ráfaga y se amplía el pool si se solapan.
+for (let i = 0; i < PODER.proyectiles + PODER.extraColumpio; i++) {
+  const malla = proto.clone();
+  malla.visible = false;
+  scene.add(malla);
+  ratoncitos.push({ malla });
+}
 const matConfeti = new THREE.PointsMaterial({ size: 0.12, vertexColors: true });
 const COLORES = [0xff5f8f, 0xffd23f, 0x4fd1a5, 0x5aa9ff, 0xffffff].map((c) => new THREE.Color(c));
 
@@ -868,7 +898,7 @@ function actualizarEscalada(dt) {
     v1.set(0, 0, 0);
     for (const m of agarradas) v1.add(m.deltaMano);
     v1.divideScalar(agarradas.length);
-    if (v1.length() < 1.5) escalar(jugadora, v1); // saltos del seguimiento se ignoran
+    escalar(jugadora, v1); // la física ignora saltos del seguimiento
   } else {
     const my = (teclas.has('KeyW') ? 1 : 0) - (teclas.has('KeyS') ? 1 : 0) + joystick.y;
     const mx = (teclas.has('KeyD') ? 1 : 0) - (teclas.has('KeyA') ? 1 : 0) + joystick.x;
@@ -937,9 +967,9 @@ const botonesMenu = [];
 const fila = (lista, tipo, y, muestra) => lista.forEach((e, k) => botonesMenu.push({ tipo, id: e.id, texto: e.nombre, x: 21 + k * 202, y, w: 190, h: 190, img: muestra(e.id, 120) }));
 fila(CUERDAS, 'cuerda', 100, muestraCuerda);
 fila(PATAS, 'pata', 340, muestraPata);
-[['comodo', 'Modo cómodo'], ['sombra', 'Sombra'], ['listo', '¡Listo!']].forEach(([tipo, texto], k) => botonesMenu.push({ tipo, texto, x: 21 + k * 340, y: 545, w: 318, h: 80 }));
+[['comodo', 'Giro por pasos'], ['sombra', 'Viñeta anti-mareo'], ['fps', 'Medidor de FPS'], ['listo', '¡Listo!']].forEach(([tipo, texto], k) => botonesMenu.push({ tipo, texto, x: 21 + k * 250, y: 545, w: 230, h: 80 }));
 
-const elegido = (b) => (b.tipo === 'cuerda' && eleccion.cuerda === b.id) || (b.tipo === 'pata' && eleccion.pata === b.id) || (b.tipo === 'comodo' && eleccion.comodo) || (b.tipo === 'sombra' && vineta);
+const elegido = (b) => (b.tipo === 'cuerda' && eleccion.cuerda === b.id) || (b.tipo === 'pata' && eleccion.pata === b.id) || (b.tipo === 'comodo' && eleccion.comodo) || (b.tipo === 'sombra' && vineta) || (b.tipo === 'fps' && fpsVisible);
 function dibujarMenu() {
   const g = menuLienzo.getContext('2d');
   g.clearRect(0, 0, MW, MH);
@@ -955,7 +985,11 @@ function dibujarMenu() {
     if (elegido(b)) { g.strokeStyle = '#ff6f9a'; g.lineWidth = 10; g.stroke(); }
     g.fillStyle = '#fff';
     if (b.img) { g.drawImage(b.img, b.x + 35, b.y + 8); g.font = 'bold 28px system-ui, sans-serif'; g.fillText(b.texto, b.x + b.w / 2, b.y + 160); }
-    else { g.font = 'bold 34px system-ui, sans-serif'; g.fillText(b.tipo === 'listo' ? b.texto : `${b.texto}: ${elegido(b) ? 'SÍ' : 'NO'}`, b.x + b.w / 2, b.y + b.h / 2); }
+    else {
+      const texto = b.tipo === 'listo' ? b.texto : `${b.texto}: ${elegido(b) ? 'SÍ' : 'NO'}`;
+      g.font = `bold ${b.tipo === 'sombra' ? 18 : 27}px system-ui, sans-serif`;
+      g.fillText(texto, b.x + b.w / 2, b.y + b.h / 2);
+    }
   }
   menuTex.needsUpdate = true;
 }
@@ -990,6 +1024,7 @@ for (const [tipo, lista, muestra] of [['cuerda', CUERDAS, muestraCuerda], ['pata
   }
 }
 $('menu-comodo').addEventListener('change', () => activar({ tipo: 'comodo' }));
+$('menu-fps').addEventListener('click', alternarFPS);
 $('menu-listo').addEventListener('click', () => cerrarMenu());
 
 function sincronizarMenu() {
@@ -1003,9 +1038,11 @@ function activar(b) {
   if (b.tipo === 'cuerda') { eleccion.cuerda = b.id; iniciarSonido(); sonar.enganchar(b.id); }
   else if (b.tipo === 'pata') eleccion.pata = b.id;
   else if (b.tipo === 'comodo') eleccion.comodo = !eleccion.comodo;
-  else if (b.tipo === 'sombra') vineta = !vineta;
+  else if (b.tipo === 'sombra') { vineta = !vineta; eleccion.vineta = vineta; }
+  else if (b.tipo === 'fps') { alternarFPS(); return; }
   else if (b.tipo === 'listo') { cerrarMenu(); return; }
   manos.forEach((m) => vibrar(m, 0.3, 20));
+  eleccion.vineta = vineta;
   guardarEleccion(eleccion);
   aplicarEstilos();
   sincronizarMenu();
@@ -1079,6 +1116,13 @@ function actualizar(dt) {
 
 renderer.setAnimationLoop(() => {
   const dt = Math.min(clock.getDelta(), 1 / 30);
+  fpsFrames++;
+  const ahora = performance.now();
+  if (ahora - fpsDesde >= 500) {
+    fpsTexto = `FPS: ${Math.round(fpsFrames * 1000 / (ahora - fpsDesde))}`;
+    fpsFrames = 0; fpsDesde = ahora;
+    if (fpsVisible) actualizarHUD();
+  }
   if (menuAbierto) { if (renderer.xr.isPresenting) actualizarMenuVR(); }
   else if (jugando) actualizar(dt);
   renderer.render(scene, camera);
@@ -1095,7 +1139,7 @@ function jugar() {
   actualizarHUD();
 }
 
-$('vineta').addEventListener('change', (e) => { vineta = e.target.checked; });
+$('vineta').addEventListener('change', (e) => { vineta = e.target.checked; eleccion.vineta = vineta; guardarEleccion(eleccion); });
 $('sin-visor').addEventListener('click', () => {
   jugar();
   if (!matchMedia('(pointer: coarse)').matches) lienzo.requestPointerLock?.()?.catch?.(() => {});
