@@ -1,6 +1,7 @@
 // Ciudad low-poly del desierto: cielo, suelo con calles, edificios instanciados
 // con ventanas en shader, tinacos, cactus y posiciones de churus.
 import * as THREE from 'three';
+import { CARTELES } from './carteles.mjs';
 
 export const CUADRA = 26; // separación entre centros de manzana (calle incluida)
 const N = 6;              // manzanas de -N a N
@@ -53,6 +54,112 @@ function suelo() {
   const m3 = new THREE.Mesh(new THREE.PlaneGeometry(lado, lado), new THREE.MeshLambertMaterial({ map: tex }));
   m3.rotation.x = -Math.PI / 2;
   return m3;
+}
+
+// Los anuncios no forman parte de la malla instanciada ni de las cajas físicas.
+// Sus texturas se solicitan al dibujarse por primera vez y se cachean por URL.
+const texturasCarteles = new Map();
+const cargadorCarteles = new THREE.TextureLoader();
+const geoCartel = new THREE.PlaneGeometry(1, 1);
+const geoPosteCartel = new THREE.BoxGeometry(0.12, 1, 0.12);
+const matPosteCartel = new THREE.MeshLambertMaterial({ color: 0x704b38 });
+
+function texturaCartel(anuncio, material) {
+  const url = new URL(`../texturas/${anuncio.textura}`, import.meta.url).href;
+  let estado = texturasCarteles.get(url);
+  if (!estado) {
+    estado = { textura: null, cargando: false, materiales: new Set() };
+    texturasCarteles.set(url, estado);
+  }
+  const propiedad = anuncio.neon ? 'emissiveMap' : 'map';
+  if (estado.textura) {
+    if (material[propiedad] !== estado.textura) {
+      material[propiedad] = estado.textura;
+      material.needsUpdate = true;
+    }
+    return;
+  }
+  estado.materiales.add(material);
+  if (estado.cargando) return;
+  estado.cargando = true;
+  cargadorCarteles.load(url, (tex) => {
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 2;
+    estado.textura = tex;
+    for (const mat of estado.materiales) {
+      mat[propiedad] = tex;
+      mat.needsUpdate = true;
+    }
+    estado.materiales.clear();
+  });
+}
+
+function crearCarteles(cajas, scene) {
+  const candidatos = cajas.filter((c) => c.max.y > 13
+    && c.max.x - c.min.x >= 10 && c.max.z - c.min.z >= 10);
+  const sectores = [
+    [-1, -1], [0, -1], [1, -1], [1, 0],
+    [1, 1], [0, 1], [-1, 1], [-1, 0],
+  ];
+  const usados = new Set();
+  const marcos = new THREE.Group();
+  const postes = [];
+  sectores.forEach(([i, j], k) => {
+    const tx = i * CUADRA, tz = j * CUADRA;
+    const techo = k % 2 === 1;
+    const disponibles = candidatos.filter((c) => !usados.has(c) && (!techo || c.max.y <= 28));
+    const elegibles = disponibles.length ? disponibles : candidatos.filter((c) => !usados.has(c));
+    const caja = elegibles.sort((a, b) => {
+      const distancia = (c) => {
+        const x = (c.min.x + c.max.x) / 2, z = (c.min.z + c.max.z) / 2;
+        return (x - tx) ** 2 + (z - tz) ** 2;
+      };
+      return distancia(a) - distancia(b);
+    })[0];
+    if (!caja) return;
+    usados.add(caja);
+
+    const haciaX = -((caja.min.x + caja.max.x) / 2), haciaZ = -((caja.min.z + caja.max.z) / 2);
+    const ladoX = Math.abs(haciaX) > Math.abs(haciaZ);
+    const anchoCara = ladoX ? caja.max.z - caja.min.z : caja.max.x - caja.min.x;
+    const ancho = Math.min(11, anchoCara - 0.8);
+    const alto = ancho / (1024 / 384);
+    let x = (caja.min.x + caja.max.x) / 2, z = (caja.min.z + caja.max.z) / 2;
+    let rotY = 0;
+    if (ladoX) {
+      const miraPositivo = haciaX > 0;
+      x = miraPositivo ? caja.max.x + 0.12 : caja.min.x - 0.12;
+      rotY = miraPositivo ? Math.PI / 2 : -Math.PI / 2;
+    } else {
+      const miraPositivo = haciaZ > 0;
+      z = miraPositivo ? caja.max.z + 0.12 : caja.min.z - 0.12;
+      rotY = miraPositivo ? 0 : Math.PI;
+    }
+    const y = techo ? caja.max.y + alto / 2 + 0.08 : Math.min(10.5, caja.max.y - alto / 2 - 0.45);
+    const anuncio = CARTELES[k];
+    const mat = anuncio.neon
+      ? new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 1.2, roughness: 1, metalness: 0 })
+      : new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const malla = new THREE.Mesh(geoCartel, mat);
+    malla.position.set(x, y, z);
+    malla.rotation.y = rotY;
+    malla.scale.set(ancho, alto, 1);
+    malla.renderOrder = 2;
+    malla.onBeforeRender = () => texturaCartel(anuncio, mat);
+    scene.add(malla);
+
+    if (techo) {
+      for (const lado of [-1, 1]) {
+        const poste = new THREE.Mesh(geoPosteCartel, matPosteCartel);
+        poste.position.set(x + lado * ancho * 0.42 * Math.cos(rotY), caja.max.y + alto / 2, z - lado * ancho * 0.42 * Math.sin(rotY));
+        poste.scale.y = alto;
+        poste.rotation.y = rotY;
+        postes.push(poste);
+      }
+    }
+  });
+  marcos.add(...postes);
+  scene.add(marcos);
 }
 
 function materialEdificio() {
@@ -151,6 +258,8 @@ export function crearMundo(scene) {
   const cac = new THREE.InstancedMesh(cap, new THREE.MeshLambertMaterial({ color: 0x4f9a4a }), piezas.length);
   piezas.forEach((p, k) => cac.setMatrixAt(k, p));
   scene.add(cac);
+
+  crearCarteles(cajas, scene);
 
   return { edificios, cajas: cajas.map(({ min, max }) => ({ min, max })), churus };
 }
