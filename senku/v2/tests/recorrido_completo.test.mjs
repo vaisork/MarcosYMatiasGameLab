@@ -8,7 +8,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { crearCuerpo, actualizarCuerpo, solapanAABB, solapanRecogible,
-  ANCHO_GATO_JUEGO, ALTURA_GATO_JUEGO, FUERZA_SALTO_DEFECTO, GRAVEDAD_DEFECTO } from '../src/core/fisica.mjs';
+  ANCHO_GATO_JUEGO, ALTURA_GATO_JUEGO, FUERZA_SALTO_DEFECTO, GRAVEDAD_DEFECTO,
+  deslizInvulnerable } from '../src/core/fisica.mjs';
 import { pasoMovilidad } from '../src/core/movilidad.mjs';
 import { crearAnclador } from '../src/core/anclador.mjs';
 import { validarEscena } from '../src/core/escenas.mjs';
@@ -18,7 +19,9 @@ import { escenaReja } from '../src/data/escenas/reja.mjs';
 import { escenaDesierto } from '../src/data/escenas/desierto.mjs';
 import { escenaDespenadero } from '../src/data/escenas/despenadero.mjs';
 import { escenaCima, ARENA, SUELO_CIMA } from '../src/data/escenas/cima.mjs';
+import { escenaAntigua, escenaChichicastenango, escenaSelva, escenaTikal } from '../src/data/escenas/guatemala.mjs';
 import { crearJefe, despertar, actualizarJefe, golpearJefe, danoAJugador, esPisoton } from '../src/core/jefe_gato.mjs';
+import { crearBalam, despertarBalam, actualizarBalam, golpearBalam, danoDeBalam, esPisonBalam, faseBalam, HP_BALAM } from '../src/core/jefe_balam.mjs';
 import { crearLanzador, actualizarDisparo, actualizarProyectiles } from '../src/core/lanzador.mjs';
 import { crearEstadoCombate, aplicarGolpeJugador, actualizarCombate } from '../src/core/combate.mjs';
 import { finalizarPartida as finalCamion } from '../src/bonus_camion.mjs';
@@ -246,6 +249,62 @@ test('despeñadero: sin anclador no se cruza; con anclador y garras se llega a l
   comprobarEscena(escenaDespenadero, 'hacia-cima', {
     caps: { anclador: true, garras: true }, alturaCaida: escenaDespenadero.alturaCaida,
   });
+});
+
+test('Guatemala: cuatro tramos, todos los objetos, secretos y salida hasta la plaza de Tikal alcanzables', () => {
+  comprobarEscena(escenaAntigua, 'guatemala-antigua-salida');
+  comprobarEscena(escenaChichicastenango, 'guatemala-chichicastenango-salida');
+  comprobarEscena(escenaSelva, 'guatemala-selva-salida');
+  const tikal = explorar(escenaTikal, { metas: [(c) => c.x > 1320] });
+  assert.deepEqual(escenaTikal.objetos.filter((o) => !tikal.tocados.has(o.id)).map((o) => o.id), []);
+  for (const s of escenaTikal.secretos) assert.ok(tikal.tocados.has(s), `Tikal: secreto ${s} inalcanzable`);
+  assert.ok(tikal.llegaMeta.size > 0, 'Senku llega a la plaza y despierta a Balam');
+  assert.deepEqual(tikal.atascos, []);
+});
+
+test('recorrido bot de Guatemala: Balam anuncia tres patrones, ofrece ventanas de zarpazo y puede caer', () => {
+  const dt = 1 / 60;
+  const plats = validarEscena(escenaTikal).escena.plataformas;
+  const senku = cuerpoEn(1320, 510);
+  senku.enSuelo = true;
+  const balam = crearBalam({ x: 2180, suelo: 600 });
+  despertarBalam(balam);
+  const combate = crearEstadoCombate({ hpMax: 100, hpInicial: 100, tiempoInvulnerabilidad: 1 });
+  const eventos = new Set();
+  let previo = false, t = 0;
+  for (; t < 60 && !balam.derrotado; t += dt) {
+    senku.mirando = balam.x + balam.w / 2 >= senku.x + senku.w / 2 ? 1 : -1;
+    const cerca = Math.abs((balam.x + balam.w / 2) - (senku.x + senku.w / 2)) < 150;
+    const atacar = cerca && balam.estado === 'aturdido' && Math.floor(t / 0.3) % 2 === 0;
+    if (atacar && !previo) golpearBalam(balam, 1);
+    previo = atacar;
+    const saltar = (balam.estado === 'aviso-carrera' && balam.tiempo > 0.28)
+      || (balam.estado === 'aviso-salto' && balam.tiempo > 0.35);
+    const ondaCerca = balam.ondas.some((o) => Math.abs(o.x - senku.x) < 180);
+    const esquivarJade = balam.estado === 'aviso-jade' || balam.estado === 'lluvia-jade';
+    const distanciaBalam = Math.abs((balam.x + balam.w / 2) - (senku.x + senku.w / 2));
+    const esquivarCarrera = balam.estado !== 'aturdido' && distanciaBalam < 320
+      && (balam.estado === 'carrera' || balam.estado === 'aviso-carrera' || balam.estado === 'salto');
+    const objetivoX = balam.estado === 'aturdido' ? balam.x - senku.w - 12 : 1320;
+    const mover = Math.abs(objetivoX - senku.x) > 28 ? Math.sign(objetivoX - senku.x) : 0;
+    const direccionEsquive = senku.x < 1750 ? 1 : -1;
+    if (esquivarCarrera) senku.mirando = balam.x > senku.x ? -1 : 1;
+    actualizarCuerpo(senku, { derecha: mover > 0 || (esquivarJade && direccionEsquive > 0),
+      izquierda: mover < 0 || (esquivarJade && direccionEsquive < 0), salto: (saltar || ondaCerca) && senku.enSuelo,
+      desliz: esquivarCarrera || ondaCerca, atacar }, plats, escenaTikal.limites, dt);
+    for (const evento of actualizarBalam(balam, senku, dt)) eventos.add(evento);
+    if (esPisonBalam(balam, senku)) { golpearBalam(balam); senku.vy = -620; }
+    const dano = deslizInvulnerable(senku) ? 0 : danoDeBalam(balam, senku);
+    if (dano) aplicarGolpeJugador(combate, dano);
+    actualizarCombate(combate, dt);
+    assert.ok(combate.hp > 0, `Senku perdió a los ${t.toFixed(1)} s (Balam ${balam.hp} HP)`);
+  }
+  assert.equal(balam.derrotado, true, `Balam sigue con ${balam.hp} HP`);
+  assert.ok(t < 45, `el combate dura ${t.toFixed(1)} s`);
+  assert.equal(faseBalam({ hp: HP_BALAM, hpMax: HP_BALAM }), 1);
+  assert.equal(faseBalam({ hp: 8, hpMax: 12 }), 2);
+  assert.equal(faseBalam({ hp: 4, hpMax: 12 }), 3);
+  assert.ok(eventos.has('aviso-carrera') && eventos.has('aviso-salto') && eventos.has('aviso-jade'));
 });
 
 test('cima: el lanzador y los churus se alcanzan y se entra a la arena del jefe', () => {

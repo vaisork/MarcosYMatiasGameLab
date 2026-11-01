@@ -25,6 +25,8 @@ import { crearAnclador, soltarAnclador } from './core/anclador.mjs';
 import { pasoMovilidad } from './core/movilidad.mjs';
 import { dibujarDespenadero, dibujarAnclador } from './render/despenadero.mjs';
 import { escenaCima, ARENA, SUELO_CIMA } from './data/escenas/cima.mjs';
+import { ARENA_BALAM, crearBalam, despertarBalam, actualizarBalam, golpearBalam, danoDeBalam, esPisonBalam } from './core/jefe_balam.mjs';
+import { dibujarBalam, dibujarBarraBalam } from './render/balam.mjs';
 import { resumenCapitulo } from './core/resumen.mjs';
 import { mostrarFinal } from './ui/final.mjs';
 import { crearMusica, PIEZA_POR_ESCENA } from './audio/musica.mjs';
@@ -34,6 +36,7 @@ import { crearLanzador, actualizarDisparo, actualizarProyectiles } from './core/
 import { dibujarJefe, dibujarProyectiles, dibujarLanzadorEnLomo, dibujarObjetoLanzador,
   dibujarBarraJefe, dibujarPuertaArena } from './render/cima.mjs';
 import { escenaReja } from './data/escenas/reja.mjs';
+import { escenasGuatemala } from './data/escenas/guatemala.mjs';
 import { crearManejadorEntrada } from './core/entrada.mjs';
 import { crearEnemigo, actualizarEnemigos } from './core/enemigos.mjs';
 import {
@@ -780,6 +783,8 @@ export function arrancarSenku2({
   registro.registrar(escenaDesierto);
   registro.registrar(escenaDespenadero);
   registro.registrar(escenaCima);
+  for (const escena of escenasGuatemala) registro.registrar(escena);
+  const escenasMexico = registro.listar().filter(({ id }) => !id.startsWith('guatemala-'));
 
   // Se reanuda donde se guardó; una escena desconocida vuelve a la taquería.
   let escenaActual = registro.obtener(estadoJugador.progreso?.escena) || registro.obtener('taqueria');
@@ -825,16 +830,23 @@ export function arrancarSenku2({
     documento.getElementById('btn-pausa')?.before?.(btnMusica);
   }
   function actualizarMusica() {
-    const jefeDespierto = escenaActual.id === 'cima' && jefe && jefe.estado !== 'dormido';
-    if (jefe?.derrotado) { musica.detener(); return; }
+    const jefeDespierto = (escenaActual.id === 'cima' && jefe && jefe.estado !== 'dormido')
+      || (escenaActual.id === 'guatemala-tikal' && jefeBalam && jefeBalam.estado !== 'dormido');
+    if ((jefe?.derrotado && escenaActual.id === 'cima') || (jefeBalam?.derrotado && escenaActual.id === 'guatemala-tikal')) { musica.detener(); return; }
     musica.tocar(jefeDespierto ? 'jefe' : PIEZA_POR_ESCENA[escenaActual.id]);
   }
   let jefe = null;
+  let jefeBalam = null;
   const ID_VICTORIA_JEFE = 'jefe-gato-mecanico';
-  const CAPITULO_REINICIABLE = [ID_VICTORIA_JEFE, 'llave-camioneta', 'anclador-despenadero', 'lanzador-cima'];
+  const ID_VICTORIA_BALAM = 'jefe-balam-tikal';
+  const CAPITULO_REINICIABLE = [ID_VICTORIA_JEFE, ID_VICTORIA_BALAM, 'llave-camioneta', 'anclador-despenadero', 'lanzador-cima'];
   function prepararJefe() {
     if (escenaActual.id !== 'cima' || tiene(ID_VICTORIA_JEFE)) { jefe = null; return; }
     jefe = crearJefe({ x: 2200, suelo: SUELO_CIMA, arenaMinX: ARENA.minX, arenaMaxX: ARENA.maxX });
+  }
+  function prepararBalam() {
+    if (escenaActual.id !== 'guatemala-tikal' || tiene(ID_VICTORIA_BALAM)) { jefeBalam = null; return; }
+    jefeBalam = crearBalam({ x: 2180, suelo: 600, ...ARENA_BALAM });
   }
   const tiene = (id) => estadoJugador.coleccionados.includes(id);
   // Tras vencer al Gato Mecánico queda un botón para volver a abrir la tarjeta final y jugar otra vez.
@@ -849,7 +861,10 @@ export function arrancarSenku2({
     btnRejugar.setAttribute('aria-label', 'Jugar desde el principio');
     btnRejugar.title = 'Jugar desde el principio';
     btnRejugar.addEventListener('click', () => mostrarFinal(documento, ventana,
-      resumenCapitulo(estadoJugador, registro.listar()), { alVolverAJugar: volverAJugarCapitulo }));
+      resumenCapitulo(estadoJugador, escenasMexico), {
+        alVolverAJugar: volverAJugarCapitulo,
+        alContinuarGuatemala: () => cambiarEscena('guatemala-antigua', { curar: true }),
+      }));
     documento.getElementById('btn-pausa')?.before?.(btnRejugar);
     actualizarBotonRejugar();
   }
@@ -1064,6 +1079,7 @@ export function arrancarSenku2({
     actualizarBotonGancho();
     lanzador.proyectiles = [];
     prepararJefe();
+    prepararBalam();
     senku.x = puntoEntrada.x;
     senku.y = puntoEntrada.y;
     senku.vx = 0;
@@ -1157,15 +1173,15 @@ export function arrancarSenku2({
     tiposEnemigo: enemigos.map((e) => `${e.tipo}_${e.variante}`),
   }));
   catalogoArte.cargar(resolverRutaArte('assets/fondos/camioneta_reja.webp'));
+  catalogoArte.cargar(resolverRutaArte('assets/jefe/balam.png'));
   const animadorEnemigos = crearAnimadorEnemigos();
 
   function cambiarEscena(destino, { puntoEntrada, curar = false } = {}) {
     const definicion = registro.obtener(destino);
     if (!definicion) {
-      // La cima y el jefe aún no tienen diseño aprobado (maestro, punto 7).
       senku.x -= 60;
       senku.vx = 0;
-      mostrarAviso('La cima… ¡muy pronto!', 2.5);
+      mostrarAviso('No se encontró la escena de destino.', 2.5);
       return;
     }
     escenaActual = {
@@ -1177,7 +1193,6 @@ export function arrancarSenku2({
     };
     estadoJugador = { ...estadoJugador, progreso: { ...estadoJugador.progreso, escena: escenaActual.id } };
     guardarProgreso();
-    // TODO(audio): enlazar música por escena cuando exista reproductor de música.
     definicionEnemigos = escenaActual.enemigos;
     rutaFondo = rutaFondoEscena(escenaActual.id) || (escenaActual.fondo.ruta
       ? resolverRutaArte(escenaActual.fondo.ruta) : null);
@@ -1201,6 +1216,15 @@ export function arrancarSenku2({
     cambiarEscena('ciudad', { curar: true });
     // Se empieza desde el Senku original (la casa); al llegar a la taquería vuelve solo a Senku 2.
     if (ventana.location) ventana.location.href = '../legacy/juego.html';
+  }
+
+  function volverAJugarGuatemala() {
+    const prefijos = ['antigua-', 'chichi-', 'selva-', 'tikal-', 'guatemala-tikal:derrotado:'];
+    estadoJugador = { ...estadoJugador, coleccionados: estadoJugador.coleccionados.filter((id) =>
+      id !== ID_VICTORIA_BALAM
+        && !(id.startsWith('guatemala-') && id.includes(':derrotado:'))
+        && !prefijos.some((prefijo) => id.startsWith(prefijo))) };
+    cambiarEscena('guatemala-antigua', { curar: true });
   }
 
   // 8. Bucle principal de juego
@@ -1252,7 +1276,8 @@ export function arrancarSenku2({
     if (!menuAbierto) {
       // Física del jugador
       const estadoEntrada = entrada.obtenerEstado();
-      if (estadoEntrada.atacar && !ataquePresionadoPrevio) {
+      const ataqueNuevo = estadoEntrada.atacar && !ataquePresionadoPrevio;
+      if (ataqueNuevo) {
         for (const enemigo of enemigos) {
           if (!enemigo.activo || !enemigo.vivo) continue;
           const ataque = atacarEnemigo(senku, enemigo);
@@ -1318,10 +1343,57 @@ export function arrancarSenku2({
             temporizadorFinal = ventana.setTimeout?.(() => {
               mostrarAviso('', 0); // que el aviso no asome sobre la tarjeta final
               mostrarFinal(documento, ventana,
-                resumenCapitulo(estadoJugador, registro.listar()), {
+                resumenCapitulo(estadoJugador, escenasMexico), {
                   alVolverAJugar: volverAJugarCapitulo,
+                  alContinuarGuatemala: () => cambiarEscena('guatemala-antigua', { curar: true }),
                 });
             }, 2600);
+          }
+        }
+      }
+
+      if (escenaActual.id === 'guatemala-tikal') {
+        if (!jefeBalam && !tiene(ID_VICTORIA_BALAM)) prepararBalam();
+        if (jefeBalam) {
+          if (jefeBalam.estado === 'dormido' && senku.x > ARENA_BALAM.minX + 40) {
+            despertarBalam(jefeBalam);
+            mostrarAviso('¡Balam despierta! Es guardián de Tikal.', 2.2);
+          }
+          if (jefeBalam.estado !== 'dormido' && !jefeBalam.derrotado) {
+            senku.x = Math.max(ARENA_BALAM.minX, Math.min(ARENA_BALAM.maxX - senku.w, senku.x));
+          }
+          if (ataqueNuevo && !jefeBalam.derrotado
+              && Math.abs((senku.x + senku.w / 2) - (jefeBalam.x + jefeBalam.w / 2)) < 150
+              && Math.abs((senku.y + senku.h / 2) - (jefeBalam.y + jefeBalam.h / 2)) < 125
+              && (jefeBalam.x + jefeBalam.w / 2 - senku.x - senku.w / 2) * (senku.mirando || 1) > 0) {
+            if (golpearBalam(jefeBalam)) { reproducirSonidoGolpe(ventana); tiempoHitStop = 0.06; }
+          }
+          actualizarBalam(jefeBalam, senku, dt);
+          if (esPisonBalam(jefeBalam, senku) && golpearBalam(jefeBalam, 1)) {
+            senku.vy = -620;
+            reproducirSonidoGolpe(ventana);
+          }
+          const dano = deslizInvulnerable(senku) ? 0 : danoDeBalam(jefeBalam, senku);
+          if (dano > 0) {
+            const golpe = aplicarGolpeJugador(estadoCombate, dano);
+            if (golpe.golpeado) {
+              actualizarHUDVida(); mostrarAviso(`¡Golpe de Balam! -${dano} HP`, 0.8);
+              if (golpe.derrotado || estadoCombate.hp === 0) { reiniciarEscena(); return; }
+            }
+          }
+          if (jefeBalam.derrotado && !tiene(ID_VICTORIA_BALAM)) {
+            estadoJugador = { ...estadoJugador,
+              coleccionados: [...new Set([...estadoJugador.coleccionados, ID_VICTORIA_BALAM])] };
+            guardarProgreso();
+            mostrarAviso('¡Balam vuelve a descansar! Tikal está en calma.', 2.5);
+            temporizadorFinal = ventana.setTimeout?.(() => {
+              mostrarAviso('', 0);
+              mostrarFinal(documento, ventana, resumenCapitulo(estadoJugador, escenasGuatemala), {
+                capitulo: 'CAPÍTULO 2 · GUATEMALA', titulo: '¡Balam reconoce la agilidad de Senku!',
+                subtitulo: 'La plaza de Tikal vuelve a estar tranquila.',
+                etiquetaVolver: 'Volver a jugar Guatemala', alVolverAJugar: volverAJugarGuatemala,
+              });
+            }, 1800);
           }
         }
       }
@@ -1497,6 +1569,9 @@ export function arrancarSenku2({
     if (escenaActual.id === 'cima' && jefe && jefe.estado !== 'dormido' && !jefe.derrotado) {
       objetivoCamara = ARENA.minX;
     }
+    if (escenaActual.id === 'guatemala-tikal' && jefeBalam && jefeBalam.estado !== 'dormido' && !jefeBalam.derrotado) {
+      objetivoCamara = ARENA_BALAM.minX;
+    }
     camaraSuaveX += (objetivoCamara - camaraSuaveX) * (1 - Math.exp(-8 * dt));
     const camaraX = Math.max(minimoCamara, Math.min(maximoCamara, camaraSuaveX));
     // Dibujado de escena base
@@ -1519,6 +1594,7 @@ export function arrancarSenku2({
       dibujarJefe(ctx, jefe, tiempoAcumulado);
       dibujarProyectiles(ctx, lanzador);
     }
+    if (ctx && escenaActual.id === 'guatemala-tikal') dibujarBalam(ctx, jefeBalam, tiempoAcumulado);
 
     // Dibujado de Senku con color y etiqueta del traje activo
     if (ctx && senku) {
@@ -1663,6 +1739,7 @@ export function arrancarSenku2({
     if (ctx && escenaActual.id === 'cima' && tiene('lanzador-cima')) dibujarLanzadorEnLomo(ctx, senku);
     if (ctx) ctx.restore();
     if (ctx && escenaActual.id === 'cima') dibujarBarraJefe(ctx, jefe);
+    if (ctx && escenaActual.id === 'guatemala-tikal') dibujarBarraBalam(ctx, jefeBalam);
     if (ctx && escenaActual.id === 'taqueria') {
       const tieneLlave = estadoJugador.coleccionados.includes('taqueria-recompensa-llave')
         || estadoJugador.coleccionados.includes('llave-camioneta');
@@ -1794,6 +1871,7 @@ export function arrancarSenku2({
     senku,
     get escena() { return escenaActual; },
     get jefe() { return jefe; },
+    get jefeBalam() { return jefeBalam; },
     get lanzador() { return lanzador; },
     estadoJugador: () => estadoJugador,
     estadoCombate,

@@ -24,12 +24,16 @@ function fanfarria(ventana) {
   }
 }
 
-export function mostrarFinal(documento, ventana, resumen, { alVolverAJugar, alSeguir } = {}) {
+export function mostrarFinal(documento, ventana, resumen, {
+  alVolverAJugar, alSeguir, alContinuarGuatemala,
+  capitulo = 'CAPÍTULO 1 · MÉXICO', titulo = '¡Senku venció al Gato Mecánico!',
+  subtitulo = 'La montaña está a salvo. Fin del capítulo.', etiquetaVolver = 'Jugar desde el principio',
+} = {}) {
   if (!documento?.body || documento.getElementById('final-capitulo')) return null;
   const capa = documento.createElement('div');
   capa.id = 'final-capitulo';
   capa.setAttribute('role', 'dialog');
-  capa.setAttribute('aria-label', 'Fin del capítulo México');
+  capa.setAttribute('aria-label', `Fin de ${capitulo}`);
   capa.style.cssText = [
     'position:fixed', 'inset:0', 'z-index:9999', 'display:flex', 'align-items:center', 'justify-content:center',
     'background:radial-gradient(circle at 50% 35%, rgba(255,200,90,.35), rgba(20,10,30,.92) 70%)',
@@ -43,9 +47,9 @@ export function mostrarFinal(documento, ventana, resumen, { alVolverAJugar, alSe
       #final-capitulo button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:12px 20px;cursor:pointer}</style>
     <div style="max-width:520px;width:100%;background:rgba(30,18,40,.85);border:3px solid #f2c14e;
       border-radius:18px;padding:22px 24px;box-shadow:0 10px 40px rgba(0,0,0,.5);text-align:center">
-      <div style="font-size:clamp(14px,3.2vw,16px);letter-spacing:.12em;color:#f2c14e">CAPÍTULO 1 · MÉXICO</div>
-      <h2 style="margin:8px 0 4px;font-size:clamp(24px,6vw,34px)">¡Senku venció al Gato Mecánico!</h2>
-      <p style="margin:0 0 14px;opacity:.85">La montaña está a salvo. Fin del capítulo.</p>
+      <div style="font-size:clamp(14px,3.2vw,16px);letter-spacing:.12em;color:#f2c14e">${capitulo}</div>
+      <h2 style="margin:8px 0 4px;font-size:clamp(24px,6vw,34px)">${titulo}</h2>
+      <p style="margin:0 0 14px;opacity:.85">${subtitulo}</p>
       <div style="text-align:left;font-size:clamp(15px,3.6vw,18px)">
         ${fila('🍬', 'Churus', resumen.churus)}
         ${fila('🐭', 'Enemigos vencidos', resumen.enemigos)}
@@ -53,13 +57,15 @@ export function mostrarFinal(documento, ventana, resumen, { alVolverAJugar, alSe
       </div>
       <p style="margin:14px 0 16px;font-size:13px;opacity:.75">Idea y dirección: Matías y Javier · Senku es el gato de la casa</p>
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button id="final-guatemala" style="background:#9bd18b;color:#18351e">Continuar a Guatemala</button>
         <button id="final-seguir" style="background:#f2c14e;color:#2a1a08">Seguir explorando</button>
-        <button id="final-volver" style="background:#ffffff22;color:#fff">Jugar desde el principio</button>
+        <button id="final-volver" style="background:#ffffff22;color:#fff">${etiquetaVolver}</button>
       </div>
     </div>`;
   documento.body.appendChild(capa);
   const cerrar = () => capa.remove();
   capa.querySelector('#final-seguir')?.addEventListener('click', () => { cerrar(); alSeguir?.(); });
+  capa.querySelector('#final-guatemala')?.addEventListener('click', () => { cerrar(); alContinuarGuatemala?.(); });
   capa.querySelector('#final-volver')?.addEventListener('click', () => { cerrar(); alVolverAJugar?.(); });
   fanfarria(ventana);
   return capa;

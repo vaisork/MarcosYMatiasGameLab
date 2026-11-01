@@ -1,6 +1,6 @@
 // Service Worker para Senku 2 — Caché offline versionado y soporte PWA
 // Versión actual de la caché
-const VERSION_CACHE = 'senku2-v16';
+const VERSION_CACHE = 'senku2-v19';
 
 // Recursos esenciales que forman la base del juego para jugar sin conexión
 const RECURSOS_PRECACHE = [
@@ -28,12 +28,15 @@ const RECURSOS_PRECACHE = [
   './src/core/resumen.mjs',
   './src/core/economia.mjs',
   './src/core/jefe_gato.mjs',
+  './src/core/jefe_balam.mjs',
   './src/core/lanzador.mjs',
   './src/data/trajes.mjs',
   './src/data/escenas/despenadero.mjs',
   './src/data/escenas/cima.mjs',
+  './src/data/escenas/guatemala.mjs',
   './src/render/despenadero.mjs',
   './src/render/cima.mjs',
+  './src/render/balam.mjs',
   './src/audio/musica.mjs',
   './src/ui/portada.mjs',
   './src/ui/final.mjs',
@@ -55,6 +58,10 @@ const RECURSOS_PRECACHE = [
   './assets/enemigos/hamster_negro.png',
   './assets/enemigos/raton_cafe.png',
   './assets/enemigos/raton_negro.png',
+  './assets/enemigos/tucan_ladron.png',
+  './assets/enemigos/coati.png',
+  './assets/enemigos/mono_aullador.png',
+  './assets/jefe/balam.png',
   './assets/fondos/camioneta_reja.webp',
   './assets/fondos/desierto.webp',
   './assets/fondos/taqueria_ciudad.webp',
@@ -65,6 +72,8 @@ const RECURSOS_PRECACHE = [
   './assets/objetos/garras_escalada.png',
   './assets/objetos/lanzador_ratones.png',
   './assets/objetos/raton_proyectil.png',
+  './assets/objetos/fragmento_jade.png',
+  './assets/bonus/tuk-tuk-antigua.webp',
   './assets/personajes/menu_original.webp',
   './assets/portada/portada.webp',
   './assets/personajes/menu_rata.webp',

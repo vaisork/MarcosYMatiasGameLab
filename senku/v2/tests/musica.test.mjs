@@ -18,7 +18,10 @@ test('en cada pieza melodía y bajo duran lo mismo y caben en compases completos
 });
 
 test('todas las escenas tienen música', () => {
-  for (const id of ['ciudad', 'taqueria', 'reja', 'desierto', 'despenadero', 'cima']) assert.ok(PIEZAS[PIEZA_POR_ESCENA[id]], id);
+  for (const id of ['ciudad', 'taqueria', 'reja', 'desierto', 'despenadero', 'cima',
+    'guatemala-antigua', 'guatemala-chichicastenango', 'guatemala-selva', 'guatemala-tikal']) {
+    assert.ok(PIEZAS[PIEZA_POR_ESCENA[id]], id);
+  }
 });
 
 test('sin Web Audio no falla', () => {

@@ -60,6 +60,45 @@ export const CATALOGO_ENEMIGOS = {
     color: '#d35400',
     colorDetalle: '#a04000',
   },
+  tucan_ladron: {
+    tipo: 'tucan_ladron',
+    nombre: 'Tucán ladrón',
+    ancho: 56,
+    alto: 42,
+    velocidadPatrulla: 105,
+    hp: null,
+    dano: 10,
+    pisable: true,
+    recompensaChurus: null,
+    color: '#263d57',
+    colorDetalle: '#f0a23b',
+  },
+  coati: {
+    tipo: 'coati',
+    nombre: 'Coatí',
+    ancho: 64,
+    alto: 42,
+    velocidadPatrulla: 78,
+    hp: null,
+    dano: 15,
+    pisable: true,
+    recompensaChurus: null,
+    color: '#8b5a3c',
+    colorDetalle: '#e5c28b',
+  },
+  mono_aullador: {
+    tipo: 'mono_aullador',
+    nombre: 'Mono aullador',
+    ancho: 68,
+    alto: 48,
+    velocidadPatrulla: 72,
+    hp: null,
+    dano: 20,
+    pisable: true,
+    recompensaChurus: null,
+    color: '#332a28',
+    colorDetalle: '#ba7042',
+  },
 };
 
 // Dificultad (Javier, 31/10/2026): golpes para eliminar y daño a Senku (100 HP) por tipo.
@@ -69,6 +108,9 @@ export const NIVELES_ENEMIGO = Object.freeze({
   rata_menor: { golpes: 2, dano: DANO_RATA },
   hamster: { golpes: 3, dano: DANO_HAMSTER },
   cucaracha: { golpes: 1, dano: DANO_CUCARACHA },
+  tucan_ladron: { golpes: 1, dano: 10 },
+  coati: { golpes: 2, dano: 15 },
+  mono_aullador: { golpes: 3, dano: 20 },
 });
 
 export function nivelEnemigo(tipo, variante) {

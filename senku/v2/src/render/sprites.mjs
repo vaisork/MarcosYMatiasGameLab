@@ -28,6 +28,7 @@ export const FONDOS_ESCENA = Object.freeze({
 });
 
 export const HOJA_JEFE_GATO = 'assets/jefe/gato_mecanico.png';
+export const HOJA_JEFE_BALAM = 'assets/jefe/balam.png';
 let catalogoArteActual = null;
 
 // Permite a los renderizadores especializados compartir el catálogo que ya carga main.
@@ -46,6 +47,9 @@ export const HOJAS_ENEMIGO = Object.freeze({
   raton_cafe: { ruta: 'assets/enemigos/raton_cafe.png', escala: 0.85 },
   hamster_negro: { ruta: 'assets/enemigos/hamster_negro.png', escala: 0.85 },
   hamster_cafe: { ruta: 'assets/enemigos/hamster_cafe.png', escala: 0.85 },
+  tucan_ladron: { ruta: 'assets/enemigos/tucan_ladron.png', escala: 0.85 },
+  coati: { ruta: 'assets/enemigos/coati.png', escala: 0.85 },
+  mono_aullador: { ruta: 'assets/enemigos/mono_aullador.png', escala: 0.85 },
 });
 const HOJA_ENEMIGO_DEFECTO = HOJAS_ENEMIGO.cucaracha;
 
