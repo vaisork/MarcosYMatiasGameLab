@@ -86,6 +86,11 @@ def ranks_from_flags(flags):
  ranks={f'rango:{rank}' for rank,qualifies in HERO_RANKS.items() if qualifies(flags)}
  if any(r.startswith('rango:defensor:') for r in ranks):ranks.add('rango:defensor')
  return ranks
+# Vida de los jefes de la Grieta por cada jugador extra (en pareja el jefe solo golpea al primero).
+# Calibrado con entregas/equipo/claude2/vt2-mazmorra-2/pareja_sim.py: ~60 % de victoria en pareja por intento.
+PARTY_HP = {'quebrarrocas_canoso':3.3,'tejecristal':3.5,'sierpe_veta_madre':2.6}
+def party_hp(creature_id, base, players):
+ return round(base*(1+(PARTY_HP.get(creature_id,1)-1)*max(0,players-1)))
 def specialization(state): return (state.get('especializacion') or {}).get('id')
 def class_actions(state, cls): return CLASS_ACTIONS.get(cls,[])+SPEC_ACTIONS.get(specialization(state),[])
 def eco_power(creature_id): return clamp(rounded(ECO_FACTOR*PROFILES[creature_id]['damage']),3,ECO_MAX)

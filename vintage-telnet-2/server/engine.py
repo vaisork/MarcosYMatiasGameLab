@@ -385,6 +385,11 @@ class Engine:
         now=self.clock();key=f"{participants[0]['state']['location']}:{participants[0]['state']['combat']['creature']}"
         animal=world.setdefault('creature_states',{}).setdefault(key,{})
         animal.setdefault('hp',min(p['state']['combat']['hp'] for p in participants))
+        boss=participants[0]['state']['combat']['creature']
+        if boss in m.PARTY_HP and animal.get('party',1)<len(participants):
+            base=animal.setdefault('base_hp',participants[0]['state']['combat']['profile']['hp']);top=m.party_hp(boss,base,len(participants))
+            animal['hp']+=top-m.party_hp(boss,base,animal.get('party',1));animal['party']=len(participants)
+            for p in participants:p['state']['combat']['profile']['hp']=top
         due=min(p['state']['combat']['next_round'] for p in participants)
         changed=False
         for _ in range(min(60,max(0,int((now-due)//4)+1))):
