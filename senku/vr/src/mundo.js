@@ -3,6 +3,7 @@
 import * as THREE from 'three';
 import { CARTELES } from './carteles.mjs';
 import { PALETA_CIUDAD, crearPerfilLejano, luzVertice, zonaBarrio, alturaBarrio } from './arte.mjs';
+import { avanzarRuta, nivelAnochecer, pasoPaloma } from './vida.mjs';
 
 export const CUADRA = 26; // separación entre centros de manzana (calle incluida)
 const N = 6;              // manzanas de -N a N
@@ -365,7 +366,7 @@ function materialEdificio() {
         vWP = (modelMatrix * instanceMatrix * vec4(transformed, 1.0)).xyz;
         vWN = normalize(mat3(instanceMatrix) * objectNormal);`);
     s.fragmentShader = s.fragmentShader
-      .replace('#include <common>', `#include <common>\nvarying vec3 vWP; varying vec3 vWN;\nuniform sampler2D uFacadeAtlas;`)
+      .replace('#include <common>', `#include <common>\nvarying vec3 vWP; varying vec3 vWN;\nuniform sampler2D uFacadeAtlas; uniform float uNoche;`)
       .replace('#include <color_fragment>', `#include <color_fragment>
         if (vWN.y < 0.5 && vWN.y > -0.5) {
           vec2 c = abs(vWN.x) > 0.5 ? vWP.zy : vWP.xy;
@@ -375,9 +376,14 @@ function materialEdificio() {
           vec3 fachada = texture2D(uFacadeAtlas, vec2((variante + g.x) * 0.25, g.y)).rgb;
           float mascara = step(0.1, g.x) * step(g.x, 0.9) * step(0.02, g.y) * step(g.y, 0.98) * step(3.0, vWP.y);
           mascara *= 1.0 - smoothstep(75.0, 125.0, length(cameraPosition - vWP));
+          float azarVentana = fract(sin(dot(floor(c / vec2(3.4, 3.8)), vec2(19.19, 73.73))) * 43758.5453);
+          float vidrio = smoothstep(0.18, 0.42, max(fachada.r, max(fachada.g, fachada.b)));
+          fachada = mix(fachada, vec3(1.0, 0.58, 0.28), uNoche * step(0.58, azarVentana) * vidrio * 0.82);
           diffuseColor.rgb = mix(diffuseColor.rgb, fachada * diffuseColor.rgb, mascara);
         } else { diffuseColor.rgb *= 1.12; }`);
     s.uniforms.uFacadeAtlas = { value: atlas };
+    s.uniforms.uNoche = { value: 0 };
+    mat.userData.shader = s;
   };
   mat.customProgramCacheKey = () => 'senku-fachadas-atlas-v1';
   return mat;
@@ -449,6 +455,209 @@ function crearSkyline(scene, radio, capa) {
   malla.instanceMatrix.needsUpdate = true; malla.instanceColor.needsUpdate = true; malla.computeBoundingSphere();
   malla.frustumCulled = true;
   scene.add(malla);
+}
+
+function ponerInstancia(malla, indice, posicion, escala, rotacion = 0, dummy = new THREE.Object3D(), rotacionZ = 0) {
+  dummy.position.copy(posicion); dummy.rotation.set(0, rotacion, rotacionZ); dummy.scale.copy(escala); dummy.updateMatrix();
+  malla.setMatrixAt(indice, dummy.matrix);
+}
+
+function crearVidaCiudad(scene, cajas, rutasCoche) {
+  const unidad = new THREE.Object3D();
+  const lambert = (color) => new THREE.MeshLambertMaterial({ color });
+  const colorBlanco = new THREE.Color('#fff4dc');
+
+  // Tráfico de ruta fija: una carrocería, cabina y ruedas compartidas por todos.
+  const coches = rutasCoche.filter((c) => Math.abs(c.x) < 74).filter((_, i) => i % 2 === 0).slice(0, 12).map((c, i) => ({
+    x: c.x,
+    fase: c.z + (i % 3) * 54,
+    velocidad: 2.7 + (i % 4) * 0.32,
+    color: ['#e77965', '#6d9bb0', '#f1c45f', '#697c68', '#d88aab'][i % 5],
+  }));
+  const carroceria = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), lambert('#ffffff'), coches.length);
+  const cabinas = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), lambert('#b6d9d9'), coches.length);
+  const ruedas = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.31, 0.31, 0.18, 8), lambert('#34333c'), coches.length * 4);
+  coches.forEach((c, i) => { carroceria.setColorAt(i, new THREE.Color(c.color)); cabinas.setColorAt(i, colorBlanco); });
+  scene.add(carroceria, cabinas, ruedas);
+
+  // Gatitos con siluetas redondas, orejas puntiagudas y pañuelos de color.
+  const gatos = [
+    ...Array.from({ length: 6 }, (_, i) => ({ x: 15 + Math.cos(i * 1.05) * 7, z: -9 + Math.sin(i * 1.05) * 6, y: 0.55, radio: 4.8, fase: i * 1.3, ventana: false })),
+    ...cajas.filter((c) => c.max.y >= 10 && c.max.y < 28 && Math.abs(c.min.x) < 70 && Math.abs(c.min.z) < 70).slice(2, 5).map((c, i) => ({
+      x: (c.min.x + c.max.x) / 2, z: c.min.z - 0.8, y: 4.5 + i * 3.2, radio: 0.8, fase: i * 2.2, ventana: true,
+    })),
+  ];
+  const parteGato = (geo, mat, pares, conteo = gatos.length) => {
+    const malla = new THREE.InstancedMesh(geo, mat, conteo * pares);
+    scene.add(malla); return malla;
+  };
+  const cuerposGato = parteGato(new THREE.SphereGeometry(1, 8, 6), lambert('#ffffff'), 1);
+  const cabezasGato = parteGato(new THREE.SphereGeometry(1, 8, 6), lambert('#ffffff'), 1);
+  const orejasGato = parteGato(new THREE.ConeGeometry(0.16, 0.34, 4), lambert('#ffffff'), 2);
+  const ojosGato = parteGato(new THREE.SphereGeometry(0.055, 5, 4), new THREE.MeshBasicMaterial({ color: '#30273c' }), 2);
+  const pañuelosGato = parteGato(new THREE.BoxGeometry(0.72, 0.18, 0.43), lambert('#ffffff'), 1);
+  const patasGato = parteGato(new THREE.SphereGeometry(0.14, 6, 4), lambert('#ffffff'), 2);
+  const colasGato = parteGato(new THREE.CapsuleGeometry(0.09, 0.48, 2, 5), lambert('#ffffff'), 1);
+  gatos.forEach((g, i) => {
+    const tonos = ['#7588a7', '#d47862', '#e7b957', '#659888', '#c18bab', '#ee9b5e', '#637c92', '#ce7966', '#9b765d'];
+    const color = new THREE.Color(tonos[i % tonos.length]);
+    cuerposGato.setColorAt(i, color); cabezasGato.setColorAt(i, color); colasGato.setColorAt(i, color);
+    patasGato.setColorAt(i * 2, color); patasGato.setColorAt(i * 2 + 1, color);
+    pañuelosGato.setColorAt(i, new THREE.Color(['#f5d16b', '#f4eee2', '#e9849d', '#70beb0'][i % 4]));
+    orejasGato.setColorAt(i * 2, color); orejasGato.setColorAt(i * 2 + 1, color);
+  });
+
+  // Parvadas con alas plegadas en geometría low-poly. Una bandada despega junto a Senku.
+  const pajaros = Array.from({ length: 14 }, (_, i) => ({
+    x: 7 + Math.cos(i * 0.4) * (i < 5 ? 8 : 24),
+    y: i < 5 ? 4 + i * 0.22 : (i < 10 ? 12 : 22) + (i % 4) * 0.7,
+    z: -4 + Math.sin(i * 0.4) * (i < 5 ? 7 : 20),
+    vx: 0, vz: 0, vxObjetivo: Math.cos(i * 0.7) * 2, vzObjetivo: Math.sin(i * 0.7) * 2,
+    fase: i * 0.7, radio: i < 10 ? 25 : 45, huyendo: 0,
+  }));
+  const cuerpoAve = new THREE.InstancedMesh(new THREE.SphereGeometry(0.18, 6, 4), lambert('#5a5268'), pajaros.length);
+  const alaAve = new THREE.InstancedMesh(new THREE.ConeGeometry(0.18, 1.1, 3), lambert('#73667e'), pajaros.length * 2);
+  scene.add(cuerpoAve, alaAve);
+
+  // Cuerdas de tendedero y prendas que se mecen con una brisa breve.
+  const ropa = [], tendederos = [];
+  cajas.filter((c) => c.max.y >= 9 && c.max.y < 32 && Math.abs(c.min.x) < 64 && Math.abs(c.min.z) < 64).slice(0, 4).forEach((c, j) => {
+    const centroX = (c.min.x + c.max.x) / 2;
+    const z = c.max.z + 1.1;
+    tendederos.push({ x: centroX, y: c.max.y + 2.68, z, fase: j });
+    for (let i = 0; i < 5; i++) ropa.push({ x: centroX - 3.6 + i * 1.8, y: c.max.y + 2.1, z, fase: i * 0.9 + j, color: ['#f2c35e', '#ee7890', '#74b6ae', '#eee2c7', '#a98dcc'][(i + j) % 5] });
+  });
+  const prendas = new THREE.InstancedMesh(new THREE.BoxGeometry(0.8, 1.05, 0.08), lambert('#ffffff'), ropa.length);
+  ropa.forEach((p, i) => prendas.setColorAt(i, new THREE.Color(p.color)));
+  scene.add(prendas);
+  const cordeles = new THREE.InstancedMesh(new THREE.BoxGeometry(8.5, 0.035, 0.035), lambert('#5f5260'), tendederos.length);
+  tendederos.forEach((p, i) => ponerInstancia(cordeles, i, new THREE.Vector3(p.x, p.y, p.z), new THREE.Vector3(1, 1, 1)));
+  scene.add(cordeles);
+
+  // Hojas cálidas y motas de polvo; un único lote dentro de los parques centrales.
+  const motas = Array.from({ length: 30 }, (_, i) => ({
+    x: 15 + Math.sin(i * 4.3) * (12 + i % 7), y: i < 20 ? 2.5 + (i % 5) * 0.65 : 5 + (i % 4) * 0.7,
+    z: -9 + Math.cos(i * 2.7) * (12 + i % 6), fase: i * 0.75, polvo: i >= 20,
+  }));
+  const geoHoja = new THREE.BufferGeometry();
+  geoHoja.setAttribute('position', new THREE.Float32BufferAttribute([-0.5, 0, 0, 0, 0.5, 0, 0.5, 0, 0, -0.5, 0, 0, 0, -0.5, 0, 0.5, 0, 0], 3));
+  geoHoja.computeVertexNormals();
+  const hojas = new THREE.InstancedMesh(geoHoja, new THREE.MeshBasicMaterial({ color: '#ffffff', side: THREE.DoubleSide, transparent: true, opacity: 0.72, depthWrite: false }), motas.length);
+  motas.forEach((p, i) => hojas.setColorAt(i, new THREE.Color(p.polvo ? '#f1d8b6' : '#e8aa79')));
+  scene.add(hojas);
+
+  // Dirigible de paseo, con franjas y góndola. Los anuncios conservan su globo.
+  const dirigible = new THREE.Group();
+  const casco = new THREE.Mesh(new THREE.SphereGeometry(1, 14, 8), lambert('#e88475'));
+  casco.scale.set(5.6, 1.65, 1.7); casco.position.y = 1; dirigible.add(casco);
+  const franja = new THREE.Mesh(new THREE.SphereGeometry(1, 12, 7), lambert('#f3c66f'));
+  franja.scale.set(3.1, 1.67, 1.72); franja.position.y = 1; dirigible.add(franja);
+  const gondola = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.62, 1.1), lambert('#76545b'));
+  gondola.position.y = -1.2; dirigible.add(gondola);
+  for (const x of [-0.8, 0.8]) {
+    const cabo = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.65, 4), lambert('#725b59'));
+    cabo.position.set(x, -0.72, 0); dirigible.add(cabo);
+  }
+  scene.add(dirigible);
+
+  let horaInicio = null, ultimoMovimiento = null;
+  const temporales = { coche: new THREE.Vector3(), gato: new THREE.Vector3(), ave: new THREE.Vector3(), ropa: new THREE.Vector3(), hoja: new THREE.Vector3() };
+  const escalas = {
+    carroceria: new THREE.Vector3(3.2, 0.72, 1.52), cabina: new THREE.Vector3(1.65, 0.55, 1.25),
+    gatoCuerpo: new THREE.Vector3(0.58, 0.38, 0.32), gatoCabeza: new THREE.Vector3(0.35, 0.34, 0.34), pata: new THREE.Vector3(0.88, 0.88, 0.88), pañuelo: new THREE.Vector3(1, 1, 1), hoja: new THREE.Vector3(0.48, 0.48, 0.48),
+    oreja: new THREE.Vector3(0.88, 0.88, 0.88), unidad: new THREE.Vector3(1, 1, 1), ala: new THREE.Vector3(1, 0.72, 1), polvo: new THREE.Vector3(0.18, 0.18, 0.18),
+  };
+  const lotesAnimados = [carroceria, cabinas, ruedas, cuerposGato, cabezasGato, orejasGato, ojosGato, pañuelosGato, patasGato, colasGato, cuerpoAve, alaAve, prendas, hojas];
+  const esferaCiudad = new THREE.Sphere(new THREE.Vector3(0, 24, 0), 158);
+  lotesAnimados.forEach((malla) => {
+    malla.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    malla.boundingSphere = esferaCiudad.clone();
+  });
+  return {
+    iniciar(tiempo) { horaInicio = tiempo; },
+    animar(tiempo, jugador = { x: 0, z: 0 }) {
+      const t = tiempo * 0.001, noche = nivelAnochecer(horaInicio === null ? 0 : (tiempo - horaInicio) / 1000);
+      if (ultimoMovimiento !== null && tiempo - ultimoMovimiento < 33) return noche;
+      const dt = ultimoMovimiento === null ? 0 : Math.min(0.1, Math.max(0, (tiempo - ultimoMovimiento) / 1000));
+      ultimoMovimiento = tiempo;
+      coches.forEach((c, i) => {
+        const z = avanzarRuta(c.fase, t, c.velocidad, 162) - 81;
+        temporales.coche.set(c.x, 0.72, z);
+        ponerInstancia(carroceria, i, temporales.coche, escalas.carroceria, Math.PI / 2, unidad);
+        temporales.coche.y = 1.3;
+        ponerInstancia(cabinas, i, temporales.coche, escalas.cabina, Math.PI / 2, unidad);
+        for (let w = 0; w < 4; w++) {
+          const lado = w < 2 ? -1 : 1, eje = w % 2 ? 1 : -1;
+          temporales.coche.set(c.x + lado * 0.9, 0.4, z + eje * 1.02);
+          ponerInstancia(ruedas, i * 4 + w, temporales.coche, escalas.unidad, 0, unidad, Math.PI / 2);
+        }
+      });
+      [carroceria, cabinas, ruedas].forEach((m) => { m.instanceMatrix.needsUpdate = true; });
+
+      gatos.forEach((g, i) => {
+        const a = g.fase + t * (g.ventana ? 0.1 : 0.22), x = g.x + Math.cos(a) * g.radio, z = g.z + Math.sin(a) * g.radio;
+        const y = g.y + (g.ventana ? 0 : Math.abs(Math.sin(t * 5 + i)) * 0.1);
+        const rumbo = g.ventana ? 0 : a + Math.PI / 2;
+        temporales.gato.set(x, y, z); ponerInstancia(cuerposGato, i, temporales.gato, escalas.gatoCuerpo, rumbo, unidad);
+        temporales.gato.y = y + 0.48; ponerInstancia(cabezasGato, i, temporales.gato, escalas.gatoCabeza, rumbo, unidad);
+        temporales.gato.set(x, y + 0.24, z); ponerInstancia(pañuelosGato, i, temporales.gato, escalas.pañuelo, rumbo, unidad);
+        for (let p = 0; p < 2; p++) {
+          const pataX = p ? 0.22 : -0.22;
+          temporales.gato.set(x + pataX * Math.cos(rumbo) + 0.22 * Math.sin(rumbo), y - 0.32, z - pataX * Math.sin(rumbo) + 0.22 * Math.cos(rumbo));
+          ponerInstancia(patasGato, i * 2 + p, temporales.gato, escalas.pata, rumbo, unidad);
+        }
+        for (let e = 0; e < 2; e++) {
+          const orejaX = e ? 0.18 : -0.18;
+          temporales.gato.set(x + orejaX * Math.cos(rumbo) + 0.06 * Math.sin(rumbo), y + 0.76, z - orejaX * Math.sin(rumbo) + 0.06 * Math.cos(rumbo));
+          ponerInstancia(orejasGato, i * 2 + e, temporales.gato, escalas.oreja, rumbo, unidad);
+          const ojoX = e ? 0.12 : -0.12;
+          temporales.gato.set(x + ojoX * Math.cos(rumbo) + 0.32 * Math.sin(rumbo), y + 0.5, z - ojoX * Math.sin(rumbo) + 0.32 * Math.cos(rumbo));
+          ponerInstancia(ojosGato, i * 2 + e, temporales.gato, escalas.unidad, rumbo, unidad);
+        }
+        temporales.gato.set(x - Math.cos(rumbo) * 0.53, y + 0.06, z - Math.sin(rumbo) * 0.53);
+        ponerInstancia(colasGato, i, temporales.gato, escalas.unidad, rumbo + Math.sin(t * 2 + i) * 0.45, unidad);
+      });
+      [cuerposGato, cabezasGato, orejasGato, ojosGato, pañuelosGato, patasGato, colasGato].forEach((m) => { m.instanceMatrix.needsUpdate = true; });
+
+      pajaros.forEach((p, i) => {
+        if (i < 5) {
+          pasoPaloma(p, jugador, dt);
+          if (Math.hypot(p.x, p.z) > 48) { p.x = 8 + Math.cos(p.fase) * 7; p.z = -6 + Math.sin(p.fase) * 7; p.huyendo = 0; }
+        } else {
+          const a = t * 0.1 + p.fase;
+          p.x = 8 + Math.cos(a) * p.radio; p.z = -6 + Math.sin(a) * p.radio;
+          p.y = (i < 10 ? 12 : 22) + (i % 4) * 0.7 + Math.sin(t * 0.4 + p.fase) * 0.8;
+        }
+        temporales.ave.set(p.x, p.y + Math.sin(t * 2 + p.fase) * 0.25, p.z);
+        const yaw = Math.atan2(p.vx, p.vz);
+        ponerInstancia(cuerpoAve, i, temporales.ave, new THREE.Vector3(1, 1, 1), yaw, unidad);
+        for (let ala = 0; ala < 2; ala++) {
+          temporales.ave.set(p.x + (ala ? 0.28 : -0.28), p.y + Math.sin(t * 13 + p.fase) * 0.1, p.z);
+          const aleteo = Math.sin(t * 13 + p.fase) * 0.46 * (ala ? 1 : -1);
+          ponerInstancia(alaAve, i * 2 + ala, temporales.ave, escalas.ala, yaw + (ala ? -0.55 : 0.55), unidad, aleteo);
+        }
+      });
+      [cuerpoAve, alaAve].forEach((m) => { m.instanceMatrix.needsUpdate = true; });
+
+      ropa.forEach((p, i) => {
+        temporales.ropa.set(p.x, p.y, p.z);
+        ponerInstancia(prendas, i, temporales.ropa, new THREE.Vector3(1, 1, 1), Math.sin(t * 1.7 + p.fase) * 0.22, unidad);
+      });
+      prendas.instanceMatrix.needsUpdate = true;
+      motas.forEach((p, i) => {
+        temporales.hoja.set(p.x + Math.sin(t * 0.5 + p.fase) * 0.8, p.y + Math.sin(t + p.fase) * 0.28, p.z + Math.cos(t * 0.37 + p.fase) * 0.8);
+        temporales.hoja.x += Math.sin(p.fase) * 1.2;
+        ponerInstancia(hojas, i, temporales.hoja, p.polvo ? escalas.polvo : escalas.hoja, t + p.fase, unidad);
+      });
+      hojas.instanceMatrix.needsUpdate = true;
+
+      dirigible.position.set(-35 + Math.cos(t * 0.025) * 32, 55 + Math.sin(t * 0.11) * 1.4, 18 + Math.sin(t * 0.025) * 28);
+      dirigible.rotation.y = -t * 0.025 + Math.PI / 2;
+      if (this.materialEdificio?.userData.shader) this.materialEdificio.userData.shader.uniforms.uNoche.value = noche;
+      return noche;
+    },
+    vincularFachada(material) { this.materialEdificio = material; },
+  };
 }
 
 function crearMar(scene) {
@@ -614,7 +823,7 @@ export function crearMundo(scene) {
   // setColorAt usa instanceColor; vertexColors exigiría un atributo color que
   // estas geometrías compartidas no tienen y las dibujaría negras.
   const cubeBase = new THREE.MeshLambertMaterial({ color: 0xffffff });
-  for (const [nombre, lista] of Object.entries({ bordillos, cruces, balcones, toldos, cornisas, aires, antenas, jardineras, bancas, faroles, puestos, coches, letreros })) {
+  for (const [nombre, lista] of Object.entries({ bordillos, cruces, balcones, toldos, cornisas, aires, antenas, jardineras, bancas, faroles, puestos, letreros })) {
     agregarLote(scene, cubeGeo, cubeBase, lista);
   }
   agregarLote(scene, new THREE.CylinderGeometry(2.8, 2.8, 0.56, 12), cubeBase, fuentes.map(([x, z]) => ({ x, y: 0.34, z, sx: 1, sy: 1, sz: 1, color: '#d8c7b2' })));
@@ -638,17 +847,11 @@ export function crearMundo(scene) {
   agregarLote(scene, new THREE.CylinderGeometry(0.5, 0.65, 1, 7), cubeBase, troncos);
   agregarLote(scene, new THREE.IcosahedronGeometry(1, 1), cubeBase, copas);
   agregarLote(scene, new THREE.ConeGeometry(1, 1, 6), cubeBase, palmeras);
-  const ruedas = [], cristales = [], patasBanca = [];
-  coches.forEach((c) => {
-    for (const dx of [-0.88, 0.88]) for (const dz of [-1.08, 1.08]) ruedas.push({ x: c.x + dx, y: 0.39, z: c.z + dz, sx: 0.42, sy: 0.42, sz: 0.22, color: '#33343b' });
-    cristales.push({ x: c.x, y: 1.27, z: c.z - 0.12, sx: 1.24, sy: 0.63, sz: 1.2, rotY: c.rotY, color: '#9bc6cf' });
-  });
+  const patasBanca = [];
   bancas.forEach((b) => {
     const c = Math.cos(b.rotY), s = Math.sin(b.rotY);
     for (const x of [-0.9, 0.9]) patasBanca.push({ x: b.x + x * c, y: 0.27, z: b.z - x * s, sx: 0.14, sy: 0.55, sz: 0.14, color: '#51424a' });
   });
-  agregarLote(scene, new THREE.CylinderGeometry(0.5, 0.5, 1, 8), cubeBase, ruedas.map((p) => ({ ...p, rz: Math.PI / 2 })));
-  agregarLote(scene, cubeGeo, cubeBase, cristales);
   agregarLote(scene, cubeGeo, cubeBase, patasBanca);
   const bombillaFarolMat = new THREE.MeshBasicMaterial({ color: '#596170', toneMapped: false });
   const bombillasFarol = faroles.map((p) => ({ x: p.x, y: 7.82, z: p.z, sx: 0.62, sy: 0.48, sz: 0.62, color: '#ffd793' }));
@@ -683,10 +886,12 @@ export function crearMundo(scene) {
   scene.add(cac);
 
   const carteles = crearCarteles(cajas, scene);
+  const vida = crearVidaCiudad(scene, cajas, coches);
+  vida.vincularFachada(edificio);
   let farolesDesde = null;
 
   return {
-    edificios, cajas: cajas.map(({ min, max }) => ({ min, max })), churus, domo,
+    edificios, cajas: cajas.map(({ min, max }) => ({ min, max })), churus, domo, vida,
     carteles: {
       ...carteles,
       encenderFaroles(tiempo) { farolesDesde = tiempo; },

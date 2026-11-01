@@ -70,3 +70,10 @@ dar volumen a los edificios sin mapas de luz ni sombras en tiempo real.
   frustum culling. Sin luces dinámicas nuevas ni sombras en tiempo real.
 - Sin luces nuevas, luces animadas, mapas de luz descargados ni sombras en
   tiempo real. El medidor de FPS existente es la comprobación en dispositivo.
+- La vida usa lotes instanciados para coches, gatos, palomas, prendas y hojas;
+  coches limitados a 12 y movimientos actualizados a 30 Hz. Sus esferas amplias
+  mantienen culling por cámara. Un dirigible comparte tres piezas Lambert.
+- Un uniforme cambia gradualmente una fracción de los vidrios a tonos cálidos
+  tras 24 s de juego; es color de shader, sin luces ni materiales nuevos por ventana.
+- La cama sonora urbana sintetiza tres tonos graves de volumen bajo con Web Audio;
+  no añade archivos de audio.

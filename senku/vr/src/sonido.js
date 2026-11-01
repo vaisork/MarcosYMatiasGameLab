@@ -1,5 +1,5 @@
 // Sonidos sintetizados con Web Audio (sin archivos). Se activa tras un gesto.
-let ctx, ruido, viento, vientoFiltro;
+let ctx, ruido, viento, vientoFiltro, ambienteCiudad;
 
 export function iniciarSonido() {
   if (ctx) { ctx.resume(); return; }
@@ -13,6 +13,22 @@ export function iniciarSonido() {
   viento = ctx.createGain(); viento.gain.value = 0;
   src.connect(vientoFiltro).connect(viento).connect(ctx.destination);
   src.start();
+
+  // Rumor tibio de calles a lo lejos; sintetizado y casi debajo del viento.
+  const filtroCiudad = ctx.createBiquadFilter(); filtroCiudad.type = 'lowpass'; filtroCiudad.frequency.value = 190;
+  ambienteCiudad = ctx.createGain(); ambienteCiudad.gain.value = 0.018;
+  filtroCiudad.connect(ambienteCiudad).connect(ctx.destination);
+  const rumor = ctx.createBufferSource(), filtroRumor = ctx.createBiquadFilter(), volumenRumor = ctx.createGain();
+  rumor.buffer = ruido; rumor.loop = true;
+  filtroRumor.type = 'lowpass'; filtroRumor.frequency.value = 220;
+  volumenRumor.gain.value = 0.008;
+  rumor.connect(filtroRumor).connect(volumenRumor).connect(ctx.destination); rumor.start();
+  [82, 113, 147].forEach((frecuencia, i) => {
+    const tono = ctx.createOscillator(), volumen = ctx.createGain();
+    tono.type = 'sine'; tono.frequency.value = frecuencia;
+    volumen.gain.value = [0.42, 0.22, 0.12][i];
+    tono.connect(volumen).connect(filtroCiudad); tono.start();
+  });
 }
 
 function tono(tipo, f0, f1, dur, vol = 0.2, retraso = 0) {

@@ -115,5 +115,12 @@ a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, 
   coches, faroles y parques en lotes instanciados. El mobiliario y las marcas
   viales se limitan al centro jugable; los edificios simplifican sus fachadas
   a distancia. Dirección visual y presupuesto en `docs/ARTE_CIUDAD.md`.
+- Vida urbana: 12 coches siguen rutas cerradas, 9 gatos pasean o miran desde
+  fachadas, las palomas del parque despegan al acercarse Senku y tres parvadas
+  cruzan el horizonte. Un dirigible deriva sobre la ciudad; la ropa y las hojas
+  se mecen con animaciones de lote a 30 Hz. Algunas ventanas se vuelven cálidas
+  durante el anochecer progresivo. Sonido urbano grave sintetizado con Web Audio.
+- `src/vida.mjs`: rutas, huida de palomas y curva de anochecer, con pruebas en
+  `tests/vida.test.mjs`.
 - Churu: `../v2/assets/objetos/churu.png`. Récord en `localStorage` (`senku_vr_record`).
 - Pruebas: `node --test senku/vr/tests/*.test.mjs`.
