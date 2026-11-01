@@ -98,7 +98,7 @@ export function validarEscena(escena) {
     enemigos: Array.isArray(escena.enemigos) ? escena.enemigos : [],
     recompensaFinal: escena.recompensaFinal || null,
     fondo,
-    // Escena pintada por tramos (ilustración completa; las plataformas son invisibles).
+    // Escena pintada por tramos; algunas necesitan plataformas de colisión superpuestas.
     arte: escena.arte && Array.isArray(escena.arte.tramos) ? escena.arte : null,
     objetos: Array.isArray(escena.objetos) ? escena.objetos : [],
       secretos: Array.isArray(escena.secretos) ? escena.secretos : [],

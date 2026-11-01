@@ -1,4 +1,4 @@
-// Capítulo 2: Guatemala. Formas y colores son arte provisional hasta recibir ilustraciones.
+// Capítulo 2: Guatemala. Fondos pintados por tramo; las plataformas siguen dibujadas en juego.
 
 const suelo = (id, ancho = 2560, y = 600) => ({ id, x: 0, y, w: ancho, h: 120, tipo: 'suelo' });
 const plataforma = (id, x, y, w) => ({ id, x, y, w, h: 18, tipo: 'plataforma' });
@@ -17,6 +17,7 @@ function crearEscena({ id, nombre, colorRespaldo, colorSuelo, colorPlataforma, p
     id, nombre,
     limites: { x: 0, y: 0, w: 2560, h: 720 },
     puntoEntrada: { x: 80, y: 510 },
+    arte: { dibujarPlataformas: true, tramos: [1, 2].map((i) => ({ ruta: `assets/escenas/${id}/${String(i).padStart(2, '0')}.webp`, x: (i - 1) * 1280, w: 1280 })) },
     fondo: { estilo: 'guatemala', colorRespaldo, colorSuelo, colorPlataforma, plataformasVisibles: true },
     plataformas: [suelo(`${id}-suelo`), ...plataformas],
     enemigos,

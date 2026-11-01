@@ -18,6 +18,10 @@ El auto familiar llega y estaciona, la familia baja y el niño pregunta «Mamá,
 
 La música por zona queda pendiente: todavía no hay reproductor de música; `cambiarEscena` conserva el punto de conexión para enlazarla.
 
+## Capítulo 2 — Guatemala
+
+Tras vencer al Gato Mecánico, «Continuar a Guatemala» abre el recorrido de Antigua, Chichicastenango, Petén y Tikal. Cada escena tiene dos fondos pintados de 1280×720; el tucán, coatí y mono usan hojas animadas de 384×192. Balam tiene arte de jefe de 880×510, y el tuk-tuk del bonus y el fragmento de jade ya tienen assets. Las habilidades, salud, churus y perfiles de daño siguen las reglas vigentes de México. La lógica de Balam y el bonus del tuk-tuk quedan para su etapa de integración.
+
 Decisión técnica (2026-10-23): `coleccionados` conserva los IDs de enemigos derrotados y `llave-camioneta` como inventario; `progreso.escena` guarda el destino. Se mantiene el formato versión 1 y las claves de Legacy intactas. Si se recarga antes de recoger la llave, esta reaparece cerca del punto original de la rata; las derrotas parciales también se conservan. Reiniciar por falta de vida conserva estos avances.
 
 La llave usa un dibujo sencillo porque no hay arte de llave en `assets/objetos`. El bonus dibuja la camioneta con cajuela abierta, cajas, Senku, polvo y tres capas de dunas usando formas vectoriales propias.

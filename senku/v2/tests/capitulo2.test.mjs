@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync, statSync } from 'node:fs';
 import { escenaAntigua, escenaChichicastenango, escenaSelva, escenaTikal, escenasGuatemala } from '../src/data/escenas/guatemala.mjs';
 import { crearRegistroEscenas, validarEscena } from '../src/core/escenas.mjs';
 import { crearEnemigo, daniarEnemigo } from '../src/core/enemigos.mjs';
@@ -11,13 +12,18 @@ import { resumenCapitulo } from '../src/core/resumen.mjs';
 import { escenaCima } from '../src/data/escenas/cima.mjs';
 import { memoria } from './ayuda.mjs';
 
-test('Guatemala: cuatro escenas válidas, conectadas y con respaldo de arte provisional', () => {
+test('Guatemala: cuatro escenas válidas, conectadas y con dos fondos pintados cada una', () => {
   const registro = crearRegistroEscenas();
   for (const escena of escenasGuatemala) {
     const resultado = validarEscena(escena);
     assert.equal(resultado.valida, true, escena.id);
     registro.registrar(escena);
-    assert.equal(escena.arte, undefined, 'las formas y colores son el respaldo provisional');
+    assert.equal(escena.arte.tramos.length, 2, escena.id);
+    assert.deepEqual(escena.arte.tramos.map(({ x, w }) => [x, w]), [[0, 1280], [1280, 1280]]);
+    for (const tramo of escena.arte.tramos) {
+      const ruta = new URL(`../${tramo.ruta}`, import.meta.url);
+      assert.ok(statSync(ruta).size < 400_000, tramo.ruta);
+    }
     assert.equal(escena.fondo.plataformasVisibles, true);
     assert.ok(escena.objetos.some((o) => o.tipo === 'botiquin'));
     assert.ok(escena.objetos.some((o) => o.tipo === 'churu'));
@@ -45,14 +51,43 @@ test('enemigos guatemaltecos conservan escala de 1, 2 y 3 golpes del capítulo 1
   }
 });
 
-test('arte provisional dibuja fondos distintos para Antigua, el mercado, la selva y Tikal', () => {
-  for (const escena of escenasGuatemala) {
-    const llamadas = [];
-    const ctx = new Proxy({}, { get: (_, prop) => (...args) => llamadas.push([prop, ...args]), set: () => true });
-    renderizarEscena({ ctx, escena, debug: false });
-    assert.ok(llamadas.some(([nombre]) => nombre === 'fillRect'), escena.id);
-    assert.ok(llamadas.some(([nombre]) => nombre === 'fill'), escena.id);
-  }
+test('arte Guatemala conserva formato de sprites y hoja de Balam', () => {
+  const png = (ruta, ancho, alto) => {
+    const bytes = readFileSync(new URL(`../assets/${ruta}`, import.meta.url));
+    assert.equal(bytes.toString('ascii', 1, 4), 'PNG');
+    assert.deepEqual([bytes.readUInt32BE(16), bytes.readUInt32BE(20)], [ancho, alto], ruta);
+  };
+  for (const nombre of ['tucan_ladron', 'coati', 'mono_aullador']) png(`enemigos/${nombre}.png`, 384, 192);
+  png('jefe/balam.png', 880, 510);
+  png('objetos/fragmento_jade.png', 128, 96);
+  assert.ok(statSync(new URL('../assets/bonus/tuk-tuk-antigua.webp', import.meta.url)).size < 400_000);
+});
+
+test('escenas pintadas Guatemala muestran plataformas y conservan el suelo del arte', () => {
+  const escena = escenaAntigua;
+  const dibujadas = [];
+  const rectangulos = [];
+  const pedidas = [];
+  const imagen = { width: 1280, height: 720 };
+  const catalogoArte = { obtener: (ruta) => { pedidas.push(ruta); return ruta.endsWith('.webp') ? imagen : null; }, cache: new Map() };
+  const ctx = new Proxy({}, { get: (_, prop) => (...args) => {
+    if (prop === 'drawImage') dibujadas.push(args);
+    if (prop === 'fillRect') rectangulos.push(args);
+  }, set: () => true });
+  renderizarEscena({ ctx, escena, catalogoArte, debug: false });
+  assert.ok(dibujadas.some(([img, x, y, w, h]) => img === imagen && x === 0 && y === 0 && w === 1280 && h === 720));
+  assert.ok(pedidas.includes(escena.arte.tramos[1].ruta), 'se precarga el siguiente tramo');
+  assert.ok(rectangulos.some(([x, y, w, h]) => x === 360 && y === 510 && w === 150 && h > 18));
+  assert.ok(!rectangulos.some(([x, y, w]) => x === 0 && y === 600 && w === 2560), 'el suelo pintado no se cubre');
+});
+
+test('el arte pintado de México no duplica plataformas de sus ilustraciones', () => {
+  const rectangulos = [];
+  const imagen = { width: 1280, height: 720 };
+  const catalogoArte = { obtener: (ruta) => ruta.endsWith('.webp') ? imagen : null, cache: new Map() };
+  const ctx = new Proxy({}, { get: (_, prop) => (...args) => { if (prop === 'fillRect') rectangulos.push(args); }, set: () => true });
+  renderizarEscena({ ctx, escena: escenaCima, catalogoArte, debug: false });
+  assert.ok(!rectangulos.some(([x, y, w, h]) => x === 513 && y === 490 && w === 257 && h === 110));
 });
 
 test('el resumen de México excluye derrotas y secretos de Guatemala', () => {

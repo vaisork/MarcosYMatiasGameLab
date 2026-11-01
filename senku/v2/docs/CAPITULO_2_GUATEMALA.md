@@ -1,6 +1,6 @@
 # Capítulo 2 — Guatemala
 
-**Estado:** diseño y datos listos; arte, jefe y bonus siguen provisionales.  
+**Estado:** diseño, datos y arte base listos; lógica de Balam y bonus Tuk-tuk sigue pendiente de integración.
 **Dirección:** continuar el viaje de Senku después del Gato Mecánico, con plataformas, exploración y combate aptos para jugar en familia.
 
 ## Recorrido
@@ -12,7 +12,7 @@ El botón **Continuar a Guatemala** aparece al vencer al Gato Mecánico. Lleva a
 3. **Selva del Petén:** raíces y lianas entre claros. Combina coatíes con monos aulladores y saltos más largos; hay dos botiquines para preparar el tramo final.
 4. **Tikal y el templo del jaguar:** ruinas escalonadas que llevan a una plaza y a la arena final. El módulo termina antes del jefe; el encuentro se diseña aquí y se implementa en la etapa de integración.
 
-Cada tramo mide dos pantallas (2560 × 720), conecta por el borde derecho y conserva la cámara, la física, el zarpazo, el gancho y el desliz del capítulo 1. Las plataformas y los colores planos son arte provisional. Los Churus y botiquines reutilizan los objetos y reglas existentes. Cada escena tiene secretos alcanzables y su propio identificador para no interferir con coleccionables mexicanos.
+Cada tramo mide dos pantallas (2560 × 720), conecta por el borde derecho y conserva la cámara, la física, el zarpazo, el gancho y el desliz del capítulo 1. Cada pantalla usa un fondo pintado WebP de 1280 × 720; las plataformas siguen siendo visibles y el suelo queda integrado al fondo. Los Churus y botiquines reutilizan los objetos y reglas existentes. Cada escena tiene secretos alcanzables y su propio identificador para no interferir con coleccionables mexicanos.
 
 ## Enemigos y dificultad
 
@@ -43,4 +43,5 @@ Al vencer a Balam, la plaza vuelve a estar tranquila y aparece un resumen de Chu
 
 - `src/data/escenas/guatemala.mjs` contiene las cuatro escenas, su conexión, plataformas, objetos y enemigos.
 - `src/data/enemigos.mjs` añade los tres perfiles y conserva la regla de 1/2/3 golpes.
-- Pendiente de la siguiente etapa: arte final, sprite y patrones de Balam, implementación del Tuk-tuk, música/sonido, recorrido completo y validación visual.
+- Arte: ocho fondos por tramo, hojas transparentes de los tres enemigos, hoja de 12 poses de Balam, ilustración del tuk-tuk y fragmento de jade.
+- Pendiente de la siguiente etapa: integrar el jefe y el bonus, música/sonido, recorrido completo y validación visual.

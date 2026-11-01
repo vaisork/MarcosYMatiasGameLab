@@ -1183,12 +1183,13 @@ export function renderizarEscena({
     dibujarCamionParada(ctx);
   }
 
-  // 3. Plataformas dibujadas como objetos ambientales (cajas, huacales, toldos, rocas, etc.)
-  // Dibujar siempre para escenas del juego con id o cuando plataformasVisibles esté activo
-  const debeDibujarPlataformas = !escenaPintada
-    && (Boolean(escena.id) || !imagenFondo || fondoCfg.plataformasVisibles);
+  // 3. Plataformas dibujadas como objetos ambientales; escenas pintadas pueden pedir plataformas encima.
+  const debeDibujarPlataformas = escenaPintada
+    ? escena.arte?.dibujarPlataformas === true
+    : Boolean(escena.id) || !imagenFondo || fondoCfg.plataformasVisibles;
   if (Array.isArray(escena.plataformas) && debeDibujarPlataformas) {
     for (const plat of escena.plataformas) {
+      if (escenaPintada && clasificarTipoPlataforma(plat) === 'suelo') continue;
       dibujarPlataformaObjeto(ctx, plat, tiempo, escena.id);
     }
   }

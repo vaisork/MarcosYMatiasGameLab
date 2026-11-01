@@ -1,6 +1,6 @@
 // Service Worker para Senku 2 — Caché offline versionado y soporte PWA
 // Versión actual de la caché
-const VERSION_CACHE = 'senku2-v17';
+const VERSION_CACHE = 'senku2-v18';
 
 // Recursos esenciales que forman la base del juego para jugar sin conexión
 const RECURSOS_PRECACHE = [
@@ -56,9 +56,10 @@ const RECURSOS_PRECACHE = [
   './assets/enemigos/hamster_negro.png',
   './assets/enemigos/raton_cafe.png',
   './assets/enemigos/raton_negro.png',
-  './assets/enemigos/tucan_ladron.svg',
-  './assets/enemigos/coati.svg',
-  './assets/enemigos/mono_aullador.svg',
+  './assets/enemigos/tucan_ladron.png',
+  './assets/enemigos/coati.png',
+  './assets/enemigos/mono_aullador.png',
+  './assets/jefe/balam.png',
   './assets/fondos/camioneta_reja.webp',
   './assets/fondos/desierto.webp',
   './assets/fondos/taqueria_ciudad.webp',
@@ -69,6 +70,8 @@ const RECURSOS_PRECACHE = [
   './assets/objetos/garras_escalada.png',
   './assets/objetos/lanzador_ratones.png',
   './assets/objetos/raton_proyectil.png',
+  './assets/objetos/fragmento_jade.png',
+  './assets/bonus/tuk-tuk-antigua.webp',
   './assets/personajes/menu_original.webp',
   './assets/portada/portada.webp',
   './assets/personajes/menu_rata.webp',
