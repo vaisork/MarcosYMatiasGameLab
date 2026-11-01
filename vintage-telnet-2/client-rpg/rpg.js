@@ -219,9 +219,13 @@ function renderBattleMenu(){
  const combat=snapshot?.character?.combat, root=$('battle-menu');
  root.hidden=!combat;root.replaceChildren();if(!combat)return;
  const offered=snapshot.actions||[], locked=battleLocked();
+ const specializationActions=offered.filter(a=>['invocar_eco','velo_espectral','inspirar_valentia'].includes(a.id));
+ const specialization=snapshot.character?.especializacion;
+ const specializationName=specialization?.name||({'arcano_ecos':'Arcano de los Ecos','juramentado_heroico':'Juramentado Heroico'}[specialization?.id])||'Especialización';
  const groups=[
   ['Atacar',offered.filter(a=>a.id==='atacar'),'action-attack','swords'],
-  ['Capacidad',offered.filter(a=>!['atacar','huir','defender','usar'].includes(a.id)),'action-skill','spark'],
+  ['Capacidad',offered.filter(a=>!['atacar','huir','defender','usar','invocar_eco','velo_espectral','inspirar_valentia'].includes(a.id)),'action-skill','spark'],
+  ...(specializationActions.length?[[specializationName,specializationActions,'action-skill','spark']]:[]),
   ['Objeto',offered.filter(a=>a.id==='usar'),'action-item','flask'],
   ['Defender',offered.filter(a=>a.id==='defender'),'action-defend','shield']
  ];
@@ -459,8 +463,12 @@ function entities(){
 }
 function actionButton(action){
  const b=node('button',action.label||action.id);b.type='button';b.disabled=(snapshot?.character?.combat?battleLocked():busy||Boolean(pending))||Boolean(action.disabled);b.title=action.reason||action.description||'';
+ if(snapshot?.character?.combat)b.className=action.id==='atacar'?'action-attack':action.id==='usar'?'action-item':action.id==='defender'?'action-defend':action.id==='huir'?'flee':'action-skill';
  b.addEventListener('click',()=>perform(action));
- if(action.disabled&&action.reason){const wrap=node('div','');wrap.append(b,node('small',action.reason));return wrap;}return b;
+ const details=[];
+ if(action.cooldown!==undefined){const remaining=Number(action.cooldown_remaining)||0;details.push(remaining?`Recarga: ${remaining} rondas restantes · ${action.cooldown} al usar`:`Recarga: ${action.cooldown} rondas`);}
+ if(action.disabled&&action.reason&&!/^Recarga:/i.test(action.reason))details.push(action.reason);
+ if(details.length){const wrap=node('div','');wrap.className='battle-action';wrap.append(b,...details.map(text=>node('small',text)));return wrap;}return b;
 }
 
 let entryKey='';
@@ -836,6 +844,7 @@ function render(){
 
  if($('enemy-hud'))$('enemy-hud').hidden=!combat&&!outcome;
  if($('char-name'))$('char-name').textContent=c.name;
+ if($('char-title')){$('char-title').textContent=c.titulo||'';$('char-title').hidden=!c.titulo;$('char-title').title=c.titulo||'';}
  if($('char-level'))$('char-level').textContent=`Nv. ${c.level}`;
  if($('hp-bar-fill'))$('hp-bar-fill').style.width=`${Math.max(0,Math.min(100,(c.hp/c.hp_max)*100))}%`;
  if($('hp-bar-text'))$('hp-bar-text').textContent=`${c.hp} / ${c.hp_max}`;
@@ -869,6 +878,7 @@ function render(){
   return b;
  }));
 
+ const openPanelSections=new Set([...$('contexts').querySelectorAll('details[data-section]')].filter(section=>section.open).map(section=>section.dataset.section));
  $('contexts').replaceChildren();
  if(menuGroup==='Personas'||menuGroup==='Criaturas'){
   for(const e of entities().filter(e=>menuGroup==='Personas'?people.has(e.id):!people.has(e.id))){
@@ -883,17 +893,47 @@ function render(){
  $('action-title').textContent=focus?`Interacción · ${entities().find(e=>e.id===focus)?.name||focus}`:menuGroup||'Menú';
  $('description').hidden=menuGroup!=='Lugar';
  const accountTools=document.querySelector('.panel-account-tools');if(accountTools)accountTools.hidden=menuGroup!=='Más';
- const detailsHist=document.querySelector('#panel details');if(detailsHist)detailsHist.hidden=menuGroup!=='Más';
+ const detailsHist=document.querySelector('#narrative-history');if(detailsHist)detailsHist.hidden=menuGroup!=='Más';
 
  if(menuGroup==='Personaje'){
   const statsBox=node('div','');statsBox.className='char-tile';
   const sInfo=node('div','');sInfo.className='char-info';
-  sInfo.append(node('strong',`${c.name} (Nv. ${c.level})`));
+  sInfo.append(node('strong',`${c.name} (Nv. ${c.level})${c.titulo?` · ${c.titulo}`:''}`));
   sInfo.append(node('small',`${speciesNames[c.species]||c.species} · ${classNames[c.class_id]||c.class_id}`));
   sInfo.append(node('p',`Salud: ${c.hp} / ${c.hp_max} · Experiencia: ${c.xp} / ${c.xp_next}`));
   if(c.seals!==undefined)sInfo.append(node('p',`Sellos: ${c.seals}`));
   if(c.fatigue!==undefined)sInfo.append(node('p',`Fatiga: ${c.fatigue} / 100`));
+  const specialization=c.especializacion;
+  if(specialization?.name||specialization?.id)sInfo.append(node('p',`Especialización: ${specialization.name||({'arcano_ecos':'Arcano de los Ecos','juramentado_heroico':'Juramentado Heroico'}[specialization.id]||specialization.id)}`));
+  const ranks=(c.rangos||[]).map(rank=>rank.name).filter(Boolean);
+  if(ranks.length)sInfo.append(node('p',`Rangos: ${ranks.join(' · ')}`));
   statsBox.append(sInfo);$('contexts').append(statsBox);
+
+  const echoes=c.ecos||[];
+  const echoDetails=node('details','');echoDetails.className='rpg-panel-section';echoDetails.dataset.section='echoes';echoDetails.open=openPanelSections.has('echoes');
+  echoDetails.append(node('summary',`Ecos (${echoes.length})`),echoes.length?node('p',echoes.map(e=>`${e.name} · fuerza ${e.power}`).join('  |  ')):node('p','Aún no guardas ecos de criaturas.'));
+  $('contexts').append(echoDetails);
+
+  const goals=c.goals||[];
+  const goalsDetails=node('details','');goalsDetails.className='rpg-panel-section';goalsDetails.dataset.section='goals';goalsDetails.open=openPanelSections.has('goals');
+  goalsDetails.append(node('summary','Metas'));
+  for(const goal of goals)goalsDetails.append(node('p',`${goal.period}: ${goal.title} — ${goal.text}`));
+  if(!goals.length)goalsDetails.append(node('p','No hay metas disponibles ahora.'));
+  $('contexts').append(goalsDetails);
+
+  const daily=snapshot.daily_errands||{errands:[],streak:0}, errands=daily.errands||[];
+  const completed=errands.filter(errand=>errand.completed).length;
+  const errandsDetails=node('details','');errandsDetails.className='rpg-panel-section';errandsDetails.dataset.section='errands';errandsDetails.open=openPanelSections.has('errands');
+  errandsDetails.append(node('summary',`Recados de hoy · ${completed}/${errands.length}`));
+  for(const errand of errands)errandsDetails.append(node('p',`${errand.completed?'✓':'○'} ${errand.title} · ${errand.completed?'Completado':`Recompensa: ${errand.reward} XP`}`));
+  if(daily.streak)errandsDetails.append(node('p',`Racha: ${daily.streak} días`));
+  $('contexts').append(errandsDetails);
+
+  const book=c.goal_book||{entries:[],unlocked:0,total:0}, entries=book.entries||[];
+  const achievements=node('details','');achievements.className='rpg-panel-section';achievements.dataset.section='achievements';achievements.open=openPanelSections.has('achievements');
+  achievements.append(node('summary',`Logros · ${book.unlocked||0}/${book.total||entries.length}`));
+  for(const entry of entries)achievements.append(node('div',`${entry.unlocked?'✦':'◇'} ${entry.name} · ${entry.unlocked?'Conseguido':`${entry.progress}/${entry.target}`}`));
+  $('contexts').append(achievements);
  }
 
  const actions=snapshot.actions.filter(a=>focus?a.target===focus:menuGroup&&category(a)===menuGroup);

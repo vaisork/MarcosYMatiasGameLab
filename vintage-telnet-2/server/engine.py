@@ -685,9 +685,9 @@ class Engine:
                         name=self.content.creatures.get(eco['id'],{}).get('name',eco['id'].replace('_',' ').title())
                         valid=focus
                         reason=f'Recarga: {cd} rondas' if cd else ('Necesitas un foco arcano para llamar un eco.' if not focus else act['description'])
-                        class_acts.append({'id':aid,'target':eco['id'],'label':f"Invocar eco: {name} (fuerza {eco['power']})",'description':act['description'],'disabled':bool(cd) or not valid,'reason':reason})
+                        class_acts.append({'id':aid,'target':eco['id'],'label':f"Invocar eco: {name} (fuerza {eco['power']})",'description':act['description'],'cooldown':act['cooldown'],'cooldown_remaining':cd,'disabled':bool(cd) or not valid,'reason':reason})
                     if not available:
-                        class_acts.append({'id':aid,'label':act['label'],'description':act['description'],'disabled':True,'reason':'Aún no tienes ecos de criaturas vencidas.'})
+                        class_acts.append({'id':aid,'label':act['label'],'description':act['description'],'cooldown':act['cooldown'],'cooldown_remaining':combat.get('cooldowns',{}).get(aid,0),'disabled':True,'reason':'Aún no tienes ecos de criaturas vencidas.'})
                     continue
                 cd=combat.get('cooldowns',{}).get(aid,0)
                 if act.get('signature') and combat.get('cooldown',0)>cd:cd=combat['cooldown']
@@ -721,7 +721,8 @@ class Engine:
                     if state['hp']>=m.hp_max(state) and state['fatigue']<=0:valid=False;invalid_reason='No tienes heridas ni fatiga que aliviar.'
                 disabled=bool(cd) or (not valid)
                 reason=f"Recarga: {cd} rondas" if cd else (invalid_reason if not valid else act['description'])
-                class_acts.append({'id':aid,'label':act['label'],'description':act['description'],'disabled':disabled,'reason':reason})
+                cooldown_fields={'cooldown':act.get('cooldown',0),'cooldown_remaining':cd} if aid in ('invocar_eco','velo_espectral','inspirar_valentia') else {}
+                class_acts.append({'id':aid,'label':act['label'],'description':act['description'],**cooldown_fields,'disabled':disabled,'reason':reason})
             actions=[actions[0]]+class_acts+actions[1:]
             active_numen=m.get_active_numen(state)
             if active_numen:

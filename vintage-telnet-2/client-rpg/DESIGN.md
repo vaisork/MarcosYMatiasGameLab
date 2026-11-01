@@ -14,6 +14,8 @@ Azul tinta `#060b13`, navy `#14243d`, oro iluminado `#f5d888`, oro de borde `#ca
 
 Sin monedas, maná, compañeros, misiones o minimapas inventados. Los iconos geométricos son auxiliares y mantienen nombre accesible. Formularios, autocompletado, teclado, foco y movimiento reducido siguen siendo funcionales.
 
+La ficha muestra título/rango, especialización y ecos del snapshot. Metas, recados diarios y logros usan los campos existentes del servidor en secciones desplegables que conservan su estado entre actualizaciones. El menú de batalla separa las capacidades de especialización y presenta la recarga base y las rondas restantes recibidas en la acción.
+
 ## Verificación
 
 Revisión conjunta de inicio, exploración y combate en 390×844 y 1366×768; recorridos reales entre salas pintadas y genéricas; acciones de combate y espera de ronda; sesión y selección de personaje. Suite del servidor, validadores de cliente, revisión independiente de capturas y CI antes de proponer integración.

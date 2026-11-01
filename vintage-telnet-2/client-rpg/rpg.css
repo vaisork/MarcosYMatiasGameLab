@@ -599,11 +599,23 @@ canvas#world {
   font-family: var(--font-title);
   font-size: 14px;
   color: var(--gold-bright);
+  white-space: nowrap;
+}
+.hud-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-gold);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .hud-level {
   font-size: 12px;
   font-weight: 700;
   color: #a3c4e8;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 .hud-hp-bar {
   position: relative;
@@ -1120,6 +1132,8 @@ canvas#world {
   cursor: not-allowed;
   filter: grayscale(0.5);
 }
+.battle-action { min-width: 0; }
+.battle-action small { display: block; margin: 3px 4px 0; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
 
 /* Colores Semánticos de Combate */
 #battle-menu button.action-attack   { background: var(--btn-blue); border-color: var(--gold-bright); }
@@ -1226,6 +1240,18 @@ canvas#world {
   gap: 8px;
   margin-bottom: 12px;
 }
+.rpg-panel-section {
+  padding: 8px 10px;
+  background: rgba(14, 25, 42, 0.72);
+  border: 1px solid var(--gold-dark);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.rpg-panel-section summary { color: var(--text-gold); cursor: pointer; font-weight: 700; }
+.rpg-panel-section p { margin: 7px 0 0; }
+.rpg-panel-section div { padding-top: 5px; }
 #actions button, #contexts button {
   display: flex;
   flex-direction: column;
