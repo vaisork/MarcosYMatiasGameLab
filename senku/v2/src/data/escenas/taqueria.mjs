@@ -15,6 +15,7 @@ export const escenaTaqueria = {
     x: 100,
     y: 510, // Pies sobre la banqueta (y=600); gato de 90 px
   },
+  rataSecreta: { id: 'rata-taqueria', x: 1110, y: 554, w: 48, h: 46 },
   fondo: {
     ruta: 'senku/v2/assets/fondos/taqueria.webp',
     colorRespaldo: '#e6be8a', // Tono cálido taquería

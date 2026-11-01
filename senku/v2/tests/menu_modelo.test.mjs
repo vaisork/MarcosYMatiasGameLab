@@ -75,10 +75,18 @@ test('crearModelo regla: sin saldo => deshabilitado con motivo saldo_insuficient
   const tCallejero = tarjetas.find((t) => t.id === 'callejero');
   assert.equal(tCallejero.estado, 'bloqueado');
   assert.equal(tCallejero.precio, 80);
-  assert.equal(tCallejero.etiqueta, 'Comprar');
+  assert.equal(tCallejero.etiqueta, 'Bloqueado');
   assert.equal(tCallejero.accion, 'comprar');
   assert.equal(tCallejero.deshabilitado, true);
   assert.equal(tCallejero.motivo, 'saldo_insuficiente');
+});
+
+test('crearModelo: traje secreto indica cómo desbloquearse y no ofrece compra', () => {
+  const rata = { id: 'rata', nombre: 'Traje exclusivo', precio: null, condicion: 'Hablar con la rata', menu: 'rata.webp' };
+  const [tarjeta] = crearModelo({ churus: 999, trajes: ['original'], equipado: 'original' }, [rata]);
+  assert.equal(tarjeta.etiqueta, 'Secreto');
+  assert.equal(tarjeta.accion, null);
+  assert.equal(tarjeta.motivo, 'secreto');
 });
 
 test('crearModelo: con saldo suficiente el botón comprar está habilitado', () => {

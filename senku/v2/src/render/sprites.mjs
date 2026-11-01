@@ -9,18 +9,17 @@ export const COLUMNAS_HOJA = 4; // Por defecto / compatibilidad con pruebas prev
 export const PIES_FOTOGRAMA = 88;
 
 // Rutas relativas a senku/v2/, resueltas contra este módulo (válidas desde cualquier documento).
+import { TRAJES } from '../data/trajes.mjs';
 const BASE_V2 = new URL('../../', import.meta.url);
 export const resolverRutaArte = (relativa) => new URL(relativa, BASE_V2).href;
 
-export const HOJAS_JUGADOR = Object.freeze({
-  original: 'assets/personajes/sprite_original.png',
-  rata: 'assets/personajes/sprite_rata.png',
-});
+export const HOJAS_JUGADOR = Object.freeze(Object.fromEntries(
+  Object.entries(TRAJES).map(([id, traje]) => [id, traje.sprite]),
+));
 
-export const RETRATOS_MENU = Object.freeze({
-  original: 'assets/personajes/menu_original.webp',
-  rata: 'assets/personajes/menu_rata.webp',
-});
+export const RETRATOS_MENU = Object.freeze(Object.fromEntries(
+  Object.entries(TRAJES).map(([id, traje]) => [id, traje.menu]),
+));
 
 export const FONDOS_ESCENA = Object.freeze({
   taqueria: 'assets/fondos/taqueria_ciudad.webp',
@@ -114,10 +113,10 @@ const DURACION_DERROTA = 1.3;
 const DESVANECER_DERROTA = 0.3;
 export const DURACION_GOLPE_JUGADOR = 0.35;
 
-export function rutasPrecargaArte({ escenaId = 'taqueria', tiposEnemigo = Object.keys(HOJAS_ENEMIGO) } = {}) {
+export function rutasPrecargaArte({ escenaId = 'taqueria', tiposEnemigo = Object.keys(HOJAS_ENEMIGO), trajeId = 'original' } = {}) {
   const rel = [
     FONDOS_ESCENA[escenaId],
-    ...Object.values(HOJAS_JUGADOR),
+    HOJAS_JUGADOR[trajeId] || HOJAS_JUGADOR.original,
     escenaId === 'cima' && HOJA_JEFE_GATO, // 525 KB: sólo donde vive el jefe
     ...tiposEnemigo.map((t) => (HOJAS_ENEMIGO[t] || HOJA_ENEMIGO_DEFECTO).ruta),
     ...Object.values(IMAGENES_OBJETO),

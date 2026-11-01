@@ -28,6 +28,7 @@ export function montarMenu(contenedor, opciones = {}) {
   };
   const onCambioEstado = opciones.onCambioEstado || null;
   const rutaChuru = opciones.rutaChuru ?? null;
+  const confirmarCompra = opciones.confirmarCompra || ((pregunta) => typeof window === 'undefined' || window.confirm(pregunta));
 
   let mensajeTimeout = null;
 
@@ -51,8 +52,8 @@ export function montarMenu(contenedor, opciones = {}) {
       <section class="senku-menu" aria-label="Menú de selección de Senkus">
         <header class="menu-cabecera">
           <div class="menu-titulo-grupo">
-            <h1 class="menu-titulo">Armario de Senku</h1>
-            <p class="menu-subtitulo">Elige el traje para tu aventura</p>
+            <h1 class="menu-titulo">Tienda de trajes</h1>
+            <p class="menu-subtitulo">Elige tu próximo traje</p>
           </div>
           <div class="menu-saldo" aria-label="Saldo de Churus: ${saldo}">
             <span class="saldo-etiqueta">Churus</span>
@@ -127,8 +128,8 @@ export function montarMenu(contenedor, opciones = {}) {
     } else if (esBloqueado) {
       if (t.precio === null) {
         botonHtml = `
-          <div class="bloqueado-aviso" aria-label="Traje disponible próximamente">
-            <span class="bloqueado-texto">Próximamente</span>
+          <div class="bloqueado-aviso" aria-label="${t.motivo === 'secreto' ? 'Traje secreto' : 'Traje disponible próximamente'}">
+            <span class="bloqueado-texto">${t.motivo === 'secreto' ? 'Encuentra a la rata' : 'Próximamente'}</span>
           </div>
         `;
       } else {
@@ -138,14 +139,14 @@ export function montarMenu(contenedor, opciones = {}) {
                   ${t.deshabilitado ? 'disabled aria-disabled="true"' : ''}
                   title="${titleMotivo}"
                   aria-label="Comprar traje ${t.nombre} por ${t.precio} Churus${t.deshabilitado ? ' (saldo insuficiente)' : ''}">
-            Comprar (${t.precio})
+            <span>${t.etiqueta}</span> <span class="precio-traje">${rutaChuru ? `<img src="${rutaChuru}" alt="" aria-hidden="true">` : '🧃'} ${t.precio}</span>
           </button>
         `;
       }
     }
 
     const badgeClase = `badge-${t.estado}`;
-    const badgeTexto = esEquipado ? 'En uso' : (esDesbloqueado ? 'Disponible' : (t.precio === null ? 'Próximamente' : `${t.precio} Churus`));
+    const badgeTexto = esEquipado ? 'Equipado' : (esDesbloqueado ? 'Disponible' : (t.motivo === 'secreto' ? 'Secreto' : (t.precio === null ? 'Próximamente' : `${t.precio} Churus`)));
 
     return `
       <article class="tarjeta-traje estado-${t.estado}" data-traje-id="${t.id}">
@@ -170,6 +171,9 @@ export function montarMenu(contenedor, opciones = {}) {
   }
 
   function ejecutarAccion(id, accion) {
+    const tarjeta = crearModelo(estadoActual, catalogo).find((item) => item.id === id);
+    if (accion === 'comprar' && tarjeta
+        && !confirmarCompra(`¿Comprar ${tarjeta.nombre} por ${tarjeta.precio} Churus?`)) return;
     const res = accionarTarjeta(estadoActual, catalogo, id, economia);
     if (res.error) {
       mostrarMensaje(res.mensaje, 'error');

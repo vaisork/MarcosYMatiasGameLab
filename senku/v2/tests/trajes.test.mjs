@@ -1,25 +1,31 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import { estadoNuevo, guardar, cargar } from '../src/core/store.mjs';
 import { desdeLegacy, iniciar } from '../src/core/migracion.mjs';
 import { TRAJES, normalizarTrajesDeLegacy } from '../src/data/trajes.mjs';
 import { memoria } from './ayuda.mjs';
 
-test('catálogo conserva decisiones pendientes y rutas propias para arte nuevo', () => {
-  assert.deepEqual(Object.keys(TRAJES), ['original', 'rata']);
+test('catálogo contiene los 14 trajes, precios acordados y rutas de arte existentes', () => {
+  const precios = { explorador: 10, vaquero: 25, ninja: 50, magico: 75, especial: 100,
+    chef: 120, mexicano: 150, espacial: 180, dinosaurio: 200, playa: 230, sigilo: 260, punk: 300 };
+  assert.equal(Object.keys(TRAJES).length, 14);
+  assert.deepEqual(Object.fromEntries(Object.entries(TRAJES).filter(([id]) => id !== 'original' && id !== 'rata').map(([id, t]) => [id, t.precio])), precios);
   assert.equal(TRAJES.original.siempreDesbloqueado, true);
   assert.equal(TRAJES.rata.siempreDesbloqueado, false);
   assert.deepEqual(TRAJES.rata.equivaleA, ['secreto_legacy']);
   for (const [id, traje] of Object.entries(TRAJES)) {
     assert.equal(traje.id, id);
-    assert.equal(traje.precio, null);
-    assert.equal(traje.condicion, null);
+    assert.equal(traje.precio, id in precios ? precios[id] : null);
+    assert.equal(traje.condicion, id === 'rata' ? 'Encontrar y hablar con la rata de la taquería' : null);
     for (const campo of ['menu', 'sprite']) {
-      assert.ok(traje[campo].startsWith(`trajes/${id}/`));
-      assert.ok(!traje[campo].includes('..'));
-      assert.ok(!traje[campo].includes('legacy'));
+      assert.ok(traje[campo].startsWith('assets/personajes/'));
+      assert.ok(fs.existsSync(new URL(`../${traje[campo]}`, import.meta.url)));
     }
   }
+  assert.equal(TRAJES.original.nombre, 'Traje inicial');
+  assert.equal(TRAJES.rata.nombre, 'Traje exclusivo');
+  assert.match(TRAJES.rata.condicion, /hablar/);
 });
 
 test('original siempre está desbloqueado; normalizar no regala rata', () => {

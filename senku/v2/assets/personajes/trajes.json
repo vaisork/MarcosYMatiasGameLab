@@ -1,0 +1,158 @@
+[
+  {
+    "id": "explorador",
+    "nombre": "Explorador",
+    "archivos": {
+      "menu": "assets/personajes/menu_explorador.webp",
+      "sprite": "assets/personajes/sprite_explorador.png"
+    },
+    "método": {
+      "menu": "generado",
+      "sprite": "compuesto"
+    },
+    "prompt": "Retrato pixel-art de Senku, gato blanco y negro de ojos amarillos, con sombrero safari beige, mochila verde olivo, chaleco caqui y paliacate rojo según el catálogo de referencia; misma pose sentada, escala y encuadre del menú original, fondo transparente, sin texto."
+  },
+  {
+    "id": "vaquero",
+    "nombre": "Vaquero",
+    "archivos": {
+      "menu": "assets/personajes/menu_vaquero.webp",
+      "sprite": "assets/personajes/sprite_vaquero.png"
+    },
+    "método": {
+      "menu": "generado",
+      "sprite": "compuesto"
+    },
+    "prompt": "Retrato pixel-art de Senku, gato blanco y negro de ojos amarillos, con sombrero vaquero café, chaleco del oeste y paliacate rojo según el catálogo de referencia; misma pose sentada, escala y encuadre del menú original, fondo transparente, sin texto."
+  },
+  {
+    "id": "ninja",
+    "nombre": "Ninja",
+    "archivos": {
+      "menu": "assets/personajes/menu_ninja.webp",
+      "sprite": "assets/personajes/sprite_ninja.png"
+    },
+    "método": {
+      "menu": "generado",
+      "sprite": "compuesto"
+    },
+    "prompt": "Retrato pixel-art de Senku, gato blanco y negro de ojos amarillos, con atuendo ninja azul oscuro, banda gris y cintas rojas según el catálogo de referencia; misma pose sentada, escala y encuadre del menú original, fondo transparente, sin texto."
+  },
+  {
+    "id": "magico",
+    "nombre": "Mágico",
+    "archivos": {
+      "menu": "assets/personajes/menu_magico.webp",
+      "sprite": "assets/personajes/sprite_magico.png"
+    },
+    "método": {
+      "menu": "generado",
+      "sprite": "compuesto"
+    },
+    "prompt": "Retrato pixel-art de Senku, gato blanco y negro de ojos amarillos, con túnica y sombrero azul con estrellas, ribete dorado y varita mágica según el catálogo de referencia; misma pose sentada, escala y encuadre del menú original, fondo transparente, sin texto."
+  },
+  {
+    "id": "especial",
+    "nombre": "Especial",
+    "archivos": {
+      "menu": "assets/personajes/menu_especial.webp",
+      "sprite": "assets/personajes/sprite_especial.png"
+    },
+    "método": {
+      "menu": "generado",
+      "sprite": "compuesto"
+    },
+    "prompt": "Retrato pixel-art de Senku, gato blanco y negro de ojos amarillos, con capa roja con cuello blanco afelpado y corona dorada según el catálogo de referencia; misma pose sentada, escala y encuadre del menú original, fondo transparente, sin texto."
+  },
+  {
+    "id": "chef",
+    "nombre": "Chef",
+    "archivos": {
+      "menu": "assets/personajes/menu_chef.webp",
+      "sprite": "assets/personajes/sprite_chef.png"
+    },
+    "método": {
+      "menu": "generado",
+      "sprite": "compuesto"
+    },
+    "prompt": "Retrato pixel-art de Senku, gato blanco y negro de ojos amarillos, con uniforme blanco de chef con botones, paliacate rojo y gorro alto según el catálogo de referencia; misma pose sentada, escala y encuadre del menú original, fondo transparente, sin texto."
+  },
+  {
+    "id": "mexicano",
+    "nombre": "Mexicano",
+    "archivos": {
+      "menu": "assets/personajes/menu_mexicano.webp",
+      "sprite": "assets/personajes/sprite_mexicano.png"
+    },
+    "método": {
+      "menu": "generado",
+      "sprite": "compuesto"
+    },
+    "prompt": "Retrato pixel-art de Senku, gato blanco y negro de ojos amarillos, con sombrero mexicano bordado y sarape colorido según el catálogo de referencia; misma pose sentada, escala y encuadre del menú original, fondo transparente, sin texto."
+  },
+  {
+    "id": "espacial",
+    "nombre": "Espacial",
+    "archivos": {
+      "menu": "assets/personajes/menu_espacial.webp",
+      "sprite": "assets/personajes/sprite_espacial.png"
+    },
+    "método": {
+      "menu": "generado",
+      "sprite": "compuesto"
+    },
+    "prompt": "Retrato pixel-art de Senku, gato blanco y negro de ojos amarillos, con traje acolchado blanco de astronauta, casco transparente redondo, mochila y parches según el catálogo de referencia; misma pose sentada, escala y encuadre del menú original, fondo transparente, sin texto."
+  },
+  {
+    "id": "dinosaurio",
+    "nombre": "Dinosaurio",
+    "archivos": {
+      "menu": "assets/personajes/menu_dinosaurio.webp",
+      "sprite": "assets/personajes/sprite_dinosaurio.png"
+    },
+    "método": {
+      "menu": "generado",
+      "sprite": "compuesto"
+    },
+    "prompt": "Retrato pixel-art de Senku, gato blanco y negro de ojos amarillos, con disfraz verde de dinosaurio con capucha amable y púas amarillas según el catálogo de referencia; misma pose sentada, escala y encuadre del menú original, fondo transparente, sin texto."
+  },
+  {
+    "id": "playa",
+    "nombre": "Playa",
+    "archivos": {
+      "menu": "assets/personajes/menu_playa.webp",
+      "sprite": "assets/personajes/sprite_playa.png"
+    },
+    "método": {
+      "menu": "generado",
+      "sprite": "compuesto"
+    },
+    "prompt": "Retrato pixel-art de Senku, gato blanco y negro de ojos amarillos, con camisa tropical turquesa, sombrero de paja y lentes oscuros redondos según el catálogo de referencia; misma pose sentada, escala y encuadre del menú original, fondo transparente, sin texto."
+  },
+  {
+    "id": "sigilo",
+    "nombre": "Sigilo",
+    "archivos": {
+      "menu": "assets/personajes/menu_sigilo.webp",
+      "sprite": "assets/personajes/sprite_sigilo.png"
+    },
+    "método": {
+      "menu": "generado",
+      "sprite": "compuesto"
+    },
+    "prompt": "Retrato pixel-art de Senku, gato blanco y negro de ojos amarillos, con atuendo negro de sigilo con capucha que deja visible la cara según el catálogo de referencia; misma pose sentada, escala y encuadre del menú original, fondo transparente, sin texto."
+  },
+  {
+    "id": "punk",
+    "nombre": "Punk",
+    "archivos": {
+      "menu": "assets/personajes/menu_punk.webp",
+      "sprite": "assets/personajes/sprite_punk.png"
+    },
+    "método": {
+      "menu": "generado",
+      "sprite": "compuesto"
+    },
+    "prompt": "Retrato pixel-art de Senku, gato blanco y negro de ojos amarillos, con cresta roja corta y chaleco negro con pequeñas tachuelas doradas según el catálogo de referencia; misma pose sentada, escala y encuadre del menú original, fondo transparente, sin texto."
+  }
+]

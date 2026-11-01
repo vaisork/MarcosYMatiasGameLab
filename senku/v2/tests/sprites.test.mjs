@@ -128,6 +128,7 @@ test('rutas de arte: existen en disco, bajo assets/ y sin duplicados', () => {
 test('selección de hoja: traje activo, enemigo por tipo y fondo por escena', () => {
   assert.match(rutaHojaJugador('original'), /sprite_original\.png$/);
   assert.match(rutaHojaJugador('rata'), /sprite_rata\.png$/);
+  assert.match(rutaHojaJugador('ninja'), /sprite_ninja\.png$/);
   assert.match(rutaHojaJugador('desconocido'), /sprite_original\.png$/, 'traje desconocido usa el original');
   assert.match(configuracionEnemigo({ tipo: 'cucaracha' }).ruta, /hamster_cafe\.png$/);
   assert.match(configuracionEnemigo({ tipo: 'rata_menor' }).ruta, /raton_negro\.png$/);
@@ -137,7 +138,11 @@ test('selección de hoja: traje activo, enemigo por tipo y fondo por escena', ()
   for (const tipo of Object.keys(CATALOGO_ENEMIGOS)) {
     assert.ok(HOJAS_ENEMIGO[tipo], `Enemigo ${tipo} sin hoja`);
   }
-  assert.deepEqual(Object.keys(HOJAS_JUGADOR), ['original', 'rata']);
+  assert.equal(Object.keys(HOJAS_JUGADOR).length, 14);
+  assert.deepEqual(rutasPrecargaArte({ trajeId: 'ninja' }).filter((ruta) => /\/personajes\/sprite_/.test(ruta)), [rutaHojaJugador('ninja')]);
+  for (const ruta of [...Object.values(HOJAS_JUGADOR), ...Object.values(RETRATOS_MENU)]) {
+    assert.ok(fs.existsSync(fileURLToPath(resolverRutaArte(ruta))), `Falta ${ruta}`);
+  }
   assert.ok(Object.keys(IMAGENES_OBJETO).includes('churu'));
   for (const tipo of ['llave', 'botiquin', 'anclador', 'garras', 'lanzador_ratones']) {
     assert.ok(IMAGENES_OBJETO[tipo], `Objeto ${tipo} sin imagen`);
@@ -288,7 +293,7 @@ test('paralaje por escenas: renderiza sin lanzar en taquería, ciudad, reja y de
 test('dibujo: usa drawImage con el fotograma correcto y voltea a la izquierda', () => {
   const { creadas, crearImagen } = fabricaImagenes();
   const cat = crearCatalogoArte({ crearImagen, aviso: () => {} });
-  cat.precargar(rutasPrecargaArte());
+  cat.precargar([...rutasPrecargaArte({ trajeId: 'rata' }), rutaHojaJugador('original')]);
   creadas.forEach((i) => i.onload());
 
   const ctx = ctxFalso();

@@ -50,7 +50,8 @@ import {
   aplicarGolpeJugador,
 } from './core/combate.mjs';
 import { recogerBotiquin } from './core/botiquin.mjs';
-import { ganarChurus } from './core/economia.mjs';
+import { ganarChurus, comprarTraje as comprarTrajeEconomia, equipar } from './core/economia.mjs';
+import { TRAJES } from './data/trajes.mjs';
 
 // Decisión de diseño: Senku inicia con 100 HP y 1 s de invulnerabilidad tras ser golpeado
 export const HP_INICIAL_DEFECTO = HP_INICIAL_SENKU;
@@ -68,7 +69,6 @@ import {
 import {
   HOJAS_JUGADOR,
   IMAGENES_OBJETO,
-  RETRATOS_MENU,
   crearAnimadorEnemigos,
   dibujarEnemigo,
   dibujarJugador,
@@ -78,69 +78,22 @@ import {
 } from './render/sprites.mjs';
 import { montarMenu } from './ui/menu.mjs';
 
-// Catálogo representativo de trajes para el Menú de Selección en Senku 2
-// REGLA: Precios creativos pendientes van como null (etiqueta 'Próximamente'); no inventar cifras ni arte.
-export const CATALOGO_MENU = [
-  {
-    id: ID_ORIGINAL,
-    nombre: 'Senku Original',
-    precio: null,
-    menu: resolverRutaArte(RETRATOS_MENU.original),
-    sprite: resolverRutaArte(HOJAS_JUGADOR.original),
-  },
-  {
-    id: ID_RATA,
-    nombre: 'Senku Rata',
-    precio: null, // Pendiente creativo D2 (regla: etiqueta 'Próximamente', sin compra)
-    equivaleA: [ID_SECRETO_LEGACY],
-    menu: resolverRutaArte(RETRATOS_MENU.rata),
-    sprite: resolverRutaArte(HOJAS_JUGADOR.rata),
-  },
-];
+export const CATALOGO_MENU = Object.values(TRAJES).map((traje) => ({
+  ...traje,
+  menu: resolverRutaArte(traje.menu),
+  sprite: resolverRutaArte(traje.sprite),
+}));
 
-// TODO: Reemplazar con core/economia.mjs cuando Codex lo integre en origin/main
-export const stubEconomia = {
-  /**
-   * Equipa un traje si el jugador lo posee en el estado.
-   * Conecta con trajes_activo.mjs para resolver equivalencias (rata <-> secreto_legacy).
-   */
-  equipar(estado, idTraje) {
-    const res = equiparTraje(estado, idTraje);
-    if (!res.exito) {
-      return { error: res.motivo || 'error_al_equipar' };
-    }
-    return res.estado;
+// Alias histórico: adapta el catálogo de tarjetas a la forma indexada que espera la economía.
+export const stubEconomia = Object.freeze({
+  equipar,
+  comprarTraje(estado, id, catalogo = TRAJES) {
+    const indexado = Array.isArray(catalogo)
+      ? Object.fromEntries(catalogo.filter((traje) => traje?.id).map((traje) => [traje.id, traje]))
+      : catalogo;
+    return comprarTrajeEconomia(estado, id, indexado);
   },
-
-  /**
-   * Compra un traje si el saldo de Churus alcanza.
-   * Regla: Precios en null no se pueden comprar ('precio_no_definido').
-   */
-  comprarTraje(estado, idTraje, catalogo) {
-    // TODO: Conectar con libro de economía real una vez disponible
-    const items = Array.isArray(catalogo) ? catalogo : Object.values(catalogo || {});
-    const item = items.find((t) => t && (t.id === idTraje || (Array.isArray(t.equivaleA) && t.equivaleA.includes(idTraje))));
-    if (!item) {
-      return { error: 'traje_desconocido' };
-    }
-    if (item.precio === null || item.precio === undefined) {
-      return { error: 'precio_no_definido' };
-    }
-    const saldo = typeof estado?.churus === 'number' ? estado.churus : 0;
-    if (saldo < item.precio) {
-      return { error: 'saldo_insuficiente' };
-    }
-    const trajes = Array.isArray(estado?.trajes) ? [...estado.trajes] : ['original'];
-    if (!trajes.includes(idTraje)) {
-      trajes.push(idTraje);
-    }
-    return {
-      ...estado,
-      churus: saldo - item.precio,
-      trajes,
-    };
-  },
-};
+});
 
 // Registro de Service Worker para soporte PWA y juego sin conexión
 export function registrarServiceWorker(navegador = typeof navigator !== 'undefined' ? navigator : null) {
@@ -733,12 +686,16 @@ export function arrancarSenku2({
 
   const btnPausa = documento.getElementById('btn-pausa');
   if (btnPausa) btnPausa.onclick = () => alternarMenu();
+  const btnHablarRata = documento.getElementById('btn-hablar-rata');
+  if (btnHablarRata) btnHablarRata.onclick = () => hablarConRata();
 
   let trajeActivo = obtenerTrajeActivo(estadoJugador);
+  let catalogoArte = null;
 
   function refrescarVistaTraje() {
     actualizarControlesHabilidades(documento, estadoJugador);
     trajeActivo = obtenerTrajeActivo(estadoJugador);
+    if (catalogoArte) catalogoArte.cargar(resolverRutaArte(HOJAS_JUGADOR[trajeActivo.id] || HOJAS_JUGADOR.original));
     if (senku) {
       senku.trajeId = trajeActivo.id;
       senku.color = trajeActivo.color;
@@ -888,7 +845,7 @@ export function arrancarSenku2({
       alternarMenu();
       e.preventDefault();
     } else if (e.code === 'KeyE' && !e.repeat) {
-      intentarSubir();
+      if (!hablarConRata()) intentarSubir();
       e.preventDefault();
     } else if (e.key === 't' || e.key === 'T') {
       if (!menuAbierto) {
@@ -950,9 +907,27 @@ export function arrancarSenku2({
     return escenaActual.disparadores.find((d) => d.accion === 'subir' && solapanAABB(senku, d));
   }
 
+  function zonaRata() {
+    const rata = escenaActual.rataSecreta;
+    return escenaActual.id === 'taqueria' && rata && !tieneTraje(estadoJugador, ID_RATA)
+      && solapanAABB(senku, { ...rata, x: rata.x - 40, y: rata.y - 34, w: rata.w + 80, h: rata.h + 48 });
+  }
+
+  function hablarConRata() {
+    if (!zonaRata()) return false;
+    estadoJugador = desbloquearTraje(estadoJugador, ID_SECRETO_LEGACY).estado;
+    estadoJugador = { ...estadoJugador, coleccionados: [...new Set([...estadoJugador.coleccionados, 'taqueria:rata-hablada'])] };
+    if (almacen) guardar(almacen, estadoJugador);
+    refrescarVistaTraje();
+    if (instanciaMenu) instanciaMenu.actualizar(estadoJugador);
+    mostrarAviso('¡La rata te confía su traje exclusivo!', 3);
+    return true;
+  }
+
   function actualizarCamioneta() {
     const zona = zonaCamioneta();
     if (btnSubir) btnSubir.hidden = !zona || !!viaje || menuAbierto;
+    if (btnHablarRata) btnHablarRata.hidden = !zonaRata() || !!viaje || menuAbierto;
     if (zona && !viaje && !avisoRestante) {
       if (!zona.requiere) {
         mostrarAviso(zona.id === 'tuk-tuk-antigua'
@@ -1158,14 +1133,14 @@ export function arrancarSenku2({
 
   // 7. Catálogo de arte desacoplado
   // Precarga única; mientras tanto (o si una imagen falla) se dibujan los rectángulos de respaldo
-  const catalogoArte = crearCatalogoArte();
+  catalogoArte = crearCatalogoArte();
   let rutaFondo = rutaFondoEscena(escenaActual.id) || (escenaActual.fondo.ruta
     ? resolverRutaArte(escenaActual.fondo.ruta) : null);
   // Sólo la escena actual bloquea («Cargando arte»); las escenas a las que se puede ir bajan en segundo plano.
   function precargarArteEscena(rutasBase) {
     catalogoArte.precargar([...rutasBase, ...rutasArteEscena(escenaActual)]);
     for (const id of destinosEscena(escenaActual)) {
-      for (const ruta of [...rutasPrecargaArte({ escenaId: id }), ...rutasArteEscena(registro.obtener(id))]) {
+      for (const ruta of [...rutasPrecargaArte({ escenaId: id, trajeId: trajeActivo.id }), ...rutasArteEscena(registro.obtener(id))]) {
         catalogoArte.cargar(ruta);
       }
     }
@@ -1173,6 +1148,7 @@ export function arrancarSenku2({
   precargarArteEscena(rutasPrecargaArte({
     escenaId: escenaActual.id,
     tiposEnemigo: enemigos.map((e) => `${e.tipo}_${e.variante}`),
+    trajeId: trajeActivo.id,
   }));
   catalogoArte.cargar(resolverRutaArte('assets/fondos/camioneta_reja.webp'));
   catalogoArte.cargar(resolverRutaArte('assets/jefe/balam.png'));
@@ -1199,7 +1175,7 @@ export function arrancarSenku2({
     definicionEnemigos = escenaActual.enemigos;
     rutaFondo = rutaFondoEscena(escenaActual.id) || (escenaActual.fondo.ruta
       ? resolverRutaArte(escenaActual.fondo.ruta) : null);
-    precargarArteEscena([rutaFondo, ...rutasPrecargaArte({ escenaId: escenaActual.id })]);
+    precargarArteEscena([rutaFondo, ...rutasPrecargaArte({ escenaId: escenaActual.id, trajeId: trajeActivo.id })]);
     viaje = null;
     mostrarAviso('', 0);
     camaraSuaveX = Math.max(0, Math.min(escenaActual.limites.w - ANCHO_LOGICO,
@@ -1598,6 +1574,23 @@ export function arrancarSenku2({
       dibujarProyectiles(ctx, lanzador);
     }
     if (ctx && escenaActual.id === 'guatemala-tikal') dibujarBalam(ctx, jefeBalam, tiempoAcumulado);
+
+    if (ctx && escenaActual.id === 'taqueria' && escenaActual.rataSecreta && !tieneTraje(estadoJugador, ID_RATA)) {
+      const rata = escenaActual.rataSecreta;
+      ctx.save();
+      ctx.fillStyle = '#77665c';
+      ctx.beginPath(); ctx.ellipse(rata.x + 24, rata.y + 27, 24, 18, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(rata.x + 8, rata.y + 8, 9, 0, Math.PI * 2); ctx.arc(rata.x + 27, rata.y + 7, 9, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#f3b2aa';
+      ctx.beginPath(); ctx.arc(rata.x + 8, rata.y + 8, 4, 0, Math.PI * 2); ctx.arc(rata.x + 27, rata.y + 7, 4, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#241c1c'; ctx.fillRect(rata.x + 31, rata.y + 22, 4, 4);
+      if (zonaRata()) {
+        ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillStyle = '#211209'; ctx.fillRect(rata.x - 22, rata.y - 22, 92, 22);
+        ctx.fillStyle = '#fff7ed'; ctx.fillText('¡Hola! Pulsa E', rata.x + 24, rata.y - 7);
+      }
+      ctx.restore();
+    }
 
     // Dibujado de Senku con color y etiqueta del traje activo
     if (ctx && senku) {
