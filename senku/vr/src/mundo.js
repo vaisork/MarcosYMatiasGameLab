@@ -448,7 +448,7 @@ function crearSkyline(scene, radio, capa) {
   const tonos = ['#aa8090', '#8c7890', '#b27d78', '#777a91', '#a18b84'].map((c) => new THREE.Color(c));
   perfiles.forEach((p, i) => {
     const a = p.angulo;
-    o.position.set(Math.sin(a) * radio, -1 + p.alto * 0.5, -Math.cos(a) * radio);
+    o.position.set(Math.sin(a) * radio, -1, -Math.cos(a) * radio); // la caja ya tiene la base en y=0
     o.rotation.y = a; o.scale.set(p.ancho, p.alto, p.fondo); o.updateMatrix(); m.copy(o.matrix);
     malla.setMatrixAt(i, m); malla.setColorAt(i, tonos[(p.color + capa) % tonos.length]);
   });
