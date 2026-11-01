@@ -2620,7 +2620,8 @@
         "nhal_relato_ampliado": "Leris lee ahora el raspón como parte de una entrega de comida. El relato ganó una persona y un gesto, no una hazaña inventada.",
         "hallazgo:rama_flexible": "«Las ramas flexibles sirven para dar forma a los aros. Si conservaste la que encontraste, no tendrás que buscar otra para un trabajo pequeño.»",
         "nhal_bancos_circulo": "El asiento cercano tiene sitio amplio para las manos y la corteza apartada a un lado. Leris invita a escuchar con una sonrisa, sin pedir relatos a cambio. El círculo guarda siempre un rincón cálido para quien llega cansado.",
-        "nhal_bancos_rincon": "El banco del borde sigue al fondo del patio, al abrigo de las hojas y a salvo de preguntas. Leris lo señala con cariño como un refugio para escuchar cuentos en paz, sin esperar palabras de quien descanse en él."
+        "nhal_bancos_rincon": "El banco del borde sigue al fondo del patio, al abrigo de las hojas y a salvo de preguntas. Leris lo señala con cariño como un refugio para escuchar cuentos en paz, sin esperar palabras de quien descanse en él.",
+        "rango:defensor:velmora": "Leris inclina la cabeza. «Defensor de Velmora. El bosque recuerda quién cuidó sus caminos»."
       },
       "states": [
         {
