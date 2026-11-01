@@ -1046,8 +1046,8 @@ function mapView(){
   else{
    planner.append(el('p',{class:'muted'},`${route.length} ${route.length===1?'paso':'pasos'} hasta ${destination.name}.`),el('ol',{class:'map-itinerary','aria-label':'Pasos del recorrido'},...route.map((step,index)=>el('li',{},el('small',{},index===0?'Desde aquí':`Desde ${nodes.get(step.from)?.name||'el lugar anterior'}`),el('span',{},step.direction?`${directionName(step.direction)} → ${nodes.get(step.to)?.name||'Lugar conocido'}`:nodes.get(step.to)?.name||'Lugar conocido')))));
    const step=route[0],action=step.direction?moves.find(action=>action.target===step.direction):null;
-   if(action)planner.append(actionButton({...action,label:`Dar siguiente paso · ${directionName(step.direction)}`}));
-   else planner.append(el('p',{class:'map-note'},step.direction?'Ese paso no está disponible ahora.': 'Este recorrido no tiene direcciones registradas. Reinicia el juego para obtenerlas.'));
+   if(action)planner.append(button(`Ir a ${destination.name}`,()=>mutate('/api/action',{text:`ir a ${destination.name}`,request_id:requestId()}),{class:'primary',disabled:action.disabled||busy||Boolean(pendingRetry)||Boolean(state.character.combat)}));
+   else planner.append(el('p',{class:'map-note'},step.direction?'Ese paso no está disponible ahora.': 'Este recorrido no tiene direcciones registradas.'));
   }
   const connections=map.routes.filter(route=>route.from===selectedPlace);
   if(connections.length)planner.append(el('details',{class:'more'},el('summary',{},`Conexiones de ${destination.name}`),el('ul',{class:'map-connections'},...connections.map(connection=>el('li',{},`${connection.direction?directionName(connection.direction)+' · ':''}${nodes.get(connection.to)?.name||'Lugar conocido'}`)))));

@@ -250,6 +250,31 @@ class JourneyTests(unittest.TestCase):
   self.sequence+=1;data={'id':id,'request_id':f'test-action-{self.sequence}'}
   if target is not None:data['target']=target
   data.update(extra);response=self.post(self.client,'/api/action',data);self.assertEqual(response.status_code,200,response.json);return response.json
+ def test_speedwalk_uses_known_routes_and_stops_at_danger(self):
+  self.create();self.action('mover','salir');self.action('mover','norte');self.action('mover','sur')
+  result=self.post(self.client,'/api/action',{'text':'ir a Campo de prueba','request_id':'speedwalk-known'})
+  self.assertEqual(result.status_code,200,result.json)
+  self.assertEqual(result.json['room']['id'],'field')
+  self.assertIn('Recorriste 1 de 1 sala.',result.json['narrative'][0]['text'])
+  self.assertTrue(any(event['kind']=='danger' for event in result.json['narrative']))
+  self.action('mover','sur')
+  invalid=self.post(self.client,'/api/action',{'text':'e','request_id':'speedwalk-unknown-edge'})
+  self.assertIn(invalid.status_code,(400,409))
+  self.assertEqual(self.client.get('/api/state').json['room']['id'],'town')
+ def test_speedwalk_sequence_and_thematic_help(self):
+  path=Path(self.temp.name)/'content/world.json';data=json.loads(path.read_text());data['rooms']['field']['signals']=[];data['rooms']['field']['exits']['este']='ridge'
+  data['rooms']['ridge']={'id':'ridge','name':'Loma de prueba','region':'humano','kind':'wilderness','description':'Una loma despejada.','exits':{'oeste':'field','este':'camp'}}
+  data['rooms']['camp']={'id':'camp','name':'Campamento de prueba','region':'humano','kind':'wilderness','description':'Un claro junto al camino.','exits':{'oeste':'ridge'}};path.write_text(json.dumps(data))
+  self.create();self.action('mover','salir');self.action('mover','norte');self.action('mover','este');self.action('mover','este')
+  moved=self.post(self.client,'/api/action',{'text':'2o s','request_id':'speedwalk-sequence'})
+  self.assertEqual(moved.status_code,200,moved.json);self.assertEqual(moved.json['room']['id'],'town')
+  self.assertIn('Recorriste 3 de 3 salas.',moved.json['narrative'][0]['text'])
+  help_result=self.post(self.client,'/api/action',{'text':'ayuda numen','request_id':'help-numen'})
+  self.assertEqual(help_result.status_code,200)
+  self.assertIn('Tu Númen',help_result.json['narrative'][0]['text'])
+  all_help=self.post(self.client,'/api/action',{'text':'ayuda temas','request_id':'help-all'})
+  self.assertEqual(all_help.status_code,200)
+  self.assertEqual(sum(label in all_help.json['narrative'][0]['text'] for label in ('Moverse','Hablar','Combatir','Tu Númen','Encargos','Hablar con tu hermano')),6)
  def wildlife_fixture(self,creature,**context):
   file=Path(self.temp.name)/'content/world.json';data=json.loads(file.read_text())
   data['creatures'][creature]={'name':creature,'description':'Una presencia animal observada.'}

@@ -45,6 +45,15 @@ def allowed(item,state,world):
          and check_attribute_requirement(item,state))
 
 class Engine:
+    HELP_TOPICS = {
+        'moverse': ('Moverse', 'Usa norte, sur, este u oeste para salir de una sala.', 'En el mapa, elige un lugar conocido y toca «Ir a».', 'Escribe «n n e» para seguir pasos que ya conoces.'),
+        'hablar': ('Hablar', 'Elige un tema disponible junto al personaje.', 'Puedes escribir «hablar con nombre tema».', 'Para conversar con otro jugador, usa «decir» si está aquí.'),
+        'combatir': ('Combatir', 'Observa la señal y revisa las opciones antes de acercarte.', 'Elige una respuesta disponible en cada ronda.', 'Puedes huir cuando el combate lo permita.'),
+        'numen': ('Tu Númen', 'Obsérvalo y acércate con paciencia.', 'Usa las opciones para cuidarlo y darle comida.', 'El menú Compañero muestra su estado y lo que necesita.'),
+        'encargos': ('Encargos', 'Pregunta a los personajes de los pueblos.', 'Revisa el Diario para ver tus encargos y sus avances.', 'Regresa con quien te lo pidió cuando esté listo.'),
+        'hermano': ('Hablar con tu hermano', 'Usa «decir mensaje» si está en la misma sala.', 'El mensaje llega a quienes están aquí ahora.', 'El mapa te ayuda a volver a lugares que ya conoces.'),
+    }
+
     def __init__(self,content,clock,rng=None,timezone='UTC'):self.content=content;self.clock=clock;self.rng=rng or random.SystemRandom();self.timezone=ZoneInfo(timezone)
 
     def allowed(self,item,state,world):
@@ -620,6 +629,56 @@ class Engine:
             if destination not in state[key]:state[key].append(destination)
         state['visits'][destination]=state['visits'].get(destination,0)+1
 
+    def known_neighbors(self,character,state):
+        known=set(state['known']);neighbors={room:{} for room in known};region=self.region_for(character['species'])[1]
+        for pair in state['routes']:
+            if len(pair)!=2 or not set(pair).issubset(known):continue
+            for source,destination in (pair,tuple(reversed(pair))):
+                exits={'salir':region['settlement']} if source==state['home'] else dict(self.content.rooms.get(source,{}).get('exits',{}))
+                if source==region['settlement']:exits['hogar']=state['home']
+                for direction,target in exits.items():
+                    if target==destination:neighbors.setdefault(source,{})[direction]=destination
+        return neighbors
+
+    def known_route(self,character,state,destination):
+        neighbors=self.known_neighbors(character,state);start=state['location']
+        queue=[(start,[])];seen={start}
+        for room,path in queue:
+            if room==destination:return path
+            for direction,target in neighbors.get(room,{}).items():
+                if target not in seen:seen.add(target);queue.append((target,path+[direction]))
+        return None
+
+    def speedwalk(self,character,world,intent):
+        state=character['state'];neighbors=self.known_neighbors(character,state)
+        if state.get('combat'):raise RuleError('No puedes viajar mientras estás en combate.',409)
+        steps=intent.get('steps')
+        if 'target' in intent:
+            def normalize(value):
+                value=''.join(c for c in unicodedata.normalize('NFKD',str(value)) if not unicodedata.combining(c)).casefold()
+                return ' '.join(re.sub(r'[^\w\s]',' ',value).split())
+            known=[]
+            for room_id in state['known']:
+                room=self.room({**character,'state':{**state,'location':room_id}},world)
+                if normalize(room['name'])==normalize(intent['target']) or strip_articles(normalize(room['name']))==strip_articles(normalize(intent['target'])):known.append(room_id)
+            if len(known)!=1:raise RuleError('Elige el nombre exacto de una sala conocida.')
+            steps=self.known_route(character,state,known[0])
+            if steps is None:raise RuleError('Todavía no conoces un camino hasta ese lugar.')
+        if not steps:
+            state['events']=[event('info','Ya estás en ese lugar conocido.')];return
+        if len(steps)>30:raise RuleError('Ese recorrido es demasiado largo; prueba hasta 30 pasos.')
+        cursor=state['location']
+        for direction in steps:
+            target=neighbors.get(cursor,{}).get(direction)
+            if not target:raise RuleError('El recorrido incluye un paso que todavía no conoces; no te has movido.')
+            cursor=target
+        moved=0;stopped=''
+        for direction in steps:
+            self.apply_action(character,world,{'id':'mover','target':direction});moved+=1
+            if state.get('combat') or any(item.get('kind')=='danger' for item in state.get('events',[])):
+                stopped=f' El camino se detuvo en {self.room(character,world)["name"]} al aparecer una señal de peligro.';break
+        total=len(steps);state['events'].insert(0,event('info',f'Recorriste {moved} de {total} {"sala" if total==1 else "salas"}.{stopped}'))
+
     def add_item(self,state,item_id):
         if self.content.items[item_id].get('kind')=='weapon':
             state['inventory'].append(dict(self.content.items[item_id],catalog_id=item_id,id=item_id+':'+uuid.uuid4().hex,quantity=1,condition='intact'))
@@ -949,7 +1008,25 @@ class Engine:
         elif typed.startswith('mira '):typed='mirar '+typed[5:]
         elif typed.startswith('l '):typed='mirar '+typed[2:]
         elif typed in ('i','inv','inventario') or strip_articles(typed) in ('i','inv','inventario'):return {'id':'inventario'}
-        elif typed in ('ayuda',) or strip_articles(typed) in ('ayuda',):return {'id':'ayuda'}
+        elif typed=='ayuda' or typed.startswith('ayuda '):
+            topic=typed[6:].strip() if typed.startswith('ayuda ') else ''
+            if topic in ('temas','todo'):topic='*'
+            if topic:
+                aliases={'movimiento':'moverse','mover':'moverse','viajar':'moverse','numenes':'numen','compañero':'numen','companero':'numen','encargo':'encargos','hermano':'hermano','social':'hermano'}
+                topic=aliases.get(topic,topic)
+                if topic!='*' and topic not in self.HELP_TOPICS:raise RuleError('Temas de ayuda: moverse, hablar, combatir, Númen, encargos, hermano.')
+            return {'id':'ayuda','target':topic}
+        elif typed.startswith('ir a '):
+            return {'id':'speedwalk','target':typed[5:].strip()}
+        elif (len(typed.split())>1 or typed[:1].isdigit()) and re.fullmatch(r'(?:\d*[nsewo]|\d*(?:norte|sur|este|oeste|arriba|abajo|salir|hogar))(?:\s+\d*[nsewo]|\s+\d*(?:norte|sur|este|oeste|arriba|abajo|salir|hogar))*',typed):
+            steps=[]
+            for token in typed.split():
+                match=re.fullmatch(r'(\d*)(n|s|e|o|norte|sur|este|oeste|arriba|abajo|salir|hogar)',token)
+                count=int(match.group(1) or 1);direction=match.group(2)
+                direction={'n':'norte','s':'sur','e':'este','o':'oeste'}.get(direction,direction)
+                if count<1 or count>20 or len(steps)+count>30:raise RuleError('Ese recorrido es demasiado largo; prueba hasta 30 pasos.')
+                steps.extend([direction]*count)
+            return {'id':'speedwalk','steps':steps}
         elif typed=='x':typed='examinar'
         elif typed.startswith('x '):typed='examinar '+typed[2:].strip()
         choices=self.actions(character,world)
@@ -1162,8 +1239,15 @@ class Engine:
         state=character['state'];room=self.room(character,world);action=intent.get('id');target=intent.get('target')
         now_clock=self.clock()
         returned_after_hours=(now_clock-state.get('last_active',now_clock))>=4*3600
+        if action=='speedwalk':
+            self.speedwalk(character,world,intent);return
         if action in ('ayuda','inventario'):
-            text='Comandos básicos: mirar, observar, examinar <objeto>, ir <salida>, hablar con <nombre>, inventario.' if action=='ayuda' else 'Inventario: '+('; '.join(f"{item['name']} ({item.get('quantity',1)})" for item in state['inventory']) or 'vacío')+'.'
+            if action=='ayuda':
+                if not target:text='Comandos básicos: mirar, observar, examinar <objeto>, ir <salida>, hablar con <nombre>, inventario.'
+                else:
+                    fichas=list(self.HELP_TOPICS.values()) if target=='*' else [self.HELP_TOPICS[target]]
+                    text='\n\n'.join('\n'.join(ficha) for ficha in fichas)
+            else:text='Inventario: '+('; '.join(f"{item['name']} ({item.get('quantity',1)})" for item in state['inventory']) or 'vacío')+'.'
             state['events']=[event('info',text)];return
         if action=='saludar':
             npc=next((n for n in self.people(room,state,world,self.ambient(room,world)) if n['id']==target),None)
