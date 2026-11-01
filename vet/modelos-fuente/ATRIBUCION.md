@@ -1,0 +1,1 @@
+Modelos: Virginia Tech Virtual Animal Project / VT-ARIES — CC BY-NC-SA 4.0 (https://github.com/VT-ARIES/Anatomy), obtenidos de https://github.com/JorgeTAC/vet-anatomy-viewer commit 9d3fa65. Uso: muestra educativa sin fines de lucro.

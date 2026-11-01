@@ -1,0 +1,1244 @@
+[
+  {
+    "id": "legs-left-back-calcaneus",
+    "archivo": "modelos/Legs/Left_Back/Calcaneus.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Calcáneo",
+    "nombreLatino": "Calcaneus",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-central-tarsal",
+    "archivo": "modelos/Legs/Left_Back/Central_Tarsal.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso central del tarso",
+    "nombreLatino": "Os tarsi centrale",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-distal-phalanges",
+    "archivo": "modelos/Legs/Left_Back/Distal_Phalanges.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Falanges distales",
+    "nombreLatino": "Phalanges distales",
+    "descripcion": "Elemento óseo del miembro pélvico; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "legs-left-back-femur",
+    "archivo": "modelos/Legs/Left_Back/Femur.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Fémur",
+    "nombreLatino": "Os femoris",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-fibula",
+    "archivo": "modelos/Legs/Left_Back/Fibula.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Fíbula",
+    "nombreLatino": "Fibula",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-metatarsal-i",
+    "archivo": "modelos/Legs/Left_Back/Metatarsal_I.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso metatarsiano I",
+    "nombreLatino": "Os metatarsale I",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-metatarsal-ii",
+    "archivo": "modelos/Legs/Left_Back/Metatarsal_II.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso metatarsiano II",
+    "nombreLatino": "Os metatarsale II",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-metatarsal-iii",
+    "archivo": "modelos/Legs/Left_Back/Metatarsal_III.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso metatarsiano III",
+    "nombreLatino": "Os metatarsale III",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-metatarsal-iv",
+    "archivo": "modelos/Legs/Left_Back/Metatarsal_IV.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso metatarsiano IV",
+    "nombreLatino": "Os metatarsale IV",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-metatarsal-v",
+    "archivo": "modelos/Legs/Left_Back/Metatarsal_V.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso metatarsiano V",
+    "nombreLatino": "Os metatarsale V",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-middle-phalanges",
+    "archivo": "modelos/Legs/Left_Back/Middle_Phalanges.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Falanges medias",
+    "nombreLatino": "Phalanges mediae",
+    "descripcion": "Elemento óseo del miembro pélvico; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "legs-left-back-patella",
+    "archivo": "modelos/Legs/Left_Back/Patella.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Rótula",
+    "nombreLatino": "Patella",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-proximal-phalanges",
+    "archivo": "modelos/Legs/Left_Back/Proximal_Phalanges.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Falanges proximales",
+    "nombreLatino": "Phalanges proximales",
+    "descripcion": "Elemento óseo del miembro pélvico; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "legs-left-back-proximal-sesamoid",
+    "archivo": "modelos/Legs/Left_Back/Proximal_Sesamoid.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Huesos sesamoideos proximales",
+    "nombreLatino": "Ossa sesamoidea proximalia",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-tarsal-i",
+    "archivo": "modelos/Legs/Left_Back/Tarsal_I.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso tarsiano I",
+    "nombreLatino": "Os tarsale I",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-tarsal-ii",
+    "archivo": "modelos/Legs/Left_Back/Tarsal_II.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso tarsiano II",
+    "nombreLatino": "Os tarsale II",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-tarsal-iii",
+    "archivo": "modelos/Legs/Left_Back/Tarsal_III.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso tarsiano III",
+    "nombreLatino": "Os tarsale III",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-tarsal-iv",
+    "archivo": "modelos/Legs/Left_Back/Tarsal_IV.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso tarsiano IV",
+    "nombreLatino": "Os tarsale IV",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-tibia",
+    "archivo": "modelos/Legs/Left_Back/Tibia.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Tibia",
+    "nombreLatino": "Tibia",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-back-trochlea",
+    "archivo": "modelos/Legs/Left_Back/Trochlea.glb",
+    "region": "Miembro pélvico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Tróclea del talus",
+    "nombreLatino": "Trochlea tali",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-accessory-carpal",
+    "archivo": "modelos/Legs/Left_Front/Accessory_Carpal.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso accesorio del carpo",
+    "nombreLatino": "Os carpi accessorium",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-distal-carpal-i",
+    "archivo": "modelos/Legs/Left_Front/Distal_Carpal_I.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso carpiano I",
+    "nombreLatino": "Os carpale I",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-distal-carpal-ii",
+    "archivo": "modelos/Legs/Left_Front/Distal_Carpal_II.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso carpiano II",
+    "nombreLatino": "Os carpale II",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-distal-carpal-iii",
+    "archivo": "modelos/Legs/Left_Front/Distal_Carpal_III.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso carpiano III",
+    "nombreLatino": "Os carpale III",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-distal-carpal-iv",
+    "archivo": "modelos/Legs/Left_Front/Distal_Carpal_IV.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso carpiano IV",
+    "nombreLatino": "Os carpale IV",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-distal-phalanges",
+    "archivo": "modelos/Legs/Left_Front/Distal_Phalanges.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Falanges distales",
+    "nombreLatino": "Phalanges distales",
+    "descripcion": "Elemento óseo del miembro torácico; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "legs-left-front-humerus",
+    "archivo": "modelos/Legs/Left_Front/Humerus.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Húmero",
+    "nombreLatino": "Humerus",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-metacarpal-i",
+    "archivo": "modelos/Legs/Left_Front/Metacarpal_I.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso metacarpiano I",
+    "nombreLatino": "Os metacarpale I",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-metacarpal-ii",
+    "archivo": "modelos/Legs/Left_Front/Metacarpal_II.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso metacarpiano II",
+    "nombreLatino": "Os metacarpale II",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-metacarpal-iii",
+    "archivo": "modelos/Legs/Left_Front/Metacarpal_III.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso metacarpiano III",
+    "nombreLatino": "Os metacarpale III",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-metacarpal-iv",
+    "archivo": "modelos/Legs/Left_Front/Metacarpal_IV.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso metacarpiano IV",
+    "nombreLatino": "Os metacarpale IV",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-metacarpal-v",
+    "archivo": "modelos/Legs/Left_Front/Metacarpal_V.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso metacarpiano V",
+    "nombreLatino": "Os metacarpale V",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-middle-phalanges",
+    "archivo": "modelos/Legs/Left_Front/Middle_Phalanges.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Falanges medias",
+    "nombreLatino": "Phalanges mediae",
+    "descripcion": "Elemento óseo del miembro torácico; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "legs-left-front-proximal-phalanges",
+    "archivo": "modelos/Legs/Left_Front/Proximal_Phalanges.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Falanges proximales",
+    "nombreLatino": "Phalanges proximales",
+    "descripcion": "Elemento óseo del miembro torácico; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "legs-left-front-proximal-sesamoid",
+    "archivo": "modelos/Legs/Left_Front/Proximal_Sesamoid.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Huesos sesamoideos proximales",
+    "nombreLatino": "Ossa sesamoidea proximalia",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-radial",
+    "archivo": "modelos/Legs/Left_Front/Radial.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso radial del carpo",
+    "nombreLatino": "Os carpi radiale",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-radius",
+    "archivo": "modelos/Legs/Left_Front/Radius.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Radio",
+    "nombreLatino": "Radius",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-scapula",
+    "archivo": "modelos/Legs/Left_Front/Scapula.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Escápula",
+    "nombreLatino": "Scapula",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-ulna",
+    "archivo": "modelos/Legs/Left_Front/Ulna.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Ulna",
+    "nombreLatino": "Ulna",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-left-front-ulnar",
+    "archivo": "modelos/Legs/Left_Front/Ulnar.glb",
+    "region": "Miembro torácico izquierdo",
+    "sistema": "óseo",
+    "nombre": "Hueso ulnar del carpo",
+    "nombreLatino": "Os carpi ulnare",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-calcaneus",
+    "archivo": "modelos/Legs/Right_Back/Calcaneus.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Calcáneo",
+    "nombreLatino": "Calcaneus",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-central-tarsal",
+    "archivo": "modelos/Legs/Right_Back/Central_Tarsal.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso central del tarso",
+    "nombreLatino": "Os tarsi centrale",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-distal-phalanges",
+    "archivo": "modelos/Legs/Right_Back/Distal_Phalanges.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Falanges distales",
+    "nombreLatino": "Phalanges distales",
+    "descripcion": "Elemento óseo del miembro pélvico; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "legs-right-back-femur",
+    "archivo": "modelos/Legs/Right_Back/Femur.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Fémur",
+    "nombreLatino": "Os femoris",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-fibula",
+    "archivo": "modelos/Legs/Right_Back/Fibula.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Fíbula",
+    "nombreLatino": "Fibula",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-metatarsal-i",
+    "archivo": "modelos/Legs/Right_Back/Metatarsal_I.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso metatarsiano I",
+    "nombreLatino": "Os metatarsale I",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-metatarsal-ii",
+    "archivo": "modelos/Legs/Right_Back/Metatarsal_II.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso metatarsiano II",
+    "nombreLatino": "Os metatarsale II",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-metatarsal-iii",
+    "archivo": "modelos/Legs/Right_Back/Metatarsal_III.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso metatarsiano III",
+    "nombreLatino": "Os metatarsale III",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-metatarsal-iv",
+    "archivo": "modelos/Legs/Right_Back/Metatarsal_IV.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso metatarsiano IV",
+    "nombreLatino": "Os metatarsale IV",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-metatarsal-v",
+    "archivo": "modelos/Legs/Right_Back/Metatarsal_V.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso metatarsiano V",
+    "nombreLatino": "Os metatarsale V",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-middle-phalanges",
+    "archivo": "modelos/Legs/Right_Back/Middle_Phalanges.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Falanges medias",
+    "nombreLatino": "Phalanges mediae",
+    "descripcion": "Elemento óseo del miembro pélvico; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "legs-right-back-patella",
+    "archivo": "modelos/Legs/Right_Back/Patella.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Rótula",
+    "nombreLatino": "Patella",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-proximal-phalanges",
+    "archivo": "modelos/Legs/Right_Back/Proximal_Phalanges.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Falanges proximales",
+    "nombreLatino": "Phalanges proximales",
+    "descripcion": "Elemento óseo del miembro pélvico; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "legs-right-back-proximal-sesamoid",
+    "archivo": "modelos/Legs/Right_Back/Proximal_Sesamoid.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Huesos sesamoideos proximales",
+    "nombreLatino": "Ossa sesamoidea proximalia",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-tarsal-i",
+    "archivo": "modelos/Legs/Right_Back/Tarsal_I.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso tarsiano I",
+    "nombreLatino": "Os tarsale I",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-tarsal-ii",
+    "archivo": "modelos/Legs/Right_Back/Tarsal_II.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso tarsiano II",
+    "nombreLatino": "Os tarsale II",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-tarsal-iii",
+    "archivo": "modelos/Legs/Right_Back/Tarsal_III.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso tarsiano III",
+    "nombreLatino": "Os tarsale III",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-tarsal-iv",
+    "archivo": "modelos/Legs/Right_Back/Tarsal_IV.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso tarsiano IV",
+    "nombreLatino": "Os tarsale IV",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-tibia",
+    "archivo": "modelos/Legs/Right_Back/Tibia.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Tibia",
+    "nombreLatino": "Tibia",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-back-trochlea",
+    "archivo": "modelos/Legs/Right_Back/Trochlea.glb",
+    "region": "Miembro pélvico derecho",
+    "sistema": "óseo",
+    "nombre": "Tróclea del talus",
+    "nombreLatino": "Trochlea tali",
+    "descripcion": "Forma parte del miembro pélvico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-accessory-carpal",
+    "archivo": "modelos/Legs/Right_Front/Accessory_Carpal.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso accesorio del carpo",
+    "nombreLatino": "Os carpi accessorium",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-distal-carpal-i",
+    "archivo": "modelos/Legs/Right_Front/Distal_Carpal_I.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso carpiano I",
+    "nombreLatino": "Os carpale I",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-distal-carpal-ii",
+    "archivo": "modelos/Legs/Right_Front/Distal_Carpal_II.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso carpiano II",
+    "nombreLatino": "Os carpale II",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-distal-carpal-iii",
+    "archivo": "modelos/Legs/Right_Front/Distal_Carpal_III.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso carpiano III",
+    "nombreLatino": "Os carpale III",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-distal-carpal-iv",
+    "archivo": "modelos/Legs/Right_Front/Distal_Carpal_IV.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso carpiano IV",
+    "nombreLatino": "Os carpale IV",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-distal-phalanges",
+    "archivo": "modelos/Legs/Right_Front/Distal_Phalanges.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Falanges distales",
+    "nombreLatino": "Phalanges distales",
+    "descripcion": "Elemento óseo del miembro torácico; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "legs-right-front-humerus",
+    "archivo": "modelos/Legs/Right_Front/Humerus.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Húmero",
+    "nombreLatino": "Humerus",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-metacarpal-i",
+    "archivo": "modelos/Legs/Right_Front/Metacarpal_I.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso metacarpiano I",
+    "nombreLatino": "Os metacarpale I",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-metacarpal-ii",
+    "archivo": "modelos/Legs/Right_Front/Metacarpal_II.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso metacarpiano II",
+    "nombreLatino": "Os metacarpale II",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-metacarpal-iii",
+    "archivo": "modelos/Legs/Right_Front/Metacarpal_III.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso metacarpiano III",
+    "nombreLatino": "Os metacarpale III",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-metacarpal-iv",
+    "archivo": "modelos/Legs/Right_Front/Metacarpal_IV.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso metacarpiano IV",
+    "nombreLatino": "Os metacarpale IV",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-metacarpal-v",
+    "archivo": "modelos/Legs/Right_Front/Metacarpal_V.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso metacarpiano V",
+    "nombreLatino": "Os metacarpale V",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-middle-phalanges",
+    "archivo": "modelos/Legs/Right_Front/Middle_Phalanges.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Falanges medias",
+    "nombreLatino": "Phalanges mediae",
+    "descripcion": "Elemento óseo del miembro torácico; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "legs-right-front-proximal-phalanges",
+    "archivo": "modelos/Legs/Right_Front/Proximal_Phalanges.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Falanges proximales",
+    "nombreLatino": "Phalanges proximales",
+    "descripcion": "Elemento óseo del miembro torácico; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "legs-right-front-proximal-sesamoid",
+    "archivo": "modelos/Legs/Right_Front/Proximal_Sesamoid.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Huesos sesamoideos proximales",
+    "nombreLatino": "Ossa sesamoidea proximalia",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-radial",
+    "archivo": "modelos/Legs/Right_Front/Radial.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso radial del carpo",
+    "nombreLatino": "Os carpi radiale",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-radius",
+    "archivo": "modelos/Legs/Right_Front/Radius.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Radio",
+    "nombreLatino": "Radius",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-scapula",
+    "archivo": "modelos/Legs/Right_Front/Scapula.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Escápula",
+    "nombreLatino": "Scapula",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-ulna",
+    "archivo": "modelos/Legs/Right_Front/Ulna.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Ulna",
+    "nombreLatino": "Ulna",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "legs-right-front-ulnar",
+    "archivo": "modelos/Legs/Right_Front/Ulnar.glb",
+    "region": "Miembro torácico derecho",
+    "sistema": "óseo",
+    "nombre": "Hueso ulnar del carpo",
+    "nombreLatino": "Os carpi ulnare",
+    "descripcion": "Forma parte del miembro torácico; contribuye al soporte, la articulación y la transmisión de fuerzas durante la locomoción."
+  },
+  {
+    "id": "neck-basihyoid",
+    "archivo": "modelos/Neck/Basihyoid.glb",
+    "region": "Cuello",
+    "sistema": "óseo",
+    "nombre": "Basihioides",
+    "nombreLatino": "Basihyoideum",
+    "descripcion": "Forma parte del aparato hioideo y sirve de soporte a la lengua y estructuras de la faringe y laringe."
+  },
+  {
+    "id": "neck-c1-atlas",
+    "archivo": "modelos/Neck/C1_Atlas.glb",
+    "region": "Cuello",
+    "sistema": "óseo",
+    "nombre": "Atlas (C1)",
+    "nombreLatino": "Atlas",
+    "descripcion": "Elemento óseo del esqueleto axial; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "neck-c2-axis",
+    "archivo": "modelos/Neck/C2_Axis.glb",
+    "region": "Cuello",
+    "sistema": "óseo",
+    "nombre": "Axis (C2)",
+    "nombreLatino": "Axis",
+    "descripcion": "Elemento óseo del esqueleto axial; contribuye al soporte y a la función musculoesquelética de la región."
+  },
+  {
+    "id": "neck-c3",
+    "archivo": "modelos/Neck/C3.glb",
+    "region": "Cuello",
+    "sistema": "óseo",
+    "nombre": "Vértebra cervical III",
+    "nombreLatino": "Vertebra cervicalis III",
+    "descripcion": "Forma el segmento cervical y protege la médula espinal mientras sostiene y mueve el cuello."
+  },
+  {
+    "id": "neck-c4",
+    "archivo": "modelos/Neck/C4.glb",
+    "region": "Cuello",
+    "sistema": "óseo",
+    "nombre": "Vértebra cervical IV",
+    "nombreLatino": "Vertebra cervicalis IV",
+    "descripcion": "Forma el segmento cervical y protege la médula espinal mientras sostiene y mueve el cuello."
+  },
+  {
+    "id": "neck-c5",
+    "archivo": "modelos/Neck/C5.glb",
+    "region": "Cuello",
+    "sistema": "óseo",
+    "nombre": "Vértebra cervical V",
+    "nombreLatino": "Vertebra cervicalis V",
+    "descripcion": "Forma el segmento cervical y protege la médula espinal mientras sostiene y mueve el cuello."
+  },
+  {
+    "id": "neck-c6",
+    "archivo": "modelos/Neck/C6.glb",
+    "region": "Cuello",
+    "sistema": "óseo",
+    "nombre": "Vértebra cervical VI",
+    "nombreLatino": "Vertebra cervicalis VI",
+    "descripcion": "Forma el segmento cervical y protege la médula espinal mientras sostiene y mueve el cuello."
+  },
+  {
+    "id": "neck-c7",
+    "archivo": "modelos/Neck/C7.glb",
+    "region": "Cuello",
+    "sistema": "óseo",
+    "nombre": "Vértebra cervical VII",
+    "nombreLatino": "Vertebra cervicalis VII",
+    "descripcion": "Forma el segmento cervical y protege la médula espinal mientras sostiene y mueve el cuello."
+  },
+  {
+    "id": "neck-ceratohyoid",
+    "archivo": "modelos/Neck/Ceratohyoid.glb",
+    "region": "Cuello",
+    "sistema": "óseo",
+    "nombre": "Ceratohioides",
+    "nombreLatino": "Ceratohyoideum",
+    "descripcion": "Forma parte del aparato hioideo y sirve de soporte a la lengua y estructuras de la faringe y laringe."
+  },
+  {
+    "id": "neck-epihyoid",
+    "archivo": "modelos/Neck/Epihyoid.glb",
+    "region": "Cuello",
+    "sistema": "óseo",
+    "nombre": "Epihioides",
+    "nombreLatino": "Epihyoideum",
+    "descripcion": "Forma parte del aparato hioideo y sirve de soporte a la lengua y estructuras de la faringe y laringe."
+  },
+  {
+    "id": "neck-stylohyoid",
+    "archivo": "modelos/Neck/Stylohyoid.glb",
+    "region": "Cuello",
+    "sistema": "óseo",
+    "nombre": "Estilohioides",
+    "nombreLatino": "Stylohyoideum",
+    "descripcion": "Forma parte del aparato hioideo y sirve de soporte a la lengua y estructuras de la faringe y laringe."
+  },
+  {
+    "id": "neck-thyrohyoid",
+    "archivo": "modelos/Neck/Thyrohyoid.glb",
+    "region": "Cuello",
+    "sistema": "óseo",
+    "nombre": "Tirohioides",
+    "nombreLatino": "Thyrohyoideum",
+    "descripcion": "Forma parte del aparato hioideo y sirve de soporte a la lengua y estructuras de la faringe y laringe."
+  },
+  {
+    "id": "organs-bladder",
+    "archivo": "modelos/Organs/Bladder.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Vejiga urinaria",
+    "nombreLatino": "Vesica urinaria",
+    "descripcion": "Reservorio muscular de la orina; la almacena antes de su eliminación por la uretra."
+  },
+  {
+    "id": "organs-duodenom",
+    "archivo": "modelos/Organs/Duodenom.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Duodeno",
+    "nombreLatino": "Duodenum",
+    "descripcion": "Primer segmento del intestino delgado; recibe bilis y secreciones pancreáticas para la digestión."
+  },
+  {
+    "id": "organs-heart",
+    "archivo": "modelos/Organs/Heart.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Corazón",
+    "nombreLatino": "Cor",
+    "descripcion": "Bomba muscular que impulsa la sangre a través de los circuitos pulmonar y sistémico."
+  },
+  {
+    "id": "organs-kidneys",
+    "archivo": "modelos/Organs/Kidneys.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Riñones",
+    "nombreLatino": "Renes",
+    "descripcion": "Órganos pares que filtran la sangre, regulan agua y electrolitos y producen orina."
+  },
+  {
+    "id": "organs-large-intestine",
+    "archivo": "modelos/Organs/Large_Intestine.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Intestino grueso",
+    "nombreLatino": "Intestinum crassum",
+    "descripcion": "Absorbe agua y electrolitos y conduce el contenido intestinal hacia el recto."
+  },
+  {
+    "id": "organs-liver",
+    "archivo": "modelos/Organs/Liver.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Hígado",
+    "nombreLatino": "Hepar",
+    "descripcion": "Procesa nutrientes, produce bilis y participa en el metabolismo y la detoxificación."
+  },
+  {
+    "id": "organs-lungs",
+    "archivo": "modelos/Organs/Lungs.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Pulmones",
+    "nombreLatino": "Pulmones",
+    "descripcion": "Intercambian oxígeno y dióxido de carbono entre el aire y la sangre."
+  },
+  {
+    "id": "organs-renal-artery",
+    "archivo": "modelos/Organs/Renal_Artery.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Arteria renal",
+    "nombreLatino": "Arteria renalis",
+    "descripcion": "Lleva sangre desde la aorta abdominal hacia el riñón correspondiente."
+  },
+  {
+    "id": "organs-renal-artery1",
+    "archivo": "modelos/Organs/Renal_Artery1.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Arteria renal",
+    "nombreLatino": "Arteria renalis",
+    "descripcion": "Lleva sangre desde la aorta abdominal hacia el riñón correspondiente."
+  },
+  {
+    "id": "organs-renal-vein",
+    "archivo": "modelos/Organs/Renal_Vein.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Vena renal",
+    "nombreLatino": "Vena renalis",
+    "descripcion": "Drena la sangre del riñón hacia la vena cava caudal."
+  },
+  {
+    "id": "organs-renal-vein1",
+    "archivo": "modelos/Organs/Renal_Vein1.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Vena renal",
+    "nombreLatino": "Vena renalis",
+    "descripcion": "Drena la sangre del riñón hacia la vena cava caudal."
+  },
+  {
+    "id": "organs-small-intestine",
+    "archivo": "modelos/Organs/Small_Intestine.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Intestino delgado",
+    "nombreLatino": "Intestinum tenue",
+    "descripcion": "Completa la digestión y absorbe la mayor parte de los nutrientes."
+  },
+  {
+    "id": "organs-spleen",
+    "archivo": "modelos/Organs/Spleen.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Bazo",
+    "nombreLatino": "Lien",
+    "descripcion": "Filtra sangre, participa en la respuesta inmunitaria y sirve como reservorio sanguíneo."
+  },
+  {
+    "id": "organs-stomach",
+    "archivo": "modelos/Organs/Stomach.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Estómago",
+    "nombreLatino": "Ventriculus",
+    "descripcion": "Almacena y mezcla el alimento; inicia la digestión química antes del intestino delgado."
+  },
+  {
+    "id": "organs-ureter",
+    "archivo": "modelos/Organs/Ureter.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Uréter",
+    "nombreLatino": "Ureter",
+    "descripcion": "Conduce la orina desde el riñón hasta la vejiga urinaria."
+  },
+  {
+    "id": "organs-ureter1",
+    "archivo": "modelos/Organs/Ureter1.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Uréter",
+    "nombreLatino": "Ureter",
+    "descripcion": "Conduce la orina desde el riñón hasta la vejiga urinaria."
+  },
+  {
+    "id": "organs-vena-cava",
+    "archivo": "modelos/Organs/Vena_Cava.glb",
+    "region": "Órganos internos",
+    "sistema": "órganos",
+    "nombre": "Vena cava caudal",
+    "nombreLatino": "Vena cava caudalis",
+    "descripcion": "Devuelve sangre venosa de la región caudal del cuerpo al atrio derecho."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea I",
+    "nombreLatino": "Vertebra caudalis I",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae1",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae1.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea II",
+    "nombreLatino": "Vertebra caudalis II",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae10",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae10.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea XI",
+    "nombreLatino": "Vertebra caudalis XI",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae11",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae11.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea XII",
+    "nombreLatino": "Vertebra caudalis XII",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae12",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae12.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea XIII",
+    "nombreLatino": "Vertebra caudalis XIII",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae13",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae13.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea XIV",
+    "nombreLatino": "Vertebra caudalis XIV",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae14",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae14.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea XV",
+    "nombreLatino": "Vertebra caudalis XV",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae15",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae15.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea XVI",
+    "nombreLatino": "Vertebra caudalis XVI",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae16",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae16.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea XVII",
+    "nombreLatino": "Vertebra caudalis XVII",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae17",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae17.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea XVIII",
+    "nombreLatino": "Vertebra caudalis XVIII",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae18",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae18.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea XIX",
+    "nombreLatino": "Vertebra caudalis XIX",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae2",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae2.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea III",
+    "nombreLatino": "Vertebra caudalis III",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae3",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae3.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea IV",
+    "nombreLatino": "Vertebra caudalis IV",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae4",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae4.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea V",
+    "nombreLatino": "Vertebra caudalis V",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae5",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae5.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea VI",
+    "nombreLatino": "Vertebra caudalis VI",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae6",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae6.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea VII",
+    "nombreLatino": "Vertebra caudalis VII",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae7",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae7.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea VIII",
+    "nombreLatino": "Vertebra caudalis VIII",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae8",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae8.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea IX",
+    "nombreLatino": "Vertebra caudalis IX",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-caudal-vertebrae9",
+    "archivo": "modelos/Pelvis_Tail/Caudal_Vertebrae9.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Vértebra coccígea X",
+    "nombreLatino": "Vertebra caudalis X",
+    "descripcion": "Integra la serie vertebral de la cola; aporta soporte y movilidad caudal."
+  },
+  {
+    "id": "pelvis-tail-os-coxae",
+    "archivo": "modelos/Pelvis_Tail/Os_Coxae.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Hueso coxal",
+    "nombreLatino": "Os coxae",
+    "descripcion": "Conecta la columna con los miembros pélvicos y transmite las cargas entre el tronco y la pelvis."
+  },
+  {
+    "id": "pelvis-tail-sacrum",
+    "archivo": "modelos/Pelvis_Tail/Sacrum.glb",
+    "region": "Pelvis y cola",
+    "sistema": "óseo",
+    "nombre": "Sacro",
+    "nombreLatino": "Os sacrum",
+    "descripcion": "Conecta la columna con los miembros pélvicos y transmite las cargas entre el tronco y la pelvis."
+  },
+  {
+    "id": "ribs-ribs",
+    "archivo": "modelos/Ribs/Ribs.glb",
+    "region": "Tórax",
+    "sistema": "óseo",
+    "nombre": "Costillas",
+    "nombreLatino": "Costae",
+    "descripcion": "Participa en la pared torácica y protege las vísceras; se relaciona con la mecánica respiratoria."
+  },
+  {
+    "id": "ribs-sternebrae",
+    "archivo": "modelos/Ribs/Sternebrae.glb",
+    "region": "Tórax",
+    "sistema": "óseo",
+    "nombre": "Esternebras",
+    "nombreLatino": "Sternebrae",
+    "descripcion": "Participa en la pared torácica y protege las vísceras; se relaciona con la mecánica respiratoria."
+  },
+  {
+    "id": "ribs-xiphoid-process",
+    "archivo": "modelos/Ribs/Xiphoid_Process.glb",
+    "region": "Tórax",
+    "sistema": "óseo",
+    "nombre": "Proceso xifoides",
+    "nombreLatino": "Processus xiphoideus",
+    "descripcion": "Participa en la pared torácica y protege las vísceras; se relaciona con la mecánica respiratoria."
+  },
+  {
+    "id": "skull-mandible",
+    "archivo": "modelos/Skull/Mandible.glb",
+    "region": "Cabeza",
+    "sistema": "óseo",
+    "nombre": "Mandíbula",
+    "nombreLatino": "Mandibula",
+    "descripcion": "Protege estructuras de la cabeza y proporciona inserción o soporte a estructuras relacionadas con la alimentación y los sentidos."
+  },
+  {
+    "id": "skull-skull",
+    "archivo": "modelos/Skull/Skull.glb",
+    "region": "Cabeza",
+    "sistema": "óseo",
+    "nombre": "Cráneo",
+    "nombreLatino": "Cranium",
+    "descripcion": "Protege estructuras de la cabeza y proporciona inserción o soporte a estructuras relacionadas con la alimentación y los sentidos."
+  },
+  {
+    "id": "spine-anticlinical-vertebra",
+    "archivo": "modelos/Spine/Anticlinical_Vertebra.glb",
+    "region": "Columna vertebral",
+    "sistema": "óseo",
+    "nombre": "Vértebra anticlinal",
+    "nombreLatino": "Vertebra anticlinalis",
+    "descripcion": "Integra la columna vertebral, protege la médula espinal y proporciona soporte al tronco."
+  },
+  {
+    "id": "spine-lumbar-vertebrae",
+    "archivo": "modelos/Spine/Lumbar_Vertebrae.glb",
+    "region": "Columna vertebral",
+    "sistema": "óseo",
+    "nombre": "Vértebras lumbares",
+    "nombreLatino": "Vertebrae lumbales",
+    "descripcion": "Integra la columna vertebral, protege la médula espinal y proporciona soporte al tronco."
+  },
+  {
+    "id": "spine-thoracic-vertebrae",
+    "archivo": "modelos/Spine/Thoracic_Vertebrae.glb",
+    "region": "Columna vertebral",
+    "sistema": "óseo",
+    "nombre": "Vértebras torácicas",
+    "nombreLatino": "Vertebrae thoracicae",
+    "descripcion": "Integra la columna vertebral, protege la médula espinal y proporciona soporte al tronco."
+  }
+]
