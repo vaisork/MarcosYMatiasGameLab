@@ -25,6 +25,8 @@ import { crearAnclador, soltarAnclador } from './core/anclador.mjs';
 import { pasoMovilidad } from './core/movilidad.mjs';
 import { dibujarDespenadero, dibujarAnclador } from './render/despenadero.mjs';
 import { escenaCima, ARENA, SUELO_CIMA } from './data/escenas/cima.mjs';
+import { disparadoresActivos, paradaGuatemala, crearViajeGuatemala, viajeGuatemalaTerminado, TIEMPO_EMBARQUE } from './core/viaje_guatemala.mjs';
+import { dibujarParadaGuatemala, dibujarCinematicaGuatemala, RUTAS_ARTE_VIAJE_GUATEMALA } from './render/viaje_guatemala.mjs';
 import { ARENA_BALAM, crearBalam, despertarBalam, actualizarBalam, golpearBalam, danoDeBalam, esPisonBalam } from './core/jefe_balam.mjs';
 import { dibujarBalam, dibujarBarraBalam } from './render/balam.mjs';
 import { resumenCapitulo } from './core/resumen.mjs';
@@ -820,7 +822,7 @@ export function arrancarSenku2({
     btnRejugar.addEventListener('click', () => mostrarFinal(documento, ventana,
       resumenCapitulo(estadoJugador, escenasMexico), {
         alVolverAJugar: volverAJugarCapitulo,
-        alContinuarGuatemala: () => cambiarEscena('guatemala-antigua', { curar: true }),
+        alContinuarGuatemala: continuarAGuatemala,
       }));
     documento.getElementById('btn-pausa')?.before?.(btnRejugar);
     actualizarBotonRejugar();
@@ -904,7 +906,8 @@ export function arrancarSenku2({
   }
 
   function zonaCamioneta() {
-    return escenaActual.disparadores.find((d) => d.accion === 'subir' && solapanAABB(senku, d));
+    return disparadoresActivos(escenaActual, estadoJugador.coleccionados)
+      .find((d) => d.accion === 'subir' && solapanAABB(senku, d));
   }
 
   function zonaRata() {
@@ -930,7 +933,9 @@ export function arrancarSenku2({
     if (btnHablarRata) btnHablarRata.hidden = !zonaRata() || !!viaje || menuAbierto;
     if (zona && !viaje && !avisoRestante) {
       if (!zona.requiere) {
-        mostrarAviso(zona.id === 'tuk-tuk-antigua'
+        mostrarAviso(zona.tipo === 'viaje-guatemala'
+          ? '¡La camioneta a Guatemala está lista! Pulsa E o Subir.'
+          : zona.id === 'tuk-tuk-antigua'
           ? '¡El tuk-tuk está listo! Pulsa E o Subir.'
           : '¡El camión está listo! Pulsa E o Subir.', 0.5);
       } else {
@@ -948,6 +953,7 @@ export function arrancarSenku2({
       mostrarAviso('La camioneta no arranca… ¡busca la llave!');
       return false;
     }
+    if (zona.tipo === 'viaje-guatemala') return iniciarViajeGuatemala(zona);
     entrada.soltarTodo();
     viaje = {
       destino: zona.destino || 'reja',
@@ -962,6 +968,44 @@ export function arrancarSenku2({
     return true;
   }
   if (btnSubir) btnSubir.onclick = intentarSubir;
+
+  // Cinemática de la camioneta a Guatemala: desde la parada de la cima o desde el botón del final.
+  function iniciarViajeGuatemala(parada = null) {
+    if (viaje || menuAbierto) return false;
+    entrada.soltarTodo();
+    viaje = crearViajeGuatemala(parada);
+    mostrarAviso('', 0);
+    actualizarCamioneta();
+    musica.tocar('guatemala');
+    reproducirSonidoMotor(ventana);
+    return true;
+  }
+  function continuarAGuatemala() {
+    iniciarViajeGuatemala(null); // sin parada: el embarque a pie se omite
+  }
+  function avanzarViajeGuatemala(dt) {
+    if (viaje.puertaX != null && viaje.tiempo < TIEMPO_EMBARQUE) {
+      // Senku camina a la puerta de la camioneta mientras la pantalla se funde.
+      const dx = viaje.puertaX - senku.w / 2 - senku.x;
+      senku.x += Math.sign(dx) * Math.min(Math.abs(dx), 160 * dt);
+      senku.mirando = dx < 0 ? -1 : 1;
+      senku.vx = Math.abs(dx) > 2 ? senku.mirando * 160 : 0;
+    }
+    if (!viaje.sonoFrontera && viaje.tiempo - TIEMPO_EMBARQUE >= 3.3) {
+      viaje.sonoFrontera = true;
+      reproducirSonidoItem(ventana);
+    }
+    if (viajeGuatemalaTerminado(viaje)) saltarCinematica();
+  }
+  function dibujarSenkuViaje(ctx2, x, piesY, escala) {
+    const cuerpo = { ...senku, x: 0, y: 0, vx: 0, vy: 0, mirando: 1, enSuelo: true, saltando: false };
+    ctx2.save();
+    ctx2.translate(x, piesY);
+    ctx2.scale(escala, escala);
+    ctx2.translate(-cuerpo.w / 2, -cuerpo.h);
+    dibujarJugador(ctx2, catalogoArte, { cuerpo, trajeId: trajeActivo.id, tiempo: tiempoAcumulado });
+    ctx2.restore();
+  }
 
   // Sólo la cinemática de la familia se salta: al abordar, Espacio o un toque no deben brincarse el bonus.
   function saltarCinematica() {
@@ -1153,6 +1197,7 @@ export function arrancarSenku2({
   catalogoArte.cargar(resolverRutaArte('assets/fondos/camioneta_reja.webp'));
   catalogoArte.cargar(resolverRutaArte('assets/jefe/balam.png'));
   catalogoArte.cargar(resolverRutaArte('assets/bonus/tuk-tuk-antigua.webp'));
+  for (const ruta of RUTAS_ARTE_VIAJE_GUATEMALA) catalogoArte.cargar(resolverRutaArte(ruta));
   const animadorEnemigos = crearAnimadorEnemigos();
 
   function cambiarEscena(destino, { puntoEntrada, curar = false } = {}) {
@@ -1228,7 +1273,8 @@ export function arrancarSenku2({
     if (viaje) {
       viaje.tiempo += dt;
       if (viaje.cinematica) {
-        if (viaje.tiempo >= 5) saltarCinematica();
+        if (viaje.tipo === 'viaje-guatemala') avanzarViajeGuatemala(dt);
+        else if (viaje.tiempo >= 5) saltarCinematica();
         return;
       }
       if (viaje.tipo === 'camion') {
@@ -1324,7 +1370,7 @@ export function arrancarSenku2({
               mostrarFinal(documento, ventana,
                 resumenCapitulo(estadoJugador, escenasMexico), {
                   alVolverAJugar: volverAJugarCapitulo,
-                  alContinuarGuatemala: () => cambiarEscena('guatemala-antigua', { curar: true }),
+                  alContinuarGuatemala: continuarAGuatemala,
                 });
             }, 2600);
           }
@@ -1572,6 +1618,8 @@ export function arrancarSenku2({
       for (const o of escenaActual.objetos) if (o.tipo === 'lanzador') dibujarObjetoLanzador(ctx, o, tiempoAcumulado);
       dibujarJefe(ctx, jefe, tiempoAcumulado);
       dibujarProyectiles(ctx, lanzador);
+      const parada = paradaGuatemala(escenaActual, estadoJugador.coleccionados);
+      if (parada) dibujarParadaGuatemala(ctx, catalogoArte, parada, tiempoAcumulado, zonaCamioneta() === parada && !viaje);
     }
     if (ctx && escenaActual.id === 'guatemala-tikal') dibujarBalam(ctx, jefeBalam, tiempoAcumulado);
 
@@ -1754,7 +1802,9 @@ export function arrancarSenku2({
       }
     }
     if (ctx && viaje) {
-      if (viaje.tipo === 'camion') {
+      if (viaje.tipo === 'viaje-guatemala') {
+        dibujarCinematicaGuatemala(ctx, catalogoArte, viaje.tiempo, { dibujarSenkuVentana: dibujarSenkuViaje });
+      } else if (viaje.tipo === 'camion') {
         ctx.save();
         ctx.fillStyle = `rgba(18, 14, 24, ${Math.min(1, 0.3 + viaje.tiempo / 2.2)})`;
         ctx.fillRect(0, 0, ANCHO_LOGICO, ALTO_LOGICO);
@@ -1765,6 +1815,8 @@ export function arrancarSenku2({
         dibujarCinematica(ctx, (viaje.tiempo - 1) * 1.25);
       }
     }
+    // Durante el viaje se esconden HUD y controles para no tapar la cinemática.
+    documento.body?.classList?.toggle?.('viajando', viaje?.tipo === 'viaje-guatemala');
     dibujarAvisoCarga(ctx, catalogoArte);
     if (ctx) {
       actualizarYDibujarEfectosRecogida(ctx, dt);

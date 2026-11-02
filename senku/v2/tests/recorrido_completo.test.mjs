@@ -188,7 +188,9 @@ test('orden de escenas: ciudad → camión → taquería → camioneta → reja 
   assert.equal(sub(escenaReja, 'entrada-desierto').destino, 'desierto');
   assert.equal(sub(escenaDesierto, 'hacia-despenadero').destino, 'despenadero');
   assert.equal(sub(escenaDespenadero, 'hacia-cima').destino, 'cima');
-  assert.equal(escenaCima.disparadores.length, 0, 'la cima es la última escena');
+  assert.deepEqual(escenaCima.disparadores.map((d) => d.id), ['parada-guatemala'],
+    'la cima es la última escena de México: sólo la camioneta a Guatemala, que exige vencer al gato');
+  assert.equal(escenaCima.disparadores[0].requiereVictoria, 'jefe-gato-mecanico');
   // Los bonus devuelven al juego en la escena siguiente.
   for (const [fin, esperada] of [[finalCamion, 'taqueria'], [finalCamioneta, 'reja']]) {
     const almacen = memoria();

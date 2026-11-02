@@ -5,6 +5,16 @@ const SUELO = 600;
 
 export const ARENA = { minX: 1280, maxX: 2560 };
 
+// Parada de la camioneta a Guatemala: sólo existe tras vencer al Gato Mecánico (requiereVictoria).
+// La caja es la zona de la puerta; el dibujo de la camioneta ocupa `dibujo`.
+export const PARADA_GUATEMALA = {
+  id: 'parada-guatemala', tipo: 'viaje-guatemala',
+  x: 2240, y: 440, w: 250, h: 160, puertaX: 2340,
+  dibujo: { x: 2070, y: 395, w: 410, h: 210 },
+  destino: 'guatemala-antigua', accion: 'subir', etiqueta: 'Sube', requiere: null,
+  requiereVictoria: 'jefe-gato-mecanico',
+};
+
 export const escenaCima = {
   id: 'cima', nombre: 'Cima',
   limites: { x: 0, y: 0, w: 2560, h: 720 },
@@ -30,7 +40,7 @@ export const escenaCima = {
     { id: 'cima-churu-2', tipo: 'churu', x: 980, y: 534, w: 30, h: 66 },
   ],
   secretos: [],
-  disparadores: [],
+  disparadores: [PARADA_GUATEMALA],
 };
 
 export const SUELO_CIMA = SUELO;

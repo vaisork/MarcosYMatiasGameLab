@@ -142,6 +142,9 @@ test('tras derrotar al Gato Mecánico, continuar a Guatemala guarda progreso sin
   juego.avanzarPaso(1 / 60);
   temporizadores[0]();
   capas.at(-1).botones['#final-guatemala'].oyentes.click[0]();
+  // El botón del final usa la misma cinemática de la camioneta: Antigua llega al terminar.
+  assert.equal(juego.escena.id, 'cima');
+  juego.avanzarPaso(10);
 
   assert.equal(juego.escena.id, 'guatemala-antigua');
   const estado = cargar(almacen).estado;
