@@ -28,6 +28,16 @@ test('módulo xr.js incluye componentes para Meta Quest 3, AR y VR', () => {
   assert.match(xrCode, /ExamEngine/);
   assert.match(xrCode, /Nomina Anatomica/);
   assert.match(xrCode, /Propuesta para UNITEC/);
+
+  // Verificaciones de control y definición requeridas para Meta Quest 3
+  assert.match(xrCode, /createFloatingDissectionPanel/);
+  assert.match(xrCode, /createHelpCard/);
+  assert.match(xrCode, /createContactShadow/);
+  assert.match(xrCode, /setFramebufferScaleFactor/);
+  assert.match(xrCode, /bringToFront/);
+  assert.match(xrCode, /DogPlacementLogic/);
+  assert.match(xrCode, /ThumbstickControlLogic/);
+  assert.match(xrCode, /playerRig/);
 });
 
 test('visor index.html conecta el motor XR y mantiene las comprobaciones de integración', () => {
