@@ -42,7 +42,7 @@ class Content:
         for npc_id, entry in self.vaisork.get('vecinos', {}).items():
             if npc_id not in self.npcs:
                 raise ValueError(f'Unknown Vaisork NPC: {npc_id}')
-            self.npcs[npc_id].setdefault('topics', {})[entry.get('tema', 'vaisork')] = entry['texto']
+            self.npcs[npc_id].setdefault('topics', {})[entry.get('tema', 'viajero')] = entry['texto']
         for trace in self.vaisork.get('rastros', []):
             room_id = trace.get('room')
             if room_id not in self.rooms:

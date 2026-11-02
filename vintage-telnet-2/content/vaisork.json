@@ -35,39 +35,39 @@
   },
   "vecinos": {
     "edran_daro": {
-      "tema": "vaisork",
+      "tema": "viajero",
       "texto": "Lo vi detenerse en la fragua cuando estaba comparando una abrazadera. Ni tocó el martillo ni fingió saber la medida que todavía necesito del carro de Bren. Me preguntó para quién era la pieza. Un viajero que pregunta antes de opinar es raro. Uno que vuelve a hacer la misma pregunta muchos años después, todavía más."
     },
     "edran_elva": {
-      "tema": "vaisork",
+      "tema": "viajero",
       "texto": "Una vez se sentó a la mesa sin ocupar el lugar que guardo para quien llegue tarde. No me pidió comida ni noticias de otros. Preguntó si seguía dejando esa taza disponible. Le dije que sí. Sonrió como alguien que recordara la mesa de antes, aunque yo no sé cuándo pudo verla."
     },
     "hoshai_luma": {
-      "tema": "vaisork",
+      "tema": "viajero",
       "texto": "Si hablas del hombre con canas en las sienes, lo he visto en el camino de altura. Se quedó escuchando una cuerda mientras todos discutíamos cuánto peso podía pasar. No me dio una respuesta ni cambió mis cuentas. Sólo preguntó si habíamos mirado el apoyo del otro lado. Hay quien le dice sabio. Yo digo que sabe hacer buenas preguntas."
     },
     "korven_taren": {
-      "tema": "vaisork",
+      "tema": "viajero",
       "texto": "Se sentó junto a unas muestras y examinó una taza torcida como si fuera importante. No dijo quién la hizo ni por qué falló; eso no se adivina mirando un solo lado. Me preguntó si la pieza iba a servirle a alguien. No sé cómo se llama, pero recuerdo su barba canosa y lo despacio que habló."
     },
     "lethra_mira": {
-      "tema": "vaisork",
+      "tema": "viajero",
       "texto": "Lo recuerdo al borde del canal. No me pidió una barca ni me dijo que apurara la costura. Preguntó a quién esperábamos para comer y escuchó el nombre de Sola sin interrumpirme. Luego miró el agua y se marchó. No sé de dónde venía; aquí nadie cruza sin notar al menos un poco de barro."
     },
     "nhal_elin": {
-      "tema": "vaisork",
+      "tema": "viajero",
       "texto": "Un viajero me escuchó hablar del recipiente sin contar la historia por mí. No intentó arreglar lo que ya estaba reparado. Miró el borde raspado y dijo que algunas marcas sólo muestran que algo siguió usándose. Tenía unas canas en las sienes, pero los ojos parecían de alguien que todavía hace preguntas nuevas."
     },
     "nhal_leris": {
-      "tema": "vaisork",
+      "tema": "viajero",
       "texto": "Hay relatos que mencionan a un viajero de barba canosa mucho antes de mi primera página. No voy a asegurar que todos hablaran de la misma persona: sería inventar una prueba que no tengo. Pero en varias historias alguien dibuja una curva abierta en el polvo y luego deja hablar al siguiente testigo. Eso sí me intriga."
     },
     "veyra_tov": {
-      "tema": "vaisork",
+      "tema": "viajero",
       "texto": "Había un hombre junto al carro cuando tuve que detenerme por el separador roto. Vio la tabla de repuesto y no intentó fingir que la carga ya estaba segura. Me preguntó si Nera sabía por qué me retrasaba. En cuanto miré hacia los animales, ya no estaba. El trabajo seguía siendo mío."
     },
     "veyra_seli": {
-      "tema": "vaisork",
+      "tema": "viajero",
       "texto": "Cuando llovió, vi a un viajero quieto bajo el borde del toldo. No tocó la pértiga ni arregló la sujeción por arte de magia. Miró hacia dónde caía el agua y dijo: «Deja sitio para quien viene detrás». Después salió a la calle. Le escuché el nombre de Vaisork; por aquí algunos dicen que ese nombre se parece demasiado al de la ciudad."
     }
   },

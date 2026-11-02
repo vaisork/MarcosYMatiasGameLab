@@ -186,6 +186,16 @@ function toggleDialogueFold(){
 function toggleDialogueExpand(){
  toggleDialogueFold();
 }
+// Parte el relato en páginas de ~160 letras (lo que cabe en el cuadro) cortando al final de una oración; si una oración sola no cabe, corta entre palabras.
+function pages(text,max=160){
+ const out=[];let cur='';
+ for(const sentence of text.match(/[^.!?…]+[.!?…]+[»"”)]*\s*|[^.!?…]+$/g)||[text]){
+  const parts=sentence.length>max?sentence.match(new RegExp(`.{1,${max}}(?:\\s|$)|\\S+`,'g')):[sentence];
+  for(const part of parts){if(cur&&(cur+part).trim().length>max){out.push(cur.trim());cur='';}cur+=part;}
+ }
+ if(cur.trim())out.push(cur.trim());
+ return out.length?out:[text];
+}
 function paintLine(){
  const line=lines[lineIndex]||snapshot?.room?.description||'El camino se abre ante ti.';
  $('line').textContent=line.slice(0,letters);
@@ -233,7 +243,7 @@ function updatePresentation(previous,next){
   const oldText=JSON.parse(narrativeKey||'[]');let common=0;while(common<text.length&&common<oldText.length&&text[common]===oldText[common])common++;
   const incoming=text.slice(common);
   const unread=old&&combat&&lines.length&&lineIndex<lines.length-1?lines.slice(lineIndex):[];
-  lines=[...unread,...incoming.flatMap(t=>t.match(/.{1,155}(?:\s|$)|\S+/g)?.map(p=>p.trim())||[t])];lineIndex=0;letters=reduced?(lines[0]?.length||0):0;narrativeKey=key;
+  lines=[...unread,...incoming.flatMap(pages)];lineIndex=0;letters=reduced?(lines[0]?.length||0):0;narrativeKey=key;
  }
  paintLine();
 }
@@ -1328,7 +1338,7 @@ function render(){
  if($('hp-bar-fill'))$('hp-bar-fill').style.width=`${Math.max(0,Math.min(100,(c.hp/c.hp_max)*100))}%`;
  if($('hp-bar-text'))$('hp-bar-text').textContent=`${c.hp} / ${c.hp_max}`;
  if($('place'))$('place').textContent=snapshot.room.name;
- if($('identity'))$('identity').textContent=`PV ${c.hp}/${c.hp_max} · XP ${c.xp}/${c.xp_next}`+(c.fatigue!==undefined?` · Fatiga ${c.fatigue}/100`:'');
+ if($('identity'))$('identity').textContent=`PV ${c.hp}/${c.hp_max} · XP ${c.xp}/${c.xp_next}`+(c.fatigue!==undefined?` · Fatiga ${Math.round(c.fatigue)}/100`:'');
  if($('description'))$('description').textContent=snapshot.room.description;
 
  drawMinimap();
@@ -1391,7 +1401,7 @@ function render(){
   sInfo.append(node('small',`${speciesNames[c.species]||c.species} · ${classNames[c.class_id]||c.class_id}`));
   sInfo.append(node('p',`Salud: ${c.hp} / ${c.hp_max} · Experiencia: ${c.xp} / ${c.xp_next}`));
   if(c.seals!==undefined)sInfo.append(node('p',`Sellos: ${c.seals}`));
-  if(c.fatigue!==undefined)sInfo.append(node('p',`Fatiga: ${c.fatigue} / 100`));
+  if(c.fatigue!==undefined)sInfo.append(node('p',`Fatiga: ${Math.round(c.fatigue)} / 100`));
   const specialization=c.especializacion;
   if(specialization?.name||specialization?.id)sInfo.append(node('p',`Especialización: ${specialization.name||({'arcano_ecos':'Arcano de los Ecos','juramentado_heroico':'Juramentado Heroico'}[specialization.id]||specialization.id)}`));
   const ranks=(c.rangos||[]).map(rank=>rank.name).filter(Boolean);
