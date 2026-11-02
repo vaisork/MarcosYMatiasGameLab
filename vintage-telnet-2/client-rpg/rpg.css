@@ -1649,6 +1649,10 @@ canvas#world {
   margin: 2px 0 0;
 }
 .btn-close-map {
+  background: var(--gold-gradient);
+  color: #3d2705;
+  text-shadow: none;
+  border-color: #fff3c4;
   width: auto; /* .btn-royal pone width:100% y empujaba el botón fuera de pantalla */
   min-height: 44px;
   min-width: 44px;
@@ -1659,6 +1663,12 @@ canvas#world {
   cursor: pointer;
   flex-shrink: 0;
 }
+.world-map-modal {
+  padding: 0 8px 8px;
+}
+.world-map-header {
+  margin: 0 -8px 8px;
+}
 .world-map-viewport {
   flex: 1;
   position: relative;
@@ -1666,194 +1676,280 @@ canvas#world {
   touch-action: none;
   cursor: grab;
   background-color: #070d18;
-  background-image:
-    radial-gradient(circle, rgba(202, 162, 78, 0.12) 1.5px, transparent 1.5px);
-  background-size: 36px 36px;
+  /* Marco dorado del HUD alrededor del lienzo pintado. */
+  border: 3px solid var(--gold-border);
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px #000, inset 0 0 0 1px rgba(245, 216, 136, 0.35), inset 0 0 32px rgba(0, 0, 0, 0.65), 0 6px 20px rgba(0, 0, 0, 0.7);
 }
-.world-map-viewport:active {
+.world-map-viewport.is-dragging {
   cursor: grabbing;
 }
-.world-map-plane {
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform-origin: 0 0;
-  will-change: transform;
+.world-map-viewport:focus-visible {
+  outline: 3px solid var(--gold-glow);
+  outline-offset: 2px;
 }
-.world-map-roads {
+.world-map-canvas {
   position: absolute;
-  left: 0;
-  top: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
-}
-.map-road-outer {
-  stroke: #caa24e;
-  stroke-width: 5px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: none;
-  opacity: 0.85;
-}
-.map-road-inner {
-  stroke: #f5eedb;
-  stroke-width: 2px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 6 5;
-  fill: none;
-  opacity: 0.9;
+  display: block;
 }
 .world-map-nodes {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
-.world-node {
+/* Cada lugar es un botón táctil de 44 px; su punta está en el punto del mapa. */
+.map-place {
   position: absolute;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
+  left: -22px;
+  top: -22px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
   pointer-events: auto;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
 }
-.node-marker {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #14243d;
-  border: 2px solid var(--gold-border);
+.map-place:focus-visible {
+  outline: 3px solid var(--gold-glow);
+  outline-offset: -3px;
+  border-radius: 10px;
+}
+.map-pin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.map-pin-body {
+  position: absolute;
+  left: -13px;
+  top: -31px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: linear-gradient(135deg, #1d3558 0%, #0a121f 100%);
+  border: 2.5px solid var(--gold-bright);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-  position: relative;
 }
-.marker-dot {
+.map-pin-body::after {
+  content: '';
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--gold-bright);
+  opacity: 0.9;
 }
-.world-node-current .node-marker {
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, #caa24e 0%, #7c5520 100%);
-  border: 2.5px solid #fff;
-  box-shadow: 0 0 16px rgba(245, 216, 136, 0.95), 0 2px 8px #000;
+.map-place-known .map-pin-body {
+  border-color: var(--gold-dim);
+  background: linear-gradient(135deg, #1a2a42 0%, #0a121f 100%);
 }
-.world-node-current .marker-core {
-  font-size: 16px;
-  color: #fff;
+.map-place-known .map-pin-body::after {
+  background: var(--gold-dim);
+}
+/* El jugador: pin dorado, más grande, con estrella y pulso. */
+.map-place-current .map-pin-body {
+  left: -18px;
+  top: -42px;
+  width: 36px;
+  height: 36px;
+  background: var(--gold-gradient);
+  border: 3px solid #fff;
+  box-shadow: 0 0 18px rgba(255, 234, 159, 0.95), 0 3px 8px #000;
+}
+.map-place-current .map-pin-body::after {
+  display: none;
+}
+.map-pin-mark {
+  transform: rotate(45deg);
+  font-size: 18px;
   line-height: 1;
+  color: #4a2f05;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.map-place-current {
+  z-index: 3;
+}
+.map-place-selected {
+  z-index: 4;
+}
+.map-place-selected .map-pin-body {
+  border-color: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 234, 159, 0.65), 0 0 16px rgba(255, 234, 159, 0.9), 0 3px 8px #000;
 }
 @keyframes beacon-pulse {
-  0% { transform: scale(1); opacity: 0.9; }
-  100% { transform: scale(2.2); opacity: 0; }
+  0% { transform: scale(0.6); opacity: 0.95; }
+  100% { transform: scale(2.6); opacity: 0; }
 }
-.marker-pulse {
+.map-pin-pulse {
   position: absolute;
-  inset: -4px;
+  left: -14px;
+  top: -8px;
+  width: 28px;
+  height: 14px;
   border-radius: 50%;
   border: 2px solid var(--gold-bright);
   animation: beacon-pulse 2s ease-out infinite;
-  pointer-events: none;
 }
-.node-label {
+.map-label {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  margin-top: -14px;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   background: rgba(8, 14, 24, 0.94);
   border: 1.5px solid var(--gold-border);
   border-radius: 6px;
-  padding: 4px 10px;
+  padding: 3px 9px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.85);
   white-space: nowrap;
+  pointer-events: none;
 }
-.node-name {
+.map-place.label-hidden .map-label {
+  display: none;
+}
+.map-label-name {
   font-size: 14px;
   font-weight: 700;
   color: #f5eedb;
   text-shadow: 0 1px 3px #000;
   line-height: 1.25;
 }
-.world-node-current .node-name {
-  font-size: 15px;
+.map-place-current .map-label-name,
+.map-place-selected .map-label-name {
   color: var(--gold-bright);
 }
-.node-badge {
-  font-size: 11px;
+.map-label-badge {
+  font-size: 14px;
   font-weight: 700;
   color: #ffd875;
-  margin-top: 1px;
+  line-height: 1.2;
+}
+/* Nombre completo del lugar tocado. */
+.world-map-info {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 24px);
+  margin: 0;
+  padding: 8px 14px;
+  background: rgba(8, 14, 24, 0.96);
+  border: 2px solid var(--gold-border);
+  border-radius: 8px;
+  color: var(--gold-bright);
+  font-family: var(--font-title);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+  z-index: 15;
+}
+.world-map-info[hidden] {
+  display: none;
 }
 .world-map-controls {
   position: absolute;
-  right: 16px;
-  bottom: 24px;
+  right: 18px;
+  bottom: 22px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   z-index: 20;
 }
 .map-ctrl-btn {
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   min-width: 44px;
   min-height: 44px;
-  border-radius: 50%;
-  background: rgba(14, 25, 42, 0.92);
-  border: 2px solid var(--gold-border);
-  color: var(--gold-bright);
-  font-size: 20px;
+  padding: 0;
+  border-radius: 10px;
+  background: var(--gold-gradient);
+  border: 2px solid #fff3c4;
+  color: #3d2705;
+  font-size: 24px;
   font-weight: 700;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7);
-  transition: all 0.15s;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transition: filter 0.15s, transform 0.15s;
+  touch-action: manipulation;
 }
 .map-ctrl-btn:hover {
-  background: var(--bg-navy-700);
-  border-color: var(--gold-bright);
-  transform: scale(1.06);
+  filter: brightness(1.1);
+}
+.map-ctrl-btn:active {
+  transform: scale(0.94);
+}
+.map-ctrl-btn:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
 }
 .world-map-legend {
   position: absolute;
-  left: 16px;
-  bottom: 24px;
+  left: 18px;
+  bottom: 22px;
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 5px;
   background: rgba(8, 15, 26, 0.92);
   border: 1.5px solid var(--gold-border);
   border-radius: 6px;
   padding: 6px 12px;
-  font-size: 12px;
+  font-size: 13px;
   color: #f5eedb;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
   z-index: 20;
+  pointer-events: none;
 }
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
-.legend-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+.legend-pin {
+  width: 11px;
+  height: 11px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  border: 2px solid var(--gold-bright);
+  background: #14243d;
 }
-.legend-dot.legend-current {
-  background: var(--gold-bright);
-  border: 1.5px solid #fff;
+.legend-pin.legend-current {
+  background: var(--gold-gradient);
+  border-color: #fff;
   box-shadow: 0 0 6px var(--gold-bright);
 }
-.legend-dot.legend-visited {
-  background: #14243d;
-  border: 1.5px solid var(--gold-border);
+.legend-dash {
+  width: 14px;
+  height: 0;
+  border-top: 2.5px dashed var(--gold-glow);
+}
+@media (max-width: 480px) {
+  .world-map-header { padding: 8px 12px; }
+  .world-map-legend { left: 12px; bottom: 16px; }
+  .world-map-controls { right: 12px; bottom: 16px; }
 }
