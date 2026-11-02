@@ -1624,6 +1624,8 @@ canvas#world {
   gap: 12px;
 }
 .world-map-title-wrap {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1647,6 +1649,7 @@ canvas#world {
   margin: 2px 0 0;
 }
 .btn-close-map {
+  width: auto; /* .btn-royal pone width:100% y empujaba el botón fuera de pantalla */
   min-height: 44px;
   min-width: 44px;
   padding: 8px 18px;
