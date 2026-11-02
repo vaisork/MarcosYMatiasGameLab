@@ -67,3 +67,10 @@ test('el disparador de Antigua abre el bonus del tuk-tuk antes de seguir a Chich
   assert.equal(tukTuk.destino, 'guatemala-chichicastenango');
   assert.ok(tukTuk.x < escenaAntigua.disparadores.find((d) => d.accion === 'pasar').x);
 });
+
+test('al terminar el tuk-tuk vuelve al juego sin la cinemática de la familia (no regresa al desierto)', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const fuente = await readFile(new URL('../src/bonus_tuk_tuk.mjs', import.meta.url), 'utf8');
+  assert.match(fuente, /location\.href = '\.\/index\.html'/);
+  assert.doesNotMatch(fuente, /cinematica=familia/);
+});
