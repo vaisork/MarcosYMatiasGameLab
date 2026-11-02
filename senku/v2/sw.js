@@ -1,6 +1,6 @@
 // Service Worker para Senku 2 — Caché offline versionado y soporte PWA
 // Versión actual de la caché
-const VERSION_CACHE = 'senku2-v22';
+const VERSION_CACHE = 'senku2-v23';
 
 // Recursos esenciales que forman la base del juego para jugar sin conexión
 const RECURSOS_PRECACHE = [
@@ -31,6 +31,7 @@ const RECURSOS_PRECACHE = [
   './src/core/resumen.mjs',
   './src/core/economia.mjs',
   './src/core/jefe_gato.mjs',
+  './src/core/viaje_guatemala.mjs',
   './src/core/jefe_balam.mjs',
   './src/core/lanzador.mjs',
   './src/data/trajes.mjs',
@@ -40,6 +41,7 @@ const RECURSOS_PRECACHE = [
   './src/render/despenadero.mjs',
   './src/render/cima.mjs',
   './src/render/balam.mjs',
+  './src/render/viaje_guatemala.mjs',
   './src/audio/musica.mjs',
   './src/ui/portada.mjs',
   './src/ui/final.mjs',
@@ -77,6 +79,8 @@ const RECURSOS_PRECACHE = [
   './assets/objetos/raton_proyectil.png',
   './assets/objetos/fragmento_jade.png',
   './assets/bonus/tuk-tuk-antigua.webp',
+  './assets/bonus/chicken-bus-guatemala.webp',
+  './assets/fondos/viaje-guatemala.webp',
   './assets/personajes/menu_original.webp',
   './assets/portada/portada.webp',
   './assets/personajes/menu_rata.webp',

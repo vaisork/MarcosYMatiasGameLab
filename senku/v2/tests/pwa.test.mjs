@@ -79,7 +79,7 @@ test('sw.js: versión de caché y recursos precacheados declarados', () => {
   assert.ok(fs.existsSync(RUTA_SW), 'El archivo sw.js debe existir');
   assert.match(VERSION_CACHE, /^senku2-v\d+$/, 'La versión de caché debe seguir el formato senku2-vN');
   assert.ok(Array.isArray(RECURSOS_PRECACHE), 'RECURSOS_PRECACHE debe ser una lista');
-  assert.equal(VERSION_CACHE, 'senku2-v22');
+  assert.equal(VERSION_CACHE, 'senku2-v23');
 
   // Recursos críticos presentes
   const recursosEsperados = [
