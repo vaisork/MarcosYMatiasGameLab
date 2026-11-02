@@ -61,12 +61,12 @@ class VaisorkMundoTests(unittest.TestCase):
         char = {'id': 1, 'name': 'Viajero', 'species': 'humano', 'class_id': 'juramentado', 'status': 'approved', 'state': state}
 
         actions = engine.actions(char, world)
-        self.assertTrue(any(a['id'] == 'hablar' and a.get('target') == npc_id and a.get('topic') == 'vaisork' for a in actions))
+        self.assertTrue(any(a['id'] == 'hablar' and a.get('target') == npc_id and a.get('topic') == 'viajero' for a in actions))
         snap = engine.snapshot(char, world)
         npc_snap = next(n for n in snap['room']['npcs'] if n['id'] == npc_id)
-        self.assertIn('vaisork', npc_snap['topics'])
+        self.assertIn('viajero', npc_snap['topics'])
 
-        engine.apply(char, world, {'id': 'hablar', 'target': npc_id, 'topic': 'vaisork'})
+        engine.apply(char, world, {'id': 'hablar', 'target': npc_id, 'topic': 'viajero'})
         expected = self.raw_vaisork['vecinos'][npc_id]['texto']
         self.assertTrue(any(expected in ev['text'] for ev in state['events']))
 
