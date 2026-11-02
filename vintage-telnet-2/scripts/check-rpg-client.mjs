@@ -6,6 +6,7 @@ const element=()=>({hidden:true,dataset:{},children:[],classList:{add(){},remove
 const nodes=new Map();const requests=[];
 const context=vm.createContext({console,performance:{now:()=>0},matchMedia:()=>({matches:true}),Image:class{},setInterval(){},setTimeout(){},clearTimeout(){},fetch:async(path,options)=>{if(options?.body)requests.push(JSON.parse(options.body));return {ok:true,headers:{get:()=>null},json:async()=>JSON.parse(vm.runInContext('JSON.stringify(snapshot)',context))};},document:{getElementById:id=>{if(!nodes.has(id))nodes.set(id,element());return nodes.get(id);},createElement:element,querySelectorAll:()=>[],addEventListener(){},body:element()},window:{addEventListener(){},confirm:()=>true}});
 const source=fs.readFileSync(new URL('../client-rpg/rpg.js',import.meta.url),'utf8').replace('void poll();','');
+context.__uiData=await import('../client/ui-data.js');
 vm.runInContext(source,context);
 vm.runInContext("var entryRender=render",context);
 await vm.runInContext(`
@@ -740,7 +741,7 @@ vm.runInContext(`
  assert(southChip && southChip.className.includes('is-blocked'), 'South exit chip has is-blocked class');
  assert(southChip.children.some(ch => ch.textContent === '🔒'), 'Blocked chip displays padlock');
 
- // 4. World map: only visited & current places, undiscovered remain hidden
+ // 4. World map: classic painted view, only visited & current places, tap shows the name
  snapshot.map = {
   nodes: [
    { id: 'edran_canal', name: 'Canal Seco', visited: true, position: [0, 0] },
@@ -751,18 +752,67 @@ vm.runInContext(`
  };
  const mapNodes = [];
  const modalObj = { hidden: true };
+ const info = { hidden: true, textContent: '' };
+ const mapEl = { hidden: false, style: {}, classList: { toggle() {}, add() {}, remove() {} }, addEventListener() {}, getBoundingClientRect: () => ({ left: 0, top: 0 }), clientWidth: 412, clientHeight: 700 };
  document.getElementById = id => {
   if (id === 'world-map-modal') return modalObj;
   if (id === 'world-map-nodes') return { replaceChildren: (...nodes) => { mapNodes.length = 0; mapNodes.push(...nodes); } };
-  if (id === 'world-map-roads') return { setAttribute() {}, replaceChildren() {} };
-  if (id === 'world-map-plane') return { style: {} };
+  if (id === 'world-map-viewport') return mapEl;
+  if (id === 'world-map-canvas') return { width: 0, height: 0, getContext: () => null };
+  if (id === 'world-map-info') return info;
   if (id === 'world-map-subtitle') return { textContent: '' };
   return null;
  };
+ document.createElement = tag => ({
+  tag, type: '', className: '', style: {}, children: [], textContent: '',
+  classList: { toggle() {}, add() {}, remove() {} },
+  setAttribute(k, v) { this[k] = v; },
+  append(...ch) { this.children.push(...ch); }
+ });
+ // Misma vista que el cliente clásico: el diseño viene de /client/ui-data.js (en el navegador se importa).
+ mapHelpers = __uiData;
  openWorldMap();
  assert(worldMapOpen === true, 'World map modal opens');
  assert(mapNodes.length === 2, 'Only visited/known places are rendered, undiscovered are hidden');
- assert(mapNodes.some(n => n.className.includes('world-node-current')), 'Current player location is highlighted');
+ assert(mapNodes.some(n => n.className.includes('map-place-current')), 'Current player location is highlighted');
+ assert(mapScale === MAP_HOME, 'World map opens at reading zoom');
+ const here = mapGeometry.nodes.find(n => n.current);
+ assert(Math.abs(here.x * mapScale + mapPanX - 206) < 1 && Math.abs(here.y * mapScale + mapPanY - 350) < 1, 'World map opens centered on the player');
+ assert(mapGeometry.roads.length === 1 && mapGeometry.roads[0].length >= 2, 'Known routes are drawn as roads');
+ assert(mapGeometry.holes.length === 3, 'Fog opens around each visited place and road');
+
+ // Toque en un lugar: sólo muestra su nombre, nunca viaja.
+ const before = snapshot.character.location;
+ selectMapPlace('edran_plaza');
+ assert(/Plaza Mayor/.test(info.textContent) && info.hidden === false, 'Tapping a place shows its name');
+ assert(snapshot.character.location === before, 'Tapping a place never travels');
+ selectMapPlace('edran_plaza');
+ assert(info.hidden === true, 'Tapping the same place again hides the name');
+
+ // Zoom 0.05–4 y botones.
+ zoomMapAt(1000, 206, 350, false);
+ assert(mapScale === MAP_MAX, 'Zoom in is capped at 4');
+ zoomMapAt(1e-6, 206, 350, false);
+ assert(mapScale === MAP_MIN, 'Zoom out reaches 0.05');
+ const anchorX = (150 - mapPanX) / mapScale;
+ zoomMapAt(2, 150, 300, false);
+ assert(Math.abs(anchorX - (150 - mapPanX) / mapScale) < 1e-6, 'Zoom keeps the point under the finger fixed');
+
+ // ⤢ encuadra todo lo descubierto; ◎ vuelve al jugador.
+ fitWorldMap();
+ const b = mapGeometry.bounds;
+ for (const [x, y] of [[b.x0, b.y0], [b.x1, b.y1]]) {
+  const sx = x * mapScale + mapPanX, sy = y * mapScale + mapPanY;
+  assert(sx >= 0 && sx <= 412 && sy >= 0 && sy <= 700, 'Fit view shows every discovered place');
+ }
+ mapScale = 0.2;
+ centerWorldMapOnPlayer();
+ assert(mapScale === MAP_HOME && Math.abs(here.x * mapScale + mapPanX - 206) < 1, 'Center button returns to the player');
+
+ // Sin mapa en el snapshot: sólo el lugar actual.
+ snapshot.map = null;
+ renderWorldMap();
+ assert(mapNodes.length === 1, 'Fallback map shows only the current room');
  closeWorldMap();
  assert(worldMapOpen === false, 'World map closes properly');
 
@@ -772,6 +822,14 @@ vm.runInContext(`
  document.createElement = oldCreate;
 })();
 `, context);
+// World map style contract: names ≥14px, tool buttons and places ≥44px, gold HUD frame.
+const mapCss=fs.readFileSync(new URL('../client-rpg/rpg.css',import.meta.url),'utf8');
+const mapRule=selector=>{const m=mapCss.match(new RegExp(selector.replace(/[.]/g,'\\.')+'\\s*\\{([^}]*)\\}'));return m?m[1]:'';};
+const mapPx=(selector,prop)=>Number(new RegExp(prop+':\\s*(\\d+)px').exec(mapRule(selector))?.[1]);
+assert(mapPx('.map-label-name','font-size')>=14,'Map place names are at least 14px');
+assert(mapPx('.map-ctrl-btn','min-width')>=44&&mapPx('.map-ctrl-btn','min-height')>=44,'Map tool buttons are at least 44px');
+assert(mapPx('.map-place','width')>=44&&mapPx('.map-place','height')>=44,'Map places are 44px touch targets');
+assert(/gold-gradient/.test(mapRule('.map-ctrl-btn'))&&/gold-border/.test(mapRule('.world-map-viewport')),'Map buttons and frame use the gold HUD style');
 console.log('RPG navigation & map enhancements: getCamera free area, exit indicators, dialogue fold and world map OK');
 
 await import("./check-rpg-network.mjs");

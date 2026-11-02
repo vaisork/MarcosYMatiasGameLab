@@ -243,7 +243,7 @@ function updatePresentation(previous,next){
   const oldText=JSON.parse(narrativeKey||'[]');let common=0;while(common<text.length&&common<oldText.length&&text[common]===oldText[common])common++;
   const incoming=text.slice(common);
   const unread=old&&combat&&lines.length&&lineIndex<lines.length-1?lines.slice(lineIndex):[];
-  lines=[...unread,...incoming.flatMap(pages)];lineIndex=0;letters=reduced?(lines[0]?.length||0):0;narrativeKey=key;
+  lines=[...unread,...incoming.flatMap(text=>pages(text))];lineIndex=0;letters=reduced?(lines[0]?.length||0):0;narrativeKey=key;
  }
  paintLine();
 }
@@ -858,22 +858,53 @@ function getCamera(cw,ch,cols,rows,avatarX,avatarY){
  return {S,camX,camY,worldW,worldH,freeTop:0,freeBottom:ch};
 }
 
-let worldMapOpen=false, mapScale=1.0, mapPanX=0, mapPanY=0;
+// ===== Mapa del mundo =====
+// Misma vista pintada del cliente clásico: lienzo con niebla sobre lo no descubierto, caminos dibujados
+// y lugares marcados. Reutiliza el diseño del mapa clásico (/client/ui-data.js) y su arte (/client/art/map/).
+const MAP_ART='/client/art/map/mundo-anime-v1.webp';
+const MAP_CELL=210, MAP_PAD_X=82, MAP_PAD_Y=66, MAP_MIN=0.05, MAP_MAX=4, MAP_HOME=0.85;
+let worldMapOpen=false, mapScale=MAP_HOME, mapPanX=0, mapPanY=0, mapAnimation=0;
 const mapPointers=new Map();
-let mapDragging=false, mapDragStartX=0, mapDragStartY=0;
-let mapPinchDist=0, mapPinchScale=1.0;
-let cachedWorldMapPositions=null, cachedWorldMapBounds=null;
+let mapDragStartX=0, mapDragStartY=0, mapTapStart=null, mapDragMoved=false;
+let mapPinch=null;
+let mapHelpers=null, mapHelpersLoading=null, mapArtImage=null, mapFogCanvas=null;
+let mapGeometry=null, mapPlaces=[], mapSelectedId=null, mapNeedsFraming=false;
+
+function loadMapHelpers(){
+ if(mapHelpers)return Promise.resolve(mapHelpers);
+ if(!mapHelpersLoading){
+  try{
+   mapHelpersLoading=import('/client/ui-data.js').then(module=>{mapHelpers=module;return module;},error=>{mapHelpersLoading=null;throw error;});
+  }catch(error){
+   return Promise.reject(error);
+  }
+ }
+ return mapHelpersLoading;
+}
+
+function ensureMapArt(){
+ if(mapArtImage||typeof Image!=='function')return;
+ mapArtImage=new Image();
+ mapArtImage.onload=()=>{if(worldMapOpen)drawMapCanvas();};
+ mapArtImage.src=MAP_ART;
+}
+
+function mapViewportSize(){
+ const viewport=$('world-map-viewport');
+ return {w:viewport?.clientWidth||400,h:viewport?.clientHeight||500};
+}
 
 function openWorldMap(){
  worldMapOpen=true;
  const modal=$('world-map-modal');
  if(!modal)return;
  modal.hidden=false;
- mapScale=1.0;
+ mapScale=MAP_HOME;
+ mapSelectedId=null;
+ mapNeedsFraming=true;
+ ensureMapArt();
  renderWorldMap();
- if(typeof requestAnimationFrame==='function'){
-  requestAnimationFrame(centerWorldMapOnPlayer);
- }
+ if(typeof requestAnimationFrame==='function')requestAnimationFrame(()=>{if(worldMapOpen&&mapGeometry){resizeWorldMapCanvas();drawWorldMap();}});
 }
 
 function closeWorldMap(){
@@ -881,209 +912,328 @@ function closeWorldMap(){
  const modal=$('world-map-modal');
  if(modal)modal.hidden=true;
  mapPointers.clear();
- mapDragging=false;
+ mapPinch=null;
+ mapTapStart=null;
+ stopMapAnimation();
 }
 
-function getMapLayout(visibleNodes, routes){
- const steps={norte:[0,-1],sur:[0,1],este:[1,0],oeste:[-1,0],salir:[1,1],hogar:[-1,-1]};
- const positions=new Map(), taken=new Set();
- const nodes=[...visibleNodes].sort((a,b)=>a.id.localeCompare(b.id));
- const rts=[...routes].sort((a,b)=>(a.from+'\n'+a.to+'\n'+(a.direction||'')).localeCompare(b.from+'\n'+b.to+'\n'+(b.direction||'')));
- for(const n of nodes){
-  if(Array.isArray(n.position)&&n.position.length===2&&n.position.every(Number.isSafeInteger)){
-   positions.set(n.id,[...n.position]);
-   taken.add(n.position.join(','));
+// Geometría en «píxeles de mundo»: la misma cuadrícula, caminos y niebla del mapa clásico.
+function buildMapGeometry(){
+ const currentId=snapshot?.character?.location||snapshot?.room?.id||null;
+ let raw=snapshot?.map;
+ if(!(Array.isArray(raw?.nodes)&&raw.nodes.length)&&snapshot?.room){
+  raw={nodes:[{id:snapshot.room.id,name:snapshot.room.name,region:snapshot.room.region,visited:true,position:[0,0]}],routes:[]};
+ }
+ // Sólo lugares ya visitados (y el actual); lo demás sigue sin descubrir.
+ raw={...raw,nodes:(Array.isArray(raw?.nodes)?raw.nodes:[]).filter(n=>n&&(n.visited||n.id===currentId))};
+ const map=mapHelpers.orientationMap(raw,currentId);
+ const positions=mapHelpers.discoveredLayout(map);
+ const links=mapHelpers.discoveredPaths(map,positions);
+ const cells=[...positions.values(),...links.flatMap(link=>link.points.map(p=>p.map(v=>v/4)))];
+ const minX=cells.length?Math.min(...cells.map(p=>p[0])):0;
+ const minY=cells.length?Math.min(...cells.map(p=>p[1])):0;
+ const point=id=>{const p=positions.get(id);return [(p[0]-minX)*MAP_CELL+MAP_PAD_X,(p[1]-minY)*MAP_CELL+MAP_PAD_Y];};
+ const pixel=([x,y])=>[(x/4-minX)*MAP_CELL+MAP_PAD_X,(y/4-minY)*MAP_CELL+MAP_PAD_Y];
+ const vectors={norte:[0,-1],sur:[0,1],este:[1,0],oeste:[-1,0]};
+ const nodes=[],frontiers=[],holes=[];
+ for(const n of map.nodes){
+  if(!positions.has(n.id))continue;
+  const [x,y]=point(n.id);
+  nodes.push({id:n.id,name:n.name||'Lugar',region:n.region,visited:n.visited!==false,current:n.id===currentId,x,y});
+  holes.push({x,y,inner:MAP_CELL*2.16,outer:MAP_CELL*3.6});
+  for(const direction of n.unexplored_directions||[]){
+   const vector=vectors[direction];
+   if(vector)frontiers.push({x,y,angle:Math.atan2(vector[1],vector[0])});
   }
  }
- if(positions.size===nodes.length)return positions;
- let component=0;
- for(const n of nodes){
-  if(!positions.has(n.id)){
-   let start=[component*3,0];
-   while(taken.has(start.join(',')))start[0]++;
-   positions.set(n.id,start);
-   taken.add(start.join(','));
-   component++;
-  }
-  const queue=[n.id], visited=new Set();
-  for(let i=0;i<queue.length;i++){
-   const from=queue[i];
-   if(visited.has(from))continue;
-   visited.add(from);
-   const [x,y]=positions.get(from);
-   for(const r of rts){
-    if(r.from!==from||!nodes.some(node=>node.id===r.to))continue;
-    if(!positions.has(r.to)){
-     const [dx,dy]=steps[r.direction]||[1,0];
-     let cell=[x+dx,y+dy];
-     while(taken.has(cell.join(',')))cell=[cell[0]+dx,cell[1]+dy];
-     positions.set(r.to,cell);
-     taken.add(cell.join(','));
-    }
-    if(!visited.has(r.to))queue.push(r.to);
-   }
-  }
+ const roads=links.map(link=>link.points.map(pixel));
+ for(const link of links){
+  const [x,y]=pixel(link.points[Math.floor(link.points.length/2)]);
+  holes.push({x,y,inner:MAP_CELL*1.8,outer:MAP_CELL*3.12});
  }
- return positions;
+ const xs=[...nodes.map(n=>n.x),...roads.flatMap(r=>r.map(p=>p[0]))];
+ const ys=[...nodes.map(n=>n.y),...roads.flatMap(r=>r.map(p=>p[1]))];
+ const bounds=xs.length?{x0:Math.min(...xs),x1:Math.max(...xs),y0:Math.min(...ys),y1:Math.max(...ys)}:{x0:0,x1:0,y0:0,y1:0};
+ const art={x:MAP_PAD_X-minX*MAP_CELL-MAP_CELL/2,y:MAP_PAD_Y-minY*MAP_CELL-MAP_CELL/2,w:35*MAP_CELL,h:42*MAP_CELL};
+ return {nodes,roads,frontiers,holes,bounds,art,currentId};
 }
 
 function renderWorldMap(){
  const modal=$('world-map-modal');
  if(!modal||modal.hidden)return;
- const currentId=snapshot?.character?.location||snapshot?.room?.id;
  const subtitle=$('world-map-subtitle');
  if(subtitle)subtitle.textContent=snapshot?.room?.name?`Estás en: ${snapshot.room.name}`:'Tierras conocidas';
-
- const allNodes=Array.isArray(snapshot?.map?.nodes)?snapshot.map.nodes:[];
- let visibleNodes=allNodes.filter(n=>n.visited||n.id===currentId);
- if(!visibleNodes.length&&snapshot?.room){
-  visibleNodes=[{id:snapshot.room.id,name:snapshot.room.name,region:snapshot.room.region,visited:true,position:[0,0]}];
+ if(!mapHelpers){
+  loadMapHelpers().then(()=>renderWorldMap(),()=>{if(subtitle)subtitle.textContent='No se pudo cargar el mapa. Cierra e intenta otra vez.';});
+  return;
  }
- const visibleIds=new Set(visibleNodes.map(n=>n.id));
- const allRoutes=Array.isArray(snapshot?.map?.routes)?snapshot.map.routes:[];
- const visibleRoutes=allRoutes.filter(r=>visibleIds.has(r.from)&&visibleIds.has(r.to));
-
- const positions=getMapLayout(visibleNodes,visibleRoutes);
- cachedWorldMapPositions=positions;
-
- let minX=Infinity, maxX=-Infinity, minY=Infinity, maxY=-Infinity;
- for(const [gx,gy] of positions.values()){
-  if(gx<minX)minX=gx;
-  if(gx>maxX)maxX=gx;
-  if(gy<minY)minY=gy;
-  if(gy>maxY)maxY=gy;
+ mapGeometry=buildMapGeometry();
+ if(mapSelectedId&&!mapGeometry.nodes.some(n=>n.id===mapSelectedId))mapSelectedId=null;
+ buildMapPlaces();
+ if(mapNeedsFraming){
+  mapNeedsFraming=false;
+  const {w,h}=mapViewportSize();
+  const here=mapGeometry.nodes.find(n=>n.current)||mapGeometry.nodes[0];
+  if(here){mapPanX=w/2-here.x*mapScale;mapPanY=h/2-here.y*mapScale;}
  }
- if(!Number.isFinite(minX)){minX=0;maxX=0;minY=0;maxY=0;}
- cachedWorldMapBounds={minX,maxX,minY,maxY};
-
- const SCALE_X=140, SCALE_Y=110, PAD_X=140, PAD_Y=120;
- const planeW=Math.max(900,(maxX-minX)*SCALE_X+PAD_X*2);
- const planeH=Math.max(700,(maxY-minY)*SCALE_Y+PAD_Y*2);
-
- const plane=$('world-map-plane');
- if(plane){
-  plane.style.width=`${planeW}px`;
-  plane.style.height=`${planeH}px`;
- }
-
- const roadsSvg=$('world-map-roads');
- if(roadsSvg&&roadsSvg.setAttribute){
-  roadsSvg.setAttribute('width',String(planeW));
-  roadsSvg.setAttribute('height',String(planeH));
-  roadsSvg.setAttribute('viewBox',`0 0 ${planeW} ${planeH}`);
-  const paths=[];
-  const drawnEdges=new Set();
-  for(const r of visibleRoutes){
-   const edgeKey=[r.from,r.to].sort().join('--');
-   if(drawnEdges.has(edgeKey))continue;
-   drawnEdges.add(edgeKey);
-   const posFrom=positions.get(r.from), posTo=positions.get(r.to);
-   if(!posFrom||!posTo)continue;
-
-   let d='';
-   if(Array.isArray(r.points)&&r.points.length>=2){
-    d=r.points.map(([px,py],idx)=>{
-     const sx=(px/4-minX)*SCALE_X+PAD_X;
-     const sy=(py/4-minY)*SCALE_Y+PAD_Y;
-     return `${idx===0?'M':'L'}${sx.toFixed(1)},${sy.toFixed(1)}`;
-    }).join(' ');
-   }else{
-    const x1=(posFrom[0]-minX)*SCALE_X+PAD_X;
-    const y1=(posFrom[1]-minY)*SCALE_Y+PAD_Y;
-    const x2=(posTo[0]-minX)*SCALE_X+PAD_X;
-    const y2=(posTo[1]-minY)*SCALE_Y+PAD_Y;
-    d=`M${x1.toFixed(1)},${y1.toFixed(1)} L${x2.toFixed(1)},${y2.toFixed(1)}`;
-   }
-
-   if(document.createElementNS){
-    const pathOuter=document.createElementNS('http://www.w3.org/2000/svg','path');
-    if(pathOuter.setAttribute){
-     pathOuter.setAttribute('d',d);
-     pathOuter.setAttribute('class','map-road-outer');
-    }
-    const pathInner=document.createElementNS('http://www.w3.org/2000/svg','path');
-    if(pathInner.setAttribute){
-     pathInner.setAttribute('d',d);
-     pathInner.setAttribute('class','map-road-inner');
-    }
-    paths.push(pathOuter,pathInner);
-   }
-  }
-  if(roadsSvg.replaceChildren)roadsSvg.replaceChildren(...paths);
- }
-
- const nodesContainer=$('world-map-nodes');
- if(nodesContainer){
-  const nodeElems=[];
-  for(const n of visibleNodes){
-   const pos=positions.get(n.id)||[0,0];
-   const nx=(pos[0]-minX)*SCALE_X+PAD_X;
-   const ny=(pos[1]-minY)*SCALE_Y+PAD_Y;
-   const isCurrent=n.id===currentId;
-
-   const wrap=document.createElement('div');
-   wrap.className=`world-node${isCurrent?' world-node-current':' world-node-visited'}`;
-   wrap.style.left=`${nx.toFixed(1)}px`;
-   wrap.style.top=`${ny.toFixed(1)}px`;
-
-   const marker=document.createElement('div');
-   marker.className='node-marker';
-   if(isCurrent){
-    const pulse=document.createElement('span');
-    pulse.className='marker-pulse';
-    const core=document.createElement('span');
-    core.className='marker-core';
-    core.textContent='★';
-    marker.append(pulse,core);
-   }else{
-    const dot=document.createElement('span');
-    dot.className='marker-dot';
-    marker.append(dot);
-   }
-
-   const label=document.createElement('div');
-   label.className='node-label';
-   const nameSpan=document.createElement('span');
-   nameSpan.className='node-name';
-   nameSpan.textContent=n.name;
-   label.append(nameSpan);
-   if(isCurrent){
-    const badge=document.createElement('span');
-    badge.className='node-badge';
-    badge.textContent='Estás aquí';
-    label.append(badge);
-   }
-
-   wrap.append(marker,label);
-   nodeElems.push(wrap);
-  }
-  if(nodesContainer.replaceChildren)nodesContainer.replaceChildren(...nodeElems);
- }
-
- updateWorldMapTransform();
+ resizeWorldMapCanvas();
+ drawWorldMap();
 }
 
-function updateWorldMapTransform(){
- const plane=$('world-map-plane');
- if(plane){
-  plane.style.transform=`translate(${mapPanX.toFixed(1)}px, ${mapPanY.toFixed(1)}px) scale(${mapScale.toFixed(3)})`;
+function mapPlaceLabel(place){
+ const region=place.region&&mapHelpers?.regionNames?.[place.region];
+ const status=place.current?'Estás aquí':place.visited?'Lugar visitado':'Lugar conocido';
+ return region?`${place.name} · ${region} · ${status}`:`${place.name} · ${status}`;
+}
+
+function buildMapPlaces(){
+ const container=$('world-map-nodes');
+ mapPlaces=[];
+ if(!container)return;
+ const order=[...mapGeometry.nodes].sort((a,b)=>(b.current-a.current)||(b.visited-a.visited));
+ const elems=[];
+ for(const place of order){
+  const btn=document.createElement('button');
+  btn.type='button';
+  btn.className=`map-place${place.current?' map-place-current':place.visited?' map-place-visited':' map-place-known'}${place.id===mapSelectedId?' map-place-selected':''}`;
+  if(btn.setAttribute){
+   btn.setAttribute('aria-label',`${place.name}${place.current?', estás aquí':''}. Mostrar nombre.`);
+   btn.setAttribute('aria-pressed',place.id===mapSelectedId?'true':'false');
+  }
+  const pin=document.createElement('span');
+  pin.className='map-pin';
+  const body=document.createElement('span');
+  body.className='map-pin-body';
+  const mark=document.createElement('span');
+  mark.className='map-pin-mark';
+  mark.textContent=place.current?'★':'';
+  body.append(mark);
+  if(place.current){
+   const pulse=document.createElement('span');
+   pulse.className='map-pin-pulse';
+   pin.append(pulse);
+  }
+  pin.append(body);
+  const label=document.createElement('span');
+  label.className='map-label';
+  const name=document.createElement('span');
+  name.className='map-label-name';
+  name.textContent=place.name;
+  label.append(name);
+  if(place.current){
+   const badge=document.createElement('span');
+   badge.className='map-label-badge';
+   badge.textContent='Estás aquí';
+   label.append(badge);
+  }
+  btn.append(pin,label);
+  btn.onclick=ev=>{ev.stopPropagation();selectMapPlace(place.id);};
+  elems.push(btn);
+  mapPlaces.push({place,btn,pin,label,width:place.name.length*8.4+26,height:place.current?48:30});
+ }
+ if(container.replaceChildren)container.replaceChildren(...elems);
+}
+
+// Un toque muestra el nombre del lugar; nunca viaja.
+function selectMapPlace(id){
+ mapSelectedId=mapSelectedId===id?null:id;
+ positionMapPlaces();
+ updateMapInfo();
+}
+
+function updateMapInfo(){
+ const info=$('world-map-info');
+ if(!info)return;
+ const entry=mapPlaces.find(p=>p.place.id===mapSelectedId);
+ if(!entry){info.hidden=true;info.textContent='';return;}
+ info.textContent=mapPlaceLabel(entry.place);
+ info.hidden=false;
+}
+
+function resizeWorldMapCanvas(){
+ const canvas=$('world-map-canvas');
+ if(!canvas)return;
+ const {w,h}=mapViewportSize();
+ const dpr=Math.min(window.devicePixelRatio||1,2);
+ const pw=Math.round(w*dpr),ph=Math.round(h*dpr);
+ if(canvas.width!==pw)canvas.width=pw;
+ if(canvas.height!==ph)canvas.height=ph;
+}
+
+function drawWorldMap(){
+ positionMapPlaces();
+ drawMapCanvas();
+ updateMapInfo();
+}
+
+// Pines en pantalla: tamaño fijo legible (≥14 px); a poco zoom sólo se rotulan los que caben.
+function positionMapPlaces(){
+ if(!mapPlaces.length)return;
+ const {w,h}=mapViewportSize();
+ const s=mapScale;
+ const placed=[];
+ // A poco zoom los pines se hacen más pequeños para no tapar el mapa.
+ const pinScale=Math.min(1,0.5+s);
+ const overlaps=(a,b)=>a.x0<b.x1&&a.x1>b.x0&&a.y0<b.y1&&a.y1>b.y0;
+ const visible=[];
+ for(const entry of mapPlaces){
+  const sx=entry.place.x*s+mapPanX, sy=entry.place.y*s+mapPanY;
+  const on=sx>-80&&sx<w+80&&sy>-80&&sy<h+80;
+  entry.sx=sx;entry.sy=sy;entry.on=on;
+  entry.btn.style.transform=`translate(${sx.toFixed(1)}px,${sy.toFixed(1)}px)`;
+  entry.btn.style.visibility=on?'visible':'hidden';
+  if(entry.pin)entry.pin.style.transform=`scale(${pinScale.toFixed(2)})`;
+  if(on){
+   visible.push(entry);
+   placed.push({x0:sx-17*pinScale,x1:sx+17*pinScale,y0:sy-44*pinScale,y1:sy+4});
+  }
+ }
+ // Prioridad: tú, el lugar tocado (su nombre completo también sale arriba) y después el resto.
+ const labeled=[];
+ const rank=e=>e.place.current?2:e.place.id===mapSelectedId?1:0;
+ const ranked=[...visible].sort((a,b)=>rank(b)-rank(a));
+ for(const entry of ranked){
+  const force=entry.place.current;
+  // El rótulo se desplaza para no salirse de la pantalla.
+  const half=Math.min(entry.width,w-12)/2;
+  const shift=Math.max(6+half-entry.sx,Math.min(w-6-half-entry.sx,0));
+  entry.label.style.transform=`translateX(calc(-50% + ${shift.toFixed(1)}px))`;
+  const cx=entry.sx+shift;
+  const rect={x0:cx-half,x1:cx+half,y0:entry.sy+8,y1:entry.sy+8+entry.height};
+  const clear=force||(!labeled.some(l=>overlaps(rect,l))&&!placed.some(p=>overlaps(rect,p)));
+  entry.btn.classList.toggle('label-hidden',!clear);
+  entry.btn.classList.toggle('map-place-selected',entry.place.id===mapSelectedId);
+  if(entry.btn.setAttribute)entry.btn.setAttribute('aria-pressed',entry.place.id===mapSelectedId?'true':'false');
+  if(clear)labeled.push(rect);
  }
 }
 
+function drawMapCanvas(){
+ const canvas=$('world-map-canvas');
+ if(!canvas||!canvas.getContext||!mapGeometry)return;
+ const ctx=canvas.getContext('2d');
+ if(!ctx||!ctx.setTransform||!ctx.createRadialGradient)return;
+ const {w,h}=mapViewportSize();
+ const dpr=canvas.width/w||1;
+ const s=mapScale;
+ const tx=x=>(x*s+mapPanX)*dpr, ty=y=>(y*s+mapPanY)*dpr;
+ ctx.setTransform(1,0,0,1,0,0);
+ ctx.globalCompositeOperation='source-over';
+ ctx.fillStyle='#070d18';
+ ctx.fillRect(0,0,canvas.width,canvas.height);
+ // Niebla: el cuadro pintado sólo se ve alrededor de lo que el personaje ya conoce.
+ const art=mapGeometry.art;
+ if(mapArtImage&&mapArtImage.complete&&mapArtImage.naturalWidth&&document.createElement){
+  if(!mapFogCanvas)mapFogCanvas=document.createElement('canvas');
+  if(mapFogCanvas.width!==canvas.width)mapFogCanvas.width=canvas.width;
+  if(mapFogCanvas.height!==canvas.height)mapFogCanvas.height=canvas.height;
+  const fog=mapFogCanvas.getContext('2d');
+  if(fog&&fog.createRadialGradient){
+   fog.setTransform(1,0,0,1,0,0);
+   fog.globalCompositeOperation='source-over';
+   fog.clearRect(0,0,canvas.width,canvas.height);
+   for(const hole of mapGeometry.holes){
+    const cx=tx(hole.x),cy=ty(hole.y),outer=hole.outer*s*dpr,inner=hole.inner*s*dpr;
+    if(cx+outer<0||cx-outer>canvas.width||cy+outer<0||cy-outer>canvas.height)continue;
+    const gradient=fog.createRadialGradient(cx,cy,inner,cx,cy,outer);
+    gradient.addColorStop(0,'rgba(0,0,0,1)');
+    gradient.addColorStop(1,'rgba(0,0,0,0)');
+    fog.fillStyle=gradient;
+    fog.fillRect(cx-outer,cy-outer,outer*2,outer*2);
+   }
+   // Sólo se dibuja la parte visible del cuadro (hasta ×4 sería enorme entero).
+   const vx0=-mapPanX/s,vy0=-mapPanY/s,vx1=(w-mapPanX)/s,vy1=(h-mapPanY)/s;
+   const ix0=Math.max(art.x,vx0),iy0=Math.max(art.y,vy0),ix1=Math.min(art.x+art.w,vx1),iy1=Math.min(art.y+art.h,vy1);
+   if(ix1>ix0&&iy1>iy0){
+    const kx=mapArtImage.naturalWidth/art.w,ky=mapArtImage.naturalHeight/art.h;
+    fog.globalCompositeOperation='source-in';
+    fog.drawImage(mapArtImage,(ix0-art.x)*kx,(iy0-art.y)*ky,(ix1-ix0)*kx,(iy1-iy0)*ky,tx(ix0),ty(iy0),(ix1-ix0)*s*dpr,(iy1-iy0)*s*dpr);
+    fog.globalCompositeOperation='source-over';
+    ctx.drawImage(mapFogCanvas,0,0);
+   }
+  }
+ }
+ // Caminos: borde oscuro y trazo dorado; ancho de pantalla casi constante.
+ const roadWidth=Math.max(6,Math.min(11,10*s))*dpr;
+ ctx.lineJoin='round';ctx.lineCap='round';
+ for(const pass of [0,1]){
+  ctx.strokeStyle=pass===0?'rgba(10,16,28,0.9)':'#f5d888';
+  ctx.lineWidth=pass===0?roadWidth:roadWidth-2.5*dpr;
+  for(const road of mapGeometry.roads){
+   if(road.length<2)continue;
+   ctx.beginPath();
+   road.forEach(([x,y],i)=>i?ctx.lineTo(tx(x),ty(y)):ctx.moveTo(tx(x),ty(y)));
+   ctx.stroke();
+  }
+ }
+ // Punteadas: pasos por explorar.
+ ctx.setLineDash([7*dpr,6*dpr]);
+ ctx.strokeStyle='#ffea9f';
+ ctx.lineWidth=2.5*dpr;
+ const stub=Math.max(28,80*s)*dpr;
+ for(const f of mapGeometry.frontiers){
+  const cx=tx(f.x),cy=ty(f.y);
+  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(f.angle)*stub,cy+Math.sin(f.angle)*stub);ctx.stroke();
+ }
+ ctx.setLineDash([]);
+}
+
+function setMapView(scale,panX,panY,animate){
+ stopMapAnimation();
+ const target={scale:Math.max(MAP_MIN,Math.min(MAP_MAX,scale)),x:panX,y:panY};
+ if(!animate||typeof requestAnimationFrame!=='function'||typeof performance==='undefined'){
+  mapScale=target.scale;mapPanX=target.x;mapPanY=target.y;
+  drawWorldMap();
+  return;
+ }
+ const from={scale:mapScale,x:mapPanX,y:mapPanY},start=performance.now(),duration=260;
+ const step=now=>{
+  const t=Math.min(1,(now-start)/duration),e=1-Math.pow(1-t,3);
+  // El zoom se interpola en escala logarítmica para que 0.05→1 no se sienta brusco.
+  mapScale=Math.exp(Math.log(from.scale)+(Math.log(target.scale)-Math.log(from.scale))*e);
+  mapPanX=from.x+(target.x-from.x)*e;
+  mapPanY=from.y+(target.y-from.y)*e;
+  drawWorldMap();
+  mapAnimation=t<1&&worldMapOpen?requestAnimationFrame(step):0;
+ };
+ mapAnimation=requestAnimationFrame(step);
+}
+
+function stopMapAnimation(){
+ if(mapAnimation&&typeof cancelAnimationFrame==='function')cancelAnimationFrame(mapAnimation);
+ mapAnimation=0;
+}
+
+// Acerca o aleja manteniendo fijo el punto (cx,cy) de la pantalla.
+function zoomMapAt(factor,cx,cy,animate){
+ const next=Math.max(MAP_MIN,Math.min(MAP_MAX,mapScale*factor));
+ const ratio=next/mapScale;
+ setMapView(next,cx-(cx-mapPanX)*ratio,cy-(cy-mapPanY)*ratio,animate);
+}
+
+// ⤢ Encuadra todo lo descubierto.
+function fitWorldMap(){
+ if(!mapGeometry)return;
+ const {w,h}=mapViewportSize();
+ const b=mapGeometry.bounds;
+ const padL=36,padR=80,padT=72,padB=96;
+ const bw=b.x1-b.x0,bh=b.y1-b.y0;
+ let scale=MAP_HOME;
+ if(bw>0||bh>0){
+  scale=Math.min(bw>0?(w-padL-padR)/bw:Infinity,bh>0?(h-padT-padB)/bh:Infinity,1);
+  scale=Math.max(MAP_MIN,scale);
+ }
+ const cx=(b.x0+b.x1)/2,cy=(b.y0+b.y1)/2;
+ setMapView(scale,padL+(w-padL-padR)/2-cx*scale,padT+(h-padT-padB)/2-cy*scale,true);
+}
+
+// ◎ Vuelve a tu posición, al zoom de lectura.
 function centerWorldMapOnPlayer(){
- const viewport=$('world-map-viewport');
- if(!viewport||!cachedWorldMapPositions||!cachedWorldMapBounds)return;
- const currentId=snapshot?.character?.location||snapshot?.room?.id;
- const pos=cachedWorldMapPositions.get(currentId)||cachedWorldMapPositions.values().next().value;
- if(!pos)return;
- const SCALE_X=140, SCALE_Y=110, PAD_X=140, PAD_Y=120;
- const px=(pos[0]-cachedWorldMapBounds.minX)*SCALE_X+PAD_X;
- const py=(pos[1]-cachedWorldMapBounds.minY)*SCALE_Y+PAD_Y;
- const vw=viewport.clientWidth||400;
- const vh=viewport.clientHeight||500;
- mapPanX=vw/2-px*mapScale;
- mapPanY=vh/2-py*mapScale;
- updateWorldMapTransform();
+ if(!mapGeometry)return;
+ const here=mapGeometry.nodes.find(n=>n.current)||mapGeometry.nodes[0];
+ if(!here)return;
+ const {w,h}=mapViewportSize();
+ setMapView(MAP_HOME,w/2-here.x*MAP_HOME,h/2-here.y*MAP_HOME,true);
 }
 
 let lastExitStateKey='';
@@ -1172,77 +1322,108 @@ function renderExitIndicators(cam,force=false){
 }
 
 function initWorldMapEvents(){
- const modal=$('world-map-modal');
  const viewport=$('world-map-viewport');
  const closeBtn=$('close-world-map');
- const zoomIn=$('map-zoom-in');
- const zoomOut=$('map-zoom-out');
- const centerBtn=$('map-center-player');
-
+ const center=()=>{const {w,h}=mapViewportSize();return {x:w/2,y:h/2};};
+ const bind=(id,action)=>{const el=$(id);if(el)el.onclick=action;};
  if(closeBtn)closeBtn.onclick=closeWorldMap;
- if(zoomIn)zoomIn.onclick=()=>{mapScale=Math.min(3.0,mapScale*1.25);updateWorldMapTransform();};
- if(zoomOut)zoomOut.onclick=()=>{mapScale=Math.max(0.4,mapScale/1.25);updateWorldMapTransform();};
- if(centerBtn)centerBtn.onclick=()=>{mapScale=1.0;centerWorldMapOnPlayer();};
+ bind('map-zoom-in',()=>{const c=center();zoomMapAt(1.5,c.x,c.y,true);});
+ bind('map-zoom-out',()=>{const c=center();zoomMapAt(1/1.5,c.x,c.y,true);});
+ bind('map-fit',fitWorldMap);
+ bind('map-center-player',centerWorldMapOnPlayer);
 
- if(viewport&&viewport.addEventListener){
-  viewport.addEventListener('pointerdown',e=>{
-   if(e.button!==0&&e.pointerType==='mouse')return;
-   viewport.setPointerCapture?.(e.pointerId);
-   mapPointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-   if(mapPointers.size===1){
-    mapDragging=true;
+ if(typeof window!=='undefined'&&window.addEventListener){
+  window.addEventListener('resize',()=>{if(worldMapOpen){resizeWorldMapCanvas();drawWorldMap();}});
+ }
+ if(!viewport||!viewport.addEventListener)return;
+ const capture=id=>{try{viewport.setPointerCapture?.(id);}catch(_){/* puntero ya inactivo */}};
+ const local=e=>{const rect=viewport.getBoundingClientRect?.()||{left:0,top:0};return {x:e.clientX-rect.left,y:e.clientY-rect.top};};
+
+ viewport.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse'&&e.button!==0)return;
+  stopMapAnimation();
+  mapPointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(mapPointers.size===1){
+   mapTapStart={x:e.clientX,y:e.clientY};
+   mapDragMoved=false;
+   mapDragStartX=e.clientX-mapPanX;
+   mapDragStartY=e.clientY-mapPanY;
+  }else if(mapPointers.size===2){
+   // Pellizco: se guarda el punto del mundo bajo el centro de los dos dedos.
+   for(const id of mapPointers.keys())capture(id);
+   const [p1,p2]=[...mapPointers.values()];
+   const rect=viewport.getBoundingClientRect?.()||{left:0,top:0};
+   const mx=(p1.x+p2.x)/2-rect.left,my=(p1.y+p2.y)/2-rect.top;
+   mapPinch={dist:Math.max(1,Math.hypot(p1.x-p2.x,p1.y-p2.y)),scale:mapScale,wx:(mx-mapPanX)/mapScale,wy:(my-mapPanY)/mapScale};
+   mapDragMoved=true;
+  }
+ });
+
+ viewport.addEventListener('pointermove',e=>{
+  if(!mapPointers.has(e.pointerId))return;
+  mapPointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(mapPointers.size>=2&&mapPinch){
+   const [p1,p2]=[...mapPointers.values()];
+   const rect=viewport.getBoundingClientRect?.()||{left:0,top:0};
+   const mx=(p1.x+p2.x)/2-rect.left,my=(p1.y+p2.y)/2-rect.top;
+   const next=Math.max(MAP_MIN,Math.min(MAP_MAX,mapPinch.scale*Math.hypot(p1.x-p2.x,p1.y-p2.y)/mapPinch.dist));
+   mapScale=next;
+   mapPanX=mx-mapPinch.wx*next;
+   mapPanY=my-mapPinch.wy*next;
+   drawWorldMap();
+  }else if(mapPointers.size===1&&mapTapStart){
+   if(!mapDragMoved&&Math.hypot(e.clientX-mapTapStart.x,e.clientY-mapTapStart.y)<8)return;
+   if(!mapDragMoved){
+    mapDragMoved=true;
+    capture(e.pointerId);
     mapDragStartX=e.clientX-mapPanX;
     mapDragStartY=e.clientY-mapPanY;
-   }else if(mapPointers.size===2){
-    mapDragging=false;
-    const [p1,p2]=[...mapPointers.values()];
-    mapPinchDist=Math.hypot(p1.x-p2.x,p1.y-p2.y);
-    mapPinchScale=mapScale;
+    viewport.classList.add('is-dragging');
    }
-  });
-
-  viewport.addEventListener('pointermove',e=>{
-   if(!mapPointers.has(e.pointerId))return;
-   mapPointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-   if(mapPointers.size===1&&mapDragging){
-    mapPanX=e.clientX-mapDragStartX;
-    mapPanY=e.clientY-mapDragStartY;
-    updateWorldMapTransform();
-   }else if(mapPointers.size===2&&mapPinchDist>0){
-    const [p1,p2]=[...mapPointers.values()];
-    const dist=Math.hypot(p1.x-p2.x,p1.y-p2.y);
-    const factor=dist/mapPinchDist;
-    mapScale=Math.max(0.4,Math.min(3.0,mapPinchScale*factor));
-    updateWorldMapTransform();
-   }
-  });
-
-  for(const evName of ['pointerup','pointercancel','lostpointercapture']){
-   viewport.addEventListener(evName,e=>{
-    mapPointers.delete(e.pointerId);
-    if(mapPointers.size===0)mapDragging=false;
-    else if(mapPointers.size===1){
-     const remaining=mapPointers.values().next().value;
-     mapDragStartX=remaining.x-mapPanX;
-     mapDragStartY=remaining.y-mapPanY;
-     mapDragging=true;
-    }
-   });
+   mapPanX=e.clientX-mapDragStartX;
+   mapPanY=e.clientY-mapDragStartY;
+   drawWorldMap();
   }
+ });
 
-  viewport.addEventListener('wheel',e=>{
-   e.preventDefault();
-   const zoomFactor=e.deltaY<0?1.15:0.87;
-   const newScale=Math.max(0.4,Math.min(3.0,mapScale*zoomFactor));
-   const rect=viewport.getBoundingClientRect?.()||{left:0,top:0};
-   const mx=e.clientX-rect.left;
-   const my=e.clientY-rect.top;
-   mapPanX=mx-(mx-mapPanX)*(newScale/mapScale);
-   mapPanY=my-(my-mapPanY)*(newScale/mapScale);
-   mapScale=newScale;
-   updateWorldMapTransform();
-  },{passive:false});
+ for(const evName of ['pointerup','pointercancel']){
+  viewport.addEventListener(evName,e=>{
+   if(!mapPointers.has(e.pointerId))return;
+   mapPointers.delete(e.pointerId);
+   if(mapPointers.size<2)mapPinch=null;
+   if(mapPointers.size===1){
+    // Tras soltar un dedo del pellizco, el otro sigue arrastrando sin saltos.
+    const rest=mapPointers.values().next().value;
+    mapDragStartX=rest.x-mapPanX;
+    mapDragStartY=rest.y-mapPanY;
+    mapTapStart=rest;
+    mapDragMoved=true;
+   }
+   if(mapPointers.size===0){
+    viewport.classList.remove('is-dragging');
+    // Un toque sobre el mapa vacío cierra el nombre mostrado; el toque sobre un lugar lo atiende su botón.
+    const onPlace=e.target?.closest?.('.map-place');
+    if(evName==='pointerup'&&!mapDragMoved&&!onPlace&&mapSelectedId){mapSelectedId=null;drawWorldMap();}
+    mapTapStart=null;
+   }
+  });
  }
+
+ viewport.addEventListener('wheel',e=>{
+  e.preventDefault();
+  stopMapAnimation();
+  const p=local(e);
+  zoomMapAt(Math.exp(-e.deltaY*(e.deltaMode===1?0.05:0.0016)),p.x,p.y,false);
+ },{passive:false});
+
+ viewport.addEventListener('keydown',e=>{
+  const {w,h}=mapViewportSize();
+  const step=70;
+  const moves={ArrowLeft:[step,0],ArrowRight:[-step,0],ArrowUp:[0,step],ArrowDown:[0,-step]};
+  if(moves[e.key]){e.preventDefault();setMapView(mapScale,mapPanX+moves[e.key][0],mapPanY+moves[e.key][1],false);}
+  else if(e.key==='+'||e.key==='='){e.preventDefault();zoomMapAt(1.25,w/2,h/2,false);}
+  else if(e.key==='-'||e.key==='_'){e.preventDefault();zoomMapAt(0.8,w/2,h/2,false);}
+ });
 }
 
 function drawMinimap(){
@@ -1494,10 +1675,6 @@ $('back').onclick=back;$('close-panel').onclick=back;
 const panelSelect=$('panel-select-char');if(panelSelect)panelSelect.onclick=()=>{panel(false);viewMode='characters';render();};
 const panelLogout=$('panel-logout');if(panelLogout)panelLogout.onclick=()=>{panel(false);logout();};
 const headerLogout=$('logout');if(headerLogout)headerLogout.onclick=logout;
-const closeMapBtn=$('close-world-map');if(closeMapBtn)closeMapBtn.onclick=closeWorldMap;
-const zoomInBtn=$('map-zoom-in');if(zoomInBtn)zoomInBtn.onclick=()=>{mapScale=Math.min(3.0,mapScale*1.25);updateWorldMapTransform();};
-const zoomOutBtn=$('map-zoom-out');if(zoomOutBtn)zoomOutBtn.onclick=()=>{mapScale=Math.max(0.4,mapScale/1.25);updateWorldMapTransform();};
-const centerMapBtn=$('map-center-player');if(centerMapBtn)centerMapBtn.onclick=()=>{mapScale=1.0;centerWorldMapOnPlayer();};
 initWorldMapEvents();
 
 const bindings={ArrowUp:[0,-1,1],w:[0,-1,1],ArrowDown:[0,1,0],s:[0,1,0],ArrowLeft:[-1,0,2],a:[-1,0,2],ArrowRight:[1,0,3],d:[1,0,3]};
