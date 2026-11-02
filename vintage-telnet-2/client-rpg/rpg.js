@@ -130,9 +130,12 @@ if(typeof window!=='undefined'&&window.addEventListener){
  window.addEventListener('resize',resizeCanvas);
 }
 
+let dialogueFolded=false;
 function panel(open){if(open&&$('panel').hidden)sonido('menu');$('panel').hidden=!open;keys.clear();}
 function back(){
- if(dialogueExpanded){toggleDialogueExpand();return;}
+ if(worldMapOpen){closeWorldMap();return;}
+ if(dialogueFolded){toggleDialogueFold();return;}
+ if(dialogueExpanded){toggleDialogueFold();return;}
  if(battleGroup){sonido('cancelar');battleGroup=null;renderBattleMenu();}
  else if(viewMode==='creation'&&snapshot?.characters?.length){sonido('cancelar');viewMode='characters';render();}
  else if(viewMode==='characters'){sonido('cancelar');viewMode='welcome';render();}
@@ -146,16 +149,26 @@ function advance(){
  else if(!snapshot?.character?.combat&&!outcome)interact();
  paintLine();
 }
-function toggleDialogueExpand(){
- dialogueExpanded=!dialogueExpanded;
- const dlg=$('dialogue'), full=$('dialogue-full'), adv=$('advance'), btn=$('toggle-dialogue');
- if(dlg)dlg.classList.toggle('dialogue-expanded',dialogueExpanded);
+function updateDialogueState(){
+ const dlg=$('dialogue'), full=$('dialogue-full'), adv=$('advance'), btn=$('toggle-dialogue'), preview=$('dialogue-folded-line');
+ if(dlg){
+  dlg.classList.toggle('dialogue-folded',dialogueFolded);
+  dlg.classList.toggle('dialogue-expanded',dialogueExpanded);
+ }
+ if(adv)adv.hidden=dialogueFolded||dialogueExpanded;
  if(full)full.hidden=!dialogueExpanded;
- if(adv)adv.hidden=dialogueExpanded;
+ if(preview){
+  preview.hidden=!dialogueFolded;
+  if(dialogueFolded){
+   const currentLine=lines[lineIndex]||snapshot?.room?.description||'El camino se abre ante ti.';
+   preview.textContent=currentLine;
+   preview.title=currentLine;
+  }
+ }
  if(btn){
-  btn.setAttribute('aria-label',dialogueExpanded?'Contraer relato':'Expandir relato completo');
-  btn.title=dialogueExpanded?'Contraer relato':'Expandir relato completo';
-  btn.replaceChildren(svgNode(dialogueExpanded?'collapse':'expand'));
+  if(btn.setAttribute)btn.setAttribute('aria-label',dialogueFolded?'Desplegar relato':'Plegar relato a una línea');
+  btn.title=dialogueFolded?'Desplegar relato':'Plegar relato a una línea';
+  btn.replaceChildren(svgNode(dialogueFolded?'expand':'collapse'));
  }
  if(dialogueExpanded){
   const fullText=$('dialogue-full-text');
@@ -165,10 +178,20 @@ function toggleDialogueExpand(){
   }
  }
 }
+function toggleDialogueFold(){
+ if(dialogueExpanded){dialogueExpanded=false;dialogueFolded=true;}
+ else{dialogueFolded=!dialogueFolded;}
+ updateDialogueState();
+}
+function toggleDialogueExpand(){
+ toggleDialogueFold();
+}
 function paintLine(){
  const line=lines[lineIndex]||snapshot?.room?.description||'El camino se abre ante ti.';
  $('line').textContent=line.slice(0,letters);
  $('more').textContent=letters<line.length?'A · mostrar texto':lineIndex<lines.length-1?`A · siguiente (${lines.length-lineIndex-1})`:snapshot?.character?.combat?'Elige una acción · A':'A · continuar';
+ const preview=$('dialogue-folded-line');
+ if(preview&&dialogueFolded)preview.textContent=line;
  if(dialogueExpanded){
   const fullText=$('dialogue-full-text');
   if(fullText){
@@ -750,17 +773,466 @@ function renderEntry(){
 function getCamera(cw,ch,cols,rows,avatarX,avatarY){
  if(Math.abs(cw/cols-ch/rows)<0.01&&cw<=640&&ch<=480){
   const S=cw/cols;
-  return {S,camX:0,camY:0,worldW:cw,worldH:ch};
+  return {S,camX:0,camY:0,worldW:cw,worldH:ch,freeTop:0,freeBottom:ch};
  }
  const S=Math.max(cw/cols,ch/rows);
  const worldW=cols*S;
  const worldH=rows*S;
  const targetCamX=avatarX*S-cw/2;
+ const camX=worldW>cw?Math.max(0,Math.min(worldW-cw,targetCamX)):(worldW-cw)/2;
+
+ let freeTop=0, freeBottom=ch, hasDOMRects=false;
+ if(typeof document!=='undefined'&&canvas?.getBoundingClientRect){
+  const cRect=canvas.getBoundingClientRect();
+  if(cRect&&cRect.height>0){
+   const ratio=ch/cRect.height;
+   const hud=$('hud');
+   if(hud&&!hud.hidden&&hud.getBoundingClientRect){
+    const r=hud.getBoundingClientRect();
+    if(r.height>0){
+     freeTop=Math.max(freeTop,(r.bottom-cRect.top)*ratio);
+     hasDOMRects=true;
+    }
+   }
+   const dlg=$('dialogue');
+   if(dlg&&!dlg.hidden&&dlg.getBoundingClientRect){
+    const r=dlg.getBoundingClientRect();
+    if(r.height>0){
+     if(r.top<cRect.top+cRect.height*0.5){
+      freeTop=Math.max(freeTop,(r.bottom-cRect.top)*ratio);
+     }else{
+      freeBottom=Math.min(freeBottom,(r.top-cRect.top)*ratio);
+     }
+     hasDOMRects=true;
+    }
+   }
+   const ctrl=typeof document.querySelector==='function'?document.querySelector('.controls'):null;
+   if(ctrl&&!ctrl.hidden&&ctrl.getBoundingClientRect){
+    const style=typeof window.getComputedStyle==='function'?window.getComputedStyle(ctrl):null;
+    if(style?.display!=='none'){
+     const r=ctrl.getBoundingClientRect();
+     if(r.height>0&&r.top<cRect.bottom){
+      freeBottom=Math.min(freeBottom,(r.top-cRect.top)*ratio);
+      hasDOMRects=true;
+     }
+    }
+   }
+   const mb=$('menu-bar');
+   if(mb&&!mb.hidden&&mb.getBoundingClientRect){
+    const r=mb.getBoundingClientRect();
+    if(r.height>0&&r.top<cRect.bottom){
+     freeBottom=Math.min(freeBottom,(r.top-cRect.top)*ratio);
+     hasDOMRects=true;
+    }
+   }
+  }
+ }
+
+ if(hasDOMRects&&freeBottom>freeTop+40){
+  const safeCenterY=(freeTop+freeBottom)/2;
+  const targetCamY=avatarY*S-safeCenterY;
+  const minCamY=-freeTop;
+  const maxCamY=worldH-freeBottom;
+  let camY;
+  if(minCamY<=maxCamY){
+   camY=Math.max(minCamY,Math.min(maxCamY,targetCamY));
+  }else{
+   camY=worldH/2-safeCenterY;
+  }
+  return {S,camX,camY,worldW,worldH,freeTop,freeBottom};
+ }
+
  const safeCenterY=ch>550?(80+(ch-180))/2:ch/2;
  const targetCamY=avatarY*S-safeCenterY;
- const camX=worldW>cw?Math.max(0,Math.min(worldW-cw,targetCamX)):(worldW-cw)/2;
  const camY=worldH>ch?Math.max(0,Math.min(worldH-ch,targetCamY)):(worldH-ch)/2;
- return {S,camX,camY,worldW,worldH};
+ return {S,camX,camY,worldW,worldH,freeTop:0,freeBottom:ch};
+}
+
+let worldMapOpen=false, mapScale=1.0, mapPanX=0, mapPanY=0;
+const mapPointers=new Map();
+let mapDragging=false, mapDragStartX=0, mapDragStartY=0;
+let mapPinchDist=0, mapPinchScale=1.0;
+let cachedWorldMapPositions=null, cachedWorldMapBounds=null;
+
+function openWorldMap(){
+ worldMapOpen=true;
+ const modal=$('world-map-modal');
+ if(!modal)return;
+ modal.hidden=false;
+ mapScale=1.0;
+ renderWorldMap();
+ if(typeof requestAnimationFrame==='function'){
+  requestAnimationFrame(centerWorldMapOnPlayer);
+ }
+}
+
+function closeWorldMap(){
+ worldMapOpen=false;
+ const modal=$('world-map-modal');
+ if(modal)modal.hidden=true;
+ mapPointers.clear();
+ mapDragging=false;
+}
+
+function getMapLayout(visibleNodes, routes){
+ const steps={norte:[0,-1],sur:[0,1],este:[1,0],oeste:[-1,0],salir:[1,1],hogar:[-1,-1]};
+ const positions=new Map(), taken=new Set();
+ const nodes=[...visibleNodes].sort((a,b)=>a.id.localeCompare(b.id));
+ const rts=[...routes].sort((a,b)=>(a.from+'\n'+a.to+'\n'+(a.direction||'')).localeCompare(b.from+'\n'+b.to+'\n'+(b.direction||'')));
+ for(const n of nodes){
+  if(Array.isArray(n.position)&&n.position.length===2&&n.position.every(Number.isSafeInteger)){
+   positions.set(n.id,[...n.position]);
+   taken.add(n.position.join(','));
+  }
+ }
+ if(positions.size===nodes.length)return positions;
+ let component=0;
+ for(const n of nodes){
+  if(!positions.has(n.id)){
+   let start=[component*3,0];
+   while(taken.has(start.join(',')))start[0]++;
+   positions.set(n.id,start);
+   taken.add(start.join(','));
+   component++;
+  }
+  const queue=[n.id], visited=new Set();
+  for(let i=0;i<queue.length;i++){
+   const from=queue[i];
+   if(visited.has(from))continue;
+   visited.add(from);
+   const [x,y]=positions.get(from);
+   for(const r of rts){
+    if(r.from!==from||!nodes.some(node=>node.id===r.to))continue;
+    if(!positions.has(r.to)){
+     const [dx,dy]=steps[r.direction]||[1,0];
+     let cell=[x+dx,y+dy];
+     while(taken.has(cell.join(',')))cell=[cell[0]+dx,cell[1]+dy];
+     positions.set(r.to,cell);
+     taken.add(cell.join(','));
+    }
+    if(!visited.has(r.to))queue.push(r.to);
+   }
+  }
+ }
+ return positions;
+}
+
+function renderWorldMap(){
+ const modal=$('world-map-modal');
+ if(!modal||modal.hidden)return;
+ const currentId=snapshot?.character?.location||snapshot?.room?.id;
+ const subtitle=$('world-map-subtitle');
+ if(subtitle)subtitle.textContent=snapshot?.room?.name?`Estás en: ${snapshot.room.name}`:'Tierras conocidas';
+
+ const allNodes=Array.isArray(snapshot?.map?.nodes)?snapshot.map.nodes:[];
+ let visibleNodes=allNodes.filter(n=>n.visited||n.id===currentId);
+ if(!visibleNodes.length&&snapshot?.room){
+  visibleNodes=[{id:snapshot.room.id,name:snapshot.room.name,region:snapshot.room.region,visited:true,position:[0,0]}];
+ }
+ const visibleIds=new Set(visibleNodes.map(n=>n.id));
+ const allRoutes=Array.isArray(snapshot?.map?.routes)?snapshot.map.routes:[];
+ const visibleRoutes=allRoutes.filter(r=>visibleIds.has(r.from)&&visibleIds.has(r.to));
+
+ const positions=getMapLayout(visibleNodes,visibleRoutes);
+ cachedWorldMapPositions=positions;
+
+ let minX=Infinity, maxX=-Infinity, minY=Infinity, maxY=-Infinity;
+ for(const [gx,gy] of positions.values()){
+  if(gx<minX)minX=gx;
+  if(gx>maxX)maxX=gx;
+  if(gy<minY)minY=gy;
+  if(gy>maxY)maxY=gy;
+ }
+ if(!Number.isFinite(minX)){minX=0;maxX=0;minY=0;maxY=0;}
+ cachedWorldMapBounds={minX,maxX,minY,maxY};
+
+ const SCALE_X=140, SCALE_Y=110, PAD_X=140, PAD_Y=120;
+ const planeW=Math.max(900,(maxX-minX)*SCALE_X+PAD_X*2);
+ const planeH=Math.max(700,(maxY-minY)*SCALE_Y+PAD_Y*2);
+
+ const plane=$('world-map-plane');
+ if(plane){
+  plane.style.width=`${planeW}px`;
+  plane.style.height=`${planeH}px`;
+ }
+
+ const roadsSvg=$('world-map-roads');
+ if(roadsSvg&&roadsSvg.setAttribute){
+  roadsSvg.setAttribute('width',String(planeW));
+  roadsSvg.setAttribute('height',String(planeH));
+  roadsSvg.setAttribute('viewBox',`0 0 ${planeW} ${planeH}`);
+  const paths=[];
+  const drawnEdges=new Set();
+  for(const r of visibleRoutes){
+   const edgeKey=[r.from,r.to].sort().join('--');
+   if(drawnEdges.has(edgeKey))continue;
+   drawnEdges.add(edgeKey);
+   const posFrom=positions.get(r.from), posTo=positions.get(r.to);
+   if(!posFrom||!posTo)continue;
+
+   let d='';
+   if(Array.isArray(r.points)&&r.points.length>=2){
+    d=r.points.map(([px,py],idx)=>{
+     const sx=(px/4-minX)*SCALE_X+PAD_X;
+     const sy=(py/4-minY)*SCALE_Y+PAD_Y;
+     return `${idx===0?'M':'L'}${sx.toFixed(1)},${sy.toFixed(1)}`;
+    }).join(' ');
+   }else{
+    const x1=(posFrom[0]-minX)*SCALE_X+PAD_X;
+    const y1=(posFrom[1]-minY)*SCALE_Y+PAD_Y;
+    const x2=(posTo[0]-minX)*SCALE_X+PAD_X;
+    const y2=(posTo[1]-minY)*SCALE_Y+PAD_Y;
+    d=`M${x1.toFixed(1)},${y1.toFixed(1)} L${x2.toFixed(1)},${y2.toFixed(1)}`;
+   }
+
+   if(document.createElementNS){
+    const pathOuter=document.createElementNS('http://www.w3.org/2000/svg','path');
+    if(pathOuter.setAttribute){
+     pathOuter.setAttribute('d',d);
+     pathOuter.setAttribute('class','map-road-outer');
+    }
+    const pathInner=document.createElementNS('http://www.w3.org/2000/svg','path');
+    if(pathInner.setAttribute){
+     pathInner.setAttribute('d',d);
+     pathInner.setAttribute('class','map-road-inner');
+    }
+    paths.push(pathOuter,pathInner);
+   }
+  }
+  if(roadsSvg.replaceChildren)roadsSvg.replaceChildren(...paths);
+ }
+
+ const nodesContainer=$('world-map-nodes');
+ if(nodesContainer){
+  const nodeElems=[];
+  for(const n of visibleNodes){
+   const pos=positions.get(n.id)||[0,0];
+   const nx=(pos[0]-minX)*SCALE_X+PAD_X;
+   const ny=(pos[1]-minY)*SCALE_Y+PAD_Y;
+   const isCurrent=n.id===currentId;
+
+   const wrap=document.createElement('div');
+   wrap.className=`world-node${isCurrent?' world-node-current':' world-node-visited'}`;
+   wrap.style.left=`${nx.toFixed(1)}px`;
+   wrap.style.top=`${ny.toFixed(1)}px`;
+
+   const marker=document.createElement('div');
+   marker.className='node-marker';
+   if(isCurrent){
+    const pulse=document.createElement('span');
+    pulse.className='marker-pulse';
+    const core=document.createElement('span');
+    core.className='marker-core';
+    core.textContent='★';
+    marker.append(pulse,core);
+   }else{
+    const dot=document.createElement('span');
+    dot.className='marker-dot';
+    marker.append(dot);
+   }
+
+   const label=document.createElement('div');
+   label.className='node-label';
+   const nameSpan=document.createElement('span');
+   nameSpan.className='node-name';
+   nameSpan.textContent=n.name;
+   label.append(nameSpan);
+   if(isCurrent){
+    const badge=document.createElement('span');
+    badge.className='node-badge';
+    badge.textContent='Estás aquí';
+    label.append(badge);
+   }
+
+   wrap.append(marker,label);
+   nodeElems.push(wrap);
+  }
+  if(nodesContainer.replaceChildren)nodesContainer.replaceChildren(...nodeElems);
+ }
+
+ updateWorldMapTransform();
+}
+
+function updateWorldMapTransform(){
+ const plane=$('world-map-plane');
+ if(plane){
+  plane.style.transform=`translate(${mapPanX.toFixed(1)}px, ${mapPanY.toFixed(1)}px) scale(${mapScale.toFixed(3)})`;
+ }
+}
+
+function centerWorldMapOnPlayer(){
+ const viewport=$('world-map-viewport');
+ if(!viewport||!cachedWorldMapPositions||!cachedWorldMapBounds)return;
+ const currentId=snapshot?.character?.location||snapshot?.room?.id;
+ const pos=cachedWorldMapPositions.get(currentId)||cachedWorldMapPositions.values().next().value;
+ if(!pos)return;
+ const SCALE_X=140, SCALE_Y=110, PAD_X=140, PAD_Y=120;
+ const px=(pos[0]-cachedWorldMapBounds.minX)*SCALE_X+PAD_X;
+ const py=(pos[1]-cachedWorldMapBounds.minY)*SCALE_Y+PAD_Y;
+ const vw=viewport.clientWidth||400;
+ const vh=viewport.clientHeight||500;
+ mapPanX=vw/2-px*mapScale;
+ mapPanY=vh/2-py*mapScale;
+ updateWorldMapTransform();
+}
+
+let lastExitStateKey='';
+function renderExitIndicators(cam,force=false){
+ const container=$('exit-indicators');
+ if(!container)return;
+ const inGame=viewMode==='game'&&!snapshot?.character?.combat&&!outcome&&!$('world-view')?.hidden&&$('panel')?.hidden&&!worldMapOpen;
+ if(!inGame||!scene||!Array.isArray(scene.exits)||scene.exits.length===0){
+  if(lastExitStateKey!==''){
+   container.hidden=true;
+   if(container.replaceChildren)container.replaceChildren();
+   lastExitStateKey='';
+  }
+  return;
+ }
+ container.hidden=false;
+
+ const freeTop=Math.round(cam?.freeTop??50);
+ const freeBottom=Math.round(cam?.freeBottom??(canvas.height||480));
+ const stateKey=JSON.stringify([scene.exits.map(e=>e.direction),(snapshot.actions||[]).filter(a=>a.id==='mover').map(a=>[a.target,a.label,a.disabled]),freeTop,freeBottom,dialogueFolded]);
+ if(!force&&stateKey===lastExitStateKey)return;
+ lastExitStateKey=stateKey;
+
+ const cRect=canvas?.getBoundingClientRect?canvas.getBoundingClientRect():null;
+ const ratio=(cRect&&cRect.height>0)?(cRect.height/canvas.height):1;
+ const cssFreeTop=freeTop*ratio;
+ const cssFreeBottom=freeBottom*ratio;
+ const canvasCssHeight=cRect?.height||(canvas.height*ratio);
+
+ const arrows={norte:'↑',sur:'↓',este:'→',oeste:'←'};
+ const chips=[];
+ for(const e of scene.exits){
+  const dir=e.direction;
+  const moveAction=(snapshot.actions||[]).find(a=>a.id==='mover'&&a.target===dir);
+  let destName='';
+  if(moveAction?.label){
+   const parts=moveAction.label.split('·');
+   destName=parts.length>1?parts.slice(1).join('·').trim():moveAction.label.trim();
+  }
+  if(!destName)destName=dir.charAt(0).toUpperCase()+dir.slice(1);
+
+  const isBlocked=Boolean(moveAction?.disabled);
+  const arrow=arrows[dir]||'✦';
+
+  const btn=document.createElement('button');
+  btn.type='button';
+  btn.className=`exit-chip exit-chip-${dir}${isBlocked?' is-blocked':''}`;
+  if(btn.setAttribute)btn.setAttribute('aria-label',`${isBlocked?'Salida bloqueada':'Caminar hacia'}: ${destName} (${dir})`);
+  if(isBlocked&&moveAction?.reason)btn.title=moveAction.reason;
+
+  if(isBlocked){
+   const lock=document.createElement('span');
+   lock.className='exit-chip-icon';
+   lock.textContent='🔒';
+   btn.append(lock);
+  }
+
+  const arrowSpan=document.createElement('span');
+  arrowSpan.className='exit-chip-arrow';
+  arrowSpan.textContent=arrow;
+  btn.append(arrowSpan);
+
+  const labelSpan=document.createElement('span');
+  labelSpan.className='exit-chip-label';
+  labelSpan.textContent=destName;
+  btn.append(labelSpan);
+
+  if(dir==='norte'){
+   btn.style.top=`${Math.round(cssFreeTop+6)}px`;
+  }else if(dir==='sur'){
+   btn.style.bottom=`${Math.round(Math.max(6,canvasCssHeight-cssFreeBottom+6))}px`;
+  }
+
+  btn.onclick=ev=>{
+   ev.stopPropagation();
+   if(moveAction){
+    perform(moveAction);
+   }else{
+    notice('No puedes moverte hacia allí.');
+   }
+  };
+
+  chips.push(btn);
+ }
+ if(container.replaceChildren)container.replaceChildren(...chips);
+}
+
+function initWorldMapEvents(){
+ const modal=$('world-map-modal');
+ const viewport=$('world-map-viewport');
+ const closeBtn=$('close-world-map');
+ const zoomIn=$('map-zoom-in');
+ const zoomOut=$('map-zoom-out');
+ const centerBtn=$('map-center-player');
+
+ if(closeBtn)closeBtn.onclick=closeWorldMap;
+ if(zoomIn)zoomIn.onclick=()=>{mapScale=Math.min(3.0,mapScale*1.25);updateWorldMapTransform();};
+ if(zoomOut)zoomOut.onclick=()=>{mapScale=Math.max(0.4,mapScale/1.25);updateWorldMapTransform();};
+ if(centerBtn)centerBtn.onclick=()=>{mapScale=1.0;centerWorldMapOnPlayer();};
+
+ if(viewport&&viewport.addEventListener){
+  viewport.addEventListener('pointerdown',e=>{
+   if(e.button!==0&&e.pointerType==='mouse')return;
+   viewport.setPointerCapture?.(e.pointerId);
+   mapPointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+   if(mapPointers.size===1){
+    mapDragging=true;
+    mapDragStartX=e.clientX-mapPanX;
+    mapDragStartY=e.clientY-mapPanY;
+   }else if(mapPointers.size===2){
+    mapDragging=false;
+    const [p1,p2]=[...mapPointers.values()];
+    mapPinchDist=Math.hypot(p1.x-p2.x,p1.y-p2.y);
+    mapPinchScale=mapScale;
+   }
+  });
+
+  viewport.addEventListener('pointermove',e=>{
+   if(!mapPointers.has(e.pointerId))return;
+   mapPointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+   if(mapPointers.size===1&&mapDragging){
+    mapPanX=e.clientX-mapDragStartX;
+    mapPanY=e.clientY-mapDragStartY;
+    updateWorldMapTransform();
+   }else if(mapPointers.size===2&&mapPinchDist>0){
+    const [p1,p2]=[...mapPointers.values()];
+    const dist=Math.hypot(p1.x-p2.x,p1.y-p2.y);
+    const factor=dist/mapPinchDist;
+    mapScale=Math.max(0.4,Math.min(3.0,mapPinchScale*factor));
+    updateWorldMapTransform();
+   }
+  });
+
+  for(const evName of ['pointerup','pointercancel','lostpointercapture']){
+   viewport.addEventListener(evName,e=>{
+    mapPointers.delete(e.pointerId);
+    if(mapPointers.size===0)mapDragging=false;
+    else if(mapPointers.size===1){
+     const remaining=mapPointers.values().next().value;
+     mapDragStartX=remaining.x-mapPanX;
+     mapDragStartY=remaining.y-mapPanY;
+     mapDragging=true;
+    }
+   });
+  }
+
+  viewport.addEventListener('wheel',e=>{
+   e.preventDefault();
+   const zoomFactor=e.deltaY<0?1.15:0.87;
+   const newScale=Math.max(0.4,Math.min(3.0,mapScale*zoomFactor));
+   const rect=viewport.getBoundingClientRect?.()||{left:0,top:0};
+   const mx=e.clientX-rect.left;
+   const my=e.clientY-rect.top;
+   mapPanX=mx-(mx-mapPanX)*(newScale/mapScale);
+   mapPanY=my-(my-mapPanY)*(newScale/mapScale);
+   mapScale=newScale;
+   updateWorldMapTransform();
+  },{passive:false});
+ }
 }
 
 function drawMinimap(){
@@ -773,7 +1245,14 @@ function drawMinimap(){
  minimapCard.hidden=false;
  const roomName=$('minimap-room-name');
  if(roomName)roomName.textContent=snapshot.room.name||'Sala actual';
- minimapCard.title=`Sala actual: ${snapshot.room.name||''}`;
+ minimapCard.title=`Sala actual: ${snapshot.room.name||''} · Toca para abrir mapa del mundo`;
+ if(minimapCard.setAttribute){
+  minimapCard.setAttribute('role','button');
+  minimapCard.setAttribute('tabindex','0');
+  minimapCard.setAttribute('aria-label',`Mapa del mundo. Ubicación: ${snapshot.room.name||'Sala actual'}`);
+ }
+ minimapCard.onclick=openWorldMap;
+ minimapCard.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openWorldMap();}};
 
  const mCanvas=$('minimap-canvas');
  if(!mCanvas||!mCanvas.getContext)return;
@@ -889,7 +1368,17 @@ function render(){
   $('contexts').replaceChildren(...navItems.map(item=>{
    const b=node('button',item.label);b.onclick=()=>{menuGroup=item.group;focus=null;render();};return b;
   }));
+  const mapBtn=node('button','🗺️ Mapa del mundo');
+  mapBtn.onclick=()=>{panel(false);openWorldMap();};
+  $('contexts').append(mapBtn);
  }
+ if(menuGroup==='Lugar'){
+  const mapBtn=node('button','🗺️ Ver mapa del mundo');
+  mapBtn.onclick=()=>{panel(false);openWorldMap();};
+  $('contexts').prepend(mapBtn);
+ }
+ const panelMapBtn=$('panel-world-map');
+ if(panelMapBtn)panelMapBtn.onclick=()=>{panel(false);openWorldMap();};
  $('action-title').textContent=focus?`Interacción · ${entities().find(e=>e.id===focus)?.name||focus}`:menuGroup||'Menú';
  $('description').hidden=menuGroup!=='Lugar';
  const accountTools=document.querySelector('.panel-account-tools');if(accountTools)accountTools.hidden=menuGroup!=='Más';
@@ -948,6 +1437,9 @@ function render(){
  if(!combat)$('turn').textContent='';
  const text=(snapshot.narrative||[]).map(e=>typeof e==='string'?e:e.text).filter(Boolean);
  if($('narrative').dataset.text!==JSON.stringify(text)){$('narrative').replaceChildren(...text.map(t=>node('p',t)));$('narrative').dataset.text=JSON.stringify(text);}
+ const cam=getCamera(canvas.width,canvas.height,...(scene?.size||[20,15]),player.x,player.y);
+ renderExitIndicators(cam, true);
+ if(worldMapOpen)renderWorldMap();
 }
 
 function dismissOutcome(){outcome=null;lastCombat=null;render();}
@@ -992,6 +1484,11 @@ $('back').onclick=back;$('close-panel').onclick=back;
 const panelSelect=$('panel-select-char');if(panelSelect)panelSelect.onclick=()=>{panel(false);viewMode='characters';render();};
 const panelLogout=$('panel-logout');if(panelLogout)panelLogout.onclick=()=>{panel(false);logout();};
 const headerLogout=$('logout');if(headerLogout)headerLogout.onclick=logout;
+const closeMapBtn=$('close-world-map');if(closeMapBtn)closeMapBtn.onclick=closeWorldMap;
+const zoomInBtn=$('map-zoom-in');if(zoomInBtn)zoomInBtn.onclick=()=>{mapScale=Math.min(3.0,mapScale*1.25);updateWorldMapTransform();};
+const zoomOutBtn=$('map-zoom-out');if(zoomOutBtn)zoomOutBtn.onclick=()=>{mapScale=Math.max(0.4,mapScale/1.25);updateWorldMapTransform();};
+const centerMapBtn=$('map-center-player');if(centerMapBtn)centerMapBtn.onclick=()=>{mapScale=1.0;centerWorldMapOnPlayer();};
+initWorldMapEvents();
 
 const bindings={ArrowUp:[0,-1,1],w:[0,-1,1],ArrowDown:[0,1,0],s:[0,1,0],ArrowLeft:[-1,0,2],a:[-1,0,2],ArrowRight:[1,0,3],d:[1,0,3]};
 window.addEventListener('keydown',e=>{
@@ -1036,7 +1533,9 @@ function draw(time){
  if(scene){
   drawMinimap();
   const [cols,rows]=scene.size;
-  const {S,camX,camY,worldW,worldH}=getCamera(canvas.width,canvas.height,cols,rows,player.x,player.y);
+  const cam=getCamera(canvas.width,canvas.height,cols,rows,player.x,player.y);
+  const {S,camX,camY,worldW,worldH}=cam;
+  renderExitIndicators(cam);
   const colors={g:'#1b2b3a',p:'#635338',c:'#162432',s:'#4a3821',w:'#1a3d54',b:'#5c533c',f:'#131d27'};
   const ts=tilesetData[scene.tileset||'edran'];
   if(!ts)void loadTileset(scene.tileset||'edran');
@@ -1057,15 +1556,27 @@ function draw(time){
   }));
   for(const e of scene.exits){
    const [x,y,w,h]=e.rect;
-   ctx.fillStyle='rgba(212, 175, 55, 0.4)';
+   ctx.fillStyle='rgba(212, 175, 55, 0.45)';
    ctx.fillRect(x*S-camX,y*S-camY,w*S,h*S);
-   ctx.strokeStyle='rgba(245, 216, 136, 0.8)';
-   ctx.lineWidth=1;
+   ctx.strokeStyle='#ffe58f';
+   ctx.lineWidth=Math.max(1.5,2*density);
    ctx.strokeRect(x*S-camX,y*S-camY,w*S,h*S);
-   ctx.fillStyle='#f5eedb';
-   ctx.font=`${11*density}px sans-serif`;
+   const dirText=e.direction.toUpperCase();
+   const exitFontSize=Math.max(12,Math.round(12.5*density));
+   ctx.font=`bold ${exitFontSize}px sans-serif`;
    ctx.textAlign='center';
-   ctx.fillText(e.direction,(x+w/2)*S-camX,Math.max(14,(y+h/2)*S-camY));
+   const textW=ctx.measureText?ctx.measureText(dirText).width:30;
+   const badgeW=textW+12*density;
+   const badgeH=Math.max(18,Math.round(18*density));
+   const badgeX=(x+w/2)*S-camX-badgeW/2;
+   const badgeY=Math.max(10,(y+h/2)*S-camY-badgeH/2);
+   ctx.fillStyle='rgba(6, 11, 19, 0.9)';
+   ctx.fillRect(badgeX,badgeY,badgeW,badgeH);
+   ctx.strokeStyle='#caa24e';
+   ctx.lineWidth=1;
+   ctx.strokeRect(badgeX,badgeY,badgeW,badgeH);
+   ctx.fillStyle='#ffe58f';
+   ctx.fillText(dirText,(x+w/2)*S-camX,badgeY+badgeH*0.72);
   }
   const key=[...keys].find(k=>bindings[k]);let moving=false;
   if(key&&!busy&&!pending&&$('panel').hidden){
@@ -1090,25 +1601,29 @@ function draw(time){
    }
    if(!im){ctx.fillStyle='#f5d888';ctx.font='bold 24px monospace';ctx.textAlign='center';ctx.fillText('?',screenX,screenY);}
    if(a.name){
-    ctx.font=`${12*density}px sans-serif`;ctx.textAlign='center';
-    ctx.fillStyle='rgba(8, 14, 24, 0.85)';
-    const labelWidth=ctx.measureText(a.name).width+14*density;
-    let labelY=screenY-height-14*density;
+    const fontSize=Math.max(13,Math.round(13.5*density));
+    ctx.font=`bold ${fontSize}px sans-serif`;ctx.textAlign='center';
+    const textWidth=ctx.measureText?ctx.measureText(a.name).width:40;
+    const paddingX=10*density;
+    const labelWidth=textWidth+paddingX*2;
+    const labelHeight=Math.max(20,Math.round(20*density));
+    let labelY=screenY-height-labelHeight-2*density;
     const ratio=density;
     for(const id of ['hud','dialogue']){
      const overlay=$(id), rect=overlay?.getBoundingClientRect?.();
      if(!rect||overlay.hidden||!canvasRect)continue;
      const left=(rect.left-canvasRect.left)*ratio,right=(rect.right-canvasRect.left)*ratio;
      const top=(rect.top-canvasRect.top)*ratio,bottom=(rect.bottom-canvasRect.top)*ratio;
-     if(screenX+labelWidth/2>left&&screenX-labelWidth/2<right&&labelY+16*density>top&&labelY<bottom)labelY=Math.max(screenY+16*density,bottom+4*density);
+     if(screenX+labelWidth/2>left&&screenX-labelWidth/2<right&&labelY+labelHeight>top&&labelY<bottom)labelY=Math.max(screenY+16*density,bottom+4*density);
     }
-    labelY=Math.min(canvas.height-18*density,labelY);
-    ctx.fillRect(screenX-labelWidth/2,labelY,labelWidth,16*density);
-    ctx.strokeStyle='rgba(202, 162, 78, 0.5)';
-    ctx.lineWidth=1;
-    ctx.strokeRect(screenX-labelWidth/2,labelY,labelWidth,16*density);
-    ctx.fillStyle='#f5eedb';
-    ctx.fillText(a.name,screenX,labelY+12*density);
+    labelY=Math.min(canvas.height-labelHeight-2*density,labelY);
+    ctx.fillStyle='rgba(6, 11, 19, 0.92)';
+    ctx.fillRect(screenX-labelWidth/2,labelY,labelWidth,labelHeight);
+    ctx.strokeStyle='#f5d888';
+    ctx.lineWidth=Math.max(1,1.5*density);
+    ctx.strokeRect(screenX-labelWidth/2,labelY,labelWidth,labelHeight);
+    ctx.fillStyle='#ffffff';
+    ctx.fillText(a.name,screenX,labelY+labelHeight*0.72);
    }
   }
   const front=backgroundImage(scene.foreground);
