@@ -670,4 +670,108 @@ assert.equal(vm.runInContext('snapshot.account',context),undefined,'Logout must 
 assert.equal(vm.runInContext('snapshot.characters.length',context),0);
 console.log('RPG account metadata: partial action responses preserve character selection; logout clears it OK');
 
+// Verification: camera free area calculation, dialogue folding, exit indicators, and world map
+vm.runInContext(`
+(()=>{
+ const assert = (cond, msg) => { if(!cond) throw Error(msg); };
+
+ // 1. Dialogue fold toggle
+ dialogueExpanded = false;
+ dialogueFolded = false;
+ toggleDialogueFold();
+ assert(dialogueFolded === true, 'Dialogue must fold to 1 line');
+ toggleDialogueFold();
+ assert(dialogueFolded === false, 'Dialogue must unfold back to normal');
+
+ // 2. Camera with DOM bounding rects
+ const oldGetRect = canvas.getBoundingClientRect;
+ const oldGetElem = document.getElementById;
+ const oldQuery = document.querySelector;
+ const oldCreate = document.createElement;
+ canvas.getBoundingClientRect = () => ({ top: 0, bottom: 844, left: 0, right: 390, width: 390, height: 844 });
+ document.getElementById = id => {
+  if (id === 'hud') return { hidden: false, getBoundingClientRect: () => ({ top: 0, bottom: 50, left: 0, right: 390, height: 50 }) };
+  if (id === 'dialogue') return { hidden: false, getBoundingClientRect: () => ({ top: 60, bottom: 150, left: 0, right: 390, height: 90 }) };
+  if (id === 'menu-bar') return { hidden: false, getBoundingClientRect: () => ({ top: 780, bottom: 844, left: 0, right: 390, height: 64 }) };
+  return null;
+ };
+ document.querySelector = sel => {
+  if (sel === '.controls') return { hidden: false, getBoundingClientRect: () => ({ top: 620, bottom: 780, left: 0, right: 390, height: 160 }) };
+  return null;
+ };
+ window.getComputedStyle = () => ({ display: 'flex' });
+
+ const camNorth = getCamera(390, 844, 20, 15, 10, 1);
+ assert(camNorth.freeTop >= 150, 'Free top must measure bottom of HUD + dialogue');
+ assert(camNorth.freeBottom <= 620, 'Free bottom must measure top of controls');
+ const northSceneEdgeScreenY = -camNorth.camY;
+ assert(northSceneEdgeScreenY >= camNorth.freeTop, 'North border of scene must stay visible below top overlays');
+
+ // 3. Exit indicators
+ scene = { size: [20, 15], exits: [{ direction: 'norte', rect: [9,0,2,1] }, { direction: 'sur', rect: [9,14,2,1] }] };
+ snapshot = {
+  actions: [
+   { id: 'mover', target: 'norte', label: 'Norte · Laguna Susurrante', disabled: false },
+   { id: 'mover', target: 'sur', label: 'Sur · Salida por explorar', disabled: true, reason: 'Candado antiguo' }
+  ],
+  character: { location: 'edran_canal' },
+  room: { id: 'edran_canal', name: 'Canal Seco' }
+ };
+ viewMode = 'game';
+ const indicators = [];
+ document.getElementById = id => {
+  if (id === 'exit-indicators') return {
+   hidden: true,
+   replaceChildren: (...chips) => { indicators.length = 0; indicators.push(...chips); }
+  };
+  if (id === 'panel' || id === 'world-map-modal') return { hidden: true };
+  return null;
+ };
+ document.createElement = tag => ({
+  type: '', className: '', style: {}, children: [],
+  setAttribute(k, v) { this[k] = v; },
+  append(...ch) { this.children.push(...ch); }
+ });
+ renderExitIndicators(camNorth, true);
+ assert(indicators.length === 2, 'Two exit chips created for 2 exits');
+ const northChip = indicators.find(c => c.className.includes('exit-chip-norte'));
+ const southChip = indicators.find(c => c.className.includes('exit-chip-sur'));
+ assert(northChip && !northChip.className.includes('is-blocked'), 'North exit chip is enabled');
+ assert(southChip && southChip.className.includes('is-blocked'), 'South exit chip has is-blocked class');
+ assert(southChip.children.some(ch => ch.textContent === '🔒'), 'Blocked chip displays padlock');
+
+ // 4. World map: only visited & current places, undiscovered remain hidden
+ snapshot.map = {
+  nodes: [
+   { id: 'edran_canal', name: 'Canal Seco', visited: true, position: [0, 0] },
+   { id: 'edran_plaza', name: 'Plaza Mayor', visited: true, position: [1, 0] },
+   { id: 'cueva_secreta', name: 'Cueva Oculta', visited: false, position: [2, 0] }
+  ],
+  routes: [{ from: 'edran_canal', to: 'edran_plaza', direction: 'este' }]
+ };
+ const mapNodes = [];
+ const modalObj = { hidden: true };
+ document.getElementById = id => {
+  if (id === 'world-map-modal') return modalObj;
+  if (id === 'world-map-nodes') return { replaceChildren: (...nodes) => { mapNodes.length = 0; mapNodes.push(...nodes); } };
+  if (id === 'world-map-roads') return { setAttribute() {}, replaceChildren() {} };
+  if (id === 'world-map-plane') return { style: {} };
+  if (id === 'world-map-subtitle') return { textContent: '' };
+  return null;
+ };
+ openWorldMap();
+ assert(worldMapOpen === true, 'World map modal opens');
+ assert(mapNodes.length === 2, 'Only visited/known places are rendered, undiscovered are hidden');
+ assert(mapNodes.some(n => n.className.includes('world-node-current')), 'Current player location is highlighted');
+ closeWorldMap();
+ assert(worldMapOpen === false, 'World map closes properly');
+
+ canvas.getBoundingClientRect = oldGetRect;
+ document.getElementById = oldGetElem;
+ document.querySelector = oldQuery;
+ document.createElement = oldCreate;
+})();
+`, context);
+console.log('RPG navigation & map enhancements: getCamera free area, exit indicators, dialogue fold and world map OK');
+
 await import("./check-rpg-network.mjs");

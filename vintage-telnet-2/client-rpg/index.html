@@ -82,6 +82,7 @@
       <!-- Pantalla de Escenario Responsive con Cámara -->
       <div class="screen">
         <canvas id="world" width="640" height="480" tabindex="0" aria-label="Escenario. Flechas o WASD para caminar. Z o Enter para A; X o Escape para B."></canvas>
+        <div id="exit-indicators" class="exit-indicators" aria-label="Indicadores de salida" hidden></div>
         <div id="combat" hidden></div>
         <section id="enemy-hud" class="frame" hidden aria-label="Adversario">
           <div class="enemy-heading"><strong id="enemy-name"></strong><span id="enemy-level"></span></div>
@@ -99,10 +100,11 @@
               <svg class="svg-icon" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 2h8a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V4a2 2 0 011-1.7V10a1 1 0 002 0V2zm2 3v1h5V5H5zm0 3v1h5V8H5z" fill="currentColor"/></svg>
             </span>
             <strong id="speaker">El camino</strong>
+            <span id="dialogue-folded-line" class="dialogue-folded-line" hidden></span>
           </div>
           <div class="dialogue-head-tools">
             <span id="turn" class="round-timer-badge"></span>
-            <button id="toggle-dialogue" type="button" class="btn-dialogue-expand" aria-label="Expandir relato completo" title="Expandir relato completo">
+            <button id="toggle-dialogue" type="button" class="btn-dialogue-expand" aria-label="Plegar relato a una línea" title="Plegar relato a una línea">
               <svg class="svg-icon icon-expand-svg" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M2 2h5v2H4v3H2V2zm9 0h5v5h-2V4h-3V2zM2 14v-5h2v3h3v2H2zm12 0h-5v-2h3v-3h2v5z" fill="currentColor"/></svg>
             </button>
           </div>
@@ -168,6 +170,7 @@
       <div id="contexts"></div>
       <div id="actions"></div>
       <div class="panel-account-tools">
+        <button id="panel-world-map" type="button" class="btn-royal">🗺️ Mapa del mundo</button>
         <button id="panel-select-char" type="button">Elegir personaje</button>
         <button id="panel-logout" type="button">Cerrar sesión</button>
         <button id="toggle-music" type="button" aria-pressed="true">Música: sí</button>
@@ -178,6 +181,37 @@
         <div id="narrative"></div>
       </details>
     </aside>
+
+    <!-- Modal de Pantalla Completa: Mapa del Mundo -->
+    <section id="world-map-modal" class="world-map-modal" hidden role="dialog" aria-modal="true" aria-label="Mapa del mundo">
+      <div class="world-map-header">
+        <div class="world-map-title-wrap">
+          <span class="world-map-crest" aria-hidden="true">
+            <svg class="svg-icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 1a4.5 4.5 0 00-4.5 4.5c0 3.5 4.5 9.5 4.5 9.5s4.5-6 4.5-9.5A4.5 4.5 0 008 1zm0 6a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" fill="currentColor"/></svg>
+          </span>
+          <div>
+            <h2 class="world-map-title">Mapa del mundo</h2>
+            <p id="world-map-subtitle" class="world-map-subtitle">Tierras conocidas</p>
+          </div>
+        </div>
+        <button id="close-world-map" type="button" class="btn-royal btn-close-map" aria-label="Cerrar mapa del mundo">✕ Cerrar</button>
+      </div>
+      <div id="world-map-viewport" class="world-map-viewport" tabindex="0" aria-label="Lienzo del mapa; arrastra para explorar">
+        <div id="world-map-plane" class="world-map-plane">
+          <svg id="world-map-roads" class="world-map-roads" aria-hidden="true"></svg>
+          <div id="world-map-nodes" class="world-map-nodes"></div>
+        </div>
+      </div>
+      <div class="world-map-controls">
+        <button id="map-zoom-in" type="button" class="map-ctrl-btn" aria-label="Acercar mapa">+</button>
+        <button id="map-zoom-out" type="button" class="map-ctrl-btn" aria-label="Alejar mapa">−</button>
+        <button id="map-center-player" type="button" class="map-ctrl-btn" aria-label="Centrar en tu posición" title="Centrar en tu posición">◎</button>
+      </div>
+      <div class="world-map-legend">
+        <span class="legend-item"><span class="legend-dot legend-current"></span> Estás aquí</span>
+        <span class="legend-item"><span class="legend-dot legend-visited"></span> Lugar conocido</span>
+      </div>
+    </section>
   </main>
 </body>
 </html>
