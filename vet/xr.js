@@ -179,10 +179,10 @@ export class VetXRManager {
     this.scene.add(this.helpCard.mesh);
     this.helpCard.mesh.visible = false;
 
-    // Panel de disección flotante grande (botones 6+ cm, anclado al lado del perro)
+    // Panel de disección flotante grande (botones 6+ cm). Vive en la escena, a la
+    // izquierda del usuario: colgado del perro quedaba dentro de él al escalarlo.
     this.dissectionPanel = this.createFloatingDissectionPanel();
-    this.xrRoot.add(this.dissectionPanel.mesh);
-    this.dissectionPanel.mesh.position.set(0.55, 0.15, 0);
+    this.scene.add(this.dissectionPanel.mesh);
 
     // Menú de muñeca 3D
     this.wristHUD = this.createWristHUD();
@@ -1222,7 +1222,7 @@ export class VetXRManager {
     // Mostrar tarjeta de ayuda inicial con los controles
     this.helpCard.mesh.visible = true;
     this.helpCard.mesh.position.set(0, 1.25, -0.65);
-    this.dissectionPanel.mesh.visible = true;
+    this.placeDissectionPanel();
 
     if (kind === 'vr') {
       this.clinicLab.root.visible = true;
@@ -1277,6 +1277,22 @@ export class VetXRManager {
   /* =========================================================
    * ACCIÓN «TRAER AL FRENTE»
    * ========================================================= */
+  // Panel a 0.55 m, 0.4 m a la izquierda de la mirada y bajo los ojos: no tapa al perro
+  placeDissectionPanel() {
+    const fwd = new THREE.Vector3();
+    this.camera.getWorldDirection(fwd);
+    fwd.y = 0;
+    if (fwd.lengthSq() < 1e-6) fwd.set(0, 0, -1);
+    fwd.normalize();
+    const left = new THREE.Vector3(fwd.z, 0, -fwd.x);
+    const pos = new THREE.Vector3();
+    this.camera.getWorldPosition(pos);
+    pos.addScaledVector(fwd, 0.55).addScaledVector(left, 0.4);
+    pos.y -= 0.3;
+    this.dissectionPanel.mesh.position.copy(pos);
+    this.dissectionPanel.mesh.visible = true;
+  }
+
   bringToFront() {
     const fwd = new THREE.Vector3();
     this.camera.getWorldDirection(fwd);
@@ -1300,6 +1316,7 @@ export class VetXRManager {
     this.shell.scale.setScalar(this.currentScale);
 
     // Actualizar botones de panel y muñeca
+    if (this.dissectionPanel.mesh.visible) this.placeDissectionPanel();
     this.updateScaleButtons();
     this.audio.success();
     this.onToast?.('Perro traído al frente a tamaño real (~0.75 m)');
@@ -2022,7 +2039,8 @@ export class VetXRManager {
           if (this.helpCard.mesh.visible) {
             this.helpCard.mesh.visible = false;
           } else {
-            this.dissectionPanel.mesh.visible = !this.dissectionPanel.mesh.visible;
+            if (this.dissectionPanel.mesh.visible) this.dissectionPanel.mesh.visible = false;
+            else this.placeDissectionPanel();
             this.audio.click();
           }
         } else if (act === 'prev_dissection') {
