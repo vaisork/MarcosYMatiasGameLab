@@ -1198,6 +1198,13 @@ export class VetXRManager {
     this.xrRoot.add(this.animal);
     this.xrRoot.add(this.shell);
 
+    // Plano de recorte en metros: el visor web lo calcula con el modelo sin escalar
+    // (cientos de unidades) y en XR todo lo más cercano a ~0.5 m desaparecía.
+    this.savedClip = { near: this.camera.near, far: this.camera.far };
+    this.camera.near = 0.05;
+    this.camera.far = 100;
+    this.camera.updateProjectionMatrix();
+
     // Normalización de escala a tamaño real (~0.75 m de largo)
     this.scaleMultiplier = 1.0;
     this.targetScale = this.realLifeScale;
@@ -1257,6 +1264,11 @@ export class VetXRManager {
     this.shell.position.set(0, 0, 0);
     this.shell.rotation.set(0, 0, 0);
 
+    if (this.savedClip) {
+      this.camera.near = this.savedClip.near;
+      this.camera.far = this.savedClip.far;
+      this.camera.updateProjectionMatrix();
+    }
     this.playerRig.position.set(0, 0, 0);
     this.clinicLab.root.visible = false;
     this.reticle.visible = false;
