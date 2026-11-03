@@ -472,11 +472,9 @@ export class ThumbstickControlLogic {
 
   /**
    * Palanca izquierda:
-   * Modo normal:
-   * arriba/abajo = subir/bajar el perro
-   * izquierda/derecha = acercar/alejar el perro hacia el usuario
+   * AR: adelante/atrás = alejar/acercar el perro.
    *
-   * Modo locomoción (manteniendo gatillo izquierdo en VR):
+   * VR (locomoción):
    * desplaza suavemente la posición del usuario/rig sin tener que caminar físicamente.
    */
   static mapLeftStick({
@@ -521,30 +519,19 @@ export class ThumbstickControlLogic {
       };
     }
 
-    // Manipulación del perro
-    let newY = currentPosition.y;
+    // AR: adelante/atrás aleja o acerca el perro (la altura se ajusta agarrándolo)
     let newX = currentPosition.x;
+    const newY = currentPosition.y;
     let newZ = currentPosition.z;
 
-    // Subir / Bajar con stick Y
     if (Math.abs(stickY) > deadzone) {
-      // stickY < 0 (arriba): sube perro
-      newY += -stickY * moveSpeed * deltaSec;
-      newY = Math.max(0.3, Math.min(2.0, newY));
-    }
-
-    // Acercar / Alejar con stick X hacia/desde el usuario
-    if (Math.abs(stickX) > deadzone) {
       const dx = currentPosition.x - cameraPosition.x;
       const dz = currentPosition.z - cameraPosition.z;
       const dist = Math.hypot(dx, dz) || 0.6;
-      const dirX = dx / dist;
-      const dirZ = dz / dist;
-
-      // stickX > 0 (derecha) aleja el perro; stickX < 0 (izquierda) acerca el perro
-      const newDist = Math.max(0.25, Math.min(3.0, dist + stickX * moveSpeed * deltaSec));
-      newX = cameraPosition.x + dirX * newDist;
-      newZ = cameraPosition.z + dirZ * newDist;
+      // stickY < 0 (adelante) aleja el perro
+      const newDist = Math.max(0.25, Math.min(3.0, dist - stickY * moveSpeed * deltaSec));
+      newX = cameraPosition.x + (dx / dist) * newDist;
+      newZ = cameraPosition.z + (dz / dist) * newDist;
     }
 
     return {
@@ -567,5 +554,35 @@ export class ThumbstickControlLogic {
     if (current.x && !previous.x) actions.push('prev_dissection');
     if (current.y && !previous.y) actions.push('next_dissection');
     return actions;
+  }
+}
+
+/**
+ * Agarre con dos manos: el perro sigue el punto medio entre las manos,
+ * escala con la distancia entre ellas y gira con el ángulo horizontal.
+ */
+export class GrabLogic {
+  static twoHand({ startA, startB, nowA, nowB, startPos }) {
+    const mid = (p, q) => ({ x: (p.x + q.x) / 2, y: (p.y + q.y) / 2, z: (p.z + q.z) / 2 });
+    const m0 = mid(startA, startB);
+    const m1 = mid(nowA, nowB);
+    const d0 = Math.hypot(startB.x - startA.x, startB.y - startA.y, startB.z - startA.z);
+    const d1 = Math.hypot(nowB.x - nowA.x, nowB.y - nowA.y, nowB.z - nowA.z);
+    const scaleRatio = d0 > 0.01 ? d1 / d0 : 1;
+    // Giro sobre el eje vertical (three.js: rotación +y lleva +x hacia -z)
+    const yaw = Math.atan2(-(nowB.z - nowA.z), nowB.x - nowA.x)
+      - Math.atan2(-(startB.z - startA.z), startB.x - startA.x);
+    const ox = (startPos.x - m0.x) * scaleRatio;
+    const oz = (startPos.z - m0.z) * scaleRatio;
+    const c = Math.cos(yaw), s = Math.sin(yaw);
+    return {
+      scaleRatio,
+      yaw,
+      position: {
+        x: m1.x + ox * c + oz * s,
+        y: m1.y + (startPos.y - m0.y) * scaleRatio,
+        z: m1.z - ox * s + oz * c
+      }
+    };
   }
 }

@@ -10,7 +10,8 @@ import {
   SelectionLogic,
   ScalePresets,
   DogPlacementLogic,
-  ThumbstickControlLogic
+  ThumbstickControlLogic,
+  GrabLogic
 } from './logica.js';
 
 // Sintetizador de audio Web Audio API para respuesta háptico-auditiva clínica
@@ -205,19 +206,9 @@ export class VetXRManager {
 
     // Estado de interacción 6DoF y bimanual
     this.interaction = {
-      grabbingController: null,
-      grabbingHand: null,
-      initialControllerMatrixInverse: new THREE.Matrix4(),
-      initialObjectMatrix: new THREE.Matrix4(),
-      initialGripPos: new THREE.Vector3(),
-      initialObjectPos: new THREE.Vector3(),
-      initialGripQuat: new THREE.Quaternion(),
-      initialGripQuatInverse: new THREE.Quaternion(),
-      initialObjectQuat: new THREE.Quaternion(),
-      twoHanded: false,
-      initialDistance: 0,
-      initialScaleMultiplier: 1.0,
-      initialYaw: 0
+      grabbers: [],
+      offset: new THREE.Matrix4(),
+      start: null
     };
 
     // Historial de botones para detección de pulsación única
@@ -358,7 +349,7 @@ export class VetXRManager {
     ctx.fillText('Muestra educativa sin fines de lucro · CC BY-NC-SA 4.0', 50, 315);
     ctx.font = '17px system-ui, sans-serif';
     ctx.fillText('Modelos: Virginia Tech Virtual Animal Project / VT-ARIES (Anatomy) · JorgeTAC/vet-anatomy-viewer commit 9d3fa65', 50, 355);
-    ctx.fillText('Palanca der: Escala/Girar · Palanca izq: Altura/Distancia · Gatillo izq + stick: Locomoción VR', 50, 390);
+    ctx.fillText('Agarre o pellizco: mover · Dos manos: tamaño y giro · Palanca izq: caminar (VR)', 50, 390);
 
     const boardTex = new THREE.CanvasTexture(boardCanvas);
     boardTex.colorSpace = THREE.SRGBColorSpace;
@@ -535,14 +526,13 @@ export class VetXRManager {
       // Instrucciones detalladas de controles
       const lines = [
         ['🕹️ Palanca Derecha:', 'Arriba/Abajo = Escala continua (0.15× a 4×) · Izquierda/Derecha = Girar perro'],
-        ['🕹️ Palanca Izquierda:', 'Arriba/Abajo = Subir/Bajar perro · Izq/Der = Acercar/Alejar (sin chocar Guardian)'],
-        ['🚶 En VR (Locomoción):', 'Mantén Gatillo Izquierdo + Palanca izquierda para desplazarte por el aula'],
-        ['✊ Agarre (Grip):', '1 mano = Mover/rotar en 6DoF · 2 manos = Escalar y rotar a dos manos'],
+        ['🚶 Palanca Izquierda:', 'VR = caminar por el aula hacia donde miras · AR = Adelante/Atrás aleja o acerca el perro'],
+        ['✊ Agarre (Grip):', '1 mano = el perro se pega a tu mano · 2 manos = abrir/cerrar para tamaño, girar para rotar'],
         ['🔘 Botón A:', '«Traer al frente» (reposiciona a 0.6 m a tamaño real ~0.75 m)'],
         ['🔘 Botón B:', 'Abrir / Ocultar panel de disección flotante'],
         ['🔘 Botones X / Y:', 'Nivel de despiece anterior / siguiente (0%, 25%, 50%, 75%, 100%)'],
         ['🎯 Gatillo:', 'Seleccionar pieza con rayo láser · Muestra ficha flotante legible'],
-        ['🖐️ Seguimiento de Manos:', 'Pellizco para agarrar · Dos manos para escalar · Tocar con índice para seleccionar']
+        ['🖐️ Seguimiento de Manos:', 'Pellizco al vacío = agarrar · Pellizco con las dos = tamaño y giro · Índice = seleccionar']
       ];
 
       let y = 148;
@@ -1104,8 +1094,6 @@ export class VetXRManager {
       // Hand tracking
       const hand = this.renderer.xr.getHand(i);
       hand.userData.index = i;
-      hand.addEventListener('pinchstart', e => this.onPinchStart(e));
-      hand.addEventListener('pinchend', e => this.onPinchEnd(e));
 
       // Indicador táctil en la yema del índice
       const tipDot = new THREE.Mesh(
@@ -1634,54 +1622,56 @@ export class VetXRManager {
       } else {
         this.selectPiece(piece, true);
       }
+      return;
     }
+
+    // 4. Pellizco o gatillo al vacío: agarrar al perro (manos sin mandos)
+    this.startGrab(controller);
   }
 
-  onSelectEnd(event) {}
+  onSelectEnd(event) {
+    this.endGrab(event.target);
+  }
 
   onSqueezeStart(event) {
-    const controller = event.target;
-    this.pulseHaptic(controller.userData.index, 0.5, 40);
-
-    const otherIndex = controller.userData.index === 0 ? 1 : 0;
-    const other = this.controllers[otherIndex];
-
-    if (this.interaction.grabbingController !== null) {
-      // Ambos mandos agarrados -> escalado y rotación bimanual
-      this.interaction.twoHanded = true;
-      this.interaction.initialDistance = this.controllers[0].position.distanceTo(this.controllers[1].position);
-      this.interaction.initialScaleMultiplier = this.scaleMultiplier;
-      this.interaction.initialYaw = this.xrRoot.rotation.y;
-    } else {
-      // Agarre con 1 mando -> manipulación 6DoF
-      this.interaction.grabbingController = controller;
-      this.interaction.initialGripPos.copy(controller.position);
-      this.interaction.initialObjectPos.copy(this.xrRoot.position);
-      this.interaction.initialGripQuat.copy(controller.quaternion);
-      this.interaction.initialGripQuatInverse.copy(controller.quaternion).invert();
-      this.interaction.initialObjectQuat.copy(this.xrRoot.quaternion);
-    }
+    this.pulseHaptic(event.target.userData.index, 0.5, 40);
+    this.startGrab(event.target);
   }
 
   onSqueezeEnd(event) {
-    const controller = event.target;
-    if (this.interaction.twoHanded) {
-      this.interaction.twoHanded = false;
-      this.interaction.grabbingController = null;
-    } else if (this.interaction.grabbingController === controller) {
-      this.interaction.grabbingController = null;
+    this.endGrab(event.target);
+  }
+
+  // Agarre: 1 mano lleva al perro pegado a la mano; 2 manos escalan, giran y desplazan
+  startGrab(controller) {
+    const g = this.interaction.grabbers;
+    if (g.includes(controller)) return;
+    g.push(controller);
+    this.beginGrabPose();
+  }
+
+  endGrab(controller) {
+    const g = this.interaction.grabbers;
+    const i = g.indexOf(controller);
+    if (i < 0) return;
+    g.splice(i, 1);
+    this.beginGrabPose();
+  }
+
+  beginGrabPose() {
+    const g = this.interaction.grabbers;
+    this.xrRoot.updateMatrixWorld();
+    if (g.length === 1) {
+      g[0].updateMatrixWorld();
+      this.interaction.offset.copy(g[0].matrixWorld).invert().multiply(this.xrRoot.matrixWorld);
+    } else if (g.length >= 2) {
+      this.interaction.start = {
+        a: g[0].getWorldPosition(new THREE.Vector3()),
+        b: g[1].getWorldPosition(new THREE.Vector3()),
+        pos: this.xrRoot.position.clone(),
+        scale: this.scaleMultiplier
+      };
     }
-  }
-
-  onPinchStart(event) {
-    const hand = event.target;
-    this.interaction.grabbingHand = hand;
-    this.onSelectStart({ target: this.controllers[hand.userData.index] || hand });
-  }
-
-  onPinchEnd(event) {
-    this.interaction.grabbingHand = null;
-    this.onSelectEnd({ target: this.controllers[event.target.userData.index] || event.target });
   }
 
   /* =========================================================
@@ -1957,7 +1947,7 @@ export class VetXRManager {
       }
 
       // Palanca derecha: arriba/abajo = escala continua 0.15x a 4x; izq/der = girar perro
-      if (rightGamepad) {
+      if (rightGamepad && this.interaction.grabbers.length === 0) {
         // En Quest, thumbstick son axes[2] y [3] si axes.length >= 4, o axes[0] y [1]
         const rx = rightGamepad.axes.length >= 4 && (Math.abs(rightGamepad.axes[2]) > 0.05 || Math.abs(rightGamepad.axes[3]) > 0.05)
           ? rightGamepad.axes[2]
@@ -1970,18 +1960,17 @@ export class VetXRManager {
           stickX: rx,
           stickY: ry,
           currentScaleMultiplier: this.scaleMultiplier,
-          currentRotationY: this.xrRoot.rotation.y,
+          currentRotationY: 0,
           deltaSec: delta
         });
 
         if (rRes.scaleMultiplier !== this.scaleMultiplier) {
           this.setScaleMultiplier(rRes.scaleMultiplier);
         }
-        this.xrRoot.rotation.y = rRes.rotationY;
+        if (rRes.rotationY) this.xrRoot.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), rRes.rotationY);
       }
 
-      // Palanca izquierda: arriba/abajo = subir/bajar perro; izq/der = acercar/alejar perro
-      // En VR, si se mantiene el gatillo izquierdo presionado, activa locomoción suave
+      // Palanca izquierda: en VR camina (locomoción suave); en AR adelante/atrás aleja o acerca el perro
       if (leftGamepad) {
         const lx = leftGamepad.axes.length >= 4 && (Math.abs(leftGamepad.axes[2]) > 0.05 || Math.abs(leftGamepad.axes[3]) > 0.05)
           ? leftGamepad.axes[2]
@@ -1990,7 +1979,6 @@ export class VetXRManager {
           ? leftGamepad.axes[3]
           : leftGamepad.axes[1];
 
-        const leftTriggerPressed = leftGamepad.buttons[0] && (leftGamepad.buttons[0].pressed || leftGamepad.buttons[0].value > 0.3);
         const camFwd = new THREE.Vector3();
         this.camera.getWorldDirection(camFwd);
         const camWorldPos = new THREE.Vector3();
@@ -2003,13 +1991,13 @@ export class VetXRManager {
           cameraPosition: camWorldPos,
           cameraForward: camFwd,
           deltaSec: delta,
-          isLocomotion: (this.xrMode === 'vr' && leftTriggerPressed),
+          isLocomotion: this.xrMode === 'vr',
           cameraRigPosition: this.playerRig.position
         });
 
         if (lRes.handled === 'locomotion') {
           this.playerRig.position.set(lRes.cameraRigPosition.x, lRes.cameraRigPosition.y, lRes.cameraRigPosition.z);
-        } else {
+        } else if (this.interaction.grabbers.length === 0) {
           this.xrRoot.position.set(lRes.position.x, lRes.position.y, lRes.position.z);
         }
       }
@@ -2103,22 +2091,22 @@ export class VetXRManager {
     }
 
     // 7. Agarre 6DoF y manipulación bimanual
-    if (this.interaction.twoHanded && this.controllers.length >= 2) {
-      const dist = this.controllers[0].position.distanceTo(this.controllers[1].position);
-      if (this.interaction.initialDistance > 0.01) {
-        const scaleMul = dist / this.interaction.initialDistance;
-        this.setScaleMultiplier(this.interaction.initialScaleMultiplier * scaleMul);
-      }
-    } else if (this.interaction.grabbingController) {
-      // 6DoF con un solo mando: traslación y rotación libre completa
-      const currentPos = this.interaction.grabbingController.position;
-      const currentQuat = this.interaction.grabbingController.quaternion;
-
-      const deltaPos = new THREE.Vector3().subVectors(currentPos, this.interaction.initialGripPos);
-      this.xrRoot.position.copy(this.interaction.initialObjectPos).add(deltaPos);
-
-      const deltaQuat = currentQuat.clone().multiply(this.interaction.initialGripQuatInverse);
-      this.xrRoot.quaternion.copy(deltaQuat.multiply(this.interaction.initialObjectQuat));
+    const grabbers = this.interaction.grabbers;
+    if (grabbers.length === 1) {
+      const m = new THREE.Matrix4().multiplyMatrices(grabbers[0].matrixWorld, this.interaction.offset);
+      m.decompose(this.xrRoot.position, this.xrRoot.quaternion, new THREE.Vector3());
+    } else if (grabbers.length >= 2 && this.interaction.start) {
+      const st = this.interaction.start;
+      const r = GrabLogic.twoHand({
+        startA: st.a, startB: st.b,
+        nowA: grabbers[0].getWorldPosition(new THREE.Vector3()),
+        nowB: grabbers[1].getWorldPosition(new THREE.Vector3()),
+        startPos: st.pos
+      });
+      this.setScaleMultiplier(st.scale * r.scaleRatio);
+      this.xrRoot.position.set(r.position.x, r.position.y, r.position.z);
+      this.xrRoot.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), r.yaw - (st.yawApplied || 0));
+      st.yawApplied = r.yaw;
     }
 
     // 8. Hand tracking: toque con el dedo índice (piezas y paneles 3D)

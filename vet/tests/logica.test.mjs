@@ -11,7 +11,8 @@ import {
   SelectionLogic,
   ScalePresets,
   DogPlacementLogic,
-  ThumbstickControlLogic
+  ThumbstickControlLogic,
+  GrabLogic
 } from '../logica.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -190,16 +191,16 @@ test('ThumbstickControlLogic mapea palancas derecha e izquierda y botones con er
 
   // 2. Palanca izquierda (modo manipulación perro): subir/bajar y acercar/alejar
   const dogMoveRes = ThumbstickControlLogic.mapLeftStick({
-    stickX: -0.6, // Acercar hacia el usuario
-    stickY: -0.5, // Subir perro
+    stickX: 0,
+    stickY: 0.5, // Atrás: acercar el perro
     currentPosition: { x: 0, y: 0.95, z: -0.8 },
     cameraPosition: { x: 0, y: 1.6, z: 0 },
     deltaSec: 0.1,
     isLocomotion: false
   });
   assert.equal(dogMoveRes.handled, 'dog_move');
-  assert.ok(dogMoveRes.position.y > 0.95, 'sube el perro al empujar stick arriba');
-  assert.ok(dogMoveRes.position.z > -0.8, 'acerca el perro al mover stick hacia la izquierda');
+  assert.equal(dogMoveRes.position.y, 0.95, 'la altura no cambia con la palanca');
+  assert.ok(dogMoveRes.position.z > -0.8, 'acerca el perro al jalar la palanca hacia atrás');
 
   // 3. Palanca izquierda (modo locomoción suave en VR manteniendo gatillo)
   const locoRes = ThumbstickControlLogic.mapLeftStick({
@@ -221,4 +222,20 @@ test('ThumbstickControlLogic mapea palancas derecha e izquierda y botones con er
   assert.ok(actions.includes('bring_to_front'));
   assert.ok(actions.includes('prev_dissection'));
   assert.equal(actions.length, 2);
+});
+
+test('GrabLogic: dos manos escalan, giran y llevan al perro', () => {
+  const base = { startA: { x: -0.2, y: 1, z: -0.5 }, startB: { x: 0.2, y: 1, z: -0.5 }, startPos: { x: 0, y: 1, z: -0.8 } };
+  // Separar las manos al doble: escala x2 y el perro se aleja del punto medio al doble
+  const big = GrabLogic.twoHand({ ...base, nowA: { x: -0.4, y: 1, z: -0.5 }, nowB: { x: 0.4, y: 1, z: -0.5 } });
+  assert.ok(Math.abs(big.scaleRatio - 2) < 1e-9);
+  assert.ok(Math.abs(big.yaw) < 1e-9);
+  assert.ok(Math.abs(big.position.z - -1.1) < 1e-9);
+  // Girar las manos 90° (la derecha hacia el usuario): el perro gira y pasa al lado derecho
+  const turn = GrabLogic.twoHand({ ...base, nowA: { x: 0, y: 1, z: -0.7 }, nowB: { x: 0, y: 1, z: -0.3 } });
+  assert.ok(Math.abs(turn.yaw + Math.PI / 2) < 1e-9);
+  assert.ok(Math.abs(turn.position.x - 0.3) < 1e-9 && Math.abs(turn.position.z - -0.5) < 1e-9);
+  // Mover ambas manos: el perro las sigue
+  const move = GrabLogic.twoHand({ ...base, nowA: { x: 0.3, y: 1.2, z: -0.5 }, nowB: { x: 0.7, y: 1.2, z: -0.5 } });
+  assert.ok(Math.abs(move.position.x - 0.5) < 1e-9 && Math.abs(move.position.y - 1.2) < 1e-9);
 });
