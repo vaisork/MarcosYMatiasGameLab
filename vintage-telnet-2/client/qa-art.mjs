@@ -36,6 +36,22 @@ for(const room of dungeon){
 }
 console.log('PASS: eight Bastion rooms have base illustrations and thumbnails.');
 
+const korven=JSON.parse(fs.readFileSync(new URL('../content/regions/korven.json',import.meta.url)));
+const grieta=Object.values(korven.rooms).filter(room=>room.id.startsWith('korven_grieta_'));
+assert.equal(grieta.length,16);
+for(const room of grieta){
+ const art=placeArt(room);
+ assert.equal(art.name,room.name);
+ assert.equal(art.caption,placeIllustrations.veyra_mazmorra_umbral.caption);
+ for(const [key,suffix] of [['illustration',''],['thumbnail','-thumb']]){
+  assert.equal(art[key],`/client/art/places/${room.id}-anime-v1${suffix}.webp`);
+  const data=fs.readFileSync(new URL('../'+art[key].slice(1),import.meta.url));
+  assert.equal(data.subarray(0,4).toString(),'RIFF');
+  assert.equal(data.subarray(8,12).toString(),'WEBP');
+ }
+}
+console.log('PASS: 16 Grieta Madre rooms have canonical names, standard captions and WebP illustrations/thumbnails.');
+
 const thumbnails=JSON.parse(fs.readFileSync(new URL('./art/bestiary-thumbnails.json',import.meta.url)));
 for(const entry of thumbnails){
  const creature={id:entry.creatures[0],illustration:entry.illustration};
