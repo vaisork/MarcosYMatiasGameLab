@@ -326,6 +326,12 @@ class Engine:
         brief=room.get('brief') if mode=='navigation' and visits>1 else None
         description=brief or room['description']
         lines=[event('look' if mode=='mirar' else 'world',description)];seen={description}
+        for legend in world.get('legends',{}).values():
+            if legend.get('room')==room['id'] and legend.get('by'):
+                names=legend['by'];who=names[0] if len(names)==1 else ', '.join(names[:-1])+' y '+names[-1]
+                verb='venció' if len(names)==1 else 'vencieron'
+                text=f"Aquí {who} {verb} a {legend['name']}. Su hazaña quedó en la memoria del lugar."
+                lines.append(event('discovery',text));seen.add(text)
         # The walk is told before the place it leads to.
         if mode=='navigation' and 'arrival' in layers:
             arrival=layers.pop('arrival');lines.insert(0,arrival);seen.add(arrival['text']);limit+=1
@@ -565,6 +571,7 @@ class Engine:
             world.setdefault('flags',[])
             if 'dragon_vencido' not in world['flags']:world['flags'].append('dragon_vencido')
             if 'participated:dragon_vencido' not in state['flags']:state['flags'].append('participated:dragon_vencido')
+        if combat['creature'] in m.LEGEND_BOSSES:self.record_legend(character,world,combat['creature'],creature)
         local_victory=f"victoria:{state['location']}:{combat['creature']}"
         if local_victory not in state['flags']:state['flags'].append(local_victory)
         for flag in creature.get('victory_flags',[]):
@@ -708,6 +715,14 @@ class Engine:
         count=sum(1 for line in state['ledger'] if line.get('family')==family and now-line['at']<3600)
         multiplier=(1 if count<2 else .6 if count<4 else .3) if repeatable else 1
         return family,math.floor(quest['payout']*multiplier)
+
+    def record_legend(self,character,world,creature_id,creature):
+        # The first party to fell a unique boss is remembered; companions in the same fight join it.
+        now=self.clock();legend=world.setdefault('legends',{}).get(creature_id)
+        if legend is None:
+            world['legends'][creature_id]={'room':character['state']['location'],'name':creature.get('name',creature_id),
+                                           'by':[character['name']],'at':now}
+        elif now-legend.get('at',0)<=8 and character['name'] not in legend['by']:legend['by'].append(character['name'])
 
     def sync_dragon_participation(self,character,world):
         state=character.get('state') if isinstance(character,dict) else None

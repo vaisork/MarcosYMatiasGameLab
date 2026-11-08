@@ -89,6 +89,8 @@ def ranks_from_flags(flags):
 # Vida de los jefes de la Grieta por cada jugador extra (en pareja el jefe solo golpea al primero).
 # Calibrado con entregas/equipo/claude2/vt2-mazmorra-2/pareja_sim.py: ~60 % de victoria en pareja por intento.
 PARTY_HP = {'quebrarrocas_canoso':3.3,'tejecristal':3.5,'sierpe_veta_madre':2.6}
+# Jefes únicos: su caída queda escrita en la sala para quien llegue después.
+LEGEND_BOSSES = ('dragon_aguas_antiguas',*PARTY_HP)
 def party_hp(creature_id, base, players):
  return round(base*(1+(PARTY_HP.get(creature_id,1)-1)*max(0,players-1)))
 def specialization(state): return (state.get('especializacion') or {}).get('id')

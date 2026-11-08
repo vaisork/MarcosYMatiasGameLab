@@ -15,14 +15,14 @@ class AchievementRulesTests(unittest.TestCase):
         self.world = {'flags': [], 'dragon_participants': []}
 
     def test_catalog_has_forty_cosmetic_achievements(self):
-        self.assertEqual(len(ACHIEVEMENTS), 40)
+        self.assertEqual(len(ACHIEVEMENTS), 43)
         self.state.update(level=10, visited=[f'room-{i}' for i in range(60)],
                           flags=[f'victoria:room:creature-{i}' for i in range(20)])
         before = (self.state['xp'], self.state['seals'])
         unlocked = update(self.state, self.content, self.world)
         self.assertTrue(unlocked)
         self.assertEqual((self.state['xp'], self.state['seals']), before)
-        self.assertEqual(book(self.state, self.content, self.world)['total'], 40)
+        self.assertEqual(book(self.state, self.content, self.world)['total'], 43)
 
     def test_goals_are_current_world_suggestions(self):
         current = goals(self.state, self.content, self.world)
@@ -40,6 +40,12 @@ class AchievementPersistenceTests(unittest.TestCase):
     post = fixtures.RealContentTests.post
     create = fixtures.RealContentTests.create
 
+    def test_sierpe_victory_unlocks_grieta_heart(self):
+        from server.achievements import metrics
+        state = {"flags": ["victoria:korven_grieta_corazon:sierpe_veta_madre"]}
+        self.assertEqual(metrics(state, object(), {})["sierpe"], 1)
+        self.assertEqual(metrics({"flags": []}, object(), {})["sierpe"], 0)
+
     def test_unlock_notice_is_saved_once_in_character_state(self):
         self.create()
         store = self.app.extensions['store']
@@ -49,7 +55,7 @@ class AchievementPersistenceTests(unittest.TestCase):
             character['state']['visited'] = ['home:humano', *list(self.content.rooms)[:4]]
             store.save(db, character)
         first = self.client.get('/api/state').json
-        self.assertEqual(first['character']['goal_book']['total'], 40)
+        self.assertEqual(first['character']['goal_book']['total'], 43)
         self.assertEqual(first['character']['goal_book']['entries'][0]['id'], 'explore_5')
         self.assertTrue(any('Nuevo logro: Primeros pasos' in event['text'] for event in first['narrative']))
         with store.transaction() as db:
