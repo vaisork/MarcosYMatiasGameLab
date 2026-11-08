@@ -1267,6 +1267,104 @@ Object.assign(placeIllustrations,{
     "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
   }
 });
+Object.assign(placeIllustrations,{
+  "korven_grieta_boca": {
+    "name": "Boca de la Grieta",
+    "illustration": "/client/art/places/korven_grieta_boca-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_boca-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_ecos": {
+    "name": "Sala de los Ecos Tibios",
+    "illustration": "/client/art/places/korven_grieta_ecos-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_ecos-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_raices": {
+    "name": "Raíces de Piedra",
+    "illustration": "/client/art/places/korven_grieta_raices-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_raices-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_charca": {
+    "name": "Charca de los Cristales",
+    "illustration": "/client/art/places/korven_grieta_charca-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_charca-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_cantos": {
+    "name": "Pozo de los Cantos",
+    "illustration": "/client/art/places/korven_grieta_cantos-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_cantos-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_descenso": {
+    "name": "Escalera de las Vetas",
+    "illustration": "/client/art/places/korven_grieta_descenso-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_descenso-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_geodas": {
+    "name": "Bosque de Geodas",
+    "illustration": "/client/art/places/korven_grieta_geodas-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_geodas-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_telar": {
+    "name": "El Telar de Cuarzo",
+    "illustration": "/client/art/places/korven_grieta_telar-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_telar-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_mirador": {
+    "name": "Mirador de Cristal",
+    "illustration": "/client/art/places/korven_grieta_mirador-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_mirador-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_sorda": {
+    "name": "Galería Sorda",
+    "illustration": "/client/art/places/korven_grieta_sorda-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_sorda-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_vapores": {
+    "name": "Grietas de Vapor",
+    "illustration": "/client/art/places/korven_grieta_vapores-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_vapores-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_nido": {
+    "name": "Nido del Canoso",
+    "illustration": "/client/art/places/korven_grieta_nido-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_nido-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_fuente": {
+    "name": "Fuente Tibia",
+    "illustration": "/client/art/places/korven_grieta_fuente-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_fuente-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_antecamara": {
+    "name": "Antecámara de las Tres Vetas",
+    "illustration": "/client/art/places/korven_grieta_antecamara-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_antecamara-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_corazon": {
+    "name": "Corazón de la Veta Madre",
+    "illustration": "/client/art/places/korven_grieta_corazon-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_corazon-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  },
+  "korven_grieta_lecho": {
+    "name": "Lecho de la Muda",
+    "illustration": "/client/art/places/korven_grieta_lecho-anime-v1.webp",
+    "thumbnail": "/client/art/places/korven_grieta_lecho-anime-v1-thumb.webp",
+    "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
+  }
+});
 const placeVariants=Object.freeze({
   "veyra_mazmorra_boveda_guardian": {
     "agua-libre": {
