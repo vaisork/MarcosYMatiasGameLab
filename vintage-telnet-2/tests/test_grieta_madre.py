@@ -182,6 +182,21 @@ class GrietaMadreTests(unittest.TestCase):
         self.now += 300
         self.assertTrue(signal_present(signal, self.content.rooms['korven_grieta_ecos'], self.world, self.now))
 
+    def test_boss_legend_remembers_slayers_for_later_visitors(self):
+        first, second = self.make_char(1), self.make_char(2)
+        for p in (first, second):
+            p['state']['location'] = 'korven_grieta_corazon'
+        self.win(first, 'sierpe_veta_madre')
+        self.win(second, 'sierpe_veta_madre')
+        self.assertEqual(self.world['legends']['sierpe_veta_madre']['by'], ['Jugador1', 'Jugador2'])
+        self.now += 3600
+        self.win(self.make_char(3) | {'state': dict(first['state'], combat=None)}, 'sierpe_veta_madre')
+        self.assertEqual(self.world['legends']['sierpe_veta_madre']['by'], ['Jugador1', 'Jugador2'])
+        later = self.make_char(4)
+        later['state']['location'] = 'korven_grieta_corazon'
+        text = ' '.join(e['text'] for e in self.engine.narrative(later, self.world))
+        self.assertIn('Aquí Jugador1 y Jugador2 vencieron a', text)
+
     def test_sierpe_hp_survives_retry_reload_and_is_shared(self):
         first = self.make_char(1)
         first['state']['location'] = 'korven_grieta_corazon'

@@ -42,9 +42,12 @@ ACHIEVEMENTS = [
     ("level_5", "Aventurero en marcha", "Alcanza el nivel 5", "level", 5),
     ("level_10", "Aventurero experto", "Alcanza el nivel 10", "level", 10),
     ("dragon", "Valor de leyenda", "Participa en la historia del Dragón", "dragon", 1),
+    ("sierpe", "Corazón de la Grieta", "Vence a la Sierpe de la Veta Madre", "sierpe", 1),
+    ("tejecristal", "Rompehilos", "Vence a Tejecristal", "tejecristal", 1),
+    ("quebrarrocas", "Lajas en calma", "Vence al Quebrarrocas canoso", "quebrarrocas", 1),
 ]
 
-assert len(ACHIEVEMENTS) == 40
+assert len(ACHIEVEMENTS) == 43
 
 
 def metrics(state, content, world):
@@ -76,6 +79,9 @@ def metrics(state, content, world):
         "dragon": int("dragon_vencido" in state.get("flags", []) or
                        "participated:dragon_vencido" in state.get("flags", []) or
                        ("dragon_vencido" in world_flags and state.get("id") in world.get("dragon_participants", []))),
+        "sierpe": int(any(flag.endswith(":sierpe_veta_madre") for flag in victories)),
+        "tejecristal": int(any(flag.endswith(":tejecristal") for flag in victories)),
+        "quebrarrocas": int(any(flag.endswith(":quebrarrocas_canoso") for flag in victories)),
     }
 
 
