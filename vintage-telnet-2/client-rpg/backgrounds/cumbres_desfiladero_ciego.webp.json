@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_desfiladero_ciego",
+  "generation_tool": "native image_gen",
+  "sha256": "73a897b1fa77588743aa3867ba8f314a4e94942675e7b49e7afd54f0d40a9c39",
+  "bytes": 241140,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-4adc7d66-4bc9-4833-8dbd-98a95a87b6c1.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG matching the handcrafted detailed Brumak reference: crisp small brush/pixel clusters, subtly textured stone, rich atmospheric lighting. High three-quarter overhead view, 4:3 landscape 1280x960, readable walkable terrain for a 20x15 room. NO people, creatures, dragons, text, readable glyphs, HUD or baked-in actors. Black basalt, warm ash, muted golden and turquoise steam. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff, sky or furniture interrupting them. Open navigable floor through center and lower third; environmental features primarily at perimeter. Desfiladero Ciego: deep volcanic mountain gorge, thick warm white mist curling above side cliffs, translucent thermal vapor kept away from navigable floor. Prominent milky quartz vein naturally inlaid along dark worn stone, guiding a gentle north-south path. Exactly TWO exits NORTH top center and SOUTH bottom center connected by uninterrupted flat rock ground reaching both actual canvas edges. Closed craggy east and west edges. Mist provides depth, never hides top-center ground; no sky band."
+}

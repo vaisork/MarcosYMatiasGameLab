@@ -6,6 +6,7 @@
     15
   ],
   "tileset": "edran",
+  "background": "backgrounds/cumbres_desfiladero_ciego.webp",
   "exits": [
     {
       "direction": "norte",
