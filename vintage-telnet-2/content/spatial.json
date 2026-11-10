@@ -989,6 +989,46 @@
     "cumbres_puerta_falla": [
       16,
       -20
+    ],
+    "cumbres_descenso_crater": [
+      16,
+      -21
+    ],
+    "cumbres_ribera_lava_fria": [
+      15,
+      -21
+    ],
+    "cumbres_hornos_creacion": [
+      17,
+      -21
+    ],
+    "cumbres_lago_basalto": [
+      16,
+      -22
+    ],
+    "cumbres_fosa_primordial": [
+      15,
+      -22
+    ],
+    "cumbres_altar_termico": [
+      17,
+      -22
+    ],
+    "cumbres_paso_dragon_blanco": [
+      16,
+      -23
+    ],
+    "cumbres_camara_sabiduria": [
+      15,
+      -23
+    ],
+    "cumbres_santuario_resuello": [
+      17,
+      -23
+    ],
+    "cumbres_trono_caldera": [
+      16,
+      -24
     ]
   },
   "homes": {
@@ -13527,6 +13567,286 @@
         [
           64,
           -80
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_puerta_falla",
+      "to": "cumbres_descenso_crater",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -80
+        ],
+        [
+          64,
+          -82
+        ],
+        [
+          64,
+          -84
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_ribera_lava_fria",
+      "to": "cumbres_descenso_crater",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -84
+        ],
+        [
+          62,
+          -84
+        ],
+        [
+          64,
+          -84
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_descenso_crater",
+      "to": "cumbres_hornos_creacion",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -84
+        ],
+        [
+          66,
+          -84
+        ],
+        [
+          68,
+          -84
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_descenso_crater",
+      "to": "cumbres_lago_basalto",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -84
+        ],
+        [
+          64,
+          -86
+        ],
+        [
+          64,
+          -88
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_ribera_lava_fria",
+      "to": "cumbres_fosa_primordial",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -84
+        ],
+        [
+          60,
+          -86
+        ],
+        [
+          60,
+          -88
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_hornos_creacion",
+      "to": "cumbres_altar_termico",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -84
+        ],
+        [
+          68,
+          -86
+        ],
+        [
+          68,
+          -88
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_fosa_primordial",
+      "to": "cumbres_lago_basalto",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -88
+        ],
+        [
+          62,
+          -88
+        ],
+        [
+          64,
+          -88
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_lago_basalto",
+      "to": "cumbres_altar_termico",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -88
+        ],
+        [
+          66,
+          -88
+        ],
+        [
+          68,
+          -88
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_fosa_primordial",
+      "to": "cumbres_camara_sabiduria",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -88
+        ],
+        [
+          60,
+          -90
+        ],
+        [
+          60,
+          -92
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_lago_basalto",
+      "to": "cumbres_paso_dragon_blanco",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -88
+        ],
+        [
+          64,
+          -90
+        ],
+        [
+          64,
+          -92
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_altar_termico",
+      "to": "cumbres_santuario_resuello",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -88
+        ],
+        [
+          68,
+          -90
+        ],
+        [
+          68,
+          -92
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_camara_sabiduria",
+      "to": "cumbres_paso_dragon_blanco",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -92
+        ],
+        [
+          62,
+          -92
+        ],
+        [
+          64,
+          -92
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_paso_dragon_blanco",
+      "to": "cumbres_santuario_resuello",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -92
+        ],
+        [
+          66,
+          -92
+        ],
+        [
+          68,
+          -92
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_paso_dragon_blanco",
+      "to": "cumbres_trono_caldera",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -92
+        ],
+        [
+          64,
+          -94
+        ],
+        [
+          64,
+          -96
         ]
       ]
     }

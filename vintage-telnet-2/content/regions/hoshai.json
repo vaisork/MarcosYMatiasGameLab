@@ -4070,10 +4070,12 @@
         "falla": "La abertura en la roca por donde se desciende hacia el cráter caliente."
       },
       "exits": {
-        "sur": "cumbres_puente_hielo_ceniza"
+        "sur": "cumbres_puente_hielo_ceniza",
+        "norte": "cumbres_descenso_crater"
       },
       "look": {
-        "sur": "El puente de hielo y ceniza queda al sur."
+        "sur": "El puente de hielo y ceniza queda al sur.",
+        "norte": "La hendidura en la roca desciende en terrazas de obsidiana hacia el cráter caliente."
       },
       "arrivals": {},
       "npcs": [],
@@ -4085,6 +4087,350 @@
           "persistent_trace": false,
           "forbids_flags": [
             "victoria:cumbres_puerta_falla:zephyros_ventisca"
+          ]
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_descenso_crater": {
+      "id": "cumbres_descenso_crater",
+      "name": "Descenso al Cráter Sagrado",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una calzada amplia de terrazas de obsidiana negra y toba volcánica que desciende en espiral hacia el lecho de la caldera. El aire exterior gélido queda atrás de golpe, reemplazado por una calidez agradable, limpia y aromática, como el interior de un templo consagrado a la tierra viva. El suelo brilla con destellos vidriados bajo la luz cenital.",
+      "day": "La luz del sol ilumina la inmensidad del cráter circular revelando las riberas y el lago de basalto líquido.",
+      "night": "El fulgor dorado de la caldera baña las paredes de obsidiana con reflejos ambarinos.",
+      "rain": "El microclima del cráter evapora cualquier humedad antes de tocar las terrazas.",
+      "return": "Vuelves a la calzada de terrazas de obsidiana que desciende al cráter.",
+      "brief": "La calzada en espiral de terrazas de obsidiana hacia la caldera.",
+      "examine": {
+        "obsidiana": "Bloques de vidrio volcánico negro tallados con peldaños anchos para facilitar el paso.",
+        "crater": "La caldera circular perfecta de varias millas de diámetro donde palpita el corazón de Syraketh."
+      },
+      "exits": {
+        "sur": "cumbres_puerta_falla",
+        "oeste": "cumbres_ribera_lava_fria",
+        "este": "cumbres_hornos_creacion",
+        "norte": "cumbres_lago_basalto"
+      },
+      "look": {
+        "sur": "La puerta de la falla queda arriba hacia el sur.",
+        "oeste": "Costras de roca ígnea forman la ribera de lava fría.",
+        "este": "Las chimeneas incandescentes de los hornos quedan al oriente.",
+        "norte": "El lago de basalto líquido late en el fondo del cráter."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_ribera_lava_fria": {
+      "id": "cumbres_ribera_lava_fria",
+      "name": "Ribera de Lava Fría",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una planicie ondulada de costras de basalto solidificado que crujen suavemente bajo las botas como hojaldre de piedra. Vetas de azufre puro y cuarzo ahumado dibujan patrones geométricos en el suelo oscuro. Pequeños respiraderos emiten hilillos de vapor cristalino.",
+      "day": "Las vetas minerales brillan con reflejos dorados y ahumados bajo el sol.",
+      "night": "La roca conserva una calidez reconfortante bajo la noche despejada del cráter.",
+      "rain": "El suelo cálido absorbe cualquier rocío manteniendo la superficie seca.",
+      "return": "La ribera crujiente de lava fría y vetas minerales te recibe.",
+      "brief": "La planicie ondulada de lava solidificada y vetas de cuarzo.",
+      "examine": {
+        "costras": "Capas finas de lava que se enfriaron formando ondulaciones suaves.",
+        "vetas": "Filones de cuarzo y azufre que recorren la roca como nervaduras doradas."
+      },
+      "exits": {
+        "este": "cumbres_descenso_crater",
+        "norte": "cumbres_fosa_primordial"
+      },
+      "look": {
+        "este": "El descenso del cráter queda al oriente.",
+        "norte": "Una hendidura profunda marca la fosa primordial."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_hornos_creacion": {
+      "id": "cumbres_hornos_creacion",
+      "name": "Hornos de la Creación",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Un conjunto de chimeneas cónicas naturales donde el gas magmático arde con llamas blancas y sin humo. Aquí los tres clanes forjaron los cimientos de la Ciudadela antes del Gran Silencio. El calor es intenso pero no quema: vigoriza el cuerpo y despeja la mente de fatiga.",
+      "day": "Las llamas blancas resplandecen con pureza absoluta bajo la luz cenital.",
+      "night": "El resplandor de los hornos baña el cráter con una luminiscencia sagrada.",
+      "rain": "El calor ascendente repele cualquier precipitación con un suave murmullo.",
+      "return": "Vuelves a la calidez sagrada de los hornos de la creación.",
+      "brief": "Las chimeneas cónicas de fuego blanco y gas magmático.",
+      "examine": {
+        "chimeneas": "Conos de basalto de diez codos de altura por donde escapa el aliento magmático.",
+        "fuego_blanco": "Llamas puras alimentadas por gases profundos que despiden aroma a mirra mineral."
+      },
+      "exits": {
+        "oeste": "cumbres_descenso_crater",
+        "norte": "cumbres_altar_termico"
+      },
+      "look": {
+        "oeste": "El descenso del cráter queda al poniente.",
+        "norte": "La losa sacra del altar térmico se alza al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_lago_basalto": {
+      "id": "cumbres_lago_basalto",
+      "name": "Lago de Basalto Líquido",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "El corazón hidrogeológico de la gran caldera. Una superficie circular inmensa de roca líquida viscosa que se mueve en ondas lentas y acompasadas, como si la tierra misma respirara a través de ella. Islas de piedra pómez flotan sobre el lago, sirviendo de pedestales de descanso.",
+      "day": "Las ondas lentas del magma reflejan destellos ambarinos y dorados.",
+      "night": "El lago ilumina la cúpula del cráter con un resplandor cálido y reconfortante.",
+      "rain": "El vapor se alza en columnas espirales sobre la superficie incandescente.",
+      "return": "El murmullo rítmico del lago de basalto líquido te rodea.",
+      "brief": "La superficie circular de roca líquida templada y pulsos lentos.",
+      "examine": {
+        "ondas": "Movimientos concéntricos de roca madre que marcan el pulso térmico de Vaisgard.",
+        "islas": "Bloques flotantes de toba y pómez firmemente templados por el calor."
+      },
+      "exits": {
+        "sur": "cumbres_descenso_crater",
+        "oeste": "cumbres_fosa_primordial",
+        "este": "cumbres_altar_termico",
+        "norte": "cumbres_paso_dragon_blanco"
+      },
+      "look": {
+        "sur": "Las terrazas de obsidiana suben hacia la puerta de la falla.",
+        "oeste": "La fosa primordial queda al poniente.",
+        "este": "El altar térmico queda al oriente.",
+        "norte": "La calzada ceremonial del dragón blanco asciende al trono."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "surgencia_primordial",
+          "text": "Una Surgencia Primordial se alza lentamente desde una falla del lago ondulando con magma vivo.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_fosa_primordial": {
+      "id": "cumbres_fosa_primordial",
+      "name": "Fosa de la Falla Primordial",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una sima lineal profunda en el lecho del cráter de donde brota el vapor más puro y antiguo de la cordillera. Las paredes de la fosa están tapizadas de cristales de nácar mineral que crecen lentamente alimentados por los gases termales.",
+      "day": "Los cristales de nácar descomponen la luz en reflejos perlados.",
+      "night": "El vapor blanco resplandece en la penumbra con una suave luz lunar.",
+      "rain": "El calor de la fosa mantiene la atmósfera templada y libre de bruma fría.",
+      "return": "Vuelves a la quietud perlada de la fosa primordial.",
+      "brief": "La sima lineal tapizada de cristales de nácar mineral.",
+      "examine": {
+        "cristales": "Estructuras minerales translúcidas que resuenan al rozarlas con la mano.",
+        "sima": "La fractura original por donde escapó el primer aliento de la montaña."
+      },
+      "exits": {
+        "sur": "cumbres_ribera_lava_fria",
+        "este": "cumbres_lago_basalto",
+        "norte": "cumbres_camara_sabiduria"
+      },
+      "look": {
+        "sur": "La ribera de lava fría queda al sur.",
+        "este": "El lago de basalto queda al oriente.",
+        "norte": "La cámara de la sabiduría milenaria se abre al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_altar_termico": {
+      "id": "cumbres_altar_termico",
+      "name": "Altar del Aliento Original",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una plataforma elevada de diorita blanca labrada en el punto exacto donde confluyen las tres corrientes de la caldera: el vapor hidrotermal, el fuego de la forja y la brisa celeste. En el centro se yergue la losa culminante de las crónicas de Syraketh: el Capítulo VI.",
+      "day": "La luz diurna corona el altar con un resplandor dorado de infinita majestad.",
+      "night": "Las tres corrientes se entrelazan sobre la losa en un halo de fuego azul.",
+      "rain": "El altar permanece protegido por el domo térmico de la caldera.",
+      "return": "El Altar del Aliento Original y la losa del Capítulo VI te esperan.",
+      "brief": "La plataforma elevada de diorita blanca y la losa del Capítulo VI.",
+      "examine": {
+        "losa_cap6": "La gran tabla sagrada donde está grabado el Primer Aliento y el Pacto Renovado.",
+        "pedestal": "El bloque de diorita blanca pulida que sostiene la memoria fundacional."
+      },
+      "exits": {
+        "sur": "cumbres_hornos_creacion",
+        "oeste": "cumbres_lago_basalto",
+        "norte": "cumbres_santuario_resuello"
+      },
+      "look": {
+        "sur": "Los hornos de la creación quedan al sur.",
+        "oeste": "El lago de basalto queda hacia el poniente.",
+        "norte": "El santuario del resuello compartido queda al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "leer_cronica_cumbres_6",
+          "label": "Leer el Capítulo VI de la Crónica: El Primer Aliento y el Pacto Renovado",
+          "set_flags": [
+            "leido_cronica_cumbres_6"
+          ],
+          "scope": "player",
+          "journal": "Crónica: concluiste la lectura de los seis capítulos de Syraketh y conociste la profecía del pacto renovado.",
+          "text": "En el principio del mundo no existían cinco reinos ni tres clanes. Existía un solo latido: el Primer Aliento que emanaba del corazón de la roca madre. De ese calor nacieron las escamas que reflejan la luz y los pechos que aprendieron a cantar en la quietud de las primeras eras.\n\nCuando la tierra se enfrió y los mortales comenzaron su caminar por las llanuras, los dragones custodiaron la caldera para que el fuego primordial no consumiera los bosques ni el hielo polar apagara las hogueras de los pueblos. No hubo desprecio en la retirada, sino la ternura paciente de los hermanos mayores que dejan espacio a los recién nacidos para que descubran el equilibrio por su propio pie.\n\nDurante siglos, el viento llevó a la caldera los rumores de las guerras y las paces de los hombres, de los canteros de Brumak que labraban la diorita, de los saltadores de Khariel que desafiaban el vértigo y de los navegantes de Lethra que leían las estrellas. Y en cada era, el Archidragón Ignis-Aethel sostuvo la corona de magma con aliento sereno, sabiendo que el día del reencuentro llegaría no por la fuerza de los conquistadores, sino por la sabiduría de los exploradores.\n\nPorque aquel que cruza el Paso de las Escamas Dormidas, comprende el trabajo del Clan Pyrrok, escucha la memoria del sacrificio de Quellor en las aguas de Veyra, y vuela con los vientos de Aethelgard sin temor al abismo, deja de ser un extraño en Syraketh. Se convierte en el portador del Resuello Compartido.\n\nQue esta última losa quede como testimonio y bendición para todos los pueblos de Vaisgard:\nLa montaña y el llano son un solo cuerpo. El río subterráneo que nutre los campos es la misma vena que alimenta el fuego sagrado de las cumbres. Mientras exista un caminante que prefiera la verdad a la rapiña, y la templanza al hierro ciego, las Cumbres Veladas mantendrán su aliento encendido, custodiando el firmamento con amor eterno e inquebrantable."
+        }
+      ]
+    },
+    "cumbres_paso_dragon_blanco": {
+      "id": "cumbres_paso_dragon_blanco",
+      "name": "Paso del Dragón Blanco",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una calzada monumental de basalto negro incrustado de cuarzo blanco que se eleva sobre arcos majestuosos sobre el lago de roca líquida. A ambos lados se alzan estatuas colosales de dragones en actitud de vigilia solemne. Al final de la calzada se divisa el Trono de la Caldera.",
+      "day": "La calzada parece un puente de luz que cruza el fuego sereno del cráter.",
+      "night": "Los cuarzos empotrados en el pavimento guían los pasos con un resplandor lechoso.",
+      "rain": "El paso permanece firme y seco sobre las aguas de magma templado.",
+      "return": "La calzada ceremonial del Dragón Blanco se extiende ante ti.",
+      "brief": "La calzada ceremonial sobre arcos que conduce al Trono de la Caldera.",
+      "examine": {
+        "calzada": "Arcos de basalto de proporción colosal que resisten el calor del magma sin alterarse.",
+        "estatuas": "Efigies ancestrales de los sabios de las tres casas en actitud de reverencia."
+      },
+      "exits": {
+        "sur": "cumbres_lago_basalto",
+        "oeste": "cumbres_camara_sabiduria",
+        "este": "cumbres_santuario_resuello",
+        "norte": "cumbres_trono_caldera"
+      },
+      "look": {
+        "sur": "El lago de basalto queda al sur.",
+        "oeste": "La cámara de la sabiduría queda al poniente.",
+        "este": "El santuario del resuello queda al oriente.",
+        "norte": "El Trono de la Caldera y el Archidragón se alzan al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_camara_sabiduria": {
+      "id": "cumbres_camara_sabiduria",
+      "name": "Cámara de la Sabiduría Olvidada",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Un recinto apacible labrado en una cueva de toba rosada. No hay armas ni mecanismos: solo esteras de fibra vegetal tejida, cuencos de agua fresca y una atmósfera de reposo absoluto. Aquí los dragones ancianos se retiran a contemplar el devenir del mundo sin juzgarlo.",
+      "day": "La luz matizada baña el recinto con una suavidad relajante.",
+      "night": "El silencio es completo y reconfortante para el espíritu fatigado.",
+      "rain": "El aislamiento de la toba amortigua cualquier sonido exterior.",
+      "return": "Regresas al sosiego profundo de la cámara de la sabiduría.",
+      "brief": "El recinto apacible de reposo y contemplación de los ancianos.",
+      "examine": {
+        "esteras": "Tejidos gruesos de fibras de sabina que aíslan del suelo rocoso.",
+        "cuencos": "Recipientes de diorita pulida que conservan agua pura de manantial."
+      },
+      "exits": {
+        "sur": "cumbres_fosa_primordial",
+        "este": "cumbres_paso_dragon_blanco"
+      },
+      "look": {
+        "sur": "La fosa primordial queda al sur.",
+        "este": "La calzada del dragón blanco queda al oriente."
+      },
+      "arrivals": {},
+      "npcs": [
+        "cumbres_anciana_pyrr"
+      ],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_santuario_resuello": {
+      "id": "cumbres_santuario_resuello",
+      "name": "Santuario del Resuello Compartido",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una poza hidrotermal de aguas cristalinas rodeada de monolitos de cuarzo rosa que vibran al unísono con el manantial de Veyra. Aquí late la arteria acuífera que une las cumbres con los valles del sur. En el fondo de la poza se aprecia una hornacina consagrada a la armonía entre especies.",
+      "day": "El agua refleja destellos perlados y rosas bajo la luz de la caldera.",
+      "night": "Los cuarzos emiten una luminosidad cálida que disipa cualquier sombra.",
+      "rain": "Las gotas se integran al manantial en una danza armónica.",
+      "return": "La poza de cuarzo rosa del resuello compartido te recibe.",
+      "brief": "La poza hidrotermal de cuarzo rosa en armonía con Veyra.",
+      "examine": {
+        "poza_resuello": "Un manantial puro cuyas aguas tienen propiedades purificadoras y curativas.",
+        "cuarzo_rosa": "Monolitos naturales que vibran en la misma frecuencia que el Bastión de las Aguas."
+      },
+      "exits": {
+        "sur": "cumbres_altar_termico",
+        "oeste": "cumbres_paso_dragon_blanco"
+      },
+      "look": {
+        "sur": "El altar térmico queda al sur.",
+        "oeste": "La calzada ceremonial queda al poniente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "cumbres_meditar_resuello_compartido",
+          "label": "Meditar junto al manantial y renovar la armonía hidrotermal",
+          "requires_examined": [
+            "poza_resuello"
+          ],
+          "forbids_flags": [
+            "misterio_caldera_resuelto"
+          ],
+          "set_flags": [
+            "misterio_caldera_resuelto"
+          ],
+          "scope": "player",
+          "journal": "Cierre: meditaste en el Santuario del Resuello Compartido. La vibración de las cumbres sintonizó con las aguas del Bastión de Veyra en perfecta armonía.",
+          "text": "Apoyas las manos en las aguas templadas del manantial. Una resonancia suave recorre tu pecho, conectando el calor de las altas cumbres con el reposo solemne del dragón que descansa en el Bastión de Veyra. Las aguas cantan con un tono cristalino y del fondo de la poza emerge un fragmento del Primer Aliento, bendiciendo tu paso.",
+          "give_items": {
+            "fragmento_primer_aliento": 1,
+            "obsidiana_primordial": 2
+          }
+        }
+      ]
+    },
+    "cumbres_trono_caldera": {
+      "id": "cumbres_trono_caldera",
+      "name": "Trono de la Caldera Sagrada",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "El pináculo absoluto de Syraketh. Un estrado circular colosal labrado en una aguja de obsidiana y cuarzo que se alza en el centro del lago de lava serena. Columnas de vapor blanco ascienden como pilares de un templo sin techo hacia el firmamento. Aquí aguarda el Archidragón Ignis-Aethel, Soberano de las Alturas, custodiando el Primer Aliento del mundo.",
+      "day": "La luz del sol se funde con el resplandor de las escamas de nácar del soberano en una visión de gloria eterna.",
+      "night": "El Archidragón resplandece como una luna viva en el corazón del cráter silencioso.",
+      "rain": "Cualquier tormenta exterior se detiene en reverencia ante la majestad del trono.",
+      "return": "El Trono de la Caldera Sagrada y la presencia majestuosa de Ignis-Aethel te reciben.",
+      "brief": "El pedestal colosal de obsidiana y morada del Archidragón Ignis-Aethel.",
+      "examine": {
+        "trono": "Una aguja de obsidiana y cuarzo tallada con la historia de todas las edades de Vaisgard.",
+        "columnas_vapor": "Pilares de vapor blanco sagrado que sostienen el calor vital de la cordillera."
+      },
+      "exits": {
+        "sur": "cumbres_paso_dragon_blanco"
+      },
+      "look": {
+        "sur": "La calzada del dragón blanco desciende hacia el lago de basalto."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "archidragon_ignis_aethel",
+          "level": 35,
+          "text": "El Archidragón Ignis-Aethel reposa en el Trono de la Caldera. Sus ojos reflejan el firmamento entero mientras aguarda tu resolución.",
+          "persistent_trace": false,
+          "forbids_flags": [
+            "victoria:cumbres_trono_caldera:archidragon_ignis_aethel"
           ]
         }
       ],
@@ -4532,6 +4878,25 @@
         "zephyros": {
           "label": "Preguntar por el Señor de la Ventisca",
           "text": "«Es el más veloz de los ancianos de Aethelgard. No tolera la torpeza ni la soberbia. Para cruzar su puerta debes recordar la máxima del testigo que guardan las losas: la fruta no se arranca antes de su sazón.»"
+        }
+      }
+    },
+    "cumbres_anciana_pyrr": {
+      "id": "cumbres_anciana_pyrr",
+      "name": "Matriarca Pyrr-Veyth",
+      "home_room": "cumbres_camara_sabiduria",
+      "schedule": [
+        "día",
+        "noche"
+      ],
+      "topics": {
+        "pacto": {
+          "label": "Preguntar por el destino del Gran Silencio",
+          "text": "La anciana abre un ojo de obsidiana templada. «El silencio no fue cobardía ni rencor. Fue la espera necesaria. Has recorrido las cinco edades, leído las crónicas y templado tu temple sin destruir lo que amas. El Archidragón te espera con el corazón abierto.»"
+        },
+        "caldera": {
+          "label": "Preguntar por el fuego sagrado de la caldera",
+          "text": "«No es un fuego que queme por furia. Es el calor que mantiene la savia corriendo en los árboles de Nhal y el vapor en las termas de Veyra. Quien aprende a convivir con él comprende el verdadero latido de Vaisgard.»"
         }
       }
     }
