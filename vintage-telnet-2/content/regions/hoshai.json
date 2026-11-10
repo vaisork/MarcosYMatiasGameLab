@@ -3371,10 +3371,12 @@
         "fosas": "Canales de roca donde el magma fluye lentamente despidiendo un calor puro y constante."
       },
       "exits": {
-        "sur": "cumbres_puerta_clanes"
+        "sur": "cumbres_puerta_clanes",
+        "norte": "cumbres_atrio_edades"
       },
       "look": {
-        "sur": "La puerta de los clanes queda hacia el sur."
+        "sur": "La puerta de los clanes queda hacia el sur.",
+        "norte": "Un portal solemne flanqueado por monolitos rúnicos conduce al Archivo de las Cinco Edades."
       },
       "arrivals": {},
       "npcs": [],
@@ -3386,6 +3388,361 @@
           "persistent_trace": false,
           "forbids_flags": [
             "victoria:cumbres_salon_ceniza:vaelok_forjador"
+          ]
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_atrio_edades": {
+      "id": "cumbres_atrio_edades",
+      "name": "Atrio de las Cinco Edades",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Un vestíbulo monumental excavado verticalmente en una falla de basalto negro pulido. Columnas monolíticas de doce varas de altura flanquean la calzada central; en sus capiteles arden pebeteros de sal mineral con llamas de un suave tono azul celeste. El aire es fresco, seco y huele a pergamino antiguo y polvo de cuarzo.",
+      "day": "La luz del mediodía baja en un haz vertical desde la lucernaria de la cúpula, iluminando el pavimento.",
+      "night": "Los pebeteros azules bañan los monolitos con sombras solemnes que invitan al silencio.",
+      "rain": "El recinto permanece en silencio absoluto; el manto de roca madre amortigua cualquier temporal exterior.",
+      "return": "Regresas al silencio solemne del Atrio de las Cinco Edades.",
+      "brief": "El vestíbulo monumental con columnas monolíticas y pebeteros azules.",
+      "examine": {
+        "monolitos": "Columnas hexagonales de basalto con inscripciones cronológicas de las edades de Vaisgard.",
+        "pebeteros": "Cuencos de bronce fósil donde sales minerales arden con llama fría y sin ceniza."
+      },
+      "exits": {
+        "sur": "cumbres_salon_ceniza",
+        "oeste": "cumbres_galeria_primera_edad",
+        "este": "cumbres_galeria_segunda_edad",
+        "norte": "cumbres_sala_prismas"
+      },
+      "look": {
+        "sur": "El salón de la ceniza de Vaelok queda al sur.",
+        "oeste": "La galería de la primera edad alberga relieves cosmogónicos.",
+        "este": "La galería de la segunda edad narra el contacto con los pueblos.",
+        "norte": "La sala de los prismas astronómicos resplandece al fondo."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_galeria_primera_edad": {
+      "id": "cumbres_galeria_primera_edad",
+      "name": "Galería de la Primera Edad",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Una nave alargada flanqueada por hornacinas donde reposan láminas de piedra pómez grabadas con escritura cuneiforme arcaica. Los bajorrelieves narran la formación de las cordilleras de Vaisgard y las cinco corrientes eólicas. En el centro de la sala descansa la losa del Capítulo III.",
+      "day": "Haces de luz dorada cruzan entre las hornacinas iluminando las inscripciones de las corrientes.",
+      "night": "El polvo de cuarzo de las láminas despide una tenue fosforescencia verdosa.",
+      "rain": "La atmósfera de la galería permanece cálida, seca e inmóvil.",
+      "return": "Vuelves a la galería de las láminas de la primera edad.",
+      "brief": "La galería de relieves cosmogónicos y la losa del Capítulo III.",
+      "examine": {
+        "hornacinas": "Nichos protegidos con cortinillas de asbesto donde reposan los textos fundacionales.",
+        "losa_cap3": "Una losa de basalto pulido donde está grabado el Tratado de las Alturas Celestes."
+      },
+      "exits": {
+        "este": "cumbres_atrio_edades",
+        "norte": "cumbres_ala_ecos_quellor"
+      },
+      "look": {
+        "este": "El atrio central queda al oriente.",
+        "norte": "El ala de los ecos de Quellor se abre hacia el norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "leer_cronica_cumbres_3",
+          "label": "Leer el Capítulo III de la Crónica: El Tratado de las Alturas Celestes",
+          "set_flags": [
+            "leido_cronica_cumbres_3"
+          ],
+          "scope": "player",
+          "journal": "Crónica: aprendiste la dinámica de las cinco corrientes eólicas y la clave de los prismas tras leer el Capítulo III.",
+          "text": "En las crónicas del Clan Aethelgard se enseña que el cielo no es un vacío inerte sobre la tierra, sino un océano invisible compuesto por corrientes térmicas que fluyen con la precisión de los ríos más caudalosos. Quien desconozca los rumbos de este océano aéreo caerá derribado por las turbulencias o consumirá su esfuerzo inútilmente contra la ventisca.\n\nCinco son las grandes corrientes que cruzan el firmamento de Vaisgard. La primera es la Marea de Khariel, un viento seco y ascendente que nace del choque entre el sol sobre los riscos y las sombras de las hoces profundas. Esta corriente eleva a los planeadores desde el alba hasta el cenit. La segunda es el Río de Velmora, un aliento cargado de la humedad fragante de los bosques de sabinas que estabiliza el planeo horizontal sobre el dosel.\n\nLa tercera es el Torrente del Norte, que desciende desde los glaciares perpetuos con la pureza del hielo virgen. Esta corriente enfría las crestas y exige plumas de ceniza compactas para no entumecer las articulaciones. La cuarta es la Marea Magmática, la columna ascendente que emana del cráter de Syraketh; es el pulso vital de la cordillera, capaz de sostener a los dragones ancianos sin necesidad de un solo aletazo. Y la quinta corriente es el Viento de los Solsticios, que invierte su curso dos veces al año, armonizando los climas de las tierras bajas con la caldera sagrada.\n\nEn la Sala de los Prismas del Gran Archivo, los primeros astrónomos dracónicos instalaron los tres cilindros de cuarzo tallado que miden el pulso de estas corrientes. Para abrir las hornacinas secretas de los sabios sin forzar sus cerraduras de piedra, el estudioso debe sincronizar la refracción: el prisma solar debe orientarse hacia el Rumbo Magmático del mediodía, mientras que el prisma secundario debe alinearse con la Marea de las Aguas Profundas.\n\nComprende, pues, caminante del llano: quien lee las alturas no teme al abismo, pues el aire mismo se convierte en peldaño firme para quien conoce su curso y respeta su ley."
+        }
+      ]
+    },
+    "cumbres_galeria_segunda_edad": {
+      "id": "cumbres_galeria_segunda_edad",
+      "name": "Galería de la Segunda Edad",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Un recinto semicircular donde los archivos detallan los primeros encuentros entre los dragones y los pueblos mortales. Vitrinas de cristal volcánico custodian herramientas primitivas de piedra entregadas por los canteros de Brumak y agujas de cuarzo de los tejedores de Nhal.",
+      "day": "La luz matutina resalta los colores terrosos de las vasijas y herramientas antiguas.",
+      "night": "Las vitrinas reflejan la calma de las salas de estudio de la Ciudadela.",
+      "rain": "El murmullo lejano de la lluvia evoca los primeros intercambios en los llanos.",
+      "return": "La galería de los primeros contactos con los pueblos te recibe de nuevo.",
+      "brief": "El recinto de archivos de convivencia y vitrinas históricas.",
+      "examine": {
+        "vitrinas": "Urnas de obsidiana traslúcida que protegen ofrendas de los cinco pueblos.",
+        "rollos": "Pergaminos de corteza de sabina enrollados en cilindros de hueso fósil."
+      },
+      "exits": {
+        "oeste": "cumbres_atrio_edades",
+        "norte": "cumbres_hornacina_tratados"
+      },
+      "look": {
+        "oeste": "El atrio central queda al poniente.",
+        "norte": "La hornacina de los tratados antiguos se abre hacia el norte."
+      },
+      "arrivals": {},
+      "npcs": [
+        "cumbres_archivista_sol"
+      ],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_ala_ecos_quellor": {
+      "id": "cumbres_ala_ecos_quellor",
+      "name": "Ala de los Ecos de Quellor",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Una cámara solemne con un canal central por donde corre un hilillo de agua termal cristalina que resuena con un rumor musical. En las paredes de diorita azul están grabados los nombres de los guardianes que descendieron a las fallas. En el centro descansa la losa del Capítulo IV.",
+      "day": "El agua refleja destellos azulados contra la bóveda de diorita.",
+      "night": "El rumor del agua termal llena la sala con una serenidad reverente.",
+      "rain": "El caudal del canal aumenta ligeramente, manteniendo su melodía clara.",
+      "return": "Vuelves a la quietud azul del ala de los ecos de Quellor.",
+      "brief": "La cámara de aguas termales cristalinas y la losa del Capítulo IV.",
+      "examine": {
+        "canal": "Un cauce labrado en diorita por donde fluye agua tibia con sales de cuarzo.",
+        "losa_cap4": "La gran tabla de piedra azul donde está grabada la Memoria de las Aguas Profundas."
+      },
+      "exits": {
+        "sur": "cumbres_galeria_primera_edad",
+        "este": "cumbres_sala_prismas",
+        "norte": "cumbres_boveda_dorada"
+      },
+      "look": {
+        "sur": "La galería de la primera edad queda al sur.",
+        "este": "La sala de los prismas astronómicos queda al este.",
+        "norte": "La bóveda de los códices dorados queda al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "leer_cronica_cumbres_4",
+          "label": "Leer el Capítulo IV de la Crónica: La Memoria de las Aguas Profundas",
+          "set_flags": [
+            "leido_cronica_cumbres_4"
+          ],
+          "scope": "player",
+          "journal": "Crónica: conociste el sacrificio del Dragón de las Aguas en Veyra y su reposo vivo tras leer el Capítulo IV.",
+          "text": "En el corazón del Clan Quellor se custodia la memoria más sagrada y conmovedora de todas las que guardan las tablas basálticas: el descenso del Guardián del Vientre de la Tierra hacia las profundidades de Veyra.\n\nCuando sobrevino la gran fractura tectónica que amenazó anegar los acuíferos de las cinco razas bajo torrentes de agua hirviente y azufre corrosivo, los señores de los clanes comprendieron que la falla no se cerraría desde las alturas. Se requería un cuerpo colosal que descendiera a la raíz misma del mundo, interponiéndose entre la sima y el manantial sagrado.\n\nFue el gran dragón del Clan Quellor quien aceptó la encomienda. Sus hermanos forjaron para su pecho placas de basalto impermeable y templaron sus garras en las aguas madres. El Guardián descendió por las canteras y se aposentó en la bóveda que los pueblos de abajo llaman hoy el Bastión de las Aguas. Allí afianzó su cola en torno a la grieta y con su propio aliento reguló la presión del lecho subterráneo, permitiendo que el agua volviera a brotar limpia y fresca hacia los canales de los Dravak y Marevyn.\n\nMuchas generaciones de mortales creyeron que aquel dragón era una bestia cautiva o un monstruo hostil. Olvidaron que su rugido no era amenaza, sino el esfuerzo inmenso de sostener el peso de la cordillera sobre su lomo. Durante trescientos años reposó allí en vigilia solitaria, mientras su cresta se blanqueaba con sales minerales y sus alas se adaptaban a la penumbra de la caverna.\n\nY esta crónica deja constancia de la verdad para todas las edades por venir: el Dragón de las Aguas Antiguas no fue destruido ni apagada su vida. Cuando el caminante Marcos, arcano de los ecos, descendió al Bastión, la contienda fue una prueba de temple y resonancia armónica. El dragón reposó su cabeza fatigada sobre la piedra tibia, respiró hondo y continuó su vigilia protectora en paz, habiendo reconocido en los ojos del mortal la madurez que los pueblos tanto tiempo tardaron en alcanzar.\n\nQue todo aquel que cruce este archivo recuerde: el Clan Quellor no honra la sangre derramada, sino el servicio que sostiene la vida de la tierra en silencio."
+        }
+      ]
+    },
+    "cumbres_sala_prismas": {
+      "id": "cumbres_sala_prismas",
+      "name": "Sala de los Prismas Astronómicos",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Una cámara octogonal dominada por tres prismas colosales de cuarzo puro montados sobre soportes giratorios de basalto. En el centro del pavimento hay un cuadrante solar con ranuras de calibración. Los haces de luz y vapor refractados crean un espectro multicolor que danza sobre los muros.",
+      "day": "Los prismas proyectan franjas de luz arcoíris que cruzan la sala con precisión geométrica.",
+      "night": "La luz de la luna entra por el óculo cenital proyectando halos plateados sobre el cuadrante.",
+      "rain": "El vapor condensado en los prismas intensifica la luminosidad de las refracciones.",
+      "return": "Regresas a la cámara de prismas giratorios y cuadrante astronómico.",
+      "brief": "La cámara octogonal con los tres prismas colosales de cuarzo.",
+      "examine": {
+        "prismas": "Cilindros facetados de cuarzo óptico montados sobre goznes concéntricos.",
+        "cuadrante": "Losa circular en el pavimento con marcas horarias y rumbos térmicos de las cinco edades."
+      },
+      "exits": {
+        "sur": "cumbres_atrio_edades",
+        "oeste": "cumbres_ala_ecos_quellor",
+        "este": "cumbres_hornacina_tratados",
+        "norte": "cumbres_terraza_observador"
+      },
+      "look": {
+        "sur": "El atrio de las edades queda al sur.",
+        "oeste": "El ala de los ecos de Quellor queda al poniente.",
+        "este": "La hornacina de los tratados queda al oriente.",
+        "norte": "La terraza exterior del observador se abre al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "cumbres_alinear_prismas_astronomicos",
+          "label": "Alinear los prismas hacia la Marea Magmática y las Aguas Profundas",
+          "requires_examined": [
+            "prismas"
+          ],
+          "forbids_flags": [
+            "misterio_archivo_resuelto"
+          ],
+          "set_flags": [
+            "misterio_archivo_resuelto"
+          ],
+          "scope": "player",
+          "journal": "Cierre: alineaste los tres prismas astronómicos según las crónicas de Syraketh. El cuadrante central liberó el pedestal secreto de los sabios.",
+          "text": "Recordando los Capítulos III y IV, giras los soportes de basalto con pulso firme. El haz solar principal corta el prisma de cuarzo refractándose en un rayo dorado directo hacia la ranura del Rumbo Magmático, mientras el prisma secundario proyecta un pulso azul turquesa. Un mecanismo oculto en el pavimento cede con un murmullo sordo y un pedestal cilíndrico emerge del suelo, ofreciendo un núcleo rúnico de basalto.",
+          "give_items": {
+            "nucleo_runico_basalto": 1,
+            "tinta_mineral_quellor": 1
+          }
+        }
+      ]
+    },
+    "cumbres_hornacina_tratados": {
+      "id": "cumbres_hornacina_tratados",
+      "name": "Hornacina de los Tratados Antiguos",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Una estancia íntima revestida de placas de toba volcánica pulida. En anaqueles empotrados descansan cilindros de metal noble que contienen las copias autorizadas de los tratados de paz firmados al concluir la Guerra de las Cenizas.",
+      "day": "La luz indirecta protege los pergaminos de cualquier degradación solar.",
+      "night": "El silencio absoluto de la estancia transmite la solemnidad de los pactos históricos.",
+      "rain": "El aislamiento del recinto es total; ningún sonido perturba la lectura.",
+      "return": "Vuelves a los anaqueles protegidos de la hornacina de los tratados.",
+      "brief": "La estancia de cilindros con los tratados de paz históricos.",
+      "examine": {
+        "anaqueles": "Estantes de toba porosa que regulan la humedad ambiental de forma natural.",
+        "cilindros": "Tubos de aleación de bronce y plata con sellos de cera volcánica intactos."
+      },
+      "exits": {
+        "sur": "cumbres_galeria_segunda_edad",
+        "oeste": "cumbres_sala_prismas",
+        "norte": "cumbres_cripta_sabios"
+      },
+      "look": {
+        "sur": "La galería de la segunda edad queda al sur.",
+        "oeste": "La sala de los prismas queda hacia el poniente.",
+        "norte": "La cripta de los sabios se abre hacia el norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_terraza_observador": {
+      "id": "cumbres_terraza_observador",
+      "name": "Terraza del Observador Celeste",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una cornisa voladiza que sobresale del acantilado norte del Gran Archivo. Desde aquí el cielo se abre en un domo inmenso hacia las cumbres más altas. Un parapeto de basalto aloja instrumentos astronómicos de piedra para medir la declinación de los astros.",
+      "day": "El panorama hacia las crestas afiladas del norte revela la silueta de los desfiladeros celestes.",
+      "night": "Las constelaciones de Vaisgard giran con claridad pristina sobre el horizonte negro.",
+      "rain": "El viento frío del norte barre la terraza arrastrando jirones de niebla blanca.",
+      "return": "La terraza voladiza del observador celeste te recibe de nuevo.",
+      "brief": "La cornisa voladiza abierta al domo del cielo norte.",
+      "examine": {
+        "parapeto": "Muro bajo de basalto con cuadrantes graduados para observación de estrellas.",
+        "abismo": "La caída vertical hacia el fondo de la garganta basáltica."
+      },
+      "exits": {
+        "sur": "cumbres_sala_prismas",
+        "oeste": "cumbres_boveda_dorada",
+        "este": "cumbres_cripta_sabios",
+        "norte": "cumbres_santuario_escriba"
+      },
+      "look": {
+        "sur": "La sala de los prismas queda hacia el sur.",
+        "oeste": "La bóveda de los códices dorados queda al poniente.",
+        "este": "La cripta de los sabios queda al oriente.",
+        "norte": "El portal del santuario del escriba silente queda al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "custodio_basalto",
+          "text": "Un Custodio de Basalto recorre la cornisa con pasos acompasados y runas relucientes.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_boveda_dorada": {
+      "id": "cumbres_boveda_dorada",
+      "name": "Bóveda de los Códices Dorados",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Una cámara de alta seguridad excavada en una veta de granito puro. Las paredes están recubiertas de láminas de oro batido que reflejan el calor y evitan la condensación. En hornacinas protegidas por rejas de bronce reposan los códices originales de escama y mineral.",
+      "day": "Las paredes doradas despiden un resplandor cálido y reconfortante.",
+      "night": "El oro refleja la luz tenue de los respiraderos con destellos mágicos.",
+      "rain": "El recinto está totalmente sellado contra cualquier filtración de agua.",
+      "return": "Vuelves al resplandor dorado de la bóveda de códices.",
+      "brief": "La cámara acorazada de paredes de oro batido y códices antiguos.",
+      "examine": {
+        "paredes": "Láminas de oro puro batido fijadas con remaches de cobre fósil.",
+        "rejas": "Enrejados de aleación antigua con goznes sellados por calor."
+      },
+      "exits": {
+        "sur": "cumbres_ala_ecos_quellor",
+        "este": "cumbres_terraza_observador"
+      },
+      "look": {
+        "sur": "El ala de los ecos de Quellor queda al sur.",
+        "este": "La terraza del observador queda hacia el este."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_cripta_sabios": {
+      "id": "cumbres_cripta_sabios",
+      "name": "Cripta de los Antiguos Cronistas",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Un recinto funerario de atmósfera austera y solemne. En nichos excavados en el basalto reposan urnas cinerarias y escamas dorsales de los cronistas que dedicaron sus siglos de vida a registrar la memoria de Syraketh. Cada nicho lleva grabado el nombre y la era de servicio del sabio.",
+      "day": "La penumbra del recinto invita a una reverente contemplación del pasado.",
+      "night": "Pequeñas gemas de fluorita en las lápidas emiten una luz fría y eterna.",
+      "rain": "El silencio de la cripta permanece imperturbable ante cualquier tormenta.",
+      "return": "Regresas a la serenidad eterna de la cripta de los cronistas.",
+      "brief": "El recinto funerario de nichos conmemorativos de los sabios.",
+      "examine": {
+        "nichos": "Cavidades rectangulares cerradas con losas de diorita grabadas en relieve.",
+        "urnas": "Vasijas cilíndricas de piedra con sellos de cuarzo y ceniza."
+      },
+      "exits": {
+        "sur": "cumbres_hornacina_tratados",
+        "oeste": "cumbres_terraza_observador"
+      },
+      "look": {
+        "sur": "La hornacina de los tratados queda al sur.",
+        "oeste": "La terraza del observador queda hacia el poniente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_santuario_escriba": {
+      "id": "cumbres_santuario_escriba",
+      "name": "Santuario del Escriba Silente",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Una catedral de basalto de proporciones colosales en el remate septentrional del Archivo. En el fondo se eleva un estrado semicircular rodeado de tablas rúnicas suspendidas por corrientes térmicas. Aquí reside Oros-Khar, el sabio dragón que custodia la memoria viva de Vaisgard y examina el corazón de quienes pretenden ascender a las cumbres.",
+      "day": "Haces de luz cenital cortan el vapor que rodea el estrado de piedra.",
+      "night": "Las tablas suspendidas giran suavemente emitiendo notas armónicas en la penumbra.",
+      "rain": "El estruendo de la lluvia exterior se transforma en un rumor rítmico que acompasa los cantos.",
+      "return": "El sanctasanctórum de tablas rúnicas flotantes y el estrado de Oros-Khar te reciben.",
+      "brief": "La catedral de basalto y estrado sagrado de Oros-Khar.",
+      "examine": {
+        "estrado": "Plataforma de piedra negra pulida donde reposa el escriba mayor.",
+        "tablas_flotantes": "Láminas de cuarzo y basalto que levitan sostenidas por respiraderos térmicos precisos."
+      },
+      "exits": {
+        "sur": "cumbres_terraza_observador"
+      },
+      "look": {
+        "sur": "La terraza del observador queda hacia el sur."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "oros_khar_escriba",
+          "level": 28,
+          "text": "Oros-Khar el Escriba Silente alza su cabeza coronada de cuarzo y te observa con calma milenaria.",
+          "persistent_trace": false,
+          "forbids_flags": [
+            "victoria:cumbres_santuario_escriba:oros_khar_escriba"
           ]
         }
       ],
@@ -3795,6 +4152,25 @@
         "vaelok": {
           "label": "Preguntar por el maestro Vaelok",
           "text": "«Es el más antiguo de los forjadores vivos. Su corazón late al compás de la gran caldera. No tolera la arrogancia, pero honra a quien resiste sus pruebas con dignidad.»"
+        }
+      }
+    },
+    "cumbres_archivista_sol": {
+      "id": "cumbres_archivista_sol",
+      "name": "Archivista Sol-Vhis",
+      "home_room": "cumbres_galeria_segunda_edad",
+      "schedule": [
+        "día",
+        "noche"
+      ],
+      "topics": {
+        "archivo": {
+          "label": "Preguntar por la organización del Gran Archivo",
+          "text": "Sol-Vhis acomoda un rollo de corteza con cuidado filial. «Dividimos la memoria en cinco edades. Cada área del archivo preserva una era de civilización para que nada de lo aprendido se pierda en el olvido.»"
+        },
+        "prismas": {
+          "label": "Preguntar por el enigma de la sala de prismas",
+          "text": "«Los prismas no son adornos: son la balanza óptica de las cumbres. Si alineas el haz solar con la Marea Magmática que describe el Capítulo III, y el pulso secundario con la memoria de Quellor del Capítulo IV, la piedra misma te entregará su ofrenda.»"
         }
       }
     }

@@ -909,6 +909,46 @@
     "cumbres_salon_ceniza": [
       16,
       -11
+    ],
+    "cumbres_atrio_edades": [
+      16,
+      -12
+    ],
+    "cumbres_galeria_primera_edad": [
+      15,
+      -12
+    ],
+    "cumbres_galeria_segunda_edad": [
+      17,
+      -12
+    ],
+    "cumbres_ala_ecos_quellor": [
+      15,
+      -13
+    ],
+    "cumbres_sala_prismas": [
+      16,
+      -13
+    ],
+    "cumbres_hornacina_tratados": [
+      17,
+      -13
+    ],
+    "cumbres_terraza_observador": [
+      16,
+      -14
+    ],
+    "cumbres_boveda_dorada": [
+      15,
+      -14
+    ],
+    "cumbres_cripta_sabios": [
+      17,
+      -14
+    ],
+    "cumbres_santuario_escriba": [
+      16,
+      -15
     ]
   },
   "homes": {
@@ -12907,6 +12947,286 @@
         [
           64,
           -44
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_salon_ceniza",
+      "to": "cumbres_atrio_edades",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -44
+        ],
+        [
+          64,
+          -46
+        ],
+        [
+          64,
+          -48
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_galeria_primera_edad",
+      "to": "cumbres_atrio_edades",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -48
+        ],
+        [
+          62,
+          -48
+        ],
+        [
+          64,
+          -48
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_atrio_edades",
+      "to": "cumbres_galeria_segunda_edad",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -48
+        ],
+        [
+          66,
+          -48
+        ],
+        [
+          68,
+          -48
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_atrio_edades",
+      "to": "cumbres_sala_prismas",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -48
+        ],
+        [
+          64,
+          -50
+        ],
+        [
+          64,
+          -52
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_galeria_primera_edad",
+      "to": "cumbres_ala_ecos_quellor",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -48
+        ],
+        [
+          60,
+          -50
+        ],
+        [
+          60,
+          -52
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_galeria_segunda_edad",
+      "to": "cumbres_hornacina_tratados",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -48
+        ],
+        [
+          68,
+          -50
+        ],
+        [
+          68,
+          -52
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_ala_ecos_quellor",
+      "to": "cumbres_sala_prismas",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -52
+        ],
+        [
+          62,
+          -52
+        ],
+        [
+          64,
+          -52
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_sala_prismas",
+      "to": "cumbres_hornacina_tratados",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -52
+        ],
+        [
+          66,
+          -52
+        ],
+        [
+          68,
+          -52
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_ala_ecos_quellor",
+      "to": "cumbres_boveda_dorada",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -52
+        ],
+        [
+          60,
+          -54
+        ],
+        [
+          60,
+          -56
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_sala_prismas",
+      "to": "cumbres_terraza_observador",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -52
+        ],
+        [
+          64,
+          -54
+        ],
+        [
+          64,
+          -56
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_hornacina_tratados",
+      "to": "cumbres_cripta_sabios",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -52
+        ],
+        [
+          68,
+          -54
+        ],
+        [
+          68,
+          -56
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_boveda_dorada",
+      "to": "cumbres_terraza_observador",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -56
+        ],
+        [
+          62,
+          -56
+        ],
+        [
+          64,
+          -56
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_terraza_observador",
+      "to": "cumbres_cripta_sabios",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -56
+        ],
+        [
+          66,
+          -56
+        ],
+        [
+          68,
+          -56
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_terraza_observador",
+      "to": "cumbres_santuario_escriba",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -56
+        ],
+        [
+          64,
+          -58
+        ],
+        [
+          64,
+          -60
         ]
       ]
     }
