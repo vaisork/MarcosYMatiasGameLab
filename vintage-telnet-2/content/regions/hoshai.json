@@ -3038,10 +3038,12 @@
         "repisas": "Apostaderos desgastados por el roce constante de escamas ancianas."
       },
       "exits": {
-        "sur": "cumbres_grieta_menor"
+        "sur": "cumbres_grieta_menor",
+        "norte": "cumbres_balcon_vhis"
       },
       "look": {
-        "sur": "La grieta de los nidos menores desciende hacia el bosque."
+        "sur": "La grieta de los nidos menores desciende hacia el bosque.",
+        "norte": "Un gran balcón tallado en la roca viva se abre hacia los riscos superiores."
       },
       "arrivals": {},
       "npcs": [],
@@ -3053,6 +3055,337 @@
           "persistent_trace": false,
           "forbids_flags": [
             "victoria:cumbres_umbral_riscos:ceniciento_alado"
+          ]
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_balcon_vhis": {
+      "id": "cumbres_balcon_vhis",
+      "name": "Balcón de Vhis",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Un mirador semicircular colosal labrado directamente en el acantilado basáltico. El suelo está pulido y decorado con estrías concéntricas que marcan las direcciones del viento. Desde aquí se contempla una panorámica vertiginosa de las copas del bosque de fumarolas y, más allá, las crestas lejanas de Khariel.",
+      "day": "La luz diurna inunda la balconada; el viento fresco de la altura agita las brumas inferiores.",
+      "night": "Las estrellas de la sierra parecen al alcance de la mano desde esta repisa colosal.",
+      "rain": "El agua de lluvia es arrastrada horizontalmente por las corrientes térmicas que suben del abismo.",
+      "return": "Vuelves a la amplia balconada labrada sobre el abismo de las cumbres.",
+      "brief": "El mirador semicircular labrado en el acantilado basáltico.",
+      "examine": {
+        "estrias": "Líneas radiales grabadas en el suelo que indican los rumbos de los vientos térmicos.",
+        "barandilla": "Un pretil bajo de piedra volcánica pulida que protege el borde exterior."
+      },
+      "exits": {
+        "sur": "cumbres_umbral_riscos",
+        "norte": "cumbres_terrazas_vuelo"
+      },
+      "look": {
+        "sur": "El umbral de los torreones queda abajo.",
+        "norte": "Las amplias terrazas escalonadas de la Ciudadela se abren hacia el norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_terrazas_vuelo": {
+      "id": "cumbres_terrazas_vuelo",
+      "name": "Terrazas de Vuelo",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una sucesión de plataformas escalonadas que descienden en gradas gigantescas hacia el desfiladero este. Están diseñadas para que dragones de cualquier envergadura puedan iniciar el planeo o aterrizar con seguridad. El suelo es de losas encajadas sin argamasa que respiran con el ciclo térmico.",
+      "day": "Varios dracos jóvenes planean en círculos aprovechando las columnas de aire cálido.",
+      "night": "Las losas retienen el calor del día, sirviendo de descansadero templado bajo la noche clara.",
+      "rain": "El agua corre limpia por las canalizaciones laterales sin encharcar las plataformas.",
+      "return": "Las amplias terrazas escalonadas de vuelo se extienden ante ti.",
+      "brief": "Las plataformas escalonadas de despegue y aterrizaje.",
+      "examine": {
+        "plataformas": "Lajas de basalto negro de tres codos de grosor, firmemente ancladas a la montaña.",
+        "canalizaciones": "Canales labrados en la roca para evacuar el agua de lluvia y el rocío de vapor."
+      },
+      "exits": {
+        "sur": "cumbres_balcon_vhis",
+        "oeste": "cumbres_galeria_resonadores",
+        "este": "cumbres_nidos_altos",
+        "norte": "cumbres_plaza_escamas"
+      },
+      "look": {
+        "sur": "El balcón de Vhis queda al sur.",
+        "oeste": "Un arco abovedado conduce a la galería de los resonadores.",
+        "este": "Repisas abrigadas albergan los nidos altos.",
+        "norte": "La gran plaza de las escamas se alza al frente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja descansa en el borde de una terraza sacudiendo sus alas acorazadas.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_galeria_resonadores": {
+      "id": "cumbres_galeria_resonadores",
+      "name": "Galería de los Resonadores",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Una nave abovedada tallada en basalto con hornacinas curvas en las paredes y el techo. Cada hornacina actúa como una caja acústica afinada para resonar con tonos guturales graves. Cuando el viento exterior cruza los respiraderos, la sala entera vibra con un zumbido profundo y relajante.",
+      "day": "La luz entra por tragaluces cónicos en la cúpula, proyectando círculos dorados en el pavimento.",
+      "night": "El silencio nocturno amplifica el canto de los tubos térmicos en una armonía hipnótica.",
+      "rain": "El impacto de las gotas en los respiraderos altos añade un ritmo sutil a la resonancia mineral.",
+      "return": "El murmullo armónico de la galería de los resonadores te da la bienvenida.",
+      "brief": "La nave abovedada con hornacinas acústicas y resonancia profunda.",
+      "examine": {
+        "hornacinas": "Cavidades semiesféricas pulidas que multiplican las frecuencias acústicas.",
+        "tragaluces": "Aberturas cónicas que canalizan la luz y el flujo de aire exterior."
+      },
+      "exits": {
+        "este": "cumbres_terrazas_vuelo",
+        "norte": "cumbres_taller_basalto"
+      },
+      "look": {
+        "este": "La luz abierta de las terrazas de vuelo queda al oriente.",
+        "norte": "Un resplandor rojizo revela los talleres de forja de basalto."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_nidos_altos": {
+      "id": "cumbres_nidos_altos",
+      "name": "Nidos Altos de la Ciudadela",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una cornisa profunda y resguardada donde las familias dracónicas del Clan Aethelgard construyen sus descansaderos. Grandes cuencos de piedra volcánica rellenos de sabina seca y plumas de ceniza ofrecen un lecho templado. El calor procede de venas hidrotermales que corren bajo el suelo.",
+      "day": "Dracónidos jóvenes practican la flexión de alas bajo la mirada paciente de sus tutores.",
+      "night": "El abrigo de la cornisa mantiene una temperatura apacible en medio del frío de la alta montaña.",
+      "rain": "El techo voladizo protege los nidos de cualquier intemperie.",
+      "return": "Vuelves a la quietud abrigada de los nidos altos.",
+      "brief": "La cornisa abrigada de cuencos de descanso dracónico.",
+      "examine": {
+        "cuencos": "Estructuras circulares de toba volcánica pulida rellenas de fibras vegetales secas.",
+        "venas": "Grietas selladas por donde asciende un calor suave y constante."
+      },
+      "exits": {
+        "oeste": "cumbres_terrazas_vuelo",
+        "norte": "cumbres_bastion_termico"
+      },
+      "look": {
+        "oeste": "Las plataformas de vuelo quedan al poniente.",
+        "norte": "Una estructura maciza de piedra oscura marca el bastión térmico."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_plaza_escamas": {
+      "id": "cumbres_plaza_escamas",
+      "name": "Plaza de las Escamas Forjadas",
+      "region": "hoshai",
+      "kind": "settlement",
+      "description": "El corazón civil y político de la Ciudadela de los Nidos. Un ágora circular de basalto negro delimitada por tres graderíos concéntricos que representan a los clanes Pyrrok, Aethelgard y Quellor. En el centro se alza un monolito de tres caras donde están grabados los principios del Gran Silencio.",
+      "day": "Varios miembros de los clanes dialogan en tonos solemnes mientras el sol ilumina el centro del ágora.",
+      "night": "Antorchas de gas volcánico arden en los pedestales con llamas azules y sin humo.",
+      "rain": "El pavimento poroso absorbe la lluvia inmediatamente, manteniéndose firme y seco.",
+      "return": "Regresas al ágora circular de la plaza de las escamas.",
+      "brief": "El ágora central de la Ciudadela con sus tres graderíos.",
+      "examine": {
+        "monolito": "Una estela triangular con inscripciones antiguas sobre el pacto de no intervención.",
+        "gradas": "Asientos corridos de piedra labrada orientados hacia el punto central de asamblea."
+      },
+      "exits": {
+        "sur": "cumbres_terrazas_vuelo",
+        "oeste": "cumbres_taller_basalto",
+        "este": "cumbres_bastion_termico",
+        "norte": "cumbres_puerta_clanes"
+      },
+      "look": {
+        "sur": "Las terrazas de despegue descienden hacia el sur.",
+        "oeste": "Los martillazos rítmicos proceden del taller de basalto.",
+        "este": "El bastión térmico regula la ventilación de la ciudadela.",
+        "norte": "La majestuosa puerta de los clanes conduce al salón de la ceniza."
+      },
+      "arrivals": {},
+      "npcs": [
+        "cumbres_vhis_kael"
+      ],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_taller_basalto": {
+      "id": "cumbres_taller_basalto",
+      "name": "Taller de la Forja Basáltica",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Una caverna inmensa iluminada por el resplandor de hornos alimentados directamente por respiraderos de magma. Yunques colosales de roca madre reposan sobre pedestales de hierro fósil. Aquí los artesanos del Clan Pyrrok moldean la piedra volcánica y templan las placas sin usar fuego destructivo.",
+      "day": "El humo blanco de los respiraderos se eleva por chimeneas naturales hacia el cielo de las cumbres.",
+      "night": "El brillo carmesí de los hornos baña las paredes de basalto con sombras alargadas y vivas.",
+      "rain": "El calor del recinto neutraliza cualquier humedad que intente entrar desde el exterior.",
+      "return": "El calor seco y los golpes acompasados del taller de basalto te reciben.",
+      "brief": "La caverna de fraguas de magma y yunques de roca madre.",
+      "examine": {
+        "yunques": "Bloques macizos de basalto negro con superficies pulidas como espejos oscuros.",
+        "hornos": "Fosas circulares conectadas a las chimeneas magmáticas que mantienen calor constante."
+      },
+      "exits": {
+        "sur": "cumbres_galeria_resonadores",
+        "este": "cumbres_plaza_escamas",
+        "norte": "cumbres_residencia_pyrrok"
+      },
+      "look": {
+        "sur": "La galería de los resonadores queda al sur.",
+        "este": "La plaza central de las escamas se abre al este.",
+        "norte": "Una arcada baja conduce a las residencias de los Pyrrok."
+      },
+      "arrivals": {},
+      "npcs": [
+        "cumbres_artifice_pyrrok"
+      ],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_bastion_termico": {
+      "id": "cumbres_bastion_termico",
+      "name": "Baluarte del Flujo Térmico",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Una fortificación subterránea que alberga el sistema de válvulas y contrapesos que equilibra la presión del vapor en toda la Ciudadela. Columnas de bronce viejo y piedra sostienen tuberías colosales que emiten un zumbido constante. En la pared oriental se ubica la gran válvula de ceniza.",
+      "day": "La luz diurna se filtra por claraboyas altas iluminando los engranajes de contrapeso.",
+      "night": "La maquinaria hidráulica y neumática trabaja con ritmo silencioso en la penumbra.",
+      "rain": "El bastión permanece cálido y seco gracias al flujo incesante de vapor presurizado.",
+      "return": "Vuelves a la sala de engranajes y tuberías del baluarte térmico.",
+      "brief": "La sala de válvulas y contrapesos del flujo de vapor.",
+      "examine": {
+        "valvula": "Una rueda colosal de piedra basáltica que regula el escape de vapor hacia las terrazas.",
+        "contrapesos": "Bloques cilíndricos suspendidos por cadenas de aleación oscura que estabilizan la presión."
+      },
+      "exits": {
+        "sur": "cumbres_nidos_altos",
+        "oeste": "cumbres_plaza_escamas"
+      },
+      "look": {
+        "sur": "Los nidos altos quedan al sur.",
+        "oeste": "La plaza de las escamas queda hacia el poniente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "cumbres_calibrar_valvula_ciudadela",
+          "label": "Calibrar la válvula de ceniza y nivelar los contrapesos",
+          "requires_examined": [
+            "valvula"
+          ],
+          "forbids_flags": [
+            "misterio_ciudadela_resuelto"
+          ],
+          "set_flags": [
+            "misterio_ciudadela_resuelto"
+          ],
+          "scope": "player",
+          "journal": "Cierre: nivelaste la válvula de ceniza en el Baluarte del Flujo Térmico. La presión de la Ciudadela quedó en equilibrio perfecto y las terrazas disfrutan de corrientes estables.",
+          "text": "Aplicas tu fuerza y conocimiento de los conductos para girar la rueda basáltica hasta la muesca de escape. Los contrapesos cilíndricos oscilan y se asientan con un chasquido sordo. El silbido agudo desaparece y el flujo de vapor se estabiliza en una corriente serena. Detrás del panel de regulación descubres un depósito de lingotes templados.",
+          "give_items": {
+            "lingote_basalto_caliente": 2,
+            "pluma_ceniza": 1
+          }
+        }
+      ]
+    },
+    "cumbres_residencia_pyrrok": {
+      "id": "cumbres_residencia_pyrrok",
+      "name": "Residencia del Clan Pyrrok",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Un conjunto de estancias severas y monumentales excavadas en la roca viva. No hay tapices ni adornos superfluos: solo lajas pulidas, asientos de toba y hornacinas para herramientas de talla. En los muros se aprecian bajorrelieves que ilustran la historia de la forja de la ceniza y el repliegue histórico.",
+      "day": "La luz entra por ventanas aspilleradas que dominan el valle occidental.",
+      "night": "Braseros empotrados en la piedra proporcionan una luz cálida y constante.",
+      "rain": "El espesor del muro de roca aísla por completo las estancias del viento exterior.",
+      "return": "Regresas a la calma sobria de las residencias del Clan Pyrrok.",
+      "brief": "Las estancias severas y monumentales del Clan Pyrrok.",
+      "examine": {
+        "bajorrelieves": "Esculturas en relieve que muestran a los primeros maestros dragones enseñando a tallar la roca.",
+        "asientos": "Bloques geométricos de toba volcánica pulida para ofrecer comodidad firme."
+      },
+      "exits": {
+        "sur": "cumbres_taller_basalto",
+        "este": "cumbres_puerta_clanes"
+      },
+      "look": {
+        "sur": "El taller de la forja queda al sur.",
+        "este": "La gran puerta de los clanes queda al oriente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_puerta_clanes": {
+      "id": "cumbres_puerta_clanes",
+      "name": "Puerta de los Tres Clanes",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Un portón ciclópeo de dos hojas de piedra volcánica negra coronado por un arco ojival de diez varas de altura. En el frontispicio están labrados los tres emblemas: el ala eólica de Aethelgard, el martillo ígneo de Pyrrok y la ola subterránea de Quellor. Los goznes de piedra encajan con precisión milimétrica.",
+      "day": "La luz cenital resalta la talla profunda de los tres sellos heráldicos.",
+      "night": "El arco proyecta una sombra imponente bajo las estrellas de la cordillera.",
+      "rain": "El agua resbala por el arco de piedra como una lámina brillante sin penetrar la juntura.",
+      "return": "El imponente arco de los tres clanes se alza de nuevo ante ti.",
+      "brief": "El portón ciclópeo con los tres emblemas heráldicos.",
+      "examine": {
+        "sellos": "Emblemas labrados que representan el viento, el fuego de la forja y las aguas profundas.",
+        "goznes": "Articulaciones de piedra viva que giran suavemente sin necesidad de engranajes metálicos."
+      },
+      "exits": {
+        "sur": "cumbres_plaza_escamas",
+        "oeste": "cumbres_residencia_pyrrok",
+        "norte": "cumbres_salon_ceniza"
+      },
+      "look": {
+        "sur": "La plaza de las escamas queda hacia el sur.",
+        "oeste": "Las residencias de los Pyrrok quedan al poniente.",
+        "norte": "El salón de la ceniza del maestro Vaelok queda al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_salon_ceniza": {
+      "id": "cumbres_salon_ceniza",
+      "name": "Salón de la Ceniza y el Yunque",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Una bóveda majestuosa de basalto pulido donde arde el hogar principal del Clan Pyrrok. En el centro se eleva un yunque colosal de diorita negra rodeado de fosas de brasas incandescentes. El aire vibra con el calor de la tierra virgen. Aquí aguarda el maestro forjador para juzgar a quienes pretenden cruzar al Gran Archivo.",
+      "day": "El fuego de las fosas compite en brillo con los haces de luz que caen de la bóveda.",
+      "night": "Las brasas iluminan la sala con un fulgor carmesí profundo y solemne.",
+      "rain": "El calor del hogar evapora cualquier rastro de lluvia al instante.",
+      "return": "El gran salón del yunque de basalto y brasas ardientes te recibe.",
+      "brief": "La bóveda del yunque colosal de diorita y hogar de Vaelok.",
+      "examine": {
+        "yunque": "Un bloque de diorita negra pulida de varias toneladas donde se han templado las losas de la historia.",
+        "fosas": "Canales de roca donde el magma fluye lentamente despidiendo un calor puro y constante."
+      },
+      "exits": {
+        "sur": "cumbres_puerta_clanes"
+      },
+      "look": {
+        "sur": "La puerta de los clanes queda hacia el sur."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "vaelok_forjador",
+          "level": 25,
+          "text": "Vaelok el Forjador de Ceniza se yergue junto al yunque con su maza de basalto apoyada en el suelo.",
+          "persistent_trace": false,
+          "forbids_flags": [
+            "victoria:cumbres_salon_ceniza:vaelok_forjador"
           ]
         }
       ],
@@ -3420,6 +3753,48 @@
         "umbral": {
           "label": "Preguntar por el paso a los riscos",
           "text": "«Más adelante está el Umbral de los Riscos. El Ceniciento Alado vigila el paso. No te dejará subir a la Ciudadela sin medir tu temple.»"
+        }
+      }
+    },
+    "cumbres_vhis_kael": {
+      "id": "cumbres_vhis_kael",
+      "name": "Vhis-Kael",
+      "home_room": "cumbres_plaza_escamas",
+      "schedule": [
+        "día",
+        "noche"
+      ],
+      "topics": {
+        "asamblea": {
+          "label": "Preguntar por el debate de los tres clanes",
+          "text": "Vhis-Kael alza sus alas claras con serenidad. «Muchos en el Clan Aethelgard creemos que el Gran Silencio cumplió su cometido. Los pueblos mortales han crecido, pero los Pyrrok aún temen que el contacto traiga codicia y discordia.»"
+        },
+        "marcos": {
+          "label": "Preguntar por el viajero UV.Diaz",
+          "text": "«Su fama llegó antes que sus pasos. Quien vence a un dragón ancestral sin apagar su vida demuestra que comprende la templanza. Esa es la razón por la que el umbral no se cerró ante vosotros.»"
+        },
+        "archivo": {
+          "label": "Preguntar cómo acceder al Gran Archivo",
+          "text": "«Más allá del salón de Vaelok se abre el Archivo de las Cinco Edades. Solo quienes demuestran firmeza ante el yunque obtienen la llave rúnica para franquear la entrada.»"
+        }
+      }
+    },
+    "cumbres_artifice_pyrrok": {
+      "id": "cumbres_artifice_pyrrok",
+      "name": "Artesano Ignis",
+      "home_room": "cumbres_taller_basalto",
+      "schedule": [
+        "día",
+        "noche"
+      ],
+      "topics": {
+        "forja": {
+          "label": "Preguntar por el método de forja de escama viva",
+          "text": "El artesano limpia una lámina de basalto caliente con una gasa de amianto. «No golpeamos para quebrar; golpeamos para acomodar los cristales de la roca. Una losa bien templada soporta el rayo y el hielo sin resquebrajarse.»"
+        },
+        "vaelok": {
+          "label": "Preguntar por el maestro Vaelok",
+          "text": "«Es el más antiguo de los forjadores vivos. Su corazón late al compás de la gran caldera. No tolera la arrogancia, pero honra a quien resiste sus pruebas con dignidad.»"
         }
       }
     }

@@ -869,6 +869,46 @@
     "cumbres_umbral_riscos": [
       16,
       -6
+    ],
+    "cumbres_balcon_vhis": [
+      16,
+      -7
+    ],
+    "cumbres_terrazas_vuelo": [
+      16,
+      -8
+    ],
+    "cumbres_galeria_resonadores": [
+      15,
+      -8
+    ],
+    "cumbres_nidos_altos": [
+      17,
+      -8
+    ],
+    "cumbres_plaza_escamas": [
+      16,
+      -9
+    ],
+    "cumbres_taller_basalto": [
+      15,
+      -9
+    ],
+    "cumbres_bastion_termico": [
+      17,
+      -9
+    ],
+    "cumbres_residencia_pyrrok": [
+      15,
+      -10
+    ],
+    "cumbres_puerta_clanes": [
+      16,
+      -10
+    ],
+    "cumbres_salon_ceniza": [
+      16,
+      -11
     ]
   },
   "homes": {
@@ -12607,6 +12647,266 @@
         [
           64,
           -24
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_umbral_riscos",
+      "to": "cumbres_balcon_vhis",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -24
+        ],
+        [
+          64,
+          -26
+        ],
+        [
+          64,
+          -28
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_balcon_vhis",
+      "to": "cumbres_terrazas_vuelo",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -28
+        ],
+        [
+          64,
+          -30
+        ],
+        [
+          64,
+          -32
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_galeria_resonadores",
+      "to": "cumbres_terrazas_vuelo",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -32
+        ],
+        [
+          62,
+          -32
+        ],
+        [
+          64,
+          -32
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_terrazas_vuelo",
+      "to": "cumbres_nidos_altos",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -32
+        ],
+        [
+          66,
+          -32
+        ],
+        [
+          68,
+          -32
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_terrazas_vuelo",
+      "to": "cumbres_plaza_escamas",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -32
+        ],
+        [
+          64,
+          -34
+        ],
+        [
+          64,
+          -36
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_galeria_resonadores",
+      "to": "cumbres_taller_basalto",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -32
+        ],
+        [
+          60,
+          -34
+        ],
+        [
+          60,
+          -36
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_nidos_altos",
+      "to": "cumbres_bastion_termico",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -32
+        ],
+        [
+          68,
+          -34
+        ],
+        [
+          68,
+          -36
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_taller_basalto",
+      "to": "cumbres_plaza_escamas",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -36
+        ],
+        [
+          62,
+          -36
+        ],
+        [
+          64,
+          -36
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_plaza_escamas",
+      "to": "cumbres_bastion_termico",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -36
+        ],
+        [
+          66,
+          -36
+        ],
+        [
+          68,
+          -36
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_taller_basalto",
+      "to": "cumbres_residencia_pyrrok",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -36
+        ],
+        [
+          60,
+          -38
+        ],
+        [
+          60,
+          -40
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_plaza_escamas",
+      "to": "cumbres_puerta_clanes",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -36
+        ],
+        [
+          64,
+          -38
+        ],
+        [
+          64,
+          -40
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_residencia_pyrrok",
+      "to": "cumbres_puerta_clanes",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -40
+        ],
+        [
+          62,
+          -40
+        ],
+        [
+          64,
+          -40
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_puerta_clanes",
+      "to": "cumbres_salon_ceniza",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -40
+        ],
+        [
+          64,
+          -42
+        ],
+        [
+          64,
+          -44
         ]
       ]
     }
