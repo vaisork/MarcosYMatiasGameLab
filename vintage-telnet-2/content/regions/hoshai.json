@@ -3728,10 +3728,12 @@
         "tablas_flotantes": "Láminas de cuarzo y basalto que levitan sostenidas por respiraderos térmicos precisos."
       },
       "exits": {
-        "sur": "cumbres_terraza_observador"
+        "sur": "cumbres_terraza_observador",
+        "norte": "cumbres_ascenso_crestas"
       },
       "look": {
-        "sur": "La terraza del observador queda hacia el sur."
+        "sur": "La terraza del observador queda hacia el sur.",
+        "norte": "Una brecha abierta en la muralla norte conduce al ascenso de las crestas afiladas."
       },
       "arrivals": {},
       "npcs": [],
@@ -3743,6 +3745,346 @@
           "persistent_trace": false,
           "forbids_flags": [
             "victoria:cumbres_santuario_escriba:oros_khar_escriba"
+          ]
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_ascenso_crestas": {
+      "id": "cumbres_ascenso_crestas",
+      "name": "Ascenso de las Crestas Afiladas",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Un sendero vertiginoso que zigzaguea por el lomo de una cresta basáltica tan afilada que a ambos lados se abren simas de caída libre. El viento del norte aúlla con ferocidad, empujando jirones de niebla fría. En la roca se aprecian clavijas de amarre de aleación antigua para asegurar el paso en días de temporal.",
+      "day": "La luz diurna revela la inmensidad del abismo a los costados; la roca madre ofrece agarre firme.",
+      "night": "El aullido del viento nocturno en las crestas exige pasos medidos y cautelosos.",
+      "rain": "El temporal arrecia con violencia; el agua helada resbala por las lajas sin acumularse.",
+      "return": "Vuelves a la cresta afilada batida por el viento del norte.",
+      "brief": "El sendero estrecho por el filo de la cresta basáltica.",
+      "examine": {
+        "clavijas": "Argollas de bronce fijadas en la roca que servían de línea de vida a los caminantes.",
+        "abismo": "La caída vertical hacia el fondo de las hoces basálticas."
+      },
+      "exits": {
+        "sur": "cumbres_santuario_escriba",
+        "norte": "cumbres_paso_torbellinos"
+      },
+      "look": {
+        "sur": "El santuario del escriba queda al sur.",
+        "norte": "Un embudo eólico donde el viento se arremolina con fuerza."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_paso_torbellinos": {
+      "id": "cumbres_paso_torbellinos",
+      "name": "Paso de los Torbellinos",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una garganta natural estrecha donde chocan dos corrientes térmicas opuestas: el aire caliente que sube de las calderas y la ventisca gélida del polo norte. El resultado es un vórtice constante de ráfagas en espiral que sacude la nieve y la ceniza en remolinos blancos.",
+      "day": "Los torbellinos reflejan la luz solar en destellos cegadores de cristal y escarcha.",
+      "night": "El vórtice eólico ruge en la oscuridad como una manada de bestias elementales.",
+      "rain": "La lluvia se transforma en granizo fino que azota las lajas basálticas.",
+      "return": "El rugido del viento en el paso de los torbellinos te recibe de nuevo.",
+      "brief": "La garganta de corrientes eólicas enfrentadas y torbellinos blancos.",
+      "examine": {
+        "vortice": "El punto de choque térmico donde el aire gira con violencia incesante.",
+        "roca": "Basalto pulido por la fricción continua de millones de partículas de hielo y ceniza."
+      },
+      "exits": {
+        "sur": "cumbres_ascenso_crestas",
+        "oeste": "cumbres_cornisa_aethelgard",
+        "este": "cumbres_baluarte_viento",
+        "norte": "cumbres_aguja_relampago"
+      },
+      "look": {
+        "sur": "El sendero de la cresta desciende hacia el archivo.",
+        "oeste": "Una cornisa amplia se asoma sobre el mar de nubes.",
+        "este": "Una estructura defensiva de contrapesos eólicos queda al oriente.",
+        "norte": "Un monolito cónico de basalto atrae las corrientes del norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico gira en el centro de la garganta levantando esquirlas de hielo.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_cornisa_aethelgard": {
+      "id": "cumbres_cornisa_aethelgard",
+      "name": "Cornisa de las Alas Celestes",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una terraza natural que sobresale sobre el abismo occidental. Abajo se extiende un mar de nubes tupido y blanco como algodón que oculta las tierras bajas. En el centro de la repisa se yergue la losa del Capítulo V, custodiada por monolitos en forma de alas extendidas.",
+      "day": "El sol sobre las nubes crea un espejismo dorado que se pierde en el horizonte.",
+      "night": "La luna tiñe el mar de nubes de tonos plateados de infinita serenidad.",
+      "rain": "La lluvia cae muy por debajo de esta cornisa; aquí el aire es limpio y transparente.",
+      "return": "Regresas a la cornisa soleada sobre el mar de nubes.",
+      "brief": "La terraza voladiza sobre el mar de nubes y la losa del Capítulo V.",
+      "examine": {
+        "losa_cap5": "Una tabla de piedra pulida donde está grabado el Vuelo del Testigo Oculto.",
+        "monolitos_alas": "Esculturas esbeltas de basalto que imitan la curvatura de las alas de planeo."
+      },
+      "exits": {
+        "este": "cumbres_paso_torbellinos",
+        "norte": "cumbres_nido_nubes"
+      },
+      "look": {
+        "este": "El paso de los torbellinos queda hacia el este.",
+        "norte": "Una repisa colosal marca el nido de las nubes."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "leer_cronica_cumbres_5",
+          "label": "Leer el Capítulo V de la Crónica: El Vuelo del Testigo Oculto",
+          "set_flags": [
+            "leido_cronica_cumbres_5"
+          ],
+          "scope": "player",
+          "journal": "Crónica: aprendiste la máxima del testigo oculto y la respuesta ante Zephyros tras leer el Capítulo V.",
+          "text": "Durante incontables generaciones de mortales, los vigías del Clan Aethelgard mantuvieron sus apostaderos en las cornisas más altas de la cordillera septentrional. Desde allí, el ojo dracónico alcanza a distinguir las velas triangulares de Narevia, los humos de las forjas de Brumak y las espigas doradas en las terrazas de Valdren.\n\nMuchos jóvenes nacidos en los nidos de las cumbres preguntaban por qué debían permanecer ocultos mientras los pueblos del llano sufrían hambrunas en los inviernos crudos o se enzarzaban en disputas fronterizas que un solo aletazo hubiera podido dispersar. Esta crónica recoge la respuesta que los ancianos dieron a la asamblea:\n\nSi un dragón desciende a arar los campos de los humanos, los humanos olvidarán cómo forjar el arado y cómo guardar la semilla en los graneros. Si un dragón apaga los incendios de los bosques de Nhal con su aliento de nieve, los Vesperi jamás aprenderán a escuchar los avisos de las raíces ni a cuidar las cortezas viejas. La compasión que arrebata a otro su esfuerzo no engendra gratitud, sino debilidad y servidumbre.\n\nEl verdadero testigo no es el que abandona al caminante, sino el que cuida de que el sendero permanezca transitable sin allanar cada guijarro. La sabiduría dracónica consistió en mantener las corrientes térmicas estables, purificar las fuentes de agua profunda y vigilar que las grandes fuerzas primordiales no consumieran la corteza del mundo antes de tiempo.\n\nPor eso, cuando el Señor de la Ventisca somete a prueba a quienes ascienden por la Puerta de la Falla, no busca doblegar su cuerpo ni arrancar pleitesía. Busca comprobar si el caminante comprende la ley fundamental del testigo:\n'El testigo sabio no arranca la flor para apresurar su fruto; aguarda a que la semilla venza al invierno'.\n\nQuien pronuncie este principio ante Zephyros demuestra que ha dejado atrás la soberbia de los conquistadores y está preparado para entrar en la presencia del Archidragón con la dignidad de un hermano del firmamento."
+        }
+      ]
+    },
+    "cumbres_baluarte_viento": {
+      "id": "cumbres_baluarte_viento",
+      "name": "Baluarte del Contrapeso Eólico",
+      "region": "hoshai",
+      "kind": "interior",
+      "description": "Una fortificación de roca maciza construida para anclar los cables de tensión que estabilizan las pasarelas superiores. En el interior hay un sistema de poleas gigantescas y cadenas de bronce negro que contrarrestan el empuje de los vendavales. En el pedestal central se encuentra la clavija de anclaje principal.",
+      "day": "La luz entra por troneras horizontales iluminando el movimiento rítmico de los contrapesos.",
+      "night": "Las cadenas emiten un leve crujido rítmico al absorber las ráfagas nocturnas.",
+      "rain": "El interior permanece completamente abrigado y libre de hielo.",
+      "return": "Vuelves a la sala de poleas y cadenas del baluarte eólico.",
+      "brief": "La fortificación de poleas gigantes y cadenas de contrapeso.",
+      "examine": {
+        "clavija": "Una barra cilíndrica de aleación forjada que asegura el trinquete de las cadenas.",
+        "cadenas": "Eslabones colosales de bronce negro tratados contra la corrosión helada."
+      },
+      "exits": {
+        "oeste": "cumbres_paso_torbellinos",
+        "norte": "cumbres_espolon_helado"
+      },
+      "look": {
+        "oeste": "El paso de los torbellinos queda al poniente.",
+        "norte": "Un espolón cubierto de escarcha se interna en la ventisca."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "cumbres_anclar_cadenas_baluarte",
+          "label": "Anclar la clavija maestra y estabilizar las cadenas de contrapeso",
+          "requires_examined": [
+            "clavija"
+          ],
+          "forbids_flags": [
+            "misterio_rutas_resuelto"
+          ],
+          "set_flags": [
+            "misterio_rutas_resuelto"
+          ],
+          "scope": "player",
+          "journal": "Cierre: aseguraste la clavija maestra en el Baluarte del Contrapeso Eólico. Las pasarelas de las cumbres quedaron firmes y el paso superior es seguro.",
+          "text": "Con pulso firme y aprovechando la pausa entre dos ráfagas, empujas la clavija maestra en la ranura de sujeción. El trinquete encaja con un golpe rotundo y las cadenas dejan de sacudirse, absorbiendo la tensión del vendaval con perfecta elasticidad. En la hornacina de servicio se libera un cristal de ventisca pura.",
+          "give_items": {
+            "cristal_ventisca_zephyros": 1,
+            "esencia_eolica_pura": 1
+          }
+        }
+      ]
+    },
+    "cumbres_nido_nubes": {
+      "id": "cumbres_nido_nubes",
+      "name": "Nido sobre las Nubes",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una plataforma circular colosal que parece flotar sobre el mar de nubes. Es el punto de reunión de los vigías que patrullan las fronteras septentrionales. En el borde hay postes de amarre para cuerdas de planeo y hornacinas con agua de deshielo filtrada.",
+      "day": "La vista hacia el norte revela la silueta imponente del cráter de la gran caldera.",
+      "night": "El silencio del cielo abierto solo es quebrado por el batir rítmico de alas lejanas.",
+      "rain": "El cielo permanece despejado sobre el mar de nubes.",
+      "return": "La plataforma circular flotante sobre las nubes te recibe.",
+      "brief": "La plataforma circular de vigías sobre el mar de nubes.",
+      "examine": {
+        "postes": "Columnas de basalto con ranuras para fijar líneas de planeo.",
+        "hornacinas": "Cuencos pulidos donde se almacena agua pura de los glaciares."
+      },
+      "exits": {
+        "sur": "cumbres_cornisa_aethelgard",
+        "este": "cumbres_aguja_relampago",
+        "norte": "cumbres_mirador_vaisgard"
+      },
+      "look": {
+        "sur": "La cornisa de Aethelgard queda al sur.",
+        "este": "La aguja del relámpago se alza al oriente.",
+        "norte": "El mirador panorámico de Vaisgard queda al norte."
+      },
+      "arrivals": {},
+      "npcs": [
+        "cumbres_vigia_zephyr"
+      ],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_espolon_helado": {
+      "id": "cumbres_espolon_helado",
+      "name": "Espolón Helado",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Un saliente de roca que se adentra directamente en la nube de ventisca. Aquí el vapor que brota de las fisuras se congela instantáneamente al chocar con el aire polar, formando bosques de agujas de hielo transparente y estalactitas colosales que tintinean con el viento.",
+      "day": "Las agujas de hielo descomponen la luz solar en miles de destellos diamantinos.",
+      "night": "La escarcha brilla con un tono azul zafiro bajo la luz estelar.",
+      "rain": "Cualquier gota se solidifica al instante engrosando las corazas de hielo.",
+      "return": "Vuelves al bosque de agujas de hielo tintineantes del espolón.",
+      "brief": "El saliente rocoso cubierto de estalactitas de hielo y escarcha.",
+      "examine": {
+        "agujas": "Estructuras cristalinas de hielo puro tan afiladas como estiletes.",
+        "fisuras": "Respiraderos térmicos cuya boca está rodeada por un anillo de vapor congelado."
+      },
+      "exits": {
+        "sur": "cumbres_baluarte_viento",
+        "oeste": "cumbres_aguja_relampago"
+      },
+      "look": {
+        "sur": "El baluarte eólico queda hacia el sur.",
+        "oeste": "La aguja del relámpago queda hacia el poniente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_aguja_relampago": {
+      "id": "cumbres_aguja_relampago",
+      "name": "Aguja del Relámpago",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Un monolito cónico natural de basalto con altísimo contenido de magnetita que se alza en la encrucijada de las cumbres. Su punta piramidal está vitrificada por incontables impactos de rayos. Su presencia neutraliza la electricidad estática de la atmósfera, permitiendo el paso seguro.",
+      "day": "La roca negra vitrificada brilla con destellos metálicos bajo el sol.",
+      "night": "Pequeñas chispas azules recorren las estrías de la aguja con un chasquido sutil.",
+      "rain": "El aire huele intensamente a ozono fresco y piedra limpia.",
+      "return": "La imponente aguja cónica vitrificada se alza ante ti.",
+      "brief": "El monolito cónico de basalto magnético y punta vitrificada.",
+      "examine": {
+        "aguja": "Un cono de basalto magnético de quince varas de altura con superficie cristalina.",
+        "estrias": "Canalizaciones naturales por donde las descargas eléctricas se disipan hacia la raíz de la montaña."
+      },
+      "exits": {
+        "sur": "cumbres_paso_torbellinos",
+        "oeste": "cumbres_nido_nubes",
+        "este": "cumbres_espolon_helado",
+        "norte": "cumbres_puente_hielo_ceniza"
+      },
+      "look": {
+        "sur": "El paso de los torbellinos queda al sur.",
+        "oeste": "El nido sobre las nubes queda al poniente.",
+        "este": "El espolón helado queda al oriente.",
+        "norte": "El puente de hielo y ceniza cruza el abismo norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_puente_hielo_ceniza": {
+      "id": "cumbres_puente_hielo_ceniza",
+      "name": "Puente de Hielo y Ceniza",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una pasarela natural de piedra volcánica reforzada con capas milenarias de hielo fósil y ceniza compactada. Cruza un abismo insondable que separa las rutas de vuelo del cráter sagrado. A ambos lados, el vacío cae en vertical miles de varas hacia el lecho de la cordillera.",
+      "day": "El contraste entre la ceniza negra y el hielo blanco guía los pasos con total claridad.",
+      "night": "El puente se perfila como una línea nítida entre dos abismos estrellados.",
+      "rain": "La superficie arenosa de ceniza impide resbalar a pesar de la humedad.",
+      "return": "Vuelves a la pasarela suspendida sobre el abismo de las cumbres.",
+      "brief": "La pasarela natural de hielo y ceniza sobre la sima insondable.",
+      "examine": {
+        "pasarela": "Un arco natural de roca volcánica de seis varas de anchura firmemente afianzado.",
+        "vacio": "La sima profunda que se abre a ambos costados del sendero."
+      },
+      "exits": {
+        "sur": "cumbres_aguja_relampago",
+        "oeste": "cumbres_mirador_vaisgard",
+        "norte": "cumbres_puerta_falla"
+      },
+      "look": {
+        "sur": "La aguja del relámpago queda al sur.",
+        "oeste": "El mirador panorámico de Vaisgard queda al poniente.",
+        "norte": "El gran portón de la falla ígnea se alza al frente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_mirador_vaisgard": {
+      "id": "cumbres_mirador_vaisgard",
+      "name": "Mirador de Vaisgard",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "El punto más alto y despejado de toda la cordillera de Hoshai antes del descenso al cráter. En días claros se aprecian simultáneamente los campos verdes de Edran, los estuarios plateados de Lethra, las canteras ocres de Korven, los bosques espesos de Nhal y las crestas de Khariel.",
+      "day": "El mapa vivo del mundo entero se despliega a tus pies en una visión inolvidable.",
+      "night": "Las luces lejanas de las aldeas titilan en los valles como constelaciones terrestres.",
+      "rain": "Las nubes de tormenta corren por debajo de tus pies como un mar agitado.",
+      "return": "El panorama supremo de los cinco pueblos se abre de nuevo ante tu mirada.",
+      "brief": "El mirador supremo con vista panorámica de todo Vaisgard.",
+      "examine": {
+        "horizonte": "La vista infinita que abarca los cinco reinos mortales de Vaisgard.",
+        "placa": "Una rosa de los vientos grabada en bronce que indica la distancia a cada capital."
+      },
+      "exits": {
+        "sur": "cumbres_nido_nubes",
+        "este": "cumbres_puente_hielo_ceniza"
+      },
+      "look": {
+        "sur": "El nido sobre las nubes queda hacia el sur.",
+        "este": "El puente de hielo y ceniza cruza hacia la puerta de la falla."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_puerta_falla": {
+      "id": "cumbres_puerta_falla",
+      "name": "Puerta de la Falla Ígnea",
+      "region": "hoshai",
+      "kind": "wilderness",
+      "description": "Una hendidura colosal en la muralla de la gran caldera protegida por dos arcadas de basalto helado. El viento aúlla con una intensidad ensordecedora, creando una barrera casi física de frío y vapor. En la cúspide de la arcada reposa Zephyros, el Señor de la Ventisca, vigilando el descenso hacia la Caldera del Primer Aliento.",
+      "day": "Las alas translúcidas de Zephyros refractan la luz del sol como prismas de hielo.",
+      "night": "El resplandor carmesí de la caldera interior se vislumbra a través de la hendidura.",
+      "rain": "La ventisca arrecia con fuerza colosal, desafiando a quien intenta cruzar.",
+      "return": "La imponente puerta de la falla y la presencia de Zephyros te reciben.",
+      "brief": "La hendidura colosal en la muralla de la caldera custodiada por Zephyros.",
+      "examine": {
+        "arcadas": "Estructuras gemelas de roca volcánica cubiertas de hielo milenario.",
+        "falla": "La abertura en la roca por donde se desciende hacia el cráter caliente."
+      },
+      "exits": {
+        "sur": "cumbres_puente_hielo_ceniza"
+      },
+      "look": {
+        "sur": "El puente de hielo y ceniza queda al sur."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "zephyros_ventisca",
+          "level": 31,
+          "text": "Zephyros el Señor de la Ventisca despliega sus inmensas alas de escarcha y te juzga desde las alturas.",
+          "persistent_trace": false,
+          "forbids_flags": [
+            "victoria:cumbres_puerta_falla:zephyros_ventisca"
           ]
         }
       ],
@@ -4171,6 +4513,25 @@
         "prismas": {
           "label": "Preguntar por el enigma de la sala de prismas",
           "text": "«Los prismas no son adornos: son la balanza óptica de las cumbres. Si alineas el haz solar con la Marea Magmática que describe el Capítulo III, y el pulso secundario con la memoria de Quellor del Capítulo IV, la piedra misma te entregará su ofrenda.»"
+        }
+      }
+    },
+    "cumbres_vigia_zephyr": {
+      "id": "cumbres_vigia_zephyr",
+      "name": "Vigía Zephyr",
+      "home_room": "cumbres_nido_nubes",
+      "schedule": [
+        "día",
+        "noche"
+      ],
+      "topics": {
+        "viento": {
+          "label": "Preguntar por las corrientes de las cumbres",
+          "text": "Zephyr bate sus alas esbeltas con elegancia. «El viento de aquí arriba no es un obstáculo; es un sendero. Si aprendes a apoyarte en su empuje en lugar de resistirte con rigidez, volarás con la mente abierta.»"
+        },
+        "zephyros": {
+          "label": "Preguntar por el Señor de la Ventisca",
+          "text": "«Es el más veloz de los ancianos de Aethelgard. No tolera la torpeza ni la soberbia. Para cruzar su puerta debes recordar la máxima del testigo que guardan las losas: la fruta no se arranca antes de su sazón.»"
         }
       }
     }

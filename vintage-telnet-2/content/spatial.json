@@ -949,6 +949,46 @@
     "cumbres_santuario_escriba": [
       16,
       -15
+    ],
+    "cumbres_ascenso_crestas": [
+      16,
+      -16
+    ],
+    "cumbres_paso_torbellinos": [
+      16,
+      -17
+    ],
+    "cumbres_cornisa_aethelgard": [
+      15,
+      -17
+    ],
+    "cumbres_baluarte_viento": [
+      17,
+      -17
+    ],
+    "cumbres_nido_nubes": [
+      15,
+      -18
+    ],
+    "cumbres_espolon_helado": [
+      17,
+      -18
+    ],
+    "cumbres_aguja_relampago": [
+      16,
+      -18
+    ],
+    "cumbres_puente_hielo_ceniza": [
+      16,
+      -19
+    ],
+    "cumbres_mirador_vaisgard": [
+      15,
+      -19
+    ],
+    "cumbres_puerta_falla": [
+      16,
+      -20
     ]
   },
   "homes": {
@@ -13227,6 +13267,266 @@
         [
           64,
           -60
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_santuario_escriba",
+      "to": "cumbres_ascenso_crestas",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -60
+        ],
+        [
+          64,
+          -62
+        ],
+        [
+          64,
+          -64
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_ascenso_crestas",
+      "to": "cumbres_paso_torbellinos",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -64
+        ],
+        [
+          64,
+          -66
+        ],
+        [
+          64,
+          -68
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_cornisa_aethelgard",
+      "to": "cumbres_paso_torbellinos",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -68
+        ],
+        [
+          62,
+          -68
+        ],
+        [
+          64,
+          -68
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_paso_torbellinos",
+      "to": "cumbres_baluarte_viento",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -68
+        ],
+        [
+          66,
+          -68
+        ],
+        [
+          68,
+          -68
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_cornisa_aethelgard",
+      "to": "cumbres_nido_nubes",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -68
+        ],
+        [
+          60,
+          -70
+        ],
+        [
+          60,
+          -72
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_baluarte_viento",
+      "to": "cumbres_espolon_helado",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -68
+        ],
+        [
+          68,
+          -70
+        ],
+        [
+          68,
+          -72
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_paso_torbellinos",
+      "to": "cumbres_aguja_relampago",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -68
+        ],
+        [
+          64,
+          -70
+        ],
+        [
+          64,
+          -72
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_nido_nubes",
+      "to": "cumbres_aguja_relampago",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -72
+        ],
+        [
+          62,
+          -72
+        ],
+        [
+          64,
+          -72
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_aguja_relampago",
+      "to": "cumbres_espolon_helado",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -72
+        ],
+        [
+          66,
+          -72
+        ],
+        [
+          68,
+          -72
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_nido_nubes",
+      "to": "cumbres_mirador_vaisgard",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -72
+        ],
+        [
+          60,
+          -74
+        ],
+        [
+          60,
+          -76
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_aguja_relampago",
+      "to": "cumbres_puente_hielo_ceniza",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -72
+        ],
+        [
+          64,
+          -74
+        ],
+        [
+          64,
+          -76
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_mirador_vaisgard",
+      "to": "cumbres_puente_hielo_ceniza",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -76
+        ],
+        [
+          62,
+          -76
+        ],
+        [
+          64,
+          -76
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_puente_hielo_ceniza",
+      "to": "cumbres_puerta_falla",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -76
+        ],
+        [
+          64,
+          -78
+        ],
+        [
+          64,
+          -80
         ]
       ]
     }
