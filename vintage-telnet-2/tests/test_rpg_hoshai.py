@@ -15,6 +15,7 @@ BOUNDARIES = {
     ('hoshai_garganta_oeste', 'sur', 'korven_meseta_relevo'),
     ('hoshai_estribacion', 'sur', 'veyra_rampa_grava'),
     ('hoshai_estacion_cuerda', 'este', 'nhal_relevo_altura'),
+    ('hoshai_senda_dosel', 'norte', 'cumbres_paso_escamas'),
 }
 
 
@@ -67,7 +68,7 @@ class RpgHoshaiTests(unittest.TestCase):
                     if target not in self.rooms:
                         boundaries.add((rid, direction, target))
                 exit_count += len(scene['exits'])
-        self.assertEqual(exit_count, 59)
+        self.assertEqual(exit_count, 60)
         self.assertEqual(boundaries, BOUNDARIES)
         self.assertEqual(npcs, {'hoshai_daren', 'hoshai_luma', 'hoshai_yesa',
                                'hoshai_iria', 'hoshai_seran', 'hoshai_ena'})

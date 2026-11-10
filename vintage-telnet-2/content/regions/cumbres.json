@@ -1,0 +1,1954 @@
+{
+  "version": 1,
+  "regions": {
+    "cumbres": {
+      "id": "cumbres",
+      "name": "Cumbres Veladas",
+      "identity": "Dominio de las alturas escarpadas, fumarolas termales y calderas primordiales custodiadas por los clanes dragón.",
+      "settlement": "cumbres_refugio_ceniza",
+      "species": "draconico",
+      "weather": {
+        "lluvia": "La lluvia fría sisea al tocar el basalto ardiente, levantando columnas de vapor blanco.",
+        "nieve": "La nieve cubre los riscos altos pero se disuelve en ceniza húmeda al descender hacia las fumarolas.",
+        "viento": "Ráfagas térmicas y vendavales helados chocan en los desfiladeros con rugidos de aliento milenario."
+      },
+      "source": "Ampliación canónica Cumbres Veladas (2026-11-10)",
+      "home": {
+        "name": "Refugio en la repisa de azufre",
+        "introduction": "Un hueco en la roca de basalto al abrigo del viento.",
+        "description": "El hueco en la roca ofrece calor geotérmico constante.",
+        "day": "La luz diurna ilumina el vapor volcánico.",
+        "night": "El fulgor de las fisuras magmáticas alumbra la estancia.",
+        "rain": "El agua sisea contra el techo de piedra caliente.",
+        "clear": "Los picachos nevados se recortan bajo el cielo limpio.",
+        "return": "Regresas al lecho de basalto tibio.",
+        "examine": {
+          "basalto": "Piedra porosa volcánica que almacena el calor de la tierra."
+        }
+      },
+      "search": {
+        "finds": [
+          {
+            "item": "escama_ceniciento",
+            "weight": 5
+          }
+        ],
+        "traces": [
+          "Huellas profundas de garras sobre el basalto quebradizo."
+        ]
+      }
+    }
+  },
+  "rooms": {
+    "cumbres_paso_escamas": {
+      "id": "cumbres_paso_escamas",
+      "name": "Paso de las Escamas Dormidas",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Un desfiladero estrecho y vertical se abre entre dos paredes ciclópeas de basalto prismático. La luz del sol apenas penetra como un haz dorado que corta el vapor ascendente. El suelo es de lajas pulidas por el paso de pesos inmensos hace muchas eras. El aire es tibio y constante, libre de la humedad de las copas bajas de Hoshai.",
+      "day": "La luz vertical del mediodía ilumina el polvo de ceniza en suspensión; el vapor brilla con destellos dorados entre las columnas.",
+      "night": "En la noche cerrada, las columnas de basalto conservan el calor diurno y una suave fosforescencia mineral guía los pasos.",
+      "rain": "La lluvia que cae sobre la sierra se evapora en un suave siseo al tocar las lajas calientes del desfiladero.",
+      "return": "Reconoces el desfiladero de columnas basálticas y el calor reconfortante que asciende del suelo.",
+      "brief": "El paso estrecho entre columnas de basalto y vapor cálido.",
+      "examine": {
+        "columnas": "Pilares de basalto de seis caras que parecen tallados por una mano colosal.",
+        "liquenes": "Líquenes dorados que crecen aprovechando el calor constante que emana de las grietas.",
+        "vapor": "El vapor asciende desde respiraderos profundos y huele a azufre y ceniza limpia."
+      },
+      "exits": {
+        "sur": "hoshai_senda_dosel",
+        "norte": "cumbres_tunel_basalto"
+      },
+      "look": {
+        "sur": "La senda verde y húmeda de Hoshai queda abajo.",
+        "norte": "Un túnel de columnas poligonales se adentra en la montaña."
+      },
+      "arrivals": {
+        "hoshai_senda_dosel": "Cruzas el umbral entre las raíces y los abetos fósiles. El aire frío del bosque se torna de golpe cálido y seco."
+      },
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "plumacresta_ceniza",
+          "text": "Una Plumacresta de Ceniza sobrevuela el paso planeando sobre la corriente térmica.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_tunel_basalto": {
+      "id": "cumbres_tunel_basalto",
+      "name": "Túnel del Resuello Geotérmico",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una galería natural excavada por antiguos torrentes de magma. En las paredes curvas se abren hornacinas y respiraderos de donde brota un silbido rítmico, como la respiración acompasada de un gigante que duerme bajo la cordillera. Las lajas del piso están estriadas para ofrecer agarre firme.",
+      "day": "Rayos de sol oblicuos penetran por fisuras altas del techo rocoso, iluminando el vapor como humo blanco.",
+      "night": "En la oscuridad, el sonido de los respiraderos llena la bóveda con un pulso relajante y rítmico.",
+      "rain": "El rumor exterior de la lluvia queda amortiguado por el grosor del manto basáltico.",
+      "return": "Vuelves a la galería de respiraderos silbantes y lajas estriadas.",
+      "brief": "La galería volcánica de respiraderos rítmicos.",
+      "examine": {
+        "respiraderos": "Oquedades circulares en la roca por donde escapa el aliento volcánico.",
+        "estrias": "Marcas transversales en el suelo que impiden resbalar cuando el vapor se condensa."
+      },
+      "exits": {
+        "sur": "cumbres_paso_escamas",
+        "norte": "cumbres_desfiladero_ciego"
+      },
+      "look": {
+        "sur": "La luz del exterior ilumina la entrada del desfiladero.",
+        "norte": "Una garganta abierta se vislumbra más allá del arco de piedra."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_desfiladero_ciego": {
+      "id": "cumbres_desfiladero_ciego",
+      "name": "Desfiladero Ciego",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una garganta profunda y escarpada donde la bruma térmica se arremolina con tanta densidad que el horizonte desaparece a pocos pasos. El sendero serpentea siguiendo una veta de cuarzo empotrada en el suelo que resuena bajo las botas.",
+      "day": "La niebla blanca se vuelve luminosa y tibia, reflejando la claridad diurna en todas direcciones.",
+      "night": "La niebla nocturna se tiñe de tonos azulados y la veta de cuarzo resplandece tenuemente bajo tus pies.",
+      "rain": "Las gotas se mezclan con la nube térmica antes de tocar el suelo, formando un vaho denso y aromático.",
+      "return": "La garganta de niebla tibia y la veta de cuarzo guía aparecen de nuevo ante ti.",
+      "brief": "La garganta de niebla espesa y veta de cuarzo.",
+      "examine": {
+        "veta": "Una línea continua de cuarzo blanco lechoso que sirve de guía a través de la bruma.",
+        "niebla": "La bruma no ciega ni ahoga: acaricia la piel con la temperatura de un baño termal."
+      },
+      "exits": {
+        "sur": "cumbres_tunel_basalto",
+        "norte": "cumbres_bosque_fumarolas"
+      },
+      "look": {
+        "sur": "El túnel de basalto queda a tus espaldas.",
+        "norte": "Una fronda de sabinas colosales emerge entre la niebla tibia."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_bosque_fumarolas": {
+      "id": "cumbres_bosque_fumarolas",
+      "name": "Bosque de las Fumarolas",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Un bosque asombroso de sabinas gigantescas de cortezas rojizas retorcidas. Entre las raíces colosales brotan penachos de vapor de respiraderos en la tierra negra. En las ramas altas se aprecian nidos de gran tamaño construidos con ramas fósiles y plumas de ceniza. El suelo está cubierto de una alfombra de musgo seco y templado.",
+      "day": "Las copas colosales dejan pasar una luz moteada de tonos cobrizos y esmeralda; el vapor danza entre los troncos.",
+      "night": "Las fumarolas iluminan la base de los troncos con un suave resplandor ambarino.",
+      "rain": "El dosel de las sabinas frena la tormenta; el vapor asciende contra las ramas bajas.",
+      "return": "Regresas a la calma del bosque de sabinas colosales y fumarolas aromáticas.",
+      "brief": "El bosque de sabinas colosales y respiraderos de vapor.",
+      "examine": {
+        "sabinas": "Árboles centenarios cuyas hojas perennes filtran el vapor mineral y despiden aroma a resina y tierra templada.",
+        "nidos": "Estructuras circulares colosales en las copas, demasiado grandes para aves ordinarias."
+      },
+      "exits": {
+        "sur": "cumbres_desfiladero_ciego",
+        "oeste": "cumbres_claros_azufre",
+        "este": "cumbres_manantial_tibio",
+        "norte": "cumbres_grieta_menor"
+      },
+      "look": {
+        "sur": "El desfiladero ciego desciende hacia el túnel.",
+        "oeste": "Destellos dorados indican los claros de azufre.",
+        "este": "Un suave rumor de agua tibia procede del manantial.",
+        "norte": "Una garganta empinada sube hacia las cornisas altas."
+      },
+      "arrivals": {},
+      "npcs": [
+        "hoshai_kaelen"
+      ],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_claros_azufre": {
+      "id": "cumbres_claros_azufre",
+      "name": "Claros del Azufre y la Ceniza",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Un claro amplio en el bosque donde el suelo rocoso está cubierto por cristales amarillos de azufre y montículos de ceniza fina. Manantiales diminutos hierven suavemente en pozas de piedra, dejando incrustaciones doradas que resplandecen bajo el sol.",
+      "day": "El azufre cristalino relumbra con fuerza bajo la luz abierta de las cumbres.",
+      "night": "Los manantiales termales emiten burbujas fosforescentes que titilan en la penumbra.",
+      "rain": "El agua de lluvia forma regueros humeantes que disuelven sales minerales en las pozas.",
+      "return": "Vuelves a los claros resplandecientes de azufre y ceniza fina.",
+      "brief": "Los claros de azufre dorado y pozas hirvientes.",
+      "examine": {
+        "azufre": "Cristales piramidales de color amarillo vivo que se desprenden con facilidad.",
+        "pozas": "Aguas sulfurosas de tono turquesa que despiden burbujas rítmicas."
+      },
+      "exits": {
+        "este": "cumbres_bosque_fumarolas",
+        "norte": "cumbres_pilares_rotos"
+      },
+      "look": {
+        "este": "El bosque de sabinas se extiende hacia el oriente.",
+        "norte": "Columnas cilíndricas gigantescas dominan la terraza superior."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "plumacresta_ceniza",
+          "text": "Una Plumacresta de Ceniza escarba entre los depósitos dorados con su pico curvo.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_manantial_tibio": {
+      "id": "cumbres_manantial_tibio",
+      "name": "Manantial de la Bruma Clara",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una poza natural de aguas cristalinas alimentada por una cascada que cae desde cornisas superiores. El vapor asciende suavemente creando un velo tenue sobre la superficie. Grandes lajas planas de basalto rodean el agua, desgastadas por garras y descansos de seres alados.",
+      "day": "El agua refleja el cielo claro de la sierra mientras el vapor se disuelve en el aire tibio.",
+      "night": "El estanque tibio despide una calma reparadora bajo las estrellas de la cordillera.",
+      "rain": "Las gotas rompen la superficie en círculos concéntricos sin alterar la transparencia de la poza.",
+      "return": "El manantial cristalino y las lajas de descanso te reciben de nuevo.",
+      "brief": "El manantial termal cristalino rodeado de lajas planas.",
+      "examine": {
+        "poza": "El agua es tan clara que permite ver el fondo de guijarros volcánicos pulidos.",
+        "lajas": "Piedras lisas y tibias que retienen el calor del manantial."
+      },
+      "exits": {
+        "oeste": "cumbres_bosque_fumarolas",
+        "norte": "cumbres_refugio_ceniza"
+      },
+      "look": {
+        "oeste": "Los troncos rojizos del bosque de sabinas quedan al poniente.",
+        "norte": "Una hornacina rocosa protegida alberga una losa antigua."
+      },
+      "arrivals": {},
+      "npcs": [
+        "hoshai_vhis_sora"
+      ],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_refugio_ceniza": {
+      "id": "cumbres_refugio_ceniza",
+      "name": "Refugio de la Ceniza",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Una amplia hornacina semicircular labrada en el paredón de basalto, resguardada de los vientos dominantes. En la pared central se yergue una gran losa de piedra oscura pulida con inscripciones rúnicas de gran tamaño: la primera gran tabla de las Cumbres Veladas.",
+      "day": "La luz diurna entra por el arco frontal iluminando con nitidez cada runa grabada en la losa.",
+      "night": "El interior del refugio permanece seco y abrigado; las runas guardan un suave brillo latente.",
+      "rain": "Afuera arrecia el agua, pero el voladizo de basalto mantiene la hornacina completamente seca.",
+      "return": "Regresas al refugio abrigado frente a la gran losa del Capítulo I.",
+      "brief": "La hornacina protegida con la gran losa del Capítulo I.",
+      "examine": {
+        "losa": "Una tabla monolítica de basalto donde están grabadas las Crónicas de Syraketh.",
+        "inscripciones": "Caracteres profundos trazados con calor y cuarzo que narran el repliegue histórico de los clanes."
+      },
+      "exits": {
+        "sur": "cumbres_manantial_tibio",
+        "oeste": "cumbres_grieta_menor"
+      },
+      "look": {
+        "sur": "El manantial de bruma clara queda hacia el sur.",
+        "oeste": "El sendero sube hacia la grieta de los nidos menores."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "leer_cronica_cumbres_1",
+          "label": "Leer el Capítulo I de la Crónica: El Canto de las Tres Nieblas",
+          "set_flags": [
+            "leido_cronica_cumbres_1"
+          ],
+          "scope": "player",
+          "journal": "Crónica: aprendiste el saludo ceremonial de Syraketh: 'Aliento firme, piedra templada' tras leer el Capítulo I.",
+          "text": "En los días anteriores a la cuenta de las eras, cuando el cielo de Vaisgard todavía ardía con el fuego de la formación y la tierra no conocía las lindes de los cinco reinos, las criaturas aladas no anidaban en las cumbres solitarias. Volaban sobre los valles abiertos y compartían el aliento con los primeros pueblos que aprendieron a encender hogueras y tallar la caliza.\n\nPero llegó el Gran Desgarro: las profundidades temblaron, las aguas saladas subieron desde las fosas abismales y la codicia de los reyes antiguos convirtió la tierra fecunda en un campo de ceniza y contiendas. Fue entonces cuando los grandes ancianos dracónicos se reunieron en la caldera que hoy vela la ventisca. Allí debatieron si debían calcinar los ejércitos mortales o retirarse a las alturas donde la nieve y el vapor crean una frontera infranqueable.\n\nEl Clan Pyrrok, cuyos cuerpos son de roca ígnea y ceniza densa, exigió cerrar las calderas y romper todo vínculo, pues afirmaban que la impaciencia de los mortales siempre engendra hierro y sangre. El Clan Aethelgard, cuyas alas cortan las corrientes celestes sin tocar el suelo, propuso observar desde el azul sin dejarse ver, manteniendo encendida la memoria de los cielos compartidos. Y el Clan Quellor, que conoce el cauce oculto de todas las aguas termales y las arterias que irrigan el mundo subterráneo, ofreció su propio sacrificio: sus guardianes descenderían a las simas para sostener los sellos hidrotermales y evitar que la tierra entera colapsara.\n\nAsí nació el Pacto del Gran Silencio. Los dragones ascendieron por encima de las nubes de Hoshai y sellaron el desfiladero con una cortina perpetua de vapor volcánico. Para los caminantes del llano, el norte parecía terminar contra un paredón infranqueable de abetos fósiles y precipicios muertos. Pero tras esa cortina, la sociedad de Syraketh floreció en la quietud de las edades, labrando ciudades en los riscos y bibliotecas en las fallas de basalto.\n\nLos sabios grabaron en esta losa la diferencia que todo viajero debe comprender si no desea extraviarse en el abismo:\nHay tres nieblas en el mundo. La primera es la niebla del agua fría que sube de los pantanos de Lethra: esa niebla engaña a los ojos y pudre las maderas. La segunda es la niebla del hielo que baja de las nieves perpetuas: esa niebla apaga el pecho y duerme a los débiles. Pero la tercera es el aliento de la roca madre, el vapor tibio que emana de los hornos de la creación. Ese aliento no moja ni enfría: reconforta, purifica el plumaje y sostiene a quien camina con respeto.\n\nQuien alcance este refugio y desee continuar hacia las terrazas superiores debe grabar en su memoria la fórmula sagrada de cortesía. Ante los centinelas de los riscos no se esgrime el acero ni se pronuncian amenazas. La respuesta que abre el diálogo y calma la suspicacia de los vigilantes es simple y solemne:\n'Aliento firme, piedra templada'.\n\nPronuncia estas palabras con pulso sereno cuando los ojos del umbral te interroguen, pues en ellas se reconoce al caminante que comprende que la fuerza verdadera no radica en la destrucción, sino en la templanza de la tierra que respira."
+        }
+      ],
+      "recovery_service": true,
+      "safe": true
+    },
+    "cumbres_pilares_rotos": {
+      "id": "cumbres_pilares_rotos",
+      "name": "Pilares del Vuelo Antiguo",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una terraza rocosa dominada por pilares cilíndricos colosales tallados en la roca madre. Algunos se alzan hasta diez varas de altura; otros han sido truncados por el tiempo. En sus pedestales se aprecian hornacinas de ventilación y marcas de garras ancestrales.",
+      "day": "El viento silba suavemente al cruzar entre los pilares de piedra.",
+      "night": "Las sombras de las columnas se proyectan como lanzas alargadas sobre la terraza.",
+      "rain": "El agua chorrea por los cilindros de piedra lavando el polvo acumulado en las estrías.",
+      "return": "Vuelves a la terraza de los pilares cilíndricos colosales.",
+      "brief": "La terraza de pilares colosales de vuelo.",
+      "examine": {
+        "hornacina": "Una oquedad cilíndrica tallada en uno de los pilares basálticos con un respiradero que silba suavemente.",
+        "marcas_garras": "Profundas hendiduras en la base del pilar que indican cómo los antiguos dragones manipulaban el conducto."
+      },
+      "exits": {
+        "sur": "cumbres_claros_azufre",
+        "este": "cumbres_grieta_menor"
+      },
+      "look": {
+        "sur": "Los claros de azufre quedan abajo hacia el sur.",
+        "este": "El paso pedregoso conduce a la grieta de los nidos menores."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "cumbres_alinear_respiradero_hornacina",
+          "label": "Alinear el respiradero de la hornacina con ceniza templada",
+          "requires_examined": [
+            "hornacina"
+          ],
+          "forbids_flags": [
+            "misterio_fumarolas_resuelto"
+          ],
+          "set_flags": [
+            "misterio_fumarolas_resuelto"
+          ],
+          "scope": "player",
+          "journal": "Cierre: alineaste el respiradero de la hornacina en los pilares rotos. La presión del vapor quedó equilibrada y el aire del bosque fluye templado y limpio.",
+          "text": "Siguiendo las enseñanzas de las losas, limpias las ranuras triangulares y giras el cilindro basáltico. El silbido agudo del vapor cesa de golpe, transformándose en un suave murmullo rítmico. Una corriente tibia se expande por los pilares, revelando una hornacina oculta que custodia una ofrenda de los antiguos forjadores.",
+          "give_items": {
+            "pluma_ceniza": 2,
+            "lingote_basalto_caliente": 1
+          }
+        }
+      ]
+    },
+    "cumbres_grieta_menor": {
+      "id": "cumbres_grieta_menor",
+      "name": "Grieta de los Nidos Menores",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una garganta empinada que asciende hacia la base de los riscos. En las grietas laterales anidan crías plumacrestas al cuidado de dracónidos jóvenes. Una losa empotrada en el talud ofrece el Capítulo II de las crónicas de los dragones.",
+      "day": "La luz resalta el brillo cobrizo de las corazas de las crías que aprenden a extender sus alas.",
+      "night": "En la noche, los nidos emiten un calor suave y las respiraciones rítmicas calman el silencio.",
+      "rain": "Los nidos están protegidos por cornisas naturales donde el agua de lluvia no penetra.",
+      "return": "La garganta empinada y los nidos protegidos aparecen ante ti.",
+      "brief": "La garganta empinada con nidos laterales y la losa del Capítulo II.",
+      "examine": {
+        "talud": "Pared inclinada donde se aprecian estratos de ceniza compactada y basalto.",
+        "losa_grieta": "Fragmento de tabla rúnica atribuida al Clan Pyrrok."
+      },
+      "exits": {
+        "sur": "cumbres_bosque_fumarolas",
+        "este": "cumbres_refugio_ceniza",
+        "oeste": "cumbres_pilares_rotos",
+        "norte": "cumbres_umbral_riscos"
+      },
+      "look": {
+        "sur": "El bosque de sabinas queda abajo.",
+        "este": "El refugio abrigado de la ceniza queda al este.",
+        "oeste": "La terraza de pilares de vuelo queda al poniente.",
+        "norte": "Dos torreones colosales marcan el umbral hacia los riscos."
+      },
+      "arrivals": {},
+      "npcs": [
+        "hoshai_maelor"
+      ],
+      "signals": [],
+      "actions": [
+        {
+          "id": "leer_cronica_cumbres_2",
+          "label": "Leer el Capítulo II de la Crónica: La Forja de la Escama Viva",
+          "set_flags": [
+            "leido_cronica_cumbres_2"
+          ],
+          "scope": "player",
+          "journal": "Crónica: leíste el Capítulo II sobre la Forja de la Escama Viva y la templanza del Clan Pyrrok.",
+          "text": "Muchos pueblos de las llanuras creen que forjar consiste en someter el mineral a la furia de los fuelles, golpearlo hasta deformar su estructura y afilar su borde para arrancar la vida de otro ser vivo. Esa es la forja de la impaciencia, la forja que agota las montañas y deja tras de sí escoria muerta y pozos envenenados.\n\nEn las altas Cumbres Veladas, el Clan Pyrrok practica una disciplina enteramente distinta: la Forja de la Escama Viva. Aquí el fuego no es un látigo ni el martillo una condena. La roca volcánica que brota de la gran caldera llega al taller cargada del calor original de la tierra. Los artesanos no la enfrían de golpe en tinajas de agua fría, pues el choque térmico llena la piedra de microfracturas invisibles que terminarán quebrándola en el momento de mayor exigencia.\n\nEl secreto del temple basáltico reside en la respiración acompasada. Las escamas de un dragón no son conchas muertas como las de los escarabajos de rastrojo; crecen a lo largo de los siglos nutriéndose de los minerales que el vapor deposita sobre su lomo. Cuando un joven dracónido muda sus primeras placas, los pedazos no se desechan: se pulverizan en morteros de diorita y se mezclan con ceniza volcánica tamizada y agua de manantial sulfuroso. Con esa pasta, los forjadores sellan las juntas de las terrazas de vuelo y recubren los goznes de los portones colosales.\n\nPor eso los portones de Syraketh no se oxidan jamás ni sus bisagras chirrían con el paso de los milenios. No dependen de clavos de hierro ni de cadenas que el orín devore. Cada gozne es una articulación de piedra viva que se expande durante el día cuando el sol templa la roca, y se asienta durante la noche cuando el frío de la montaña la contrae. Quien intente forzar un portón dracónico con palancas de hierro solo logrará quebrar su propia herramienta, pues la roca responde a la fuerza bruta cerrándose con mayor tenacidad.\n\nPara franquear los pasos de la Ciudadela, el artífice debe observar los conductos de vapor que corren paralelos a los marcos de piedra. Cuando el respiradero inferior se alinea con la muesca de escape, la presión del gas levanta el contrapeso interior sin necesidad de esfuerzo sobrehumano. Este principio rige tanto para las grandes puertas de asamblea como para las hornacinas secretas donde los eruditos custodian los códices de oro y escama.\n\nAprende, pues, caminante del llano: no busques quebrar lo que fue creado para perdurar. Observa las líneas de fuga del vapor, respeta el calor latente de las losas y comprende que la mejor armadura no es la que detiene los golpes con rigidez quebradiza, sino la que sabe disipar el impacto igual que el basalto disipa el rayo."
+        }
+      ]
+    },
+    "cumbres_umbral_riscos": {
+      "id": "cumbres_umbral_riscos",
+      "name": "Umbral de los Riscos",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "El punto de transición donde el bosque de fumarolas concluye y los riscos verticales de Syraketh se alzan hacia el cielo. Dos torreones naturales de basalto flanquean el sendero. El viento arrecia, mezclando el vapor cálido de abajo con la brisa helada de las cumbres. En lo alto de las repisas descansa el vigía del umbral.",
+      "day": "La vista hacia arriba revela la silueta imponente de las terrazas de vuelo de la Ciudadela de los Nidos.",
+      "night": "Los torreones se alzan como centinelas oscuros contra el manto estrellado de la sierra.",
+      "rain": "El viento azota el portal rocoso, enfriando las gotas antes de que toquen el suelo.",
+      "return": "El umbral de los torreones basálticos y el viento de las cumbres te reciben.",
+      "brief": "El umbral flanqueado por dos torreones de basalto.",
+      "examine": {
+        "torreones": "Estructuras de roca volcánica que forman un portal natural imponente.",
+        "repisas": "Apostaderos desgastados por el roce constante de escamas ancianas."
+      },
+      "exits": {
+        "sur": "cumbres_grieta_menor",
+        "norte": "cumbres_balcon_vhis"
+      },
+      "look": {
+        "sur": "La grieta de los nidos menores desciende hacia el bosque.",
+        "norte": "Un gran balcón tallado en la roca viva se abre hacia los riscos superiores."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "ceniciento_alado",
+          "level": 22,
+          "text": "El Ceniciento Alado reposa en el arco de basalto. Sus ojos dorados se posan sobre ti con tranquila advertencia.",
+          "persistent_trace": false,
+          "forbids_flags": [
+            "victoria:cumbres_umbral_riscos:ceniciento_alado"
+          ]
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_balcon_vhis": {
+      "id": "cumbres_balcon_vhis",
+      "name": "Balcón de Vhis",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Un mirador semicircular colosal labrado directamente en el acantilado basáltico. El suelo está pulido y decorado con estrías concéntricas que marcan las direcciones del viento. Desde aquí se contempla una panorámica vertiginosa de las copas del bosque de fumarolas y, más allá, las crestas lejanas de Khariel.",
+      "day": "La luz diurna inunda la balconada; el viento fresco de la altura agita las brumas inferiores.",
+      "night": "Las estrellas de la sierra parecen al alcance de la mano desde esta repisa colosal.",
+      "rain": "El agua de lluvia es arrastrada horizontalmente por las corrientes térmicas que suben del abismo.",
+      "return": "Vuelves a la amplia balconada labrada sobre el abismo de las cumbres.",
+      "brief": "El mirador semicircular labrado en el acantilado basáltico.",
+      "examine": {
+        "estrias": "Líneas radiales grabadas en el suelo que indican los rumbos de los vientos térmicos.",
+        "barandilla": "Un pretil bajo de piedra volcánica pulida que protege el borde exterior."
+      },
+      "exits": {
+        "sur": "cumbres_umbral_riscos",
+        "norte": "cumbres_terrazas_vuelo"
+      },
+      "look": {
+        "sur": "El umbral de los torreones queda abajo.",
+        "norte": "Las amplias terrazas escalonadas de la Ciudadela se abren hacia el norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_terrazas_vuelo": {
+      "id": "cumbres_terrazas_vuelo",
+      "name": "Terrazas de Vuelo",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una sucesión de plataformas escalonadas que descienden en gradas gigantescas hacia el desfiladero este. Están diseñadas para que dragones de cualquier envergadura puedan iniciar el planeo o aterrizar con seguridad. El suelo es de losas encajadas sin argamasa que respiran con el ciclo térmico.",
+      "day": "Varios dracos jóvenes planean en círculos aprovechando las columnas de aire cálido.",
+      "night": "Las losas retienen el calor del día, sirviendo de descansadero templado bajo la noche clara.",
+      "rain": "El agua corre limpia por las canalizaciones laterales sin encharcar las plataformas.",
+      "return": "Las amplias terrazas escalonadas de vuelo se extienden ante ti.",
+      "brief": "Las plataformas escalonadas de despegue y aterrizaje.",
+      "examine": {
+        "plataformas": "Lajas de basalto negro de tres codos de grosor, firmemente ancladas a la montaña.",
+        "canalizaciones": "Canales labrados en la roca para evacuar el agua de lluvia y el rocío de vapor."
+      },
+      "exits": {
+        "sur": "cumbres_balcon_vhis",
+        "oeste": "cumbres_galeria_resonadores",
+        "este": "cumbres_nidos_altos",
+        "norte": "cumbres_plaza_escamas"
+      },
+      "look": {
+        "sur": "El balcón de Vhis queda al sur.",
+        "oeste": "Un arco abovedado conduce a la galería de los resonadores.",
+        "este": "Repisas abrigadas albergan los nidos altos.",
+        "norte": "La gran plaza de las escamas se alza al frente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja descansa en el borde de una terraza sacudiendo sus alas acorazadas.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_galeria_resonadores": {
+      "id": "cumbres_galeria_resonadores",
+      "name": "Galería de los Resonadores",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Una nave abovedada tallada en basalto con hornacinas curvas en las paredes y el techo. Cada hornacina actúa como una caja acústica afinada para resonar con tonos guturales graves. Cuando el viento exterior cruza los respiraderos, la sala entera vibra con un zumbido profundo y relajante.",
+      "day": "La luz entra por tragaluces cónicos en la cúpula, proyectando círculos dorados en el pavimento.",
+      "night": "El silencio nocturno amplifica el canto de los tubos térmicos en una armonía hipnótica.",
+      "rain": "El impacto de las gotas en los respiraderos altos añade un ritmo sutil a la resonancia mineral.",
+      "return": "El murmullo armónico de la galería de los resonadores te da la bienvenida.",
+      "brief": "La nave abovedada con hornacinas acústicas y resonancia profunda.",
+      "examine": {
+        "hornacinas": "Cavidades semiesféricas pulidas que multiplican las frecuencias acústicas.",
+        "tragaluces": "Aberturas cónicas que canalizan la luz y el flujo de aire exterior."
+      },
+      "exits": {
+        "este": "cumbres_terrazas_vuelo",
+        "norte": "cumbres_taller_basalto"
+      },
+      "look": {
+        "este": "La luz abierta de las terrazas de vuelo queda al oriente.",
+        "norte": "Un resplandor rojizo revela los talleres de forja de basalto."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_nidos_altos": {
+      "id": "cumbres_nidos_altos",
+      "name": "Nidos Altos de la Ciudadela",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una cornisa profunda y resguardada donde las familias dracónicas del Clan Aethelgard construyen sus descansaderos. Grandes cuencos de piedra volcánica rellenos de sabina seca y plumas de ceniza ofrecen un lecho templado. El calor procede de venas hidrotermales que corren bajo el suelo.",
+      "day": "Dracónidos jóvenes practican la flexión de alas bajo la mirada paciente de sus tutores.",
+      "night": "El abrigo de la cornisa mantiene una temperatura apacible en medio del frío de la alta montaña.",
+      "rain": "El techo voladizo protege los nidos de cualquier intemperie.",
+      "return": "Vuelves a la quietud abrigada de los nidos altos.",
+      "brief": "La cornisa abrigada de cuencos de descanso dracónico.",
+      "examine": {
+        "cuencos": "Estructuras circulares de toba volcánica pulida rellenas de fibras vegetales secas.",
+        "venas": "Grietas selladas por donde asciende un calor suave y constante."
+      },
+      "exits": {
+        "oeste": "cumbres_terrazas_vuelo",
+        "norte": "cumbres_bastion_termico"
+      },
+      "look": {
+        "oeste": "Las plataformas de vuelo quedan al poniente.",
+        "norte": "Una estructura maciza de piedra oscura marca el bastión térmico."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_plaza_escamas": {
+      "id": "cumbres_plaza_escamas",
+      "name": "Plaza de las Escamas Forjadas",
+      "region": "cumbres",
+      "kind": "settlement",
+      "description": "El corazón civil y político de la Ciudadela de los Nidos. Un ágora circular de basalto negro delimitada por tres graderíos concéntricos que representan a los clanes Pyrrok, Aethelgard y Quellor. En el centro se alza un monolito de tres caras donde están grabados los principios del Gran Silencio.",
+      "day": "Varios miembros de los clanes dialogan en tonos solemnes mientras el sol ilumina el centro del ágora.",
+      "night": "Antorchas de gas volcánico arden en los pedestales con llamas azules y sin humo.",
+      "rain": "El pavimento poroso absorbe la lluvia inmediatamente, manteniéndose firme y seco.",
+      "return": "Regresas al ágora circular de la plaza de las escamas.",
+      "brief": "El ágora central de la Ciudadela con sus tres graderíos.",
+      "examine": {
+        "monolito": "Una estela triangular con inscripciones antiguas sobre el pacto de no intervención.",
+        "gradas": "Asientos corridos de piedra labrada orientados hacia el punto central de asamblea."
+      },
+      "exits": {
+        "sur": "cumbres_terrazas_vuelo",
+        "oeste": "cumbres_taller_basalto",
+        "este": "cumbres_bastion_termico",
+        "norte": "cumbres_puerta_clanes"
+      },
+      "look": {
+        "sur": "Las terrazas de despegue descienden hacia el sur.",
+        "oeste": "Los martillazos rítmicos proceden del taller de basalto.",
+        "este": "El bastión térmico regula la ventilación de la ciudadela.",
+        "norte": "La majestuosa puerta de los clanes conduce al salón de la ceniza."
+      },
+      "arrivals": {},
+      "npcs": [
+        "cumbres_vhis_kael"
+      ],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_taller_basalto": {
+      "id": "cumbres_taller_basalto",
+      "name": "Taller de la Forja Basáltica",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Una caverna inmensa iluminada por el resplandor de hornos alimentados directamente por respiraderos de magma. Yunques colosales de roca madre reposan sobre pedestales de hierro fósil. Aquí los artesanos del Clan Pyrrok moldean la piedra volcánica y templan las placas sin usar fuego destructivo.",
+      "day": "El humo blanco de los respiraderos se eleva por chimeneas naturales hacia el cielo de las cumbres.",
+      "night": "El brillo carmesí de los hornos baña las paredes de basalto con sombras alargadas y vivas.",
+      "rain": "El calor del recinto neutraliza cualquier humedad que intente entrar desde el exterior.",
+      "return": "El calor seco y los golpes acompasados del taller de basalto te reciben.",
+      "brief": "La caverna de fraguas de magma y yunques de roca madre.",
+      "examine": {
+        "yunques": "Bloques macizos de basalto negro con superficies pulidas como espejos oscuros.",
+        "hornos": "Fosas circulares conectadas a las chimeneas magmáticas que mantienen calor constante."
+      },
+      "exits": {
+        "sur": "cumbres_galeria_resonadores",
+        "este": "cumbres_plaza_escamas",
+        "norte": "cumbres_residencia_pyrrok"
+      },
+      "look": {
+        "sur": "La galería de los resonadores queda al sur.",
+        "este": "La plaza central de las escamas se abre al este.",
+        "norte": "Una arcada baja conduce a las residencias de los Pyrrok."
+      },
+      "arrivals": {},
+      "npcs": [
+        "cumbres_artifice_pyrrok"
+      ],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_bastion_termico": {
+      "id": "cumbres_bastion_termico",
+      "name": "Baluarte del Flujo Térmico",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Una fortificación subterránea que alberga el sistema de válvulas y contrapesos que equilibra la presión del vapor en toda la Ciudadela. Columnas de bronce viejo y piedra sostienen tuberías colosales que emiten un zumbido constante. En la pared oriental se ubica la gran válvula de ceniza.",
+      "day": "La luz diurna se filtra por claraboyas altas iluminando los engranajes de contrapeso.",
+      "night": "La maquinaria hidráulica y neumática trabaja con ritmo silencioso en la penumbra.",
+      "rain": "El bastión permanece cálido y seco gracias al flujo incesante de vapor presurizado.",
+      "return": "Vuelves a la sala de engranajes y tuberías del baluarte térmico.",
+      "brief": "La sala de válvulas y contrapesos del flujo de vapor.",
+      "examine": {
+        "valvula": "Una rueda colosal de piedra basáltica que regula el escape de vapor hacia las terrazas.",
+        "contrapesos": "Bloques cilíndricos suspendidos por cadenas de aleación oscura que estabilizan la presión."
+      },
+      "exits": {
+        "sur": "cumbres_nidos_altos",
+        "oeste": "cumbres_plaza_escamas"
+      },
+      "look": {
+        "sur": "Los nidos altos quedan al sur.",
+        "oeste": "La plaza de las escamas queda hacia el poniente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "cumbres_calibrar_valvula_ciudadela",
+          "label": "Calibrar la válvula de ceniza y nivelar los contrapesos",
+          "requires_examined": [
+            "valvula"
+          ],
+          "forbids_flags": [
+            "misterio_ciudadela_resuelto"
+          ],
+          "set_flags": [
+            "misterio_ciudadela_resuelto"
+          ],
+          "scope": "player",
+          "journal": "Cierre: nivelaste la válvula de ceniza en el Baluarte del Flujo Térmico. La presión de la Ciudadela quedó en equilibrio perfecto y las terrazas disfrutan de corrientes estables.",
+          "text": "Aplicas tu fuerza y conocimiento de los conductos para girar la rueda basáltica hasta la muesca de escape. Los contrapesos cilíndricos oscilan y se asientan con un chasquido sordo. El silbido agudo desaparece y el flujo de vapor se estabiliza en una corriente serena. Detrás del panel de regulación descubres un depósito de lingotes templados.",
+          "give_items": {
+            "lingote_basalto_caliente": 2,
+            "pluma_ceniza": 1
+          }
+        }
+      ]
+    },
+    "cumbres_residencia_pyrrok": {
+      "id": "cumbres_residencia_pyrrok",
+      "name": "Residencia del Clan Pyrrok",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Un conjunto de estancias severas y monumentales excavadas en la roca viva. No hay tapices ni adornos superfluos: solo lajas pulidas, asientos de toba y hornacinas para herramientas de talla. En los muros se aprecian bajorrelieves que ilustran la historia de la forja de la ceniza y el repliegue histórico.",
+      "day": "La luz entra por ventanas aspilleradas que dominan el valle occidental.",
+      "night": "Braseros empotrados en la piedra proporcionan una luz cálida y constante.",
+      "rain": "El espesor del muro de roca aísla por completo las estancias del viento exterior.",
+      "return": "Regresas a la calma sobria de las residencias del Clan Pyrrok.",
+      "brief": "Las estancias severas y monumentales del Clan Pyrrok.",
+      "examine": {
+        "bajorrelieves": "Esculturas en relieve que muestran a los primeros maestros dragones enseñando a tallar la roca.",
+        "asientos": "Bloques geométricos de toba volcánica pulida para ofrecer comodidad firme."
+      },
+      "exits": {
+        "sur": "cumbres_taller_basalto",
+        "este": "cumbres_puerta_clanes"
+      },
+      "look": {
+        "sur": "El taller de la forja queda al sur.",
+        "este": "La gran puerta de los clanes queda al oriente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_puerta_clanes": {
+      "id": "cumbres_puerta_clanes",
+      "name": "Puerta de los Tres Clanes",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Un portón ciclópeo de dos hojas de piedra volcánica negra coronado por un arco ojival de diez varas de altura. En el frontispicio están labrados los tres emblemas: el ala eólica de Aethelgard, el martillo ígneo de Pyrrok y la ola subterránea de Quellor. Los goznes de piedra encajan con precisión milimétrica.",
+      "day": "La luz cenital resalta la talla profunda de los tres sellos heráldicos.",
+      "night": "El arco proyecta una sombra imponente bajo las estrellas de la cordillera.",
+      "rain": "El agua resbala por el arco de piedra como una lámina brillante sin penetrar la juntura.",
+      "return": "El imponente arco de los tres clanes se alza de nuevo ante ti.",
+      "brief": "El portón ciclópeo con los tres emblemas heráldicos.",
+      "examine": {
+        "sellos": "Emblemas labrados que representan el viento, el fuego de la forja y las aguas profundas.",
+        "goznes": "Articulaciones de piedra viva que giran suavemente sin necesidad de engranajes metálicos."
+      },
+      "exits": {
+        "sur": "cumbres_plaza_escamas",
+        "oeste": "cumbres_residencia_pyrrok",
+        "norte": "cumbres_salon_ceniza"
+      },
+      "look": {
+        "sur": "La plaza de las escamas queda hacia el sur.",
+        "oeste": "Las residencias de los Pyrrok quedan al poniente.",
+        "norte": "El salón de la ceniza del maestro Vaelok queda al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_salon_ceniza": {
+      "id": "cumbres_salon_ceniza",
+      "name": "Salón de la Ceniza y el Yunque",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Una bóveda majestuosa de basalto pulido donde arde el hogar principal del Clan Pyrrok. En el centro se eleva un yunque colosal de diorita negra rodeado de fosas de brasas incandescentes. El aire vibra con el calor de la tierra virgen. Aquí aguarda el maestro forjador para juzgar a quienes pretenden cruzar al Gran Archivo.",
+      "day": "El fuego de las fosas compite en brillo con los haces de luz que caen de la bóveda.",
+      "night": "Las brasas iluminan la sala con un fulgor carmesí profundo y solemne.",
+      "rain": "El calor del hogar evapora cualquier rastro de lluvia al instante.",
+      "return": "El gran salón del yunque de basalto y brasas ardientes te recibe.",
+      "brief": "La bóveda del yunque colosal de diorita y hogar de Vaelok.",
+      "examine": {
+        "yunque": "Un bloque de diorita negra pulida de varias toneladas donde se han templado las losas de la historia.",
+        "fosas": "Canales de roca donde el magma fluye lentamente despidiendo un calor puro y constante."
+      },
+      "exits": {
+        "sur": "cumbres_puerta_clanes",
+        "norte": "cumbres_atrio_edades"
+      },
+      "look": {
+        "sur": "La puerta de los clanes queda hacia el sur.",
+        "norte": "Un portal solemne flanqueado por monolitos rúnicos conduce al Archivo de las Cinco Edades."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "vaelok_forjador",
+          "level": 25,
+          "text": "Vaelok el Forjador de Ceniza se yergue junto al yunque con su maza de basalto apoyada en el suelo.",
+          "persistent_trace": false,
+          "forbids_flags": [
+            "victoria:cumbres_salon_ceniza:vaelok_forjador"
+          ]
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_atrio_edades": {
+      "id": "cumbres_atrio_edades",
+      "name": "Atrio de las Cinco Edades",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Un vestíbulo monumental excavado verticalmente en una falla de basalto negro pulido. Columnas monolíticas de doce varas de altura flanquean la calzada central; en sus capiteles arden pebeteros de sal mineral con llamas de un suave tono azul celeste. El aire es fresco, seco y huele a pergamino antiguo y polvo de cuarzo.",
+      "day": "La luz del mediodía baja en un haz vertical desde la lucernaria de la cúpula, iluminando el pavimento.",
+      "night": "Los pebeteros azules bañan los monolitos con sombras solemnes que invitan al silencio.",
+      "rain": "El recinto permanece en silencio absoluto; el manto de roca madre amortigua cualquier temporal exterior.",
+      "return": "Regresas al silencio solemne del Atrio de las Cinco Edades.",
+      "brief": "El vestíbulo monumental con columnas monolíticas y pebeteros azules.",
+      "examine": {
+        "monolitos": "Columnas hexagonales de basalto con inscripciones cronológicas de las edades de Vaisgard.",
+        "pebeteros": "Cuencos de bronce fósil donde sales minerales arden con llama fría y sin ceniza."
+      },
+      "exits": {
+        "sur": "cumbres_salon_ceniza",
+        "oeste": "cumbres_galeria_primera_edad",
+        "este": "cumbres_galeria_segunda_edad",
+        "norte": "cumbres_sala_prismas"
+      },
+      "look": {
+        "sur": "El salón de la ceniza de Vaelok queda al sur.",
+        "oeste": "La galería de la primera edad alberga relieves cosmogónicos.",
+        "este": "La galería de la segunda edad narra el contacto con los pueblos.",
+        "norte": "La sala de los prismas astronómicos resplandece al fondo."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_galeria_primera_edad": {
+      "id": "cumbres_galeria_primera_edad",
+      "name": "Galería de la Primera Edad",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Una nave alargada flanqueada por hornacinas donde reposan láminas de piedra pómez grabadas con escritura cuneiforme arcaica. Los bajorrelieves narran la formación de las cordilleras de Vaisgard y las cinco corrientes eólicas. En el centro de la sala descansa la losa del Capítulo III.",
+      "day": "Haces de luz dorada cruzan entre las hornacinas iluminando las inscripciones de las corrientes.",
+      "night": "El polvo de cuarzo de las láminas despide una tenue fosforescencia verdosa.",
+      "rain": "La atmósfera de la galería permanece cálida, seca e inmóvil.",
+      "return": "Vuelves a la galería de las láminas de la primera edad.",
+      "brief": "La galería de relieves cosmogónicos y la losa del Capítulo III.",
+      "examine": {
+        "hornacinas": "Nichos protegidos con cortinillas de asbesto donde reposan los textos fundacionales.",
+        "losa_cap3": "Una losa de basalto pulido donde está grabado el Tratado de las Alturas Celestes."
+      },
+      "exits": {
+        "este": "cumbres_atrio_edades",
+        "norte": "cumbres_ala_ecos_quellor"
+      },
+      "look": {
+        "este": "El atrio central queda al oriente.",
+        "norte": "El ala de los ecos de Quellor se abre hacia el norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "leer_cronica_cumbres_3",
+          "label": "Leer el Capítulo III de la Crónica: El Tratado de las Alturas Celestes",
+          "set_flags": [
+            "leido_cronica_cumbres_3"
+          ],
+          "scope": "player",
+          "journal": "Crónica: aprendiste la dinámica de las cinco corrientes eólicas y la clave de los prismas tras leer el Capítulo III.",
+          "text": "En las crónicas del Clan Aethelgard se enseña que el cielo no es un vacío inerte sobre la tierra, sino un océano invisible compuesto por corrientes térmicas que fluyen con la precisión de los ríos más caudalosos. Quien desconozca los rumbos de este océano aéreo caerá derribado por las turbulencias o consumirá su esfuerzo inútilmente contra la ventisca.\n\nCinco son las grandes corrientes que cruzan el firmamento de Vaisgard. La primera es la Marea de Khariel, un viento seco y ascendente que nace del choque entre el sol sobre los riscos y las sombras de las hoces profundas. Esta corriente eleva a los planeadores desde el alba hasta el cenit. La segunda es el Río de Velmora, un aliento cargado de la humedad fragante de los bosques de sabinas que estabiliza el planeo horizontal sobre el dosel.\n\nLa tercera es el Torrente del Norte, que desciende desde los glaciares perpetuos con la pureza del hielo virgen. Esta corriente enfría las crestas y exige plumas de ceniza compactas para no entumecer las articulaciones. La cuarta es la Marea Magmática, la columna ascendente que emana del cráter de Syraketh; es el pulso vital de la cordillera, capaz de sostener a los dragones ancianos sin necesidad de un solo aletazo. Y la quinta corriente es el Viento de los Solsticios, que invierte su curso dos veces al año, armonizando los climas de las tierras bajas con la caldera sagrada.\n\nEn la Sala de los Prismas del Gran Archivo, los primeros astrónomos dracónicos instalaron los tres cilindros de cuarzo tallado que miden el pulso de estas corrientes. Para abrir las hornacinas secretas de los sabios sin forzar sus cerraduras de piedra, el estudioso debe sincronizar la refracción: el prisma solar debe orientarse hacia el Rumbo Magmático del mediodía, mientras que el prisma secundario debe alinearse con la Marea de las Aguas Profundas.\n\nComprende, pues, caminante del llano: quien lee las alturas no teme al abismo, pues el aire mismo se convierte en peldaño firme para quien conoce su curso y respeta su ley."
+        }
+      ]
+    },
+    "cumbres_galeria_segunda_edad": {
+      "id": "cumbres_galeria_segunda_edad",
+      "name": "Galería de la Segunda Edad",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Un recinto semicircular donde los archivos detallan los primeros encuentros entre los dragones y los pueblos mortales. Vitrinas de cristal volcánico custodian herramientas primitivas de piedra entregadas por los canteros de Brumak y agujas de cuarzo de los tejedores de Nhal.",
+      "day": "La luz matutina resalta los colores terrosos de las vasijas y herramientas antiguas.",
+      "night": "Las vitrinas reflejan la calma de las salas de estudio de la Ciudadela.",
+      "rain": "El murmullo lejano de la lluvia evoca los primeros intercambios en los llanos.",
+      "return": "La galería de los primeros contactos con los pueblos te recibe de nuevo.",
+      "brief": "El recinto de archivos de convivencia y vitrinas históricas.",
+      "examine": {
+        "vitrinas": "Urnas de obsidiana traslúcida que protegen ofrendas de los cinco pueblos.",
+        "rollos": "Pergaminos de corteza de sabina enrollados en cilindros de hueso fósil."
+      },
+      "exits": {
+        "oeste": "cumbres_atrio_edades",
+        "norte": "cumbres_hornacina_tratados"
+      },
+      "look": {
+        "oeste": "El atrio central queda al poniente.",
+        "norte": "La hornacina de los tratados antiguos se abre hacia el norte."
+      },
+      "arrivals": {},
+      "npcs": [
+        "cumbres_archivista_sol"
+      ],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_ala_ecos_quellor": {
+      "id": "cumbres_ala_ecos_quellor",
+      "name": "Ala de los Ecos de Quellor",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Una cámara solemne con un canal central por donde corre un hilillo de agua termal cristalina que resuena con un rumor musical. En las paredes de diorita azul están grabados los nombres de los guardianes que descendieron a las fallas. En el centro descansa la losa del Capítulo IV.",
+      "day": "El agua refleja destellos azulados contra la bóveda de diorita.",
+      "night": "El rumor del agua termal llena la sala con una serenidad reverente.",
+      "rain": "El caudal del canal aumenta ligeramente, manteniendo su melodía clara.",
+      "return": "Vuelves a la quietud azul del ala de los ecos de Quellor.",
+      "brief": "La cámara de aguas termales cristalinas y la losa del Capítulo IV.",
+      "examine": {
+        "canal": "Un cauce labrado en diorita por donde fluye agua tibia con sales de cuarzo.",
+        "losa_cap4": "La gran tabla de piedra azul donde está grabada la Memoria de las Aguas Profundas."
+      },
+      "exits": {
+        "sur": "cumbres_galeria_primera_edad",
+        "este": "cumbres_sala_prismas",
+        "norte": "cumbres_boveda_dorada"
+      },
+      "look": {
+        "sur": "La galería de la primera edad queda al sur.",
+        "este": "La sala de los prismas astronómicos queda al este.",
+        "norte": "La bóveda de los códices dorados queda al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "leer_cronica_cumbres_4",
+          "label": "Leer el Capítulo IV de la Crónica: La Memoria de las Aguas Profundas",
+          "set_flags": [
+            "leido_cronica_cumbres_4"
+          ],
+          "scope": "player",
+          "journal": "Crónica: conociste el sacrificio del Dragón de las Aguas en Veyra y su reposo vivo tras leer el Capítulo IV.",
+          "text": "En el corazón del Clan Quellor se custodia la memoria más sagrada y conmovedora de todas las que guardan las tablas basálticas: el descenso del Guardián del Vientre de la Tierra hacia las profundidades de Veyra.\n\nCuando sobrevino la gran fractura tectónica que amenazó anegar los acuíferos de las cinco razas bajo torrentes de agua hirviente y azufre corrosivo, los señores de los clanes comprendieron que la falla no se cerraría desde las alturas. Se requería un cuerpo colosal que descendiera a la raíz misma del mundo, interponiéndose entre la sima y el manantial sagrado.\n\nFue el gran dragón del Clan Quellor quien aceptó la encomienda. Sus hermanos forjaron para su pecho placas de basalto impermeable y templaron sus garras en las aguas madres. El Guardián descendió por las canteras y se aposentó en la bóveda que los pueblos de abajo llaman hoy el Bastión de las Aguas. Allí afianzó su cola en torno a la grieta y con su propio aliento reguló la presión del lecho subterráneo, permitiendo que el agua volviera a brotar limpia y fresca hacia los canales de los Dravak y Marevyn.\n\nMuchas generaciones de mortales creyeron que aquel dragón era una bestia cautiva o un monstruo hostil. Olvidaron que su rugido no era amenaza, sino el esfuerzo inmenso de sostener el peso de la cordillera sobre su lomo. Durante trescientos años reposó allí en vigilia solitaria, mientras su cresta se blanqueaba con sales minerales y sus alas se adaptaban a la penumbra de la caverna.\n\nY esta crónica deja constancia de la verdad para todas las edades por venir: el Dragón de las Aguas Antiguas no fue destruido ni apagada su vida. Cuando el caminante Marcos, arcano de los ecos, descendió al Bastión, la contienda fue una prueba de temple y resonancia armónica. El dragón reposó su cabeza fatigada sobre la piedra tibia, respiró hondo y continuó su vigilia protectora en paz, habiendo reconocido en los ojos del mortal la madurez que los pueblos tanto tiempo tardaron en alcanzar.\n\nQue todo aquel que cruce este archivo recuerde: el Clan Quellor no honra la sangre derramada, sino el servicio que sostiene la vida de la tierra en silencio."
+        }
+      ]
+    },
+    "cumbres_sala_prismas": {
+      "id": "cumbres_sala_prismas",
+      "name": "Sala de los Prismas Astronómicos",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Una cámara octogonal dominada por tres prismas colosales de cuarzo puro montados sobre soportes giratorios de basalto. En el centro del pavimento hay un cuadrante solar con ranuras de calibración. Los haces de luz y vapor refractados crean un espectro multicolor que danza sobre los muros.",
+      "day": "Los prismas proyectan franjas de luz arcoíris que cruzan la sala con precisión geométrica.",
+      "night": "La luz de la luna entra por el óculo cenital proyectando halos plateados sobre el cuadrante.",
+      "rain": "El vapor condensado en los prismas intensifica la luminosidad de las refracciones.",
+      "return": "Regresas a la cámara de prismas giratorios y cuadrante astronómico.",
+      "brief": "La cámara octogonal con los tres prismas colosales de cuarzo.",
+      "examine": {
+        "prismas": "Cilindros facetados de cuarzo óptico montados sobre goznes concéntricos.",
+        "cuadrante": "Losa circular en el pavimento con marcas horarias y rumbos térmicos de las cinco edades."
+      },
+      "exits": {
+        "sur": "cumbres_atrio_edades",
+        "oeste": "cumbres_ala_ecos_quellor",
+        "este": "cumbres_hornacina_tratados",
+        "norte": "cumbres_terraza_observador"
+      },
+      "look": {
+        "sur": "El atrio de las edades queda al sur.",
+        "oeste": "El ala de los ecos de Quellor queda al poniente.",
+        "este": "La hornacina de los tratados queda al oriente.",
+        "norte": "La terraza exterior del observador se abre al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "cumbres_alinear_prismas_astronomicos",
+          "label": "Alinear los prismas hacia la Marea Magmática y las Aguas Profundas",
+          "requires_examined": [
+            "prismas"
+          ],
+          "forbids_flags": [
+            "misterio_archivo_resuelto"
+          ],
+          "set_flags": [
+            "misterio_archivo_resuelto"
+          ],
+          "scope": "player",
+          "journal": "Cierre: alineaste los tres prismas astronómicos según las crónicas de Syraketh. El cuadrante central liberó el pedestal secreto de los sabios.",
+          "text": "Recordando los Capítulos III y IV, giras los soportes de basalto con pulso firme. El haz solar principal corta el prisma de cuarzo refractándose en un rayo dorado directo hacia la ranura del Rumbo Magmático, mientras el prisma secundario proyecta un pulso azul turquesa. Un mecanismo oculto en el pavimento cede con un murmullo sordo y un pedestal cilíndrico emerge del suelo, ofreciendo un núcleo rúnico de basalto.",
+          "give_items": {
+            "nucleo_runico_basalto": 1,
+            "tinta_mineral_quellor": 1
+          }
+        }
+      ]
+    },
+    "cumbres_hornacina_tratados": {
+      "id": "cumbres_hornacina_tratados",
+      "name": "Hornacina de los Tratados Antiguos",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Una estancia íntima revestida de placas de toba volcánica pulida. En anaqueles empotrados descansan cilindros de metal noble que contienen las copias autorizadas de los tratados de paz firmados al concluir la Guerra de las Cenizas.",
+      "day": "La luz indirecta protege los pergaminos de cualquier degradación solar.",
+      "night": "El silencio absoluto de la estancia transmite la solemnidad de los pactos históricos.",
+      "rain": "El aislamiento del recinto es total; ningún sonido perturba la lectura.",
+      "return": "Vuelves a los anaqueles protegidos de la hornacina de los tratados.",
+      "brief": "La estancia de cilindros con los tratados de paz históricos.",
+      "examine": {
+        "anaqueles": "Estantes de toba porosa que regulan la humedad ambiental de forma natural.",
+        "cilindros": "Tubos de aleación de bronce y plata con sellos de cera volcánica intactos."
+      },
+      "exits": {
+        "sur": "cumbres_galeria_segunda_edad",
+        "oeste": "cumbres_sala_prismas",
+        "norte": "cumbres_cripta_sabios"
+      },
+      "look": {
+        "sur": "La galería de la segunda edad queda al sur.",
+        "oeste": "La sala de los prismas queda hacia el poniente.",
+        "norte": "La cripta de los sabios se abre hacia el norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_terraza_observador": {
+      "id": "cumbres_terraza_observador",
+      "name": "Terraza del Observador Celeste",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una cornisa voladiza que sobresale del acantilado norte del Gran Archivo. Desde aquí el cielo se abre en un domo inmenso hacia las cumbres más altas. Un parapeto de basalto aloja instrumentos astronómicos de piedra para medir la declinación de los astros.",
+      "day": "El panorama hacia las crestas afiladas del norte revela la silueta de los desfiladeros celestes.",
+      "night": "Las constelaciones de Vaisgard giran con claridad pristina sobre el horizonte negro.",
+      "rain": "El viento frío del norte barre la terraza arrastrando jirones de niebla blanca.",
+      "return": "La terraza voladiza del observador celeste te recibe de nuevo.",
+      "brief": "La cornisa voladiza abierta al domo del cielo norte.",
+      "examine": {
+        "parapeto": "Muro bajo de basalto con cuadrantes graduados para observación de estrellas.",
+        "abismo": "La caída vertical hacia el fondo de la garganta basáltica."
+      },
+      "exits": {
+        "sur": "cumbres_sala_prismas",
+        "oeste": "cumbres_boveda_dorada",
+        "este": "cumbres_cripta_sabios",
+        "norte": "cumbres_santuario_escriba"
+      },
+      "look": {
+        "sur": "La sala de los prismas queda hacia el sur.",
+        "oeste": "La bóveda de los códices dorados queda al poniente.",
+        "este": "La cripta de los sabios queda al oriente.",
+        "norte": "El portal del santuario del escriba silente queda al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "custodio_basalto",
+          "text": "Un Custodio de Basalto recorre la cornisa con pasos acompasados y runas relucientes.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_boveda_dorada": {
+      "id": "cumbres_boveda_dorada",
+      "name": "Bóveda de los Códices Dorados",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Una cámara de alta seguridad excavada en una veta de granito puro. Las paredes están recubiertas de láminas de oro batido que reflejan el calor y evitan la condensación. En hornacinas protegidas por rejas de bronce reposan los códices originales de escama y mineral.",
+      "day": "Las paredes doradas despiden un resplandor cálido y reconfortante.",
+      "night": "El oro refleja la luz tenue de los respiraderos con destellos mágicos.",
+      "rain": "El recinto está totalmente sellado contra cualquier filtración de agua.",
+      "return": "Vuelves al resplandor dorado de la bóveda de códices.",
+      "brief": "La cámara acorazada de paredes de oro batido y códices antiguos.",
+      "examine": {
+        "paredes": "Láminas de oro puro batido fijadas con remaches de cobre fósil.",
+        "rejas": "Enrejados de aleación antigua con goznes sellados por calor."
+      },
+      "exits": {
+        "sur": "cumbres_ala_ecos_quellor",
+        "este": "cumbres_terraza_observador"
+      },
+      "look": {
+        "sur": "El ala de los ecos de Quellor queda al sur.",
+        "este": "La terraza del observador queda hacia el este."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_cripta_sabios": {
+      "id": "cumbres_cripta_sabios",
+      "name": "Cripta de los Antiguos Cronistas",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Un recinto funerario de atmósfera austera y solemne. En nichos excavados en el basalto reposan urnas cinerarias y escamas dorsales de los cronistas que dedicaron sus siglos de vida a registrar la memoria de Syraketh. Cada nicho lleva grabado el nombre y la era de servicio del sabio.",
+      "day": "La penumbra del recinto invita a una reverente contemplación del pasado.",
+      "night": "Pequeñas gemas de fluorita en las lápidas emiten una luz fría y eterna.",
+      "rain": "El silencio de la cripta permanece imperturbable ante cualquier tormenta.",
+      "return": "Regresas a la serenidad eterna de la cripta de los cronistas.",
+      "brief": "El recinto funerario de nichos conmemorativos de los sabios.",
+      "examine": {
+        "nichos": "Cavidades rectangulares cerradas con losas de diorita grabadas en relieve.",
+        "urnas": "Vasijas cilíndricas de piedra con sellos de cuarzo y ceniza."
+      },
+      "exits": {
+        "sur": "cumbres_hornacina_tratados",
+        "oeste": "cumbres_terraza_observador"
+      },
+      "look": {
+        "sur": "La hornacina de los tratados queda al sur.",
+        "oeste": "La terraza del observador queda hacia el poniente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_santuario_escriba": {
+      "id": "cumbres_santuario_escriba",
+      "name": "Santuario del Escriba Silente",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Una catedral de basalto de proporciones colosales en el remate septentrional del Archivo. En el fondo se eleva un estrado semicircular rodeado de tablas rúnicas suspendidas por corrientes térmicas. Aquí reside Oros-Khar, el sabio dragón que custodia la memoria viva de Vaisgard y examina el corazón de quienes pretenden ascender a las cumbres.",
+      "day": "Haces de luz cenital cortan el vapor que rodea el estrado de piedra.",
+      "night": "Las tablas suspendidas giran suavemente emitiendo notas armónicas en la penumbra.",
+      "rain": "El estruendo de la lluvia exterior se transforma en un rumor rítmico que acompasa los cantos.",
+      "return": "El sanctasanctórum de tablas rúnicas flotantes y el estrado de Oros-Khar te reciben.",
+      "brief": "La catedral de basalto y estrado sagrado de Oros-Khar.",
+      "examine": {
+        "estrado": "Plataforma de piedra negra pulida donde reposa el escriba mayor.",
+        "tablas_flotantes": "Láminas de cuarzo y basalto que levitan sostenidas por respiraderos térmicos precisos."
+      },
+      "exits": {
+        "sur": "cumbres_terraza_observador",
+        "norte": "cumbres_ascenso_crestas"
+      },
+      "look": {
+        "sur": "La terraza del observador queda hacia el sur.",
+        "norte": "Una brecha abierta en la muralla norte conduce al ascenso de las crestas afiladas."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "oros_khar_escriba",
+          "level": 28,
+          "text": "Oros-Khar el Escriba Silente alza su cabeza coronada de cuarzo y te observa con calma milenaria.",
+          "persistent_trace": false,
+          "forbids_flags": [
+            "victoria:cumbres_santuario_escriba:oros_khar_escriba"
+          ]
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_ascenso_crestas": {
+      "id": "cumbres_ascenso_crestas",
+      "name": "Ascenso de las Crestas Afiladas",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Un sendero vertiginoso que zigzaguea por el lomo de una cresta basáltica tan afilada que a ambos lados se abren simas de caída libre. El viento del norte aúlla con ferocidad, empujando jirones de niebla fría. En la roca se aprecian clavijas de amarre de aleación antigua para asegurar el paso en días de temporal.",
+      "day": "La luz diurna revela la inmensidad del abismo a los costados; la roca madre ofrece agarre firme.",
+      "night": "El aullido del viento nocturno en las crestas exige pasos medidos y cautelosos.",
+      "rain": "El temporal arrecia con violencia; el agua helada resbala por las lajas sin acumularse.",
+      "return": "Vuelves a la cresta afilada batida por el viento del norte.",
+      "brief": "El sendero estrecho por el filo de la cresta basáltica.",
+      "examine": {
+        "clavijas": "Argollas de bronce fijadas en la roca que servían de línea de vida a los caminantes.",
+        "abismo": "La caída vertical hacia el fondo de las hoces basálticas."
+      },
+      "exits": {
+        "sur": "cumbres_santuario_escriba",
+        "norte": "cumbres_paso_torbellinos"
+      },
+      "look": {
+        "sur": "El santuario del escriba queda al sur.",
+        "norte": "Un embudo eólico donde el viento se arremolina con fuerza."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_paso_torbellinos": {
+      "id": "cumbres_paso_torbellinos",
+      "name": "Paso de los Torbellinos",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una garganta natural estrecha donde chocan dos corrientes térmicas opuestas: el aire caliente que sube de las calderas y la ventisca gélida del polo norte. El resultado es un vórtice constante de ráfagas en espiral que sacude la nieve y la ceniza en remolinos blancos.",
+      "day": "Los torbellinos reflejan la luz solar en destellos cegadores de cristal y escarcha.",
+      "night": "El vórtice eólico ruge en la oscuridad como una manada de bestias elementales.",
+      "rain": "La lluvia se transforma en granizo fino que azota las lajas basálticas.",
+      "return": "El rugido del viento en el paso de los torbellinos te recibe de nuevo.",
+      "brief": "La garganta de corrientes eólicas enfrentadas y torbellinos blancos.",
+      "examine": {
+        "vortice": "El punto de choque térmico donde el aire gira con violencia incesante.",
+        "roca": "Basalto pulido por la fricción continua de millones de partículas de hielo y ceniza."
+      },
+      "exits": {
+        "sur": "cumbres_ascenso_crestas",
+        "oeste": "cumbres_cornisa_aethelgard",
+        "este": "cumbres_baluarte_viento",
+        "norte": "cumbres_aguja_relampago"
+      },
+      "look": {
+        "sur": "El sendero de la cresta desciende hacia el archivo.",
+        "oeste": "Una cornisa amplia se asoma sobre el mar de nubes.",
+        "este": "Una estructura defensiva de contrapesos eólicos queda al oriente.",
+        "norte": "Un monolito cónico de basalto atrae las corrientes del norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico gira en el centro de la garganta levantando esquirlas de hielo.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_cornisa_aethelgard": {
+      "id": "cumbres_cornisa_aethelgard",
+      "name": "Cornisa de las Alas Celestes",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una terraza natural que sobresale sobre el abismo occidental. Abajo se extiende un mar de nubes tupido y blanco como algodón que oculta las tierras bajas. En el centro de la repisa se yergue la losa del Capítulo V, custodiada por monolitos en forma de alas extendidas.",
+      "day": "El sol sobre las nubes crea un espejismo dorado que se pierde en el horizonte.",
+      "night": "La luna tiñe el mar de nubes de tonos plateados de infinita serenidad.",
+      "rain": "La lluvia cae muy por debajo de esta cornisa; aquí el aire es limpio y transparente.",
+      "return": "Regresas a la cornisa soleada sobre el mar de nubes.",
+      "brief": "La terraza voladiza sobre el mar de nubes y la losa del Capítulo V.",
+      "examine": {
+        "losa_cap5": "Una tabla de piedra pulida donde está grabado el Vuelo del Testigo Oculto.",
+        "monolitos_alas": "Esculturas esbeltas de basalto que imitan la curvatura de las alas de planeo."
+      },
+      "exits": {
+        "este": "cumbres_paso_torbellinos",
+        "norte": "cumbres_nido_nubes"
+      },
+      "look": {
+        "este": "El paso de los torbellinos queda hacia el este.",
+        "norte": "Una repisa colosal marca el nido de las nubes."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "leer_cronica_cumbres_5",
+          "label": "Leer el Capítulo V de la Crónica: El Vuelo del Testigo Oculto",
+          "set_flags": [
+            "leido_cronica_cumbres_5"
+          ],
+          "scope": "player",
+          "journal": "Crónica: aprendiste la máxima del testigo oculto y la respuesta ante Zephyros tras leer el Capítulo V.",
+          "text": "Durante incontables generaciones de mortales, los vigías del Clan Aethelgard mantuvieron sus apostaderos en las cornisas más altas de la cordillera septentrional. Desde allí, el ojo dracónico alcanza a distinguir las velas triangulares de Narevia, los humos de las forjas de Brumak y las espigas doradas en las terrazas de Valdren.\n\nMuchos jóvenes nacidos en los nidos de las cumbres preguntaban por qué debían permanecer ocultos mientras los pueblos del llano sufrían hambrunas en los inviernos crudos o se enzarzaban en disputas fronterizas que un solo aletazo hubiera podido dispersar. Esta crónica recoge la respuesta que los ancianos dieron a la asamblea:\n\nSi un dragón desciende a arar los campos de los humanos, los humanos olvidarán cómo forjar el arado y cómo guardar la semilla en los graneros. Si un dragón apaga los incendios de los bosques de Nhal con su aliento de nieve, los Vesperi jamás aprenderán a escuchar los avisos de las raíces ni a cuidar las cortezas viejas. La compasión que arrebata a otro su esfuerzo no engendra gratitud, sino debilidad y servidumbre.\n\nEl verdadero testigo no es el que abandona al caminante, sino el que cuida de que el sendero permanezca transitable sin allanar cada guijarro. La sabiduría dracónica consistió en mantener las corrientes térmicas estables, purificar las fuentes de agua profunda y vigilar que las grandes fuerzas primordiales no consumieran la corteza del mundo antes de tiempo.\n\nPor eso, cuando el Señor de la Ventisca somete a prueba a quienes ascienden por la Puerta de la Falla, no busca doblegar su cuerpo ni arrancar pleitesía. Busca comprobar si el caminante comprende la ley fundamental del testigo:\n'El testigo sabio no arranca la flor para apresurar su fruto; aguarda a que la semilla venza al invierno'.\n\nQuien pronuncie este principio ante Zephyros demuestra que ha dejado atrás la soberbia de los conquistadores y está preparado para entrar en la presencia del Archidragón con la dignidad de un hermano del firmamento."
+        }
+      ]
+    },
+    "cumbres_baluarte_viento": {
+      "id": "cumbres_baluarte_viento",
+      "name": "Baluarte del Contrapeso Eólico",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Una fortificación de roca maciza construida para anclar los cables de tensión que estabilizan las pasarelas superiores. En el interior hay un sistema de poleas gigantescas y cadenas de bronce negro que contrarrestan el empuje de los vendavales. En el pedestal central se encuentra la clavija de anclaje principal.",
+      "day": "La luz entra por troneras horizontales iluminando el movimiento rítmico de los contrapesos.",
+      "night": "Las cadenas emiten un leve crujido rítmico al absorber las ráfagas nocturnas.",
+      "rain": "El interior permanece completamente abrigado y libre de hielo.",
+      "return": "Vuelves a la sala de poleas y cadenas del baluarte eólico.",
+      "brief": "La fortificación de poleas gigantes y cadenas de contrapeso.",
+      "examine": {
+        "clavija": "Una barra cilíndrica de aleación forjada que asegura el trinquete de las cadenas.",
+        "cadenas": "Eslabones colosales de bronce negro tratados contra la corrosión helada."
+      },
+      "exits": {
+        "oeste": "cumbres_paso_torbellinos",
+        "norte": "cumbres_espolon_helado"
+      },
+      "look": {
+        "oeste": "El paso de los torbellinos queda al poniente.",
+        "norte": "Un espolón cubierto de escarcha se interna en la ventisca."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "cumbres_anclar_cadenas_baluarte",
+          "label": "Anclar la clavija maestra y estabilizar las cadenas de contrapeso",
+          "requires_examined": [
+            "clavija"
+          ],
+          "forbids_flags": [
+            "misterio_rutas_resuelto"
+          ],
+          "set_flags": [
+            "misterio_rutas_resuelto"
+          ],
+          "scope": "player",
+          "journal": "Cierre: aseguraste la clavija maestra en el Baluarte del Contrapeso Eólico. Las pasarelas de las cumbres quedaron firmes y el paso superior es seguro.",
+          "text": "Con pulso firme y aprovechando la pausa entre dos ráfagas, empujas la clavija maestra en la ranura de sujeción. El trinquete encaja con un golpe rotundo y las cadenas dejan de sacudirse, absorbiendo la tensión del vendaval con perfecta elasticidad. En la hornacina de servicio se libera un cristal de ventisca pura.",
+          "give_items": {
+            "cristal_ventisca_zephyros": 1,
+            "esencia_eolica_pura": 1
+          }
+        }
+      ]
+    },
+    "cumbres_nido_nubes": {
+      "id": "cumbres_nido_nubes",
+      "name": "Nido sobre las Nubes",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una plataforma circular colosal que parece flotar sobre el mar de nubes. Es el punto de reunión de los vigías que patrullan las fronteras septentrionales. En el borde hay postes de amarre para cuerdas de planeo y hornacinas con agua de deshielo filtrada.",
+      "day": "La vista hacia el norte revela la silueta imponente del cráter de la gran caldera.",
+      "night": "El silencio del cielo abierto solo es quebrado por el batir rítmico de alas lejanas.",
+      "rain": "El cielo permanece despejado sobre el mar de nubes.",
+      "return": "La plataforma circular flotante sobre las nubes te recibe.",
+      "brief": "La plataforma circular de vigías sobre el mar de nubes.",
+      "examine": {
+        "postes": "Columnas de basalto con ranuras para fijar líneas de planeo.",
+        "hornacinas": "Cuencos pulidos donde se almacena agua pura de los glaciares."
+      },
+      "exits": {
+        "sur": "cumbres_cornisa_aethelgard",
+        "este": "cumbres_aguja_relampago",
+        "norte": "cumbres_mirador_vaisgard"
+      },
+      "look": {
+        "sur": "La cornisa de Aethelgard queda al sur.",
+        "este": "La aguja del relámpago se alza al oriente.",
+        "norte": "El mirador panorámico de Vaisgard queda al norte."
+      },
+      "arrivals": {},
+      "npcs": [
+        "cumbres_vigia_zephyr"
+      ],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_espolon_helado": {
+      "id": "cumbres_espolon_helado",
+      "name": "Espolón Helado",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Un saliente de roca que se adentra directamente en la nube de ventisca. Aquí el vapor que brota de las fisuras se congela instantáneamente al chocar con el aire polar, formando bosques de agujas de hielo transparente y estalactitas colosales que tintinean con el viento.",
+      "day": "Las agujas de hielo descomponen la luz solar en miles de destellos diamantinos.",
+      "night": "La escarcha brilla con un tono azul zafiro bajo la luz estelar.",
+      "rain": "Cualquier gota se solidifica al instante engrosando las corazas de hielo.",
+      "return": "Vuelves al bosque de agujas de hielo tintineantes del espolón.",
+      "brief": "El saliente rocoso cubierto de estalactitas de hielo y escarcha.",
+      "examine": {
+        "agujas": "Estructuras cristalinas de hielo puro tan afiladas como estiletes.",
+        "fisuras": "Respiraderos térmicos cuya boca está rodeada por un anillo de vapor congelado."
+      },
+      "exits": {
+        "sur": "cumbres_baluarte_viento",
+        "oeste": "cumbres_aguja_relampago"
+      },
+      "look": {
+        "sur": "El baluarte eólico queda hacia el sur.",
+        "oeste": "La aguja del relámpago queda hacia el poniente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_aguja_relampago": {
+      "id": "cumbres_aguja_relampago",
+      "name": "Aguja del Relámpago",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Un monolito cónico natural de basalto con altísimo contenido de magnetita que se alza en la encrucijada de las cumbres. Su punta piramidal está vitrificada por incontables impactos de rayos. Su presencia neutraliza la electricidad estática de la atmósfera, permitiendo el paso seguro.",
+      "day": "La roca negra vitrificada brilla con destellos metálicos bajo el sol.",
+      "night": "Pequeñas chispas azules recorren las estrías de la aguja con un chasquido sutil.",
+      "rain": "El aire huele intensamente a ozono fresco y piedra limpia.",
+      "return": "La imponente aguja cónica vitrificada se alza ante ti.",
+      "brief": "El monolito cónico de basalto magnético y punta vitrificada.",
+      "examine": {
+        "aguja": "Un cono de basalto magnético de quince varas de altura con superficie cristalina.",
+        "estrias": "Canalizaciones naturales por donde las descargas eléctricas se disipan hacia la raíz de la montaña."
+      },
+      "exits": {
+        "sur": "cumbres_paso_torbellinos",
+        "oeste": "cumbres_nido_nubes",
+        "este": "cumbres_espolon_helado",
+        "norte": "cumbres_puente_hielo_ceniza"
+      },
+      "look": {
+        "sur": "El paso de los torbellinos queda al sur.",
+        "oeste": "El nido sobre las nubes queda al poniente.",
+        "este": "El espolón helado queda al oriente.",
+        "norte": "El puente de hielo y ceniza cruza el abismo norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_puente_hielo_ceniza": {
+      "id": "cumbres_puente_hielo_ceniza",
+      "name": "Puente de Hielo y Ceniza",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una pasarela natural de piedra volcánica reforzada con capas milenarias de hielo fósil y ceniza compactada. Cruza un abismo insondable que separa las rutas de vuelo del cráter sagrado. A ambos lados, el vacío cae en vertical miles de varas hacia el lecho de la cordillera.",
+      "day": "El contraste entre la ceniza negra y el hielo blanco guía los pasos con total claridad.",
+      "night": "El puente se perfila como una línea nítida entre dos abismos estrellados.",
+      "rain": "La superficie arenosa de ceniza impide resbalar a pesar de la humedad.",
+      "return": "Vuelves a la pasarela suspendida sobre el abismo de las cumbres.",
+      "brief": "La pasarela natural de hielo y ceniza sobre la sima insondable.",
+      "examine": {
+        "pasarela": "Un arco natural de roca volcánica de seis varas de anchura firmemente afianzado.",
+        "vacio": "La sima profunda que se abre a ambos costados del sendero."
+      },
+      "exits": {
+        "sur": "cumbres_aguja_relampago",
+        "oeste": "cumbres_mirador_vaisgard",
+        "norte": "cumbres_puerta_falla"
+      },
+      "look": {
+        "sur": "La aguja del relámpago queda al sur.",
+        "oeste": "El mirador panorámico de Vaisgard queda al poniente.",
+        "norte": "El gran portón de la falla ígnea se alza al frente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_mirador_vaisgard": {
+      "id": "cumbres_mirador_vaisgard",
+      "name": "Mirador de Vaisgard",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "El punto más alto y despejado de toda la cordillera de Hoshai antes del descenso al cráter. En días claros se aprecian simultáneamente los campos verdes de Edran, los estuarios plateados de Lethra, las canteras ocres de Korven, los bosques espesos de Nhal y las crestas de Khariel.",
+      "day": "El mapa vivo del mundo entero se despliega a tus pies en una visión inolvidable.",
+      "night": "Las luces lejanas de las aldeas titilan en los valles como constelaciones terrestres.",
+      "rain": "Las nubes de tormenta corren por debajo de tus pies como un mar agitado.",
+      "return": "El panorama supremo de los cinco pueblos se abre de nuevo ante tu mirada.",
+      "brief": "El mirador supremo con vista panorámica de todo Vaisgard.",
+      "examine": {
+        "horizonte": "La vista infinita que abarca los cinco reinos mortales de Vaisgard.",
+        "placa": "Una rosa de los vientos grabada en bronce que indica la distancia a cada capital."
+      },
+      "exits": {
+        "sur": "cumbres_nido_nubes",
+        "este": "cumbres_puente_hielo_ceniza"
+      },
+      "look": {
+        "sur": "El nido sobre las nubes queda hacia el sur.",
+        "este": "El puente de hielo y ceniza cruza hacia la puerta de la falla."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_puerta_falla": {
+      "id": "cumbres_puerta_falla",
+      "name": "Puerta de la Falla Ígnea",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una hendidura colosal en la muralla de la gran caldera protegida por dos arcadas de basalto helado. El viento aúlla con una intensidad ensordecedora, creando una barrera casi física de frío y vapor. En la cúspide de la arcada reposa Zephyros, el Señor de la Ventisca, vigilando el descenso hacia la Caldera del Primer Aliento.",
+      "day": "Las alas translúcidas de Zephyros refractan la luz del sol como prismas de hielo.",
+      "night": "El resplandor carmesí de la caldera interior se vislumbra a través de la hendidura.",
+      "rain": "La ventisca arrecia con fuerza colosal, desafiando a quien intenta cruzar.",
+      "return": "La imponente puerta de la falla y la presencia de Zephyros te reciben.",
+      "brief": "La hendidura colosal en la muralla de la caldera custodiada por Zephyros.",
+      "examine": {
+        "arcadas": "Estructuras gemelas de roca volcánica cubiertas de hielo milenario.",
+        "falla": "La abertura en la roca por donde se desciende hacia el cráter caliente."
+      },
+      "exits": {
+        "sur": "cumbres_puente_hielo_ceniza",
+        "norte": "cumbres_descenso_crater"
+      },
+      "look": {
+        "sur": "El puente de hielo y ceniza queda al sur.",
+        "norte": "La hendidura en la roca desciende en terrazas de obsidiana hacia el cráter caliente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "zephyros_ventisca",
+          "level": 31,
+          "text": "Zephyros el Señor de la Ventisca despliega sus inmensas alas de escarcha y te juzga desde las alturas.",
+          "persistent_trace": false,
+          "forbids_flags": [
+            "victoria:cumbres_puerta_falla:zephyros_ventisca"
+          ]
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_descenso_crater": {
+      "id": "cumbres_descenso_crater",
+      "name": "Descenso al Cráter Sagrado",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una calzada amplia de terrazas de obsidiana negra y toba volcánica que desciende en espiral hacia el lecho de la caldera. El aire exterior gélido queda atrás de golpe, reemplazado por una calidez agradable, limpia y aromática, como el interior de un templo consagrado a la tierra viva. El suelo brilla con destellos vidriados bajo la luz cenital.",
+      "day": "La luz del sol ilumina la inmensidad del cráter circular revelando las riberas y el lago de basalto líquido.",
+      "night": "El fulgor dorado de la caldera baña las paredes de obsidiana con reflejos ambarinos.",
+      "rain": "El microclima del cráter evapora cualquier humedad antes de tocar las terrazas.",
+      "return": "Vuelves a la calzada de terrazas de obsidiana que desciende al cráter.",
+      "brief": "La calzada en espiral de terrazas de obsidiana hacia la caldera.",
+      "examine": {
+        "obsidiana": "Bloques de vidrio volcánico negro tallados con peldaños anchos para facilitar el paso.",
+        "crater": "La caldera circular perfecta de varias millas de diámetro donde palpita el corazón de Syraketh."
+      },
+      "exits": {
+        "sur": "cumbres_puerta_falla",
+        "oeste": "cumbres_ribera_lava_fria",
+        "este": "cumbres_hornos_creacion",
+        "norte": "cumbres_lago_basalto"
+      },
+      "look": {
+        "sur": "La puerta de la falla queda arriba hacia el sur.",
+        "oeste": "Costras de roca ígnea forman la ribera de lava fría.",
+        "este": "Las chimeneas incandescentes de los hornos quedan al oriente.",
+        "norte": "El lago de basalto líquido late en el fondo del cráter."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_ribera_lava_fria": {
+      "id": "cumbres_ribera_lava_fria",
+      "name": "Ribera de Lava Fría",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una planicie ondulada de costras de basalto solidificado que crujen suavemente bajo las botas como hojaldre de piedra. Vetas de azufre puro y cuarzo ahumado dibujan patrones geométricos en el suelo oscuro. Pequeños respiraderos emiten hilillos de vapor cristalino.",
+      "day": "Las vetas minerales brillan con reflejos dorados y ahumados bajo el sol.",
+      "night": "La roca conserva una calidez reconfortante bajo la noche despejada del cráter.",
+      "rain": "El suelo cálido absorbe cualquier rocío manteniendo la superficie seca.",
+      "return": "La ribera crujiente de lava fría y vetas minerales te recibe.",
+      "brief": "La planicie ondulada de lava solidificada y vetas de cuarzo.",
+      "examine": {
+        "costras": "Capas finas de lava que se enfriaron formando ondulaciones suaves.",
+        "vetas": "Filones de cuarzo y azufre que recorren la roca como nervaduras doradas."
+      },
+      "exits": {
+        "este": "cumbres_descenso_crater",
+        "norte": "cumbres_fosa_primordial"
+      },
+      "look": {
+        "este": "El descenso del cráter queda al oriente.",
+        "norte": "Una hendidura profunda marca la fosa primordial."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_hornos_creacion": {
+      "id": "cumbres_hornos_creacion",
+      "name": "Hornos de la Creación",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Un conjunto de chimeneas cónicas naturales donde el gas magmático arde con llamas blancas y sin humo. Aquí los tres clanes forjaron los cimientos de la Ciudadela antes del Gran Silencio. El calor es intenso pero no quema: vigoriza el cuerpo y despeja la mente de fatiga.",
+      "day": "Las llamas blancas resplandecen con pureza absoluta bajo la luz cenital.",
+      "night": "El resplandor de los hornos baña el cráter con una luminiscencia sagrada.",
+      "rain": "El calor ascendente repele cualquier precipitación con un suave murmullo.",
+      "return": "Vuelves a la calidez sagrada de los hornos de la creación.",
+      "brief": "Las chimeneas cónicas de fuego blanco y gas magmático.",
+      "examine": {
+        "chimeneas": "Conos de basalto de diez codos de altura por donde escapa el aliento magmático.",
+        "fuego_blanco": "Llamas puras alimentadas por gases profundos que despiden aroma a mirra mineral."
+      },
+      "exits": {
+        "oeste": "cumbres_descenso_crater",
+        "norte": "cumbres_altar_termico"
+      },
+      "look": {
+        "oeste": "El descenso del cráter queda al poniente.",
+        "norte": "La losa sacra del altar térmico se alza al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_lago_basalto": {
+      "id": "cumbres_lago_basalto",
+      "name": "Lago de Basalto Líquido",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "El corazón hidrogeológico de la gran caldera. Una superficie circular inmensa de roca líquida viscosa que se mueve en ondas lentas y acompasadas, como si la tierra misma respirara a través de ella. Islas de piedra pómez flotan sobre el lago, sirviendo de pedestales de descanso.",
+      "day": "Las ondas lentas del magma reflejan destellos ambarinos y dorados.",
+      "night": "El lago ilumina la cúpula del cráter con un resplandor cálido y reconfortante.",
+      "rain": "El vapor se alza en columnas espirales sobre la superficie incandescente.",
+      "return": "El murmullo rítmico del lago de basalto líquido te rodea.",
+      "brief": "La superficie circular de roca líquida templada y pulsos lentos.",
+      "examine": {
+        "ondas": "Movimientos concéntricos de roca madre que marcan el pulso térmico de Vaisgard.",
+        "islas": "Bloques flotantes de toba y pómez firmemente templados por el calor."
+      },
+      "exits": {
+        "sur": "cumbres_descenso_crater",
+        "oeste": "cumbres_fosa_primordial",
+        "este": "cumbres_altar_termico",
+        "norte": "cumbres_paso_dragon_blanco"
+      },
+      "look": {
+        "sur": "Las terrazas de obsidiana suben hacia la puerta de la falla.",
+        "oeste": "La fosa primordial queda al poniente.",
+        "este": "El altar térmico queda al oriente.",
+        "norte": "La calzada ceremonial del dragón blanco asciende al trono."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "surgencia_primordial",
+          "text": "Una Surgencia Primordial se alza lentamente desde una falla del lago ondulando con magma vivo.",
+          "persistent_trace": false
+        }
+      ],
+      "actions": []
+    },
+    "cumbres_fosa_primordial": {
+      "id": "cumbres_fosa_primordial",
+      "name": "Fosa de la Falla Primordial",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una sima lineal profunda en el lecho del cráter de donde brota el vapor más puro y antiguo de la cordillera. Las paredes de la fosa están tapizadas de cristales de nácar mineral que crecen lentamente alimentados por los gases termales.",
+      "day": "Los cristales de nácar descomponen la luz en reflejos perlados.",
+      "night": "El vapor blanco resplandece en la penumbra con una suave luz lunar.",
+      "rain": "El calor de la fosa mantiene la atmósfera templada y libre de bruma fría.",
+      "return": "Vuelves a la quietud perlada de la fosa primordial.",
+      "brief": "La sima lineal tapizada de cristales de nácar mineral.",
+      "examine": {
+        "cristales": "Estructuras minerales translúcidas que resuenan al rozarlas con la mano.",
+        "sima": "La fractura original por donde escapó el primer aliento de la montaña."
+      },
+      "exits": {
+        "sur": "cumbres_ribera_lava_fria",
+        "este": "cumbres_lago_basalto",
+        "norte": "cumbres_camara_sabiduria"
+      },
+      "look": {
+        "sur": "La ribera de lava fría queda al sur.",
+        "este": "El lago de basalto queda al oriente.",
+        "norte": "La cámara de la sabiduría milenaria se abre al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_altar_termico": {
+      "id": "cumbres_altar_termico",
+      "name": "Altar del Aliento Original",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una plataforma elevada de diorita blanca labrada en el punto exacto donde confluyen las tres corrientes de la caldera: el vapor hidrotermal, el fuego de la forja y la brisa celeste. En el centro se yergue la losa culminante de las crónicas de Syraketh: el Capítulo VI.",
+      "day": "La luz diurna corona el altar con un resplandor dorado de infinita majestad.",
+      "night": "Las tres corrientes se entrelazan sobre la losa en un halo de fuego azul.",
+      "rain": "El altar permanece protegido por el domo térmico de la caldera.",
+      "return": "El Altar del Aliento Original y la losa del Capítulo VI te esperan.",
+      "brief": "La plataforma elevada de diorita blanca y la losa del Capítulo VI.",
+      "examine": {
+        "losa_cap6": "La gran tabla sagrada donde está grabado el Primer Aliento y el Pacto Renovado.",
+        "pedestal": "El bloque de diorita blanca pulida que sostiene la memoria fundacional."
+      },
+      "exits": {
+        "sur": "cumbres_hornos_creacion",
+        "oeste": "cumbres_lago_basalto",
+        "norte": "cumbres_santuario_resuello"
+      },
+      "look": {
+        "sur": "Los hornos de la creación quedan al sur.",
+        "oeste": "El lago de basalto queda hacia el poniente.",
+        "norte": "El santuario del resuello compartido queda al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "leer_cronica_cumbres_6",
+          "label": "Leer el Capítulo VI de la Crónica: El Primer Aliento y el Pacto Renovado",
+          "set_flags": [
+            "leido_cronica_cumbres_6"
+          ],
+          "scope": "player",
+          "journal": "Crónica: concluiste la lectura de los seis capítulos de Syraketh y conociste la profecía del pacto renovado.",
+          "text": "En el principio del mundo no existían cinco reinos ni tres clanes. Existía un solo latido: el Primer Aliento que emanaba del corazón de la roca madre. De ese calor nacieron las escamas que reflejan la luz y los pechos que aprendieron a cantar en la quietud de las primeras eras.\n\nCuando la tierra se enfrió y los mortales comenzaron su caminar por las llanuras, los dragones custodiaron la caldera para que el fuego primordial no consumiera los bosques ni el hielo polar apagara las hogueras de los pueblos. No hubo desprecio en la retirada, sino la ternura paciente de los hermanos mayores que dejan espacio a los recién nacidos para que descubran el equilibrio por su propio pie.\n\nDurante siglos, el viento llevó a la caldera los rumores de las guerras y las paces de los hombres, de los canteros de Brumak que labraban la diorita, de los saltadores de Khariel que desafiaban el vértigo y de los navegantes de Lethra que leían las estrellas. Y en cada era, el Archidragón Ignis-Aethel sostuvo la corona de magma con aliento sereno, sabiendo que el día del reencuentro llegaría no por la fuerza de los conquistadores, sino por la sabiduría de los exploradores.\n\nPorque aquel que cruza el Paso de las Escamas Dormidas, comprende el trabajo del Clan Pyrrok, escucha la memoria del sacrificio de Quellor en las aguas de Veyra, y vuela con los vientos de Aethelgard sin temor al abismo, deja de ser un extraño en Syraketh. Se convierte en el portador del Resuello Compartido.\n\nQue esta última losa quede como testimonio y bendición para todos los pueblos de Vaisgard:\nLa montaña y el llano son un solo cuerpo. El río subterráneo que nutre los campos es la misma vena que alimenta el fuego sagrado de las cumbres. Mientras exista un caminante que prefiera la verdad a la rapiña, y la templanza al hierro ciego, las Cumbres Veladas mantendrán su aliento encendido, custodiando el firmamento con amor eterno e inquebrantable."
+        }
+      ]
+    },
+    "cumbres_paso_dragon_blanco": {
+      "id": "cumbres_paso_dragon_blanco",
+      "name": "Paso del Dragón Blanco",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una calzada monumental de basalto negro incrustado de cuarzo blanco que se eleva sobre arcos majestuosos sobre el lago de roca líquida. A ambos lados se alzan estatuas colosales de dragones en actitud de vigilia solemne. Al final de la calzada se divisa el Trono de la Caldera.",
+      "day": "La calzada parece un puente de luz que cruza el fuego sereno del cráter.",
+      "night": "Los cuarzos empotrados en el pavimento guían los pasos con un resplandor lechoso.",
+      "rain": "El paso permanece firme y seco sobre las aguas de magma templado.",
+      "return": "La calzada ceremonial del Dragón Blanco se extiende ante ti.",
+      "brief": "La calzada ceremonial sobre arcos que conduce al Trono de la Caldera.",
+      "examine": {
+        "calzada": "Arcos de basalto de proporción colosal que resisten el calor del magma sin alterarse.",
+        "estatuas": "Efigies ancestrales de los sabios de las tres casas en actitud de reverencia."
+      },
+      "exits": {
+        "sur": "cumbres_lago_basalto",
+        "oeste": "cumbres_camara_sabiduria",
+        "este": "cumbres_santuario_resuello",
+        "norte": "cumbres_trono_caldera"
+      },
+      "look": {
+        "sur": "El lago de basalto queda al sur.",
+        "oeste": "La cámara de la sabiduría queda al poniente.",
+        "este": "El santuario del resuello queda al oriente.",
+        "norte": "El Trono de la Caldera y el Archidragón se alzan al norte."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_camara_sabiduria": {
+      "id": "cumbres_camara_sabiduria",
+      "name": "Cámara de la Sabiduría Olvidada",
+      "region": "cumbres",
+      "kind": "interior",
+      "description": "Un recinto apacible labrado en una cueva de toba rosada. No hay armas ni mecanismos: solo esteras de fibra vegetal tejida, cuencos de agua fresca y una atmósfera de reposo absoluto. Aquí los dragones ancianos se retiran a contemplar el devenir del mundo sin juzgarlo.",
+      "day": "La luz matizada baña el recinto con una suavidad relajante.",
+      "night": "El silencio es completo y reconfortante para el espíritu fatigado.",
+      "rain": "El aislamiento de la toba amortigua cualquier sonido exterior.",
+      "return": "Regresas al sosiego profundo de la cámara de la sabiduría.",
+      "brief": "El recinto apacible de reposo y contemplación de los ancianos.",
+      "examine": {
+        "esteras": "Tejidos gruesos de fibras de sabina que aíslan del suelo rocoso.",
+        "cuencos": "Recipientes de diorita pulida que conservan agua pura de manantial."
+      },
+      "exits": {
+        "sur": "cumbres_fosa_primordial",
+        "este": "cumbres_paso_dragon_blanco"
+      },
+      "look": {
+        "sur": "La fosa primordial queda al sur.",
+        "este": "La calzada del dragón blanco queda al oriente."
+      },
+      "arrivals": {},
+      "npcs": [
+        "cumbres_anciana_pyrr"
+      ],
+      "signals": [],
+      "actions": []
+    },
+    "cumbres_santuario_resuello": {
+      "id": "cumbres_santuario_resuello",
+      "name": "Santuario del Resuello Compartido",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "Una poza hidrotermal de aguas cristalinas rodeada de monolitos de cuarzo rosa que vibran al unísono con el manantial de Veyra. Aquí late la arteria acuífera que une las cumbres con los valles del sur. En el fondo de la poza se aprecia una hornacina consagrada a la armonía entre especies.",
+      "day": "El agua refleja destellos perlados y rosas bajo la luz de la caldera.",
+      "night": "Los cuarzos emiten una luminosidad cálida que disipa cualquier sombra.",
+      "rain": "Las gotas se integran al manantial en una danza armónica.",
+      "return": "La poza de cuarzo rosa del resuello compartido te recibe.",
+      "brief": "La poza hidrotermal de cuarzo rosa en armonía con Veyra.",
+      "examine": {
+        "poza_resuello": "Un manantial puro cuyas aguas tienen propiedades purificadoras y curativas.",
+        "cuarzo_rosa": "Monolitos naturales que vibran en la misma frecuencia que el Bastión de las Aguas."
+      },
+      "exits": {
+        "sur": "cumbres_altar_termico",
+        "oeste": "cumbres_paso_dragon_blanco"
+      },
+      "look": {
+        "sur": "El altar térmico queda al sur.",
+        "oeste": "La calzada ceremonial queda al poniente."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "cumbres_meditar_resuello_compartido",
+          "label": "Meditar junto al manantial y renovar la armonía hidrotermal",
+          "requires_examined": [
+            "poza_resuello"
+          ],
+          "forbids_flags": [
+            "misterio_caldera_resuelto"
+          ],
+          "set_flags": [
+            "misterio_caldera_resuelto"
+          ],
+          "scope": "player",
+          "journal": "Cierre: meditaste en el Santuario del Resuello Compartido. La vibración de las cumbres sintonizó con las aguas del Bastión de Veyra en perfecta armonía.",
+          "text": "Apoyas las manos en las aguas templadas del manantial. Una resonancia suave recorre tu pecho, conectando el calor de las altas cumbres con el reposo solemne del dragón que descansa en el Bastión de Veyra. Las aguas cantan con un tono cristalino y del fondo de la poza emerge un fragmento del Primer Aliento, bendiciendo tu paso.",
+          "give_items": {
+            "fragmento_primer_aliento": 1,
+            "obsidiana_primordial": 2
+          }
+        }
+      ]
+    },
+    "cumbres_trono_caldera": {
+      "id": "cumbres_trono_caldera",
+      "name": "Trono de la Caldera Sagrada",
+      "region": "cumbres",
+      "kind": "wilderness",
+      "description": "El pináculo absoluto de Syraketh. Un estrado circular colosal labrado en una aguja de obsidiana y cuarzo que se alza en el centro del lago de lava serena. Columnas de vapor blanco ascienden como pilares de un templo sin techo hacia el firmamento. Aquí aguarda el Archidragón Ignis-Aethel, Soberano de las Alturas, custodiando el Primer Aliento del mundo.",
+      "day": "La luz del sol se funde con el resplandor de las escamas de nácar del soberano en una visión de gloria eterna.",
+      "night": "El Archidragón resplandece como una luna viva en el corazón del cráter silencioso.",
+      "rain": "Cualquier tormenta exterior se detiene en reverencia ante la majestad del trono.",
+      "return": "El Trono de la Caldera Sagrada y la presencia majestuosa de Ignis-Aethel te reciben.",
+      "brief": "El pedestal colosal de obsidiana y morada del Archidragón Ignis-Aethel.",
+      "examine": {
+        "trono": "Una aguja de obsidiana y cuarzo tallada con la historia de todas las edades de Vaisgard.",
+        "columnas_vapor": "Pilares de vapor blanco sagrado que sostienen el calor vital de la cordillera."
+      },
+      "exits": {
+        "sur": "cumbres_paso_dragon_blanco"
+      },
+      "look": {
+        "sur": "La calzada del dragón blanco desciende hacia el lago de basalto."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [
+        {
+          "creature": "archidragon_ignis_aethel",
+          "level": 35,
+          "text": "El Archidragón Ignis-Aethel reposa en el Trono de la Caldera. Sus ojos reflejan el firmamento entero mientras aguarda tu resolución.",
+          "persistent_trace": false,
+          "forbids_flags": [
+            "victoria:cumbres_trono_caldera:archidragon_ignis_aethel"
+          ]
+        }
+      ],
+      "actions": []
+    }
+  },
+  "npcs": {
+    "hoshai_kaelen": {
+      "id": "hoshai_kaelen",
+      "name": "Kaelen el Rastreador",
+      "home_room": "cumbres_bosque_fumarolas",
+      "schedule": [
+        "día",
+        "noche"
+      ],
+      "topics": {
+        "viajero": {
+          "label": "Preguntar por su llegada a las cumbres",
+          "text": "Kaelen sonríe bajo su capucha de cuero curtido. «Seguí el rastro del vapor hace tres primaveras. Muchos creían que la niebla era veneno; para mí era señal de que la tierra estaba viva.»"
+        },
+        "clanes": {
+          "label": "Preguntar por los tres clanes de dragones",
+          "text": "«Hay tres casas de dragones allá arriba: Pyrrok cuida las forjas y no quiere tratos; Aethelgard vigila los vientos y tiene curiosidad por los pueblos; Quellor guarda las aguas y los archivos. Si quieres hablar con ellos sin pelea, aprende su cortesía antigua.»"
+        },
+        "fumarolas": {
+          "label": "Preguntar por el camino entre las fumarolas",
+          "text": "«El vapor brota de las venas de la montaña. Si sigues los claros de azufre encontrarás los pilares de vuelo, y en el refugio este descansa la primera tabla de los sabios.»"
+        }
+      }
+    },
+    "hoshai_vhis_sora": {
+      "id": "hoshai_vhis_sora",
+      "name": "Vhis-Sora",
+      "home_room": "cumbres_manantial_tibio",
+      "schedule": [
+        "día",
+        "noche"
+      ],
+      "topics": {
+        "viajero": {
+          "label": "Saludar con respeto a la joven alada",
+          "text": "Vhis-Sora pliega sus alas de escama azul pálido mientras el agua tibia cubre sus patas. «Caminante de dos piernas. No traes hierro desenvainado. Eso habla bien de tu paso.»"
+        },
+        "saludo_ceremonial": {
+          "label": "Preguntar cómo hablar con los centinelas",
+          "text": "«Quien entra en Syraketh debe recordar la voz de las tablas: 'Aliento firme, piedra templada'. Si respondes así en el Umbral, el Ceniciento sabrá que no vienes a saquear.»"
+        },
+        "dragon_aguas": {
+          "label": "Preguntar por el Dragón de las Aguas Antiguas",
+          "text": "«En las crónicas del Clan Quellor se recuerda a quien bajó al Bastión de Veyra para sostener la falla. Sabemos que sigue respirando en su lecho de agua tibia. Marcos lo enfrentó sin apagar su vida; aquí esa memoria no se olvida.»"
+        }
+      }
+    },
+    "hoshai_maelor": {
+      "id": "hoshai_maelor",
+      "name": "Maelor el Cantero",
+      "home_room": "cumbres_grieta_menor",
+      "schedule": [
+        "día",
+        "noche"
+      ],
+      "topics": {
+        "viajero": {
+          "label": "Preguntar por su trabajo en las rocas altas",
+          "text": "Maelor apoya su cincel dravak contra la roca basáltica. «Los de Brumak creían que las mejores vetas estaban en la cantera. Pero la roca de aquí arriba... está viva. Respira con el volcán.»"
+        },
+        "losa_pyrrok": {
+          "label": "Preguntar por la losa de la grieta",
+          "text": "«Junto a esta hendidura hay un fragmento del Capítulo II. Explica cómo los Pyrrok templan el basalto con ceniza en lugar de forjar armas de filo.»"
+        },
+        "umbral": {
+          "label": "Preguntar por el paso a los riscos",
+          "text": "«Más adelante está el Umbral de los Riscos. El Ceniciento Alado vigila el paso. No te dejará subir a la Ciudadela sin medir tu temple.»"
+        }
+      }
+    },
+    "cumbres_vhis_kael": {
+      "id": "cumbres_vhis_kael",
+      "name": "Vhis-Kael",
+      "home_room": "cumbres_plaza_escamas",
+      "schedule": [
+        "día",
+        "noche"
+      ],
+      "topics": {
+        "asamblea": {
+          "label": "Preguntar por el debate de los tres clanes",
+          "text": "Vhis-Kael alza sus alas claras con serenidad. «Muchos en el Clan Aethelgard creemos que el Gran Silencio cumplió su cometido. Los pueblos mortales han crecido, pero los Pyrrok aún temen que el contacto traiga codicia y discordia.»"
+        },
+        "marcos": {
+          "label": "Preguntar por el viajero UV.Diaz",
+          "text": "«Su fama llegó antes que sus pasos. Quien vence a un dragón ancestral sin apagar su vida demuestra que comprende la templanza. Esa es la razón por la que el umbral no se cerró ante vosotros.»"
+        },
+        "archivo": {
+          "label": "Preguntar cómo acceder al Gran Archivo",
+          "text": "«Más allá del salón de Vaelok se abre el Archivo de las Cinco Edades. Solo quienes demuestran firmeza ante el yunque obtienen la llave rúnica para franquear la entrada.»"
+        }
+      }
+    },
+    "cumbres_artifice_pyrrok": {
+      "id": "cumbres_artifice_pyrrok",
+      "name": "Artesano Ignis",
+      "home_room": "cumbres_taller_basalto",
+      "schedule": [
+        "día",
+        "noche"
+      ],
+      "topics": {
+        "forja": {
+          "label": "Preguntar por el método de forja de escama viva",
+          "text": "El artesano limpia una lámina de basalto caliente con una gasa de amianto. «No golpeamos para quebrar; golpeamos para acomodar los cristales de la roca. Una losa bien templada soporta el rayo y el hielo sin resquebrajarse.»"
+        },
+        "vaelok": {
+          "label": "Preguntar por el maestro Vaelok",
+          "text": "«Es el más antiguo de los forjadores vivos. Su corazón late al compás de la gran caldera. No tolera la arrogancia, pero honra a quien resiste sus pruebas con dignidad.»"
+        }
+      }
+    },
+    "cumbres_archivista_sol": {
+      "id": "cumbres_archivista_sol",
+      "name": "Archivista Sol-Vhis",
+      "home_room": "cumbres_galeria_segunda_edad",
+      "schedule": [
+        "día",
+        "noche"
+      ],
+      "topics": {
+        "archivo": {
+          "label": "Preguntar por la organización del Gran Archivo",
+          "text": "Sol-Vhis acomoda un rollo de corteza con cuidado filial. «Dividimos la memoria en cinco edades. Cada área del archivo preserva una era de civilización para que nada de lo aprendido se pierda en el olvido.»"
+        },
+        "prismas": {
+          "label": "Preguntar por el enigma de la sala de prismas",
+          "text": "«Los prismas no son adornos: son la balanza óptica de las cumbres. Si alineas el haz solar con la Marea Magmática que describe el Capítulo III, y el pulso secundario con la memoria de Quellor del Capítulo IV, la piedra misma te entregará su ofrenda.»"
+        }
+      }
+    },
+    "cumbres_vigia_zephyr": {
+      "id": "cumbres_vigia_zephyr",
+      "name": "Vigía Zephyr",
+      "home_room": "cumbres_nido_nubes",
+      "schedule": [
+        "día",
+        "noche"
+      ],
+      "topics": {
+        "viento": {
+          "label": "Preguntar por las corrientes de las cumbres",
+          "text": "Zephyr bate sus alas esbeltas con elegancia. «El viento de aquí arriba no es un obstáculo; es un sendero. Si aprendes a apoyarte en su empuje en lugar de resistirte con rigidez, volarás con la mente abierta.»"
+        },
+        "zephyros": {
+          "label": "Preguntar por el Señor de la Ventisca",
+          "text": "«Es el más veloz de los ancianos de Aethelgard. No tolera la torpeza ni la soberbia. Para cruzar su puerta debes recordar la máxima del testigo que guardan las losas: la fruta no se arranca antes de su sazón.»"
+        }
+      }
+    },
+    "cumbres_anciana_pyrr": {
+      "id": "cumbres_anciana_pyrr",
+      "name": "Matriarca Pyrr-Veyth",
+      "home_room": "cumbres_camara_sabiduria",
+      "schedule": [
+        "día",
+        "noche"
+      ],
+      "topics": {
+        "pacto": {
+          "label": "Preguntar por el destino del Gran Silencio",
+          "text": "La anciana abre un ojo de obsidiana templada. «El silencio no fue cobardía ni rencor. Fue la espera necesaria. Has recorrido las cinco edades, leído las crónicas y templado tu temple sin destruir lo que amas. El Archidragón te espera con el corazón abierto.»"
+        },
+        "caldera": {
+          "label": "Preguntar por el fuego sagrado de la caldera",
+          "text": "«No es un fuego que queme por furia. Es el calor que mantiene la savia corriendo en los árboles de Nhal y el vapor en las termas de Veyra. Quien aprende a convivir con él comprende el verdadero latido de Vaisgard.»"
+        }
+      }
+    }
+  }
+}

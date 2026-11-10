@@ -1055,6 +1055,10 @@
     "veyra": [
       15,
       18
+    ],
+    "cumbres": [
+      17,
+      -6
     ]
   },
   "bends": [
@@ -13847,6 +13851,20 @@
         [
           64,
           -96
+        ]
+      ]
+    },
+    {
+      "from": "home:cumbres",
+      "to": "cumbres_refugio_ceniza",
+      "points": [
+        [
+          68,
+          -24
+        ],
+        [
+          68,
+          -20
         ]
       ]
     }

@@ -855,7 +855,7 @@ class Engine:
         for direction,destination in room.get('exits',{}).items():
             gate=room.get('exit_requirements',{}).get(direction,{})
             _,origin=self.region_for(character['species'])
-            gate_open=destination==origin['settlement'] or destination in state['visited'] or self.allowed(gate,state,world)
+            gate_open=destination==origin['settlement'] or destination in state['visited'] or state.get('tester_enabled') is True or self.allowed(gate,state,world)
             actions.append({'id':'mover','target':direction,'label':f"{direction.capitalize()} · {self.content.rooms[destination]['name'] if destination in state['visited'] else 'Salida por explorar'}",'disabled':not gate_open,'reason':gate.get('text','Solicita permiso antes de entrar.') if not gate_open else ''})
         _,region=self.region_for(character['species'])
         if state['location']==region['settlement']:actions.append({'id':'mover','target':'hogar','label':'Regresar a tu hogar'})
