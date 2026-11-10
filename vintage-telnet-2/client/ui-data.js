@@ -1365,6 +1365,308 @@ Object.assign(placeIllustrations,{
     "caption": "Vista representativa del lugar. La hora, el clima y los cambios actuales se describen en la lectura."
   }
 });
+Object.assign(placeIllustrations,{
+  "cumbres_paso_escamas": {
+    "name": "Paso de las Escamas Dormidas",
+    "illustration": "/client/art/places/cumbres_paso_escamas-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_paso_escamas-thumb-v1.webp",
+    "caption": "El paso estrecho entre columnas de basalto y vapor cálido."
+  },
+  "cumbres_tunel_basalto": {
+    "name": "Túnel del Resuello Geotérmico",
+    "illustration": "/client/art/places/cumbres_tunel_basalto-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_tunel_basalto-thumb-v1.webp",
+    "caption": "La galería volcánica de respiraderos rítmicos."
+  },
+  "cumbres_desfiladero_ciego": {
+    "name": "Desfiladero Ciego",
+    "illustration": "/client/art/places/cumbres_desfiladero_ciego-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_desfiladero_ciego-thumb-v1.webp",
+    "caption": "La garganta de niebla espesa y veta de cuarzo."
+  },
+  "cumbres_bosque_fumarolas": {
+    "name": "Bosque de las Fumarolas",
+    "illustration": "/client/art/places/cumbres_bosque_fumarolas-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_bosque_fumarolas-thumb-v1.webp",
+    "caption": "El bosque de sabinas colosales y respiraderos de vapor."
+  },
+  "cumbres_claros_azufre": {
+    "name": "Claros del Azufre y la Ceniza",
+    "illustration": "/client/art/places/cumbres_claros_azufre-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_claros_azufre-thumb-v1.webp",
+    "caption": "Los claros de azufre dorado y pozas hirvientes."
+  },
+  "cumbres_manantial_tibio": {
+    "name": "Manantial de la Bruma Clara",
+    "illustration": "/client/art/places/cumbres_manantial_tibio-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_manantial_tibio-thumb-v1.webp",
+    "caption": "El manantial termal cristalino rodeado de lajas planas."
+  },
+  "cumbres_refugio_ceniza": {
+    "name": "Refugio de la Ceniza",
+    "illustration": "/client/art/places/cumbres_refugio_ceniza-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_refugio_ceniza-thumb-v1.webp",
+    "caption": "La hornacina protegida con la gran losa del Capítulo I."
+  },
+  "cumbres_pilares_rotos": {
+    "name": "Pilares del Vuelo Antiguo",
+    "illustration": "/client/art/places/cumbres_pilares_rotos-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_pilares_rotos-thumb-v1.webp",
+    "caption": "La terraza de pilares colosales de vuelo."
+  },
+  "cumbres_grieta_menor": {
+    "name": "Grieta de los Nidos Menores",
+    "illustration": "/client/art/places/cumbres_grieta_menor-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_grieta_menor-thumb-v1.webp",
+    "caption": "La garganta empinada con nidos laterales y la losa del Capítulo II."
+  },
+  "cumbres_umbral_riscos": {
+    "name": "Umbral de los Riscos",
+    "illustration": "/client/art/places/cumbres_umbral_riscos-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_umbral_riscos-thumb-v1.webp",
+    "caption": "El umbral flanqueado por dos torreones de basalto."
+  },
+  "cumbres_balcon_vhis": {
+    "name": "Balcón de Vhis",
+    "illustration": "/client/art/places/cumbres_balcon_vhis-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_balcon_vhis-thumb-v1.webp",
+    "caption": "El mirador semicircular labrado en el acantilado basáltico."
+  },
+  "cumbres_terrazas_vuelo": {
+    "name": "Terrazas de Vuelo",
+    "illustration": "/client/art/places/cumbres_terrazas_vuelo-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_terrazas_vuelo-thumb-v1.webp",
+    "caption": "Las plataformas escalonadas de despegue y aterrizaje."
+  },
+  "cumbres_galeria_resonadores": {
+    "name": "Galería de los Resonadores",
+    "illustration": "/client/art/places/cumbres_galeria_resonadores-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_galeria_resonadores-thumb-v1.webp",
+    "caption": "La nave abovedada con hornacinas acústicas y resonancia profunda."
+  },
+  "cumbres_nidos_altos": {
+    "name": "Nidos Altos de la Ciudadela",
+    "illustration": "/client/art/places/cumbres_nidos_altos-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_nidos_altos-thumb-v1.webp",
+    "caption": "La cornisa abrigada de cuencos de descanso dracónico."
+  },
+  "cumbres_plaza_escamas": {
+    "name": "Plaza de las Escamas Forjadas",
+    "illustration": "/client/art/places/cumbres_plaza_escamas-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_plaza_escamas-thumb-v1.webp",
+    "caption": "El ágora central de la Ciudadela con sus tres graderíos."
+  },
+  "cumbres_taller_basalto": {
+    "name": "Taller de la Forja Basáltica",
+    "illustration": "/client/art/places/cumbres_taller_basalto-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_taller_basalto-thumb-v1.webp",
+    "caption": "La caverna de fraguas de magma y yunques de roca madre."
+  },
+  "cumbres_bastion_termico": {
+    "name": "Baluarte del Flujo Térmico",
+    "illustration": "/client/art/places/cumbres_bastion_termico-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_bastion_termico-thumb-v1.webp",
+    "caption": "La sala de válvulas y contrapesos del flujo de vapor."
+  },
+  "cumbres_residencia_pyrrok": {
+    "name": "Residencia del Clan Pyrrok",
+    "illustration": "/client/art/places/cumbres_residencia_pyrrok-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_residencia_pyrrok-thumb-v1.webp",
+    "caption": "Las estancias severas y monumentales del Clan Pyrrok."
+  },
+  "cumbres_puerta_clanes": {
+    "name": "Puerta de los Tres Clanes",
+    "illustration": "/client/art/places/cumbres_puerta_clanes-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_puerta_clanes-thumb-v1.webp",
+    "caption": "El portón ciclópeo con los tres emblemas heráldicos."
+  },
+  "cumbres_salon_ceniza": {
+    "name": "Salón de la Ceniza y el Yunque",
+    "illustration": "/client/art/places/cumbres_salon_ceniza-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_salon_ceniza-thumb-v1.webp",
+    "caption": "La bóveda del yunque colosal de diorita y hogar de Vaelok."
+  },
+  "cumbres_atrio_edades": {
+    "name": "Atrio de las Cinco Edades",
+    "illustration": "/client/art/places/cumbres_atrio_edades-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_atrio_edades-thumb-v1.webp",
+    "caption": "El vestíbulo monumental con columnas monolíticas y pebeteros azules."
+  },
+  "cumbres_galeria_primera_edad": {
+    "name": "Galería de la Primera Edad",
+    "illustration": "/client/art/places/cumbres_galeria_primera_edad-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_galeria_primera_edad-thumb-v1.webp",
+    "caption": "La galería de relieves cosmogónicos y la losa del Capítulo III."
+  },
+  "cumbres_galeria_segunda_edad": {
+    "name": "Galería de la Segunda Edad",
+    "illustration": "/client/art/places/cumbres_galeria_segunda_edad-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_galeria_segunda_edad-thumb-v1.webp",
+    "caption": "El recinto de archivos de convivencia y vitrinas históricas."
+  },
+  "cumbres_ala_ecos_quellor": {
+    "name": "Ala de los Ecos de Quellor",
+    "illustration": "/client/art/places/cumbres_ala_ecos_quellor-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_ala_ecos_quellor-thumb-v1.webp",
+    "caption": "La cámara de aguas termales cristalinas y la losa del Capítulo IV."
+  },
+  "cumbres_sala_prismas": {
+    "name": "Sala de los Prismas Astronómicos",
+    "illustration": "/client/art/places/cumbres_sala_prismas-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_sala_prismas-thumb-v1.webp",
+    "caption": "La cámara octogonal con los tres prismas colosales de cuarzo."
+  },
+  "cumbres_hornacina_tratados": {
+    "name": "Hornacina de los Tratados Antiguos",
+    "illustration": "/client/art/places/cumbres_hornacina_tratados-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_hornacina_tratados-thumb-v1.webp",
+    "caption": "La estancia de cilindros con los tratados de paz históricos."
+  },
+  "cumbres_terraza_observador": {
+    "name": "Terraza del Observador Celeste",
+    "illustration": "/client/art/places/cumbres_terraza_observador-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_terraza_observador-thumb-v1.webp",
+    "caption": "La cornisa voladiza abierta al domo del cielo norte."
+  },
+  "cumbres_boveda_dorada": {
+    "name": "Bóveda de los Códices Dorados",
+    "illustration": "/client/art/places/cumbres_boveda_dorada-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_boveda_dorada-thumb-v1.webp",
+    "caption": "La cámara acorazada de paredes de oro batido y códices antiguos."
+  },
+  "cumbres_cripta_sabios": {
+    "name": "Cripta de los Antiguos Cronistas",
+    "illustration": "/client/art/places/cumbres_cripta_sabios-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_cripta_sabios-thumb-v1.webp",
+    "caption": "El recinto funerario de nichos conmemorativos de los sabios."
+  },
+  "cumbres_santuario_escriba": {
+    "name": "Santuario del Escriba Silente",
+    "illustration": "/client/art/places/cumbres_santuario_escriba-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_santuario_escriba-thumb-v1.webp",
+    "caption": "La catedral de basalto y estrado sagrado de Oros-Khar."
+  },
+  "cumbres_ascenso_crestas": {
+    "name": "Ascenso de las Crestas Afiladas",
+    "illustration": "/client/art/places/cumbres_ascenso_crestas-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_ascenso_crestas-thumb-v1.webp",
+    "caption": "El sendero estrecho por el filo de la cresta basáltica."
+  },
+  "cumbres_paso_torbellinos": {
+    "name": "Paso de los Torbellinos",
+    "illustration": "/client/art/places/cumbres_paso_torbellinos-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_paso_torbellinos-thumb-v1.webp",
+    "caption": "La garganta de corrientes eólicas enfrentadas y torbellinos blancos."
+  },
+  "cumbres_cornisa_aethelgard": {
+    "name": "Cornisa de las Alas Celestes",
+    "illustration": "/client/art/places/cumbres_cornisa_aethelgard-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_cornisa_aethelgard-thumb-v1.webp",
+    "caption": "La terraza voladiza sobre el mar de nubes y la losa del Capítulo V."
+  },
+  "cumbres_baluarte_viento": {
+    "name": "Baluarte del Contrapeso Eólico",
+    "illustration": "/client/art/places/cumbres_baluarte_viento-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_baluarte_viento-thumb-v1.webp",
+    "caption": "La fortificación de poleas gigantes y cadenas de contrapeso."
+  },
+  "cumbres_nido_nubes": {
+    "name": "Nido sobre las Nubes",
+    "illustration": "/client/art/places/cumbres_nido_nubes-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_nido_nubes-thumb-v1.webp",
+    "caption": "La plataforma circular de vigías sobre el mar de nubes."
+  },
+  "cumbres_espolon_helado": {
+    "name": "Espolón Helado",
+    "illustration": "/client/art/places/cumbres_espolon_helado-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_espolon_helado-thumb-v1.webp",
+    "caption": "El saliente rocoso cubierto de estalactitas de hielo y escarcha."
+  },
+  "cumbres_aguja_relampago": {
+    "name": "Aguja del Relámpago",
+    "illustration": "/client/art/places/cumbres_aguja_relampago-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_aguja_relampago-thumb-v1.webp",
+    "caption": "El monolito cónico de basalto magnético y punta vitrificada."
+  },
+  "cumbres_puente_hielo_ceniza": {
+    "name": "Puente de Hielo y Ceniza",
+    "illustration": "/client/art/places/cumbres_puente_hielo_ceniza-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_puente_hielo_ceniza-thumb-v1.webp",
+    "caption": "La pasarela natural de hielo y ceniza sobre la sima insondable."
+  },
+  "cumbres_mirador_vaisgard": {
+    "name": "Mirador de Vaisgard",
+    "illustration": "/client/art/places/cumbres_mirador_vaisgard-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_mirador_vaisgard-thumb-v1.webp",
+    "caption": "El mirador supremo con vista panorámica de todo Vaisgard."
+  },
+  "cumbres_puerta_falla": {
+    "name": "Puerta de la Falla Ígnea",
+    "illustration": "/client/art/places/cumbres_puerta_falla-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_puerta_falla-thumb-v1.webp",
+    "caption": "La hendidura colosal en la muralla de la caldera custodiada por Zephyros."
+  },
+  "cumbres_descenso_crater": {
+    "name": "Descenso al Cráter Sagrado",
+    "illustration": "/client/art/places/cumbres_descenso_crater-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_descenso_crater-thumb-v1.webp",
+    "caption": "La calzada en espiral de terrazas de obsidiana hacia la caldera."
+  },
+  "cumbres_ribera_lava_fria": {
+    "name": "Ribera de Lava Fría",
+    "illustration": "/client/art/places/cumbres_ribera_lava_fria-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_ribera_lava_fria-thumb-v1.webp",
+    "caption": "La planicie ondulada de lava solidificada y vetas de cuarzo."
+  },
+  "cumbres_hornos_creacion": {
+    "name": "Hornos de la Creación",
+    "illustration": "/client/art/places/cumbres_hornos_creacion-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_hornos_creacion-thumb-v1.webp",
+    "caption": "Las chimeneas cónicas de fuego blanco y gas magmático."
+  },
+  "cumbres_lago_basalto": {
+    "name": "Lago de Basalto Líquido",
+    "illustration": "/client/art/places/cumbres_lago_basalto-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_lago_basalto-thumb-v1.webp",
+    "caption": "La superficie circular de roca líquida templada y pulsos lentos."
+  },
+  "cumbres_fosa_primordial": {
+    "name": "Fosa de la Falla Primordial",
+    "illustration": "/client/art/places/cumbres_fosa_primordial-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_fosa_primordial-thumb-v1.webp",
+    "caption": "La sima lineal tapizada de cristales de nácar mineral."
+  },
+  "cumbres_altar_termico": {
+    "name": "Altar del Aliento Original",
+    "illustration": "/client/art/places/cumbres_altar_termico-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_altar_termico-thumb-v1.webp",
+    "caption": "La plataforma elevada de diorita blanca y la losa del Capítulo VI."
+  },
+  "cumbres_paso_dragon_blanco": {
+    "name": "Paso del Dragón Blanco",
+    "illustration": "/client/art/places/cumbres_paso_dragon_blanco-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_paso_dragon_blanco-thumb-v1.webp",
+    "caption": "La calzada ceremonial sobre arcos que conduce al Trono de la Caldera."
+  },
+  "cumbres_camara_sabiduria": {
+    "name": "Cámara de la Sabiduría Olvidada",
+    "illustration": "/client/art/places/cumbres_camara_sabiduria-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_camara_sabiduria-thumb-v1.webp",
+    "caption": "El recinto apacible de reposo y contemplación de los ancianos."
+  },
+  "cumbres_santuario_resuello": {
+    "name": "Santuario del Resuello Compartido",
+    "illustration": "/client/art/places/cumbres_santuario_resuello-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_santuario_resuello-thumb-v1.webp",
+    "caption": "La poza hidrotermal de cuarzo rosa en armonía con Veyra."
+  },
+  "cumbres_trono_caldera": {
+    "name": "Trono de la Caldera Sagrada",
+    "illustration": "/client/art/places/cumbres_trono_caldera-anime-v1.webp",
+    "thumbnail": "/client/art/places/cumbres_trono_caldera-thumb-v1.webp",
+    "caption": "El pedestal colosal de obsidiana y morada del Archidragón Ignis-Aethel."
+  }
+});
 const placeVariants=Object.freeze({
   "veyra_mazmorra_boveda_guardian": {
     "agua-libre": {
