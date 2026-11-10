@@ -45,9 +45,16 @@ ACHIEVEMENTS = [
     ("sierpe", "Corazón de la Grieta", "Vence a la Sierpe de la Veta Madre", "sierpe", 1),
     ("tejecristal", "Rompehilos", "Vence a Tejecristal", "tejecristal", 1),
     ("quebrarrocas", "Lajas en calma", "Vence al Quebrarrocas canoso", "quebrarrocas", 1),
+    ("cumbres_descubiertas", "Tras el Velo de las Cumbres", "Descubre el paso a las Cumbres Veladas", "cumbres_descubiertas", 1),
+    ("erudito_cumbres", "Erudito de las Cumbres", "Lee los seis capítulos de las crónicas de las cumbres", "erudito_cumbres", 6),
+    ("jefe_ceniciento", "Brumas Disipadas", "Vence al Ceniciento Alado en el Umbral de los Riscos", "jefe_ceniciento", 1),
+    ("jefe_vaelok", "Martillo de la Caldera", "Vence a Vaelok el Forjador en el Salón de Ceniza", "jefe_vaelok", 1),
+    ("jefe_oros_khar", "Voz del Basalto", "Vence a Oros-Khar el Escriba en el Gran Archivo", "jefe_oros_khar", 1),
+    ("jefe_zephyros", "Ojo del Vendaval", "Vence a Zephyros el Señor de la Ventisca en las Cumbres", "jefe_zephyros", 1),
+    ("jefe_ignis_aethel", "El Primer Aliento", "Alcanza el Trono de la Caldera y vence al Archidragón Ignis-Aethel", "jefe_ignis_aethel", 1),
 ]
 
-assert len(ACHIEVEMENTS) == 43
+assert len(ACHIEVEMENTS) == 50
 
 
 def metrics(state, content, world):
@@ -82,6 +89,13 @@ def metrics(state, content, world):
         "sierpe": int(any(flag.endswith(":sierpe_veta_madre") for flag in victories)),
         "tejecristal": int(any(flag.endswith(":tejecristal") for flag in victories)),
         "quebrarrocas": int(any(flag.endswith(":quebrarrocas_canoso") for flag in victories)),
+        "cumbres_descubiertas": int("cumbres_paso_escamas" in visited or "cumbres_descubiertas" in state.get("flags", [])),
+        "erudito_cumbres": sum(1 for i in range(1, 7) if f"leido_cronica_cumbres_{i}" in state.get("flags", [])),
+        "jefe_ceniciento": int(any(flag.endswith(":ceniciento_alado") for flag in victories)),
+        "jefe_vaelok": int(any(flag.endswith(":vaelok_forjador") for flag in victories)),
+        "jefe_oros_khar": int(any(flag.endswith(":oros_khar_escriba") for flag in victories)),
+        "jefe_zephyros": int(any(flag.endswith(":zephyros_ventisca") for flag in victories)),
+        "jefe_ignis_aethel": int(any(flag.endswith(":archidragon_ignis_aethel") for flag in victories)),
     }
 
 

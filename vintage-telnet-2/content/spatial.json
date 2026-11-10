@@ -829,6 +829,206 @@
     "korven_grieta_lecho": [
       3,
       26
+    ],
+    "cumbres_paso_escamas": [
+      16,
+      -1
+    ],
+    "cumbres_tunel_basalto": [
+      16,
+      -2
+    ],
+    "cumbres_desfiladero_ciego": [
+      16,
+      -3
+    ],
+    "cumbres_bosque_fumarolas": [
+      16,
+      -4
+    ],
+    "cumbres_claros_azufre": [
+      15,
+      -4
+    ],
+    "cumbres_manantial_tibio": [
+      17,
+      -4
+    ],
+    "cumbres_refugio_ceniza": [
+      17,
+      -5
+    ],
+    "cumbres_pilares_rotos": [
+      15,
+      -5
+    ],
+    "cumbres_grieta_menor": [
+      16,
+      -5
+    ],
+    "cumbres_umbral_riscos": [
+      16,
+      -6
+    ],
+    "cumbres_balcon_vhis": [
+      16,
+      -7
+    ],
+    "cumbres_terrazas_vuelo": [
+      16,
+      -8
+    ],
+    "cumbres_galeria_resonadores": [
+      15,
+      -8
+    ],
+    "cumbres_nidos_altos": [
+      17,
+      -8
+    ],
+    "cumbres_plaza_escamas": [
+      16,
+      -9
+    ],
+    "cumbres_taller_basalto": [
+      15,
+      -9
+    ],
+    "cumbres_bastion_termico": [
+      17,
+      -9
+    ],
+    "cumbres_residencia_pyrrok": [
+      15,
+      -10
+    ],
+    "cumbres_puerta_clanes": [
+      16,
+      -10
+    ],
+    "cumbres_salon_ceniza": [
+      16,
+      -11
+    ],
+    "cumbres_atrio_edades": [
+      16,
+      -12
+    ],
+    "cumbres_galeria_primera_edad": [
+      15,
+      -12
+    ],
+    "cumbres_galeria_segunda_edad": [
+      17,
+      -12
+    ],
+    "cumbres_ala_ecos_quellor": [
+      15,
+      -13
+    ],
+    "cumbres_sala_prismas": [
+      16,
+      -13
+    ],
+    "cumbres_hornacina_tratados": [
+      17,
+      -13
+    ],
+    "cumbres_terraza_observador": [
+      16,
+      -14
+    ],
+    "cumbres_boveda_dorada": [
+      15,
+      -14
+    ],
+    "cumbres_cripta_sabios": [
+      17,
+      -14
+    ],
+    "cumbres_santuario_escriba": [
+      16,
+      -15
+    ],
+    "cumbres_ascenso_crestas": [
+      16,
+      -16
+    ],
+    "cumbres_paso_torbellinos": [
+      16,
+      -17
+    ],
+    "cumbres_cornisa_aethelgard": [
+      15,
+      -17
+    ],
+    "cumbres_baluarte_viento": [
+      17,
+      -17
+    ],
+    "cumbres_nido_nubes": [
+      15,
+      -18
+    ],
+    "cumbres_espolon_helado": [
+      17,
+      -18
+    ],
+    "cumbres_aguja_relampago": [
+      16,
+      -18
+    ],
+    "cumbres_puente_hielo_ceniza": [
+      16,
+      -19
+    ],
+    "cumbres_mirador_vaisgard": [
+      15,
+      -19
+    ],
+    "cumbres_puerta_falla": [
+      16,
+      -20
+    ],
+    "cumbres_descenso_crater": [
+      16,
+      -21
+    ],
+    "cumbres_ribera_lava_fria": [
+      15,
+      -21
+    ],
+    "cumbres_hornos_creacion": [
+      17,
+      -21
+    ],
+    "cumbres_lago_basalto": [
+      16,
+      -22
+    ],
+    "cumbres_fosa_primordial": [
+      15,
+      -22
+    ],
+    "cumbres_altar_termico": [
+      17,
+      -22
+    ],
+    "cumbres_paso_dragon_blanco": [
+      16,
+      -23
+    ],
+    "cumbres_camara_sabiduria": [
+      15,
+      -23
+    ],
+    "cumbres_santuario_resuello": [
+      17,
+      -23
+    ],
+    "cumbres_trono_caldera": [
+      16,
+      -24
     ]
   },
   "homes": {
@@ -855,6 +1055,10 @@
     "veyra": [
       15,
       18
+    ],
+    "cumbres": [
+      17,
+      -6
     ]
   },
   "bends": [
@@ -12327,6 +12531,1340 @@
         [
           12,
           92
+        ]
+      ]
+    },
+    {
+      "from": "hoshai_senda_dosel",
+      "to": "cumbres_paso_escamas",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          0
+        ],
+        [
+          64,
+          -2
+        ],
+        [
+          64,
+          -4
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_paso_escamas",
+      "to": "cumbres_tunel_basalto",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -4
+        ],
+        [
+          64,
+          -6
+        ],
+        [
+          64,
+          -8
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_tunel_basalto",
+      "to": "cumbres_desfiladero_ciego",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -8
+        ],
+        [
+          64,
+          -10
+        ],
+        [
+          64,
+          -12
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_desfiladero_ciego",
+      "to": "cumbres_bosque_fumarolas",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -12
+        ],
+        [
+          64,
+          -14
+        ],
+        [
+          64,
+          -16
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_claros_azufre",
+      "to": "cumbres_bosque_fumarolas",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -16
+        ],
+        [
+          62,
+          -16
+        ],
+        [
+          64,
+          -16
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_bosque_fumarolas",
+      "to": "cumbres_manantial_tibio",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -16
+        ],
+        [
+          66,
+          -16
+        ],
+        [
+          68,
+          -16
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_bosque_fumarolas",
+      "to": "cumbres_grieta_menor",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -16
+        ],
+        [
+          64,
+          -18
+        ],
+        [
+          64,
+          -20
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_claros_azufre",
+      "to": "cumbres_pilares_rotos",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -16
+        ],
+        [
+          60,
+          -18
+        ],
+        [
+          60,
+          -20
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_manantial_tibio",
+      "to": "cumbres_refugio_ceniza",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -16
+        ],
+        [
+          68,
+          -18
+        ],
+        [
+          68,
+          -20
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_grieta_menor",
+      "to": "cumbres_refugio_ceniza",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -20
+        ],
+        [
+          66,
+          -20
+        ],
+        [
+          68,
+          -20
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_pilares_rotos",
+      "to": "cumbres_grieta_menor",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -20
+        ],
+        [
+          62,
+          -20
+        ],
+        [
+          64,
+          -20
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_grieta_menor",
+      "to": "cumbres_umbral_riscos",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -20
+        ],
+        [
+          64,
+          -22
+        ],
+        [
+          64,
+          -24
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_umbral_riscos",
+      "to": "cumbres_balcon_vhis",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -24
+        ],
+        [
+          64,
+          -26
+        ],
+        [
+          64,
+          -28
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_balcon_vhis",
+      "to": "cumbres_terrazas_vuelo",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -28
+        ],
+        [
+          64,
+          -30
+        ],
+        [
+          64,
+          -32
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_galeria_resonadores",
+      "to": "cumbres_terrazas_vuelo",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -32
+        ],
+        [
+          62,
+          -32
+        ],
+        [
+          64,
+          -32
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_terrazas_vuelo",
+      "to": "cumbres_nidos_altos",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -32
+        ],
+        [
+          66,
+          -32
+        ],
+        [
+          68,
+          -32
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_terrazas_vuelo",
+      "to": "cumbres_plaza_escamas",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -32
+        ],
+        [
+          64,
+          -34
+        ],
+        [
+          64,
+          -36
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_galeria_resonadores",
+      "to": "cumbres_taller_basalto",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -32
+        ],
+        [
+          60,
+          -34
+        ],
+        [
+          60,
+          -36
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_nidos_altos",
+      "to": "cumbres_bastion_termico",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -32
+        ],
+        [
+          68,
+          -34
+        ],
+        [
+          68,
+          -36
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_taller_basalto",
+      "to": "cumbres_plaza_escamas",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -36
+        ],
+        [
+          62,
+          -36
+        ],
+        [
+          64,
+          -36
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_plaza_escamas",
+      "to": "cumbres_bastion_termico",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -36
+        ],
+        [
+          66,
+          -36
+        ],
+        [
+          68,
+          -36
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_taller_basalto",
+      "to": "cumbres_residencia_pyrrok",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -36
+        ],
+        [
+          60,
+          -38
+        ],
+        [
+          60,
+          -40
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_plaza_escamas",
+      "to": "cumbres_puerta_clanes",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -36
+        ],
+        [
+          64,
+          -38
+        ],
+        [
+          64,
+          -40
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_residencia_pyrrok",
+      "to": "cumbres_puerta_clanes",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -40
+        ],
+        [
+          62,
+          -40
+        ],
+        [
+          64,
+          -40
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_puerta_clanes",
+      "to": "cumbres_salon_ceniza",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -40
+        ],
+        [
+          64,
+          -42
+        ],
+        [
+          64,
+          -44
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_salon_ceniza",
+      "to": "cumbres_atrio_edades",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -44
+        ],
+        [
+          64,
+          -46
+        ],
+        [
+          64,
+          -48
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_galeria_primera_edad",
+      "to": "cumbres_atrio_edades",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -48
+        ],
+        [
+          62,
+          -48
+        ],
+        [
+          64,
+          -48
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_atrio_edades",
+      "to": "cumbres_galeria_segunda_edad",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -48
+        ],
+        [
+          66,
+          -48
+        ],
+        [
+          68,
+          -48
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_atrio_edades",
+      "to": "cumbres_sala_prismas",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -48
+        ],
+        [
+          64,
+          -50
+        ],
+        [
+          64,
+          -52
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_galeria_primera_edad",
+      "to": "cumbres_ala_ecos_quellor",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -48
+        ],
+        [
+          60,
+          -50
+        ],
+        [
+          60,
+          -52
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_galeria_segunda_edad",
+      "to": "cumbres_hornacina_tratados",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -48
+        ],
+        [
+          68,
+          -50
+        ],
+        [
+          68,
+          -52
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_ala_ecos_quellor",
+      "to": "cumbres_sala_prismas",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -52
+        ],
+        [
+          62,
+          -52
+        ],
+        [
+          64,
+          -52
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_sala_prismas",
+      "to": "cumbres_hornacina_tratados",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -52
+        ],
+        [
+          66,
+          -52
+        ],
+        [
+          68,
+          -52
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_ala_ecos_quellor",
+      "to": "cumbres_boveda_dorada",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -52
+        ],
+        [
+          60,
+          -54
+        ],
+        [
+          60,
+          -56
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_sala_prismas",
+      "to": "cumbres_terraza_observador",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -52
+        ],
+        [
+          64,
+          -54
+        ],
+        [
+          64,
+          -56
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_hornacina_tratados",
+      "to": "cumbres_cripta_sabios",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -52
+        ],
+        [
+          68,
+          -54
+        ],
+        [
+          68,
+          -56
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_boveda_dorada",
+      "to": "cumbres_terraza_observador",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -56
+        ],
+        [
+          62,
+          -56
+        ],
+        [
+          64,
+          -56
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_terraza_observador",
+      "to": "cumbres_cripta_sabios",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -56
+        ],
+        [
+          66,
+          -56
+        ],
+        [
+          68,
+          -56
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_terraza_observador",
+      "to": "cumbres_santuario_escriba",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -56
+        ],
+        [
+          64,
+          -58
+        ],
+        [
+          64,
+          -60
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_santuario_escriba",
+      "to": "cumbres_ascenso_crestas",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -60
+        ],
+        [
+          64,
+          -62
+        ],
+        [
+          64,
+          -64
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_ascenso_crestas",
+      "to": "cumbres_paso_torbellinos",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -64
+        ],
+        [
+          64,
+          -66
+        ],
+        [
+          64,
+          -68
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_cornisa_aethelgard",
+      "to": "cumbres_paso_torbellinos",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -68
+        ],
+        [
+          62,
+          -68
+        ],
+        [
+          64,
+          -68
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_paso_torbellinos",
+      "to": "cumbres_baluarte_viento",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -68
+        ],
+        [
+          66,
+          -68
+        ],
+        [
+          68,
+          -68
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_cornisa_aethelgard",
+      "to": "cumbres_nido_nubes",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -68
+        ],
+        [
+          60,
+          -70
+        ],
+        [
+          60,
+          -72
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_baluarte_viento",
+      "to": "cumbres_espolon_helado",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -68
+        ],
+        [
+          68,
+          -70
+        ],
+        [
+          68,
+          -72
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_paso_torbellinos",
+      "to": "cumbres_aguja_relampago",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -68
+        ],
+        [
+          64,
+          -70
+        ],
+        [
+          64,
+          -72
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_nido_nubes",
+      "to": "cumbres_aguja_relampago",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -72
+        ],
+        [
+          62,
+          -72
+        ],
+        [
+          64,
+          -72
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_aguja_relampago",
+      "to": "cumbres_espolon_helado",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -72
+        ],
+        [
+          66,
+          -72
+        ],
+        [
+          68,
+          -72
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_nido_nubes",
+      "to": "cumbres_mirador_vaisgard",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -72
+        ],
+        [
+          60,
+          -74
+        ],
+        [
+          60,
+          -76
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_aguja_relampago",
+      "to": "cumbres_puente_hielo_ceniza",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -72
+        ],
+        [
+          64,
+          -74
+        ],
+        [
+          64,
+          -76
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_mirador_vaisgard",
+      "to": "cumbres_puente_hielo_ceniza",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -76
+        ],
+        [
+          62,
+          -76
+        ],
+        [
+          64,
+          -76
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_puente_hielo_ceniza",
+      "to": "cumbres_puerta_falla",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -76
+        ],
+        [
+          64,
+          -78
+        ],
+        [
+          64,
+          -80
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_puerta_falla",
+      "to": "cumbres_descenso_crater",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -80
+        ],
+        [
+          64,
+          -82
+        ],
+        [
+          64,
+          -84
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_ribera_lava_fria",
+      "to": "cumbres_descenso_crater",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -84
+        ],
+        [
+          62,
+          -84
+        ],
+        [
+          64,
+          -84
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_descenso_crater",
+      "to": "cumbres_hornos_creacion",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -84
+        ],
+        [
+          66,
+          -84
+        ],
+        [
+          68,
+          -84
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_descenso_crater",
+      "to": "cumbres_lago_basalto",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -84
+        ],
+        [
+          64,
+          -86
+        ],
+        [
+          64,
+          -88
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_ribera_lava_fria",
+      "to": "cumbres_fosa_primordial",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -84
+        ],
+        [
+          60,
+          -86
+        ],
+        [
+          60,
+          -88
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_hornos_creacion",
+      "to": "cumbres_altar_termico",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -84
+        ],
+        [
+          68,
+          -86
+        ],
+        [
+          68,
+          -88
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_fosa_primordial",
+      "to": "cumbres_lago_basalto",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -88
+        ],
+        [
+          62,
+          -88
+        ],
+        [
+          64,
+          -88
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_lago_basalto",
+      "to": "cumbres_altar_termico",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -88
+        ],
+        [
+          66,
+          -88
+        ],
+        [
+          68,
+          -88
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_fosa_primordial",
+      "to": "cumbres_camara_sabiduria",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -88
+        ],
+        [
+          60,
+          -90
+        ],
+        [
+          60,
+          -92
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_lago_basalto",
+      "to": "cumbres_paso_dragon_blanco",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -88
+        ],
+        [
+          64,
+          -90
+        ],
+        [
+          64,
+          -92
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_altar_termico",
+      "to": "cumbres_santuario_resuello",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -88
+        ],
+        [
+          68,
+          -90
+        ],
+        [
+          68,
+          -92
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_camara_sabiduria",
+      "to": "cumbres_paso_dragon_blanco",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -92
+        ],
+        [
+          62,
+          -92
+        ],
+        [
+          64,
+          -92
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_paso_dragon_blanco",
+      "to": "cumbres_santuario_resuello",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -92
+        ],
+        [
+          66,
+          -92
+        ],
+        [
+          68,
+          -92
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_paso_dragon_blanco",
+      "to": "cumbres_trono_caldera",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -92
+        ],
+        [
+          64,
+          -94
+        ],
+        [
+          64,
+          -96
+        ]
+      ]
+    },
+    {
+      "from": "home:cumbres",
+      "to": "cumbres_refugio_ceniza",
+      "points": [
+        [
+          68,
+          -24
+        ],
+        [
+          68,
+          -20
         ]
       ]
     }

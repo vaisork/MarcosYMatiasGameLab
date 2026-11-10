@@ -2368,11 +2368,14 @@
       "return": "El banco aparece antes de la curva. Recuerdas la cubierta que sacudieron allí; unas hojas oscuras siguen pegadas al borde.",
       "examine": {
         "banco": "Queda fuera de la franja de raíces que recoge agua.",
-        "hojas": "Su forma difiere de las agujas de la sierra; llegaron en una cubierta de viaje."
+        "hojas": "Su forma difiere de las agujas de la sierra; llegaron en una cubierta de viaje.",
+        "hendidura_norte": "Entre las raíces de los abetos fósiles y el paredón vertical de basalto se abre una fisura de la que emana una bruma tibia con olor mineral a azufre y piedra templada.",
+        "vapor_norte": "La columna de vapor no es niebla fría de lluvia: emana calor geotérmico constante desde el interior de la roca."
       },
       "exits": {
         "sur": "hoshai_patio_hogares",
-        "este": "hoshai_estacion_cuerda"
+        "este": "hoshai_estacion_cuerda",
+        "norte": "cumbres_paso_escamas"
       },
       "arrivals": {},
       "npcs": [],
@@ -2387,6 +2390,38 @@
           "scope": "player",
           "next": "hoshai_balcon_valle",
           "text": "Subes agarrado a la cuerda vieja hasta el balcón sobre el valle."
+        },
+        {
+          "id": "descubrir_paso_escamas_dragon",
+          "label": "Acercar la escama de dragón a la hendidura norte",
+          "requires_items": {
+            "escama_dragon": 1
+          },
+          "forbids_flags": [
+            "velo_cumbres_descubierto"
+          ],
+          "set_flags": [
+            "velo_cumbres_descubierto",
+            "cumbres_descubiertas"
+          ],
+          "scope": "player",
+          "text": "La escama de dragón en tu zurrón vibra con una resonancia profunda y emite un pulso cálido. El vapor de la fisura responde al calor de la escama, disipando la bruma y revelando un estrecho sendero entre columnas de basalto: el Paso de las Escamas Dormidas."
+        },
+        {
+          "id": "observar_hendidura_cumbres",
+          "label": "Examinar detenidamente el vapor de la hendidura norte",
+          "requires_examined": [
+            "hendidura_norte"
+          ],
+          "forbids_flags": [
+            "velo_cumbres_descubierto"
+          ],
+          "set_flags": [
+            "velo_cumbres_descubierto",
+            "cumbres_descubiertas"
+          ],
+          "scope": "player",
+          "text": "Apartas los líquenes húmedos y examinas el vapor que brota de la hendidura. No es bruma de lluvia: huele a azufre y roca templada. En los bordes de piedra descubres marcas colosales de garras talladas hace siglos a modo de peldaños. El paso oculto queda al descubierto ante tu mirada atenta."
         }
       ],
       "wildlife_pool": [
@@ -2416,7 +2451,15 @@
           "persistent_trace": false
         }
       ],
-      "brief": "La senda de los árboles altos, con su banco seco."
+      "brief": "La senda de los árboles altos, con su banco seco.",
+      "exit_requirements": {
+        "norte": {
+          "requires_flags": [
+            "velo_cumbres_descubierto"
+          ],
+          "text": "Una pared de abetos fósiles y basalto envuelta en bruma densa bloquea el paso hacia el norte. Parece un precipicio infranqueable, pero el aire que emana de la grieta es tibio."
+        }
+      }
     },
     "hoshai_estacion_cuerda": {
       "id": "hoshai_estacion_cuerda",
