@@ -829,6 +829,46 @@
     "korven_grieta_lecho": [
       3,
       26
+    ],
+    "cumbres_paso_escamas": [
+      16,
+      -1
+    ],
+    "cumbres_tunel_basalto": [
+      16,
+      -2
+    ],
+    "cumbres_desfiladero_ciego": [
+      16,
+      -3
+    ],
+    "cumbres_bosque_fumarolas": [
+      16,
+      -4
+    ],
+    "cumbres_claros_azufre": [
+      15,
+      -4
+    ],
+    "cumbres_manantial_tibio": [
+      17,
+      -4
+    ],
+    "cumbres_refugio_ceniza": [
+      17,
+      -5
+    ],
+    "cumbres_pilares_rotos": [
+      15,
+      -5
+    ],
+    "cumbres_grieta_menor": [
+      16,
+      -5
+    ],
+    "cumbres_umbral_riscos": [
+      16,
+      -6
     ]
   },
   "homes": {
@@ -12327,6 +12367,246 @@
         [
           12,
           92
+        ]
+      ]
+    },
+    {
+      "from": "hoshai_senda_dosel",
+      "to": "cumbres_paso_escamas",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          0
+        ],
+        [
+          64,
+          -2
+        ],
+        [
+          64,
+          -4
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_paso_escamas",
+      "to": "cumbres_tunel_basalto",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -4
+        ],
+        [
+          64,
+          -6
+        ],
+        [
+          64,
+          -8
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_tunel_basalto",
+      "to": "cumbres_desfiladero_ciego",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -8
+        ],
+        [
+          64,
+          -10
+        ],
+        [
+          64,
+          -12
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_desfiladero_ciego",
+      "to": "cumbres_bosque_fumarolas",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -12
+        ],
+        [
+          64,
+          -14
+        ],
+        [
+          64,
+          -16
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_claros_azufre",
+      "to": "cumbres_bosque_fumarolas",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -16
+        ],
+        [
+          62,
+          -16
+        ],
+        [
+          64,
+          -16
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_bosque_fumarolas",
+      "to": "cumbres_manantial_tibio",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -16
+        ],
+        [
+          66,
+          -16
+        ],
+        [
+          68,
+          -16
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_bosque_fumarolas",
+      "to": "cumbres_grieta_menor",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -16
+        ],
+        [
+          64,
+          -18
+        ],
+        [
+          64,
+          -20
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_claros_azufre",
+      "to": "cumbres_pilares_rotos",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          60,
+          -16
+        ],
+        [
+          60,
+          -18
+        ],
+        [
+          60,
+          -20
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_manantial_tibio",
+      "to": "cumbres_refugio_ceniza",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          68,
+          -16
+        ],
+        [
+          68,
+          -18
+        ],
+        [
+          68,
+          -20
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_grieta_menor",
+      "to": "cumbres_refugio_ceniza",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          64,
+          -20
+        ],
+        [
+          66,
+          -20
+        ],
+        [
+          68,
+          -20
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_pilares_rotos",
+      "to": "cumbres_grieta_menor",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          60,
+          -20
+        ],
+        [
+          62,
+          -20
+        ],
+        [
+          64,
+          -20
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_grieta_menor",
+      "to": "cumbres_umbral_riscos",
+      "direction": "norte",
+      "reverse": "sur",
+      "points": [
+        [
+          64,
+          -20
+        ],
+        [
+          64,
+          -22
+        ],
+        [
+          64,
+          -24
         ]
       ]
     }

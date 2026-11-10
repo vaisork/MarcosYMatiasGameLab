@@ -88,7 +88,10 @@ def ranks_from_flags(flags):
  return ranks
 # Vida de los jefes de la Grieta por cada jugador extra (en pareja el jefe solo golpea al primero).
 # Calibrado con entregas/equipo/claude2/vt2-mazmorra-2/pareja_sim.py: ~60 % de victoria en pareja por intento.
-PARTY_HP = {'quebrarrocas_canoso':3.3,'tejecristal':3.5,'sierpe_veta_madre':2.6}
+PARTY_HP = {
+ 'quebrarrocas_canoso':3.3,'tejecristal':3.5,'sierpe_veta_madre':2.6,
+ 'ceniciento_alado':2.5,'vaelok_forjador':2.8,'oros_khar_escriba':3.0,'zephyros_ventisca':3.2,'archidragon_ignis_aethel':3.5
+}
 # Jefes únicos: su caída queda escrita en la sala para quien llegue después.
 LEGEND_BOSSES = ('dragon_aguas_antiguas',*PARTY_HP)
 def party_hp(creature_id, base, players):
@@ -1365,3 +1368,98 @@ if 'dragon_aguas_antiguas' not in PROFILES['dragon_aguas_antiguas']:
   'El guardián necesita apoyar una garra contra el pedestal para levantarse. El agua tiembla bajo su pecho fatigado y su rugido sale más ronco.',
   'El dragón ya no logra sostener las alas abiertas. Baja la cabeza sobre la piedra tibia, respira hondo y protege con la cola el último borde del manantial.'
  ]
+
+# Cumbres Veladas — Criaturas regulares y fauna térmica (niveles 21-35)
+_CUMBRES_REGULARES = {
+ 'plumacresta_ceniza': {'hp':210,'accuracy':68,'damage':18,'reduction':.10,'evasion':15,'level':21,'category':'comparable','family':'plumacresta'},
+ 'draco_forja': {'hp':260,'accuracy':70,'damage':20,'reduction':.20,'evasion':5,'level':24,'category':'comparable','family':'draco_forja'},
+ 'custodio_basalto': {'hp':310,'accuracy':72,'damage':23,'reduction':.25,'evasion':0,'level':27,'category':'peligroso','family':'custodio_basalto'},
+ 'remolino_termico': {'hp':340,'accuracy':75,'damage':25,'reduction':.15,'evasion':20,'level':30,'category':'peligroso','family':'remolino_termico'},
+ 'surgencia_primordial': {'hp':390,'accuracy':76,'damage':28,'reduction':.20,'evasion':5,'level':33,'category':'peligroso','family':'surgencia_primordial'},
+}
+for cid, prof in _CUMBRES_REGULARES.items():
+ PROFILES[cid] = dict(prof)
+ THREAT_OBSERVATIONS[cid] = 'Observa las corrientes térmicas y mantén distancia antes del contacto.'
+ PEACEFUL_WITHDRAWALS[cid] = f"Retrocedes con calma. {cid.replace('_',' ').capitalize()} no te persigue fuera de su zona."
+
+# Cumbres Veladas — Jefes únicos de las 5 áreas
+_CUMBRES_BOSS_WEAR = {
+ 'ceniciento_alado': [
+  'El plumaje de ceniza del Ceniciento pierde densidad; una de sus alas roza el basalto.',
+  'El vapor de su pecho sale entrecortado mientras bate las alas con esfuerzo.',
+  'El Ceniciento Alado pliega las alas y apoya las garras en la cornisa, jadeante.',
+  'El Ceniciento baja la cresta y retrocede hacia la niebla alta, reconociendo tu paso.'
+ ],
+ 'vaelok_forjador': [
+  'Las chispas de la coraza de Vaelok se apagan; su maza de basalto golpea con menor ritmo.',
+  'El maestro forjador apoya su peso en el yunque y respira hondo entre el humo.',
+  'Varias placas de ceniza templada se han agrietado en el costado de Vaelok.',
+  'Vaelok baja su martillo contra el suelo en señal de tregua y respeto por tu temple.'
+ ],
+ 'oros_khar_escriba': [
+  'El brillo rúnico de las losas de Oros-Khar titila con lentitud.',
+  'El escriba silente hace una pausa prolongada entre cada resonancia.',
+  'Oros-Khar repliega sus garras de cuarzo y sostiene su cuerpo contra los monolitos.',
+  'El antiguo sabio inclina su cresta pétrea; la sala de los archivos queda en reverente calma.'
+ ],
+ 'zephyros_ventisca': [
+  'Las corrientes que envuelven a Zephyros pierden ímpetu y giran más lentas.',
+  'Los carámbanos de sus alas se quiebran bajo la presión del combate.',
+  'Zephyros desciende sobre una repisa rocosa buscando recomponer su vuelo.',
+  'El Señor de la Ventisca recoge sus alas y permite que el viento calmo despeje el paso.'
+ ],
+ 'archidragon_ignis_aethel': [
+  'El resplandor blanco de las escamas del Archidragón late con suave cadencia.',
+  'El calor del Primer Aliento se torna templado y sereno en torno al Trono.',
+  'El soberano pliega sus colosales alas de nácar y basalto sobre el lecho de lava fría.',
+  'El Archidragón exhala un suave aliento de vapor fragante y asiente solemnemente ante tu valor.'
+ ]
+}
+
+for creature_id, profile, preparations in (
+ ('ceniciento_alado',
+  {'hp':320,'accuracy':72,'damage':22,'reduction':.20,'evasion':10,'level':22,'category':'abrumador','family':'ceniciento_alado'},
+  [
+   {'id':'manto_ceniza','name':'Manto de ceniza','accuracy':72,'interruptible':True,'frontal':False,'tell':'El Ceniciento Alado levanta una densa cortina de ceniza caliente. Puedes interrumpir la ráfaga antes de que ciegue tu posición.'},
+   {'id':'torbellino_vapor','name':'Torbellino de vapor','accuracy':70,'interruptible':False,'frontal':True,'tell':'El Ceniciento Alado agita las alas y lanza un torbellino de vapor frontal. No se puede cortar: usa guardia o esquiva.'},
+   {'id':'zarpazo_ignis','name':'Zarpazo ígneo','accuracy':74,'interruptible':True,'frontal':True,'tell':'El Ceniciento Alado desciende con las garras incandescentes. Puedes interrumpirlo en el descenso o cubrirte de frente.'}
+  ]),
+ ('vaelok_forjador',
+  {'hp':420,'accuracy':74,'damage':25,'reduction':.25,'evasion':5,'level':25,'category':'abrumador','family':'vaelok_forjador'},
+  [
+   {'id':'golpe_yunque_basalto','name':'Martillazo de basalto','accuracy':74,'interruptible':False,'frontal':True,'tell':'Vaelok alza su colosal maza de basalto y descarga un martillazo frontal. El peso es inmenso: usa guardia o esquiva.'},
+   {'id':'fuelle_ceniciento','name':'Fuelle ceniciento','accuracy':72,'interruptible':True,'frontal':False,'tell':'Vaelok inhala el gas del respiradero para avivar las brasas de su coraza. Puedes interrumpir la inhalación antes de la descarga.'},
+   {'id':'temple_escama','name':'Temple de escama','accuracy':76,'interruptible':False,'frontal':False,'tell':'Vaelok golpea el suelo con la cola; una onda de calor se propaga en todas direcciones. No es frontal ni se interrumpe: esquiva o huye.'}
+  ]),
+ ('oros_khar_escriba',
+  {'hp':480,'accuracy':76,'damage':27,'reduction':.25,'evasion':10,'level':28,'category':'abrumador','family':'oros_khar_escriba'},
+  [
+   {'id':'eco_cinco_edades','name':'Eco de las cinco edades','accuracy':76,'interruptible':False,'frontal':False,'tell':'Oros-Khar entona un canto gutural que resuena en las tablas basálticas. La vibración sacude la sala entera: esquiva o huye.'},
+   {'id':'grabado_silente','name':'Grabado silente','accuracy':74,'interruptible':True,'frontal':True,'tell':'Oros-Khar alza su garra de cuarzo para trazar una runa punzante de frente. Puedes interrumpir el trazo o cubrirte.'},
+   {'id':'pulso_telurico','name':'Pulso telúrico','accuracy':78,'interruptible':False,'frontal':True,'tell':'Oros-Khar apoya su peso colosal y desata un pulso telúrico directo. No se puede cortar: usa guardia férrea o sal de la trayectoria.'}
+  ]),
+ ('zephyros_ventisca',
+  {'hp':550,'accuracy':78,'damage':30,'reduction':.25,'evasion':15,'level':31,'category':'abrumador','family':'zephyros_ventisca'},
+  [
+   {'id':'ojo_vendaval','name':'Ojo del vendaval','accuracy':78,'interruptible':False,'frontal':False,'tell':'Zephyros se eleva sobre una corriente ascendente y desata un torbellino helado en espiral. No hay ángulo seguro: esquiva o busca refugio.'},
+   {'id':'garra_escarcha','name':'Garra de escarcha','accuracy':76,'interruptible':True,'frontal':True,'tell':'Zephyros se lanza en picado con garras cubiertas de carámbanos. Puedes interceptar su descenso antes del impacto.'},
+   {'id':'rafaga_abismal','name':'Ráfaga abismal','accuracy':80,'interruptible':False,'frontal':True,'tell':'Zephyros bate sus alas colosales creando una ráfaga que empuja hacia el abismo. No se puede interrumpir: ancla tu posición con guardia o esquiva.'}
+  ]),
+ ('archidragon_ignis_aethel',
+  {'hp':700,'accuracy':82,'damage':34,'reduction':.30,'evasion':10,'level':35,'category':'abrumador','family':'archidragon_ignis_aethel'},
+  [
+   {'id':'primer_aliento_sol','name':'El Primer Aliento','accuracy':82,'interruptible':False,'frontal':True,'tell':'El Archidragón exhala una columna de fuego y vapor blanco con el aliento primordial. Su poder es absoluto: usa guardia sagrada, esquiva o huye.'},
+   {'id':'corona_magma','name':'Corona de magma','accuracy':80,'interruptible':True,'frontal':False,'tell':'Las crestas del Archidragón resplandecen al canalizar la marea volcánica de la caldera. Puedes interrumpir la concentración antes de la erupción.'},
+   {'id':'marea_termica_primordial','name':'Marea térmica primordial','accuracy':84,'interruptible':False,'frontal':False,'tell':'Toda la caldera late al unísono con el corazón del Archidragón; una ola térmica barre el suelo. No se puede parar: esquiva o salta.'},
+   {'id':'sentencia_alturas','name':'Sentencia de las alturas','accuracy':82,'interruptible':True,'frontal':True,'tell':'El Archidragón abre sus fauces majestuosas y se abalanza desde el Trono. Puedes anticipar el envite e interrumpirlo o resistir con entereza.'}
+  ])
+):
+ profile.update(prepared=True,preparations=preparations,prepared_action=preparations[0],desgaste=_CUMBRES_BOSS_WEAR[creature_id])
+ PROFILES[creature_id]=profile
+ THREAT_OBSERVATIONS[creature_id]='Observa atentamente sus movimientos antes de cada acción para anticipar la preparación.'
+ CREATURE_PROSE[creature_id]={
+  'hit':[f"{{n}} responde con su {preparations[0]['name'].lower()} y te alcanza.",f"{{n}} te golpea con fuerza elemental."],
+  'miss':[f"La respuesta de {{n}} pasa rozando tu posición.",f"Te apartas a tiempo y el embate de {{n}} sacude el basalto."]
+ }
+ PEACEFUL_WITHDRAWALS[creature_id]=f"Retrocedes con respeto ante {creature_id.replace('_',' ').capitalize()}. La presencia ancestral permanece en su santuario."
+

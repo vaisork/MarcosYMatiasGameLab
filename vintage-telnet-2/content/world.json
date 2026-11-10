@@ -1059,6 +1059,176 @@
       ],
       "victory_flags": [],
       "illustration": "/client/art/bestiary/sierpe_veta_madre-anime-v1.webp"
+    },
+    "plumacresta_ceniza": {
+      "id": "plumacresta_ceniza",
+      "name": "Plumacresta de Ceniza",
+      "region": "hoshai",
+      "description": "Ave rapaz colosal de plumaje gris pizarra ribeteado de carmín. Se baña en los respiraderos volcánicos para limpiar sus plumas con ceniza fina y se desliza sobre las columnas de aire caliente.",
+      "habitat": "Habita en las copas de las sabinas gigantes del Bosque de las Fumarolas.",
+      "combat_intro": "La Plumacresta de Ceniza desciende de una sabina colosal y abre sus alas envueltas en vapor cálido.",
+      "defeat_text": "La Plumacresta sacude la ceniza de su cresta y remonta el vuelo hacia las copas altas; el paso queda despejado.",
+      "loot": [
+        {
+          "item": "pluma_ceniza",
+          "chance": 1.0
+        }
+      ],
+      "victory_flags": []
+    },
+    "ceniciento_alado": {
+      "id": "ceniciento_alado",
+      "name": "Ceniciento Alado",
+      "region": "hoshai",
+      "description": "Draco anciano de escamas ahumadas que custodia el Umbral de los Riscos. Sus ojos dorados observan con la calma de eras geológicas; mide el temple de quien pretende adentrarse en Syraketh.",
+      "habitat": "Descansa sobre los pilares del Umbral de los Riscos.",
+      "combat_intro": "El Ceniciento Alado bate sus alas entre los dos pilares de basalto. Una cortina de ceniza tibia envuelve el umbral mientras el dragón aguarda tu determinación.",
+      "defeat_text": "El Ceniciento Alado repliega sus alas con un suspiro profundo que disipa la bruma. Asiente con calma solemne y se acomoda en su descansadero; el umbral hacia la Ciudadela queda abierto.",
+      "loot": [
+        {
+          "item": "escama_ceniciento",
+          "chance": 1.0
+        }
+      ],
+      "victory_flags": [
+        "cumbres_umbral_despejado"
+      ]
+    },
+    "draco_forja": {
+      "id": "draco_forja",
+      "name": "Draco de la Forja",
+      "region": "hoshai",
+      "description": "Reptil alado acorazado con placas de basalto negro y ojos como carbones encendidos. Ayuda a canalizar el calor en los talleres de la Ciudadela de los Nidos.",
+      "habitat": "Ronda los talleres y terrazas de la Ciudadela de los Nidos.",
+      "combat_intro": "El Draco de la Forja azota el suelo con su cola acorazada; una lluvia de chispas rojas ilumina las terrazas.",
+      "defeat_text": "El Draco de la Forja exhala una nube de humo gris y retrocede hacia los conductos térmicos, dejando libre el taller.",
+      "loot": [
+        {
+          "item": "lingote_basalto_caliente",
+          "chance": 1.0
+        }
+      ],
+      "victory_flags": []
+    },
+    "vaelok_forjador": {
+      "id": "vaelok_forjador",
+      "name": "Vaelok el Forjador de Ceniza",
+      "region": "hoshai",
+      "description": "Maestro artesano del Clan Pyrrok. Su lomo está cubierto de placas de basalto templado y sostiene una maza colosal de roca madre. Severo y protector del fuego primordial.",
+      "habitat": "Reside en el Salón de Ceniza, en la Ciudadela de los Nidos.",
+      "combat_intro": "Vaelok descarga su maza de basalto sobre el yunque central. El estruendo sacude la caverna: «¡Demuestra que tu voluntad tiene temple antes de tocar los secretos de la ceniza!»",
+      "defeat_text": "Vaelok apoya su martillo en el suelo y contiene su aliento de fuego. Una sonrisa austera asoma en sus fauces: «Tienes buen temple, caminante. El camino al Gran Archivo es tuyo.»",
+      "loot": [
+        {
+          "item": "ceniza_forja_vaelok",
+          "chance": 1.0
+        }
+      ],
+      "victory_flags": [
+        "cumbres_puerta_archivo_abierta"
+      ]
+    },
+    "custodio_basalto": {
+      "id": "custodio_basalto",
+      "name": "Custodio de Basalto",
+      "region": "hoshai",
+      "description": "Constructo viviente tallado en roca volcánica y animado por el Clan Quellor para resguardar las losas del Gran Archivo.",
+      "habitat": "Patrulla las galerías del Archivo de las Cinco Edades.",
+      "combat_intro": "Las runas del Custodio de Basalto brillan en azul profundo mientras sus miembros de roca crujen al avanzar.",
+      "defeat_text": "El Custodio se detiene y las runas de su pecho regresan a un reposo sereno; la galería queda en calma.",
+      "loot": [
+        {
+          "item": "nucleo_runico_basalto",
+          "chance": 1.0
+        }
+      ],
+      "victory_flags": []
+    },
+    "oros_khar_escriba": {
+      "id": "oros_khar_escriba",
+      "name": "Oros-Khar el Escriba Silente",
+      "region": "hoshai",
+      "description": "Anciano dragón del Clan Quellor cuyas garras de cuarzo han grabado la historia de Vaisgard durante incontables eras. Su voz resuena como piedras rodando en el lecho de un río hondo.",
+      "habitat": "Custodia el Santuario del Escriba en el corazón del Gran Archivo.",
+      "combat_intro": "Oros-Khar alza su cabeza coronada de cuarzo. Las tablas del recinto vibran en resonancia armónica: «Quien busca la memoria del mundo debe primero demostrar que sabe escuchar su peso.»",
+      "defeat_text": "Oros-Khar inclina su cresta con solemne reverencia. La vibración de las tablas se aquieta en una melodía cristalina: «Has escuchado el canto de la piedra. Las Rutas de las Cumbres te aguardan.»",
+      "loot": [
+        {
+          "item": "tinta_mineral_quellor",
+          "chance": 1.0
+        }
+      ],
+      "victory_flags": [
+        "cumbres_archivo_superado"
+      ]
+    },
+    "remolino_termico": {
+      "id": "remolino_termico",
+      "name": "Remolino Térmico",
+      "region": "hoshai",
+      "description": "Entidad eólica elemental nacida del choque violento entre las corrientes frías del norte y el vapor volcánico de las cumbres.",
+      "habitat": "Gira en los pasos y desfiladeros de las Rutas de las Cumbres.",
+      "combat_intro": "Un torbellino de aire caliente y granizo desciende sobre el sendero aullando con furia blanca.",
+      "defeat_text": "El remolino se disipa en una brisa templada que despeja la visibilidad de la cresta.",
+      "loot": [
+        {
+          "item": "esencia_eolica_pura",
+          "chance": 1.0
+        }
+      ],
+      "victory_flags": []
+    },
+    "zephyros_ventisca": {
+      "id": "zephyros_ventisca",
+      "name": "Zephyros el Señor de la Ventisca",
+      "region": "hoshai",
+      "description": "Gran dragón del Clan Aethelgard de escamas níveas y membranas traslúcidas. Domina las corrientes celestes que circundan la gran caldera.",
+      "habitat": "Anida en la Puerta de la Falla Ígnea, en las altas cumbres.",
+      "combat_intro": "Zephyros despliega sus inmensas alas de escarcha. Una ráfaga glacial barre la cresta: «Solo quienes vuelan con el viento sin temer al abismo tienen permiso para pisar la Caldera Sagrada.»",
+      "defeat_text": "Zephyros repliega sus alas y una corriente cálida disipa los carámbanos de la cornisa: «Tu vuelo es firme, caminante del llano. Desciende a la Caldera con mi bendición.»",
+      "loot": [
+        {
+          "item": "cristal_ventisca_zephyros",
+          "chance": 1.0
+        }
+      ],
+      "victory_flags": [
+        "cumbres_ventisca_superada"
+      ]
+    },
+    "surgencia_primordial": {
+      "id": "surgencia_primordial",
+      "name": "Surgencia Primordial",
+      "region": "hoshai",
+      "description": "Masa viva de basalto fundido y gas volcánico que brota de las fisuras del cráter.",
+      "habitat": "Fluye en las riberas y hornos de la Caldera del Primer Aliento.",
+      "combat_intro": "Una columna de magma vivo se alza con lentitud amenazante desde la grieta de basalto.",
+      "defeat_text": "La surgencia se enfría en una costra sólida de obsidiana brillante, estabilizando el paso.",
+      "loot": [
+        {
+          "item": "obsidiana_primordial",
+          "chance": 1.0
+        }
+      ],
+      "victory_flags": []
+    },
+    "archidragon_ignis_aethel": {
+      "id": "archidragon_ignis_aethel",
+      "name": "Archidragón Ignis-Aethel",
+      "region": "hoshai",
+      "description": "El Soberano de las Alturas y custodio del Primer Aliento. Sus escamas resplandecen como nácar bajo el sol y en su pecho late el fuego sereno que mantiene templada la cordillera de Vaisgard. Sabio, milenario y conciliador.",
+      "habitat": "Reposa en el Trono de la Caldera, en el corazón del volcán durmiente.",
+      "combat_intro": "El Archidragón abre sus colosales ojos que reflejan el cielo y la tierra. Una marea de calor sagrado y fragante llena el Trono: «Bienvenido, hijo del llano. Midiendo nuestro aliento renovamos el antiguo pacto entre mortales y cumbres.»",
+      "defeat_text": "El Archidragón exhala una columna de vapor blanco que se eleva hacia el firmamento formando un halo dorado. Asiente con majestuosa nobleza: «El pacto está renovado. Mientras las Cumbres Veladas respiren, la sabiduría de los dragones acompañará el caminar de los pueblos.»",
+      "loot": [
+        {
+          "item": "fragmento_primer_aliento",
+          "chance": 1.0
+        }
+      ],
+      "victory_flags": [
+        "cumbres_primer_aliento_renovado"
+      ]
     }
   },
   "items": {
@@ -2289,6 +2459,76 @@
       "kind": "consumable",
       "effect": "basic_provision",
       "description": "Una comida sencilla preparada en un taller. Recupera salud y reduce fatiga como una provisión de camino."
+    },
+    "pluma_ceniza": {
+      "id": "pluma_ceniza",
+      "name": "Pluma de ceniza",
+      "description": "Pluma flexible de color ceniza que conserva el calor residual de los respiraderos de las cumbres.",
+      "kind": "material",
+      "price": 14
+    },
+    "escama_ceniciento": {
+      "id": "escama_ceniciento",
+      "name": "Escama del Ceniciento",
+      "description": "Lámina gruesa de basalto y queratina dracónica que vibra levemente al contacto con las corrientes térmicas.",
+      "kind": "material",
+      "price": 25
+    },
+    "lingote_basalto_caliente": {
+      "id": "lingote_basalto_caliente",
+      "name": "Lingote de basalto caliente",
+      "description": "Barra de roca madre templada en los talleres de la Ciudadela de los Nidos.",
+      "kind": "material",
+      "price": 20
+    },
+    "ceniza_forja_vaelok": {
+      "id": "ceniza_forja_vaelok",
+      "name": "Ceniza de la forja de Vaelok",
+      "description": "Polvo mineral incandescente que no quema las manos pero emite una luminosidad constante.",
+      "kind": "material",
+      "price": 30
+    },
+    "nucleo_runico_basalto": {
+      "id": "nucleo_runico_basalto",
+      "name": "Núcleo rúnico de basalto",
+      "description": "Esfera de roca pulida con inscripciones del Gran Archivo que resuena con tonos armónicos.",
+      "kind": "material",
+      "price": 26
+    },
+    "tinta_mineral_quellor": {
+      "id": "tinta_mineral_quellor",
+      "name": "Tinta mineral de Quellor",
+      "description": "Frasco de pigmento azul profundo elaborado con cuarzo molido del lecho de las aguas antiguas.",
+      "kind": "material",
+      "price": 35
+    },
+    "esencia_eolica_pura": {
+      "id": "esencia_eolica_pura",
+      "name": "Esencia eólica pura",
+      "description": "Vaho condensado recogido en los pasos huracanados de las crestas septentrionales.",
+      "kind": "material",
+      "price": 30
+    },
+    "cristal_ventisca_zephyros": {
+      "id": "cristal_ventisca_zephyros",
+      "name": "Cristal de ventisca de Zephyros",
+      "description": "Gema de hielo perpetuo que nunca se derrite, bendecida por el Señor de la Ventisca.",
+      "kind": "material",
+      "price": 40
+    },
+    "obsidiana_primordial": {
+      "id": "obsidiana_primordial",
+      "name": "Obsidiana primordial",
+      "description": "Vidrio volcánico de filo perfecto extraído de las hornacinas de la gran caldera.",
+      "kind": "material",
+      "price": 35
+    },
+    "fragmento_primer_aliento": {
+      "id": "fragmento_primer_aliento",
+      "name": "Fragmento del Primer Aliento",
+      "description": "Cristal de nácar y fuego blanco entregado por el Archidragón como símbolo del pacto renovado.",
+      "kind": "material",
+      "price": 60
     }
   },
   "quests": {

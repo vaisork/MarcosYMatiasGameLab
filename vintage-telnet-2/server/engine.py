@@ -547,7 +547,34 @@ class Engine:
         self.clear_attention(character,world)
         state=character['state'];profile=combat['profile'];family=profile['family'];history=(state['victories']+[family])[-10:];count=history.count(family);multiplier=1 if count<=3 else .6 if count<=5 else .25
         coefficient={'trivial':.02,'favorable':.07,'comparable':.12,'peligroso':.20,'abrumador':.25}[profile['category']]
-        gain=m.rounded(min(m.xp_next(profile['level'])*coefficient,.25*m.xp_next(state['level']))*multiplier*group)
+        level_delta = state.get('level', 1) - profile.get('level', 1)
+        if level_delta >= 8:
+            level_gap_mult = 0.0
+        elif level_delta >= 6:
+            level_gap_mult = 0.05
+        elif level_delta >= 5:
+            level_gap_mult = 0.15
+        elif level_delta >= 4:
+            level_gap_mult = 0.50
+        elif level_delta >= 3:
+            level_gap_mult = 0.80
+        else:
+            level_gap_mult = 1.0
+        now = self.clock()
+        room_id = state['location']
+        room_victories = [entry for entry in state.get('room_victories', []) if now - entry.get('at', 0) <= 3600]
+        recent_in_room = sum(1 for entry in room_victories if entry.get('room') == room_id)
+        if recent_in_room >= 4:
+            room_mult = 0.0
+        elif recent_in_room == 3:
+            room_mult = 0.25
+        elif recent_in_room == 2:
+            room_mult = 0.50
+        else:
+            room_mult = 1.0
+        room_victories.append({'room': room_id, 'at': now})
+        state['room_victories'] = room_victories[-30:]
+        gain=m.rounded(min(m.xp_next(profile['level'])*coefficient,.25*m.xp_next(state['level']))*multiplier*level_gap_mult*room_mult*group)
         state['xp']+=gain;state['victories']=history;state['combat']=None
         world.setdefault('encounters',{}).pop(f"{state['location']}:{combat['creature']}",None)
         if creature.get('combatant_kind')=='human':
