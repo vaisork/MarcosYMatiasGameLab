@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_manantial_tibio",
+  "generation_tool": "native image_gen",
+  "sha256": "bd5dea2e7d4a3b57c6b172e8e50c882037034ca98246ff59dabab7aec058f9db",
+  "bytes": 239836,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-2c00d943-9a4e-4b5a-93ea-382443263dcf.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG matching the handcrafted detailed Brumak reference: crisp small brush/pixel clusters, subtly textured stone, rich atmospheric lighting. High three-quarter overhead view, 4:3 landscape 1280x960, readable walkable terrain for a 20x15 room. NO people, creatures, dragons, text, readable glyphs, HUD or baked-in actors. Black basalt, warm ash, muted golden and turquoise steam. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff, sky or furniture interrupting them. Open navigable floor through center and lower third; environmental features primarily at perimeter. Manantial de la Bruma Clara: serene crystal-clear turquoise thermal mountain pool confined to upper-right quadrant, slender small waterfall spilling from right-side basalt cliff, gentle steam above water, smooth dark resting slabs around it. Broad DRY basalt walking floor across center and lower third. Exactly TWO exits NORTH at top center and WEST at left edge 47% height, continuous dry paths around left side of water connecting to open foreground. Pool and waterfall do not intersect exits. EAST and SOUTH edges closed by low natural rock ledges. No sky band or water on central path. CORRECTION TO THE PREVIOUS IMAGE: preserve style, pool and atmosphere. Move the top opening to EXACT horizontal center: at the top canvas edge, the entire x=44% through x=57% strip MUST be unobstructed flat walking stone. Widen the north route and move its right-side cliff rightwards so x=50% is walkable from center of image to top edge. Keep WEST exit at y=40%-54% free. Do not add any exit."
+}

@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_umbral_riscos",
+  "generation_tool": "native image_gen",
+  "sha256": "7943979ef822891e471fbc2a12b45bef1551f1034f2e1f34dd692b0dbb94a5ec",
+  "bytes": 237128,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-0add812d-2dc2-452d-9ac5-26a63692a99d.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG matching the handcrafted detailed Brumak reference: crisp small brush/pixel clusters, subtly textured stone, rich atmospheric lighting. High three-quarter overhead view, 4:3 landscape 1280x960, readable walkable terrain for a 20x15 room. NO people, creatures, dragons, text, readable glyphs, HUD or baked-in actors. Black basalt, warm ash, muted golden and turquoise steam. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff, sky or furniture interrupting them. Open navigable floor through center and lower third; environmental features primarily at perimeter. Umbral de los Riscos: monumental natural gateway of TWO colossal basalt towers flanking the north-bound route, cold mountain mist mixing with warm golden thermal vapor, dramatic light through clouds localized in peripheral upper corners. Empty ancient high perch; NO dragon silhouette. Wide flat stone threshold and broad open arena floor through center and foreground. Exactly TWO public exits NORTH top center between pillars and SOUTH bottom center, uninterrupted stone ground reaching both image edges. NORTH must show walkable ground continuing offscreen, not sky, cloud sea, horizon or a cliff. EAST and WEST closed with rocky perimeter."
+}

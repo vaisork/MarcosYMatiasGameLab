@@ -6,6 +6,7 @@
     15
   ],
   "tileset": "edran",
+  "background": "backgrounds/cumbres_claros_azufre.webp",
   "exits": [
     {
       "direction": "este",

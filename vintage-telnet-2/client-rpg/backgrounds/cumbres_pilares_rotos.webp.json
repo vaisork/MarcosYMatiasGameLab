@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_pilares_rotos",
+  "generation_tool": "native image_gen",
+  "sha256": "b5246a2d102162e9706e90d7af075d62792fca113dcad0b3adc4126aa4ff4488",
+  "bytes": 238852,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-b591ebce-2432-456a-a2c2-314c73cbff49.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG matching the handcrafted detailed Brumak reference: crisp small brush/pixel clusters, subtly textured stone, rich atmospheric lighting. High three-quarter overhead view, 4:3 landscape 1280x960, readable walkable terrain for a 20x15 room. NO people, creatures, dragons, text, readable glyphs, HUD or baked-in actors. Black basalt, warm ash, muted golden and turquoise steam. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff, sky or furniture interrupting them. Open navigable floor through center and lower third; environmental features primarily at perimeter. Pilares del Vuelo Antiguo: wide high-mountain stone terrace with colossal broken cylindrical black basalt columns and empty ancient flight perches grouped along upper and left perimeter, weathered claw scars in side pedestals, gentle rhythmic steam rising beside columns. Broad clear flat stone platform in center and foreground. Exactly TWO connected walking exits EAST at right edge 47% height and SOUTH bottom center; stone platform reaches both actual edges continuously without cliff gaps. NORTH and WEST closed with basalt parapets and ruined pillars; a hint of distant cloud-sea only behind those barriers, never on exit paths."
+}

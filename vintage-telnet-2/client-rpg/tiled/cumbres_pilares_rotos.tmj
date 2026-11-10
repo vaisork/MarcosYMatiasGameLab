@@ -765,6 +765,11 @@
       "value": "edran"
     },
     {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/cumbres_pilares_rotos.webp"
+    },
+    {
       "name": "battle_background",
       "type": "string",
       "value": "backgrounds/hoshai_battle.webp"

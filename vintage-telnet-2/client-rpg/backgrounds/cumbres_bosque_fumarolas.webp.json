@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_bosque_fumarolas",
+  "generation_tool": "native image_gen",
+  "sha256": "f2af816d65fbc436d9aca4023496b522042a9688c5e0e1555e6374530e005855",
+  "bytes": 232548,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-d3e5774b-62b6-44f1-892b-08be9025221b.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG matching the handcrafted detailed Brumak reference: crisp small brush/pixel clusters, subtly textured stone, rich atmospheric lighting. High three-quarter overhead view, 4:3 landscape 1280x960, readable walkable terrain for a 20x15 room. NO people, creatures, dragons, text, readable glyphs, HUD or baked-in actors. Black basalt, warm ash, muted golden and turquoise steam. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff, sky or furniture interrupting them. Open navigable floor through center and lower third; environmental features primarily at perimeter. Bosque de las Fumarolas: grand high-mountain ancient forest, giant twisted reddish juniper/cypress trunks and massive roots at the perimeter, golden thermal steam geysers between roots, empty large stick-and-ash nests high in canopy. Dry moss carpet and worn flat stone paths around an open central clearing. Exactly FOUR routes to actual canvas edges: NORTH top center, SOUTH bottom center, WEST left edge at 47% height and EAST right edge at 47% height. Broad cross-shaped connected terrain, exits not blocked by roots, trunks or foliage. Ground visible through north canopy gap. No animals."
+}

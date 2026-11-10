@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_paso_escamas",
+  "generation_tool": "native image_gen",
+  "sha256": "3c98a80228ff4463795f2d21aaf952d982eead16279ddb32d6edd41ceb9b5151",
+  "bytes": 238200,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-456e9f95-8861-4eb9-b276-fd88bdeecb8e.png",
+  "normalization": "Mechanical proportional resize and WebP compression only",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard RPG environment, bright high craft painted pixel-art JRPG matching the handcrafted detailed Brumak reference: crisp small brush/pixel clusters, subtly textured stone, rich atmospheric lighting. High three-quarter overhead view, 4:3 landscape 1280x960, readable walkable terrain for a 20x15 room. NO people, creatures, dragons, text, readable glyphs, HUD or baked-in actors. Black basalt, warm ash, muted golden and turquoise steam. Ground exits must reach actual canvas boundaries continuously, without horizon, cliff, sky or furniture interrupting them. Open navigable floor through center and lower third; environmental features primarily at perimeter. Paso de las Escamas Dormidas: narrow basalt canyon with towering polygonal hexagonal pillars on left and right; ground of worn flat dark stone slabs, thin gentle golden steam rising from edge cracks and subtle golden moss. Exactly TWO connected public routes: NORTH through top center (x=50%) and SOUTH through bottom center (x=50%). A broad worn central stone path stays visible from bottom edge to top edge. No east or west exits, side cliffs enclose those edges. No sky band; the top center is walkable ground, seen overhead."
+}
