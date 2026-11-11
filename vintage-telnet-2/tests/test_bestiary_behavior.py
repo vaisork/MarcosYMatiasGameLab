@@ -70,3 +70,24 @@ class BestiaryBehaviorTests(unittest.TestCase):
   expected=[creature[f] for f in ('warning','presagio','habitat')]
   for _ in expected:self.engine.learn_creature_behavior(state,room,cid)
   self.assertEqual(state['bestiary'][cid]['behavior'],expected)
+
+class BestiaryCoverageTests(unittest.TestCase):
+ """Every creature placed in a room must reach the bestiary with a complete entry, so new areas cannot leave it behind."""
+ # ponytail: Cumbres creatures still wait for bestiary portraits; remove ids from here as their art lands.
+ PENDING_ART={'plumacresta_ceniza','ceniciento_alado','draco_forja','vaelok_forjador','custodio_basalto','oros_khar_escriba','remolino_termico','zephyros_ventisca','surgencia_primordial','archidragon_ignis_aethel'}
+ def test_every_placed_creature_has_a_complete_bestiary_entry(self):
+  from pathlib import Path
+  from server.content import Content
+  root=Path(__file__).resolve().parents[1];content=Content(root/'content')
+  placed={s['creature'] for room in content.rooms.values() for s in room.get('signals',[])}
+  self.assertEqual(placed-set(content.creatures),set(),'criaturas en salas sin ficha en el catálogo')
+  fauna=sorted(cid for cid,c in content.creatures.items() if c.get('combatant_kind')!='human')
+  self.assertGreaterEqual(len(fauna),50)
+  for cid in fauna:
+   with self.subTest(creature=cid):
+    creature=content.creatures[cid]
+    for field in ('name','description','habitat','presagio','warning'):
+     self.assertTrue(str(creature.get(field,'')).strip(),f'falta {field}')
+    if cid in self.PENDING_ART:self.assertNotIn('illustration',creature,'ya tiene arte: sácala de PENDING_ART')
+    else:self.assertTrue((root/creature.get('illustration','/missing').lstrip('/')).is_file(),'falta ilustración')
+  self.assertEqual(set(self.PENDING_ART)-set(fauna),set())
