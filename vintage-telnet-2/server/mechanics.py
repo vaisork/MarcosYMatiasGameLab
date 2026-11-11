@@ -168,8 +168,12 @@ PEACEFUL_WITHDRAWALS = {
  'quebrarrocas': 'Te apartas del terreno que ocupa. El Quebrarrocas conserva su espacio entre las piedras.',
 }
 
-def scaled(profile,level):
+def scaled(profile,level,player_level=None):
  """Same creature, stronger with level: +20% hp, +12% damage, +2 accuracy per level above its base."""
+ if profile.get('escala_jugador') and player_level and int(player_level)>max(profile['level'],int(level or 0)):
+  # Cumbres: never below the player's level. Gentle steps (+3% hp, +2% damage, +1 accuracy every 2 levels) track player growth.
+  steps=int(player_level)-profile['level']
+  return dict(profile,level=int(player_level),hp=rounded(profile['hp']*(1+.03*steps)),damage=rounded(profile['damage']*(1+.02*steps)),accuracy=min(85,profile['accuracy']+steps//2))
  if not level or profile.get('category') not in ('favorable','comparable','peligroso'):return dict(profile)
  steps=max(0,int(level)-profile['level'])
  return dict(profile,level=max(profile['level'],int(level)),hp=rounded(profile['hp']*(1+.2*steps)),damage=rounded(profile['damage']*(1+.12*steps)),accuracy=min(85,profile['accuracy']+2*steps))
@@ -1378,7 +1382,7 @@ _CUMBRES_REGULARES = {
  'surgencia_primordial': {'hp':390,'accuracy':76,'damage':28,'reduction':.20,'evasion':5,'level':33,'category':'peligroso','family':'surgencia_primordial'},
 }
 for cid, prof in _CUMBRES_REGULARES.items():
- PROFILES[cid] = dict(prof)
+ PROFILES[cid] = dict(prof,escala_jugador=True)
  THREAT_OBSERVATIONS[cid] = 'Observa las corrientes térmicas y mantén distancia antes del contacto.'
  PEACEFUL_WITHDRAWALS[cid] = f"Retrocedes con calma. {cid.replace('_',' ').capitalize()} no te persigue fuera de su zona."
 
@@ -1454,7 +1458,7 @@ for creature_id, profile, preparations in (
    {'id':'sentencia_alturas','name':'Sentencia de las alturas','accuracy':82,'interruptible':True,'frontal':True,'tell':'El Archidragón abre sus fauces majestuosas y se abalanza desde el Trono. Puedes anticipar el envite e interrumpirlo o resistir con entereza.'}
   ])
 ):
- profile.update(prepared=True,preparations=preparations,prepared_action=preparations[0],desgaste=_CUMBRES_BOSS_WEAR[creature_id])
+ profile.update(prepared=True,preparations=preparations,prepared_action=preparations[0],escala_jugador=True,desgaste=_CUMBRES_BOSS_WEAR[creature_id])
  PROFILES[creature_id]=profile
  THREAT_OBSERVATIONS[creature_id]='Observa atentamente sus movimientos antes de cada acción para anticipar la preparación.'
  CREATURE_PROSE[creature_id]={

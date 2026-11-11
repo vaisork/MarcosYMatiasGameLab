@@ -894,7 +894,7 @@ class Engine:
                 if m.PROFILES[cid]['category'] in m.AVOIDABLE_CATEGORIES and not warned:
                     actions.append({'id':'acercarse','target':cid,'label':f"Observar de cerca a {self.creature_prose(room,cid)['name']}"})
                 else:
-                    actions.append({'id':'combatir','target':cid,'label':('Insistir en enfrentarte a ' if m.PROFILES[cid]['category'] in m.AVOIDABLE_CATEGORIES else 'Enfrentarte a ')+self.creature_prose(room,cid)['name']+(f" · nivel {m.scaled(m.PROFILES[cid],signal.get('level'))['level']}" if signal.get('level') else '')})
+                    actions.append({'id':'combatir','target':cid,'label':('Insistir en enfrentarte a ' if m.PROFILES[cid]['category'] in m.AVOIDABLE_CATEGORIES else 'Enfrentarte a ')+self.creature_prose(room,cid)['name']+(f" · nivel {m.scaled(m.PROFILES[cid],signal.get('level'),state['level'])['level']}" if signal.get('level') else '')})
                 if m.PROFILES[cid]['category'] in m.AVOIDABLE_CATEGORIES and warned:actions.append({'id':'retirarse','target':cid,'label':'Retirarte antes del enfrentamiento'})
                 if (state.get('attributes') or {}).get('voluntad',10)>=11 and not state.get('combat'):actions.append({'id':'calmar','target':cid,'label':f"Calmar a {self.creature_prose(room,cid)['name']}"})
         for qid,q in self.content.quests.items():
@@ -1574,7 +1574,7 @@ class Engine:
             if active:state['events'].append(event('info',m.pick_numen_reaction(active,'hablar',now=now_clock,rng=self.rng)))
         elif action=='evaluar':
             signal=next((i for i in room.get('signals',[]) if i['creature']==target),{})
-            profile=m.scaled(m.PROFILES[target],signal.get('level')) if target in m.PROFILES else None
+            profile=m.scaled(m.PROFILES[target],signal.get('level'),state['level']) if target in m.PROFILES else None
             if profile:
                 text=f"{self.creature_prose(room,target)['name']}: nivel {profile['level']}. Tu nivel: {state['level']}."
                 text+=' '+m.threat_observation(target)
@@ -1600,10 +1600,12 @@ class Engine:
             signal=next((i for i in room.get('signals',[]) if i['creature']==target),{})
             if target=='mordelinde' and f"{state['location']}:{target}" not in world.get('encounters',{}) and (world.get('creature_states',{}).get(f"{state['location']}:{target}",{}).get('escape_open') or not (signal.get('cornered') or room.get('combat_context',{}).get('creature_cornered'))):
                 self.withdraw_animal(character,world,target);return
-            profile=m.scaled(m.PROFILES[target],signal.get('level'));creature=self.creature_prose(room,target)
-            world.setdefault('encounters',{}).setdefault(f"{state['location']}:{target}",character['id'])
+            profile=m.scaled(m.PROFILES[target],signal.get('level'),state['level']);creature=self.creature_prose(room,target)
             ckey=f"{state['location']}:{target}"
-            saved_hp=world.get('creature_states',{}).get(ckey,{}).get('hp')
+            # Cumbres: whoever falls or flees leaves the creature whole; each victory is won in one go.
+            fresh=profile.get('escala_jugador') and ckey not in world.get('encounters',{})
+            world.setdefault('encounters',{}).setdefault(ckey,character['id'])
+            saved_hp=None if fresh else world.get('creature_states',{}).get(ckey,{}).get('hp')
             start_hp=saved_hp if (saved_hp is not None and saved_hp>0) else profile['hp']
             preps=m.preparations_for(profile,start_hp)
             prep_action=preps[0] if preps else profile.get('prepared_action')
