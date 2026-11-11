@@ -1063,7 +1063,7 @@
     "plumacresta_ceniza": {
       "id": "plumacresta_ceniza",
       "name": "Plumacresta de Ceniza",
-      "region": "hoshai",
+      "region": "cumbres",
       "description": "Ave rapaz colosal de plumaje gris pizarra ribeteado de carmín. Se baña en los respiraderos volcánicos para limpiar sus plumas con ceniza fina y se desliza sobre las columnas de aire caliente.",
       "habitat": "Habita en las copas de las sabinas gigantes del Bosque de las Fumarolas.",
       "combat_intro": "La Plumacresta de Ceniza desciende de una sabina colosal y abre sus alas envueltas en vapor cálido.",
@@ -1074,12 +1074,14 @@
           "chance": 1.0
         }
       ],
-      "victory_flags": []
+      "victory_flags": [],
+      "presagio": "Plumas grises con borde rojo flotan sobre las fumarolas. En las sabinas gigantes hay nidos enormes hechos de ramas y ceniza.",
+      "warning": "La Plumacresta de Ceniza abre las alas y se deja subir por el aire caliente. Te mira de lado, con la cabeza ladeada. Todavía puedes apartarte antes de que baje en picada."
     },
     "ceniciento_alado": {
       "id": "ceniciento_alado",
       "name": "Ceniciento Alado",
-      "region": "hoshai",
+      "region": "cumbres",
       "description": "Draco anciano de escamas ahumadas que custodia el Umbral de los Riscos. Sus ojos dorados observan con la calma de eras geológicas; mide el temple de quien pretende adentrarse en Syraketh.",
       "habitat": "Descansa sobre los pilares del Umbral de los Riscos.",
       "combat_intro": "El Ceniciento Alado bate sus alas entre los dos pilares de basalto. Una cortina de ceniza tibia envuelve el umbral mientras el dragón aguarda tu determinación.",
@@ -1092,12 +1094,14 @@
       ],
       "victory_flags": [
         "cumbres_umbral_despejado"
-      ]
+      ],
+      "presagio": "En los pilares del Umbral hay marcas de garras antiguas y la ceniza del suelo está tibia, como si algo enorme se hubiera posado hace poco.",
+      "warning": "El Ceniciento Alado baja la cabeza y sopla una nube de ceniza tibia a tus pies. No está enojado: está midiendo tu temple. Aún puedes retroceder antes de cruzar el Umbral."
     },
     "draco_forja": {
       "id": "draco_forja",
       "name": "Draco de la Forja",
-      "region": "hoshai",
+      "region": "cumbres",
       "description": "Reptil alado acorazado con placas de basalto negro y ojos como carbones encendidos. Ayuda a canalizar el calor en los talleres de la Ciudadela de los Nidos.",
       "habitat": "Ronda los talleres y terrazas de la Ciudadela de los Nidos.",
       "combat_intro": "El Draco de la Forja azota el suelo con su cola acorazada; una lluvia de chispas rojas ilumina las terrazas.",
@@ -1108,12 +1112,14 @@
           "chance": 1.0
         }
       ],
-      "victory_flags": []
+      "victory_flags": [],
+      "presagio": "Se oye un martilleo lejano y el aire huele a piedra caliente. En las terrazas quedan escamas negras sueltas, duras como tejas.",
+      "warning": "El Draco de la Forja se sacude y sus placas de basalto chocan como martillos. Sus ojos brillan como carbones. Todavía hay distancia: puedes alejarte de la terraza."
     },
     "vaelok_forjador": {
       "id": "vaelok_forjador",
       "name": "Vaelok el Forjador de Ceniza",
-      "region": "hoshai",
+      "region": "cumbres",
       "description": "Maestro artesano del Clan Pyrrok. Su lomo está cubierto de placas de basalto templado y sostiene una maza colosal de roca madre. Severo y protector del fuego primordial.",
       "habitat": "Reside en el Salón de Ceniza, en la Ciudadela de los Nidos.",
       "combat_intro": "Vaelok descarga su maza de basalto sobre el yunque central. El estruendo sacude la caverna: «¡Demuestra que tu voluntad tiene temple antes de tocar los secretos de la ceniza!»",
@@ -1126,12 +1132,14 @@
       ],
       "victory_flags": [
         "cumbres_puerta_archivo_abierta"
-      ]
+      ],
+      "presagio": "El suelo del Salón vibra con golpes lentos de yunque. Las brasas cambian de color cada vez que alguien grande respira cerca.",
+      "warning": "Vaelok apoya la maza de basalto en el yunque y te observa de arriba abajo, como quien revisa una espada nueva. Si no te sientes listo, puedes salir del Salón sin pelear."
     },
     "custodio_basalto": {
       "id": "custodio_basalto",
       "name": "Custodio de Basalto",
-      "region": "hoshai",
+      "region": "cumbres",
       "description": "Constructo viviente tallado en roca volcánica y animado por el Clan Quellor para resguardar las losas del Gran Archivo.",
       "habitat": "Patrulla las galerías del Archivo de las Cinco Edades.",
       "combat_intro": "Las runas del Custodio de Basalto brillan en azul profundo mientras sus miembros de roca crujen al avanzar.",
@@ -1142,12 +1150,14 @@
           "chance": 1.0
         }
       ],
-      "victory_flags": []
+      "victory_flags": [],
+      "presagio": "En las galerías hay huellas cuadradas y regulares, todas a la misma distancia. Algunas runas del piso brillan un instante después de que algo pasa.",
+      "warning": "El Custodio de Basalto se detiene y sus runas se encienden una por una. Gira la cabeza de piedra hacia ti, muy despacio. Aún puedes apartarte de su ronda."
     },
     "oros_khar_escriba": {
       "id": "oros_khar_escriba",
       "name": "Oros-Khar el Escriba Silente",
-      "region": "hoshai",
+      "region": "cumbres",
       "description": "Anciano dragón del Clan Quellor cuyas garras de cuarzo han grabado la historia de Vaisgard durante incontables eras. Su voz resuena como piedras rodando en el lecho de un río hondo.",
       "habitat": "Custodia el Santuario del Escriba en el corazón del Gran Archivo.",
       "combat_intro": "Oros-Khar alza su cabeza coronada de cuarzo. Las tablas del recinto vibran en resonancia armónica: «Quien busca la memoria del mundo debe primero demostrar que sabe escuchar su peso.»",
@@ -1160,12 +1170,14 @@
       ],
       "victory_flags": [
         "cumbres_archivo_superado"
-      ]
+      ],
+      "presagio": "Las tablas de piedra flotan en el Santuario y algunas tienen grabados frescos, con polvo de cuarzo todavía brillando en las líneas.",
+      "warning": "Oros-Khar deja de escribir y te mira con calma milenaria. Las tablas se acomodan a su alrededor como si escucharan. Todavía puedes retirarte en silencio."
     },
     "remolino_termico": {
       "id": "remolino_termico",
       "name": "Remolino Térmico",
-      "region": "hoshai",
+      "region": "cumbres",
       "description": "Entidad eólica elemental nacida del choque violento entre las corrientes frías del norte y el vapor volcánico de las cumbres.",
       "habitat": "Gira en los pasos y desfiladeros de las Rutas de las Cumbres.",
       "combat_intro": "Un torbellino de aire caliente y granizo desciende sobre el sendero aullando con furia blanca.",
@@ -1176,12 +1188,14 @@
           "chance": 1.0
         }
       ],
-      "victory_flags": []
+      "victory_flags": [],
+      "presagio": "Los copos de nieve suben en vez de caer y las piedras pequeñas del camino giran en círculos sobre el suelo.",
+      "warning": "El Remolino Térmico se aprieta y gira más rápido; las esquirlas de hielo zumban a su alrededor. Aún puedes salir de su camino antes de que te alcance."
     },
     "zephyros_ventisca": {
       "id": "zephyros_ventisca",
       "name": "Zephyros el Señor de la Ventisca",
-      "region": "hoshai",
+      "region": "cumbres",
       "description": "Gran dragón del Clan Aethelgard de escamas níveas y membranas traslúcidas. Domina las corrientes celestes que circundan la gran caldera.",
       "habitat": "Anida en la Puerta de la Falla Ígnea, en las altas cumbres.",
       "combat_intro": "Zephyros despliega sus inmensas alas de escarcha. Una ráfaga glacial barre la cresta: «Solo quienes vuelan con el viento sin temer al abismo tienen permiso para pisar la Caldera Sagrada.»",
@@ -1194,12 +1208,14 @@
       ],
       "victory_flags": [
         "cumbres_ventisca_superada"
-      ]
+      ],
+      "presagio": "En la Falla hay carámbanos que apuntan todos hacia el mismo lado y un viento frío que sopla aunque el cielo esté quieto.",
+      "warning": "Zephyros despliega sus alas de escarcha y el aire se vuelve de hielo. Te juzga desde lo alto del arco. Todavía puedes bajar la mirada y retroceder."
     },
     "surgencia_primordial": {
       "id": "surgencia_primordial",
       "name": "Surgencia Primordial",
-      "region": "hoshai",
+      "region": "cumbres",
       "description": "Masa viva de basalto fundido y gas volcánico que brota de las fisuras del cráter.",
       "habitat": "Fluye en las riberas y hornos de la Caldera del Primer Aliento.",
       "combat_intro": "Una columna de magma vivo se alza con lentitud amenazante desde la grieta de basalto.",
@@ -1210,12 +1226,14 @@
           "chance": 1.0
         }
       ],
-      "victory_flags": []
+      "victory_flags": [],
+      "presagio": "En la orilla del lago la roca está blanda y tibia, y burbujas rojas suben despacio desde las grietas.",
+      "warning": "La Surgencia Primordial se levanta del lago y su superficie burbujea más fuerte. El calor te llega a la cara. Aún puedes alejarte de la orilla."
     },
     "archidragon_ignis_aethel": {
       "id": "archidragon_ignis_aethel",
       "name": "Archidragón Ignis-Aethel",
-      "region": "hoshai",
+      "region": "cumbres",
       "description": "El Soberano de las Alturas y custodio del Primer Aliento. Sus escamas resplandecen como nácar bajo el sol y en su pecho late el fuego sereno que mantiene templada la cordillera de Vaisgard. Sabio, milenario y conciliador.",
       "habitat": "Reposa en el Trono de la Caldera, en el corazón del volcán durmiente.",
       "combat_intro": "El Archidragón abre sus colosales ojos que reflejan el cielo y la tierra. Una marea de calor sagrado y fragante llena el Trono: «Bienvenido, hijo del llano. Midiendo nuestro aliento renovamos el antiguo pacto entre mortales y cumbres.»",
@@ -1228,7 +1246,9 @@
       ],
       "victory_flags": [
         "cumbres_primer_aliento_renovado"
-      ]
+      ],
+      "presagio": "Las columnas de vapor del lago laten al mismo ritmo, como un corazón gigante. El aire huele a lluvia caliente y todas las montañas parecen mirar hacia el Trono.",
+      "warning": "El Archidragón Ignis-Aethel abre los ojos y en ellos se refleja el cielo entero. No tiene prisa ni rabia: espera tu decisión. Todavía puedes retirarte con respeto."
     }
   },
   "items": {
