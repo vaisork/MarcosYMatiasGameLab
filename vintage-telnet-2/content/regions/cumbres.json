@@ -75,7 +75,15 @@
           "persistent_trace": false
         }
       ],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja se asolea sobre una losa de basalto; sus placas negras crujen al girar la cabeza hacia ti.",
+          "level": 24,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_tunel_basalto": {
       "id": "cumbres_tunel_basalto",
@@ -103,7 +111,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "plumacresta_ceniza",
+          "text": "Una Plumacresta de Ceniza planea sobre la corriente térmica y desciende a picotear entre las lajas calientes.",
+          "level": 21,
+          "persistent_trace": false
+        },
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja se asolea sobre una losa de basalto; sus placas negras crujen al girar la cabeza hacia ti.",
+          "level": 24,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_desfiladero_ciego": {
       "id": "cumbres_desfiladero_ciego",
@@ -131,7 +153,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "plumacresta_ceniza",
+          "text": "Una Plumacresta de Ceniza planea sobre la corriente térmica y desciende a picotear entre las lajas calientes.",
+          "level": 21,
+          "persistent_trace": false
+        },
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja se asolea sobre una losa de basalto; sus placas negras crujen al girar la cabeza hacia ti.",
+          "level": 24,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_bosque_fumarolas": {
       "id": "cumbres_bosque_fumarolas",
@@ -165,7 +201,21 @@
         "hoshai_kaelen"
       ],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "plumacresta_ceniza",
+          "text": "Una Plumacresta de Ceniza planea sobre la corriente térmica y desciende a picotear entre las lajas calientes.",
+          "level": 21,
+          "persistent_trace": false
+        },
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja se asolea sobre una losa de basalto; sus placas negras crujen al girar la cabeza hacia ti.",
+          "level": 24,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_claros_azufre": {
       "id": "cumbres_claros_azufre",
@@ -199,7 +249,15 @@
           "persistent_trace": false
         }
       ],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja se asolea sobre una losa de basalto; sus placas negras crujen al girar la cabeza hacia ti.",
+          "level": 24,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_manantial_tibio": {
       "id": "cumbres_manantial_tibio",
@@ -229,7 +287,21 @@
         "hoshai_vhis_sora"
       ],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "plumacresta_ceniza",
+          "text": "Una Plumacresta de Ceniza planea sobre la corriente térmica y desciende a picotear entre las lajas calientes.",
+          "level": 21,
+          "persistent_trace": false
+        },
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja se asolea sobre una losa de basalto; sus placas negras crujen al girar la cabeza hacia ti.",
+          "level": 24,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_refugio_ceniza": {
       "id": "cumbres_refugio_ceniza",
@@ -319,6 +391,20 @@
             "lingote_basalto_caliente": 1
           }
         }
+      ],
+      "wildlife_pool": [
+        {
+          "creature": "plumacresta_ceniza",
+          "text": "Una Plumacresta de Ceniza planea sobre la corriente térmica y desciende a picotear entre las lajas calientes.",
+          "level": 21,
+          "persistent_trace": false
+        },
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja se asolea sobre una losa de basalto; sus placas negras crujen al girar la cabeza hacia ti.",
+          "level": 24,
+          "persistent_trace": false
+        }
       ]
     },
     "cumbres_grieta_menor": {
@@ -363,6 +449,20 @@
           "scope": "player",
           "journal": "Crónica: leíste el Capítulo II sobre la Forja de la Escama Viva y la templanza del Clan Pyrrok.",
           "text": "Muchos pueblos de las llanuras creen que forjar consiste en someter el mineral a la furia de los fuelles, golpearlo hasta deformar su estructura y afilar su borde para arrancar la vida de otro ser vivo. Esa es la forja de la impaciencia, la forja que agota las montañas y deja tras de sí escoria muerta y pozos envenenados.\n\nEn las altas Cumbres Veladas, el Clan Pyrrok practica una disciplina enteramente distinta: la Forja de la Escama Viva. Aquí el fuego no es un látigo ni el martillo una condena. La roca volcánica que brota de la gran caldera llega al taller cargada del calor original de la tierra. Los artesanos no la enfrían de golpe en tinajas de agua fría, pues el choque térmico llena la piedra de microfracturas invisibles que terminarán quebrándola en el momento de mayor exigencia.\n\nEl secreto del temple basáltico reside en la respiración acompasada. Las escamas de un dragón no son conchas muertas como las de los escarabajos de rastrojo; crecen a lo largo de los siglos nutriéndose de los minerales que el vapor deposita sobre su lomo. Cuando un joven dracónido muda sus primeras placas, los pedazos no se desechan: se pulverizan en morteros de diorita y se mezclan con ceniza volcánica tamizada y agua de manantial sulfuroso. Con esa pasta, los forjadores sellan las juntas de las terrazas de vuelo y recubren los goznes de los portones colosales.\n\nPor eso los portones de Syraketh no se oxidan jamás ni sus bisagras chirrían con el paso de los milenios. No dependen de clavos de hierro ni de cadenas que el orín devore. Cada gozne es una articulación de piedra viva que se expande durante el día cuando el sol templa la roca, y se asienta durante la noche cuando el frío de la montaña la contrae. Quien intente forzar un portón dracónico con palancas de hierro solo logrará quebrar su propia herramienta, pues la roca responde a la fuerza bruta cerrándose con mayor tenacidad.\n\nPara franquear los pasos de la Ciudadela, el artífice debe observar los conductos de vapor que corren paralelos a los marcos de piedra. Cuando el respiradero inferior se alinea con la muesca de escape, la presión del gas levanta el contrapeso interior sin necesidad de esfuerzo sobrehumano. Este principio rige tanto para las grandes puertas de asamblea como para las hornacinas secretas donde los eruditos custodian los códices de oro y escama.\n\nAprende, pues, caminante del llano: no busques quebrar lo que fue creado para perdurar. Observa las líneas de fuga del vapor, respeta el calor latente de las losas y comprende que la mejor armadura no es la que detiene los golpes con rigidez quebradiza, sino la que sabe disipar el impacto igual que el basalto disipa el rayo."
+        }
+      ],
+      "wildlife_pool": [
+        {
+          "creature": "plumacresta_ceniza",
+          "text": "Una Plumacresta de Ceniza planea sobre la corriente térmica y desciende a picotear entre las lajas calientes.",
+          "level": 21,
+          "persistent_trace": false
+        },
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja se asolea sobre una losa de basalto; sus placas negras crujen al girar la cabeza hacia ti.",
+          "level": 24,
+          "persistent_trace": false
         }
       ]
     },
@@ -430,7 +530,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "plumacresta_ceniza",
+          "text": "Una Plumacresta de Ceniza planea sobre la corriente térmica y desciende a picotear entre las lajas calientes.",
+          "level": 21,
+          "persistent_trace": false
+        },
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja se asolea sobre una losa de basalto; sus placas negras crujen al girar la cabeza hacia ti.",
+          "level": 24,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_terrazas_vuelo": {
       "id": "cumbres_terrazas_vuelo",
@@ -468,7 +582,15 @@
           "persistent_trace": false
         }
       ],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "plumacresta_ceniza",
+          "text": "Una Plumacresta de Ceniza planea sobre la corriente térmica y desciende a picotear entre las lajas calientes.",
+          "level": 21,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_galeria_resonadores": {
       "id": "cumbres_galeria_resonadores",
@@ -524,7 +646,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "plumacresta_ceniza",
+          "text": "Una Plumacresta de Ceniza planea sobre la corriente térmica y desciende a picotear entre las lajas calientes.",
+          "level": 21,
+          "persistent_trace": false
+        },
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja se asolea sobre una losa de basalto; sus placas negras crujen al girar la cabeza hacia ti.",
+          "level": 24,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_plaza_escamas": {
       "id": "cumbres_plaza_escamas",
@@ -697,7 +833,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja se asolea sobre una losa de basalto; sus placas negras crujen al girar la cabeza hacia ti.",
+          "level": 24,
+          "persistent_trace": false
+        },
+        {
+          "creature": "custodio_basalto",
+          "text": "Un Custodio de Basalto se desprende de la pared de roca y avanza con pasos lentos que hacen vibrar el suelo.",
+          "level": 27,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_salon_ceniza": {
       "id": "cumbres_salon_ceniza",
@@ -998,7 +1148,15 @@
           "persistent_trace": false
         }
       ],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "draco_forja",
+          "text": "Un Draco de la Forja se asolea sobre una losa de basalto; sus placas negras crujen al girar la cabeza hacia ti.",
+          "level": 24,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_boveda_dorada": {
       "id": "cumbres_boveda_dorada",
@@ -1120,7 +1278,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "custodio_basalto",
+          "text": "Un Custodio de Basalto se desprende de la pared de roca y avanza con pasos lentos que hacen vibrar el suelo.",
+          "level": 27,
+          "persistent_trace": false
+        },
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_paso_torbellinos": {
       "id": "cumbres_paso_torbellinos",
@@ -1158,7 +1330,15 @@
           "persistent_trace": false
         }
       ],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "custodio_basalto",
+          "text": "Un Custodio de Basalto se desprende de la pared de roca y avanza con pasos lentos que hacen vibrar el suelo.",
+          "level": 27,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_cornisa_aethelgard": {
       "id": "cumbres_cornisa_aethelgard",
@@ -1196,6 +1376,20 @@
           "scope": "player",
           "journal": "Crónica: aprendiste la máxima del testigo oculto y la respuesta ante Zephyros tras leer el Capítulo V.",
           "text": "Durante incontables generaciones de mortales, los vigías del Clan Aethelgard mantuvieron sus apostaderos en las cornisas más altas de la cordillera septentrional. Desde allí, el ojo dracónico alcanza a distinguir las velas triangulares de Narevia, los humos de las forjas de Brumak y las espigas doradas en las terrazas de Valdren.\n\nMuchos jóvenes nacidos en los nidos de las cumbres preguntaban por qué debían permanecer ocultos mientras los pueblos del llano sufrían hambrunas en los inviernos crudos o se enzarzaban en disputas fronterizas que un solo aletazo hubiera podido dispersar. Esta crónica recoge la respuesta que los ancianos dieron a la asamblea:\n\nSi un dragón desciende a arar los campos de los humanos, los humanos olvidarán cómo forjar el arado y cómo guardar la semilla en los graneros. Si un dragón apaga los incendios de los bosques de Nhal con su aliento de nieve, los Vesperi jamás aprenderán a escuchar los avisos de las raíces ni a cuidar las cortezas viejas. La compasión que arrebata a otro su esfuerzo no engendra gratitud, sino debilidad y servidumbre.\n\nEl verdadero testigo no es el que abandona al caminante, sino el que cuida de que el sendero permanezca transitable sin allanar cada guijarro. La sabiduría dracónica consistió en mantener las corrientes térmicas estables, purificar las fuentes de agua profunda y vigilar que las grandes fuerzas primordiales no consumieran la corteza del mundo antes de tiempo.\n\nPor eso, cuando el Señor de la Ventisca somete a prueba a quienes ascienden por la Puerta de la Falla, no busca doblegar su cuerpo ni arrancar pleitesía. Busca comprobar si el caminante comprende la ley fundamental del testigo:\n'El testigo sabio no arranca la flor para apresurar su fruto; aguarda a que la semilla venza al invierno'.\n\nQuien pronuncie este principio ante Zephyros demuestra que ha dejado atrás la soberbia de los conquistadores y está preparado para entrar en la presencia del Archidragón con la dignidad de un hermano del firmamento."
+        }
+      ],
+      "wildlife_pool": [
+        {
+          "creature": "custodio_basalto",
+          "text": "Un Custodio de Basalto se desprende de la pared de roca y avanza con pasos lentos que hacen vibrar el suelo.",
+          "level": 27,
+          "persistent_trace": false
+        },
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
         }
       ]
     },
@@ -1278,7 +1472,21 @@
         "cumbres_vigia_zephyr"
       ],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "custodio_basalto",
+          "text": "Un Custodio de Basalto se desprende de la pared de roca y avanza con pasos lentos que hacen vibrar el suelo.",
+          "level": 27,
+          "persistent_trace": false
+        },
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_espolon_helado": {
       "id": "cumbres_espolon_helado",
@@ -1306,7 +1514,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "custodio_basalto",
+          "text": "Un Custodio de Basalto se desprende de la pared de roca y avanza con pasos lentos que hacen vibrar el suelo.",
+          "level": 27,
+          "persistent_trace": false
+        },
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_aguja_relampago": {
       "id": "cumbres_aguja_relampago",
@@ -1338,7 +1560,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "custodio_basalto",
+          "text": "Un Custodio de Basalto se desprende de la pared de roca y avanza con pasos lentos que hacen vibrar el suelo.",
+          "level": 27,
+          "persistent_trace": false
+        },
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_puente_hielo_ceniza": {
       "id": "cumbres_puente_hielo_ceniza",
@@ -1368,7 +1604,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "custodio_basalto",
+          "text": "Un Custodio de Basalto se desprende de la pared de roca y avanza con pasos lentos que hacen vibrar el suelo.",
+          "level": 27,
+          "persistent_trace": false
+        },
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_mirador_vaisgard": {
       "id": "cumbres_mirador_vaisgard",
@@ -1396,7 +1646,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "custodio_basalto",
+          "text": "Un Custodio de Basalto se desprende de la pared de roca y avanza con pasos lentos que hacen vibrar el suelo.",
+          "level": 27,
+          "persistent_trace": false
+        },
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_puerta_falla": {
       "id": "cumbres_puerta_falla",
@@ -1466,7 +1730,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
+        },
+        {
+          "creature": "surgencia_primordial",
+          "text": "Una Surgencia Primordial burbujea desde una fisura; el basalto fundido se mueve como si respirara.",
+          "level": 33,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_ribera_lava_fria": {
       "id": "cumbres_ribera_lava_fria",
@@ -1494,7 +1772,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
+        },
+        {
+          "creature": "surgencia_primordial",
+          "text": "Una Surgencia Primordial burbujea desde una fisura; el basalto fundido se mueve como si respirara.",
+          "level": 33,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_hornos_creacion": {
       "id": "cumbres_hornos_creacion",
@@ -1560,7 +1852,15 @@
           "persistent_trace": false
         }
       ],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_fosa_primordial": {
       "id": "cumbres_fosa_primordial",
@@ -1590,7 +1890,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
+        },
+        {
+          "creature": "surgencia_primordial",
+          "text": "Una Surgencia Primordial burbujea desde una fisura; el basalto fundido se mueve como si respirara.",
+          "level": 33,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_altar_termico": {
       "id": "cumbres_altar_termico",
@@ -1631,6 +1945,20 @@
           "journal": "Crónica: concluiste la lectura de los seis capítulos de Syraketh y conociste la profecía del pacto renovado.",
           "text": "En el principio del mundo no existían cinco reinos ni tres clanes. Existía un solo latido: el Primer Aliento que emanaba del corazón de la roca madre. De ese calor nacieron las escamas que reflejan la luz y los pechos que aprendieron a cantar en la quietud de las primeras eras.\n\nCuando la tierra se enfrió y los mortales comenzaron su caminar por las llanuras, los dragones custodiaron la caldera para que el fuego primordial no consumiera los bosques ni el hielo polar apagara las hogueras de los pueblos. No hubo desprecio en la retirada, sino la ternura paciente de los hermanos mayores que dejan espacio a los recién nacidos para que descubran el equilibrio por su propio pie.\n\nDurante siglos, el viento llevó a la caldera los rumores de las guerras y las paces de los hombres, de los canteros de Brumak que labraban la diorita, de los saltadores de Khariel que desafiaban el vértigo y de los navegantes de Lethra que leían las estrellas. Y en cada era, el Archidragón Ignis-Aethel sostuvo la corona de magma con aliento sereno, sabiendo que el día del reencuentro llegaría no por la fuerza de los conquistadores, sino por la sabiduría de los exploradores.\n\nPorque aquel que cruza el Paso de las Escamas Dormidas, comprende el trabajo del Clan Pyrrok, escucha la memoria del sacrificio de Quellor en las aguas de Veyra, y vuela con los vientos de Aethelgard sin temor al abismo, deja de ser un extraño en Syraketh. Se convierte en el portador del Resuello Compartido.\n\nQue esta última losa quede como testimonio y bendición para todos los pueblos de Vaisgard:\nLa montaña y el llano son un solo cuerpo. El río subterráneo que nutre los campos es la misma vena que alimenta el fuego sagrado de las cumbres. Mientras exista un caminante que prefiera la verdad a la rapiña, y la templanza al hierro ciego, las Cumbres Veladas mantendrán su aliento encendido, custodiando el firmamento con amor eterno e inquebrantable."
         }
+      ],
+      "wildlife_pool": [
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
+        },
+        {
+          "creature": "surgencia_primordial",
+          "text": "Una Surgencia Primordial burbujea desde una fisura; el basalto fundido se mueve como si respirara.",
+          "level": 33,
+          "persistent_trace": false
+        }
       ]
     },
     "cumbres_paso_dragon_blanco": {
@@ -1663,7 +1991,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [],
+      "wildlife_pool": [
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
+        },
+        {
+          "creature": "surgencia_primordial",
+          "text": "Una Surgencia Primordial burbujea desde una fisura; el basalto fundido se mueve como si respirara.",
+          "level": 33,
+          "persistent_trace": false
+        }
+      ]
     },
     "cumbres_camara_sabiduria": {
       "id": "cumbres_camara_sabiduria",
@@ -1741,6 +2083,20 @@
             "fragmento_primer_aliento": 1,
             "obsidiana_primordial": 2
           }
+        }
+      ],
+      "wildlife_pool": [
+        {
+          "creature": "remolino_termico",
+          "text": "Un Remolino Térmico se arremolina entre la ceniza y el vapor, silbando como un fuelle vivo.",
+          "level": 30,
+          "persistent_trace": false
+        },
+        {
+          "creature": "surgencia_primordial",
+          "text": "Una Surgencia Primordial burbujea desde una fisura; el basalto fundido se mueve como si respirara.",
+          "level": 33,
+          "persistent_trace": false
         }
       ]
     },
