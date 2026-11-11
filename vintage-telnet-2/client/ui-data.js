@@ -7,7 +7,7 @@ export const specializationConfirmations={
  juramento_pronunciar:'Al pronunciarlo eliges para siempre ser Juramentado Heroico. Podrás reconsiderarlo una sola vez mediante otra misión. ¿Quieres hacer este juramento?'
 };
 export function rankStars(power){return '★'.repeat(Math.max(1,Math.min(3,Math.ceil(Number(power||0)/3))))+'☆'.repeat(Math.max(0,3-Math.ceil(Number(power||0)/3)));}
-export const regionNames={veyra:'Cuenca de Veyra',edran:'Llanos de Edran',hoshai:'Sierra de Hoshai',korven:'Pedrales de Korven',lethra:'Aguas de Lethra',nhal:'Bosque de Nhal'};
+export const regionNames={veyra:'Cuenca de Veyra',edran:'Llanos de Edran',hoshai:'Sierra de Hoshai',korven:'Pedrales de Korven',lethra:'Aguas de Lethra',nhal:'Bosque de Nhal',cumbres:'Cumbres Veladas'};
 export const kindNames={WORLD:'Entorno',LOOK:'El lugar',LOCATION:'Lugar',ACTION:'Tu decisión',NPC:'Voz',DIALOGUE:'Conversación',TRACE:'Señal',DANGER:'Peligro',COMBAT:'Encuentro',DAMAGE:'Daño',DISCOVERY:'Descubrimiento',REWARD:'Progreso',MEMORY:'Recuerdo',INFO:'Información',ERROR:'Aviso',CHAT:'Conversación local'};
 export function events(value){return Array.isArray(value)?value.filter(event=>event&&typeof event.text==='string'&&event.text.trim()).map(event=>({kind:String(event.kind||'WORLD').toUpperCase(),text:event.text,id:event.id??null})):[];}
 export function actions(value){return Array.isArray(value)?value.filter(action=>action&&typeof action.id==='string'&&typeof action.label==='string').map(action=>({...action,disabled:Boolean(action.disabled)})):[];}
