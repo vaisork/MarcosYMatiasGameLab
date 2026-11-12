@@ -701,6 +701,7 @@ WEAPON_PROSE = {
   'final': ['Toda tu concentración en la punta de la varita: {c} se queda sin fuerzas. {d} de daño.']},
 }
 # Si un arma nueva no está en la tabla, se elige por sus propiedades.
+FALLBACK_NOUNS = {'varita_aprendiz': ('la varita',), 'espada_juramento': ('la espada', 'la hoja'), 'arco_ruta': ('el arco',), 'punal_camino': ('el puñal',)}
 WEAPON_PROSE_FALLBACK = (('ranged', 'arco_ruta'), ('focus', 'varita_aprendiz'), ('block', 'espada_juramento'))
 # Intensidad del acierto según la parte de la vida máxima del rival que quita (como los mensajes de daño clásicos).
 HIT_TIERS = ((.10, '. Apenas rozas a {c}: {d} de daño.'), (.20, '. Alcanzas a {c}: {d} de daño.'),
@@ -785,14 +786,24 @@ ACTION_PROSE = {
 
 def weapon_prose(weapon, kind, creature_name, damage, combat_round, max_hp=1):
     key = str(weapon.get('catalog_id', weapon.get('id', ''))).split(':')[0]
-    if key not in WEAPON_PROSE:
+    fallback = key not in WEAPON_PROSE
+    if fallback:
         key = next((wid for flag, wid in WEAPON_PROSE_FALLBACK if weapon.get(flag)), 'punal_camino')
     options = WEAPON_PROSE[key][kind]
     text = options[combat_round % len(options)]
     if kind == 'hit':
         share = damage / max(1, max_hp)
         text += next(tail for limit, tail in HIT_TIERS if limit is None or share < limit)
-    return text.format(c=creature_name, d=damage)
+    text = text.format(c=creature_name, d=damage)
+    # Que el jugador vea que su arma equipada es la que hace el daño.
+    name = weapon.get('name')
+    if name and fallback:
+        # La prosa prestada nombra otra arma («la varita»): se cambia por la que lleva.
+        for generic in FALLBACK_NOUNS.get(key, ()):
+            text = text.replace(generic, f'tu {name}').replace(generic.capitalize(), f'Tu {name}')
+    if name and kind in ('hit', 'final') and name not in text:
+        text = text.replace(' de daño', f' de daño con tu {name}', 1)
+    return text
 
 def defense_prose(action, creature_name, combat_round):
     options = DEFENSE_PROSE[action]
