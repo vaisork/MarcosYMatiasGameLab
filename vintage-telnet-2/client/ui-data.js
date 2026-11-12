@@ -1660,6 +1660,18 @@ Object.assign(placeIllustrations,{
     "thumbnail": "/client/art/places/cumbres_santuario_resuello-thumb-v1.webp",
     "caption": "La poza hidrotermal de cuarzo rosa en armonía con Veyra."
   },
+  "cantera_galeria_vapor": {
+    "name": "Galería del Vapor Tibio",
+    "illustration": "/client/art/places/cantera_galeria_vapor-anime-v1.webp",
+    "thumbnail": "/client/art/places/cantera_galeria_vapor-thumb-v1.webp",
+    "caption": "La galería subterránea de caliza y vapor tibio tras la pared de la cantera."
+  },
+  "cantera_cauce_termico": {
+    "name": "Cauce de las Aguas Antiguas",
+    "illustration": "/client/art/places/cantera_cauce_termico-anime-v1.webp",
+    "thumbnail": "/client/art/places/cantera_cauce_termico-thumb-v1.webp",
+    "caption": "El río subterráneo de aguas termales que une Veyra con Las Cumbres."
+  },
   "cumbres_trono_caldera": {
     "name": "Trono de la Caldera Sagrada",
     "illustration": "/client/art/places/cumbres_trono_caldera-anime-v1.webp",

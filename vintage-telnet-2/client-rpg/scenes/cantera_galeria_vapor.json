@@ -1,0 +1,70 @@
+{
+  "room": "cantera_galeria_vapor",
+  "tile": 16,
+  "size": [
+    20,
+    15
+  ],
+  "tileset": "edran",
+  "exits": [
+    {
+      "direction": "norte",
+      "rect": [
+        9,
+        0,
+        2,
+        1
+      ]
+    }
+  ],
+  "spawn": {
+    "default": [
+      10,
+      7
+    ],
+    "norte": [
+      10,
+      1
+    ]
+  },
+  "npcs": [],
+  "creatures": [],
+  "layers": {
+    "ground": [
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss",
+      "ssssssssssssssssssss"
+    ],
+    "solid": [
+      "111111111..111111111",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "1..................1",
+      "11111111111111111111"
+    ]
+  },
+  "background": "backgrounds/cantera_galeria_vapor.webp",
+  "battle_background": "backgrounds/hoshai_battle.webp"
+}
