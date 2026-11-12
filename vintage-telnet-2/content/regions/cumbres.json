@@ -75,7 +75,18 @@
           "persistent_trace": false
         }
       ],
-      "actions": [],
+      "actions": [
+        {
+          "id": "cumbres_leer_aviso_archivista",
+          "label": "Leer la nota sujeta con una escama entre las columnas",
+          "requires_flags": [
+            "leido_cronica_cumbres_6"
+          ],
+          "scope": "player",
+          "journal": "La archivista Sol-Vhis sacó cuatro tratados del archivo hondo: están en la Galería de la Segunda Edad, la Hornacina de los Tratados, la Bóveda Dorada y la Cripta de los Sabios. Quien los lea todos debe llevarlos a la Cámara de la Sabiduría.",
+          "text": "Entre dos columnas de basalto alguien dejó una hoja de corteza prensada, sujeta con una escama gris para que el viento no se la lleve. La letra es pequeña, ordenada y un poco impaciente, como la de alguien que escribe mientras hace otras tres cosas.\n\n«A quien leyó las seis losas de la Crónica:\n\nTe vimos. Los vigías de Vhis dicen que te detienes frente a cada piedra escrita y que no te vas hasta terminarla. En Syraketh eso no pasa desde hace siglos: los mortales que llegan hasta aquí suelen buscar tesoro, pelea o un atajo. Tú buscabas la historia.\n\nPor eso abrí el archivo hondo. Saqué cuatro tratados que no estaban a la vista de nadie, ni siquiera de los dragones jóvenes, y los dejé donde un caminante paciente pueda encontrarlos:\n\n— uno en la Galería de la Segunda Edad,\n— otro en la Hornacina de los Tratados,\n— otro en la Bóveda Dorada,\n— y el último en la Cripta de los Sabios.\n\nNo son leyes ni profecías. Son cosas que los dragones escribimos para no olvidarlas: cómo piensan los que mandan aquí, qué guardamos y por qué. Si los lees los cuatro, llévalos en la memoria a la Cámara de la Sabiduría. La Matriarca tiene un atril vacío desde hace mucho tiempo.\n\nNo tengas prisa. La piedra tampoco la tiene.\n\n— Sol-Vhis, archivista del Clan Quellor»"
+        }
+      ],
       "wildlife_pool": [
         {
           "creature": "draco_forja",
@@ -971,7 +982,8 @@
       "brief": "El recinto de archivos de convivencia y vitrinas históricas.",
       "examine": {
         "vitrinas": "Urnas de obsidiana traslúcida que protegen ofrendas de los cinco pueblos.",
-        "rollos": "Pergaminos de corteza de sabina enrollados en cilindros de hueso fósil."
+        "rollos": "Pergaminos de corteza de sabina enrollados en cilindros de hueso fósil.",
+        "atril": "Un atril de cuarzo recién pulido; el polvo de alrededor indica que lo trajeron hace muy poco."
       },
       "exits": {
         "oeste": "cumbres_atrio_edades",
@@ -986,7 +998,21 @@
         "cumbres_archivista_sol"
       ],
       "signals": [],
-      "actions": []
+      "actions": [
+        {
+          "id": "cumbres_leer_tratado_quellor_1",
+          "label": "Leer el Tratado de la Piedra que Escucha",
+          "requires_flags": [
+            "leido_cronica_cumbres_6"
+          ],
+          "scope": "player",
+          "set_flags": [
+            "leido_tratado_quellor_1"
+          ],
+          "journal": "Tratado I: Oros-Khar no pelea para ganar, sino para saber si escuchas. Su canto sacude toda la sala (hay que esquivar), su garra de cuarzo traza de frente y se puede interrumpir, y su pulso telúrico solo se aguanta con guardia o saliendo de su línea.",
+          "text": "TRATADO DE LA PIEDRA QUE ESCUCHA\nescrito por Sol-Vhis, aprendiz del Escriba\n\nOros-Khar no siempre fue el Escriba Silente. Cuando era joven, dicen los más viejos del clan, hablaba tanto que las tablas del Archivo se rajaban de puro cansancio. Contaba lo que había visto, lo que había soñado y lo que pensaba ver mañana, todo junto y sin respirar. Un día la Matriarca le dio una tarea extraña: copiar, sin decir una sola palabra, la historia de un río.\n\nTardó cien inviernos. Para escribir un río hay que escucharlo, y para escucharlo hay que callar. Cuando terminó, ya no quería hablar tanto. Había descubierto que la piedra también cuenta cosas, pero solo a quien se queda quieto.\n\nPor eso, cuando un mortal llega a su santuario, Oros-Khar no lo recibe con una pregunta. Lo recibe con una prueba. No pelea para ganar: pelea para saber si el visitante sabe escuchar. He copiado aquí lo que he visto en sus pruebas, para que nadie llegue a ciegas.\n\nPrimero canta. Es el Eco de las Cinco Edades: un sonido tan grave que no sale de su garganta sino de todas las tablas al mismo tiempo. No viene de un lado: viene de toda la sala. No se puede cortar ni detener con el escudo. Lo único que sirve es moverse, como quien se aparta de una ola.\n\nDespués escribe. Levanta la garra de cuarzo y traza una runa en el aire, de frente, despacio, como un maestro que enseña a un alumno. Ese trazo sí se puede interrumpir: quien está atento ve el brillo de la garra un momento antes y puede romper la línea.\n\nY al final pesa. Apoya todo su cuerpo en el suelo y el Pulso Telúrico corre en línea recta hacia ti. Eso no se corta. Se aguanta con buena guardia o se esquiva saliendo de su camino.\n\nEscuchar, cortar, aguantar. Si confundes el orden, la prueba se alarga; si lo entiendes, Oros-Khar baja la cresta antes de que te des cuenta.\n\nUna última cosa, que no está en ninguna losa: cuando Oros-Khar pierde una prueba, sonríe. Muy poco, con una sola esquina de la boca. Es la única sonrisa que le he visto en trescientos años."
+        }
+      ]
     },
     "cumbres_ala_ecos_quellor": {
       "id": "cumbres_ala_ecos_quellor",
@@ -1095,7 +1121,8 @@
       "brief": "La estancia de cilindros con los tratados de paz históricos.",
       "examine": {
         "anaqueles": "Estantes de toba porosa que regulan la humedad ambiental de forma natural.",
-        "cilindros": "Tubos de aleación de bronce y plata con sellos de cera volcánica intactos."
+        "cilindros": "Tubos de aleación de bronce y plata con sellos de cera volcánica intactos.",
+        "cartas": "Un fajo de cartas de piel fina atadas con un hilo de plata que todavía huele a nieve."
       },
       "exits": {
         "sur": "cumbres_galeria_segunda_edad",
@@ -1110,7 +1137,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [
+        {
+          "id": "cumbres_leer_tratado_quellor_2",
+          "label": "Leer las Cartas de Zephyros a su hermana Vhis-Sora",
+          "requires_flags": [
+            "leido_cronica_cumbres_6"
+          ],
+          "scope": "player",
+          "set_flags": [
+            "leido_tratado_quellor_2"
+          ],
+          "journal": "Tratado II: Zephyros escribía a su hermana Vhis-Sora, la dragona del Manantial Tibio. Su garra de escarcha baja en picada y se puede interceptar; su torbellino no tiene ángulo seguro (hay que esquivar); su ráfaga abismal empuja de frente y se aguanta con guardia.",
+          "text": "CARTAS DE ZEPHYROS A SU HERMANA VHIS-SORA\ncopiadas y guardadas por el Clan Quellor\n\nPrimera carta.\nSora: hoy volé más alto que nunca. Tan alto que el aire se volvió delgado como papel y el sol dejó de calentar. Desde allá arriba Vaisgard parece un mapa que alguien dejó secando al sol: el lago de Lethra es una moneda, los bosques de Velmora son musgo y los techos de Khariel son migas. Nadie allá abajo sabe que existimos. A veces pienso que es triste. A veces pienso que es mejor así.\n\nSegunda carta.\nSora: la Matriarca me nombró guardián de la Puerta de la Falla. Dice que tengo mal carácter, que soy como el viento de invierno, y que por eso soy perfecto para cuidar una puerta. No sé si fue un elogio. Creo que sí.\n\nTercera carta.\nSora: hoy un mortal llegó hasta la Puerta. Uno solo, con las botas rotas y los dedos azules de frío. Hice lo que me enseñaron: lo probé. Primero bajé en picada con las garras llenas de escarcha; él me vio venir y me cortó el paso a tiempo, cosa que casi nadie logra. Luego hice girar el Ojo del Vendaval, ese torbellino que no deja ningún rincón seguro, y él no intentó pararlo: simplemente se movió. Al final batí las alas con toda mi fuerza para empujarlo hacia el abismo. Se agachó, plantó los pies y aguantó detrás de su escudo como una piedra con terquedad.\n\nPerdí. Y, Sora, no me enojé. Me reí tanto que se me cayó un carámbano de la cresta.\n\nCuarta carta.\nSora: aprendí algo y te lo cuento porque tú siempre aprendes las cosas antes que yo. La prueba no es para ver quién es más fuerte. Es para ver quién sabe qué hacer con cada viento: cortar el que se puede cortar, apartarse del que no tiene orilla y aguantar el que empuja de frente. El que entiende eso no necesita ser un gigante.\n\nÚltima carta.\nSora: si algún día llega otro mortal que lee las piedras en vez de romperlas, déjalo pasar al balcón de Vhis a ver las nubes. Dile que el señor de la ventisca le manda saludos. Y que no se asuste si me río."
+        }
+      ]
     },
     "cumbres_terraza_observador": {
       "id": "cumbres_terraza_observador",
@@ -1171,7 +1212,8 @@
       "brief": "La cámara acorazada de paredes de oro batido y códices antiguos.",
       "examine": {
         "paredes": "Láminas de oro puro batido fijadas con remaches de cobre fósil.",
-        "rejas": "Enrejados de aleación antigua con goznes sellados por calor."
+        "rejas": "Enrejados de aleación antigua con goznes sellados por calor.",
+        "inventario": "Un rollo larguísimo clavado a la pared con dos clavos de oro; empieza en el techo y termina enrollado en el suelo."
       },
       "exits": {
         "sur": "cumbres_ala_ecos_quellor",
@@ -1184,7 +1226,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [
+        {
+          "id": "cumbres_leer_tratado_quellor_3",
+          "label": "Leer el Inventario del Tesoro que no es Oro",
+          "requires_flags": [
+            "leido_cronica_cumbres_6"
+          ],
+          "scope": "player",
+          "set_flags": [
+            "leido_tratado_quellor_3"
+          ],
+          "journal": "Tratado III: la Bóveda Dorada no guarda oro, sino recuerdos de los pueblos mortales: una cuchara de Valdren, un cascabel de Khariel, un remo de Narevia, una piedra de Brumak y una hoja de Velmora. Los dragones nunca dejaron de mirar.",
+          "text": "INVENTARIO DEL TESORO QUE NO ES ORO\nllevado al día por los guardianes de la Bóveda\n\nLos mortales creen que los dragones duermen sobre montañas de monedas. La verdad es más rara: las paredes de esta bóveda son de oro porque el oro no se oxida con el vapor, y lo que de verdad cuidamos está en las hornacinas. Esta es la lista. Quien la lea con atención entenderá por qué el Gran Silencio nunca fue olvido.\n\nHornacina primera: una cuchara de madera de Valdren, con una mordida en el mango. La trajo un dragón joven que vio a un niño humano comer sopa en la ventana de su casa, una noche de nieve. Le pareció lo más valiente que había visto: estar caliente y contento en medio del invierno.\n\nHornacina segunda: un cascabel de cobre de Khariel. Los felaryn lo cuelgan en las puertas para saber quién entra. Se cayó de un tejado durante una tormenta y rodó montaña abajo. Lo encontramos en el Bosque de las Fumarolas, todavía sonando.\n\nHornacina tercera: un remo corto de Narevia, de madera de sauce. Los marevyn lo pintan con rayas verdes para que el río lo reconozca. Este tiene siete rayas. Nadie sabe qué significan siete.\n\nHornacina cuarta: una piedra de Brumak, cortada tan recta que parece hecha por un dragón. La guardamos porque nos dio un poco de envidia.\n\nHornacina quinta: una hoja de Velmora, prensada entre dos láminas de cuarzo. Es de un árbol que ya no existe. Los vesperi lloraron cuando lo cortó un rayo; nosotros guardamos la última hoja que cayó.\n\nHornacina sexta: vacía.\n\nLa Matriarca dice que la sexta es para el próximo mortal que llegue hasta aquí sin romper nada. Que deje lo que quiera: un botón, un cuento, su nombre. Nosotros no pedimos nada. Pero si alguien deja algo, lo cuidaremos mil años.\n\nNota al margen, con otra letra: «Ya revisé dos veces. La cuchara sigue mordida. No fue ningún dragón.»"
+        }
+      ]
     },
     "cumbres_cripta_sabios": {
       "id": "cumbres_cripta_sabios",
@@ -1199,7 +1255,8 @@
       "brief": "El recinto funerario de nichos conmemorativos de los sabios.",
       "examine": {
         "nichos": "Cavidades rectangulares cerradas con losas de diorita grabadas en relieve.",
-        "urnas": "Vasijas cilíndricas de piedra con sellos de cuarzo y ceniza."
+        "urnas": "Vasijas cilíndricas de piedra con sellos de cuarzo y ceniza.",
+        "lapida": "Una lápida sin nombre, más vieja que las demás; la piedra está tibia, como si alguien la tocara cada día."
       },
       "exits": {
         "sur": "cumbres_hornacina_tratados",
@@ -1212,7 +1269,21 @@
       "arrivals": {},
       "npcs": [],
       "signals": [],
-      "actions": []
+      "actions": [
+        {
+          "id": "cumbres_leer_tratado_quellor_4",
+          "label": "Leer la Lápida de los que se fueron por el agua",
+          "requires_flags": [
+            "leido_cronica_cumbres_6"
+          ],
+          "scope": "player",
+          "set_flags": [
+            "leido_tratado_quellor_4"
+          ],
+          "journal": "Tratado IV: los guardianes Quellor bajaban al Bastión de las Aguas por un camino de agua bajo la tierra que pasa cerca de una vieja cantera de Veyra. Nadie lo ha usado en siglos, pero los mineros de Veyra dicen que a veces una pared de la cantera suelta vapor tibio.",
+          "text": "LA LÁPIDA DE LOS QUE SE FUERON POR EL AGUA\n\nEn esta cripta no hay huesos. Los dragones del Clan Quellor no se entierran: cuando son muy viejos bajan a las aguas calientes de la tierra y se quedan dormidos ahí, cuidando los sellos que impiden que el mar salado suba desde las fosas. Esta lápida no tiene nombre porque es de todos ellos.\n\nYo, Sol-Vhis, escribo aquí lo que sé del camino que tomaban.\n\nNo bajaban volando: un dragón es demasiado grande para las grietas del sur. Bajaban nadando. Debajo de las Cumbres corre un río caliente que nadie ve, una arteria de agua tibia que pasa por debajo del Santuario del Resuello, cruza bajo los campos de Veyra y llega hasta el Bastión de las Aguas, donde duerme el Dragón de las Aguas Antiguas.\n\nLos mortales de Veyra nunca vieron a nadie pasar. Pero los canteros, los que sacan piedra en la vieja cantera al borde de los campos, cuentan una historia que se repiten de padres a hijos: que hay una pared en la cantera que nunca está fría, ni en pleno invierno; que a veces suelta un hilo de vapor que huele a azufre limpio; y que si pegas la oreja a la piedra se oye, muy lejos, algo parecido a una respiración.\n\nLos canteros creen que es la montaña que ronca. Nosotros sabemos lo que es.\n\nNadie ha usado ese camino en muchos siglos. Las rocas se movieron, el agua cambió de cauce y el paso quedó cerrado. Pero las cosas cerradas en Vaisgard tienen la costumbre de abrirse cuando llega alguien con suficiente paciencia para buscarlas.\n\nSi algún día encuentras esa pared tibia, salúdala de nuestra parte. Y no tengas miedo de lo que respire al otro lado: es solo un viejo amigo que duerme."
+        }
+      ]
     },
     "cumbres_santuario_escriba": {
       "id": "cumbres_santuario_escriba",
@@ -2020,7 +2091,8 @@
       "brief": "El recinto apacible de reposo y contemplación de los ancianos.",
       "examine": {
         "esteras": "Tejidos gruesos de fibras de sabina que aíslan del suelo rocoso.",
-        "cuencos": "Recipientes de diorita pulida que conservan agua pura de manantial."
+        "cuencos": "Recipientes de diorita pulida que conservan agua pura de manantial.",
+        "atril": "Un atril de toba rosada, vacío; en la base hay cuatro huecos del tamaño de cuatro tratados."
       },
       "exits": {
         "sur": "cumbres_fosa_primordial",
@@ -2035,7 +2107,30 @@
         "cumbres_anciana_pyrr"
       ],
       "signals": [],
-      "actions": []
+      "actions": [
+        {
+          "id": "cumbres_ordenar_tratados_quellor",
+          "label": "Contarle a la Matriarca lo que leíste en los cuatro tratados",
+          "requires_flags": [
+            "leido_tratado_quellor_1",
+            "leido_tratado_quellor_2",
+            "leido_tratado_quellor_3",
+            "leido_tratado_quellor_4"
+          ],
+          "forbids_flags": [
+            "hilo_tratados_quellor_concluido"
+          ],
+          "scope": "player",
+          "set_flags": [
+            "hilo_tratados_quellor_concluido"
+          ],
+          "give_items": {
+            "pluma_ceniza": 1
+          },
+          "journal": "Cierre: le contaste a la Matriarca Pyrr-Veyth los cuatro Tratados de Quellor. Te dijo cómo enfrentar al Archidragón: su Corona de Magma se interrumpe, su Marea Térmica se esquiva y su Primer Aliento pide guardia firme o apartarse.",
+          "text": "Te sientas en una estera frente al atril vacío. La Matriarca Pyrr-Veyth abre un ojo, luego el otro, y espera.\n\nLe cuentas lo que leíste: la sonrisa escondida de Oros-Khar, las cartas de Zephyros a su hermana, la cuchara mordida de Valdren, la pared tibia de la cantera de Veyra. Mientras hablas, el atril se calienta poco a poco, como si las palabras pesaran.\n\nCuando terminas, la anciana se ríe con un sonido de piedras que ruedan.\n\n«Sol-Vhis tenía razón. Hacía siglos que nadie llenaba ese atril. Los tratados no se guardan en papel, caminante: se guardan en quien los cuenta. Ahora son tuyos.»\n\nLuego baja la voz, como quien comparte un secreto de familia.\n\n«Te diré lo que nadie escribió, porque nunca hizo falta. Cuando llegues al Trono de la Caldera, Ignis-Aethel no querrá destruirte: querrá saber si comprendes el fuego. Cuando sus crestas brillen y empiece a juntar la marea de la caldera, ese es su momento débil: rompe su concentración. Cuando toda la caldera lata a la vez, no intentes pararla: salta, muévete. Y cuando abra las fauces para el Primer Aliento, no hay valentía que lo corte: pon tu guardia firme o apártate de su camino. Lo demás ya lo sabes. Lo leíste.»\n\nDe entre sus escamas saca una pluma gris con borde rojo y la deja en tu mano.\n\n«Para que escribas tú también. Algún día alguien leerá lo que hiciste aquí.»"
+        }
+      ]
     },
     "cumbres_santuario_resuello": {
       "id": "cumbres_santuario_resuello",
