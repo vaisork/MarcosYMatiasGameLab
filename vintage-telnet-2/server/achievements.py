@@ -52,9 +52,10 @@ ACHIEVEMENTS = [
     ("jefe_oros_khar", "Voz del Basalto", "Vence a Oros-Khar el Escriba en el Gran Archivo", "jefe_oros_khar", 1),
     ("jefe_zephyros", "Ojo del Vendaval", "Vence a Zephyros el Señor de la Ventisca en las Cumbres", "jefe_zephyros", 1),
     ("jefe_ignis_aethel", "El Primer Aliento", "Alcanza el Trono de la Caldera y vence al Archidragón Ignis-Aethel", "jefe_ignis_aethel", 1),
+    ("tratados_quellor", "Guardián de los Tratados", "Lee los cuatro Tratados de Quellor y cuéntalos a la Matriarca", "tratados_quellor", 1),
 ]
 
-assert len(ACHIEVEMENTS) == 50
+assert len(ACHIEVEMENTS) == 51
 
 
 def metrics(state, content, world):
@@ -96,6 +97,7 @@ def metrics(state, content, world):
         "jefe_oros_khar": int(any(flag.endswith(":oros_khar_escriba") for flag in victories)),
         "jefe_zephyros": int(any(flag.endswith(":zephyros_ventisca") for flag in victories)),
         "jefe_ignis_aethel": int(any(flag.endswith(":archidragon_ignis_aethel") for flag in victories)),
+        "tratados_quellor": int("hilo_tratados_quellor_concluido" in state.get("flags", [])),
     }
 
 
