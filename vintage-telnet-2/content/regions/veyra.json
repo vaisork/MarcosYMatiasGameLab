@@ -2014,7 +2014,8 @@
       "return": "Las huellas de extracción siguen en la pared junto al banco sin separar. Ahora puedes reconocer las cuñas desde la entrada norte. La humedad oscurece una junta lateral y deja más claro el relieve de los cortes.",
       "examine": {
         "banco": "Hay cuñas antiguas sin marca legible. Una cuña tiene el ancho de la ranura del banco; sus marcas están borradas.",
-        "fisura": "El agua sale de una junta lateral; acercarse al pie no ofrece una respuesta mejor."
+        "fisura": "El agua sale de una junta lateral; acercarse al pie no ofrece una respuesta mejor.",
+        "pared_tibia": "Una pared de caliza cortada que irradia un calor suave y constante. Si te acercas, notas un tenue hilo de vapor con olor a azufre limpio, y la superficie parece latir con una cadencia honda y acompasada."
       },
       "exits": {
         "norte": "veyra_lindero_arboles"
@@ -2023,6 +2024,23 @@
       "npcs": [],
       "signals": [],
       "actions": [
+        {
+          "id": "veyra_saludar_pared_tibia",
+          "label": "Pegar la oreja / saludar a la pared",
+          "requires_flags": [
+            "leido_tratado_quellor_4"
+          ],
+          "scope": "player",
+          "set_flags": [
+            "paso_cantera_cumbres_abierto"
+          ],
+          "next": "cantera_galeria_vapor",
+          "text": "Pegas la oreja a la caliza tibia. Al otro lado se escucha una respiración honda y pausada, como la de un viejo gigante que descansa en paz. Dices en voz baja el saludo de Sol-Vhis: «Venimos en paz, viejo amigo». La piedra responde con un temblor tibio; entre las juntas de caliza se abre una hendidura por la que escapa una bocanada de vapor limpio.",
+          "journal": "Saludaste a la pared tibia en la cantera vieja de Veyra. La roca reconoció el Tratado IV y abrió el paso al túnel del río que respira.",
+          "discover_rooms": [
+            "cantera_galeria_vapor"
+          ]
+        },
         {
           "id": "pasaje_corredor_cantera",
           "label": "Seguir el corredor de la cantera",

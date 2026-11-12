@@ -1026,6 +1026,14 @@
       17,
       -23
     ],
+    "cantera_cauce_termico": [
+      18,
+      -23
+    ],
+    "cantera_galeria_vapor": [
+      18,
+      -22
+    ],
     "cumbres_trono_caldera": [
       16,
       -24
@@ -13851,6 +13859,46 @@
         [
           64,
           -96
+        ]
+      ]
+    },
+    {
+      "from": "cumbres_santuario_resuello",
+      "to": "cantera_cauce_termico",
+      "direction": "este",
+      "reverse": "oeste",
+      "points": [
+        [
+          68,
+          -92
+        ],
+        [
+          70,
+          -92
+        ],
+        [
+          72,
+          -92
+        ]
+      ]
+    },
+    {
+      "from": "cantera_cauce_termico",
+      "to": "cantera_galeria_vapor",
+      "direction": "sur",
+      "reverse": "norte",
+      "points": [
+        [
+          72,
+          -92
+        ],
+        [
+          72,
+          -90
+        ],
+        [
+          72,
+          -88
         ]
       ]
     },

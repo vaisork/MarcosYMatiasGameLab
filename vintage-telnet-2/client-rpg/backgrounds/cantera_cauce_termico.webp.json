@@ -1,0 +1,13 @@
+{
+  "asset_id": "cantera_cauce_termico",
+  "generation_tool": "grok image_gen",
+  "sha256": "41593b29aff83254138c61461b2a60abd990dd311d1bc1c139501d26cfa0be2e",
+  "bytes": 236650,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "normalization": "Proportional Lanczos resize and WebP compression",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard environment, majestic subterranean river of warm crystal-clear thermal water, smooth black basalt bed, glowing pink rose quartz veins and monoliths, gentle rising steam, ancient obsidian stone slab on the shore. Luminous, peaceful, warm ancient subterranean river. No people, no text, no monsters."
+}

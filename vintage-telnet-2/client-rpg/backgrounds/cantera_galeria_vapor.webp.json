@@ -1,0 +1,13 @@
+{
+  "asset_id": "cantera_galeria_vapor",
+  "generation_tool": "grok image_gen",
+  "sha256": "54491a713129bd4addd98a79da401a9fc99ca38cfe7969264a3f5b3d7ccaed80",
+  "bytes": 189514,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "normalization": "Proportional Lanczos resize and WebP compression",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "Original Vaisgard environment, ancient subterranean gallery behind a quarry limestone wall, black basalt and cut limestone, warm thermal steam rising from floor fissures, delicate translucid stalactites, soft warm golden and turquoise glowing mist, quiet and ancient atmosphere. No people, no text, no monsters."
+}

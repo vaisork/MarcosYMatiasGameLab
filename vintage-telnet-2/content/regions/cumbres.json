@@ -2149,11 +2149,13 @@
       },
       "exits": {
         "sur": "cumbres_altar_termico",
-        "oeste": "cumbres_paso_dragon_blanco"
+        "oeste": "cumbres_paso_dragon_blanco",
+        "este": "cantera_cauce_termico"
       },
       "look": {
         "sur": "El altar térmico queda al sur.",
-        "oeste": "La calzada ceremonial queda al poniente."
+        "oeste": "La calzada ceremonial queda al poniente.",
+        "este": "Hacia el oriente, una fractura sumergida conduce al cauce subterráneo del resuello."
       },
       "arrivals": {},
       "npcs": [],
@@ -2178,6 +2180,13 @@
             "fragmento_primer_aliento": 1,
             "obsidiana_primordial": 2
           }
+        },
+        {
+          "id": "cumbres_bajar_cauce_cantera",
+          "label": "Descender por el cauce subterráneo hacia la cantera de Veyra",
+          "scope": "player",
+          "next": "cantera_cauce_termico",
+          "text": "Te adentras en la corriente tibia que desciende por la fractura de cuarzo rosa, dejándote llevar hacia el cauce subterráneo que corre rumbo a Veyra."
         }
       ],
       "wildlife_pool": [
@@ -2230,6 +2239,104 @@
         }
       ],
       "actions": []
+    },
+    "cantera_galeria_vapor": {
+      "id": "cantera_galeria_vapor",
+      "name": "Galería del Vapor Tibio",
+      "region": "cumbres",
+      "kind": "interior",
+      "safe": true,
+      "description": "Una galería natural de roca caliza y basalto donde la temperatura sube con cada paso. Filamentos de vapor perfumado de azufre limpio brotan de fisuras en el suelo, condensándose en gotas brillantes sobre estalactitas translúcidas. Al sur, una hendidura estrecha conecta con la vieja cantera de Veyra. Hacia el norte, un corredor húmedo desciende hacia un rumor constante de aguas vivas.",
+      "day": "El vaho templado acaricia las paredes y amortigua cualquier ruido del exterior.",
+      "night": "En la penumbra subterránea, vetas de cuarzo reflejan los destellos tenues del vapor.",
+      "rain": "El rumor exterior de la lluvia queda sepultado por el suave silbido del vapor caliente.",
+      "return": "Vuelves al abrigo cálido de la galería del vapor tibio.",
+      "brief": "La galería subterránea de caliza y vapor tibio tras la pared de la cantera.",
+      "examine": {
+        "vapor": "Volutas de vapor tenue que suben desde las grietas; no quema, tiene un calor acogedor y limpio.",
+        "estalactitas": "Formaciones minerales translúcidas que gotean agua tibia sobre la roca pulida.",
+        "marcas": "Incisiones grabadas a mano con cuñas de cantero y símbolos del Clan Quellor."
+      },
+      "exits": {
+        "norte": "cantera_cauce_termico"
+      },
+      "look": {
+        "norte": "Hacia el norte, el túnel desciende hacia el rumor del cauce subterráneo."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "cantera_leer_marcas_canteros",
+          "label": "Leer las marcas de los antiguos canteros",
+          "scope": "player",
+          "set_flags": [
+            "leido_marcas_canteros_veyra"
+          ],
+          "journal": "Leíste las marcas de los canteros de Veyra: supieron detener sus cuñas para no quebrar el aliento tibio que nutre los canales.",
+          "text": "Pasas los dedos sobre las incisiones en la roca. Alguien grabó con cincel hace muchas generaciones: «No piquen más hondo aquí. La roca abriga un aliento que no nos pertenece; quien respeta el calor, cosecha agua limpia en los canales». Los viejos trabajadores de Veyra descubrieron la pared que respira y juraron protegerla."
+        },
+        {
+          "id": "cantera_volver_veyra",
+          "label": "Regresar a la cantera de Veyra a través de la hendidura",
+          "scope": "player",
+          "next": "veyra_cantera_callada",
+          "text": "Te escurres por la hendidura entre los bloques de caliza y sales de nuevo al aire fresco de la cantera vieja de Veyra."
+        }
+      ]
+    },
+    "cantera_cauce_termico": {
+      "id": "cantera_cauce_termico",
+      "name": "Cauce de las Aguas Antiguas",
+      "region": "cumbres",
+      "kind": "interior",
+      "safe": true,
+      "description": "Una bóveda majestuosa excavada por un río subterráneo de aguas cristalinas y tibias. El lecho está formado por lajas de basalto negro y cantos rodados de cuarzo rosa que brillan con luz propia. El agua corre con una cadencia acompasada, semejante a un latido lento. Una losa ancestral descansa junto a la orilla, grabada con la caligrafía esbelta de los dragones cronistas.",
+      "day": "La corriente luminosa llena la bóveda de reflejos dorados y rosados.",
+      "night": "Los monolitos de cuarzo emiten una fosforescencia serena que guía los pasos.",
+      "rain": "El caudal subterráneo fluye imperturbable bajo el peso de la montaña.",
+      "return": "Regresas al lecho iluminado del cauce de aguas antiguas.",
+      "brief": "El río subterráneo de aguas termales que une Veyra con Las Cumbres.",
+      "examine": {
+        "cauce": "Un torrente de agua tibia y cristalina donde se ven cantos pulidos de cuarzo rosa.",
+        "laja_quellor": "Una laja de obsidiana con inscripciones grabadas por los ancianos de Quellor.",
+        "cuarzo": "Formaciones de cuarzo rosa en las paredes que vibran en sintonía con el Bastión de las Aguas."
+      },
+      "exits": {
+        "sur": "cantera_galeria_vapor",
+        "oeste": "cumbres_santuario_resuello"
+      },
+      "look": {
+        "sur": "Hacia el sur, el túnel sube hacia la galería del vapor.",
+        "oeste": "Hacia el poniente, las aguas templadas emergen en el Santuario del Resuello Compartido."
+      },
+      "arrivals": {},
+      "npcs": [],
+      "signals": [],
+      "actions": [
+        {
+          "id": "cantera_leer_laja_rio",
+          "label": "Leer la laja del río que respira",
+          "scope": "player",
+          "set_flags": [
+            "leido_laja_rio_resuello"
+          ],
+          "journal": "Leíste la laja de Quellor en el río subterráneo: la montaña y el valle comparten un mismo aliento de agua y reposo.",
+          "text": "Limpias el fino sedimento sobre la laja de obsidiana. La inscripción dice:\n\n«A quien camina por la arteria del mundo:\nEste calor no es fuego de guerra ni ceniza de castigo; es la sangre viva de la caldera que alimenta los manantiales de los valles del sur. Por aquí descendían los sabios ancianos hacia su sueño postrero en el Bastión de las Aguas. Quellor arriba y Veyra abajo son dos mitades de un solo resuello.\n\nQuien cruza este umbral con respeto, recuerda que la tierra nunca separa a quienes saben escucharla.»"
+        },
+        {
+          "id": "cantera_emerger_santuario",
+          "label": "Emerger a las aguas del Santuario del Resuello",
+          "scope": "player",
+          "set_flags": [
+            "paso_cantera_cumbres_cruzado"
+          ],
+          "next": "cumbres_santuario_resuello",
+          "journal": "Cierre: cruzaste la segunda entrada a las Cumbres Veladas desde la cantera de Veyra por el río subterráneo que respira.",
+          "text": "Te sumerges en las aguas templadas siguiendo la corriente luminosa. La corriente te eleva con suavidad a través de una fractura de cuarzo rosa hasta una poza cristalina: la luz perlada del Santuario del Resuello Compartido te recibe en las Cumbres Veladas."
+        }
+      ]
     }
   },
   "npcs": {
