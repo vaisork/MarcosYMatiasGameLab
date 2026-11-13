@@ -78,7 +78,8 @@ class CumbresRetoTests(unittest.TestCase):
             self.assertLess(high['damage'], base['damage'] * 1.3)  # gentle: tracks player growth
         self.assertEqual(m.scaled(m.PROFILES['cornalomo'], 5, 30), m.PROFILES['cornalomo'])
 
-    def test_boss_recovers_after_a_fall_or_flight(self):
+    def test_boss_keeps_damage_after_a_fall_or_flight(self):
+        # Javier 12/11: que Marcos farmee; el jefe conserva el daño entre intentos.
         content = Content(ROOT / 'content')
         engine = Engine(content, lambda: 100000, rng=random.Random(3))
         world = {'version': 0, 'flags': [], 'deaths': {}, 'weather': {}, 'encounters': {}, 'legends': {},
@@ -89,7 +90,7 @@ class CumbresRetoTests(unittest.TestCase):
         if any(a['id'] == 'acercarse' and a.get('target') == 'vaelok_forjador' for a in engine.actions(character, world)):
             engine.apply(character, world, {'id': 'acercarse', 'target': 'vaelok_forjador'})
         engine.apply(character, world, {'id': 'combatir', 'target': 'vaelok_forjador'})
-        self.assertEqual(state['combat']['hp'], state['combat']['profile']['hp'])
+        self.assertEqual(state['combat']['hp'], 161)
 
 
 if __name__ == '__main__':

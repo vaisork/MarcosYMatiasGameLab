@@ -1602,10 +1602,8 @@ class Engine:
                 self.withdraw_animal(character,world,target);return
             profile=m.scaled(m.PROFILES[target],signal.get('level'),state['level']);creature=self.creature_prose(room,target)
             ckey=f"{state['location']}:{target}"
-            # Cumbres: whoever falls or flees leaves the creature whole; each victory is won in one go.
-            fresh=profile.get('escala_jugador') and ckey not in world.get('encounters',{})
             world.setdefault('encounters',{}).setdefault(ckey,character['id'])
-            saved_hp=None if fresh else world.get('creature_states',{}).get(ckey,{}).get('hp')
+            saved_hp=world.get('creature_states',{}).get(ckey,{}).get('hp')
             start_hp=saved_hp if (saved_hp is not None and saved_hp>0) else profile['hp']
             preps=m.preparations_for(profile,start_hp)
             prep_action=preps[0] if preps else profile.get('prepared_action')
