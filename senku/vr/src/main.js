@@ -798,7 +798,7 @@ function actualizarPortal(dt, ahora) {
     jalaron: () => manos.some(m => m.presa || m.enfriarTiron > 0),
     recoger: (lista) => { for(const c of lista){ if(!c.m.visible)continue;c.m.position.y=c.base+Math.sin(ahora/400+c.fase)*.2;if(c.m.position.distanceTo(v1.set(jugadora.pos.x,jugadora.pos.y+.3,jugadora.pos.z))<1.5){c.m.visible=false;sumarChurus(1);sonar.churu();}} },
     golpearEnemigos: (lista) => { for(const e of lista){if(!e.vivo)continue;e.grupo.rotation.y=Math.sin(ahora/500+e.fase)*.3;for(const m of manos)if(m.velMano.length()>=2.5&&(m.garra.getWorldPosition(v1),v1.distanceTo(e.grupo.position)<1.2))golpearEnemigoPortal(e);}},
-    sumarChurus, sumarCorazon: (n) => {vida.vida=Math.min(VIDA.max,vida.vida+n);}, estelaNeon: () => {estelaNeonPendiente=true;}, avisar: (s) => mostrarAviso([s]), terminar: cerrarPortal,
+    sumarChurus, sumarCorazon: (n) => {vida.vida=Math.min(VIDA.max,vida.vida+n);}, escudo: (s = 30) => { vida.invulnerable = Math.max(vida.invulnerable, s); }, estelaNeon: () => {estelaNeonPendiente=true;}, avisar: (s) => mostrarAviso([s]), terminar: cerrarPortal,
   });
   if (Math.hypot(jugadora.pos.x, jugadora.pos.y - 1, jugadora.pos.z - 4) < 1.5 || portalExpirado(estadoPortales, ahora)) cerrarPortal();
 }

@@ -14,6 +14,10 @@ export const PORTALES = Object.freeze({
   luke: Object.freeze({ cartel: 'luke', mundo: 'luke', nombre: 'Patitas de Luke', duracion: DURACION_MUNDO }),
   busqueda: Object.freeze({ cartel: 'busqueda', mundo: 'busqueda', nombre: 'Cacería del Gato Mecánico', duracion: DURACION_MUNDO }),
   'busqueda-sur': Object.freeze({ cartel: 'busqueda-sur', mundo: 'busqueda', nombre: 'Cacería del Gato Mecánico', duracion: DURACION_MUNDO }),
+  botiquin: Object.freeze({ cartel: 'botiquin', mundo: 'botiquin', nombre: 'Clínica de Héroes', duracion: DURACION_MUNDO }),
+  senku2: Object.freeze({ cartel: 'senku2', mundo: 'senku2', nombre: 'Pista Senku 2', duracion: DURACION_MUNDO }),
+  'senku2-sur': Object.freeze({ cartel: 'senku2-sur', mundo: 'senku2', nombre: 'Pista Senku 2', duracion: DURACION_MUNDO }),
+  'grieta-madre': Object.freeze({ cartel: 'grieta-madre', mundo: 'grieta-madre', nombre: 'La Grieta Madre', duracion: DURACION_MUNDO }),
   ultragato: Object.freeze({ cartel: 'ultragato', mundo: null, nombre: 'Ultra Gato', duracion: DURACION_ULTRA }),
 });
 
