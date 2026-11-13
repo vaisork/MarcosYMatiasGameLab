@@ -4,3 +4,7 @@ __pycache__/
 vintage-telnet/.env
 vintage-telnet/Imagenesapykey.env
 vintage-telnet/art_generations/
+
+# Estudio CCGS: registros de sesión locales
+production/session-logs/
+production/session-state/

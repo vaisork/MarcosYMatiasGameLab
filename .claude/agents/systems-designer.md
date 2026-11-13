@@ -2,9 +2,10 @@
 name: systems-designer
 description: "Detailed subsystem mechanics — combat formulas, progression curves, crafting recipes, status effect interactions, mathematical modeling of a mechanic."
 tools: Read, Glob, Grep, Write, Edit
-model: sonnet
+model: inherit
 maxTurns: 20
 disallowedTools: Bash
+memory: project
 ---
 
 > **Adaptación a Vintage Telnet 2 (manda sobre el resto de este archivo).**
@@ -48,7 +49,7 @@ Before proposing any design:
    - Ask about ambiguities rather than assuming
    - Flag potential issues or edge cases for user input
    - Write each section to the file as soon as it's approved
-   - Append to `vintage-telnet-2/docs/estudio/sesion.md` after each section with:
+   - Append to `production/session-state/active.md` after each section with:
      current task, completed sections, key decisions, next section
    - After writing a section, earlier discussion can be safely compacted
 
