@@ -5,7 +5,11 @@ import taqueria from './taqueria.js';
 import neon from './neon.js';
 import luke from './luke.js';
 import busqueda from './busqueda.js';
-export const MUNDOS = Object.freeze(Object.fromEntries([churus, vaisgard, taqueria, neon, luke, busqueda].map(m => [m.id, m])));
+import marcosUV from './marcos-uv.js';
+import fsGato from './fs-gato.js';
+import rataTaqueria from './rata-taqueria.js';
+import columpiaEstilo from './columpia-estilo.js';
+export const MUNDOS = Object.freeze(Object.fromEntries([churus, vaisgard, taqueria, neon, luke, busqueda, marcosUV, fsGato, rataTaqueria, columpiaEstilo].map(m => [m.id, m])));
 const caja = (x,y,z,sx,sy,sz) => ({min:{x:x-sx/2,y:y-sy/2,z:z-sz/2},max:{x:x+sx/2,y:y+sy/2,z:z+sz/2}});
 export function crearMundos(scene) {
   const mundos={};
