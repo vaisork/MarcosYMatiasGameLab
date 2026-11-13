@@ -14,6 +14,7 @@ def main():
   assert (ROOT/path).is_file(),f'Missing boundary: {path}'
  for p in ROOT.rglob('*.md'):
   if '.git' in p.parts:continue
+  if '.claude' in p.parts or 'engine-reference' in p.parts:continue  # docs de terceros (CCGS) con código en markdown
   for link in re.findall(r'!?\[[^\]\n]*\]\(([^\s)]+)',p.read_text()):
    if re.match(r'(?:[a-zA-Z]+:|/|#)',link):continue
    assert (p.parent/link.split('#')[0]).exists(),f'Broken link: {p.relative_to(ROOT)}: {link}'
