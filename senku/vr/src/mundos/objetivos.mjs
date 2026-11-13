@@ -13,3 +13,11 @@ export const objetivoRataTaqueria = (estado, golpe) => {
   return estado;
 };
 export const objetivoColumpiaEstilo = (estado, id) => (estado.piruetas.add(id), estado);
+export const objetivoBotiquin = (estado, id) => estado.curados.has(id) ? estado : (estado.curados.add(id), estado);
+export const objetivoSenku2 = (estado, id) => estado.cruzados.has(id) ? estado : (estado.cruzados.add(id), estado.combo = (estado.combo || 0) + 1, estado);
+export const objetivoGrietaMadre = (estado, puertaId) => {
+  if (estado.elegida !== null && estado.elegida !== undefined) return estado;
+  estado.elegida = puertaId;
+  estado.abierta = true;
+  return estado;
+};
