@@ -8,6 +8,7 @@ import { crearMundo, CUADRA } from './mundo.js';
 import { iniciarSonido, sonar } from './sonido.js';
 import { NOMBRE_PODER, PODER, CLAVE_PODER, crearBarra, barraLlena, cargarBarra, dispararPoder, masCercano, crearRatoncito, pasoRatoncito, tocaRatoncito } from './poder.mjs';
 import { CUERDAS, PATAS, tramoCuerda, muestraCuerda, muestraPata, leerEleccion, guardarEleccion } from './estilos.js';
+import { detectarSwipe, detectarSacudida, sacudidaDoble, masCercanoEnfrente, listoZarpazo } from './movil.mjs';
 
 const ALCANCE = 40, VEL_GARRA = 260, ENFRIAR = 0.35, ENFRIAR_TIRON = 1.0, CUERPO = 1.0;
 const CLAVE_RECORD = 'senku_vr_record', CLAVE_TOTAL = 'senku_vr_churus_total';
@@ -529,11 +530,85 @@ function mirar(dx, dy, k) {
   pitch = Math.max(-1.45, Math.min(1.45, pitch - dy * k));
 }
 
+const CLAVE_GIRO = 'senku_vr_giro_movil';
+let sensoresMovil = (() => { try { return localStorage.getItem(CLAVE_GIRO) === '1'; } catch { return false; } })();
+const picosSacudida = [];
+let orientacionAnterior = null, aceleracionAnterior = null, sensoresConectados = false, ultimoZarpazoMovil = -Infinity;
+function pintarGarra(x = innerWidth / 2, y = innerHeight / 2, angulo = 0) {
+  const garra = $('garra-pantalla');
+  garra.style.left = `${x}px`; garra.style.top = `${y}px`; garra.style.setProperty('--angulo', `${angulo}deg`);
+  garra.animate([{ opacity: 0, transform: 'translate(-50%, -50%) scale(.45) rotate(var(--angulo))' }, { opacity: 1, transform: 'translate(-50%, -50%) scale(1) rotate(var(--angulo))', offset: 0.35 }, { opacity: 0, transform: 'translate(-50%, -50%) scale(1.4) rotate(var(--angulo))' }], { duration: 360, easing: 'ease-out' });
+}
+function zarpazoMovil(x, y, angulo = 0) {
+  if (!jugando || menuAbierto || renderer.xr.isPresenting || !listoZarpazo(performance.now(), ultimoZarpazoMovil)) return;
+  ultimoZarpazoMovil = performance.now();
+  pintarGarra(x, y, angulo);
+  camera.getWorldPosition(v1); camera.getWorldDirection(v2);
+  const e = masCercanoEnfrente(v1, v2, enemigos);
+  if (!e) return;
+  golpearEnemigo(e, null);
+  navigator.vibrate?.(90);
+}
+function orientarMovil(e) {
+  if (!sensoresMovil || renderer.xr.isPresenting || e.alpha == null || e.beta == null) return;
+  const actual = { alpha: e.alpha, beta: e.beta };
+  if (orientacionAnterior) {
+    let da = actual.alpha - orientacionAnterior.alpha;
+    if (da > 180) da -= 360; else if (da < -180) da += 360;
+    yaw -= da * Math.PI / 180;
+    pitch = Math.max(-1.45, Math.min(1.45, pitch - (actual.beta - orientacionAnterior.beta) * Math.PI / 180));
+  }
+  orientacionAnterior = actual;
+}
+function moverMovil(e) {
+  if (!sensoresMovil || renderer.xr.isPresenting) return;
+  const a = e.acceleration || e.accelerationIncludingGravity;
+  if (!a || a.x == null || a.y == null || a.z == null) return;
+  const actual = { x: a.x, y: a.y, z: a.z };
+  if (detectarSacudida(aceleracionAnterior, actual) && sacudidaDoble(picosSacudida, performance.now())) zarpazoMovil();
+  aceleracionAnterior = actual;
+}
+function actualizarBotonSensores() {
+  const b = $('t-mirar');
+  b.textContent = `📱 Mira: ${sensoresMovil ? 'sí' : 'no'}`;
+  b.setAttribute('aria-pressed', String(sensoresMovil));
+  b.classList.toggle('activo', sensoresMovil);
+}
+async function alternarSensoresMovil() {
+  if (sensoresMovil && sensoresConectados) {
+    sensoresMovil = false;
+    sensoresConectados = false;
+    window.removeEventListener('deviceorientation', orientarMovil);
+    window.removeEventListener('devicemotion', moverMovil);
+    orientacionAnterior = aceleracionAnterior = null;
+  } else {
+    try {
+      if (typeof DeviceOrientationEvent === 'undefined') throw new Error('Este teléfono no tiene giroscopio');
+      const permisos = [];
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') permisos.push(DeviceOrientationEvent.requestPermission());
+      if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') permisos.push(DeviceMotionEvent.requestPermission());
+      if ((await Promise.all(permisos)).some((p) => p !== 'granted')) throw new Error('Permiso de sensores denegado');
+      sensoresMovil = true;
+      sensoresConectados = true;
+      orientacionAnterior = aceleracionAnterior = null;
+      window.addEventListener('deviceorientation', orientarMovil);
+      window.addEventListener('devicemotion', moverMovil);
+    } catch (e) {
+      sensoresMovil = false;
+      sensoresConectados = false;
+      mostrarAviso([e.message || 'No se pudieron activar los sensores'], 2.5);
+    }
+  }
+  try { localStorage.setItem(CLAVE_GIRO, sensoresMovil ? '1' : '0'); } catch { /* sin almacenamiento */ }
+  actualizarBotonSensores();
+}
+actualizarBotonSensores();
+
 // Táctil: mitad izquierda = caminar, mitad derecha = mirar; botones para garras.
 const toques = new Map();
 lienzo.addEventListener('pointerdown', (e) => {
   if (e.pointerType !== 'touch') return;
-  toques.set(e.pointerId, { x: e.clientX, y: e.clientY, mover: e.clientX < innerWidth / 2 });
+  toques.set(e.pointerId, { x: e.clientX, y: e.clientY, inicio: { x: e.clientX, y: e.clientY, t: performance.now() }, mover: e.clientX < innerWidth / 2 });
 });
 lienzo.addEventListener('pointermove', (e) => {
   const t = toques.get(e.pointerId);
@@ -541,9 +616,14 @@ lienzo.addEventListener('pointermove', (e) => {
   if (t.mover) { joystick.x = Math.max(-1, Math.min(1, (e.clientX - t.x) / 50)); joystick.y = Math.max(-1, Math.min(1, -(e.clientY - t.y) / 50)); }
   else { mirar(e.clientX - t.x, e.clientY - t.y, 0.005); t.x = e.clientX; t.y = e.clientY; }
 });
-const finToque = (e) => { const t = toques.get(e.pointerId); if (t?.mover) joystick.x = joystick.y = 0; toques.delete(e.pointerId); };
-lienzo.addEventListener('pointerup', finToque);
-lienzo.addEventListener('pointercancel', finToque);
+const finToque = (e, cancelar = false) => {
+  const t = toques.get(e.pointerId);
+  if (t?.mover) joystick.x = joystick.y = 0;
+  if (!cancelar && t && detectarSwipe(t.inicio, { x: e.clientX, y: e.clientY, t: performance.now() })) zarpazoMovil(e.clientX, e.clientY, Math.atan2(e.clientY - t.inicio.y, e.clientX - t.inicio.x) * 180 / Math.PI);
+  toques.delete(e.pointerId);
+};
+lienzo.addEventListener('pointerup', (e) => finToque(e));
+lienzo.addEventListener('pointercancel', (e) => finToque(e, true));
 const boton = (id, abajo, arriba) => {
   const b = $(id);
   b.addEventListener('pointerdown', (e) => { e.preventDefault(); abajo(); });
@@ -556,6 +636,7 @@ boton('t-saltar', saltar);
 boton('t-jalar', () => { jalarToque = true; }, () => { jalarToque = false; });
 boton('t-poder', () => lanzarPoder(manos[1]));
 $('t-menu').addEventListener('click', () => alternarMenu());
+$('t-mirar').addEventListener('click', alternarSensoresMovil);
 
 // --- HUD y avisos ----------------------------------------------------------------
 const reloj = (ms) => { const s = Math.floor(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
@@ -1143,6 +1224,7 @@ function jugar() {
   $('inicio').hidden = true;
   document.body.classList.add('jugando');
   if (matchMedia('(pointer: coarse)').matches) document.body.classList.add('tactil');
+  if (sensoresMovil && !sensoresConectados) alternarSensoresMovil();
   actualizarHUD();
 }
 

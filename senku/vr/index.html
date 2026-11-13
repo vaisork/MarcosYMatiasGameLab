@@ -18,7 +18,7 @@
   ul { margin: 0; padding-left: 20px; line-height: 1.45; }
   .botones { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
   button { font: inherit; font-weight: 700; border: 0; border-radius: 14px; padding: 14px 20px; cursor: pointer; }
-  #entrar-vr { background: var(--rosa); color: #fff; font-size: 20px; flex: 1 1 200px; }
+  #entrar-vr { background: var(--rosa); color: var(--morado); font-size: 20px; flex: 1 1 200px; }
   #entrar-vr:disabled { background: #6b5a78; color: #cbbfd6; cursor: not-allowed; }
   #sin-visor { background: #ffd27a; color: var(--morado); flex: 1 1 160px; }
   label { display: inline-flex; gap: 8px; align-items: center; margin-top: 12px; }
@@ -30,7 +30,7 @@
   #mira.raton { border-color: #ff5a5a; }
   .jugando #aviso:not([hidden]) { display: block; position: fixed; top: 22%; left: 50%; transform: translateX(-50%); background: rgba(42,24,64,.85); padding: 12px 20px; border-radius: 14px; font-size: 22px; font-weight: 800; text-align: center; max-width: calc(100% - 32px); }
   .tactil #tactil { display: grid; position: fixed; right: 12px; bottom: 12px; grid-template-columns: repeat(2, 84px); gap: 10px; }
-  #tactil button { height: 70px; padding: 0; background: rgba(255,111,154,.85); color: #fff; touch-action: none; }
+  #tactil button { height: 70px; padding: 0; background: rgba(255,111,154,.85); color: var(--morado); touch-action: none; }
   #tactil #t-saltar, #tactil #t-tiron { background: rgba(255,210,122,.9); color: var(--morado); }
   .tactil .pista { display: block; }
   #menu { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 16px; background: rgba(20,10,35,.55); overflow: auto; }
@@ -51,9 +51,12 @@
   #poder-relleno { height: 100%; width: 0; background: linear-gradient(90deg, #ffb13d, #ffe27a); transition: width .2s; }
   #poder.lleno { animation: pulso .6s ease-in-out infinite alternate; }
   #poder.lleno #poder-relleno { background: linear-gradient(90deg, #ffe27a, #fff, #ffe27a); }
-  @keyframes pulso { from { box-shadow: 0 0 4px #ffd23f; } to { box-shadow: 0 0 16px 4px #ffd23f; } }
-  #tactil #t-poder { background: rgba(120,100,140,.7); font-size: 30px; }
+  @keyframes pulso { from { box-shadow: 0 1px 3px rgba(42,24,64,.3); } to { box-shadow: 0 2px 10px 4px rgba(42,24,64,.45); } }
+  #tactil #t-poder { background: rgba(120,100,140,.7); color: #fff; font-size: 30px; }
   #tactil #t-poder.lleno { background: #ffd23f; color: var(--morado); animation: pulso .6s ease-in-out infinite alternate; }
+  #tactil #t-mirar { grid-column: span 2; height: 48px; background: rgba(42,24,64,.85); font-size: 15px; }
+  #tactil #t-mirar.activo { background: #7dffb0; color: var(--morado); }
+  #garra-pantalla { position: fixed; z-index: 5; pointer-events: none; width: 72px; height: 54px; background: linear-gradient(110deg, transparent 38%, #fff 40%, #ff6f9a 45%, transparent 48%) 0 0 / 24px 54px repeat-x; filter: drop-shadow(0 1px 2px rgba(42,24,64,.8)); opacity: 0; }
   .pista { display: none; position: fixed; left: 12px; bottom: 12px; font-size: 13px; background: rgba(42,24,64,.6); padding: 6px 10px; border-radius: 10px; }
 </style>
 <script type="importmap">
@@ -82,7 +85,8 @@
       <li><b>Q / E</b>: tirón. <b>F</b> o <b>rueda</b>: jalar la cuerda (impulso). <b>M</b>: menú de garras.</li>
       <li><b>WASD</b>: caminar. <b>Espacio</b>: saltar. <b>C</b> frente a una pared: agarrarte y subir con <b>W</b>. <b>Ratón</b>: mirar.</li>
       <li><b>R</b>: ¡Ultra Gato! cuando la barrita esté llena (en el celular, el botón <b>⚡</b>).</li>
-      <li>En el celular: arrastra a la izquierda para caminar y a la derecha para mirar.</li>
+      <li>En el celular: arrastra a la izquierda para caminar y a la derecha para mirar; un swipe rápido da un zarpazo al ratón más cercano que tengas enfrente.</li>
+      <li>Activa <b>📱 Mira</b> para mirar al mover el teléfono y sacudirlo para dar zarpazos. En iPhone, toca el botón y acepta el permiso. Arrastrar con el dedo sigue funcionando.</li>
     </ul>
     <label><input type="checkbox" id="vineta" checked> Viñeta anti-mareo al moverte rápido</label>
     <div class="botones">
@@ -100,7 +104,9 @@
   <button id="t-izq">Garra I</button><button id="t-der">Garra D</button>
   <button id="t-tiron">Tirón</button><button id="t-saltar">Saltar</button>
   <button id="t-jalar">Jalar</button><button id="t-poder" aria-label="Ultra Gato">⚡</button>
+  <button id="t-mirar" aria-pressed="false">📱 Mira: no</button>
 </div>
+<div id="garra-pantalla" aria-hidden="true"></div>
 <button id="t-menu" aria-label="Menú de garras">≡</button>
 <div id="menu" hidden>
   <div class="tarjeta">
