@@ -7,9 +7,8 @@ import luke from './luke.js';
 import busqueda from './busqueda.js';
 import botiquin from './botiquin.js';
 import senku2 from './senku2.js';
-// import grieta-madre from './grieta-madre.js'
 import grietaMadre from './grieta-madre.js';
-export const MUNDOS = Object.freeze(Object.fromEntries([churus, vaisgard, taqueria, neon, luke, busqueda, botiquin, senku2, grietaMadre /* grieta-madre */].map(m => [m.id, m])));
+export const MUNDOS = Object.freeze(Object.fromEntries([churus, vaisgard, taqueria, neon, luke, busqueda, botiquin, senku2, grietaMadre].map(m => [m.id, m])));
 const caja = (x,y,z,sx,sy,sz) => ({min:{x:x-sx/2,y:y-sy/2,z:z-sz/2},max:{x:x+sx/2,y:y+sy/2,z:z+sz/2}});
 export function crearMundos(scene) {
   const mundos={};
