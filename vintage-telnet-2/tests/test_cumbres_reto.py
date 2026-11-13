@@ -93,5 +93,23 @@ class CumbresRetoTests(unittest.TestCase):
         self.assertEqual(state['combat']['hp'], 161)
 
 
+    def test_each_fall_softens_the_creature_until_victory(self):
+        content = Content(ROOT / 'content')
+        engine = Engine(content, lambda: 100000, rng=random.Random(3))
+        world = {'version': 0, 'flags': [], 'deaths': {}, 'weather': {}, 'encounters': {}, 'legends': {}, 'creature_states': {}}
+        state = marcos()
+        state['location'] = 'cumbres_salon_ceniza'
+        state['alivio'] = {'vaelok_forjador': 5}
+        character = {'id': 6, 'name': 'Marcos', 'species': 'humano', 'class_id': 'arcano', 'status': 'approved', 'state': state}
+        if any(a['id'] == 'acercarse' and a.get('target') == 'vaelok_forjador' for a in engine.actions(character, world)):
+            engine.apply(character, world, {'id': 'acercarse', 'target': 'vaelok_forjador'})
+        engine.apply(character, world, {'id': 'combatir', 'target': 'vaelok_forjador'})
+        full = m.scaled(m.PROFILES['vaelok_forjador'], None, state['level'])
+        self.assertEqual(state['combat']['hp'], round(full['hp'] * .7))
+        self.assertTrue(any('30% menos' in e['text'] for e in state['events']))
+        engine.death(character, world)
+        self.assertEqual(state['alivio']['vaelok_forjador'], 3)
+
+
 if __name__ == '__main__':
     unittest.main()

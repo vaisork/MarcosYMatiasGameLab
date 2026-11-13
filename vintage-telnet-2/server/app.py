@@ -401,7 +401,7 @@ def create_app(config=None):
                 return jsonify(result)
             e=engine();world=store.world(db);update_world_calendar(e,world);settle_combat(db,e,world);char=selected(db);e.tick(char,world)
             command=str(intent.get('text','')).strip()
-            social_command=(intent.get('id')=='social' or command.casefold() in ('quien','quién','quienes','quiénes','grupo','grupo aceptar','grupo salir','salir grupo','dejar de seguir','dejar seguir','confirmar regalo','confirmar dar') or command.casefold().startswith(('seguir ','seguir\t','grupo invitar ','invitar ','susurrar ','dar ')))
+            social_command=(intent.get('id')=='social' or command.casefold() in ('buzon','buzón','quien','quién','quienes','quiénes','grupo','grupo aceptar','grupo salir','salir grupo','dejar de seguir','dejar seguir','confirmar regalo','confirmar dar') or command.casefold().startswith(('buzon ','buzón ','seguir ','seguir\t','grupo invitar ','invitar ','susurrar ','dar ')))
             if social_command:
                 try:
                     if not social.run(db,world,char,e,command,e.clock()):raise RuleError('No entendí esa acción social.')
@@ -410,6 +410,7 @@ def create_app(config=None):
                 parsed=e.parse_intent(char,world,intent);previous_location=char['state'].get('location');e.apply(char,world,parsed)
                 if char['state'].get('location')!=previous_location:
                     social.stop_following(world,char['id']);social.follow_move(db,world,char,e)
+            social.buzon_notice(char)
             heartbeat(e,char,world);store.save_world(db,world);store.save(db,char)
             result=e.snapshot(char,world);result['social']=social.snapshot(db,world,char,e,e.clock());result.update(authenticated=True,csrf_token=csrf())
             if char['state'].get('tester_enabled') is True:result['tester']={'enabled':True,'destinations':tester_destinations(e,char)}
