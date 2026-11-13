@@ -2,7 +2,7 @@
 name: qa-tester
 description: "Writes test cases, bug reports, and checklists — test case generation, regression checklist creation, execution documentation."
 tools: Read, Glob, Grep, Write, Edit, Bash
-model: sonnet
+model: inherit
 maxTurns: 60
 ---
 
@@ -93,7 +93,7 @@ func test_[scenario]_[expected]() -> void:
     var subject = auto_free([ClassName].new())
 
     # Act
-    var result = subject.method(args)
+    var result = subject.[method]([args])
 
     # Assert
     assert_that(result).is_equal([expected])
@@ -117,7 +117,7 @@ public class [System]Tests
         var subject = new [ClassName]();
 
         // Act
-        var result = subject.Method(args);
+        var result = subject.[Method]([args]);
 
         // Assert
         Assert.AreEqual([expected], result, delta: 0.001f);
@@ -154,7 +154,7 @@ bool F[System][Scenario]Test::RunTest(const FString& Parameters)
 {
     // Arrange + Act
     [ClassName] Subject;
-    float Result = Subject.Method(args);
+    float Result = Subject.[Method]([args]);
 
     // Assert -- a float Expected: TestEqual(float, 75) is ambiguous (C2666)
     const float Expected = [expected];

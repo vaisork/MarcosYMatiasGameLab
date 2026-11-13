@@ -5,7 +5,7 @@ description: Estudio de videojuegos para Vintage Telnet 2. Reparte una zona, jef
 
 # Estudio VT2
 
-Emulación ligera de Claude Code Game Studios (Donchitos, MIT): 8 roles en `.claude/agents/`, todos en Sonnet para ahorrar cuota. Tú (la sesión principal) eres la productora: repartes, revisas e integras.
+Flujo de producción del estudio CCGS completo (Donchitos, MIT). Usa solo los roles de `.claude/agents/` que requiera el encargo. Tú (la sesión principal) coordinas, revisas e integras; `AGENTS.md` y las reglas de VT2 prevalecen.
 
 ## Flujo (en orden, lanzando solo los roles que el encargo necesita)
 

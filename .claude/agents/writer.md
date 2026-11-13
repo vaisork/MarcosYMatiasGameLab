@@ -2,9 +2,10 @@
 name: writer
 description: "Writer of player-facing text — dialogue, lore entries, item and ability descriptions, environmental text."
 tools: Read, Glob, Grep, Write, Edit
-model: sonnet
+model: inherit
 maxTurns: 20
 disallowedTools: Bash
+memory: project
 ---
 
 > **Adaptación a Vintage Telnet 2 (manda sobre el resto de este archivo).**
@@ -53,7 +54,7 @@ Before drafting anything:
        with a skeleton (all section headers)
      - Draft one section at a time in conversation, and write each section to the
        file as soon as it's approved
-     - Append to `vintage-telnet-2/docs/estudio/sesion.md` after each section with:
+     - Append to `production/session-state/active.md` after each section with:
        current task, completed sections, key decisions, next section
      - After writing a section, earlier discussion can be safely compacted
 
