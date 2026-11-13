@@ -543,6 +543,7 @@ class Engine:
     def victory(self,character,world,combat,creature,group=1,salvage=True):
         # A resolved encounter cannot credit this character twice, including a repeated tick.
         if character['state']['combat'] is not combat:return
+        character['state'].get('alivio',{}).pop(combat['creature'],None)
         creature=self.creature_prose(self.room(character,world),combat['creature'])
         self.clear_attention(character,world)
         state=character['state'];profile=combat['profile'];family=profile['family'];history=(state['victories']+[family])[-10:];count=history.count(family);multiplier=1 if count<=3 else .6 if count<=5 else .25
@@ -637,6 +638,8 @@ class Engine:
         recovery={'from':state['location'],'from_name':room['name'],'to':destination,'to_name':self.content.rooms[destination]['name'],'distance':distance,'at':self.clock()}
         state['last_recovery']=recovery
         world.setdefault('encounters',{}).pop(f"{state['location']}:{state['combat']['creature']}",None)
+        if state['combat'].get('profile',{}).get('escala_jugador'):
+            alivio=state.setdefault('alivio',{});alivio[state['combat']['creature']]=min(3,alivio.get(state['combat']['creature'],0)+1)
         state['combat']=None;state['hp']=.6*m.hp_max(state);state['fatigue']=40;state['rest_budget']=None
         state['wound']={'grave':'moderada','moderada':'leve','leve':None,None:None}[state['wound']]
         self.visit(state,destination,mark_route=False);state['events'].append(event('danger',f"Caes en {room['name']}. Recuperas el conocimiento en {recovery['to_name']}, el pueblo más cercano, a {distance} tramos del lugar de la derrota. Es un traslado de recuperación; conservas tu progreso."))
@@ -1602,9 +1605,12 @@ class Engine:
                 self.withdraw_animal(character,world,target);return
             profile=m.scaled(m.PROFILES[target],signal.get('level'),state['level']);creature=self.creature_prose(room,target)
             ckey=f"{state['location']}:{target}"
+            # Cumbres: each fall against the same creature softens it 10% (max 30%) until the player wins.
+            falls=min(3,state.get('alivio',{}).get(target,0)) if profile.get('escala_jugador') else 0
+            if falls:profile=dict(profile,hp=round(profile['hp']*(1-.1*falls)),damage=round(profile['damage']*(1-.1*falls)))
             world.setdefault('encounters',{}).setdefault(ckey,character['id'])
             saved_hp=world.get('creature_states',{}).get(ckey,{}).get('hp')
-            start_hp=saved_hp if (saved_hp is not None and saved_hp>0) else profile['hp']
+            start_hp=min(saved_hp,profile['hp']) if (saved_hp is not None and saved_hp>0) else profile['hp']
             preps=m.preparations_for(profile,start_hp)
             prep_action=preps[0] if preps else profile.get('prepared_action')
             state['combat']={'creature':target,'profile':profile,'hp':start_hp,'round':0,'next_round':self.clock()+4,'prepared':bool(prep_action),'prepared_action':prep_action,'cooldown':0}
@@ -1614,6 +1620,7 @@ class Engine:
             state['events']=[event('danger',creature.get('combat_intro',creature.get('warning',f"{creature['name']} responde a tu acercamiento. Puedes intervenir antes de que actúe.")))]
             prepared=m.preparation(state['combat'])
             if prepared and prepared.get('tell'):state['events'].append(event('danger',prepared['tell']))
+            if falls:state['events'].append(event('info',f"{creature['name']} aún arrastra las marcas de tus intentos anteriores: pelea con {10*falls}% menos de vida y de fuerza. Observa su preparación y responde a tiempo."))
             active=m.get_active_numen(state)
             if active:state['events'].append(event('info',m.pick_numen_reaction(active,'combate_inicio',now=now_clock,rng=self.rng)))
         elif action=='atributo':
