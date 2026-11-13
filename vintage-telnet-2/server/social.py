@@ -1,11 +1,51 @@
 """Child-safe, in-game social actions for approved characters."""
 import json
+from pathlib import Path
 
 
 ONLINE_SECONDS = 45
 WHISPER_WINDOW = 60
 WHISPER_LIMIT = 5
 GIFT_SECONDS = 60
+# Buzón de quejas y mejoras: solo UV.Diaz (Marcos). Mensajes y respuestas viven en runtime/, fuera de la base.
+BUZON_DIR = Path(__file__).resolve().parents[1] / 'runtime'
+BUZON_NAMES = {'uv.diaz'}
+
+
+def buzon_open(character):
+    return str(character.get('name', '')).casefold() in BUZON_NAMES
+
+
+def _buzon_read():
+    messages = []
+    try:
+        lines = (BUZON_DIR / 'buzon.jsonl').read_text(encoding='utf-8').splitlines()
+    except FileNotFoundError:
+        lines = []
+    for line in lines:
+        try:
+            messages.append(json.loads(line))
+        except ValueError:
+            pass
+    try:
+        replies = json.loads((BUZON_DIR / 'buzon-respuestas.json').read_text(encoding='utf-8'))
+    except (FileNotFoundError, ValueError):
+        replies = {}
+    return messages, replies
+
+
+def buzon_notice(character):
+    """Announce each new reply once."""
+    if not buzon_open(character):
+        return
+    state = character['state']
+    messages, replies = _buzon_read()
+    seen = state.setdefault('buzon_avisadas', [])
+    new = [m['id'] for m in messages if m.get('character_id') == character['id'] and m['id'] in replies and m['id'] not in seen]
+    if new:
+        seen.extend(new)
+        del seen[:-50]
+        state.setdefault('events', []).append({'kind': 'info', 'text': f"Claudi respondió en tu buzón ({len(new)}). Escribe «buzón» para leerlo."})
 
 
 def _name(value):
@@ -57,7 +97,7 @@ def snapshot(db, world, character, engine, now):
                       if p['id'] in group_ids],
             'following': int(followers[cid]) if cid in followers else None,
             'invites': [int(v['from']) for v in invitations.get(cid, [])],
-            'gift_pending': gift, 'whispers': inbox}
+            'gift_pending': gift, 'whispers': inbox, 'buzon': buzon_open(character)}
 
 
 def _player(db, world, name, actor, now, same_room=False):
@@ -104,6 +144,30 @@ def run(db, world, actor, engine, command, now):
             if value.casefold().startswith(name.casefold() + ' '):
                 return name, value[len(name):].strip()
         return None, None
+
+    if low.split(' ', 1)[0] in ('buzon', 'buzón'):
+        if not buzon_open(actor):
+            raise ValueError('El buzón de quejas y mejoras aún no está abierto para este personaje.')
+        body = text.split(' ', 1)[1].strip() if ' ' in text else ''
+        if len(body) > 500:
+            raise ValueError('Tu mensaje es muy largo: máximo 500 letras.')
+        if body:
+            BUZON_DIR.mkdir(exist_ok=True)
+            message = {'id': str(int(now*1000)), 'character_id': actor['id'], 'name': actor['name'],
+                       'room': state.get('location'), 'level': state.get('level'), 'at': now, 'text': body}
+            with open(BUZON_DIR / 'buzon.jsonl', 'a', encoding='utf-8') as handle:
+                handle.write(json.dumps(message, ensure_ascii=False) + '\n')
+            event('Tu mensaje llegó al buzón de quejas y mejoras. Claudi lo leerá y te contestará aquí: escribe «buzón» para ver las respuestas.')
+        else:
+            messages, replies = _buzon_read()
+            mine = [m for m in messages if m.get('character_id') == actor['id']][-5:]
+            if not mine:
+                event('Tu buzón está vacío. Escribe «buzón» y luego tu duda, queja o idea.')
+            for m in mine:
+                event(f"Tú: {m['text']} · Claudi: {replies.get(m['id'], 'todavía no responde.')}")
+            seen = state.setdefault('buzon_avisadas', [])
+            seen.extend(m['id'] for m in mine if m['id'] in replies and m['id'] not in seen)
+        return True
 
     if low in ('quien', 'quién', 'quienes', 'quiénes'):
         names = [p['name'] for p in snapshot(db, world, actor, engine, now)['online_players']]
