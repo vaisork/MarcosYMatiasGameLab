@@ -9,6 +9,11 @@ export const PORTALES = Object.freeze({
   'vaisgard-oeste': Object.freeze({ cartel: 'vaisgard-oeste', mundo: 'vaisgard', nombre: 'Vaisgard', duracion: DURACION_MUNDO }),
   taqueria: Object.freeze({ cartel: 'taqueria', mundo: 'taqueria', nombre: 'Mundo Taco', duracion: DURACION_MUNDO }),
   'taqueria-sur': Object.freeze({ cartel: 'taqueria-sur', mundo: 'taqueria', nombre: 'Mundo Taco', duracion: DURACION_MUNDO }),
+  neon: Object.freeze({ cartel: 'neon', mundo: 'neon', nombre: 'Ciudad Neón', duracion: DURACION_MUNDO }),
+  'neon-oeste': Object.freeze({ cartel: 'neon-oeste', mundo: 'neon', nombre: 'Ciudad Neón', duracion: DURACION_MUNDO }),
+  luke: Object.freeze({ cartel: 'luke', mundo: 'luke', nombre: 'Patitas de Luke', duracion: DURACION_MUNDO }),
+  busqueda: Object.freeze({ cartel: 'busqueda', mundo: 'busqueda', nombre: 'Cacería del Gato Mecánico', duracion: DURACION_MUNDO }),
+  'busqueda-sur': Object.freeze({ cartel: 'busqueda-sur', mundo: 'busqueda', nombre: 'Cacería del Gato Mecánico', duracion: DURACION_MUNDO }),
   ultragato: Object.freeze({ cartel: 'ultragato', mundo: null, nombre: 'Ultra Gato', duracion: DURACION_ULTRA }),
 });
 

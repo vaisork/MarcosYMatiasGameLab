@@ -2,6 +2,7 @@
 // con ventanas en shader, tinacos, cactus y posiciones de churus.
 import * as THREE from 'three';
 import { CARTELES } from './carteles.mjs';
+import { PORTALES } from './portales.mjs';
 import { PALETA_CIUDAD, crearPerfilLejano, luzVertice, zonaBarrio, alturaBarrio } from './arte.mjs';
 import { avanzarRuta, nivelAnochecer, pasoPaloma } from './vida.mjs';
 
@@ -190,6 +191,8 @@ function crearCarteles(cajas, scene) {
   const candidatos = cajas.filter((c) => c.max.x - c.min.x >= 10 && c.max.z - c.min.z >= 10);
   const coloresMarco = [0xff5794, 0xffd14f, 0x42e3dc, 0xb48cff, 0xff824a];
   const porTextura = new Map();
+  const portalArtes = [];
+  const portalLoader = new THREE.TextureLoader();
   const barras = [], bombillas = [], postes = [], marquesinas = [], neones = [];
   const giratorioIndex = anuncios.findIndex(({ giro }) => giro);
 
@@ -221,6 +224,12 @@ function crearCarteles(cajas, scene) {
     const y = anuncio.kiosco ? 4.1 : techo ? caja.max.y + alto * 0.55 : Math.max(8, Math.min(18, caja.max.y * 0.58));
     const item = { anuncio, x, y, z, ancho, alto, rotY, techo, color: coloresMarco[k % coloresMarco.length] };
     ubicaciones.push(item);
+    if (PORTALES[anuncio.id]?.mundo) {
+      const materialArte = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, toneMapped: false });
+      const arte = new THREE.Mesh(new THREE.PlaneGeometry(ancho, alto), materialArte);
+      arte.position.set(x, y, z); arte.rotation.y = rotY; arte.translateZ(0.012); arte.renderOrder = 3; scene.add(arte);
+      portalArtes.push({ item, arte, opacity: 0, textura: null, cargando: false });
+    }
 
     const back = 0.54;
     // Perímetro grueso en cuatro piezas y bastidor posterior con largueros.
@@ -322,6 +331,26 @@ function crearCarteles(cajas, scene) {
 
   return {
     ubicaciones,
+    animarPortal(pos, dt) {
+      let cerca = null, distancia = Infinity;
+      for (const p of portalArtes) {
+        const d = Math.hypot(pos.x-p.item.x,pos.y-p.item.y,pos.z-p.item.z);
+        if (d < 8 && d < distancia) { cerca=p; distancia=d; }
+      }
+      for (const p of portalArtes) {
+        const meta = p === cerca ? 1 : 0;
+        p.opacity += (meta-p.opacity) * Math.min(1,dt*3);
+        p.arte.material.opacity=p.opacity;
+        if (meta && !p.textura && !p.cargando) {
+          p.cargando=true;
+          const id=PORTALES[p.item.anuncio.id]?.mundo || p.item.anuncio.id;  // un arte por mundo, no por cartel
+          portalLoader.load(new URL(`../texturas/portales/${id}.webp`, import.meta.url).href, tex=>{
+            tex.colorSpace=THREE.SRGBColorSpace; p.textura=tex; p.arte.material.map=tex; p.arte.material.needsUpdate=true; p.cargando=false;
+          }, undefined, ()=>{p.cargando=false;});
+        }
+      }
+      for (const p of portalArtes) if (p!==cerca && p.opacity<0.02 && p.textura) { p.textura.dispose();p.arte.material.map=null;p.arte.material.needsUpdate=true;p.textura=null; }
+    },
     animar(tiempo) {
       const t = tiempo * 0.001;
       if (bombillaMaterial.userData.shader) bombillaMaterial.userData.shader.uniforms.uCartelTime.value = t;

@@ -26,6 +26,6 @@ test('Ultra Gato dura 15 segundos y cartel enfría por 60', () => {
 
 test('cartel desconocido no hace nada', () => {
   const estado = crearEstadoPortales();
-  assert.equal(abrirPortal(estado, 'neon', 0), null);
+  assert.equal(abrirPortal(estado, 'xx', 0), null);
   assert.equal(salirPortal(estado, 0), 0);
 });
