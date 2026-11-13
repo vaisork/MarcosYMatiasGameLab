@@ -7,9 +7,9 @@ ONLINE_SECONDS = 45
 WHISPER_WINDOW = 60
 WHISPER_LIMIT = 5
 GIFT_SECONDS = 60
-# Buzón de quejas y mejoras: solo UV.Diaz (Marcos). Mensajes y respuestas viven en runtime/, fuera de la base.
+# Buzón de quejas y mejoras de Vintage Telnet, Senku 2 y Senku VR: solo UV.Diaz (Marcos) y Fs gato (Matías). Mensajes y respuestas viven en runtime/, fuera de la base.
 BUZON_DIR = Path(__file__).resolve().parents[1] / 'runtime'
-BUZON_NAMES = {'uv.diaz'}
+BUZON_NAMES = {'uv.diaz', 'fs gato'}
 
 
 def buzon_open(character):
@@ -162,7 +162,7 @@ def run(db, world, actor, engine, command, now):
             messages, replies = _buzon_read()
             mine = [m for m in messages if m.get('character_id') == actor['id']][-5:]
             if not mine:
-                event('Tu buzón está vacío. Escribe «buzón» y luego tu duda, queja o idea.')
+                event('Tu buzón está vacío. Escribe «buzón» y luego tu duda, queja o idea para Vintage Telnet, Senku 2 o Senku VR.')
             for m in mine:
                 event(f"Tú: {m['text']} · Claudi: {replies.get(m['id'], 'todavía no responde.')}")
             seen = state.setdefault('buzon_avisadas', [])

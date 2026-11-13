@@ -43,7 +43,7 @@ class BuzonTests(unittest.TestCase):
         from server.engine import Engine
         engine = Engine(Content(ROOT / 'content'), lambda: 100000, rng=random.Random(1))
         world = {'version': 0, 'flags': [], 'deaths': {}, 'weather': {}, 'encounters': {}, 'legends': {}, 'creature_states': {}}
-        for name, shown in (('UV.Diaz', True), ('Otro', False)):
+        for name, shown in (('UV.Diaz', True), ('Fs gato', True), ('Otro', False)):
             state = marcos()
             character = {'id': 6, 'name': name, 'species': 'humano', 'class_id': 'arcano', 'status': 'approved', 'state': state}
             engine.apply(character, world, {'id': 'ayuda', 'target': ''})

@@ -1332,7 +1332,7 @@ class Engine:
             self.speedwalk(character,world,intent);return
         if action in ('ayuda','inventario'):
             if action=='ayuda':
-                if not target:text='Comandos básicos: mirar, observar, examinar <objeto>, ir <salida>, hablar con <nombre>, inventario.'+('\nBuzón de quejas y mejoras: escribe «buzón» y tu duda, queja o lo que quieras pedir; Claudi te contesta aquí. «buzón» solo muestra las respuestas.' if social.buzon_open(character) else '')
+                if not target:text='Comandos básicos: mirar, observar, examinar <objeto>, ir <salida>, hablar con <nombre>, inventario.'+('\nBuzón de quejas y mejoras: escribe «buzón» y tu duda, queja o lo que quieras pedir para Vintage Telnet, Senku 2 o Senku VR; Claudi te contesta aquí. «buzón» solo muestra las respuestas.' if social.buzon_open(character) else '')
                 else:
                     fichas=list(self.HELP_TOPICS.values()) if target=='*' else [self.HELP_TOPICS[target]]
                     text='\n\n'.join('\n'.join(ficha) for ficha in fichas)
