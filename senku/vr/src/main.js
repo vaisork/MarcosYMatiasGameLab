@@ -8,7 +8,7 @@ import { crearMundo, CUADRA } from './mundo.js';
 import { iniciarSonido, sonar } from './sonido.js';
 import { NOMBRE_PODER, PODER, CLAVE_PODER, crearBarra, barraLlena, cargarBarra, dispararPoder, masCercano, crearRatoncito, pasoRatoncito, tocaRatoncito } from './poder.mjs';
 import { PORTALES, abrirPortal, crearEstadoPortales, salirPortal, portalExpirado, ultraActivo } from './portales.mjs';
-import { crearMundosPortales } from './mundos-portales.js';
+import { crearMundos } from './mundos/indice.js';
 import { CUERDAS, PATAS, tramoCuerda, muestraCuerda, muestraPata, leerEleccion, guardarEleccion } from './estilos.js';
 import { detectarSwipe, detectarSacudida, sacudidaDoble, masCercanoEnfrente, listoZarpazo } from './movil.mjs';
 
@@ -37,9 +37,11 @@ rig.add(camera);
 scene.add(rig);
 const mundo = crearMundo(scene);
 scene.add(mundo.grupo);
-const mundosPortales = crearMundosPortales(scene);
+const mundosPortales = crearMundos(scene);
 const cajasCiudad = mundo.cajas;
 const fondoCiudad = scene.background.clone(), nieblaCiudad = scene.fog;
+const estelaNeon = new THREE.InstancedMesh(new THREE.SphereGeometry(0.045, 5, 4), new THREE.MeshBasicMaterial({ color: 0x56f3ff }), 12);
+estelaNeon.visible = false; scene.add(estelaNeon); let estelaNeonHasta = 0, estelaNeonPendiente = false;
 
 addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight;
@@ -696,6 +698,9 @@ function mostrarAviso(lineas, seg = 2.5) {
 const flashPortal = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 2.2), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthTest: false, depthWrite: false }));
 flashPortal.position.set(0, 0, -0.8); flashPortal.renderOrder = 1000; camera.add(flashPortal);
 const remolinoPortal = new THREE.Group(); remolinoPortal.position.set(0, 0, -1.6); camera.add(remolinoPortal);
+const arteRemolino = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1.5), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
+remolinoPortal.add(arteRemolino);
+let texturaRemolino = null;
 const aroPortal = new THREE.Mesh(new THREE.TorusGeometry(0.38, 0.035, 6, 20), new THREE.MeshBasicMaterial({ color: 0x8ffff0, transparent: true, opacity: 0 }));
 remolinoPortal.add(aroPortal);
 let efectoPortalHasta = 0;
@@ -713,6 +718,14 @@ function abrirCartel(id) {
   if (!portal) {
     if (id === 'ultragato' && ahora < estadoPortales.ultraDisponible) mostrarAviso(['Ultra Gato descansando'], 1.5);
     return false;
+  }
+  if (portal.mundo) {
+    texturaRemolino?.dispose();
+    texturaRemolino = new THREE.TextureLoader().load(new URL(`../texturas/portales/${portal.mundo}.webp`, import.meta.url).href, tex => {
+      if (texturaRemolino!==tex) return;
+      tex.colorSpace=THREE.SRGBColorSpace; arteRemolino.material.map=tex; arteRemolino.material.opacity=0.9; arteRemolino.material.needsUpdate=true;
+    });
+    texturaRemolino.colorSpace=THREE.SRGBColorSpace; arteRemolino.material.map=texturaRemolino; arteRemolino.material.opacity=0.9; arteRemolino.material.needsUpdate=true;
   }
   efectoPortal();
   if (!portal.mundo) {
@@ -733,13 +746,14 @@ function abrirCartel(id) {
   jugadora.pos.x = 0; jugadora.pos.y = 1; jugadora.pos.z = 0;
   jugadora.vel.x = jugadora.vel.y = jugadora.vel.z = 0;
   rig.position.set(0, 0, 0);
-  mostrarAviso([portal.nombre, `Busca churus · ${portal.duracion} s`], 3);
+  mostrarAviso([portalActivo.nombre, portalActivo.objetivo?.texto || 'Explora el mundo', `${portal.duracion} s`], 3);
   return true;
 }
 
 function cerrarPortal() {
   if (!portalActivo) return false;
   const ahora = performance.now(), transcurrido = salirPortal(estadoPortales, ahora);
+  if (estelaNeonPendiente) { estelaNeonPendiente=false; estelaNeonHasta=ahora+60000; }
   if (inicio !== null && fin === null) inicio += transcurrido;
   if (reinicioEn) reinicioEn += transcurrido;
   portalActivo.grupo.visible = false;
@@ -774,23 +788,18 @@ function golpearEnemigoPortal(enemigo) {
 }
 
 function actualizarPortal(dt, ahora) {
-  for (const c of portalActivo.churus) {
-    if (!c.malla.visible) continue;
-    c.malla.position.y = c.base + Math.sin(ahora / 400 + c.fase) * 0.2;
-    if (c.malla.position.distanceTo(v1.set(jugadora.pos.x, jugadora.pos.y + 0.3, jugadora.pos.z)) < 1.5) {
-      c.malla.visible = false; sumarChurus(1); sonar.churu();
-      mostrarAviso(['¡Churu!', `Total ${totalChurus}`], 1.2);
-    }
-  }
-  for (const enemigo of portalActivo.enemigos) {
-    if (!enemigo.vivo) continue;
-    enemigo.grupo.rotation.y = Math.sin(ahora / 500 + enemigo.fase) * 0.3;
-    for (const mano of manos) {
-      if (mano.velMano.length() < 2.5) continue;
-      mano.garra.getWorldPosition(v1);
-      if (v1.distanceTo(enemigo.grupo.position) < 1.2) golpearEnemigoPortal(enemigo);
-    }
-  }
+  const estado = portalActivo.state;
+  portalActivo.actualizar?.(estado, dt, {
+    jugadora, manos,
+    cerca: (p, r) => Math.hypot(jugadora.pos.x-p.x,jugadora.pos.y-p.y,jugadora.pos.z-p.z)<r,
+    zarpazo: (p,r) => manos.some(m => m.velMano.length() >= 2.5 && (m.garra.getWorldPosition(v1), v1.distanceTo(p)<r)),
+    acariciar: (p,r) => manos.some(m => (m.garra.getWorldPosition(v1), v1.distanceTo(p)<r)),
+    atrapado: (p,r) => manos.some(m => m.lanzando?.acierta && m.lanzando.objetivo.distanceTo(p)<r || m.cuerda && Math.hypot(m.cuerda.ancla.x-p.x,m.cuerda.ancla.y-p.y,m.cuerda.ancla.z-p.z)<r),
+    jalaron: () => manos.some(m => m.presa || m.enfriarTiron > 0),
+    recoger: (lista) => { for(const c of lista){ if(!c.m.visible)continue;c.m.position.y=c.base+Math.sin(ahora/400+c.fase)*.2;if(c.m.position.distanceTo(v1.set(jugadora.pos.x,jugadora.pos.y+.3,jugadora.pos.z))<1.5){c.m.visible=false;sumarChurus(1);sonar.churu();}} },
+    golpearEnemigos: (lista) => { for(const e of lista){if(!e.vivo)continue;e.grupo.rotation.y=Math.sin(ahora/500+e.fase)*.3;for(const m of manos)if(m.velMano.length()>=2.5&&(m.garra.getWorldPosition(v1),v1.distanceTo(e.grupo.position)<1.2))golpearEnemigoPortal(e);}},
+    sumarChurus, sumarCorazon: (n) => {vida.vida=Math.min(VIDA.max,vida.vida+n);}, estelaNeon: () => {estelaNeonPendiente=true;}, avisar: (s) => mostrarAviso([s]), terminar: cerrarPortal,
+  });
   if (Math.hypot(jugadora.pos.x, jugadora.pos.y - 1, jugadora.pos.z - 4) < 1.5 || portalExpirado(estadoPortales, ahora)) cerrarPortal();
 }
 
@@ -806,7 +815,7 @@ let fpsVisible = false, fpsTexto = 'FPS: --', fpsFrames = 0, fpsDesde = performa
 function actualizarHUD() {
   const t = inicio === null ? 0 : (fin ?? performance.now()) - inicio;
   const lineas = ['♥'.repeat(vida.vida) + '♡'.repeat(VIDA.max - vida.vida) + `  Churus ${juntados}/${churus.length}`, `Total ${totalChurus} · Tiempo ${reloj(t)}`, record ? `Récord ${reloj(record)}` : 'Récord: -'];
-  if (portalActivo) lineas.push(`${portalActivo === mundosPortales.churus ? 'Mundo Churus' : portalActivo === mundosPortales.vaisgard ? 'Vaisgard' : 'Mundo Taco'} · ${Math.max(0, Math.ceil(PORTALES[estadoPortales.cartel].duracion - (performance.now() - estadoPortales.entra) / 1000))} s`);
+  if (portalActivo) lineas.push(`${portalActivo.nombre} · ${Math.max(0, Math.ceil(PORTALES[estadoPortales.cartel].duracion - (performance.now() - estadoPortales.entra) / 1000))} s`);
   if (ultraActivo(estadoPortales, performance.now())) lineas.push(`¡ULTRA GATO! ${Math.ceil((estadoPortales.ultraHasta - performance.now()) / 1000)} s`);
   if (fpsVisible) lineas.push(fpsTexto);
   const texto = lineas.join('|') + barra.carga;
@@ -1380,6 +1389,13 @@ renderer.setAnimationLoop(() => {
   if (menuAbierto) { if (renderer.xr.isPresenting) actualizarMenuVR(); }
   else if (jugando) actualizar(dt);
   mundo.carteles.animar(ahora);
+  if (!portalActivo) mundo.carteles.animarPortal(jugadora.pos, dt);
+  estelaNeon.visible = ahora < estelaNeonHasta;
+  if (estelaNeon.visible) {
+    const rapidez = Math.hypot(jugadora.vel.x, jugadora.vel.z) || 1;
+    for (let i = 0; i < 12; i++) { const t=i*.18,m=new THREE.Matrix4().setPosition(jugadora.pos.x-jugadora.vel.x/rapidez*t,jugadora.pos.y-.65+Math.sin(ahora/140+i)*.08,jugadora.pos.z-jugadora.vel.z/rapidez*t); estelaNeon.setMatrixAt(i,m); }
+    estelaNeon.instanceMatrix.needsUpdate=true;
+  }
   if (!portalActivo) mundo.vida.animar(ahora, jugadora.pos);
   camera.getWorldPosition(puntoCamara);
   mundo.domo.position.copy(puntoCamara);

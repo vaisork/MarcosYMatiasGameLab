@@ -25,7 +25,23 @@ a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, 
 
 ## Carteles-portal (idea de Matías)
 
-Acércate a menos de 2 m de un cartel o engánchalo con la garra para entrar. Churus, Vaisgard y Taco duran 60 s; junta churus y regresa por el aro brillante o al acabarse el tiempo. El reloj principal se pausa. Ultra Gato da poder ilimitado durante 15 s y cada cartel Ultra Gato descansa 60 s. En la consola del navegador, `senku.portal('churus')` entra y `senku.portal('salir')` vuelve.
+Acércate a menos de 2 m de un cartel o engánchalo con la garra para entrar. Los mundos duran 60 s; regresa por el aro brillante o al acabarse el tiempo. El reloj principal se pausa. Ultra Gato da poder ilimitado durante 15 s y cada cartel Ultra Gato descansa 60 s. En la consola del navegador, `senku.portal('churus')` entra y `senku.portal('salir')` vuelve.
+
+### Carteles y mundos
+
+| Cartel | Mundo |
+|---|---|
+| churus, churus-azotea | Mundo Churus |
+| vaisgard, vaisgard-oeste | Vaisgard |
+| taqueria, taqueria-sur | Mundo Taco |
+| neon, neon-oeste | Ciudad Neón |
+| luke | Patitas de Luke |
+| busqueda, busqueda-sur | Cacería del Gato Mecánico |
+| senku2, senku2-sur | Sin mundo asignado |
+| ultragato | Poder Ultra Gato; no abre mundo |
+| marcos-uv, fs-gato, rata-taqueria, botiquin, columpia-estilo, grieta-madre | Sin mundo asignado |
+
+Para agregar mundos, crea `src/mundos/<id>.js`, agrega su import y entrada en `src/mundos/indice.js`, una entrada por cartel en `src/portales.mjs`, arte `<cartel>.webp` en `texturas/portales/` y la fila correspondiente en esta tabla. Contrato: `src/mundos/LEEME.md`.
 
 ## Superpoder «Ultra Gato» (diseñado por Matías, 9 años)
 
@@ -112,7 +128,7 @@ Acércate a menos de 2 m de un cartel o engánchalo con la garra para entrar. Ch
 - `src/fisica.mjs`: física pura (cuerda-péndulo, gravedad, azoteas), sin Three.
 - `src/enemigos.mjs`: ratones, vida y escalada (lógica pura, sin Three).
 - `src/poder.mjs`: barrita y ratoncitos del Ultra Gato (lógica pura, sin Three).
-- `src/portales.mjs`: carteles-portal y temporizadores (lógica pura; pruebas en `tests/portales.test.mjs`). `src/mundos-portales.js` dibuja sus mundos low-poly.
+- `src/portales.mjs`: carteles-portal y temporizadores (lógica pura; pruebas en `tests/portales.test.mjs`). `src/mundos/` registra mundos por módulo; los carteles cargan su arte de portal al acercarse a menos de 8 m.
 - `src/mundo.js`: ciudad instanciada; `src/sonido.js`: sonidos Web Audio;
   `src/estilos.js`: cuerdas, patas y sus dibujos (menú y texturas).
 - Carteles de ciudad: 20 anuncios en `src/carteles.mjs`, con 14 texturas WebP
