@@ -1,1 +1,1 @@
-export const IDS_MUNDOS = Object.freeze(['churus', 'vaisgard', 'taqueria', 'neon', 'luke', 'busqueda']);
+export const IDS_MUNDOS = Object.freeze(['churus', 'vaisgard', 'taqueria', 'neon', 'luke', 'busqueda', 'marcos-uv', 'fs-gato', 'rata-taqueria', 'columpia-estilo', 'botiquin', 'senku2', 'grieta-madre']);

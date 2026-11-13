@@ -37,9 +37,18 @@ Acércate a menos de 2 m de un cartel o engánchalo con la garra para entrar. Lo
 | neon, neon-oeste | Ciudad Neón |
 | luke | Patitas de Luke |
 | busqueda, busqueda-sur | Cacería del Gato Mecánico |
+| marcos-uv | Cuarto de Luz UV |
+| fs-gato | Pecera Cielo |
+| rata-taqueria | Cocina de la Rata |
+| columpia-estilo | Pista de Trucos |
 | senku2, senku2-sur | Sin mundo asignado |
 | ultragato | Poder Ultra Gato; no abre mundo |
-| marcos-uv, fs-gato, rata-taqueria, botiquin, columpia-estilo, grieta-madre | Sin mundo asignado |
+| botiquin, grieta-madre | Sin mundo asignado |
+| senku2, senku2-sur | Pista Senku 2 |
+| botiquin | Clínica de Héroes |
+| grieta-madre | La Grieta Madre |
+| ultragato | Poder Ultra Gato; no abre mundo |
+| marcos-uv, fs-gato, rata-taqueria, columpia-estilo | Sin mundo asignado |
 
 Para agregar mundos, crea `src/mundos/<id>.js`, agrega su import y entrada en `src/mundos/indice.js`, una entrada por cartel en `src/portales.mjs`, arte `<cartel>.webp` en `texturas/portales/` y la fila correspondiente en esta tabla. Contrato: `src/mundos/LEEME.md`.
 
