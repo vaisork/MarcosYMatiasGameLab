@@ -68,6 +68,12 @@ a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, 
   promedian. Al soltar sales lanzada al revés de la mano (×1.4, tope 12 m/s).
   Sin visor: C frente a una pared (≤ 2.5 m) te pega a ella; W/S sube y baja,
   A/D de lado, espacio salta hacia atrás; al llegar arriba pisas la azotea.
+- **Celular**: arrastra a la izquierda para caminar y a la derecha para mirar.
+  Un swipe rápido da un zarpazo al ratón vivo más cercano que esté enfrente y a
+  menos de 2.5 m; también puedes sacudir el teléfono. Ambos comparten el
+  enfriamiento de 0.35 s, el golpe normal, sonido y vibración. Activa o desactiva
+  **📱 Mira** para mirar moviendo el teléfono; el ajuste se guarda. En iPhone,
+  toca el botón para conceder permiso a los sensores. El arrastre sigue activo.
 - Al entrar en VR aparece el aviso «Palanca izquierda: caminar · Agarre en una
   pared: escalar».
 - Modelos: `modelos/raton_negro.glb`, `raton_cafe.glb`, `hamster.glb` (Meshy
