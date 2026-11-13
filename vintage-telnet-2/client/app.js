@@ -1003,8 +1003,10 @@ function discoveredMap(map,selected,onSelect){
   roads.append(svgNode('path',attrs));
  });if(art){
   // Fog: the painting is only visible around places this character has discovered.
-  const left=82-minX*CX-CX/2,top=66-minY*CY-CY/2,hole=([x,y],inner,outer)=>`radial-gradient(circle at ${x-left}px ${y-top}px,#000 ${inner}px,transparent ${outer}px)`,clear=[...map.nodes.map(node=>hole(point(node.id),CX*2.16,CX*3.6)),...links.map(link=>{const mid=link.points[Math.floor(link.points.length/2)];return hole(pixel(mid),CX*1.8,CX*3.12);})].join(',');
+  const left=82-minX*CX-CX/2,top=66-minY*CY-CY/2,hole=([x,y],inner,outer,t)=>`radial-gradient(circle at ${x-left}px ${y-t}px,#000 ${inner}px,transparent ${outer}px)`,fog=t=>[...map.nodes.map(node=>hole(point(node.id),CX*2.16,CX*3.6,t)),...links.map(link=>{const mid=link.points[Math.floor(link.points.length/2)];return hole(pixel(mid),CX*1.8,CX*3.12,t);})].join(','),clear=fog(top);
   sheet.append(el('div',{class:'world-art','aria-hidden':true,style:`left:${left}px;top:${top}px;width:${35*CX}px;height:${42*CY}px;background-image:url(${worldArt});-webkit-mask-image:${clear};mask-image:${clear}`}));
+  // The painting ends at y=0; Las Cumbres Veladas lies north of it (cells y<0), so it gets its own ember wash.
+  const north=minY<0?-minY*CY+CY:0,washTop=top-north,wash=fog(washTop);if(north)sheet.append(el('div',{class:'world-art world-art-cumbres','aria-hidden':true,style:`left:${left}px;top:${washTop}px;width:${35*CX}px;height:${north}px;-webkit-mask-image:${wash};mask-image:${wash}`}));
  }
  sheet.append(roads);
  const vectors={norte:[0,-1],sur:[0,1],este:[1,0],oeste:[-1,0]};

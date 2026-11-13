@@ -626,7 +626,7 @@ html.small-reading{--reading-size:14px}
 html.large-reading{--reading-size:22px}
 /* Mapa ilustrado con niebla: el dibujo sólo aparece alrededor de lo descubierto */
 .discovered-map.with-world-art{overflow:hidden;background:radial-gradient(circle at 50% 40%,#f4f8ff,#dfe9f7 70%,#cfdcef)}
-.discovered-map .world-art{position:absolute;z-index:0;background-size:100% 100%;background-repeat:no-repeat;pointer-events:none;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.discovered-map .world-art-cumbres{background-image:linear-gradient(180deg,#5b2a22,#a4482c 55%,#c9793f)}.discovered-map .world-art{position:absolute;z-index:0;background-size:100% 100%;background-repeat:no-repeat;pointer-events:none;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
 .discovered-map.with-world-art .discovered-roads{position:relative;z-index:1}
 .discovered-map.with-world-art .discovered-place,.discovered-map.with-world-art .discovered-frontier{z-index:2}
 html.playing-map body #navigation .game-tabs{grid-template-columns:repeat(7,minmax(0,1fr))}

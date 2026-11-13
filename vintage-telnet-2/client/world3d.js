@@ -1,7 +1,7 @@
 import * as T from './vendor/three.module.js';
 import {disposeModel,loadSpeciesModel} from './model-assets.js';
 import {discoveredPaths} from './ui-data.js';
-const regionColors={edran:0xb6bb72,hoshai:0xa7bcc5,korven:0xa29b89,lethra:0x65a9ac,nhal:0x66896f,veyra:0xbaaa91,cumbres:0x6f6763};
+const regionColors={edran:0xb6bb72,hoshai:0xa7bcc5,korven:0xa29b89,lethra:0x65a9ac,nhal:0x66896f,veyra:0xbaaa91,cumbres:0xa4482c};
 function material(color){return new T.MeshToonMaterial({color});}
 function shape(group,geo,color,x=0,y=0,z=0,sx=1,sy=1,sz=1){const m=new T.Mesh(geo,material(color));m.position.set(x,y,z);m.scale.set(sx,sy,sz);group.add(m);return m;}
 function ball(g,c,x,y,z,sx,sy=sx,sz=sx){return shape(g,new T.SphereGeometry(1,16,12),c,x,y,z,sx,sy,sz);}
