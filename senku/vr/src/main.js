@@ -7,6 +7,8 @@ import { TIPOS, ZARPAZO, VIDA, crearEnemigo, golpear, esZarpazo, pasoEnemigo, to
 import { crearMundo, CUADRA } from './mundo.js';
 import { iniciarSonido, sonar } from './sonido.js';
 import { NOMBRE_PODER, PODER, CLAVE_PODER, crearBarra, barraLlena, cargarBarra, dispararPoder, masCercano, crearRatoncito, pasoRatoncito, tocaRatoncito } from './poder.mjs';
+import { PORTALES, abrirPortal, crearEstadoPortales, salirPortal, portalExpirado, ultraActivo } from './portales.mjs';
+import { crearMundosPortales } from './mundos-portales.js';
 import { CUERDAS, PATAS, tramoCuerda, muestraCuerda, muestraPata, leerEleccion, guardarEleccion } from './estilos.js';
 import { detectarSwipe, detectarSacudida, sacudidaDoble, masCercanoEnfrente, listoZarpazo } from './movil.mjs';
 
@@ -34,6 +36,10 @@ const rig = new THREE.Group();
 rig.add(camera);
 scene.add(rig);
 const mundo = crearMundo(scene);
+scene.add(mundo.grupo);
+const mundosPortales = crearMundosPortales(scene);
+const cajasCiudad = mundo.cajas;
+const fondoCiudad = scene.background.clone(), nieblaCiudad = scene.fog;
 
 addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight;
@@ -45,6 +51,9 @@ addEventListener('resize', () => {
 const jugadora = { pos: { x: 0, y: CUERPO, z: 0 }, vel: { x: 0, y: 0, z: 0 }, enSuelo: true };
 const cuerdas = [];
 let jugando = false, inicio = null, fin = null, juntados = 0, reinicioEn = 0;
+const estadoPortales = crearEstadoPortales();
+let portalActivo = null, portalRegreso = null;
+let churusCiudadVisibles = [];
 let vineta = true, yaw = 0, pitch = 0;
 const leerRecord = () => { try { return Number(localStorage.getItem(CLAVE_RECORD)) || null; } catch { return null; } };
 const guardarRecord = (s) => { try { localStorage.setItem(CLAVE_RECORD, String(s)); } catch { /* sin almacenamiento */ } };
@@ -242,9 +251,33 @@ function rayo(m, origen, dir) {
   }
 }
 
+function interseccionCartel(origen, dir) {
+  let mejor = null;
+  for (const cartel of mundo.carteles.ubicaciones) {
+    const { x, y, z, ancho, alto, rotY, anuncio } = cartel;
+    const normal = v3.set(Math.sin(rotY), 0, Math.cos(rotY));
+    const centro = v2.set(x, y, z);
+    const denom = dir.dot(normal);
+    if (Math.abs(denom) < 0.0001) continue;
+    const t = centro.sub(origen).dot(normal) / denom;
+    if (t <= 0 || t > ALCANCE || (mejor && t >= mejor.dist)) continue;
+    const px = origen.x + dir.x * t - x, py = origen.y + dir.y * t - y, pz = origen.z + dir.z * t - z;
+    const localX = px * Math.cos(rotY) - pz * Math.sin(rotY);
+    if (Math.abs(localX) > ancho / 2 || Math.abs(py) > alto / 2) continue;
+    mejor = { cartel: anuncio.id, punto: origen.clone().addScaledVector(dir, t), dist: t };
+  }
+  return mejor;
+}
+
 function golpe(origen, dir) {
+  if (portalActivo) {
+    raycaster.set(origen, dir);
+    return raycaster.intersectObject(portalActivo.grupo, true)[0]?.point || null;
+  }
   raycaster.set(origen, dir);
-  return raycaster.intersectObject(mundo.edificios, false)[0]?.point || null;
+  const ciudad = raycaster.intersectObject(mundo.edificios, false)[0]?.point || null;
+  const cartel = interseccionCartel(origen, dir);
+  return cartel && (!ciudad || origen.distanceTo(cartel.punto) < origen.distanceTo(ciudad)) ? cartel.punto : ciudad;
 }
 // Ratón apuntado (antes que el edificio de atrás): devuelve el enemigo o null.
 // Se prueba contra una esfera por ratón (nada de triángulos: barato en el Quest).
@@ -283,10 +316,20 @@ function disparar(m) {
   empezar();
   const o = new THREE.Vector3(), d = new THREE.Vector3();
   rayo(m, o, d);
-  const pe = golpeEnemigo(o, d);
+  if (portalActivo) {
+    for (const enemigo of portalActivo.enemigos) {
+      if (!enemigo.vivo) continue;
+      raycaster.set(o, d);
+      const golpeRaton = raycaster.intersectObject(enemigo.grupo, true)[0];
+      if (golpeRaton && o.distanceTo(golpeRaton.point) < 2.5) { golpearEnemigoPortal(enemigo); return; }
+    }
+  }
+  const pe = portalActivo ? null : golpeEnemigo(o, d);
   if (pe && !renderer.xr.isPresenting && o.distanceTo(posEnemigo(pe)) < 2.4) { golpearEnemigo(pe, m); return; } // sin visor: clic de cerca = zarpazo
-  const p = pe ? posEnemigo(pe).clone() : buscarAncla(o, d);
-  m.lanzando = { objetivo: p || o.clone().addScaledVector(d, ALCANCE), acierta: !!p, presa: pe, t: 0, dist: p ? o.distanceTo(p) : ALCANCE };
+  const portal = portalActivo ? null : interseccionCartel(o, d);
+  const cartelVisible = portal && golpe(o, d)?.distanceTo(portal.punto) < 0.01 ? portal : null;
+  const p = pe ? posEnemigo(pe).clone() : cartelVisible?.punto || buscarAncla(o, d);
+  m.lanzando = { objetivo: p || o.clone().addScaledVector(d, ALCANCE), acierta: !!p, presa: pe, portal: cartelVisible?.cartel || null, t: 0, dist: p ? o.distanceTo(p) : ALCANCE };
   sonar.lanzar(eleccion.cuerda);
   vibrar(m, 0.3, 20);
 }
@@ -389,7 +432,9 @@ function actualizarMano(m, dt) {
     dibujarLinea(m, v1, v2.lerpVectors(v1, L.objetivo, p));
     if (p >= 1) {
       m.lanzando = null;
-      if (L.presa && L.presa.estado !== 'poof' && L.presa.estado !== 'muerto') { // atrapado: se queda quieto hasta que jales o sueltes
+      if (L.portal) {
+        abrirCartel(L.portal);
+      } else if (L.presa && L.presa.estado !== 'poof' && L.presa.estado !== 'muerto') { // atrapado: se queda quieto hasta que jales o sueltes
         if (m.apretado) { m.presa = L.presa; L.presa.estado = 'atrapado'; L.presa.t = 0; sonar.enganchar(eleccion.cuerda); vibrar(m, 0.6, 40); }
       } else if (L.acierta && m.apretado) {
         m.cuerda = crearCuerda(jugadora.pos, L.objetivo);
@@ -416,7 +461,7 @@ function actualizarMano(m, dt) {
   if (!m.cuerda && !m.presa && !m.lanzando && (renderer.xr.isPresenting || m.i === 0)) {
     const o = new THREE.Vector3(), d = new THREE.Vector3();
     rayo(m, o, d);
-    const pe = golpeEnemigo(o, d);
+    const pe = portalActivo ? null : golpeEnemigo(o, d);
     const p = pe ? posEnemigo(pe) : golpe(o, d);
     if (p) {
       m.mira.visible = true;
@@ -647,11 +692,122 @@ function mostrarAviso(lineas, seg = 2.5) {
   $('aviso').textContent = lineas.join(' · ');
   $('aviso').hidden = false;
 }
+
+const flashPortal = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 2.2), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthTest: false, depthWrite: false }));
+flashPortal.position.set(0, 0, -0.8); flashPortal.renderOrder = 1000; camera.add(flashPortal);
+const remolinoPortal = new THREE.Group(); remolinoPortal.position.set(0, 0, -1.6); camera.add(remolinoPortal);
+const aroPortal = new THREE.Mesh(new THREE.TorusGeometry(0.38, 0.035, 6, 20), new THREE.MeshBasicMaterial({ color: 0x8ffff0, transparent: true, opacity: 0 }));
+remolinoPortal.add(aroPortal);
+let efectoPortalHasta = 0;
+function efectoPortal() {
+  iniciarSonido(); sonar.portal();
+  efectoPortalHasta = performance.now() + 850;
+  flashPortal.material.opacity = 0.82;
+  aroPortal.material.opacity = 1;
+  remolinoPortal.visible = flashPortal.visible = true;
+  remolinoPortal.scale.setScalar(0.3);
+}
+
+function abrirCartel(id) {
+  const ahora = performance.now(), portal = abrirPortal(estadoPortales, id, ahora);
+  if (!portal) {
+    if (id === 'ultragato' && ahora < estadoPortales.ultraDisponible) mostrarAviso(['Ultra Gato descansando'], 1.5);
+    return false;
+  }
+  efectoPortal();
+  if (!portal.mundo) {
+    mostrarAviso(['¡ULTRA GATO!', 'Poder ilimitado · 15 s'], 2.5);
+    return true;
+  }
+  portalActivo = mundosPortales[portal.mundo];
+  portalRegreso = { x: jugadora.pos.x, y: jugadora.pos.y, z: jugadora.pos.z, cartel: id };
+  mundo.grupo.visible = false;
+  churusCiudadVisibles = churus.map((c) => c.visible);
+  churus.forEach((c) => { c.visible = false; });
+  enemigosGrupo.visible = false;
+  portalActivo.grupo.visible = true;
+  mundo.cajas = portalActivo.cajas;
+  scene.background = new THREE.Color(portalActivo.ambiente.cielo);
+  scene.fog = new THREE.Fog(portalActivo.ambiente.niebla, 42, 100);
+  manos.forEach(soltarMano);
+  jugadora.pos.x = 0; jugadora.pos.y = 1; jugadora.pos.z = 0;
+  jugadora.vel.x = jugadora.vel.y = jugadora.vel.z = 0;
+  rig.position.set(0, 0, 0);
+  mostrarAviso([portal.nombre, `Busca churus · ${portal.duracion} s`], 3);
+  return true;
+}
+
+function cerrarPortal() {
+  if (!portalActivo) return false;
+  const ahora = performance.now(), transcurrido = salirPortal(estadoPortales, ahora);
+  if (inicio !== null && fin === null) inicio += transcurrido;
+  if (reinicioEn) reinicioEn += transcurrido;
+  portalActivo.grupo.visible = false;
+  portalActivo = null;
+  mundo.grupo.visible = true;
+  mundo.cajas = cajasCiudad;
+  churus.forEach((c, i) => { c.visible = churusCiudadVisibles[i]; });
+  enemigosGrupo.visible = true;
+  scene.background = fondoCiudad;
+  scene.fog = nieblaCiudad;
+  jugadora.pos.x = portalRegreso.x; jugadora.pos.y = portalRegreso.y; jugadora.pos.z = portalRegreso.z;
+  jugadora.vel.x = jugadora.vel.y = jugadora.vel.z = 0;
+  rig.position.set(jugadora.pos.x, jugadora.pos.y - CUERPO, jugadora.pos.z);
+  portalRegresoHasta = ahora + 1400;
+  mostrarAviso(['¡De vuelta en la ciudad!', `Cartel ${portalRegreso.cartel}`], 2);
+  efectoPortal();
+  return true;
+}
+
+function distanciaCartel(pos, cartel) {
+  const dx = pos.x - cartel.x, dz = pos.z - cartel.z, c = Math.cos(cartel.rotY), s = Math.sin(cartel.rotY);
+  const lx = dx * c - dz * s, lz = dx * s + dz * c;
+  const lateral = Math.max(0, Math.abs(lx) - cartel.ancho / 2), vertical = Math.max(0, Math.abs(pos.y - cartel.y) - cartel.alto / 2);
+  return Math.hypot(lateral, vertical, lz);
+}
+
+function golpearEnemigoPortal(enemigo) {
+  if (!enemigo?.vivo) return;
+  enemigo.vivo = false; enemigo.grupo.visible = false;
+  sumarChurus(1); sonar.poof(); sonar.churu();
+  mostrarAviso(['¡Ratón esqueleto!', `Total ${totalChurus}`], 1.5);
+}
+
+function actualizarPortal(dt, ahora) {
+  for (const c of portalActivo.churus) {
+    if (!c.malla.visible) continue;
+    c.malla.position.y = c.base + Math.sin(ahora / 400 + c.fase) * 0.2;
+    if (c.malla.position.distanceTo(v1.set(jugadora.pos.x, jugadora.pos.y + 0.3, jugadora.pos.z)) < 1.5) {
+      c.malla.visible = false; sumarChurus(1); sonar.churu();
+      mostrarAviso(['¡Churu!', `Total ${totalChurus}`], 1.2);
+    }
+  }
+  for (const enemigo of portalActivo.enemigos) {
+    if (!enemigo.vivo) continue;
+    enemigo.grupo.rotation.y = Math.sin(ahora / 500 + enemigo.fase) * 0.3;
+    for (const mano of manos) {
+      if (mano.velMano.length() < 2.5) continue;
+      mano.garra.getWorldPosition(v1);
+      if (v1.distanceTo(enemigo.grupo.position) < 1.2) golpearEnemigoPortal(enemigo);
+    }
+  }
+  if (Math.hypot(jugadora.pos.x, jugadora.pos.y - 1, jugadora.pos.z - 4) < 1.5 || portalExpirado(estadoPortales, ahora)) cerrarPortal();
+}
+
+let portalRegresoHasta = 0;
+function revisarEntradaPortal() {
+  if (portalActivo || performance.now() < portalRegresoHasta) return;
+  for (const cartel of mundo.carteles.ubicaciones) {
+    if (distanciaCartel(jugadora.pos, cartel) < 2) { abrirCartel(cartel.anuncio.id); return; }
+  }
+}
 let hudTexto = '';
 let fpsVisible = false, fpsTexto = 'FPS: --', fpsFrames = 0, fpsDesde = performance.now();
 function actualizarHUD() {
   const t = inicio === null ? 0 : (fin ?? performance.now()) - inicio;
   const lineas = ['♥'.repeat(vida.vida) + '♡'.repeat(VIDA.max - vida.vida) + `  Churus ${juntados}/${churus.length}`, `Total ${totalChurus} · Tiempo ${reloj(t)}`, record ? `Récord ${reloj(record)}` : 'Récord: -'];
+  if (portalActivo) lineas.push(`${portalActivo === mundosPortales.churus ? 'Mundo Churus' : portalActivo === mundosPortales.vaisgard ? 'Vaisgard' : 'Mundo Taco'} · ${Math.max(0, Math.ceil(PORTALES[estadoPortales.cartel].duracion - (performance.now() - estadoPortales.entra) / 1000))} s`);
+  if (ultraActivo(estadoPortales, performance.now())) lineas.push(`¡ULTRA GATO! ${Math.ceil((estadoPortales.ultraHasta - performance.now()) / 1000)} s`);
   if (fpsVisible) lineas.push(fpsTexto);
   const texto = lineas.join('|') + barra.carga;
   if (texto === hudTexto) return;
@@ -875,6 +1031,7 @@ function reaparecer() {
 const barra = crearBarra((() => { try { return localStorage.getItem(CLAVE_PODER); } catch { return null; } })());
 const guardarBarra = () => { try { localStorage.setItem(CLAVE_PODER, String(barra.carga)); } catch { /* sin almacenamiento */ } };
 const ratoncitos = [], confetis = [];
+const MAX_RATONCITOS = 18; // ponytail: mantener acotado el número de mallas durante Ultra Gato ilimitado.
 const proto = (() => {
   const g = new THREE.Group();
   const gris = new THREE.MeshLambertMaterial({ color: 0x9aa0a8 }), rosa = new THREE.MeshLambertMaterial({ color: 0xf2a6b4 });
@@ -923,8 +1080,9 @@ function confeti(p) {
 
 function lanzarPoder(m) {
   if (!jugando || menuAbierto) return;
-  const n = dispararPoder(barra, cuerdas.length > 0);
-  if (n) guardarBarra();
+  const ilimitado = ultraActivo(estadoPortales, performance.now());
+  const n = ilimitado ? PODER.proyectiles + (cuerdas.length ? PODER.extraColumpio : 0) : dispararPoder(barra, cuerdas.length > 0);
+  if (n && !ilimitado) guardarBarra();
   if (!n) { sonar.fallo(); if (barra.carga < PODER.lleno) mostrarAviso([`${NOMBRE_PODER}: vence ratones para llenar la barrita`], 1.5); return; }
   empezar();
   const o = new THREE.Vector3(), d = new THREE.Vector3();
@@ -933,7 +1091,10 @@ function lanzarPoder(m) {
   const lado = new THREE.Vector3().crossVectors(d, ARRIBA).normalize();
   for (let k = 0; k < n; k++) {
     let r = ratoncitos.find((x) => !x.malla.visible);
-    if (!r) { r = { malla: proto.clone() }; scene.add(r.malla); ratoncitos.push(r); }
+    if (!r) {
+      if (ratoncitos.length < MAX_RATONCITOS) { r = { malla: proto.clone() }; scene.add(r.malla); ratoncitos.push(r); }
+      else r = ratoncitos.reduce((viejo, x) => x.t > viejo.t ? x : viejo);
+    }
     v1.copy(d).addScaledVector(lado, (k - (n - 1) / 2) * 0.22).addScaledVector(ARRIBA, 0.12).setLength(PODER.vel);
     Object.assign(r, crearRatoncito(o, v1), { fase: k });
     r.malla.visible = true; r.malla.position.copy(o);
@@ -1177,9 +1338,13 @@ function actualizar(dt) {
   if (!renderer.xr.isPresenting) camera.rotation.set(pitch, yaw, 0);
   rig.updateMatrixWorld(true);
   manos.forEach((m) => actualizarMano(m, dt));
-  recogerChurus(ahora / 1000);
-  actualizarEnemigos(dt, ahora / 1000);
-  actualizarPoder(dt, ahora / 1000);
+  if (portalActivo) actualizarPortal(dt, ahora);
+  else {
+    recogerChurus(ahora / 1000);
+    actualizarEnemigos(dt, ahora / 1000);
+    actualizarPoder(dt, ahora / 1000);
+    revisarEntradaPortal();
+  }
   if (reinicioEn && ahora > reinicioEn) reiniciarRonda();
   if (avisoHasta && ahora > avisoHasta) { aviso.mesh.visible = false; $('aviso').hidden = true; avisoHasta = 0; }
 
@@ -1193,6 +1358,13 @@ function actualizar(dt) {
   matVineta.uniforms.f.value = fuerzaVineta;
   malla.visible = fuerzaVineta > 0.01;
   sonar.viento(rapidez);
+  if (ahora < efectoPortalHasta) {
+    const t = 1 - (efectoPortalHasta - ahora) / 850;
+    remolinoPortal.rotation.z += dt * 4;
+    remolinoPortal.scale.setScalar(0.3 + t * 1.7);
+    aroPortal.material.opacity = 1 - t;
+    flashPortal.material.opacity = Math.max(0, 0.82 * (1 - t * 1.5));
+  } else remolinoPortal.visible = flashPortal.visible = false;
   actualizarHUD();
 }
 
@@ -1208,7 +1380,7 @@ renderer.setAnimationLoop(() => {
   if (menuAbierto) { if (renderer.xr.isPresenting) actualizarMenuVR(); }
   else if (jugando) actualizar(dt);
   mundo.carteles.animar(ahora);
-  mundo.vida.animar(ahora, jugadora.pos);
+  if (!portalActivo) mundo.vida.animar(ahora, jugadora.pos);
   camera.getWorldPosition(puntoCamara);
   mundo.domo.position.copy(puntoCamara);
   renderer.render(scene, camera);
@@ -1272,4 +1444,4 @@ botonVR.addEventListener('click', async () => {
 
 // Para pruebas desde la consola: senku.disparar(0), senku.soltar(0)... y
 // senku.avanzar(dt) corre un paso del juego aunque la pestaña esté oculta.
-window.senku = { avanzar: (dt) => { if (jugando && !menuAbierto) actualizar(dt); const ahora = performance.now(); mundo.carteles.animar(ahora); mundo.vida.animar(ahora, jugadora.pos); renderer.render(scene, camera); }, jugadora, manos, churus, eleccion, enemigos, vida, vidaCiudad: mundo.vida, abrirMenu, cerrarMenu, menuLienzo, activar, golpearEnemigo, alternarEscalada, total: () => totalChurus, barra, ratoncitos, poder: (i = 1) => lanzarPoder(manos[i]), disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; } };
+window.senku = { avanzar: (dt) => { if (jugando && !menuAbierto) actualizar(dt); const ahora = performance.now(); mundo.carteles.animar(ahora); if (!portalActivo) mundo.vida.animar(ahora, jugadora.pos); renderer.render(scene, camera); }, jugadora, manos, churus, eleccion, enemigos, vida, vidaCiudad: mundo.vida, abrirMenu, cerrarMenu, menuLienzo, activar, golpearEnemigo, alternarEscalada, portal: (id) => id === 'salir' ? cerrarPortal() : abrirCartel(id), estadoPortal: estadoPortales, mundos: mundosPortales, total: () => totalChurus, barra, ratoncitos, poder: (i = 1) => lanzarPoder(manos[i]), disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; } };

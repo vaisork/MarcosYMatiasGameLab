@@ -1,0 +1,50 @@
+export const DURACION_MUNDO = 60;
+export const DURACION_ULTRA = 15;
+export const ENFRIAMIENTO_ULTRA = 60;
+
+export const PORTALES = Object.freeze({
+  churus: Object.freeze({ cartel: 'churus', mundo: 'churus', nombre: 'Mundo Churus', duracion: DURACION_MUNDO }),
+  'churus-azotea': Object.freeze({ cartel: 'churus-azotea', mundo: 'churus', nombre: 'Mundo Churus', duracion: DURACION_MUNDO }),
+  vaisgard: Object.freeze({ cartel: 'vaisgard', mundo: 'vaisgard', nombre: 'Vaisgard', duracion: DURACION_MUNDO }),
+  'vaisgard-oeste': Object.freeze({ cartel: 'vaisgard-oeste', mundo: 'vaisgard', nombre: 'Vaisgard', duracion: DURACION_MUNDO }),
+  taqueria: Object.freeze({ cartel: 'taqueria', mundo: 'taqueria', nombre: 'Mundo Taco', duracion: DURACION_MUNDO }),
+  'taqueria-sur': Object.freeze({ cartel: 'taqueria-sur', mundo: 'taqueria', nombre: 'Mundo Taco', duracion: DURACION_MUNDO }),
+  ultragato: Object.freeze({ cartel: 'ultragato', mundo: null, nombre: 'Ultra Gato', duracion: DURACION_ULTRA }),
+});
+
+export function crearEstadoPortales() {
+  return { mundo: null, cartel: null, entra: 0, ultraHasta: 0, ultraDisponible: 0 };
+}
+
+export function abrirPortal(estado, cartel, ahora) {
+  const portal = PORTALES[cartel];
+  if (!portal) return null;
+  if (portal.mundo) {
+    if (estado.mundo) return null;
+    estado.mundo = portal.mundo;
+    estado.cartel = cartel;
+    estado.entra = ahora;
+    return { ...portal, sale: ahora + portal.duracion * 1000 };
+  }
+  if (ahora < estado.ultraDisponible) return null;
+  estado.ultraHasta = ahora + portal.duracion * 1000;
+  estado.ultraDisponible = ahora + ENFRIAMIENTO_ULTRA * 1000;
+  return { ...portal, sale: estado.ultraHasta };
+}
+
+export function salirPortal(estado, ahora) {
+  if (!estado.mundo) return 0;
+  const duracion = Math.max(0, ahora - estado.entra);
+  estado.mundo = null;
+  estado.cartel = null;
+  estado.entra = 0;
+  return duracion;
+}
+
+export function portalExpirado(estado, ahora) {
+  return Boolean(estado.mundo && ahora - estado.entra >= DURACION_MUNDO * 1000);
+}
+
+export function ultraActivo(estado, ahora) {
+  return ahora < estado.ultraHasta;
+}
