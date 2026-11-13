@@ -321,6 +321,7 @@ function crearCarteles(cajas, scene) {
   canasta.position.y = -1.15; globo.add(canasta); globo.position.y = 38; scene.add(globo);
 
   return {
+    ubicaciones,
     animar(tiempo) {
       const t = tiempo * 0.001;
       if (bombillaMaterial.userData.shader) bombillaMaterial.userData.shader.uniforms.uCartelTime.value = t;
@@ -686,7 +687,9 @@ function crearMar(scene) {
   scene.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true, fog: true, side: THREE.DoubleSide, toneMapped: false })));
 }
 
-export function crearMundo(scene) {
+export function crearMundo(escena) {
+  const grupo = new THREE.Group();
+  const scene = new Proxy(escena, { get: (objeto, clave) => clave === 'add' ? (...objetos) => grupo.add(...objetos) : Reflect.get(objeto, clave, objeto) });
   const r = azar(1337);
   scene.background = HORIZONTE;
   scene.fog = new THREE.Fog(HORIZONTE, 105, 540);
@@ -891,7 +894,7 @@ export function crearMundo(scene) {
   let farolesDesde = null;
 
   return {
-    edificios, cajas: cajas.map(({ min, max }) => ({ min, max })), churus, domo, vida,
+    grupo, edificios, cajas: cajas.map(({ min, max }) => ({ min, max })), churus, domo, vida,
     carteles: {
       ...carteles,
       encenderFaroles(tiempo) { farolesDesde = tiempo; },

@@ -23,6 +23,10 @@ Q/E = tirón, F o rueda = jalar (impulso, o jalar un ratón atrapado), C = agarr
 a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, ratón para mirar
 (en celular hay botones táctiles «Jalar» y «≡»).
 
+## Carteles-portal (idea de Matías)
+
+Acércate a menos de 2 m de un cartel o engánchalo con la garra para entrar. Churus, Vaisgard y Taco duran 60 s; junta churus y regresa por el aro brillante o al acabarse el tiempo. El reloj principal se pausa. Ultra Gato da poder ilimitado durante 15 s y cada cartel Ultra Gato descansa 60 s. En la consola del navegador, `senku.portal('churus')` entra y `senku.portal('salir')` vuelve.
+
 ## Superpoder «Ultra Gato» (diseñado por Matías, 9 años)
 
 «Te vas balanceando, llenas una barrita derrotando enemigos y disparas ratones.»
@@ -108,6 +112,7 @@ a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, 
 - `src/fisica.mjs`: física pura (cuerda-péndulo, gravedad, azoteas), sin Three.
 - `src/enemigos.mjs`: ratones, vida y escalada (lógica pura, sin Three).
 - `src/poder.mjs`: barrita y ratoncitos del Ultra Gato (lógica pura, sin Three).
+- `src/portales.mjs`: carteles-portal y temporizadores (lógica pura; pruebas en `tests/portales.test.mjs`). `src/mundos-portales.js` dibuja sus mundos low-poly.
 - `src/mundo.js`: ciudad instanciada; `src/sonido.js`: sonidos Web Audio;
   `src/estilos.js`: cuerdas, patas y sus dibujos (menú y texturas).
 - Carteles de ciudad: 20 anuncios en `src/carteles.mjs`, con 14 texturas WebP
