@@ -12,6 +12,7 @@ export default {
   id: 'rata-taqueria', nombre: 'Cocina de la Rata', ambiente: { cielo: 0xffc879, suelo: 0x8b553a, niebla: 0xf1bd72 },
   crear(g, u) {
     u.plataforma(0, -.25, 0, 24, .5, 24, 0x8b553a);
+    cargarGlb('modelos/rata_cocina_fondo_r4.glb',(fondo)=>{fondo.position.set(0,0,-10);g.add(fondo);});
     const sitios = [[-5, -5], [5, -5], [5, 5], [-5, 5]];
     sitios.forEach(([x, z]) => {
       u.plataforma(x, .8, z, 4, .25, 3, 0xa96f48);

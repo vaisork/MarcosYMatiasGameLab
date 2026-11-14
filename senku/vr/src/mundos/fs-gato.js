@@ -7,7 +7,7 @@ export default {
   crear(g, u) {
     u.plataforma(0, -.25, 0, 30, .5, 30, 0x5ba8c2);
     const fauna = new THREE.Group();
-    new GLTFLoader().load('modelos/pecera_fauna_r3.glb', ({ scene }) => {
+    new GLTFLoader().load('modelos/pecera_fauna_r4.glb', ({ scene }) => {
       scene.traverse((o) => { if (!o.isMesh) return; const m = o.material; o.material = new THREE.MeshLambertMaterial({ color: m.color, emissive: m.emissive }); });
       fauna.add(scene); g.add(fauna);
     }, undefined, (e) => console.error('No se pudo cargar la fauna de la pecera', e));

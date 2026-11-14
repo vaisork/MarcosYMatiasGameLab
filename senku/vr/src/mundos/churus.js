@@ -6,11 +6,6 @@ const box = (g, size, color, pos, rot = 0) => {
   const m = new THREE.Mesh(new THREE.BoxGeometry(...size), mat(color));
   m.position.set(...pos); m.rotation.z = rot; g.add(m); return m;
 };
-const cilindro = (g, r1, r2, h, color, pos, sides = 10) => {
-  const m = new THREE.Mesh(new THREE.CylinderGeometry(r1, r2, h, sides), mat(color));
-  m.position.set(...pos); g.add(m); return m;
-};
-
 export default {
   id: 'churus', nombre: 'Mundo Churus',
   ambiente: { cielo: 0x83c8ef, suelo: 0xf5c974, niebla: 0xa6dbf3 },
@@ -23,23 +18,7 @@ export default {
       const cajaColision = u.plataforma(x, y, z, w, .75, w, felpas[i % felpas.length]);
       cajaColision.visible = false;
 
-      // Rascador central y aros de sisal.
-      const alto = y + .375;
-      cilindro(g, .2, .28, alto, 0xa8733f, [x, (y + .375) - alto / 2, z]);
-      const vueltas = Math.max(5, Math.floor(alto * 6));
-      const camino = Array.from({ length: vueltas * 3 + 1 }, (_, j) => {
-        const t = j / (vueltas * 3);
-        const a = t * vueltas * Math.PI * 2;
-        return new THREE.Vector3(x + Math.cos(a) * .205, y + .34 - t * alto, z + Math.sin(a) * .205);
-      });
-      g.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(camino), vueltas * 3, .028, 4, false), mat(0xd2b48c)));
-
-      // Plataformas de postre; la caja invisible conserva colisión.
-      const radio = w * .39;
-      const postre = new THREE.Mesh(new THREE.SphereGeometry(1, 14, 8), mat(i % 2 ? 0xffe7d9 : 0xfff0c5));
-      postre.position.set(x, y + .15, z); postre.scale.set(radio, .27, radio * .82); g.add(postre);
-      const crema = new THREE.Mesh(new THREE.TorusGeometry(radio * .83, .13, 6, 20), mat(i % 2 ? 0xef9bb0 : 0xffd37b));
-      crema.position.set(x, y + .29, z); crema.rotation.x = Math.PI / 2; g.add(crema);
+      // El modelo de churro reemplaza platillo y poste; la colisión invisible sigue intacta.
 
       // Una caja abierta de Churu con rampa tubular para saltar al siguiente nivel.
       const paquete = new THREE.Group();
@@ -65,7 +44,9 @@ export default {
         churus.push({ m, base: m.position.y, fase: x + z + k });
       }
     });
+    new GLTFLoader().load('modelos/churus_plataformas_r4.glb', ({scene}) => sitios.forEach(([x,y,z,w])=>{const postre=scene.clone(true);postre.position.set(x,0,z);postre.scale.set(w/5*1.25,(y+.3)/2.96,w/5*1.25);g.add(postre);}),undefined,(e)=>console.error('No se pudieron cargar las plataformas de churro',e));
     new GLTFLoader().load('modelos/churus_parque_r3.glb', ({ scene }) => { scene.position.set(-2.8, .35, -1.8); scene.scale.setScalar(.55); g.add(scene); }, undefined, (e) => console.error('No se pudo cargar el parque Churu', e));
+    for(const [x,y,z,color] of [[-18,13,-16,0xff5f8f],[18,15,-12,0xffdb55],[-17,18,10,0x55d7e5],[17,17,12,0xff8c42]]){const dulce=new THREE.Group(),bola=new THREE.Mesh(new THREE.SphereGeometry(.48,8,6),new THREE.MeshLambertMaterial({color})),palo=new THREE.Mesh(new THREE.CylinderGeometry(.045,.045,.9,6),new THREE.MeshLambertMaterial({color:0xf4e8cb}));bola.position.y=.6;palo.position.y=-.02;dulce.add(bola,palo);dulce.position.set(x,y,z);g.add(dulce);}
     return { churus, enemigos: [] };
   },
   actualizar(s, dt, ctx) { ctx.recoger(s.churus); },

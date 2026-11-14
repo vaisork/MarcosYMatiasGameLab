@@ -43,9 +43,9 @@ export default {
         churus.push({ m, base: m.position.y, fase: x + z + k });
       }
     });
-    cargarGlb('modelos/taco_isla_r3.glb', (modelo) => sitios.forEach(([x, y, z]) => {
+    cargarGlb('modelos/taco_isla_r4.glb', (modelo) => sitios.forEach(([x, y, z]) => {
       const taco = modelo.clone();
-      taco.scale.set(1.3, 1.15, 1.3); taco.position.set(x, y - .6, z); g.add(taco);
+      taco.scale.set(2.35, 2.05, 2.35); taco.position.set(x, y + .4, z); g.add(taco);
     }));
 
     cargarGlb('modelos/taqueria_trompo_comal_r3.glb', (puesto) => { puesto.position.set(0, .5, -1); g.add(puesto); });
@@ -56,6 +56,7 @@ export default {
       const tri = mesh(g, new THREE.ConeGeometry(.6, .65, 3), mat([0x1c9b55, 0xf6f0db, 0xe54537][i % 3]), [x + 1.25, y - .5, -6]);
       tri.rotation.z = Math.PI;
     }
+    for(const z of [-17,-23]){cordel(g,[-15,15,z],[15,14,z],0x805129,.035);for(let i=0;i<9;i++){const foco=mesh(g,new THREE.SphereGeometry(.16,7,5),new THREE.MeshLambertMaterial({color:0xffdf73,emissive:0xffa000}),[-13+i*3.25,14.1+Math.sin(i/8*Math.PI)*.9,z]);}}
     return { churus, enemigos: [] };
   },
   actualizar(s, dt, ctx) { ctx.recoger(s.churus); },
