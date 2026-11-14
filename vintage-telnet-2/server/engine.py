@@ -179,10 +179,11 @@ class Engine:
             state['events']=[event('discovery',hidden['text']),event('action',f"Guardas {self.content.items[hidden['item']]['name']} en la mochila.")]
             return
         if not search:
-            state['events']=[event('world','Revisas cada rincón, pero no queda nada más que llevarse.')];return
-        roll=self.rng.random();finds=search['finds'];stock=world.setdefault('search_stock',{})
+            detail=room.get('description') or 'El lugar está tranquilo y no hay nada nuevo a la vista.'
+            state['events']=[event('world',f"Revisas cada rincón. {detail}")];return
+        roll=self.rng.random();finds=search.get('finds') or [];stock=world.setdefault('search_stock',{})
         find_limit=.5+p_bonus
-        found=finds[min(int(roll/find_limit*len(finds)),len(finds)-1)] if roll<find_limit else None
+        found=finds[min(int(roll/find_limit*len(finds)),len(finds)-1)] if finds and roll<find_limit else None
         if found and stock.get(room['id']+':'+found['item'],0)<=now:
             self.add_item(state,found['item']);stock[room['id']+':'+found['item']]=now+1800
             flag='hallazgo:'+found['item']
@@ -191,7 +192,7 @@ class Engine:
             if memory not in state['journal']:state['journal'].append(memory)
             state['events']=[event('discovery',found['text']),event('action',f"Guardas {self.content.items[found['item']]['name']} en la mochila.")]
         elif roll<.75:
-            traces=search['traces'];fraction=(roll-.5)/.25 if roll>=.5 else roll/.5
+            traces=search.get('traces') or [room.get('description') or 'No encuentras rastros nuevos; el lugar está tranquilo.'];fraction=(roll-.5)/.25 if roll>=.5 else roll/.5
             fraction=max(0.0,min(0.999,fraction))
             trace=traces[min(int(fraction*len(traces)),len(traces)-1)]
             # A clue may remember that it was seen, so the place that explains it can offer to follow it up.
@@ -200,7 +201,7 @@ class Engine:
                 trace=trace['text']
             state['events']=[event('trace',trace)]
         else:
-            empty=search['empty'];fraction=(roll-.75)/.25
+            empty=search.get('empty') or [room.get('description') or 'No encuentras nada nuevo; el lugar está tranquilo.'];fraction=(roll-.75)/.25
             fraction=max(0.0,min(0.999,fraction))
             state['events']=[event('world',empty[min(int(fraction*len(empty)),len(empty)-1)])]
 

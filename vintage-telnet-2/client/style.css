@@ -652,6 +652,16 @@ html.combat-active body .quick-actions .action-grid .action-label{font-size:.9re
 html.combat-active body .quick-actions .action-grid .action-description,
 html.combat-active body .quick-actions .action-grid .action-reason{display:block;font-size:.8rem;line-height:1.4;color:#fff}
 html.combat-active body .quick-actions .capability-choice:disabled{opacity:1;background:#34445b;color:#fff;border-style:dashed;box-shadow:none}
+html.combat-active body .quick-actions{padding:8px;margin:8px 0}
+html.combat-active body .quick-actions .combat-vitals{margin:0 0 6px}
+html.combat-active body .quick-actions .panel-title{margin:0 0 5px;text-align:center}
+html.combat-active body .quick-actions .action-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+html.combat-active body .quick-actions .action-grid button{min-height:48px;padding:5px 4px;text-align:center;justify-content:center}
+html.combat-active body .quick-actions .action-grid .action-content{gap:3px}
+html.combat-active body .quick-actions .action-grid .action-label{font-size:.76rem;line-height:1.12}
+html.combat-active body .quick-actions .action-grid .action-description,html.combat-active body .quick-actions .action-grid .action-reason{display:none}
+html.combat-active body .quick-actions .combat-vital-row{grid-template-columns:74px 1fr;gap:6px;margin:3px 0}
+html.combat-active body .quick-actions .combat-vital-track{height:8px}
 .class-actions{margin:12px 0;display:grid;gap:12px}
 .class-actions p{font-size:.95rem}
 html body .reading .event[aria-label^="Velo"]{border-left:4px solid #8fd0ff;background:#8fd0ff18}
@@ -1130,6 +1140,7 @@ html body .combat-round-label svg{width:16px;height:16px;color:#ff9eb5}
  html body .exit-name{font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
  html body .numen-care-notice{flex-wrap:wrap;gap:8px;padding:10px 12px}
  html body .numen-notice-btn{width:100%;text-align:center;justify-content:center}
+ html body .buzon-form textarea{width:100%;min-height:88px;padding:10px 12px;border:1px solid #aebca1;border-radius:10px;font:inherit;resize:vertical}
 }
 
 /* Grouped menus must fit narrow screens, including long catalog and room names. */
