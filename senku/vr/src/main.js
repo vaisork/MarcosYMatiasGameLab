@@ -1283,7 +1283,7 @@ function dibujarMenu() {
   g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#fff';
   if (menuTienda) {
     botonesMenu = botonesTienda;
-    g.font = 'bold 44px system-ui'; g.fillText('Tiendita Churus', MW / 2, 48);
+    g.font = 'bold 44px system-ui'; g.fillText('Oxxo', MW / 2, 48);
     g.font = 'bold 28px system-ui'; g.fillStyle = '#ffd27a'; g.fillText(`Tienes ${totalChurus} churus`, MW / 2, 100);
     botonesMenu.forEach((b) => {
       const mejora = MEJORAS[b.id], nivel = nivelesMejoras[b.id];

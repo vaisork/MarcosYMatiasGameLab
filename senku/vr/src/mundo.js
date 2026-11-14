@@ -736,7 +736,7 @@ function crearTiendita(scene, cajas) {
   const lienzo = document.createElement('canvas'); lienzo.width = 768; lienzo.height = 144;
   const g = lienzo.getContext('2d');
   g.fillStyle = '#633b56'; g.roundRect(4, 4, 760, 136, 24); g.fill();
-  g.fillStyle = '#ffe184'; g.font = '900 64px system-ui'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('Tiendita Churus', 384, 75);
+  g.fillStyle = '#ffe184'; g.font = '900 96px system-ui'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('Oxxo', 384, 75);
   const textura = new THREE.CanvasTexture(lienzo); textura.colorSpace = THREE.SRGBColorSpace;
   const letrero = new THREE.Mesh(new THREE.PlaneGeometry(4.5, 0.85), new THREE.MeshBasicMaterial({ map: textura, toneMapped: false }));
   letrero.position.set(x, 3.15, z + 2.22); grupo.add(letrero);
