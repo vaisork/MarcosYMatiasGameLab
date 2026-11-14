@@ -1,22 +1,91 @@
 import * as THREE from 'three';
+
+const lambert = (color) => new THREE.MeshLambertMaterial({ color, flatShading: true });
+const entre = (g, geo, mat, a, b) => {
+  const va = new THREE.Vector3(...a), vb = new THREE.Vector3(...b), d = vb.clone().sub(va);
+  const m = new THREE.Mesh(geo(d.length()), mat); m.position.copy(va).add(vb).multiplyScalar(.5);
+  m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize()); g.add(m); return m;
+};
+
 export default {
-  id: 'vaisgard', nombre: 'Vaisgard', ambiente: { cielo: 0xf0a0b4, suelo: 0xc57869, niebla: 0xf2bd91 },
+  id: 'vaisgard', nombre: 'Vaisgard',
+  ambiente: { cielo: 0xf0a0b4, suelo: 0xc57869, niebla: 0xf2bd91 },
   crear(g, u) {
     const base = u.plataforma(0, -.25, 0, 10, 1, 10, 0xe6a071);
-    base.material.emissive.setHex(0x6e3028); base.material.emissiveIntensity = .22;
-    for (const [x, z, h] of [[-7, -20, 10], [7, -20, 15], [12, 7, 19], [-10, 9, 13]]) {
-      const plataforma = u.plataforma(x, h / 2, z, 4.5, h, 4.5, 0xd78b91);
-      plataforma.material.emissive.setHex(0x71364f); plataforma.material.emissiveIntensity = .3;
-      const torre = new THREE.Mesh(new THREE.ConeGeometry(3.4, 3, 4), new THREE.MeshLambertMaterial({ color: 0x87506a, emissive: 0x542044, emissiveIntensity: .45 }));
-      torre.position.set(x, h + 1.5, z); torre.rotation.y = Math.PI / 4; g.add(torre);
+    base.material.color.setHex(0x9a786f);
+    const piedra = lambert(0x90a4ae), sombra = lambert(0x536875), madera = lambert(0x80502e), cuerda = lambert(0xd7bd8a);
+    const torres = [[-7, -20, 10], [7, -20, 15], [12, 7, 19], [-10, 9, 13]];
+    const dummy = new THREE.Object3D();
+    const merlones = new THREE.InstancedMesh(new THREE.BoxGeometry(.62, .75, .62), piedra, torres.length * 8);
+    const troneras = new THREE.InstancedMesh(new THREE.BoxGeometry(.18, 1.3, .14), sombra, torres.length * 8);
+    g.add(merlones, troneras);
+    let detalle = 0;
+    torres.forEach(([x, z, h], i) => {
+      const bloque = u.plataforma(x, h / 2, z, 4.5, h, 4.5, 0x90a4ae);
+      bloque.visible = false;
+      const fuste = new THREE.Mesh(new THREE.CylinderGeometry(2.1, 2.45, h, 8), piedra);
+      fuste.position.set(x, h / 2, z); g.add(fuste);
+      const cornisa = new THREE.Mesh(new THREE.CylinderGeometry(2.55, 2.45, .34, 8), sombra);
+      cornisa.position.set(x, h - .08, z); g.add(cornisa);
+      const techo = new THREE.Mesh(new THREE.CylinderGeometry(2.35, 2.35, .28, 8), piedra);
+      techo.position.set(x, h + .17, z); g.add(techo);
+      for (let j = 0; j < 8; j++) {
+        const a = j * Math.PI / 4 + Math.PI / 8;
+        dummy.position.set(x + Math.cos(a) * 1.78, h + .62, z + Math.sin(a) * 1.78);
+        dummy.rotation.set(0, 0, 0); dummy.updateMatrix(); merlones.setMatrixAt(detalle, dummy.matrix);
+        dummy.position.set(x + Math.cos(a) * 2.12, h * .58, z + Math.sin(a) * 2.12);
+        dummy.rotation.set(0, -a, 0); dummy.updateMatrix(); troneras.setMatrixAt(detalle, dummy.matrix);
+        detalle++;
+      }
+      // Bandas de sillares alternadas recorren la cara octagonal.
+      for (let y = 1.4; y < h - 1; y += 2.2) {
+        const franja = new THREE.Mesh(new THREE.CylinderGeometry(2.19, 2.19, .12, 8), i % 2 ? piedra : sombra);
+        franja.position.set(x, y, z); g.add(franja);
+      }
+    });
+    merlones.instanceMatrix.needsUpdate = true; troneras.instanceMatrix.needsUpdate = true;
+
+    // Puente de tablones entre las dos primeras torres, con ligera pendiente.
+    const [a, b] = torres;
+    const inicio = [a[0] + 2, a[2] + .35, a[1]], fin = [b[0] - 2, b[2] + .35, b[1]];
+    const tablones = new THREE.InstancedMesh(new THREE.BoxGeometry(.85, .14, 2.15), madera, 10);
+    g.add(tablones);
+    for (let i = 0; i < 10; i++) {
+      const t = (i + .5) / 10;
+      const p = inicio.map((v, k) => v + (fin[k] - v) * t);
+      const paso = u.plataforma(p[0], p[1] - .07, p[2], .9, .25, 2.05, 0x80502e);
+      paso.visible = false;
+      dummy.position.set(p[0], p[1], p[2]); dummy.rotation.set(0, 0, Math.atan2(fin[1] - inicio[1], fin[0] - inicio[0])); dummy.updateMatrix();
+      tablones.setMatrixAt(i, dummy.matrix);
     }
+    tablones.instanceMatrix.needsUpdate = true;
+    for (const side of [-1, 1]) {
+      const z = (a[1] + b[1]) / 2 + side * 1.05;
+      entre(g, (l) => new THREE.CylinderGeometry(.045, .045, l, 5), cuerda, [inicio[0], inicio[1] + 1.15, z], [fin[0], fin[1] + 1.15, z]);
+      for (let i = 0; i <= 5; i++) {
+        const t = i / 5, x = inicio[0] + (fin[0] - inicio[0]) * t, y = inicio[1] + (fin[1] - inicio[1]) * t;
+        entre(g, (l) => new THREE.CylinderGeometry(.035, .035, l, 5), cuerda, [x, y + .1, z], [x, y + 1.15, z]);
+      }
+    }
+
     const enemigos = [];
     for (const [x, z] of [[-3, -12], [3, -17], [0, 3]]) {
-      const grupo = new THREE.Group();
-      const material = new THREE.MeshLambertMaterial({ color: 0xffe1a3, emissive: 0x8c5429, emissiveIntensity: .35 });
-      const cuerpo = new THREE.Mesh(new THREE.SphereGeometry(.42, 7, 5), material);
-      cuerpo.scale.set(1.25, .7, .8); grupo.add(cuerpo); grupo.position.set(x, .55, z); g.add(grupo);
-      enemigos.push({ grupo, vivo: true, fase: x });
+      const grupo = new THREE.Group(), hueso = lambert(0xf4dfb3), oscuro = lambert(0x28303b);
+      const cuerpo = new THREE.Mesh(new THREE.IcosahedronGeometry(.42, 1), hueso);
+      cuerpo.scale.set(1.3, .72, .8); grupo.add(cuerpo);
+      const craneo = new THREE.Mesh(new THREE.IcosahedronGeometry(.29, 1), hueso);
+      craneo.position.set(0, .25, -.36); grupo.add(craneo);
+      for (const ox of [-.13, .13]) {
+        const ojo = new THREE.Mesh(new THREE.SphereGeometry(.085, 6, 4), oscuro);
+        ojo.position.set(ox, .28, -.6); grupo.add(ojo);
+      }
+      const hocico = new THREE.Mesh(new THREE.ConeGeometry(.12, .25, 5), hueso);
+      hocico.rotation.x = Math.PI / 2; hocico.position.set(0, .13, -.62); grupo.add(hocico);
+      for (let i = 0; i < 4; i++) {
+        const costilla = new THREE.Mesh(new THREE.TorusGeometry(.32 - i * .025, .035, 4, 8, Math.PI), hueso);
+        costilla.position.set(0, .03 - i * .015, -.05 + i * .16); costilla.rotation.z = Math.PI; grupo.add(costilla);
+      }
+      grupo.position.set(x, .55, z); g.add(grupo); enemigos.push({ grupo, vivo: true, fase: x });
     }
     return { churus: [], enemigos };
   },

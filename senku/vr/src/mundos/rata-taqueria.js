@@ -15,10 +15,38 @@ export default {
     const sitios = [[-5, -5], [5, -5], [5, 5], [-5, 5]];
     sitios.forEach(([x, z]) => {
       u.plataforma(x, .8, z, 4, .25, 3, 0xa96f48);
-      const taco = new THREE.Mesh(new THREE.SphereGeometry(.48, 8, 5), new THREE.MeshLambertMaterial({ color: 0xffd36c }));
-      taco.position.set(x, 1.3, z); taco.scale.set(1.1, .45, .7); g.add(taco);
-      cargarGlb('modelos/taco.glb', (mod) => { taco.visible = false; mod.scale.setScalar(.4); mod.position.set(x, .93, z); g.add(mod); });
+      const plato = new THREE.Mesh(new THREE.CylinderGeometry(1.45, 1.55, .16, 12), new THREE.MeshLambertMaterial({ color: 0xe7c47e }));
+      plato.position.set(x, .92, z); g.add(plato);
     });
+    cargarGlb('modelos/taco.glb', (modelo) => sitios.forEach(([x, z]) => {
+      const taco = modelo.clone(); taco.scale.setScalar(.72); taco.position.set(x, .94, z); g.add(taco);
+    }));
+
+    // Comal central y trompo bajo guirnaldas de papel picado.
+    const acero = new THREE.MeshLambertMaterial({ color: 0xaebdc0 });
+    const comal = new THREE.Mesh(new THREE.CylinderGeometry(2.25, 2.4, .22, 20), acero);
+    comal.position.set(0, .2, 0); g.add(comal);
+    const disco = new THREE.Mesh(new THREE.CylinderGeometry(1.95, 2, .08, 20), new THREE.MeshLambertMaterial({ color: 0x596970 }));
+    disco.position.set(0, .35, 0); g.add(disco);
+    const trompo = new THREE.Mesh(new THREE.CylinderGeometry(.32, .76, 1.7, 8), new THREE.MeshLambertMaterial({ color: 0xa63826 }));
+    trompo.position.set(0, 1.25, 0); g.add(trompo);
+    const pina = new THREE.Mesh(new THREE.SphereGeometry(.22, 8, 6), new THREE.MeshLambertMaterial({ color: 0xf4c84a }));
+    pina.position.set(0, 2.18, 0); g.add(pina);
+
+    const colores = [0x16984e, 0xf6edda, 0xe24436];
+    for (let i = 0; i < 7; i++) {
+      const x = -7.5 + i * 2.5;
+      const cuerda = new THREE.Mesh(new THREE.CylinderGeometry(.018, .018, 2.52, 5), new THREE.MeshLambertMaterial({ color: 0x704728 }));
+      cuerda.position.set(x + 1.25, 6.1, -2.5); cuerda.rotation.z = -Math.PI / 2; g.add(cuerda);
+      const bandera = new THREE.Mesh(new THREE.ConeGeometry(.45, .55, 3), new THREE.MeshLambertMaterial({ color: colores[i % 3], side: THREE.DoubleSide }));
+      bandera.position.set(x + 1.25, 5.72, -2.5); bandera.rotation.z = Math.PI; g.add(bandera);
+    }
+    for (const [x, color] of [[-2.6, 0x4a9a45], [2.6, 0xc84630]]) {
+      const tazon = new THREE.Mesh(new THREE.CylinderGeometry(.42, .3, .3, 10), new THREE.MeshLambertMaterial({ color: 0xf5e7cc }));
+      tazon.position.set(x, .48, 1.6); g.add(tazon);
+      const salsa = new THREE.Mesh(new THREE.SphereGeometry(.32, 9, 6), new THREE.MeshLambertMaterial({ color }));
+      salsa.position.set(x, .64, 1.6); salsa.scale.y = .3; g.add(salsa);
+    }
     const rata = new THREE.Group();
     const mat = new THREE.MeshLambertMaterial({ color: 0x8d7067 });
     const cuerpo = new THREE.Mesh(new THREE.SphereGeometry(.55, 8, 6), mat); cuerpo.scale.set(1.2, .7, .8); rata.add(cuerpo);
