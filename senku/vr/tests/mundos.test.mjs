@@ -20,7 +20,7 @@ test('cada cartel con portal tiene mundo registrado y arte', async () => {
 });
 test('objetivos de Ciudad Neón cuentan rótulos únicos hasta 15', () => { const s={encendidos:new Set()};for(let i=0;i<15;i++)objetivoNeon(s,i);objetivoNeon(s,0);assert.equal(s.encendidos.size,15); });
 test('objetivos de Luke cuentan caricias únicas hasta 8', () => { const s={acariciados:new Set()};for(let i=0;i<8;i++)objetivoLuke(s,i);objetivoLuke(s,0);assert.equal(s.acariciados.size,8); });
-test('búsqueda exige atrapar y jalar tres veces', () => { const s={capturas:0};objetivoBusqueda(s,true,false);objetivoBusqueda(s,false,true);for(let i=0;i<3;i++){objetivoBusqueda(s,true,true);objetivoBusqueda(s,false,false);}assert.equal(s.capturas,3); });
+test('búsqueda cuenta tres impactos de telaraña sin exigir jalar', () => { const s={capturas:0};for(let i=0;i<3;i++){objetivoBusqueda(s,true);objetivoBusqueda(s,true);assert.equal(s.capturas,i+1);objetivoBusqueda(s,false);}assert.equal(s.capturas,3); });
 test('objetivos nuevos cuentan hallazgos únicos y atrapes sin repetir el mismo golpe', () => {
   const uv={revelados:new Set()},pecera={reventadas:new Set()},rata={capturas:0},trucos={piruetas:new Set()};
   for(let i=0;i<6;i++)objetivoMarcosUV(uv,i);
