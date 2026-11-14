@@ -4,7 +4,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { PORTALES } from '../src/portales.mjs';
 import { IDS_MUNDOS } from '../src/mundos/catalogo.mjs';
-import { objetivoNeon, objetivoLuke, objetivoBusqueda, objetivoMarcosUV, objetivoFsGato, objetivoRataTaqueria, objetivoColumpiaEstilo, objetivoBotiquin, objetivoSenku2, objetivoGrietaMadre, objetivoVuelo } from '../src/mundos/objetivos.mjs';
+import { objetivoNeon, objetivoLuke, objetivoBusqueda, objetivoMarcosUV, objetivoFsGato, objetivoRataTaqueria, objetivoColumpiaEstilo, objetivoBotiquin, objetivoSenku2, objetivoGrietaMadre, objetivoVuelo, registrarVueloPerfecto, cargarVuelosPerfectos, guardarVuelosPerfectos, CLAVE_VUELOS_PERFECTOS, dificultadVuelo, falloIntentoVuelo, tiempoVueloAgotado } from '../src/mundos/objetivos.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 test('cada cartel con portal tiene mundo registrado y arte', async () => {
   const indice = readFileSync(`${root}src/mundos/indice.js`, 'utf8');
@@ -42,4 +42,33 @@ test('objetivos de Cielo de Vuelo recogen elementos solo volando y sin duplicar'
   for (let i = 0; i < 10; i++) objetivoVuelo(s, i, true);
   objetivoVuelo(s, 0, true);
   assert.equal(s.recogidos.size, 10);
+});
+test('racha de vuelos perfectos suma solo éxitos, desbloquea en cinco y persiste', () => {
+  const guardado = new Map();
+  const storage = { getItem: (key) => guardado.get(key) ?? null, setItem: (key, value) => guardado.set(key, value) };
+  let perfectos = cargarVuelosPerfectos(storage);
+  perfectos = registrarVueloPerfecto(perfectos, true);
+  perfectos = registrarVueloPerfecto(perfectos, false);
+  assert.equal(perfectos, 1, 'un fallo no suma ni borra perfectos anteriores');
+  for (let i = 0; i < 4; i++) perfectos = registrarVueloPerfecto(perfectos, true);
+  assert.equal(perfectos, 5);
+  assert.equal(registrarVueloPerfecto(perfectos, true), 5, 'el contador queda limitado al desbloqueo');
+  guardarVuelosPerfectos(storage, perfectos);
+  assert.equal(guardado.get(CLAVE_VUELOS_PERFECTOS), '5');
+  assert.equal(cargarVuelosPerfectos(storage), 5);
+});
+
+test('dificultad de vuelo progresa por cada perfecto ganado', () => {
+  const niveles = [0, 1, 2, 3, 4].map(dificultadVuelo);
+  assert.deepEqual(niveles.map((d) => d.tiempoLimite), [45, 40, 35, 30, 26]);
+  assert.deepEqual(niveles.map((d) => d.churusMoviles), [0, 2, 4, 6, 8]);
+  assert.deepEqual(niveles.map((d) => d.nivel), [1, 2, 3, 4, 5]);
+  assert.ok(niveles.every((d, i) => i === 0 || d.velocidadMovimiento > niveles[i - 1].velocidadMovimiento));
+});
+
+test('agotarse el tiempo falla el intento antes de los diez churus', () => {
+  assert.equal(tiempoVueloAgotado(44.99, 45), false);
+  assert.equal(tiempoVueloAgotado(45, 45), true);
+  assert.equal(falloIntentoVuelo({ volando: true, tiempoAgotado: true, recogidos: 9 }), true);
+  assert.equal(falloIntentoVuelo({ volando: true, tiempoAgotado: true, recogidos: 10 }), false);
 });

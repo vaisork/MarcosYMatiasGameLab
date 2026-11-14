@@ -51,6 +51,14 @@ Acércate a menos de 2 m de un cartel o engánchalo con la garra para entrar. Lo
 | ultragato | Poder Ultra Gato; no abre mundo |
 | marcos-uv, fs-gato, rata-taqueria, columpia-estilo | Sin mundo asignado |
 
+En **Cielo de Vuelo**, PC y celular activan el vuelo con doble salto; en VR,
+junta y separa las manos. Completa los 10 churus en un vuelo sin aterrizar ni
+dejar de volar para ganar un vuelo perfecto. Cada perfecto aumenta la dificultad:
+baja el límite de 45 a 26 s y añade churus móviles, más rápidos y, en niveles
+3–5, algunos más altos y alejados. Aterrizar, caer, dejar de volar o agotar el
+tiempo reinicia los 10 churus. Al conseguir cinco perfectos, el vuelo permanente
+se guarda en `localStorage` y queda disponible en todos los mundos.
+
 Para agregar mundos, crea `src/mundos/<id>.js`, agrega su import y entrada en `src/mundos/indice.js`, una entrada por cartel en `src/portales.mjs`, arte `<cartel>.webp` en `texturas/portales/` y la fila correspondiente en esta tabla. Contrato: `src/mundos/LEEME.md`.
 
 ## Superpoder «Ultra Gato» (diseñado por Matías, 9 años)

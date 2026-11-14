@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { objetivoVuelo } from './objetivos.mjs';
+import { dificultadVuelo, falloIntentoVuelo, objetivoVuelo, tiempoVueloAgotado } from './objetivos.mjs';
 
 let toqueSalto = 0;
 if (typeof document !== 'undefined') {
@@ -16,6 +16,89 @@ const vDir0 = new THREE.Vector3();
 const vDir1 = new THREE.Vector3();
 const vDirManos = new THREE.Vector3();
 const vDirVuelo = new THREE.Vector3();
+
+export function crearEstadoControlVuelo() {
+  return { volando: false, planeando: false, tiempoJuntas: -9999, ultimoSalto: 0, espacioPrevio: false, saltoToquePrevio: 0, reloj: 0 };
+}
+
+export function actualizarControlVuelo(s, dt, ctx) {
+  const volaba = s.volando;
+
+  // Gesto en Quest (VR): manos juntas (<0.35 m) y luego separadas (>1.1 m) en <1.5 s
+  if (ctx.manos && ctx.manos.length >= 2) {
+    ctx.manos[0].garra.getWorldPosition(vGarra0);
+    ctx.manos[1].garra.getWorldPosition(vGarra1);
+    const distManos = vGarra0.distanceTo(vGarra1);
+
+    if (distManos < 0.35) {
+      if (s.volando) {
+        s.volando = false;
+        s.planeando = true;
+        s.tiempoJuntas = s.reloj;
+        ctx.avisar?.('Planeando...');
+      } else {
+        s.tiempoJuntas = s.reloj;
+      }
+    } else if (distManos > 1.1) {
+      if (!s.volando && (s.reloj - s.tiempoJuntas) < 1.5) {
+        s.volando = true;
+        s.planeando = false;
+        ctx.avisar?.('¡Volando! Guía con las manos');
+      }
+    }
+  }
+
+  // Control sin visor (PC / Celular): doble salto activa vuelo y avanza hacia la cámara
+  const pulsaEspacio = Boolean(ctx.teclas?.has('Space'));
+  const saltoPC = pulsaEspacio && !s.espacioPrevio;
+  s.espacioPrevio = pulsaEspacio;
+  const saltoMovil = toqueSalto > s.saltoToquePrevio;
+  if (saltoMovil) s.saltoToquePrevio = toqueSalto;
+  if (saltoPC || saltoMovil) {
+    const ahora = performance.now();
+    if (s.volando) {
+      s.volando = false;
+      s.planeando = true;
+      ctx.avisar?.('Planeando...');
+    } else if (ahora - s.ultimoSalto < 1500) {
+      s.volando = true;
+      s.planeando = false;
+      ctx.avisar?.('¡Volando! Guía con la vista');
+    } else {
+      s.ultimoSalto = ahora;
+    }
+  }
+
+  if (ctx.jugadora?.enSuelo) {
+    s.volando = false;
+    s.planeando = false;
+  }
+
+  if (s.volando) {
+    vDirVuelo.set(0, 0, 0);
+    if (ctx.esVR && ctx.manos && ctx.manos.length >= 2) {
+      vDir0.set(0, 0, -1).applyQuaternion(ctx.manos[0].control.getWorldQuaternion(q0));
+      vDir1.set(0, 0, -1).applyQuaternion(ctx.manos[1].control.getWorldQuaternion(q1));
+      vDirManos.addVectors(vDir0, vDir1);
+      if (vDirManos.lengthSq() > 0.05) vDirVuelo.copy(vDirManos).normalize();
+      else if (ctx.camara) ctx.camara.getWorldDirection(vDirVuelo);
+    } else if (ctx.camara) {
+      ctx.camara.getWorldDirection(vDirVuelo);
+    }
+    if (vDirVuelo.lengthSq() === 0) vDirVuelo.set(0, 0, -1);
+    const VELOCIDAD = 14;
+    const g = typeof ctx.gravedad === 'number' ? ctx.gravedad : -13;
+    ctx.jugadora.vel.x = vDirVuelo.x * VELOCIDAD;
+    ctx.jugadora.vel.y = vDirVuelo.y * VELOCIDAD - g * dt;
+    ctx.jugadora.vel.z = vDirVuelo.z * VELOCIDAD;
+  } else if (s.planeando) {
+    ctx.jugadora.vel.y = Math.max(ctx.jugadora.vel.y, -3);
+    ctx.jugadora.vel.x *= 0.99;
+    ctx.jugadora.vel.z *= 0.99;
+  }
+
+  return { inicio: !volaba && s.volando, fin: volaba && !s.volando };
+}
 
 export default {
   id: 'vuelo',
@@ -93,19 +176,17 @@ export default {
       const mHalo = new THREE.Mesh(geomHalo, matHalo);
       contenedor.add(mChuru, mHalo);
       g.add(contenedor);
-      churus.push({ grupo: contenedor, base: y, fase: x + z, id: i, recogido: false });
+      churus.push({ grupo: contenedor, base: y, baseOrigen: { x, y, z }, origen: { x, y, z }, fase: x + z, id: i, recogido: false, movil: false });
     });
 
     return {
       churus,
       nubes,
       recogidos: new Set(),
-      volando: false,
-      planeando: false,
-      tiempoJuntas: -9999,
-      ultimoSalto: 0,
-      espacioPrevio: false,
-      saltoToquePrevio: 0,
+      dificultad: dificultadVuelo(0),
+      ...crearEstadoControlVuelo(),
+      intentandoPerfecto: false,
+      inicioIntento: null,
       reloj: 0,
       premiado: false,
     };
@@ -119,126 +200,56 @@ export default {
       n.rotation.y += dt * 0.03 * (idx % 2 ? 1 : -1);
     });
 
-    // Animación de churus en el aire
+    // Animación de churus en el aire; los objetivos móviles recorren más distancia al subir de nivel.
     s.churus.forEach((item) => {
       if (!item.recogido) {
-        item.grupo.position.y = item.base + Math.sin(s.reloj * 2.2 + item.fase) * 0.35;
+        if (item.movil) {
+          const fase = s.reloj * s.dificultad.velocidadMovimiento + item.fase;
+          item.grupo.position.x = item.origen.x + Math.sin(fase) * 1.1;
+          item.grupo.position.y = item.origen.y + Math.sin(fase * 1.7) * 0.55;
+          item.grupo.position.z = item.origen.z + Math.cos(fase) * 1.1;
+        } else {
+          item.grupo.position.set(item.origen.x, item.origen.y + Math.sin(s.reloj * 2.2 + item.fase) * 0.35, item.origen.z);
+        }
         item.grupo.rotation.y += dt * 1.6;
       }
     });
 
-    // Gesto en Quest (VR): manos juntas (<0.35 m) y luego separadas (>1.1 m) en <1.5 s
-    if (ctx.manos && ctx.manos.length >= 2) {
-      ctx.manos[0].garra.getWorldPosition(vGarra0);
-      ctx.manos[1].garra.getWorldPosition(vGarra1);
-      const distManos = vGarra0.distanceTo(vGarra1);
-
-      if (distManos < 0.35) {
-        if (s.volando) {
-          s.volando = false;
-          s.planeando = true;
-          s.tiempoJuntas = s.reloj;
-          ctx.avisar?.('Planeando...');
-        } else {
-          s.tiempoJuntas = s.reloj;
-        }
-      } else if (distManos > 1.1) {
-        if (!s.volando && (s.reloj - s.tiempoJuntas) < 1.5) {
-          s.volando = true;
-          s.planeando = false;
-          ctx.avisar?.('¡Volando! Guía con las manos');
-        }
-      }
-    }
-
-    // Control sin visor (PC / Celular): doble salto activa vuelo y avanza hacia la cámara
-    const pulsaEspacio = Boolean(ctx.teclas?.has('Space'));
-    const saltoPC = pulsaEspacio && !s.espacioPrevio;
-    s.espacioPrevio = pulsaEspacio;
-
-    const saltoMovil = toqueSalto > s.saltoToquePrevio;
-    if (saltoMovil) s.saltoToquePrevio = toqueSalto;
-
-    const haySalto = saltoPC || saltoMovil;
-    if (haySalto) {
-      const ahora = performance.now();
-      if (s.volando) {
-        s.volando = false;
-        s.planeando = true;
-        ctx.avisar?.('Planeando...');
-      } else {
-        if (ahora - s.ultimoSalto < 1500) {
-          s.volando = true;
-          s.planeando = false;
-          ctx.avisar?.('¡Volando! Guía con la vista');
-        } else {
-          s.ultimoSalto = ahora;
-        }
-      }
-    }
-
-    // Aterrizar detiene el vuelo
-    if (ctx.jugadora?.enSuelo) {
-      s.volando = false;
-      s.planeando = false;
-    }
-
-    // Movimiento y física del vuelo
-    if (s.volando) {
-      vDirVuelo.set(0, 0, 0);
-
-      if (ctx.esVR && ctx.manos && ctx.manos.length >= 2) {
-        // En Quest: promedio hacia donde apuntan las manos o la cabeza
-        vDir0.set(0, 0, -1).applyQuaternion(ctx.manos[0].control.getWorldQuaternion(q0));
-        vDir1.set(0, 0, -1).applyQuaternion(ctx.manos[1].control.getWorldQuaternion(q1));
-        vDirManos.addVectors(vDir0, vDir1);
-
-        if (vDirManos.lengthSq() > 0.05) {
-          vDirVuelo.copy(vDirManos).normalize();
-        } else if (ctx.camara) {
-          ctx.camara.getWorldDirection(vDirVuelo);
-        }
-      } else if (ctx.camara) {
-        // Sin visor: dirección de la cámara
-        ctx.camara.getWorldDirection(vDirVuelo);
-      }
-
-      if (vDirVuelo.lengthSq() === 0) vDirVuelo.set(0, 0, -1);
-
-      const VELOCIDAD = 14;
-      const g = typeof ctx.gravedad === 'number' ? ctx.gravedad : -13;
-
-      // Desplaza la velocidad contrarrestando la gravedad
-      ctx.jugadora.vel.x = vDirVuelo.x * VELOCIDAD;
-      ctx.jugadora.vel.y = vDirVuelo.y * VELOCIDAD - g * dt;
-      ctx.jugadora.vel.z = vDirVuelo.z * VELOCIDAD;
-    } else if (s.planeando) {
-      // Manos juntas: planear / bajar suavemente
-      ctx.jugadora.vel.y = Math.max(ctx.jugadora.vel.y, -3);
-      ctx.jugadora.vel.x *= 0.99;
-      ctx.jugadora.vel.z *= 0.99;
-    }
+    const { inicio, fin } = actualizarControlVuelo(s, dt, ctx);
+    if (inicio) { s.intentandoPerfecto = true; s.inicioIntento = s.reloj; }
+    const transcurrido = s.inicioIntento === null ? 0 : s.reloj - s.inicioIntento;
+    const agotado = s.intentandoPerfecto && tiempoVueloAgotado(transcurrido, s.dificultad.tiempoLimite);
+    const cayendo = ctx.jugadora.pos.y < 0;
+    const fallo = s.intentandoPerfecto && falloIntentoVuelo({
+      volando: s.volando, aterrizo: Boolean(ctx.jugadora?.enSuelo && !inicio), cayendo,
+      tiempoAgotado: agotado, recogidos: s.recogidos.size,
+    });
+    const falloIntento = fallo && cancelarIntentoVuelo(s, ctx.avisar);
 
     // Recoger cosas volando
-    s.churus.forEach((item) => {
-      if (!item.recogido && ctx.cerca(item.grupo.position, 2.0)) {
-        const prevSize = s.recogidos.size;
-        objetivoVuelo(s, item.id, s.volando);
+    if (!falloIntento) {
+      s.churus.forEach((item) => {
+        if (!item.recogido && ctx.cerca(item.grupo.position, 2.0)) {
+          const prevSize = s.recogidos.size;
+          objetivoVuelo(s, item.id, s.volando);
 
-        if (s.recogidos.size > prevSize) {
-          item.recogido = true;
-          item.grupo.visible = false;
-          ctx.sumarChurus(1);
-          ctx.avisar?.(`¡Churu celeste ${s.recogidos.size}/10!`);
-        } else if (!s.volando) {
-          ctx.avisar?.('¡Vuela para recogerlo!');
+          if (s.recogidos.size > prevSize) {
+            item.recogido = true;
+            item.grupo.visible = false;
+            ctx.sumarChurus(1);
+            ctx.avisar?.(`¡Churu celeste ${s.recogidos.size}/10!`);
+          } else if (!s.volando) {
+            ctx.avisar?.('¡Vuela para recogerlo!');
+          }
         }
-      }
-    });
+      });
+    }
 
     if (s.recogidos.size >= 10 && !s.premiado) {
       s.premiado = true;
+      s.intentandoPerfecto = false;
       this.premio(ctx);
+      ctx.vueloPerfecto?.();
     }
   },
 
@@ -249,3 +260,38 @@ export default {
 
   objetivo: { texto: 'Recoge 10 churus celestes volando', meta: 10 },
 };
+
+function fallarIntento(s, avisar) {
+  s.intentandoPerfecto = false;
+  s.inicioIntento = null;
+  s.volando = false;
+  s.planeando = false;
+  s.recogidos.clear();
+  s.premiado = false;
+  s.churus.forEach((item) => {
+    item.recogido = false;
+    item.grupo.position.set(item.origen.x, item.origen.y, item.origen.z);
+    item.grupo.visible = true;
+  });
+  avisar?.('Fallaste: aterrizaste, caíste o se acabó el tiempo');
+}
+
+export function cancelarIntentoVuelo(s, avisar) {
+  if (!s?.intentandoPerfecto || s.recogidos.size >= 10) return false;
+  fallarIntento(s, avisar);
+  return true;
+}
+
+export function reiniciarVuelo(s, perfectos = 0) {
+  s.recogidos.clear();
+  s.dificultad = dificultadVuelo(perfectos);
+  s.churus.forEach((item, i) => {
+    const origen = { ...item.baseOrigen };
+    if (s.dificultad.nivel >= 3 && [2, 4, 7].includes(i)) { origen.x *= 1.18; origen.y += 2.5; origen.z *= 1.18; }
+    if (s.dificultad.nivel >= 4 && [5, 8, 9].includes(i)) { origen.x *= 1.22; origen.y += 3.5; origen.z *= 1.22; }
+    Object.assign(item, { recogido: false, origen, fase: item.fase, movil: i < s.dificultad.churusMoviles });
+    item.grupo.position.set(origen.x, origen.y, origen.z);
+    item.grupo.visible = true;
+  });
+  Object.assign(s, crearEstadoControlVuelo(), { intentandoPerfecto: false, inicioIntento: null, reloj: 0, premiado: false });
+}
