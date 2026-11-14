@@ -28,6 +28,11 @@ renderer.shadowMap.enabled = false;
 document.body.prepend(renderer.domElement);
 
 const scene = new THREE.Scene();
+const luzPortalAmbiente = new THREE.HemisphereLight(0xfff4d6, 0x9ab0bd, 1.6);
+const luzPortalSol = new THREE.DirectionalLight(0xfff2cf, 1.1);
+luzPortalSol.position.set(-4, 12, -6);
+luzPortalAmbiente.visible = luzPortalSol.visible = false;
+scene.add(luzPortalAmbiente, luzPortalSol);
 const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.05, 500);
 camera.rotation.order = 'YXZ';
 camera.position.set(0, 1.6, 0);
@@ -155,7 +160,7 @@ function aplicarEstilos() {
 
 const manos = [0, 1].map((i) => {
   const m = {
-    i, lado: i === 0 ? 'left' : 'right', garra: crearGarra(), cuerda: null, lanzando: null, destello: 0,
+    i, lado: i === 0 ? 'left' : 'right', garra: crearGarra(), cuerda: null, lanzando: null, impacto: null, destello: 0,
     enfriar: 0, enfriarTiron: 0, enfriarZarpazo: 0, apretado: false, gamepad: null, botones: [], presa: null, escalando: false, velMano: new THREE.Vector3(), deltaMano: new THREE.Vector3(),
     soporte: new THREE.Object3D(), control: renderer.xr.getController(i), grip: renderer.xr.getControllerGrip(i), manoAntes: null, vibroImp: 0,
     linea: new THREE.Mesh(geoCuerda, materialCuerda(estiloCuerda())), gancho: new THREE.Mesh(geoGancho, matGancho), mira: new THREE.Mesh(geoMira, matMira),
@@ -305,6 +310,7 @@ function buscarAncla(origen, dir) {
     const p = golpe(origen, d);
     if (p) return p.clone();
   }
+  if (portalActivo && dir.y > 0.35) return origen.clone().addScaledVector(dir, 14);
   return null;
 }
 
@@ -434,6 +440,7 @@ function actualizarMano(m, dt) {
     dibujarLinea(m, v1, v2.lerpVectors(v1, L.objetivo, p));
     if (p >= 1) {
       m.lanzando = null;
+      m.impacto = L.acierta ? L.objetivo.clone() : null;
       if (L.portal) {
         abrirCartel(L.portal);
       } else if (L.presa && L.presa.estado !== 'poof' && L.presa.estado !== 'muerto') { // atrapado: se queda quieto hasta que jales o sueltes
@@ -739,9 +746,10 @@ function abrirCartel(id) {
   churus.forEach((c) => { c.visible = false; });
   enemigosGrupo.visible = false;
   portalActivo.grupo.visible = true;
+  luzPortalAmbiente.visible = luzPortalSol.visible = true;
   mundo.cajas = portalActivo.cajas;
   scene.background = new THREE.Color(portalActivo.ambiente.cielo);
-  scene.fog = new THREE.Fog(portalActivo.ambiente.niebla, 42, 100);
+  scene.fog = new THREE.Fog(portalActivo.ambiente.niebla, 70, 180);
   manos.forEach(soltarMano);
   jugadora.pos.x = 0; jugadora.pos.y = 1; jugadora.pos.z = 0;
   jugadora.vel.x = jugadora.vel.y = jugadora.vel.z = 0;
@@ -758,6 +766,7 @@ function cerrarPortal() {
   if (reinicioEn) reinicioEn += transcurrido;
   portalActivo.grupo.visible = false;
   portalActivo = null;
+  luzPortalAmbiente.visible = luzPortalSol.visible = false;
   mundo.grupo.visible = true;
   mundo.cajas = cajasCiudad;
   churus.forEach((c, i) => { c.visible = churusCiudadVisibles[i]; });
@@ -794,12 +803,13 @@ function actualizarPortal(dt, ahora) {
     cerca: (p, r) => Math.hypot(jugadora.pos.x-p.x,jugadora.pos.y-p.y,jugadora.pos.z-p.z)<r,
     zarpazo: (p,r) => manos.some(m => m.velMano.length() >= 2.5 && (m.garra.getWorldPosition(v1), v1.distanceTo(p)<r)),
     acariciar: (p,r) => manos.some(m => (m.garra.getWorldPosition(v1), v1.distanceTo(p)<r)),
-    atrapado: (p,r) => manos.some(m => m.lanzando?.acierta && m.lanzando.objetivo.distanceTo(p)<r || m.cuerda && Math.hypot(m.cuerda.ancla.x-p.x,m.cuerda.ancla.y-p.y,m.cuerda.ancla.z-p.z)<r),
+    atrapado: (p,r) => manos.some(m => m.lanzando?.acierta && m.lanzando.objetivo.distanceTo(p)<r || m.impacto?.distanceTo(p)<r),
     jalaron: () => manos.some(m => m.presa || m.enfriarTiron > 0),
     recoger: (lista) => { for(const c of lista){ if(!c.m.visible)continue;c.m.position.y=c.base+Math.sin(ahora/400+c.fase)*.2;if(c.m.position.distanceTo(v1.set(jugadora.pos.x,jugadora.pos.y+.3,jugadora.pos.z))<1.5){c.m.visible=false;sumarChurus(1);sonar.churu();}} },
     golpearEnemigos: (lista) => { for(const e of lista){if(!e.vivo)continue;e.grupo.rotation.y=Math.sin(ahora/500+e.fase)*.3;for(const m of manos)if(m.velMano.length()>=2.5&&(m.garra.getWorldPosition(v1),v1.distanceTo(e.grupo.position)<1.2))golpearEnemigoPortal(e);}},
     sumarChurus, sumarCorazon: (n) => {vida.vida=Math.min(VIDA.max,vida.vida+n);}, escudo: (s = 30) => { vida.invulnerable = Math.max(vida.invulnerable, s); }, estelaNeon: () => {estelaNeonPendiente=true;}, avisar: (s) => mostrarAviso([s]), terminar: cerrarPortal,
   });
+  manos.forEach((m) => { m.impacto = null; });
   if (Math.hypot(jugadora.pos.x, jugadora.pos.y - 1, jugadora.pos.z - 4) < 1.5 || portalExpirado(estadoPortales, ahora)) cerrarPortal();
 }
 
