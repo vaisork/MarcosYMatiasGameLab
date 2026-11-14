@@ -10,11 +10,11 @@ const entre = (g, geo, mat, a, b) => {
 
 export default {
   id: 'vaisgard', nombre: 'Vaisgard',
-  ambiente: { cielo: 0x98a6c9, suelo: 0x55616d, niebla: 0x9fa8da },
+  ambiente: { cielo: 0xf49b91, suelo: 0xb57761, niebla: 0xf6bf8a },
   crear(g, u) {
     const base = u.plataforma(0, -.25, 0, 10, 1, 10, 0xe6a071);
-    base.material.color.setHex(0x55616d);
-    const piedra = lambert(0x90a4ae), sombra = lambert(0x536875), madera = lambert(0x80502e), cuerda = lambert(0xd7bd8a);
+    base.material.color.setHex(0xc9866b);
+    const piedra = lambert(0xb98169), sombra = lambert(0x78534c), madera = lambert(0x80502e), cuerda = lambert(0xd7bd8a), bandera = lambert(0xc83849);
     const torres = [[-7, -20, 10], [7, -20, 15], [12, 7, 19], [-10, 9, 13]];
     new GLTFLoader().load('modelos/vaisgard_penascos_r2.glb',({scene})=>torres.forEach(([x,z],i)=>{const peñasco=scene.clone(true);peñasco.position.set(x,0,z);if(i%2)peñasco.scale.x=.9;g.add(peñasco);}),undefined,(e)=>console.error('No se pudieron cargar los peñascos de Vaisgard',e));
     const dummy = new THREE.Object3D();
@@ -29,8 +29,14 @@ export default {
       fuste.position.set(x, h / 2, z); g.add(fuste);
       const cornisa = new THREE.Mesh(new THREE.CylinderGeometry(2.55, 2.45, .34, 8), sombra);
       cornisa.position.set(x, h - .08, z); g.add(cornisa);
-      const techo = new THREE.Mesh(new THREE.CylinderGeometry(2.35, 2.35, .28, 8), piedra);
-      techo.position.set(x, h + .17, z); g.add(techo);
+      const techo = new THREE.Mesh(new THREE.ConeGeometry(2.45, 3.2, 8), i % 2 ? lambert(0xc34e4f) : lambert(0xd79a53));
+      techo.position.set(x, h + 1.45, z); g.add(techo);
+      for (const side of [-1, 1]) {
+        const asta = new THREE.Mesh(new THREE.CylinderGeometry(.045, .045, 2.2, 6), madera);
+        asta.position.set(x + side * .95, h + 3.95, z); g.add(asta);
+        const tela = new THREE.Mesh(new THREE.PlaneGeometry(.9, .55), bandera);
+        tela.position.set(x + side * .55, h + 4.5, z + .03); tela.rotation.y = Math.PI / 2; g.add(tela);
+      }
       for (let j = 0; j < 8; j++) {
         const a = j * Math.PI / 4 + Math.PI / 8;
         dummy.position.set(x + Math.cos(a) * 1.78, h + .62, z + Math.sin(a) * 1.78);

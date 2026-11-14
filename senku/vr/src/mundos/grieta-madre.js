@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { objetivoGrietaMadre } from './objetivos.mjs';
 
 export default {
@@ -14,7 +15,7 @@ export default {
       g.add(roca);
     }
 
-    const grieta = new THREE.Mesh(new THREE.TorusGeometry(3.6, 0.35, 8, 28), new THREE.MeshBasicMaterial({ color: 0xcc66ff, wireframe: true }));
+    const grieta = new THREE.Mesh(new THREE.TorusGeometry(3.6, 0.3, 8, 28), new THREE.MeshLambertMaterial({ color: 0xcc66ff, emissive: 0x541277 }));
     grieta.position.set(0, 4.5, -12);
     g.add(grieta);
 
@@ -48,8 +49,14 @@ export default {
       grupo.add(marco, panel, cristal);
       g.add(grupo);
 
-      puertas.push({ ...info, grupo, panel, matPanel, cristal });
+      puertas.push({ ...info, grupo, panel, matPanel, cristal, marco });
     });
+
+    new GLTFLoader().load('modelos/grieta_altar_r3.glb', ({ scene }) => {
+      scene.traverse((o) => { if (o.isMesh) o.material = new THREE.MeshLambertMaterial({ color: o.material.color, emissive: o.material.emissive }); });
+      g.add(scene);
+      puertas.forEach((p) => { p.marco.visible = false; p.panel.visible = false; p.cristal.visible = false; });
+    }, undefined, (e) => console.error('No se pudo cargar el altar dimensional', e));
 
     return {
       grieta,
