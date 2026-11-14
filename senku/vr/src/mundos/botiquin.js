@@ -8,7 +8,11 @@ const barra = (g, a, b, radius, color) => {
   const m = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, d.length(), 8), mat(color));
   m.position.copy(va).add(vb).multiplyScalar(.5); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize()); g.add(m); return m;
 };
-const cargarGatito = (llegar) => new GLTFLoader().load('modelos/gatito.glb', ({ scene }) => llegar(scene), undefined, (e) => console.error('No se pudo cargar modelos/gatito.glb', e));
+const cargarGatito = (llegar) => new GLTFLoader().load('modelos/gatito.glb', ({ scene }) => {
+  scene.traverse((o) => { if (o.isMesh && o.name === 'Cube') o.visible = false; });
+  llegar(scene);
+}, undefined, (e) => console.error('No se pudo cargar modelos/gatito.glb', e));
+const cargarKit = (llegar) => new GLTFLoader().load('modelos/botiquin_carrito_lampara_r2.glb', ({ scene }) => llegar(scene), undefined, (e) => console.error('No se pudo cargar el carrito clínico', e));
 
 export default {
   id: 'botiquin',
@@ -19,6 +23,10 @@ export default {
     u.plataforma(0, 2, -10, 24, 4, 0.6, 0xbfe5d3);
     u.plataforma(-12, 2, -1, 0.6, 4, 18, 0xcdeada);
     u.plataforma(12, 2, -1, 0.6, 4, 18, 0xcdeada);
+    const zoclo = mat(0xfafafa);
+    for (const [x,z,sx,sz] of [[0,-9.66,24,.12],[-11.66,-1,.12,18],[11.66,-1,.12,18]]) {
+      const franja = new THREE.Mesh(new THREE.BoxGeometry(sx,.32,sz),zoclo); franja.position.set(x,.18,z); g.add(franja);
+    }
 
     // Mostrador clínico acolchado.
     const mostrador = u.plataforma(0, 0.4, -1, 5, 0.8, 1.4, 0xffffff);
@@ -54,7 +62,7 @@ export default {
       const almohada = new THREE.Mesh(new THREE.SphereGeometry(.48, 8, 5), mat(0xe0f2f1));
       almohada.position.set(bx, .86, bz - .86); almohada.scale.set(1.5, .28, .8); g.add(almohada);
 
-      const paciente = new THREE.Group(); paciente.position.set(bx, .75, bz); g.add(paciente);
+      const paciente = new THREE.Group(); paciente.position.set(bx, .98, bz); g.add(paciente);
       const matHerido = mat([0x9d7966, 0x777986, 0xb18c79][i]);
       const respaldo = new THREE.Group(); paciente.add(respaldo);
       const cuerpo = new THREE.Mesh(new THREE.SphereGeometry(.46, 9, 6), matHerido);
@@ -76,6 +84,8 @@ export default {
       vendajePata.rotation.x = Math.PI / 2; vendajePata.position.set(.48, .02, .45); respaldo.add(vendajePata);
       const vendaModelo = new THREE.Mesh(new THREE.TorusGeometry(.34, .055, 5, 12), mat(0xfff8e7));
       vendaModelo.rotation.x = Math.PI / 2; vendaModelo.position.set(-.15, .18, -.52); paciente.add(vendaModelo);
+      const cobija = new THREE.Mesh(new THREE.SphereGeometry(1,8,5),mat(0xfff59d));
+      cobija.scale.set(.48,.14,.58); cobija.position.set(.2,.28,.28); paciente.add(cobija);
 
       const estado = { grupo: paciente, cabeza, cuerpo, vendaje, vendaModelo, respaldo, matHerido, curado: false };
       pacientes.push(estado);
@@ -85,12 +95,15 @@ export default {
     cargarGatito((base) => pacientes.forEach((estado) => {
       const modelo = base.clone(true);
       estado.respaldo.visible = false;
-      modelo.scale.setScalar(.72); modelo.position.set(0, -.33, 0); modelo.rotation.set(Math.PI / 2, Math.PI / 2, 0);
+      modelo.scale.setScalar(.65); modelo.position.set(0, -.1, 0); modelo.rotation.set(0, Math.PI, Math.PI / 2);
       modelo.traverse((o) => {
         if (!o.isMesh) return;
         o.material = Array.isArray(o.material) ? o.material.map((m) => m.clone()) : o.material.clone();
       });
       estado.grupo.add(modelo); estado.modelo = modelo;
+    }));
+    cargarKit((base) => camas.forEach(([x,y,z], i) => {
+      const kit = base.clone(true); kit.position.set(x + (i === 1 ? 2 : -2), y, z); g.add(kit);
     }));
 
     // Suero y biombos plegables.
@@ -139,7 +152,7 @@ export default {
     }
 
     s.pacientes.forEach((p, i) => {
-      if (p.curado) p.grupo.position.y = .75 + Math.abs(Math.sin(s.reloj * 3 + i)) * .15;
+      if (p.curado) p.grupo.position.y = .98 + Math.abs(Math.sin(s.reloj * 3 + i)) * .15;
     });
     if (s.curados.size === 3 && !s.premiado) {
       s.premiado = true; this.premio(ctx);

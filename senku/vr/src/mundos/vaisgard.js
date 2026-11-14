@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const lambert = (color) => new THREE.MeshLambertMaterial({ color, flatShading: true });
 const entre = (g, geo, mat, a, b) => {
@@ -9,12 +10,13 @@ const entre = (g, geo, mat, a, b) => {
 
 export default {
   id: 'vaisgard', nombre: 'Vaisgard',
-  ambiente: { cielo: 0xf0a0b4, suelo: 0xc57869, niebla: 0xf2bd91 },
+  ambiente: { cielo: 0x98a6c9, suelo: 0x55616d, niebla: 0x9fa8da },
   crear(g, u) {
     const base = u.plataforma(0, -.25, 0, 10, 1, 10, 0xe6a071);
-    base.material.color.setHex(0x9a786f);
+    base.material.color.setHex(0x55616d);
     const piedra = lambert(0x90a4ae), sombra = lambert(0x536875), madera = lambert(0x80502e), cuerda = lambert(0xd7bd8a);
     const torres = [[-7, -20, 10], [7, -20, 15], [12, 7, 19], [-10, 9, 13]];
+    new GLTFLoader().load('modelos/vaisgard_penascos_r2.glb',({scene})=>torres.forEach(([x,z],i)=>{const peñasco=scene.clone(true);peñasco.position.set(x,0,z);if(i%2)peñasco.scale.x=.9;g.add(peñasco);}),undefined,(e)=>console.error('No se pudieron cargar los peñascos de Vaisgard',e));
     const dummy = new THREE.Object3D();
     const merlones = new THREE.InstancedMesh(new THREE.BoxGeometry(.62, .75, .62), piedra, torres.length * 8);
     const troneras = new THREE.InstancedMesh(new THREE.BoxGeometry(.18, 1.3, .14), sombra, torres.length * 8);
@@ -70,7 +72,7 @@ export default {
 
     const enemigos = [];
     for (const [x, z] of [[-3, -12], [3, -17], [0, 3]]) {
-      const grupo = new THREE.Group(), hueso = lambert(0xf4dfb3), oscuro = lambert(0x28303b);
+      const grupo = new THREE.Group(), hueso = lambert(0xeceff1), oscuro = lambert(0x28303b);
       const cuerpo = new THREE.Mesh(new THREE.IcosahedronGeometry(.42, 1), hueso);
       cuerpo.scale.set(1.3, .72, .8); grupo.add(cuerpo);
       const craneo = new THREE.Mesh(new THREE.IcosahedronGeometry(.29, 1), hueso);
@@ -84,6 +86,10 @@ export default {
       for (let i = 0; i < 4; i++) {
         const costilla = new THREE.Mesh(new THREE.TorusGeometry(.32 - i * .025, .035, 4, 8, Math.PI), hueso);
         costilla.position.set(0, .03 - i * .015, -.05 + i * .16); costilla.rotation.z = Math.PI; grupo.add(costilla);
+      }
+      for (let i=0;i<6;i++) {
+        const vertebra = new THREE.Mesh(new THREE.SphereGeometry(.075,6,4),hueso);
+        vertebra.position.set(0,.02,.48+i*.16); grupo.add(vertebra);
       }
       grupo.position.set(x, .55, z); g.add(grupo); enemigos.push({ grupo, vivo: true, fase: x });
     }
