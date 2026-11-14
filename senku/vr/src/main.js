@@ -1506,7 +1506,8 @@ renderer.setAnimationLoop(() => {
   }
   if (menuAbierto) { if (renderer.xr.isPresenting) actualizarMenuVR(); }
   else if (jugando) actualizar(dt);
-  mundo.carteles.animar(ahora);
+  const nocheCiudad = !portalActivo ? mundo.vida.animar(ahora, jugadora.pos) : 0;
+  mundo.carteles.animar(ahora, nocheCiudad);
   if (!portalActivo) mundo.carteles.animarPortal(jugadora.pos, dt);
   estelaNeon.visible = ahora < estelaNeonHasta;
   if (estelaNeon.visible) {
@@ -1514,7 +1515,6 @@ renderer.setAnimationLoop(() => {
     for (let i = 0; i < 12; i++) { const t=i*.18,m=new THREE.Matrix4().setPosition(jugadora.pos.x-jugadora.vel.x/rapidez*t,jugadora.pos.y-.65+Math.sin(ahora/140+i)*.08,jugadora.pos.z-jugadora.vel.z/rapidez*t); estelaNeon.setMatrixAt(i,m); }
     estelaNeon.instanceMatrix.needsUpdate=true;
   }
-  if (!portalActivo) mundo.vida.animar(ahora, jugadora.pos);
   camera.getWorldPosition(puntoCamara);
   mundo.domo.position.copy(puntoCamara);
   renderer.render(scene, camera);
@@ -1523,7 +1523,6 @@ renderer.setAnimationLoop(() => {
 // --- Inicio y VR -----------------------------------------------------------------
 function jugar() {
   iniciarSonido();
-  mundo.carteles.encenderFaroles(performance.now());
   mundo.vida.iniciar(performance.now());
   vineta = $('vineta').checked;
   jugando = true;
@@ -1578,4 +1577,4 @@ botonVR.addEventListener('click', async () => {
 
 // Para pruebas desde la consola: senku.disparar(0), senku.soltar(0)... y
 // senku.avanzar(dt) corre un paso del juego aunque la pestaña esté oculta.
-window.senku = { avanzar: (dt) => { if (jugando && !menuAbierto) actualizar(dt); const ahora = performance.now(); mundo.carteles.animar(ahora); if (!portalActivo) mundo.vida.animar(ahora, jugadora.pos); renderer.render(scene, camera); }, jugadora, manos, churus, eleccion, enemigos, vida, vidaCiudad: mundo.vida, abrirMenu, cerrarMenu, menuLienzo, activar, golpearEnemigo, alternarEscalada, portal: (id) => id === 'salir' ? cerrarPortal() : abrirCartel(id), estadoPortal: estadoPortales, mundos: mundosPortales, carteles: () => mundo.carteles.ubicaciones, total: () => totalChurus, barra, ratoncitos, poder: (i = 1) => lanzarPoder(manos[i]), disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; if (!renderer.xr.isPresenting) camera.rotation.set(pitch, yaw, 0); } };
+window.senku = { avanzar: (dt) => { if (jugando && !menuAbierto) actualizar(dt); const ahora = performance.now(), nocheCiudad = !portalActivo ? mundo.vida.animar(ahora, jugadora.pos) : 0; mundo.carteles.animar(ahora, nocheCiudad); renderer.render(scene, camera); }, jugadora, manos, churus, eleccion, enemigos, vida, vidaCiudad: mundo.vida, abrirMenu, cerrarMenu, menuLienzo, activar, golpearEnemigo, alternarEscalada, portal: (id) => id === 'salir' ? cerrarPortal() : abrirCartel(id), estadoPortal: estadoPortales, mundos: mundosPortales, carteles: () => mundo.carteles.ubicaciones, total: () => totalChurus, barra, ratoncitos, poder: (i = 1) => lanzarPoder(manos[i]), disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; if (!renderer.xr.isPresenting) camera.rotation.set(pitch, yaw, 0); } };

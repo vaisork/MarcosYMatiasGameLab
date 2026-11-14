@@ -847,7 +847,7 @@ function crearTiendita(scene, cajas) {
   const amarillo = new THREE.MeshLambertMaterial({ color: '#fbc02d' });
   const concreto = new THREE.MeshLambertMaterial({ color: '#cfcbbe' });
   const muro = new THREE.MeshLambertMaterial({ color: '#fff7e8' });
-  const cristal = new THREE.MeshStandardMaterial({ color: '#b9dce0', roughness: 0.15, metalness: 0.2, transparent: true, opacity: 0.85 });
+  const cristal = new THREE.MeshStandardMaterial({ color: '#d9e9e5', roughness: 0.15, metalness: 0.12, transparent: true, opacity: 0.42 });
   const aluminio = new THREE.MeshLambertMaterial({ color: '#263238' });
   const geo = new THREE.BoxGeometry(1, 1, 1);
   const caja = (px, py, pz, sx, sy, sz, material, colision = false) => {
@@ -868,6 +868,22 @@ function crearTiendita(scene, cajas) {
   for (const px of [-1.65, 1.65]) caja(px, 1.82, 2.19, 1.72, 2.92, 0.055, cristal, true);
   caja(-0.36, 1.82, 2.17, 0.66, 2.88, 0.045, cristal);
   caja(0.36, 1.82, 2.17, 0.66, 2.88, 0.045, cristal);
+  // Perfiles y tiradores dobles dejan claro que el acceso central es abatible.
+  for (const px of [-0.72, 0, 0.72]) caja(px, 1.82, 2.25, 0.055, 2.98, 0.07, aluminio);
+  const acero = new THREE.MeshStandardMaterial({ color: '#cfd8dc', roughness: 0.28, metalness: 0.8 });
+  for (const px of [-0.34, 0.34]) {
+    const manija = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.95, 8), acero);
+    manija.position.set(x + px, 1.1, z + 2.32); grupo.add(manija);
+    for (const py of [0.64, 1.56]) caja(px, py, 2.32, 0.09, 0.06, 0.1, acero);
+  }
+  caja(-1.65, 1.74, 2.24, 1.72, 0.12, 0.035, amarillo);
+  caja(1.65, 1.74, 2.24, 1.72, 0.12, 0.035, amarillo);
+  const aviso = document.createElement('canvas'); aviso.width = 384; aviso.height = 96;
+  const avisoCtx = aviso.getContext('2d'); avisoCtx.fillStyle = '#263238'; avisoCtx.fillRect(0, 0, 384, 96);
+  avisoCtx.fillStyle = '#fff'; avisoCtx.font = '900 40px system-ui'; avisoCtx.textAlign = 'center'; avisoCtx.textBaseline = 'middle'; avisoCtx.fillText('AUTOMÁTICA · PASE', 192, 48);
+  const avisoTex = new THREE.CanvasTexture(aviso); avisoTex.colorSpace = THREE.SRGBColorSpace;
+  const avisoPuerta = new THREE.Mesh(new THREE.PlaneGeometry(1.35, 0.34), new THREE.MeshBasicMaterial({ map: avisoTex }));
+  avisoPuerta.position.set(x, 3.16, z + 2.29); grupo.add(avisoPuerta);
 
   // Marquesina con frente rojo, doble franja amarilla y vuelo de 40 cm.
   caja(0, 3.32, 2.38, 6.35, 0.75, 0.95, rojo);
@@ -893,13 +909,33 @@ function crearTiendita(scene, cajas) {
       for (let n = 0; n < 3; n++) caja(sx - 0.23 + n * 0.23, 0.82 + nivel * 0.58, -1.04, 0.15, 0.3, 0.17, snacks[(nivel + n) % snacks.length]);
     }
   }
+  // Caja de cobro en L, terminal y cafetera ocupan el centro del fondo.
+  const blancoMostrador = new THREE.MeshLambertMaterial({ color: '#f5f2ec' });
+  const encendido = new THREE.MeshBasicMaterial({ color: '#76ff8b', toneMapped: false });
+  caja(0, 0.49, -1.2, 2.2, 0.95, 0.85, blancoMostrador);
+  caja(0, 0.12, -1.2, 2.2, 0.2, 0.86, rojo);
+  caja(-0.72, 0.49, -0.76, 0.72, 0.95, 0.12, blancoMostrador);
+  caja(-0.48, 1.04, -1.14, 0.42, 0.12, 0.3, aluminio);
+  caja(-0.48, 1.2, -1.12, 0.3, 0.2, 0.045, encendido);
+  const maquinaCafe = new THREE.MeshStandardMaterial({ color: '#212121', roughness: 0.58, metalness: 0.18 });
+  caja(0.7, 1.0, -1.38, 0.45, 0.7, 0.4, maquinaCafe);
+  caja(0.7, 1.16, -1.17, 0.31, 0.16, 0.035, rojo);
+  caja(0.7, 0.84, -1.17, 0.22, 0.08, 0.04, acero);
+  const vasoCafe = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.055, 0.18, 8), new THREE.MeshLambertMaterial({ color: '#fff7e8' }));
+  vasoCafe.position.set(x + 1.04, 0.92, z - 1.14); grupo.add(vasoCafe);
+  const luzInterior = new THREE.PointLight('#fff3e0', 1.4, 8);
+  luzInterior.position.set(x, 3.05, z - 0.4); grupo.add(luzInterior);
+  const plafon = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.06, 0.75), new THREE.MeshBasicMaterial({ color: '#fff3e0' }));
+  plafon.position.set(x, 3.48, z - 0.6); grupo.add(plafon);
+  const panelLuz = new THREE.Mesh(new THREE.PlaneGeometry(1.35, 0.52), new THREE.MeshBasicMaterial({ color: '#fff3e0', toneMapped: false }));
+  for (const px of [-0.85, 0.85]) { const panel = panelLuz.clone(); panel.position.set(x + px, 3.43, z - 0.15); panel.rotation.x = Math.PI / 2; grupo.add(panel); }
   caja(0, 4.15, -2.35, 6.5, 0.25, 0.18, concreto);
   caja(0, 4.15, 2.35, 6.5, 0.25, 0.18, concreto);
   caja(-3.15, 4.15, 0, 0.18, 0.25, 4.55, concreto);
   caja(3.15, 4.15, 0, 0.18, 0.25, 4.55, concreto);
-  const acero = new THREE.MeshStandardMaterial({ color: '#78909c', roughness: 0.68, metalness: 0.35 });
+  const aceroVent = new THREE.MeshStandardMaterial({ color: '#78909c', roughness: 0.68, metalness: 0.35 });
   const negroVent = new THREE.MeshStandardMaterial({ color: '#263238', roughness: 0.8 });
-  caja(1.35, 4.43, -0.45, 1.1, 0.7, 0.8, acero);
+  caja(1.35, 4.43, -0.45, 1.1, 0.7, 0.8, aceroVent);
   const ventilador = new THREE.Mesh(new THREE.CylinderGeometry(0.29, 0.29, 0.055, 12), negroVent);
   ventilador.position.set(x + 1.35, 4.8, z - 0.45); grupo.add(ventilador);
   caja(1.35, 4.76, -0.45, 0.06, 0.08, 0.56, aluminio);
@@ -968,7 +1004,7 @@ export function crearMundo(escena) {
   let tiendita;
   const arboles = [], jardineras = [], tierraJardineras = [], botes = [], fuentes = [], bancas = [], faroles = [], puestos = [], coches = [];
   const balcones = [], toldos = [], cornisas = [], antepechos = [], aires = [], antenas = [], escaleras = [];
-  const cruces = [], bordillos = [], banderines = [], letreros = [];
+  const cruces = [], bordillos = [], banderines = [], letreros = [], rejillas = [], tapasRegistro = [], surcosRegistro = [];
   const vacio = (i, j) => (i === 0 && j === 0) || ((i * 7 + j * 13) % 11 === 0 && Math.abs(i) + Math.abs(j) > 2) || (i === -3 && j === -2);
 
   for (let i = -N; i <= N; i++) for (let j = -N; j <= N; j++) {
@@ -1074,6 +1110,22 @@ export function crearMundo(escena) {
   for (let i = -3; i < 3; i++) for (let j = -3; j < 3; j++) {
     if (r() < 0.4) churus.push(new THREE.Vector3((i + 0.5) * CUADRA, 6 + r() * 22, (j + 0.5) * CUADRA));
   }
+
+  // Cruces principales de la plaza, con cuatro franjas anchas y blancas.
+  for (const [x, z, horizontal] of [[0, -13, true], [0, 13, true], [-13, 0, false], [13, 0, false]]) {
+    for (let k = 0; k < 4; k++) {
+      const offset = -1.2 + k * 0.8;
+      cruces.push({ x: x + (horizontal ? offset : 0), y: 0.045, z: z + (horizontal ? 0 : offset), sx: horizontal ? 0.6 : 3.8, sy: 0.055, sz: horizontal ? 3.8 : 0.6, color: '#ffffff' });
+    }
+  }
+  // Tapas y rejillas en el borde de calzada, sin colisión para no alterar el juego.
+  for (const [x, z] of [[-8, -8], [8, -8], [-8, 8], [8, 8]]) {
+    tapasRegistro.push({ x, y: 0.025, z, sx: 1, sy: 1, sz: 1 });
+    for (let i = -2; i <= 2; i++) surcosRegistro.push({ x: x + i * 0.13, y: 0.049, z, sx: 0.025, sy: 0.012, sz: 0.72 });
+  }
+  for (const [x, z, giro] of [[-10.8, -9.5, 0], [10.8, -9.5, 0], [-10.8, 9.5, 0], [10.8, 9.5, 0]]) {
+    rejillas.push({ x, y: 0.035, z, sx: 1.2, sy: 0.035, sz: 0.55, rotY: giro, color: '#37474f' });
+  }
   churus.push(new THREE.Vector3(0, 1.3, -6), new THREE.Vector3(0, 12.5, -13)); // uno a pie y uno de práctica
 
   // Tiras de lona claras alternadas sobre marquesinas de accesos y puestos.
@@ -1121,13 +1173,52 @@ export function crearMundo(escena) {
   agregarLote(scene, new THREE.CylinderGeometry(2.8, 2.8, 0.56, 12), cubeBase, fuentes.map(([x, z]) => ({ x, y: 0.34, z, sx: 1, sy: 1, sz: 1, color: '#d8c7b2' })));
   agregarLote(scene, new THREE.CylinderGeometry(2.22, 2.22, 0.1, 12), new THREE.MeshBasicMaterial({ color: '#72aeb5' }), fuentes.map(([x, z]) => ({ x, y: 0.66, z, sx: 1, sy: 1, sz: 1 })));
   agregarLote(scene, new THREE.CylinderGeometry(0.22, 0.36, 0.72, 8), cubeBase, fuentes.map(([x, z]) => ({ x, y: 0.96, z, sx: 1, sy: 1, sz: 1, color: '#d8c7b2' })));
-  const peldaños = [], largueros = [];
+  agregarLote(scene, cubeGeo, cubeBase, rejillas);
+  agregarLote(scene, new THREE.CylinderGeometry(0.48, 0.48, 0.035, 12), new THREE.MeshStandardMaterial({ color: '#212121', roughness: 0.84, metalness: 0.38 }), tapasRegistro);
+  agregarLote(scene, cubeGeo, new THREE.MeshLambertMaterial({ color: '#59636a' }), surcosRegistro);
+
+  // Parabús sobre la banqueta norte, con mupi visible desde la avenida.
+  const parada = new THREE.Group(); parada.position.set(12, 0, -14);
+  const verdeParada = new THREE.MeshLambertMaterial({ color: '#1b5e20' });
+  const vidrioParada = new THREE.MeshStandardMaterial({ color: '#b2ebf2', transparent: true, opacity: 0.52, roughness: 0.2, metalness: 0.1, side: THREE.DoubleSide });
+  const maderaParada = new THREE.MeshLambertMaterial({ color: '#d7ccc8' });
+  for (const px of [-2.1, 2.1]) {
+    const poste = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.1, 2.75, 8), verdeParada); poste.position.set(px, 1.38, 0); parada.add(poste);
+  }
+  const cubierta = new THREE.Mesh(new THREE.CylinderGeometry(2.3, 2.3, 4.4, 16, 1, true, 0, Math.PI), vidrioParada);
+  cubierta.rotation.z = Math.PI / 2; cubierta.position.set(0, 0.55, 0); parada.add(cubierta);
+  const panelLateral = new THREE.Mesh(new THREE.PlaneGeometry(4.1, 2.35), vidrioParada); panelLateral.position.set(0, 1.42, -0.12); parada.add(panelLateral);
+  for (let i = 0; i < 4; i++) {
+    const tablón = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.1, 0.18), maderaParada); tablón.position.set(0, 0.58 + i * 0.13, 0.72 - i * 0.04); parada.add(tablón);
+  }
+  const marcoMupi = new THREE.Mesh(new THREE.BoxGeometry(1.4, 2.2, 0.28), verdeParada); marcoMupi.position.set(-2.85, 1.46, 0.45); parada.add(marcoMupi);
+  const posterCanvas = document.createElement('canvas'); posterCanvas.width = 384; posterCanvas.height = 640;
+  const poster = posterCanvas.getContext('2d');
+  const posterGrad = poster.createLinearGradient(0, 0, 384, 640); posterGrad.addColorStop(0, '#ffcc80'); posterGrad.addColorStop(1, '#ef7891');
+  poster.fillStyle = posterGrad; poster.fillRect(0, 0, 384, 640); poster.fillStyle = '#4e342e'; poster.textAlign = 'center'; poster.font = '900 48px system-ui'; poster.fillText('RUTA', 192, 78); poster.font = '900 88px system-ui'; poster.fillText('SENKU', 192, 180);
+  poster.fillStyle = '#fff7e8'; poster.beginPath(); poster.arc(192, 365, 112, 0, Math.PI * 2); poster.fill(); poster.fillStyle = '#d66c61'; poster.beginPath(); poster.arc(192, 382, 80, 0, Math.PI * 2); poster.fill();
+  poster.fillStyle = '#fff'; poster.beginPath(); poster.arc(164, 354, 13, 0, Math.PI * 2); poster.arc(220, 354, 13, 0, Math.PI * 2); poster.fill(); poster.fillStyle = '#452c35'; poster.beginPath(); poster.arc(164, 354, 6, 0, Math.PI * 2); poster.arc(220, 354, 6, 0, Math.PI * 2); poster.fill(); poster.font = '700 40px system-ui'; poster.fillText('¡VIAJA JUGANDO!', 192, 560);
+  const posterTex = new THREE.CanvasTexture(posterCanvas); posterTex.colorSpace = THREE.SRGBColorSpace;
+  const posterMat = new THREE.MeshStandardMaterial({ map: posterTex, emissive: '#ffffff', emissiveMap: posterTex, emissiveIntensity: 0.7, roughness: 0.7 });
+  const mupiPoster = new THREE.Mesh(new THREE.PlaneGeometry(1.18, 1.96), posterMat); mupiPoster.position.set(-2.85, 1.46, 0.6); parada.add(mupiPoster);
+  mupiPoster.rotation.y = -0.15;
+  scene.add(parada);
+  const peldaños = [], largueros = [], descansos = [], barandales = [];
   for (const e of escaleras) {
-    for (const lado of [-1, 1]) largueros.push({ x: e.x, y: e.h / 2, z: e.z + lado * 0.95, sx: 0.14, sy: e.h, sz: 0.14, color: '#756678' });
-    for (let y = 1.3; y < e.h; y += 2.2) peldaños.push({ x: e.x - 0.02, y, z: e.z, sx: 0.24, sy: 0.12, sz: 2.0, color: '#bca9a2' });
+    const niveles = Math.ceil(e.h / 3.2);
+    for (let nivel = 0; nivel < niveles; nivel++) {
+      const y = Math.min(e.h - 0.8, (nivel + 1) * 3.2), sentido = nivel % 2 ? -1 : 1;
+      descansos.push({ x: e.x + 0.48, y, z: e.z, sx: 1.55, sy: 0.12, sz: 2.5, color: '#45515b' });
+      const z0 = e.z - sentido * 1.05, z1 = e.z + sentido * 1.05;
+      largueros.push({ x: e.x + 0.48, y: y - 1.55, z: (z0 + z1) / 2, sx: 0.12, sy: 0.16, sz: 3.1, rx: -sentido * 0.55, color: '#263238' });
+      for (let paso = 0; paso < 6; paso++) peldaños.push({ x: e.x + 0.48, y: y - 2.8 + paso * 0.28, z: z0 + (z1 - z0) * paso / 5, sx: 1.25, sy: 0.08, sz: 0.34, color: '#78909c' });
+      for (const lado of [-1, 1]) barandales.push({ x: e.x + 0.48 + lado * 0.72, y: y - 0.55, z: e.z, sx: 0.07, sy: 1.1, sz: 2.6, color: '#263238' });
+    }
   }
   agregarLote(scene, cubeGeo, cubeBase, largueros);
   agregarLote(scene, cubeGeo, cubeBase, peldaños);
+  agregarLote(scene, cubeGeo, cubeBase, descansos);
+  agregarLote(scene, cubeGeo, cubeBase, barandales);
   // Troncos cónicos y copas facetadas en dos niveles, con instancias económicas.
   const troncos = [], copas = [], palmeras = [];
   arboles.forEach(([x, y, z, tipo], k) => {
@@ -1159,14 +1250,17 @@ export function crearMundo(escena) {
   const brazoFarol = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.07, 0.1, 1, 7), new THREE.MeshLambertMaterial({ color: '#37474f' }), faroles.length);
   const materialGloboFarol = new THREE.MeshStandardMaterial({ color: '#fff3cc', emissive: '#ffd27f', emissiveIntensity: 0.8, roughness: 0.7 });
   const globoFarol = new THREE.InstancedMesh(new THREE.SphereGeometry(0.3, 8, 6), materialGloboFarol, faroles.length);
+  const materialHaloFarol = new THREE.MeshBasicMaterial({ color: 0xffe082, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, toneMapped: false });
+  const halosFarol = new THREE.InstancedMesh(new THREE.CircleGeometry(2.2, 16), materialHaloFarol, faroles.length);
   const arriba = new THREE.Vector3(), abajo = new THREE.Vector3(), direccion = new THREE.Vector3(), dummyFarol = new THREE.Object3D();
   faroles.forEach((p, i) => {
     dummyFarol.position.set(p.x, 3.8, p.z); dummyFarol.scale.set(1, 7.6, 1); dummyFarol.updateMatrix(); posteFarol.setMatrixAt(i, dummyFarol.matrix);
     abajo.set(p.x + 0.12, 7.55, p.z); arriba.set(p.x + 0.68, 7.55, p.z); direccion.subVectors(arriba, abajo);
     dummyFarol.position.copy(abajo).add(arriba).multiplyScalar(0.5); dummyFarol.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direccion.clone().normalize()); dummyFarol.scale.set(1, direccion.length(), 1); dummyFarol.updateMatrix(); brazoFarol.setMatrixAt(i, dummyFarol.matrix);
     dummyFarol.position.set(p.x + 0.72, 7.43, p.z); dummyFarol.scale.set(1, 1, 1); dummyFarol.updateMatrix(); globoFarol.setMatrixAt(i, dummyFarol.matrix);
+    dummyFarol.position.set(p.x, 0.035, p.z); dummyFarol.rotation.set(-Math.PI / 2, 0, 0); dummyFarol.updateMatrix(); halosFarol.setMatrixAt(i, dummyFarol.matrix);
   });
-  scene.add(posteFarol, brazoFarol, globoFarol);
+  scene.add(posteFarol, brazoFarol, globoFarol, halosFarol);
   // Papeles picados: planos pequeños agrupados, con cuatro colores alegres.
   const geoPapel = new THREE.BufferGeometry();
   geoPapel.setAttribute('position', new THREE.Float32BufferAttribute([-0.5, 0.5, 0, 0.5, 0.5, 0, 0, -0.5, 0], 3));
@@ -1200,18 +1294,26 @@ export function crearMundo(escena) {
   const carteles = crearCarteles(cajas, scene);
   const vida = crearVidaCiudad(scene, cajasVida, coches, nubes);
   vida.vincularFachada(edificio);
-  let farolesDesde = null;
-
+  const balizas = cajas.filter((c) => c.max.y > 35 && Math.abs((c.min.x + c.max.x) / 2) < 60 && Math.abs((c.min.z + c.max.z) / 2) < 60).sort((a, b) => b.max.y - a.max.y).slice(0, 2).map((c, i) => {
+    const x = (c.min.x + c.max.x) / 2, z = (c.min.z + c.max.z) / 2, y = c.max.y;
+    const antena = new THREE.Group();
+    const hierro = new THREE.MeshLambertMaterial({ color: '#45515b' });
+    const poste = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.05, 3.6, 5), hierro); poste.position.y = 1.8; antena.add(poste);
+    for (const rot of [-0.65, 0.65]) { const riostra = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 2.5, 4), hierro); riostra.position.y = 1.25; riostra.rotation.z = rot; antena.add(riostra); }
+    const materialBaliza = new THREE.MeshStandardMaterial({ color: '#ff1744', emissive: '#ff1744', emissiveIntensity: 1.4, roughness: 0.4 });
+    const baliza = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 6), materialBaliza); baliza.position.y = 3.7; antena.add(baliza);
+    antena.position.set(x, y, z); scene.add(antena); return { antena, materialBaliza, fase: i * Math.PI };
+  });
   return {
     grupo, edificios, cajas: cajas.map(({ min, max }) => ({ min, max })), churus, domo, vida, tiendita,
     carteles: {
       ...carteles,
-      encenderFaroles(tiempo) { farolesDesde = tiempo; },
-      animar(tiempo) {
+      animar(tiempo, noche = 0) {
         carteles.animar(tiempo);
-        if (farolesDesde === null) return;
-        const encendido = Math.max(0, Math.min(1, (tiempo - farolesDesde) / 3200));
-        materialGloboFarol.emissiveIntensity = encendido * 0.8;
+        materialGloboFarol.emissiveIntensity = noche * 0.8;
+        materialHaloFarol.opacity = noche * 0.24;
+        const pulso = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(tiempo * Math.PI * 2 / 1000));
+        for (const baliza of balizas) baliza.materialBaliza.emissiveIntensity = 1.4 * pulso * noche;
       },
     },
   };
