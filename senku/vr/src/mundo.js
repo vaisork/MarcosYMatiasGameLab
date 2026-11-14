@@ -864,6 +864,13 @@ function crearTiendita(scene, cajas) {
   for (const [px, py, pz, sx, sy, sz, mat] of piezas) caja(px, py, pz, sx, sy, sz, mat, py < 3.6);
   // Zócalo perimetral y fachada acristalada con acceso central despejado.
   caja(0, 0.18, 0, 6.05, 0.36, 4.55, concreto);
+  // Franjas institucionales también recorren laterales y fachada, no solo marquesina.
+  for (const lateral of [-1, 1]) {
+    caja(lateral * 3.02, 0.42, 0, 0.08, 0.35, 4.42, rojo);
+    caja(lateral * 3.02, 3.56, 0, 0.08, 0.12, 4.42, amarillo);
+  }
+  caja(0, 0.42, 2.24, 6.0, 0.35, 0.08, rojo);
+  caja(0, 3.56, 2.24, 6.0, 0.12, 0.08, amarillo);
   for (const px of [-2.58, -0.72, 0.72, 2.58]) caja(px, 1.86, 2.18, 0.12, 3.15, 0.16, aluminio);
   for (const px of [-1.65, 1.65]) caja(px, 1.82, 2.19, 1.72, 2.92, 0.055, cristal, true);
   caja(-0.36, 1.82, 2.17, 0.66, 2.88, 0.045, cristal);
@@ -954,6 +961,50 @@ function crearTiendita(scene, cajas) {
     caja(bx, 0.66, 3.05, 0.15, 0.13, 0.15, negroReflector);
   }
 
+  // Hielera exterior con tapa azul inclinada, tirador y rótulo legible.
+  const hielera = new THREE.Mesh(new THREE.BoxGeometry(1.35, 1.1, 0.82), new THREE.MeshStandardMaterial({ color: '#f5f5f5', roughness: 0.32, metalness: 0.16 }));
+  hielera.position.set(x - 3.65, 0.72, z + 0.65); grupo.add(hielera);
+  const tapaHielo = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.14, 0.88), new THREE.MeshStandardMaterial({ color: '#1976d2', roughness: 0.3, metalness: 0.12 }));
+  tapaHielo.position.set(x - 3.65, 1.32, z + 0.65); tapaHielo.rotation.z = -Math.PI / 12; grupo.add(tapaHielo);
+  const asaHielo = new THREE.Mesh(new THREE.TorusGeometry(0.13, 0.025, 6, 12, Math.PI), acero);
+  asaHielo.position.set(x - 3.65, 1.18, z + 1.08); grupo.add(asaHielo);
+  const hieloCanvas = document.createElement('canvas'); hieloCanvas.width = 384; hieloCanvas.height = 96;
+  const hieloCtx = hieloCanvas.getContext('2d'); hieloCtx.fillStyle = '#1976d2'; hieloCtx.fillRect(0, 0, 384, 96);
+  hieloCtx.fillStyle = '#fff'; hieloCtx.font = '900 46px system-ui'; hieloCtx.textAlign = 'center'; hieloCtx.textBaseline = 'middle'; hieloCtx.fillText('HIELO EN BOLSA', 192, 48);
+  const hieloTex = new THREE.CanvasTexture(hieloCanvas); hieloTex.colorSpace = THREE.SRGBColorSpace;
+  const frenteHielo = new THREE.Mesh(new THREE.PlaneGeometry(1.12, 0.28), new THREE.MeshBasicMaterial({ map: hieloTex }));
+  frenteHielo.position.set(x - 3.65, 0.76, z + 1.068); grupo.add(frenteHielo);
+
+  // ATM exterior en el paño derecho: marco verde, pantalla y teclado.
+  const atm = new THREE.Group(); atm.position.set(x + 2.12, 1.72, z + 2.18); grupo.add(atm);
+  const grafito = new THREE.Mesh(new THREE.BoxGeometry(0.72, 1.22, 0.2), new THREE.MeshLambertMaterial({ color: '#212121' })); atm.add(grafito);
+  const marcoAtm = new THREE.Mesh(new THREE.BoxGeometry(0.61, 1.08, 0.035), new THREE.MeshBasicMaterial({ color: '#00e676', toneMapped: false })); marcoAtm.position.z = 0.118; atm.add(marcoAtm);
+  const panelAtm = new THREE.Mesh(new THREE.BoxGeometry(0.53, 0.98, 0.045), new THREE.MeshLambertMaterial({ color: '#263238' })); panelAtm.position.z = 0.143; atm.add(panelAtm);
+  const pantallaAtm = new THREE.Mesh(new THREE.BoxGeometry(0.39, 0.26, 0.025), new THREE.MeshBasicMaterial({ color: '#64ddff', toneMapped: false })); pantallaAtm.position.set(0, 0.3, 0.18); atm.add(pantallaAtm);
+  const tecladoAtm = new THREE.Mesh(new THREE.BoxGeometry(0.31, 0.23, 0.025), new THREE.MeshStandardMaterial({ color: '#cfd8dc', roughness: 0.4, metalness: 0.72 })); tecladoAtm.position.set(0, -0.08, 0.18); atm.add(tecladoAtm);
+  for (let i = 0; i < 9; i++) {
+    const tecla = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.035, 0.012), aluminio);
+    tecla.position.set(-0.09 + (i % 3) * 0.09, -0.03 - Math.floor(i / 3) * 0.065, 0.2); atm.add(tecla);
+  }
+  const rotuloAtm = new THREE.Mesh(new THREE.PlaneGeometry(0.56, 0.18), new THREE.MeshBasicMaterial({ color: '#00e676', toneMapped: false }));
+  const atmCanvas = document.createElement('canvas'); atmCanvas.width = 384; atmCanvas.height = 128;
+  const atmCtx = atmCanvas.getContext('2d'); atmCtx.fillStyle = '#00e676'; atmCtx.fillRect(0, 0, 384, 128);
+  atmCtx.fillStyle = '#10251a'; atmCtx.font = '900 54px system-ui'; atmCtx.textAlign = 'center'; atmCtx.textBaseline = 'middle'; atmCtx.fillText('ATM 24 HRS', 192, 64);
+  const atmTex = new THREE.CanvasTexture(atmCanvas); atmTex.colorSpace = THREE.SRGBColorSpace;
+  rotuloAtm.material = new THREE.MeshBasicMaterial({ map: atmTex });
+  rotuloAtm.position.set(0, -0.43, 0.18); atm.add(rotuloAtm);
+
+  // Topes amarillos a nivel de la banqueta, con bandas negras diagonales.
+  const topeMat = new THREE.MeshLambertMaterial({ color: '#fbc02d' });
+  const bandaMat = new THREE.MeshLambertMaterial({ color: '#212121' });
+  for (const bx of [-1.45, 1.45]) {
+    const tope = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.14, 0.18), topeMat); tope.position.set(x + bx, 0.1, z + 4.38); grupo.add(tope);
+    for (let n = 0; n < 5; n++) {
+      const banda = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.145, 0.19), bandaMat);
+      banda.position.set(x + bx - 0.72 + n * 0.36, 0.1, z + 4.38); banda.rotation.y = Math.PI / 6; grupo.add(banda);
+    }
+  }
+
   const totem = new THREE.Group(); totem.position.set(-13.8, 0, -12.5);
   const fuste = new THREE.Mesh(new THREE.BoxGeometry(0.42, 3.35, 0.34), amarillo); fuste.position.y = 1.675; totem.add(fuste);
   const baseTotem = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.22, 0.72), concreto); baseTotem.position.y = 0.11; totem.add(baseTotem);
@@ -981,6 +1032,121 @@ function crearTiendita(scene, cajas) {
   scene.add(totem);
   scene.add(grupo);
   return { x, y: 1, z: z + 3.2 };
+}
+
+function crearAccesoriosCiudad(scene, tinacos) {
+  const lambert = (color) => new THREE.MeshLambertMaterial({ color });
+  const metal = new THREE.MeshStandardMaterial({ color: '#b0bec5', roughness: 0.32, metalness: 0.72 });
+  const barra = (grupo, a, b, radio, material, lados = 8) => {
+    const inicio = new THREE.Vector3(...a), fin = new THREE.Vector3(...b), delta = fin.clone().sub(inicio);
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(radio, radio, delta.length(), lados), material);
+    m.position.copy(inicio.add(fin).multiplyScalar(0.5)); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), delta.normalize()); grupo.add(m); return m;
+  };
+
+  // Carrito de aguas y comal en el borde de la plaza, fuera del eje de llegada.
+  const puesto = new THREE.Group(); puesto.position.set(7.5, 0, -6.8); scene.add(puesto);
+  const acero = new THREE.MeshStandardMaterial({ color: '#b0bec5', roughness: 0.3, metalness: 0.78 });
+  const cajaCarrito = new THREE.Mesh(new THREE.BoxGeometry(1.85, 0.95, 1.05), acero); cajaCarrito.position.set(0, 1.02, 0); puesto.add(cajaCarrito);
+  const faldon = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.16, 1.08), lambert('#455a64')); faldon.position.set(0, 0.49, 0); puesto.add(faldon);
+  for (const x of [-0.62, 0.62]) {
+    const rueda = new THREE.Mesh(new THREE.TorusGeometry(0.38, 0.035, 6, 16), metal); rueda.position.set(x, 0.43, 0.58); rueda.rotation.y = Math.PI / 2; puesto.add(rueda);
+    for (let r = 0; r < 8; r++) {
+      const a = r * Math.PI / 4;
+      barra(puesto, [x, 0.43, 0.58], [x, 0.43 + Math.cos(a) * 0.34, 0.58 + Math.sin(a) * 0.34], 0.012, metal, 4);
+    }
+  }
+  barra(puesto, [-0.62, 0.43, 0.58], [0.62, 0.43, 0.58], 0.035, metal, 6);
+  for (const [x, z] of [[-0.8, -0.42], [0.8, -0.42], [-0.8, 0.42], [0.8, 0.42]]) barra(puesto, [x, 1.38, z], [x, 2.45, z], 0.035, metal, 8);
+  const toldo = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.12, 1.55), lambert('#ffffff')); toldo.position.set(0, 2.43, 0); puesto.add(toldo);
+  const rojos = [];
+  for (let i = 0; i < 7; i++) rojos.push({ x: -1.1 + i * 0.37, y: 2.51, z: 0, sx: 0.19, sy: 0.025, sz: 1.58, color: i % 2 ? '#ffffff' : '#d32f2f' });
+  agregarLote(puesto, new THREE.BoxGeometry(1, 1, 1), lambert('#ffffff'), rojos);
+  const comal = new THREE.Mesh(new THREE.CylinderGeometry(0.48, 0.55, 0.08, 16), metal); comal.position.set(-0.38, 1.56, 0.02); puesto.add(comal);
+  const vitroleros = ['#fffde7', '#b71c1c', '#76ff03'];
+  vitroleros.forEach((color, i) => {
+    const vaso = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.17, 0.62, 10), new THREE.MeshStandardMaterial({ color, transparent: true, opacity: 0.82, roughness: 0.22 }));
+    vaso.position.set(-0.65 + i * 0.62, 1.66, -0.33); puesto.add(vaso);
+    const tapa = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.05, 10), metal); tapa.position.set(-0.65 + i * 0.62, 2.0, -0.33); puesto.add(tapa);
+    barra(puesto, [-0.65 + i * 0.62, 1.77, -0.33], [-0.65 + i * 0.62, 2.12, -0.26], 0.018, metal, 5);
+  });
+  const vaporMat = new THREE.MeshBasicMaterial({ color: '#fff8e1', transparent: true, opacity: 0.42, depthWrite: false });
+  for (let i = 0; i < 3; i++) {
+    const vapor = new THREE.Mesh(new THREE.SphereGeometry(0.1, 6, 5), vaporMat); vapor.position.set(-0.42 + i * 0.14, 1.84 + i * 0.18, 0.03); vapor.scale.set(1, 1.6, 1); puesto.add(vapor);
+  }
+  const bancoRojo = lambert('#d32f2f');
+  for (let i = 0; i < 2; i++) {
+    const banco = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.28, 0.38, 8), bancoRojo); banco.position.set(1.45, 0.38 + i * 0.4, -0.2); puesto.add(banco);
+    const asiento = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.08, 8), bancoRojo); asiento.position.set(1.45, 0.59 + i * 0.4, -0.2); puesto.add(asiento);
+  }
+
+  // Dos semáforos en esquinas opuestas con señales peatonales visibles.
+  const amarillo = lambert('#fbc02d'), negro = lambert('#212121');
+  for (const [x, z, lado] of [[13, -13, -1], [-13, 13, 1]]) {
+    const sem = new THREE.Group(); sem.position.set(x, 0, z); scene.add(sem);
+    barra(sem, [0, 0.12, 0], [0, 4.35, 0], 0.09, amarillo, 10);
+    barra(sem, [0, 4.2, 0], [lado * 3.1, 4.2, 0], 0.075, amarillo, 10);
+    const cajaLuz = new THREE.Mesh(new THREE.BoxGeometry(0.42, 1.05, 0.34), negro); cajaLuz.position.set(lado * 3.0, 3.55, 0); sem.add(cajaLuz);
+    ['#ff1744', '#ffab00', '#00e676'].forEach((color, i) => {
+      const visera = new THREE.Mesh(new THREE.ConeGeometry(0.19, 0.11, 10), negro); visera.position.set(lado * 3.0, 3.94 - i * 0.36, 0.21); visera.rotation.x = Math.PI; sem.add(visera);
+      const luz = new THREE.Mesh(new THREE.CircleGeometry(0.12, 10), new THREE.MeshBasicMaterial({ color, toneMapped: false })); luz.position.set(lado * 3.0, 3.94 - i * 0.36, 0.225); sem.add(luz);
+    });
+    const alto = new THREE.Mesh(new THREE.CylinderGeometry(0.43, 0.43, 0.09, 8), new THREE.MeshLambertMaterial({ color: '#d50000' })); alto.position.set(0.58, 1.72, 0); alto.rotation.x = Math.PI / 2; sem.add(alto);
+    const altoCanvas = document.createElement('canvas'); altoCanvas.width = 256; altoCanvas.height = 128;
+    const ag = altoCanvas.getContext('2d'); ag.fillStyle = '#d50000'; ag.beginPath(); ag.roundRect(20, 8, 216, 112, 26); ag.fill(); ag.strokeStyle = '#fff'; ag.lineWidth = 8; ag.stroke();
+    ag.fillStyle = '#fff'; ag.font = '900 58px system-ui'; ag.textAlign = 'center'; ag.textBaseline = 'middle'; ag.fillText('ALTO', 128, 66);
+    const altoTex = new THREE.CanvasTexture(altoCanvas); altoTex.colorSpace = THREE.SRGBColorSpace;
+    const altoTexto = new THREE.Mesh(new THREE.PlaneGeometry(0.68, 0.34), new THREE.MeshBasicMaterial({ map: altoTex })); altoTexto.position.set(0.58, 1.72, 0.055); sem.add(altoTexto);
+    const peaton = new THREE.Mesh(new THREE.BoxGeometry(0.56, 0.72, 0.08), lambert('#1976d2')); peaton.position.set(-0.5, 2.25, 0); sem.add(peaton);
+    const pasoCanvas = document.createElement('canvas'); pasoCanvas.width = 128; pasoCanvas.height = 192;
+    const pg = pasoCanvas.getContext('2d'); pg.fillStyle = '#ffffff'; pg.beginPath(); pg.arc(64, 35, 19, 0, Math.PI * 2); pg.fill();
+    pg.fillRect(55, 60, 18, 58); pg.fillRect(30, 70, 26, 12); pg.fillRect(72, 70, 28, 12); pg.fillRect(45, 112, 14, 60); pg.fillRect(68, 112, 14, 60);
+    const pasoTex = new THREE.CanvasTexture(pasoCanvas); pasoTex.colorSpace = THREE.SRGBColorSpace;
+    const simbolo = new THREE.Mesh(new THREE.PlaneGeometry(0.42, 0.58), new THREE.MeshBasicMaterial({ map: pasoTex, transparent: true })); simbolo.position.set(-0.5, 2.25, 0.05); sem.add(simbolo);
+  }
+
+  // Botes de separación en parabús y tienda; hidrante junto al cruce.
+  for (const [x, z, color, rotulo] of [[9, -14, '#388e3c', 'ORG'], [10.1, -14, '#1976d2', 'INORG'], [-7.2, -10.2, '#388e3c', 'ORG'], [-6.1, -10.2, '#1976d2', 'INORG']]) {
+    const bote = new THREE.Group(); bote.position.set(x, 0, z); scene.add(bote);
+    const cuerpo = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.34, 0.82, 10), lambert(color)); cuerpo.position.y = 0.48; bote.add(cuerpo);
+    const tapa = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 0.1, 10), negro); tapa.position.y = 0.94; bote.add(tapa);
+    const etiqueta = document.createElement('canvas'); etiqueta.width = 320; etiqueta.height = 96;
+    const eg = etiqueta.getContext('2d'); eg.fillStyle = '#ffffff'; eg.fillRect(0, 0, 320, 96); eg.fillStyle = color;
+    eg.font = '900 52px system-ui'; eg.textAlign = 'center'; eg.textBaseline = 'middle'; eg.fillText(rotulo === 'ORG' ? 'ORGÁNICO' : 'INORGÁNICO', 160, 48);
+    const etiquetaTex = new THREE.CanvasTexture(etiqueta); etiquetaTex.colorSpace = THREE.SRGBColorSpace;
+    const placa = new THREE.Mesh(new THREE.PlaneGeometry(0.42, 0.13), new THREE.MeshBasicMaterial({ map: etiquetaTex })); placa.position.set(0, 0.52, 0.345); bote.add(placa);
+  }
+  const hidrante = new THREE.Group(); hidrante.position.set(-13.2, 0.16, -10.2); scene.add(hidrante);
+  const rojoFuego = lambert('#d50000'), laton = new THREE.MeshStandardMaterial({ color: '#ffd600', roughness: 0.36, metalness: 0.65 });
+  const baseH = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.29, 0.12, 10), rojoFuego); baseH.position.y = 0.06; hidrante.add(baseH);
+  const cuerpoH = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.18, 0.72, 10), rojoFuego); cuerpoH.position.y = 0.48; hidrante.add(cuerpoH);
+  const bonete = new THREE.Mesh(new THREE.SphereGeometry(0.19, 10, 6), rojoFuego); bonete.scale.y = 0.65; bonete.position.y = 0.88; hidrante.add(bonete);
+  for (const lado of [-1, 1]) {
+    const boca = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.1, 0.2, 8), laton); boca.rotation.z = Math.PI / 2; boca.position.set(lado * 0.22, 0.55, 0); hidrante.add(boca);
+    const tapon = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.06, 8), laton); tapon.rotation.z = Math.PI / 2; tapon.position.set(lado * 0.34, 0.55, 0); hidrante.add(tapon);
+  }
+
+  // Tinacos con tapa y nervaduras; seis azoteas suman tanque de gas y caseta.
+  const tinacoMat = new THREE.MeshLambertMaterial({ color: '#212121' });
+  const tapaTinaco = new THREE.InstancedMesh(new THREE.SphereGeometry(0.58, 10, 5), tinacoMat, Math.min(6, tinacos.length));
+  const nervadura = new THREE.InstancedMesh(new THREE.TorusGeometry(0.56, 0.025, 4, 10), lambert('#424242'), Math.min(6, tinacos.length) * 3);
+  const tanqueGas = [], casetas = [], puertas = [], rejillas = [];
+  tinacos.slice(0, 6).forEach(([x, y, z], i) => {
+    tapaTinaco.setMatrixAt(i, new THREE.Matrix4().makeScale(1, 0.22, 1).setPosition(x, y + 1.8, z));
+    for (let anillo = 0; anillo < 3; anillo++) {
+      const o = new THREE.Object3D(); o.position.set(x, y + 0.35 + anillo * 0.42, z); o.rotation.x = Math.PI / 2; o.updateMatrix(); nervadura.setMatrixAt(i * 3 + anillo, o.matrix);
+    }
+    if (i < 4) {
+      tanqueGas.push({ x: x + 1.35, y: y + 0.48, z, sx: 1.25, sy: 0.76, sz: 0.76, color: '#f5f5f5', rz: Math.PI / 2 });
+      casetas.push({ x: x - 1.3, y: y + 0.9, z, sx: 1.5, sy: 1.8, sz: 1.5, color: '#d7ccc8' });
+      puertas.push({ x: x - 1.3, y: y + 0.7, z: z + 0.76, sx: 0.68, sy: 1.25, sz: 0.05, color: '#78909c' });
+      for (let r = 0; r < 4; r++) rejillas.push({ x: x - 1.3, y: y + 1.2 + r * 0.13, z: z + 0.8, sx: 0.48, sy: 0.035, sz: 0.04, color: '#455a64' });
+    }
+  });
+  scene.add(tapaTinaco, nervadura);
+  agregarLote(scene, new THREE.CylinderGeometry(0.38, 0.38, 1.25, 10), new THREE.MeshStandardMaterial({ color: '#f5f5f5', roughness: 0.4, metalness: 0.2 }), tanqueGas);
+  agregarLote(scene, new THREE.BoxGeometry(1, 1, 1), lambert('#ffffff'), casetas);
+  agregarLote(scene, new THREE.BoxGeometry(1, 1, 1), metal, puertas);
+  agregarLote(scene, new THREE.BoxGeometry(1, 1, 1), lambert('#455a64'), rejillas);
 }
 
 export function crearMundo(escena) {
@@ -1149,6 +1315,7 @@ export function crearMundo(escena) {
   scene.add(edificios);
   crearPlantasComerciales(scene, cajas);
   tiendita = crearTiendita(scene, cajas);
+  crearAccesoriosCiudad(scene, tinacos);
 
   // Tinacos negros (como los de las azoteas mexicanas).
   const tin = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.8, 0.8, 1.8, 10).translate(0, 0.9, 0), new THREE.MeshLambertMaterial({ color: 0x2b2b30 }), tinacos.length);
@@ -1220,19 +1387,25 @@ export function crearMundo(escena) {
   agregarLote(scene, cubeGeo, cubeBase, descansos);
   agregarLote(scene, cubeGeo, cubeBase, barandales);
   // Troncos cónicos y copas facetadas en dos niveles, con instancias económicas.
-  const troncos = [], copas = [], palmeras = [];
+  const troncos = [], copas = [], palmeras = [], raices = [];
   arboles.forEach(([x, y, z, tipo], k) => {
     const h = tipo === 1 ? 5.2 : tipo === 2 ? 6.4 : 4.3;
     troncos.push({ x, y: h / 2, z, sx: tipo === 1 ? 0.34 : 0.55, sy: h, sz: tipo === 1 ? 0.34 : 0.55, color: '#6d4c41' });
+    if (tipo !== 1) for (let r = 0; r < 3; r++) {
+      const a = r * Math.PI * 2 / 3 + k * 0.7;
+      raices.push({ x: x + Math.cos(a) * 0.48, y: 0.16, z: z + Math.sin(a) * 0.48, sx: 0.82, sy: 0.15, sz: 0.18, rotY: -a, color: '#795548' });
+    }
     if (tipo === 1) palmeras.push({ x, y: h + 0.3, z, sx: 2.9, sy: 0.55, sz: 0.9, color: '#6eaa76', rotY: k * 0.8 });
     else {
       const escala = tipo === 2 ? 2.7 : 2.2;
-      copas.push({ x, y: h + 0.9, z, sx: escala, sy: tipo === 2 ? 3.2 : 2.5, sz: escala, color: k % 2 ? '#4caf50' : '#8bc34a' });
-      copas.push({ x: x + escala * 0.48, y: h + 0.55, z: z + escala * 0.1, sx: escala * 0.68, sy: escala * 0.75, sz: escala * 0.72, color: k % 2 ? '#8bc34a' : '#4caf50' });
+      copas.push({ x, y: h + 0.9, z, sx: escala / 1.2, sy: (tipo === 2 ? 3.2 : 2.5) / 1.2, sz: escala / 1.2, color: k % 2 ? '#4caf50' : '#8bc34a' });
+      copas.push({ x: x + escala * 0.48, y: h + 0.55, z: z + escala * 0.1, sx: escala * 0.68 / 1.2, sy: escala * 0.75 / 1.2, sz: escala * 0.72 / 1.2, color: k % 2 ? '#8bc34a' : '#4caf50' });
+      copas.push({ x: x - escala * 0.34, y: h + 0.05, z: z + escala * 0.06, sx: escala * 0.8 / 1.2, sy: escala * 0.7 / 1.2, sz: escala * 0.82 / 1.2, color: '#2e7d32' });
     }
   });
   agregarLote(scene, new THREE.CylinderGeometry(0.28, 0.68, 1, 8), cubeBase, troncos);
-  agregarLote(scene, new THREE.IcosahedronGeometry(1, 0), new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: true }), copas);
+  agregarLote(scene, new THREE.CylinderGeometry(0.06, 0.24, 1, 6), cubeBase, raices);
+  agregarLote(scene, new THREE.SphereGeometry(1.2, 7, 5), new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: true }), copas);
   agregarLote(scene, new THREE.ConeGeometry(1, 1, 6), cubeBase, palmeras);
   const listonesBanca = [], patasBanca = [];
   bancas.forEach((b) => {
@@ -1245,6 +1418,21 @@ export function crearMundo(escena) {
   });
   agregarLote(scene, cubeGeo, cubeBase, listonesBanca);
   agregarLote(scene, new THREE.CylinderGeometry(0.085, 0.13, 1, 7), new THREE.MeshLambertMaterial({ color: '#212121' }), patasBanca);
+
+  // Seis flores de cinco pétalos en las jardineras que rodean los árboles del parque central.
+  const petalos = [], centros = [];
+  jardineras.filter((_, i) => i < 6).forEach((j, indice) => {
+      const a = indice * 1.7;
+      const fx = j.x + Math.cos(a) * 0.55, fz = j.z + Math.sin(a) * 0.55;
+      const tono = indice % 2 ? '#ff7043' : '#ffee58';
+      for (let p = 0; p < 5; p++) {
+        const pa = p * Math.PI * 2 / 5;
+        petalos.push({ x: fx + Math.cos(pa) * 0.09, y: 0.53, z: fz + Math.sin(pa) * 0.09, sx: 0.15, sy: 0.08, sz: 0.13, rotY: -pa, color: tono });
+      }
+      centros.push({ x: fx, y: 0.58, z: fz, sx: 0.09, sy: 0.09, sz: 0.09, color: '#ffb300' });
+  });
+  agregarLote(scene, new THREE.SphereGeometry(1, 6, 4), cubeBase, petalos);
+  agregarLote(scene, new THREE.SphereGeometry(1, 6, 4), new THREE.MeshLambertMaterial({ color: '#ffffff' }), centros);
   // Farolas clásicas con báculo inclinado y globo cálido; sin luces ni sombras dinámicas.
   const posteFarol = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.12, 0.17, 1, 8), new THREE.MeshLambertMaterial({ color: '#37474f' }), faroles.length);
   const brazoFarol = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.07, 0.1, 1, 7), new THREE.MeshLambertMaterial({ color: '#37474f' }), faroles.length);
