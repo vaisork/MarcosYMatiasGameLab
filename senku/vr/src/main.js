@@ -867,6 +867,13 @@ function actualizarHUD() {
     const restante = s.inicioIntento === null ? s.dificultad.tiempoLimite : Math.max(0, s.dificultad.tiempoLimite - (s.reloj - s.inicioIntento));
     lineas.push(`Nivel de vuelo ${s.dificultad.nivel}/5 · ${Math.ceil(restante)} s`);
   }
+  if (portalActivo?.id === 'gallinas') {
+    const s = portalActivo.state?.logica;
+    if (s) {
+      lineas.push(`Gallinas en el corral: ${s.enCorral}/${s.total}`);
+      lineas.push(s.recargaTelaraña <= 0 ? 'Telaraña: ¡LISTA! (dispara red)' : `Telaraña: recargando (${s.recargaTelaraña.toFixed(1)} s)`);
+    }
+  }
   if (ultraActivo(estadoPortales, performance.now())) lineas.push(`¡ULTRA GATO! ${Math.ceil((estadoPortales.ultraHasta - performance.now()) / 1000)} s`);
   if (fpsVisible) lineas.push(fpsTexto);
   const texto = lineas.join('|') + barra.carga;

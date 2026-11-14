@@ -21,6 +21,12 @@ export const objetivoGrietaMadre = (estado, puertaId) => {
   estado.abierta = true;
   return estado;
 };
+export const objetivoGallinas = (estado, id) => {
+  if (!estado.enCorralIds) estado.enCorralIds = new Set();
+  estado.enCorralIds.add(id);
+  estado.enCorral = estado.enCorralIds.size;
+  return estado;
+};
 export const objetivoVuelo = (estado, id, volando = true) => {
   if (!volando) return estado;
   if (!estado.recogidos.has(id)) estado.recogidos.add(id);
