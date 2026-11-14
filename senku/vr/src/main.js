@@ -9,6 +9,8 @@ import { iniciarSonido, sonar } from './sonido.js';
 import { NOMBRE_PODER, PODER, CLAVE_PODER, crearBarra, barraLlena, cargarBarra, dispararPoder, masCercano, crearRatoncito, pasoRatoncito, tocaRatoncito } from './poder.mjs';
 import { PORTALES, abrirPortal, crearEstadoPortales, salirPortal, portalExpirado, ultraActivo } from './portales.mjs';
 import { crearMundos } from './mundos/indice.js';
+import { actualizarControlVuelo, cancelarIntentoVuelo, crearEstadoControlVuelo, reiniciarVuelo } from './mundos/vuelo.js';
+import { cargarVuelosPerfectos, guardarVuelosPerfectos, registrarVueloPerfecto, VUELOS_PERFECTOS_PARA_VUELO_PERMANENTE } from './mundos/objetivos.mjs';
 import { CUERDAS, PATAS, tramoCuerda, muestraCuerda, muestraPata, leerEleccion, guardarEleccion } from './estilos.js';
 import { detectarSwipe, detectarSacudida, sacudidaDoble, masCercanoEnfrente, listoZarpazo } from './movil.mjs';
 
@@ -65,6 +67,9 @@ let vineta = true, yaw = 0, pitch = 0;
 const leerRecord = () => { try { return Number(localStorage.getItem(CLAVE_RECORD)) || null; } catch { return null; } };
 const guardarRecord = (s) => { try { localStorage.setItem(CLAVE_RECORD, String(s)); } catch { /* sin almacenamiento */ } };
 let record = leerRecord();
+let vuelosPerfectos = (() => { try { return cargarVuelosPerfectos(localStorage); } catch { return 0; } })();
+const guardarProgresoVuelo = () => { try { guardarVuelosPerfectos(localStorage, vuelosPerfectos); } catch { /* sin almacenamiento */ } };
+const controlVueloGeneral = crearEstadoControlVuelo();
 const leerTotal = () => { try { return Number(localStorage.getItem(CLAVE_TOTAL)) || 0; } catch { return 0; } };
 let totalChurus = leerTotal(); // churus acumulados (para desbloquear cosas después)
 const sumarChurus = (n) => { totalChurus += n; try { localStorage.setItem(CLAVE_TOTAL, String(totalChurus)); } catch { /* sin almacenamiento */ } };
@@ -740,6 +745,8 @@ function abrirCartel(id) {
     return true;
   }
   portalActivo = mundosPortales[portal.mundo];
+  Object.assign(controlVueloGeneral, crearEstadoControlVuelo());
+  if (portalActivo.id === 'vuelo') reiniciarVuelo(portalActivo.state, vuelosPerfectos);
   portalRegreso = { x: jugadora.pos.x, y: jugadora.pos.y, z: jugadora.pos.z, cartel: id };
   mundo.grupo.visible = false;
   churusCiudadVisibles = churus.map((c) => c.visible);
@@ -754,18 +761,22 @@ function abrirCartel(id) {
   jugadora.pos.x = 0; jugadora.pos.y = 1; jugadora.pos.z = 0;
   jugadora.vel.x = jugadora.vel.y = jugadora.vel.z = 0;
   rig.position.set(0, 0, 0);
-  mostrarAviso([portalActivo.nombre, portalActivo.objetivo?.texto || 'Explora el mundo', `${portal.duracion} s`], 3);
+  const avisoPortal = [portalActivo.nombre, portalActivo.objetivo?.texto || 'Explora el mundo', `${portal.duracion} s`];
+  if (portalActivo.id === 'vuelo') avisoPortal.unshift(`Nivel de vuelo ${portalActivo.state.dificultad.nivel}/5`);
+  mostrarAviso(avisoPortal, 3);
   return true;
 }
 
 function cerrarPortal() {
   if (!portalActivo) return false;
+  const falloVuelo = portalActivo.id === 'vuelo' && cancelarIntentoVuelo(portalActivo.state);
   const ahora = performance.now(), transcurrido = salirPortal(estadoPortales, ahora);
   if (estelaNeonPendiente) { estelaNeonPendiente=false; estelaNeonHasta=ahora+60000; }
   if (inicio !== null && fin === null) inicio += transcurrido;
   if (reinicioEn) reinicioEn += transcurrido;
   portalActivo.grupo.visible = false;
   portalActivo = null;
+  Object.assign(controlVueloGeneral, crearEstadoControlVuelo());
   luzPortalAmbiente.visible = luzPortalSol.visible = false;
   mundo.grupo.visible = true;
   mundo.cajas = cajasCiudad;
@@ -777,7 +788,7 @@ function cerrarPortal() {
   jugadora.vel.x = jugadora.vel.y = jugadora.vel.z = 0;
   rig.position.set(jugadora.pos.x, jugadora.pos.y - CUERPO, jugadora.pos.z);
   portalRegresoHasta = ahora + 1400;
-  mostrarAviso(['¡De vuelta en la ciudad!', `Cartel ${portalRegreso.cartel}`], 2);
+  mostrarAviso(falloVuelo ? ['Fallaste un churu, intenta otra vez'] : ['¡De vuelta en la ciudad!', `Cartel ${portalRegreso.cartel}`], 2);
   efectoPortal();
   return true;
 }
@@ -811,7 +822,13 @@ function actualizarPortal(dt, ahora) {
     jalaron: () => manos.some(m => m.presa || m.enfriarTiron > 0),
     recoger: (lista) => { for(const c of lista){ if(!c.m.visible)continue;c.m.position.y=c.base+Math.sin(ahora/400+c.fase)*.2;if(c.m.position.distanceTo(v1.set(jugadora.pos.x,jugadora.pos.y+.3,jugadora.pos.z))<1.5){c.m.visible=false;sumarChurus(1);sonar.churu();}} },
     golpearEnemigos: (lista) => { for(const e of lista){if(!e.vivo)continue;e.grupo.rotation.y=Math.sin(ahora/500+e.fase)*.3;for(const m of manos)if(m.velMano.length()>=2.5&&(m.garra.getWorldPosition(v1),v1.distanceTo(e.grupo.position)<1.2))golpearEnemigoPortal(e);}},
-    sumarChurus, sumarCorazon: (n) => {vida.vida=Math.min(VIDA.max,vida.vida+n);}, escudo: (s = 30) => { vida.invulnerable = Math.max(vida.invulnerable, s); }, estelaNeon: () => {estelaNeonPendiente=true;}, avisar: (s) => mostrarAviso([s]), terminar: cerrarPortal,
+    sumarChurus, vueloPerfecto: () => {
+      vuelosPerfectos = registrarVueloPerfecto(vuelosPerfectos, true);
+      guardarProgresoVuelo();
+      if (vuelosPerfectos >= VUELOS_PERFECTOS_PARA_VUELO_PERMANENTE) mostrarAviso(['¡Vuelo permanente desbloqueado!'], 4);
+      else mostrarAviso([`Vuelo perfecto ${vuelosPerfectos}/${VUELOS_PERFECTOS_PARA_VUELO_PERMANENTE}`], 3);
+    },
+    sumarCorazon: (n) => {vida.vida=Math.min(VIDA.max,vida.vida+n);}, escudo: (s = 30) => { vida.invulnerable = Math.max(vida.invulnerable, s); }, estelaNeon: () => {estelaNeonPendiente=true;}, avisar: (s) => mostrarAviso([s]), terminar: cerrarPortal,
   });
   manos.forEach((m) => { m.impacto = null; });
   if (Math.hypot(jugadora.pos.x, jugadora.pos.y - 1, jugadora.pos.z - 4) < 1.5 || portalExpirado(estadoPortales, ahora)) cerrarPortal();
@@ -830,6 +847,11 @@ function actualizarHUD() {
   const t = inicio === null ? 0 : (fin ?? performance.now()) - inicio;
   const lineas = ['♥'.repeat(vida.vida) + '♡'.repeat(VIDA.max - vida.vida) + `  Churus ${juntados}/${churus.length}`, `Total ${totalChurus} · Tiempo ${reloj(t)}`, record ? `Récord ${reloj(record)}` : 'Récord: -'];
   if (portalActivo) lineas.push(`${portalActivo.nombre} · ${Math.max(0, Math.ceil(PORTALES[estadoPortales.cartel].duracion - (performance.now() - estadoPortales.entra) / 1000))} s`);
+  if (portalActivo?.id === 'vuelo') {
+    const s = portalActivo.state;
+    const restante = s.inicioIntento === null ? s.dificultad.tiempoLimite : Math.max(0, s.dificultad.tiempoLimite - (s.reloj - s.inicioIntento));
+    lineas.push(`Nivel de vuelo ${s.dificultad.nivel}/5 · ${Math.ceil(restante)} s`);
+  }
   if (ultraActivo(estadoPortales, performance.now())) lineas.push(`¡ULTRA GATO! ${Math.ceil((estadoPortales.ultraHasta - performance.now()) / 1000)} s`);
   if (fpsVisible) lineas.push(fpsTexto);
   const texto = lineas.join('|') + barra.carga;
@@ -1361,6 +1383,13 @@ function actualizar(dt) {
   if (!renderer.xr.isPresenting) camera.rotation.set(pitch, yaw, 0);
   rig.updateMatrixWorld(true);
   manos.forEach((m) => actualizarMano(m, dt));
+  if (vuelosPerfectos >= VUELOS_PERFECTOS_PARA_VUELO_PERMANENTE && portalActivo?.id !== 'vuelo') {
+    controlVueloGeneral.reloj += dt;
+    actualizarControlVuelo(controlVueloGeneral, dt, {
+      jugadora, manos, camara: camera, esVR: renderer.xr.isPresenting,
+      gravedad: AJUSTES.gravedad, teclas, avisar: (s) => mostrarAviso([s]),
+    });
+  }
   if (portalActivo) actualizarPortal(dt, ahora);
   else {
     recogerChurus(ahora / 1000);
