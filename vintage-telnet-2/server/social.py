@@ -1,6 +1,7 @@
 """Child-safe, in-game social actions for approved characters."""
 import json
 from pathlib import Path
+from . import felicitaciones
 
 
 ONLINE_SECONDS = 45
@@ -97,7 +98,8 @@ def snapshot(db, world, character, engine, now):
                       if p['id'] in group_ids],
             'following': int(followers[cid]) if cid in followers else None,
             'invites': [int(v['from']) for v in invitations.get(cid, [])],
-            'gift_pending': gift, 'whispers': inbox, 'buzon': buzon_open(character)}
+            'gift_pending': gift, 'whispers': inbox, 'buzon': buzon_open(character),
+            'felicitaciones': felicitaciones.active(now)}
 
 
 def _player(db, world, name, actor, now, same_room=False):

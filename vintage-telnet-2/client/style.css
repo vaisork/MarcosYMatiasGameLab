@@ -1202,3 +1202,5 @@ body .field input,body .field select{font-size:16px}
  html body .echo-badge{font-size:11px}
  html body .quick-actions .action-grid .specialization-action{min-height:64px}
 }
+
+.felicitaciones{margin:0 0 10px;padding:8px 12px;border:1px solid #d9c78e;border-left:4px solid #b68a32;border-radius:12px;background:#fffdf2;color:#3e412f;font-size:12px;line-height:1.35;overflow-wrap:anywhere}.felicitaciones h2{font-size:13px;margin:0 0 3px}.felicitaciones ul{padding-left:16px}.felicitaciones li{margin:2px 0}
