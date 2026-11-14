@@ -2,11 +2,11 @@ import * as THREE from 'three';
 import { objetivoMarcosUV } from './objetivos.mjs';
 
 export default {
-  id: 'marcos-uv', nombre: 'Cuarto de Luz UV', ambiente: { cielo: 0x090d24, suelo: 0x17152a, niebla: 0x14152b },
+  id: 'marcos-uv', nombre: 'Cuarto de Luz UV', ambiente: { cielo: 0x352075, suelo: 0x6241a4, niebla: 0x49317e },
   crear(g, u) {
-    u.plataforma(0, -.25, 0, 24, .5, 24, 0x17152a);
+    u.plataforma(0, -.25, 0, 24, .5, 24, 0x7955c2);
     const arte = new THREE.TextureLoader().load(new URL('../../texturas/marcos-uv-diaz.webp', import.meta.url).href);
-    const mat = new THREE.MeshBasicMaterial({ map: arte, color: 0x35eaff, transparent: true, opacity: .12, side: THREE.DoubleSide });
+    const mat = new THREE.MeshStandardMaterial({ map: arte, color: 0xb78aff, emissive: 0x8f3fff, emissiveMap: arte, emissiveIntensity: .55, transparent: true, opacity: .2, side: THREE.DoubleSide, roughness: .7 });
     const grafitis = [];
     for (let i = 0; i < 6; i++) {
       const m = new THREE.Mesh(new THREE.PlaneGeometry(2.8, 2), mat.clone());
@@ -23,6 +23,7 @@ export default {
       if (!ctx.acariciar(m.position, 1.8) || s.revelados.has(i)) return;
       objetivoMarcosUV(s, i);
       m.material.opacity = 1;
+      m.material.emissiveIntensity = 1.1;
       ctx.avisar(`¡Grafiti UV ${s.revelados.size}/6!`);
     });
   },
