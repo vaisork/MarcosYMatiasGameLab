@@ -8,16 +8,31 @@ const cargarGlb = (ruta, llegar) => new GLTFLoader().load(ruta, (gl) => {
 }, undefined, (e) => console.error('No se pudo cargar ' + ruta, e));
 import { objetivoRataTaqueria } from './objetivos.mjs';
 
+const crearMantel = () => {
+  const lienzo = document.createElement('canvas'); lienzo.width = lienzo.height = 256;
+  const ctx = lienzo.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, 256, 256);
+  ctx.fillStyle = '#c62828';
+  for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) if ((x + y) % 2 === 0) ctx.fillRect(x * 64, y * 64, 64, 64);
+  const textura = new THREE.CanvasTexture(lienzo); textura.colorSpace = THREE.SRGBColorSpace;
+  return new THREE.MeshLambertMaterial({ map: textura });
+};
+
 export default {
   id: 'rata-taqueria', nombre: 'Cocina de la Rata', ambiente: { cielo: 0xffc879, suelo: 0x8b553a, niebla: 0xf1bd72 },
   crear(g, u) {
     u.plataforma(0, -.25, 0, 24, .5, 24, 0x8b553a);
     cargarGlb('modelos/rata_cocina_fondo_r4.glb',(fondo)=>{fondo.position.set(0,0,-10);g.add(fondo);});
     const sitios = [[-5, -5], [5, -5], [5, 5], [-5, 5]];
+    const mantel = crearMantel(), blanco = new THREE.MeshLambertMaterial({ color: 0xfff8e1 });
     sitios.forEach(([x, z]) => {
       u.plataforma(x, .8, z, 4, .25, 3, 0xa96f48);
+      const cubierta = new THREE.Mesh(new THREE.BoxGeometry(4.05, .055, 3.05), mantel); cubierta.position.set(x, .96, z); g.add(cubierta);
+      for (const side of [-1, 1]) {
+        const faldon = new THREE.Mesh(new THREE.BoxGeometry(4.05, .38, .045), mantel); faldon.position.set(x, .74, z + side * 1.51); g.add(faldon);
+        const lateral = new THREE.Mesh(new THREE.BoxGeometry(.045, .38, 3.05), mantel); lateral.position.set(x + side * 2.01, .74, z); g.add(lateral);
+      }
       const plato = new THREE.Mesh(new THREE.CylinderGeometry(1.45, 1.55, .16, 12), new THREE.MeshLambertMaterial({ color: 0xe7c47e }));
-      plato.position.set(x, .92, z); g.add(plato);
+      plato.position.set(x - .55, 1.02, z + .12); g.add(plato);
       for (const side of [-1, 1]) {
         const sx = x + side * 2.15;
         const fuste = new THREE.Mesh(new THREE.CylinderGeometry(.055, .075, .72, 8), new THREE.MeshLambertMaterial({ color: 0xb0bec5 }));
@@ -25,10 +40,14 @@ export default {
         const pie = new THREE.Mesh(new THREE.CylinderGeometry(.3, .36, .11, 12), new THREE.MeshLambertMaterial({ color: 0xd32f2f }));
         pie.position.set(sx, .8, z); g.add(pie);
       }
-      const limon = new THREE.Mesh(new THREE.SphereGeometry(.22, 8, 5, 0, Math.PI), new THREE.MeshLambertMaterial({ color: 0x76ff03 }));
-      limon.position.set(x - .95, 1.04, z + .3); limon.rotation.x = Math.PI / 2; g.add(limon);
-      const servilleta = new THREE.Mesh(new THREE.ConeGeometry(.3, .035, 3), new THREE.MeshLambertMaterial({ color: 0xfff8e1, side: THREE.DoubleSide }));
-      servilleta.position.set(x + .95, 1.04, z + .35); g.add(servilleta);
+      for (const [dx, dz, color] of [[1.32, .58, 0x43a047], [1.32, -.22, 0xd32f2f]]) {
+        const botella = new THREE.Mesh(new THREE.CylinderGeometry(.14, .18, .48, 9), new THREE.MeshLambertMaterial({ color })); botella.position.set(x + dx, 1.22, z + dz); g.add(botella);
+        const tapa = new THREE.Mesh(new THREE.ConeGeometry(.13, .22, 8), new THREE.MeshLambertMaterial({ color: color === 0x43a047 ? 0x76ff03 : 0xf4511e })); tapa.position.set(x + dx, 1.57, z + dz); g.add(tapa);
+      }
+      const servilletero = new THREE.Mesh(new THREE.BoxGeometry(.55, .42, .38), new THREE.MeshLambertMaterial({ color: 0xcfd8dc })); servilletero.position.set(x + 1.48, 1.17, z + 1.02); g.add(servilletero);
+      const servilleta = new THREE.Mesh(new THREE.BoxGeometry(.42, .2, .3), blanco); servilleta.position.set(x + 1.48, 1.48, z + 1.02); g.add(servilleta);
+      const canastilla = new THREE.Mesh(new THREE.BoxGeometry(.72, .12, .62), new THREE.MeshLambertMaterial({ color: 0xffca28 })); canastilla.position.set(x + .53, 1.04, z + 1.02); g.add(canastilla);
+      for (let i = 0; i < 4; i++) { const totopo = new THREE.Mesh(new THREE.ConeGeometry(.19, .08, 3), new THREE.MeshLambertMaterial({ color: 0xfbc02d, side: THREE.DoubleSide })); totopo.position.set(x + .3 + (i % 2) * .28, 1.16, z + .9 + Math.floor(i / 2) * .2); totopo.rotation.z = Math.PI; g.add(totopo); }
       const vidrio = new THREE.Mesh(new THREE.CylinderGeometry(.15, .19, .72, 10), new THREE.MeshLambertMaterial({ color: 0xff8f00, transparent: true, opacity: .82 }));
       vidrio.position.set(x, 1.34, z - 1.05); g.add(vidrio);
       const popote = new THREE.Mesh(new THREE.CylinderGeometry(.025, .025, .55, 6), new THREE.MeshLambertMaterial({ color: 0xfff4dd }));

@@ -11,6 +11,7 @@ export default {
   ambiente: { cielo: 0x83c8ef, suelo: 0xf5c974, niebla: 0xa6dbf3 },
   crear(g, u) {
     u.plataforma(0, -.25, 0, 9, 1, 9, 0xf2b95d);
+    new GLTFLoader().load('modelos/churus_postres_r5.glb',({scene})=>g.add(scene),undefined,(e)=>console.error('No se pudieron cargar los postres de Churus',e));
     const churus = [];
     const sitios = [[0, 3, -10, 5], [9, 5, -13, 5], [16, 7, -5, 5], [12, 9, 5, 6], [3, 11, 10, 5], [-7, 8, 7, 5], [-13, 5, -1, 5], [-8, 4, -10, 5]];
     const felpas = [0xffd782, 0xf4a979, 0xedcd83];
