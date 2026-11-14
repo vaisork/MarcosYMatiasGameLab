@@ -31,7 +31,8 @@ Acércate a menos de 2 m de un cartel o engánchalo con la garra para entrar. Lo
 
 | Cartel | Mundo |
 |---|---|
-| churus, churus-azotea | Mundo Churus |
+| churus | Mundo Churus |
+| churus-azotea | Cielo de Vuelo |
 | vaisgard, vaisgard-oeste | Vaisgard |
 | taqueria, taqueria-sur | Mundo Taco |
 | neon, neon-oeste | Ciudad Neón |

@@ -21,3 +21,8 @@ export const objetivoGrietaMadre = (estado, puertaId) => {
   estado.abierta = true;
   return estado;
 };
+export const objetivoVuelo = (estado, id, volando = true) => {
+  if (!volando) return estado;
+  if (!estado.recogidos.has(id)) estado.recogidos.add(id);
+  return estado;
+};

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { abrirPortal, crearEstadoPortales, salirPortal, portalExpirado, ultraActivo } from '../src/portales.mjs';
 
 test('carteles emparejados abren sus mundos por 60 segundos', () => {
-  for (const [cartel, mundo] of [['churus-azotea', 'churus'], ['vaisgard-oeste', 'vaisgard'], ['taqueria-sur', 'taqueria']]) {
+  for (const [cartel, mundo] of [['churus-azotea', 'vuelo'], ['vaisgard-oeste', 'vaisgard'], ['taqueria-sur', 'taqueria']]) {
     const estado = crearEstadoPortales();
     const portal = abrirPortal(estado, cartel, 1000);
     assert.equal(portal.mundo, mundo);

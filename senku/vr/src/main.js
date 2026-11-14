@@ -791,6 +791,10 @@ function actualizarPortal(dt, ahora) {
   const estado = portalActivo.state;
   portalActivo.actualizar?.(estado, dt, {
     jugadora, manos,
+    camara: camera,
+    esVR: renderer.xr.isPresenting,
+    gravedad: AJUSTES.gravedad,
+    teclas,
     cerca: (p, r) => Math.hypot(jugadora.pos.x-p.x,jugadora.pos.y-p.y,jugadora.pos.z-p.z)<r,
     zarpazo: (p,r) => manos.some(m => m.velMano.length() >= 2.5 && (m.garra.getWorldPosition(v1), v1.distanceTo(p)<r)),
     acariciar: (p,r) => manos.some(m => (m.garra.getWorldPosition(v1), v1.distanceTo(p)<r)),

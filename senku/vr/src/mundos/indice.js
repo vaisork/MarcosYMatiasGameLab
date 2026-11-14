@@ -12,7 +12,8 @@ import columpiaEstilo from './columpia-estilo.js';
 import botiquin from './botiquin.js';
 import senku2 from './senku2.js';
 import grietaMadre from './grieta-madre.js';
-export const MUNDOS = Object.freeze(Object.fromEntries([churus, vaisgard, taqueria, neon, luke, busqueda, marcosUV, fsGato, rataTaqueria, columpiaEstilo, botiquin, senku2, grietaMadre].map(m => [m.id, m])));
+import vuelo from './vuelo.js';
+export const MUNDOS = Object.freeze(Object.fromEntries([churus, vaisgard, taqueria, neon, luke, busqueda, marcosUV, fsGato, rataTaqueria, columpiaEstilo, botiquin, senku2, grietaMadre, vuelo].map(m => [m.id, m])));
 const caja = (x,y,z,sx,sy,sz) => ({min:{x:x-sx/2,y:y-sy/2,z:z-sz/2},max:{x:x+sx/2,y:y+sy/2,z:z+sz/2}});
 export function crearMundos(scene) {
   const mundos={};
