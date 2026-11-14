@@ -13,6 +13,7 @@ from . import mechanics as m
 from . import achievements as achievement_book
 from . import daily_errands
 from . import social
+from . import felicitaciones
 
 ARTICLES = {'el', 'la', 'los', 'las', 'un', 'una', 'al', 'del'}
 
@@ -179,10 +180,11 @@ class Engine:
             state['events']=[event('discovery',hidden['text']),event('action',f"Guardas {self.content.items[hidden['item']]['name']} en la mochila.")]
             return
         if not search:
-            state['events']=[event('world','Revisas cada rincón, pero no queda nada más que llevarse.')];return
-        roll=self.rng.random();finds=search['finds'];stock=world.setdefault('search_stock',{})
+            detail=room.get('description') or 'El lugar está tranquilo y no hay nada nuevo a la vista.'
+            state['events']=[event('world',f"Revisas cada rincón. {detail}")];return
+        roll=self.rng.random();finds=search.get('finds') or [];stock=world.setdefault('search_stock',{})
         find_limit=.5+p_bonus
-        found=finds[min(int(roll/find_limit*len(finds)),len(finds)-1)] if roll<find_limit else None
+        found=finds[min(int(roll/find_limit*len(finds)),len(finds)-1)] if finds and roll<find_limit else None
         if found and stock.get(room['id']+':'+found['item'],0)<=now:
             self.add_item(state,found['item']);stock[room['id']+':'+found['item']]=now+1800
             flag='hallazgo:'+found['item']
@@ -191,7 +193,7 @@ class Engine:
             if memory not in state['journal']:state['journal'].append(memory)
             state['events']=[event('discovery',found['text']),event('action',f"Guardas {self.content.items[found['item']]['name']} en la mochila.")]
         elif roll<.75:
-            traces=search['traces'];fraction=(roll-.5)/.25 if roll>=.5 else roll/.5
+            traces=search.get('traces') or [room.get('description') or 'No encuentras rastros nuevos; el lugar está tranquilo.'];fraction=(roll-.5)/.25 if roll>=.5 else roll/.5
             fraction=max(0.0,min(0.999,fraction))
             trace=traces[min(int(fraction*len(traces)),len(traces)-1)]
             # A clue may remember that it was seen, so the place that explains it can offer to follow it up.
@@ -200,7 +202,7 @@ class Engine:
                 trace=trace['text']
             state['events']=[event('trace',trace)]
         else:
-            empty=search['empty'];fraction=(roll-.75)/.25
+            empty=search.get('empty') or [room.get('description') or 'No encuentras nada nuevo; el lugar está tranquilo.'];fraction=(roll-.75)/.25
             fraction=max(0.0,min(0.999,fraction))
             state['events']=[event('world',empty[min(int(fraction*len(empty)),len(empty)-1)])]
 
@@ -400,7 +402,7 @@ class Engine:
         before=[self.exploration_facts(p['state']) for p in participants]
         result=self.tick_shared_action(participants,world)
         for p,old in zip(participants,before):
-            if old!=self.exploration_facts(p['state']):self.reward_exploration(p['state'],old)
+            if old!=self.exploration_facts(p['state']):self.reward_exploration(p,old)
         return result
 
     def tick_shared_action(self,participants,world):
@@ -490,7 +492,7 @@ class Engine:
     def tick(self,character,world):
         state=character['state'];before=self.exploration_facts(state)
         result=self.tick_action(character,world)
-        if before!=self.exploration_facts(state):self.reward_exploration(state,before)
+        if before!=self.exploration_facts(state):self.reward_exploration(character,before)
         return result
 
     def tick_action(self,character,world):
@@ -592,7 +594,13 @@ class Engine:
         active_numen=m.get_active_numen(state)
         if active_numen:
             state['events'].append(event('info',m.pick_numen_reaction(active_numen,'combate_fin',now=self.clock(),rng=self.rng)))
-        self.advance_levels(state)
+        self.advance_levels(state, character)
+        if combat['creature'] == 'dragon_aguas_antiguas' and state['location'].startswith('veyra_mazmorra_'):
+            felicitaciones.record(character, 'mazmorra:bastion_aguas',
+                                  'Conquistó el Bastión de las Aguas Antiguas', now)
+        elif combat['creature'] in m.LEGEND_BOSSES:
+            felicitaciones.record(character, f"jefe:{combat['creature']}",
+                                  f"Venció a {creature['name']}", now)
         deathkey=f"{state['location']}:{combat['creature']}";world['deaths'][deathkey]=self.clock()+300
         world.setdefault('creature_states',{}).pop(deathkey,None)
         if combat['creature']=='dragon_aguas_antiguas':
@@ -1233,11 +1241,13 @@ class Engine:
         if intent.get('name'):result['name']=intent['name']
         return result
 
-    def advance_levels(self,state):
+    def advance_levels(self,state,character=None):
         while state['level']<100 and state['xp']>=m.xp_next(state['level']):
             old_max=m.hp_max(state);state['xp']-=m.xp_next(state['level']);state['level']+=1;state['pa']=state.get('pa',0)+2;state['hp']=min(m.hp_max(state),state['hp']+m.hp_max(state)-old_max)
             if state['level']%5==0:state['pp']+=1
             state['events'].append(event('reward',f"Alcanzas nivel {state['level']}. Dispones de puntos de atributo para decidir tu formación."))
+            if character and state['level'] % 5 == 0:
+                felicitaciones.record(character, f"nivel:{state['level']}", f"Alcanzó el nivel {state['level']}", self.clock())
 
     def exploration_facts(self,state):
         """Stable personal achievements; shared flags alone never confer credit."""
@@ -1283,7 +1293,7 @@ class Engine:
         self.apply_action(character,world,intent)
         daily_errands.record_action(self,character,intent,region_before,combat_before)
         self.record_social_activity(state,world,intent)
-        self.reward_exploration(state,before)
+        self.reward_exploration(character,before)
         self.sync_achievements(character,world)
 
     def record_social_activity(self,state,world,intent):
@@ -1310,7 +1320,8 @@ class Engine:
             state.setdefault('events',[]).append(event('discovery',
                 f"¡Nuevo logro: {achievement['name']}! {achievement['description']}. Medalla cosmética añadida a tu libreta."))
 
-    def reward_exploration(self,state,before):
+    def reward_exploration(self,character,before):
+        state=character['state']
         receipts=state.setdefault('exploration_xp',list(before))
         facts=self.exploration_facts(state)
         new_keys=set(facts)-set(before)-set(receipts)
@@ -1322,7 +1333,7 @@ class Engine:
             if flag_closure and key.startswith('closure:journal:'):continue
             gain=m.EXPLORATION_XP[source];state['xp']+=gain
             state['events'].append(event('reward',f'+{gain} experiencia: {reason}'))
-            self.advance_levels(state)
+            self.advance_levels(state,character)
 
     def apply_action(self,character,world,intent):
         state=character['state'];room=self.room(character,world);action=intent.get('id');target=intent.get('target')

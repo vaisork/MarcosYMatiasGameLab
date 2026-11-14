@@ -35,6 +35,13 @@ class BuzonTests(unittest.TestCase):
         social.run(None, {}, self.marcos, None, 'buzon', 1001.0)
         self.assertIn('Claudi: Ya no: conservan el daño.', self.marcos['state']['events'][-1]['text'])
 
+    def test_fs_gato_can_write_to_the_same_mailbox(self):
+        character = {'id': 9, 'name': 'Fs gato', 'state': {}}
+        self.assertTrue(social.run(None, {}, character, None, 'buzón el menú no responde', 1000.0))
+        saved = json.loads((social.BUZON_DIR / 'buzon.jsonl').read_text(encoding='utf-8'))
+        self.assertEqual(saved['name'], 'Fs gato')
+        self.assertEqual(saved['text'], 'el menú no responde')
+
     def test_help_mentions_buzon_only_for_uv_diaz(self):
         import random, sys
         sys.path.insert(0, str(Path(__file__).parent))
