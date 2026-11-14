@@ -4,7 +4,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { PORTALES } from '../src/portales.mjs';
 import { IDS_MUNDOS } from '../src/mundos/catalogo.mjs';
-import { objetivoNeon, objetivoLuke, objetivoBusqueda, objetivoMarcosUV, objetivoFsGato, objetivoRataTaqueria, objetivoColumpiaEstilo, objetivoBotiquin, objetivoSenku2, objetivoGrietaMadre } from '../src/mundos/objetivos.mjs';
+import { objetivoNeon, objetivoLuke, objetivoBusqueda, objetivoMarcosUV, objetivoFsGato, objetivoRataTaqueria, objetivoColumpiaEstilo, objetivoBotiquin, objetivoSenku2, objetivoGrietaMadre, objetivoVuelo } from '../src/mundos/objetivos.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 test('cada cartel con portal tiene mundo registrado y arte', async () => {
   const indice = readFileSync(`${root}src/mundos/indice.js`, 'utf8');
@@ -35,3 +35,11 @@ test('objetivos nuevos cuentan hallazgos únicos y atrapes sin repetir el mismo 
 test('objetivos de Botiquín curan 3 pacientes sin repetir', () => { const s={curados:new Set()};for(let i=0;i<3;i++)objetivoBotiquin(s,i);objetivoBotiquin(s,0);assert.equal(s.curados.size,3); });
 test('objetivos de Pista Senku 2 cruzan 12 aros y mantienen combo', () => { const s={cruzados:new Set(),combo:0};for(let i=0;i<12;i++)objetivoSenku2(s,i);objetivoSenku2(s,0);assert.equal(s.cruzados.size,12);assert.equal(s.combo,12); });
 test('objetivos de La Grieta Madre eligen solo una de las tres puertas', () => { const s={elegida:null,abierta:false};objetivoGrietaMadre(s,1);assert.equal(s.elegida,1);assert.equal(s.abierta,true);objetivoGrietaMadre(s,2);assert.equal(s.elegida,1); });
+test('objetivos de Cielo de Vuelo recogen elementos solo volando y sin duplicar', () => {
+  const s = { recogidos: new Set() };
+  objetivoVuelo(s, 0, false);
+  assert.equal(s.recogidos.size, 0);
+  for (let i = 0; i < 10; i++) objetivoVuelo(s, i, true);
+  objetivoVuelo(s, 0, true);
+  assert.equal(s.recogidos.size, 10);
+});

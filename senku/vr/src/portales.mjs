@@ -4,7 +4,7 @@ export const ENFRIAMIENTO_ULTRA = 60;
 
 export const PORTALES = Object.freeze({
   churus: Object.freeze({ cartel: 'churus', mundo: 'churus', nombre: 'Mundo Churus', duracion: DURACION_MUNDO }),
-  'churus-azotea': Object.freeze({ cartel: 'churus-azotea', mundo: 'churus', nombre: 'Mundo Churus', duracion: DURACION_MUNDO }),
+  'churus-azotea': Object.freeze({ cartel: 'churus-azotea', mundo: 'vuelo', nombre: 'Cielo de Vuelo', duracion: DURACION_MUNDO }),
   vaisgard: Object.freeze({ cartel: 'vaisgard', mundo: 'vaisgard', nombre: 'Vaisgard', duracion: DURACION_MUNDO }),
   'vaisgard-oeste': Object.freeze({ cartel: 'vaisgard-oeste', mundo: 'vaisgard', nombre: 'Vaisgard', duracion: DURACION_MUNDO }),
   taqueria: Object.freeze({ cartel: 'taqueria', mundo: 'taqueria', nombre: 'Mundo Taco', duracion: DURACION_MUNDO }),
