@@ -426,11 +426,11 @@ class Engine:
             prepared=primary['state']['combat'].get('prepared',False);prepared_action=primary['state']['combat'].get('prepared_action');responses=[]
             for player in active:
                 state=player['state'];combat=state['combat'];combat['hp']=animal['hp'];combat['prepared']=prepared;combat['prepared_action']=prepared_action
-                if combat.get('intervention',{}).get('id')=='abrir_salida':
+                if (combat.get('intervention') or {}).get('id')=='abrir_salida':
                     animal['escape_open']=True
                     for person in active:self.withdraw_animal(person,world,creature_id)
                     return True
-                chosen=combat.get('intervention',{}).get('id','atacar')
+                chosen=(combat.get('intervention') or {}).get('id','atacar')
                 has_weapon=bool(state['equipment'].get('weapon'))
                 class_action_ids={a['id'] for a in m.class_actions(state,player['class_id'])}
                 contribution=(chosen=='atacar' and has_weapon) or chosen=='capacidad' or chosen in class_action_ids or (player is primary and chosen in ('defender','esquivar','bloquear','resistir'))
@@ -514,7 +514,7 @@ class Engine:
             if not state['combat']:break
             combat=state['combat'];state['_class']=character['class_id'];state['_now']=now
             creature=self.creature_prose(self.room(character,world),combat['creature'])
-            if combat.get('intervention',{}).get('id')=='abrir_salida':
+            if (combat.get('intervention') or {}).get('id')=='abrir_salida':
                 world.setdefault('creature_states',{}).setdefault(f"{state['location']}:{combat['creature']}",{})['escape_open']=True
                 state.pop('_class',None);state.pop('_now',None)
                 self.withdraw_animal(character,world,combat['creature']);changed=True;break

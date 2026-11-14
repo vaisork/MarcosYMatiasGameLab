@@ -265,5 +265,25 @@ class ClassCombatTests(unittest.TestCase):
         self.assertIn('forzar_reja', jur_acts)
         self.assertNotIn('revelar_runa', jur_acts)
 
+    def test_tick_action_handles_none_intervention(self):
+        state = m.new_state('humano', 'arcano', 'home:1', 0)
+        state['location'] = 'edran_terraplen'
+        state['combat'] = {
+            'creature': 'salteador_bravucon',
+            'profile': dict(m.PROFILES['salteador_bravucon']),
+            'hp': 25,
+            'round': 1,
+            'next_round': 100,
+            'prepared': True,
+            'prepared_action': {'name': 'Golpe pesado'},
+            'cooldown': 0,
+            'intervention': None
+        }
+        char = {'id': 1, 'name': 'Prueba', 'species': 'humano', 'class_id': 'arcano', 'state': state}
+        world = {'creature_states': {}, 'encounters': {}}
+        self.engine.clock = lambda: 104
+        changed = self.engine.tick_action(char, world)
+        self.assertTrue(changed)
+
 if __name__ == '__main__':
     unittest.main()
