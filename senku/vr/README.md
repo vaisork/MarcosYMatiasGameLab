@@ -25,7 +25,7 @@ a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, 
 
 ## Carteles-portal (idea de Matías)
 
-Acércate a menos de 2 m de un cartel o engánchalo con la garra para entrar. Los mundos duran 60 s; regresa por el aro brillante o al acabarse el tiempo. El reloj principal se pausa. Ultra Gato da poder ilimitado durante 15 s y cada cartel Ultra Gato descansa 60 s. En la consola del navegador, `senku.portal('churus')` entra y `senku.portal('salir')` vuelve.
+Choca con el cuerpo contra un cartel para entrar; la garra solo se engancha en él para columpiarte. Los mundos duran 60 s; regresa por el aro brillante o al acabarse el tiempo. El reloj principal se pausa. Ultra Gato da poder ilimitado durante 15 s y cada cartel Ultra Gato descansa 60 s. En la consola del navegador, `senku.portal('churus')` entra y `senku.portal('salir')` vuelve.
 
 ### Carteles y mundos
 

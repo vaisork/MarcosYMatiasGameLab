@@ -342,7 +342,7 @@ function disparar(m) {
   const portal = portalActivo ? null : interseccionCartel(o, d);
   const cartelVisible = portal && golpe(o, d)?.distanceTo(portal.punto) < 0.01 ? portal : null;
   const p = pe ? posEnemigo(pe).clone() : cartelVisible?.punto || buscarAncla(o, d);
-  m.lanzando = { objetivo: p || o.clone().addScaledVector(d, ALCANCE), acierta: !!p, presa: pe, portal: cartelVisible?.cartel || null, t: 0, dist: p ? o.distanceTo(p) : ALCANCE };
+  m.lanzando = { objetivo: p || o.clone().addScaledVector(d, ALCANCE), acierta: !!p, presa: pe, t: 0, dist: p ? o.distanceTo(p) : ALCANCE };
   sonar.lanzar(eleccion.cuerda);
   vibrar(m, 0.3, 20);
 }
@@ -446,9 +446,7 @@ function actualizarMano(m, dt) {
     if (p >= 1) {
       m.lanzando = null;
       m.impacto = L.acierta ? L.objetivo.clone() : null;
-      if (L.portal) {
-        abrirCartel(L.portal);
-      } else if (L.presa && L.presa.estado !== 'poof' && L.presa.estado !== 'muerto') { // atrapado: se queda quieto hasta que jales o sueltes
+      if (L.presa && L.presa.estado !== 'poof' && L.presa.estado !== 'muerto') { // atrapado: se queda quieto hasta que jales o sueltes
         if (m.apretado) { m.presa = L.presa; L.presa.estado = 'atrapado'; L.presa.t = 0; sonar.enganchar(eleccion.cuerda); vibrar(m, 0.6, 40); }
       } else if (L.acierta && m.apretado) {
         m.cuerda = crearCuerda(jugadora.pos, L.objetivo);
@@ -838,7 +836,8 @@ let portalRegresoHasta = 0;
 function revisarEntradaPortal() {
   if (portalActivo || performance.now() < portalRegresoHasta) return;
   for (const cartel of mundo.carteles.ubicaciones) {
-    if (distanciaCartel(jugadora.pos, cartel) < 2) { abrirCartel(cartel.anuncio.id); return; }
+    if (distanciaCartel(jugadora.pos, cartel) < 0.8) { // idea de Matías: entra al chocar con el cuerpo, no con la garra
+      abrirCartel(cartel.anuncio.id); return; }
   }
 }
 let hudTexto = '';
@@ -1503,4 +1502,4 @@ botonVR.addEventListener('click', async () => {
 
 // Para pruebas desde la consola: senku.disparar(0), senku.soltar(0)... y
 // senku.avanzar(dt) corre un paso del juego aunque la pestaña esté oculta.
-window.senku = { avanzar: (dt) => { if (jugando && !menuAbierto) actualizar(dt); const ahora = performance.now(); mundo.carteles.animar(ahora); if (!portalActivo) mundo.vida.animar(ahora, jugadora.pos); renderer.render(scene, camera); }, jugadora, manos, churus, eleccion, enemigos, vida, vidaCiudad: mundo.vida, abrirMenu, cerrarMenu, menuLienzo, activar, golpearEnemigo, alternarEscalada, portal: (id) => id === 'salir' ? cerrarPortal() : abrirCartel(id), estadoPortal: estadoPortales, mundos: mundosPortales, total: () => totalChurus, barra, ratoncitos, poder: (i = 1) => lanzarPoder(manos[i]), disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; if (!renderer.xr.isPresenting) camera.rotation.set(pitch, yaw, 0); } };
+window.senku = { avanzar: (dt) => { if (jugando && !menuAbierto) actualizar(dt); const ahora = performance.now(); mundo.carteles.animar(ahora); if (!portalActivo) mundo.vida.animar(ahora, jugadora.pos); renderer.render(scene, camera); }, jugadora, manos, churus, eleccion, enemigos, vida, vidaCiudad: mundo.vida, abrirMenu, cerrarMenu, menuLienzo, activar, golpearEnemigo, alternarEscalada, portal: (id) => id === 'salir' ? cerrarPortal() : abrirCartel(id), estadoPortal: estadoPortales, mundos: mundosPortales, carteles: () => mundo.carteles.ubicaciones, total: () => totalChurus, barra, ratoncitos, poder: (i = 1) => lanzarPoder(manos[i]), disparar: (i) => disparar(manos[i]), soltar: (i) => soltarMano(manos[i]), tirar: (i) => tirar(manos[i]), mirar: (y, p) => { yaw = y; pitch = p; if (!renderer.xr.isPresenting) camera.rotation.set(pitch, yaw, 0); } };
