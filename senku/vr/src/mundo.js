@@ -929,19 +929,56 @@ function crearTiendita(scene, cajas) {
   avisoPuerta.position.set(x, 3.16, z + 2.29); grupo.add(avisoPuerta);
 
   // Marquesina con frente rojo, doble franja amarilla y vuelo de 40 cm.
-  caja(0, 3.32, 2.38, 6.35, 0.75, 0.95, rojo);
-  caja(0, 3.72, 2.39, 6.35, 0.12, 0.98, amarillo);
-  caja(0, 2.92, 2.39, 6.35, 0.12, 0.98, amarillo);
-  caja(0, 3.32, 2.88, 6.35, 0.12, 0.1, amarillo);
+  caja(0, 3.32, 2.68, 7.2, 0.65, 1.15, rojo);
+  caja(0, 3.6, 2.68, 7.24, 0.12, 1.18, amarillo);
+  caja(0, 3.04, 2.68, 7.24, 0.12, 1.18, amarillo);
   const lienzo = document.createElement('canvas'); lienzo.width = 1024; lienzo.height = 256;
   const g = lienzo.getContext('2d');
   g.fillStyle = '#d32f2f'; g.fillRect(0, 0, 1024, 256);
   g.fillStyle = '#fbc02d'; g.fillRect(0, 0, 1024, 22); g.fillRect(0, 234, 1024, 22);
   g.fillStyle = '#fff'; g.textAlign = 'center'; g.textBaseline = 'middle';
-  g.font = '900 190px system-ui, sans-serif'; g.fillText('OXXO', 512, 134);
   const textura = new THREE.CanvasTexture(lienzo); textura.colorSpace = THREE.SRGBColorSpace;
-  const letrero = new THREE.Mesh(new THREE.PlaneGeometry(3.8, 0.95), new THREE.MeshStandardMaterial({ map: textura, emissive: '#ffffff', emissiveMap: textura, emissiveIntensity: 0.85, toneMapped: false, roughness: 0.55 }));
-  letrero.position.set(x, 3.32, z + 2.91); grupo.add(letrero);
+  const letrero = new THREE.Mesh(new THREE.PlaneGeometry(3.8, 0.48), new THREE.MeshStandardMaterial({ map: textura, emissive: '#ffffff', emissiveMap: textura, emissiveIntensity: 0.85, toneMapped: false, roughness: 0.55 }));
+  letrero.position.set(x, 3.32, z + 3.26); grupo.add(letrero);
+  const materialLetras = new THREE.MeshStandardMaterial({ color: '#ffffff', emissive: '#ffffff', emissiveIntensity: 0.85, roughness: 0.42 });
+  const formaO = new THREE.Shape();
+  formaO.absellipse(0, 0, 0.31, 0.38, 0, Math.PI * 2, false, 0);
+  const huecoO = new THREE.Path();
+  huecoO.absellipse(0, 0, 0.15, 0.22, 0, Math.PI * 2, true, 0);
+  formaO.holes.push(huecoO);
+  const formaX = new THREE.Shape();
+  formaX.moveTo(-0.3, 0.38); formaX.lineTo(-0.08, 0.38); formaX.lineTo(0, 0.13); formaX.lineTo(0.08, 0.38);
+  formaX.lineTo(0.3, 0.38); formaX.lineTo(0.11, 0); formaX.lineTo(0.3, -0.38); formaX.lineTo(0.08, -0.38);
+  formaX.lineTo(0, -0.13); formaX.lineTo(-0.08, -0.38); formaX.lineTo(-0.3, -0.38); formaX.lineTo(-0.11, 0); formaX.closePath();
+  const extrude = { depth: 0.08, bevelEnabled: true, bevelSegments: 1, steps: 1, bevelSize: 0.018, bevelThickness: 0.018, curveSegments: 10 };
+  const geoO = new THREE.ExtrudeGeometry(formaO, extrude), geoX = new THREE.ExtrudeGeometry(formaX, extrude);
+  for (const [geometria, dx] of [[geoO, -1.22], [geoX, -0.42], [geoX, 0.42], [geoO, 1.22]]) {
+    const letra = new THREE.Mesh(geometria, materialLetras);
+    letra.position.set(x + dx, 3.32, z + 3.28);
+    letra.scale.set(0.78, 0.56, 1); grupo.add(letra);
+  }
+
+  // Tótem OXXO de doble vista, sobre báculo metálico y fuera del acceso.
+  const posteTotem = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.16, 2.5, 10), acero);
+  posteTotem.position.set(x + 3.85, 1.25, z + 3.05); grupo.add(posteTotem);
+  const cajaTotem = new THREE.Mesh(new THREE.BoxGeometry(1.02, 1.75, 0.2), rojo);
+  cajaTotem.position.set(x + 3.85, 2.62, z + 3.05); grupo.add(cajaTotem);
+  for (const py of [1.78, 3.46]) {
+    const banda = new THREE.Mesh(new THREE.BoxGeometry(1.06, 0.12, 0.22), amarillo);
+    banda.position.set(x + 3.85, py, z + 3.05); grupo.add(banda);
+  }
+  const caraTotem = document.createElement('canvas'); caraTotem.width = 256; caraTotem.height = 448;
+  const caraCtx = caraTotem.getContext('2d');
+  caraCtx.fillStyle = '#d32f2f'; caraCtx.fillRect(0, 0, 256, 448);
+  caraCtx.fillStyle = '#fbc02d'; caraCtx.fillRect(0, 0, 256, 26); caraCtx.fillRect(0, 422, 256, 26);
+  caraCtx.fillStyle = '#fff'; caraCtx.font = '900 86px system-ui,sans-serif'; caraCtx.textAlign = 'center'; caraCtx.textBaseline = 'middle'; caraCtx.fillText('OXXO', 128, 150);
+  caraCtx.font = '900 39px system-ui,sans-serif'; caraCtx.fillText('24 HORAS', 128, 330);
+  const texTotem = new THREE.CanvasTexture(caraTotem); texTotem.colorSpace = THREE.SRGBColorSpace;
+  const matTotem = new THREE.MeshBasicMaterial({ map: texTotem, toneMapped: false });
+  for (const giro of [0, Math.PI]) {
+    const cara = new THREE.Mesh(new THREE.PlaneGeometry(0.86, 1.5), matTotem);
+    cara.position.set(x + 3.85, 2.62, z + (giro ? 2.94 : 3.16)); cara.rotation.y = giro; grupo.add(cara);
+  }
   const tapete = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.045, 1), new THREE.MeshLambertMaterial({ color: '#212121' }));
   tapete.position.set(x, 0.095, z + 3.15); grupo.add(tapete);
   const bordeTapete = new THREE.Mesh(new THREE.BoxGeometry(1.72, 0.025, 1.12), amarillo);
@@ -1195,9 +1232,9 @@ export function crearMundo(escena) {
   const r = azar(1337);
   scene.background = HORIZONTE;
   scene.fog = new THREE.Fog('#efb08b', 85, 450);
-  scene.add(new THREE.HemisphereLight('#ffe0b2', '#8c5946', 0.85));
-  const sol = new THREE.DirectionalLight(0xffe4b5, 1.45);
-  sol.position.set(45, 55, -70);
+  scene.add(new THREE.HemisphereLight('#ffe0b2', '#a18a76', 1.2));
+  const sol = new THREE.DirectionalLight('#ffca28', 1.15);
+  sol.position.set(45, 30, -70);
   const domo = cielo();
   const nubes = crearNubes(scene);
   scene.add(sol, domo, crearSol(), suelo());
@@ -1254,7 +1291,7 @@ export function crearMundo(escena) {
       const h = alturaBarrio(barrio, r());
       const ox = partes === 1 ? 0 : (p === 0 ? -4.6 : 4.6);
       const x = cx + ox, z = cz;
-      const paleta = barrio === 'centro' ? ['#d96b43', '#e6a15c', '#7fa382', '#5c82a6', '#f2deb8', '#d97b93'] : ['#e06e58', '#f2c568', '#6eaaa0', '#f09aaa', '#8c79bb', '#f28e45', '#88b86c', '#f7e7c8'];
+      const paleta = barrio === 'centro' ? ['#d96b43', '#e6a15c', '#77a99f', '#5c82a6', '#f2deb8', '#d97b93', '#9185ad', '#e9c46a'] : ['#e06e58', '#f2c568', '#6eaaa0', '#f09aaa', '#8c79bb', '#f28e45', '#88b86c', '#f7e7c8'];
       const color = new THREE.Color(paleta[Math.floor(r() * paleta.length)]);
       cajas.push({ min: { x: x - w / 2, y: 0, z: z - d / 2 }, max: { x: x + w / 2, y: h, z: z + d / 2 }, color, barrio });
       if (barrio === 'centro' && h > 12) {
