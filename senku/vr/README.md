@@ -23,9 +23,9 @@ Q/E = tirón, F o rueda = jalar (impulso, o jalar un ratón atrapado), C = agarr
 a la pared de enfrente y subir con W, R = Ultra Gato, M = menú, WASD, espacio, ratón para mirar
 (en celular hay botones táctiles «Jalar» y «≡»).
 
-### Tiendita Churus
+### Oxxo
 
-Choca con la puerta de la tienda de colores «Tiendita Churus», cerca del inicio, para abrir el menú de compras. La cuerda empieza con 40 m de alcance y cada nivel suma 10 m; cuesta 40 churus el primer nivel y el precio sube 40 por nivel. El salto empieza en 7.5 y cada nivel añade 1.25; cuesta 30 churus el primer nivel y el precio sube 30 por nivel. El vuelo permanente cuesta 500 churus y se compra una vez; también se desbloquea al completar cinco vuelos perfectos. El total de churus y las mejoras se guardan en `localStorage`.
+Choca con la puerta de la tienda de colores Oxxo, cerca del inicio, para abrir el menú de compras. La cuerda empieza con 40 m de alcance y cada nivel suma 10 m; cuesta 40 churus el primer nivel y el precio sube 40 por nivel. El salto empieza en 7.5 y cada nivel añade 1.25; cuesta 30 churus el primer nivel y el precio sube 30 por nivel. El vuelo permanente cuesta 500 churus y se compra una vez; también se desbloquea al completar cinco vuelos perfectos. El total de churus y las mejoras se guardan en `localStorage`.
 
 ## Carteles-portal (idea de Matías)
 
@@ -104,7 +104,7 @@ Para agregar mundos, crea `src/mundos/<id>.js`, agrega su import y entrada en `s
   con todos tus churus.
 - **Churus**: cada ratón vencido suelta 1/2/3 que vuelan hacia ti y suman al
   total acumulado (`localStorage` `senku_vr_churus_total`, «Total» en el HUD).
-  Se gastan en la Tiendita Churus para comprar cuerda más larga, saltos más
+  Se gastan en la Oxxo para comprar cuerda más larga, saltos más
   altos o vuelo permanente.
 - **Escalar**: agarre con la mano tocando una pared o borde (a 0.45 m) → el cuerpo se
   mueve al revés del tirón de la mano (`escalar()` en `fisica.mjs`), sin gravedad; con las dos manos se
