@@ -11,6 +11,22 @@ export default {
   crear(g, u) {
     u.plataforma(0,-.25,0,32,.5,32,0x211b38);
     new GLTFLoader().load('modelos/neon_skyline_r2.glb',({scene})=>{scene.position.y=0;g.add(scene);},undefined,(e)=>console.error('No se pudo cargar skyline neón',e));
+    // Torres facetadas en el perímetro: dejan libre la ruta de rótulos del centro.
+    const ventanas = new THREE.InstancedMesh(new THREE.BoxGeometry(.72, .95, .12), new THREE.MeshLambertMaterial({ color: 0xffffff, emissive: 0x42c5ff, emissiveIntensity: .8 }), 96);
+    const torre = new THREE.Object3D(), ubicaciones = [[-13,-13],[-5,-14],[5,-14],[13,-13],[-14,2],[14,3],[-12,14],[0,14],[12,14]];
+    ubicaciones.forEach(([x,z],i) => {
+      const alto = 5 + (i * 7 % 6), tono = [0x32274b,0x3b2858,0x253c62][i%3];
+      const fuste = new THREE.Mesh(new THREE.CylinderGeometry(1.45,1.8,alto,7),new THREE.MeshLambertMaterial({color:tono}));
+      fuste.position.set(x,alto/2,z);g.add(fuste);
+      const remate = new THREE.Mesh(new THREE.ConeGeometry(1.65,1.6,7),new THREE.MeshLambertMaterial({color:[0xff48cc,0x00e5ff,0xffdc4d][i%3],emissive:[0x6b123f,0x07506a,0x665012][i%3]}));
+      remate.position.set(x,alto+.8,z);g.add(remate);
+      for(let floor=0;floor<Math.floor(alto/2);floor++) for(let face=0;face<4;face++) {
+        const a=face*Math.PI/2, radius=1.5;
+        torre.position.set(x+Math.sin(a)*radius,1.5+floor*1.7,z+Math.cos(a)*radius);
+        torre.rotation.set(0,a,0);torre.updateMatrix();ventanas.setMatrixAt(i*10+floor*4+face,torre.matrix);
+      }
+    });
+    g.add(ventanas);
     const rotulos=[];
     for(let i=0;i<15;i++){
       const x=(i%5-2)*5,z=(Math.floor(i/5)-1)*5-3;

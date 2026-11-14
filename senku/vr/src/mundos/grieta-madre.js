@@ -9,6 +9,26 @@ export default {
   crear(g, u) {
     u.plataforma(0, -0.25, -2, 26, 0.5, 26, 0x341d59);
 
+    // Cristales quebrados en el borde; mantienen despejado el corredor hacia las puertas.
+    const cristalGeom = new THREE.ConeGeometry(.55, 1, 5);
+    const cristales = new THREE.InstancedMesh(cristalGeom, new THREE.MeshLambertMaterial({ color: 0xc56cff, emissive: 0x451071, emissiveIntensity: .65 }), 32);
+    const pieza = new THREE.Object3D();
+    for (let i = 0; i < 32; i++) {
+      const a = i * 2.399, r = 10 + (i % 3) * .72, x = Math.cos(a) * r, z = Math.sin(a) * r - 2;
+      const alto = .9 + (i % 5) * .42;
+      pieza.position.set(x, .12 + alto / 2, z); pieza.scale.set(.65 + (i % 3) * .22, alto, .65 + (i % 2) * .2);
+      pieza.rotation.set((i % 3 - 1) * .12, a, (i % 5 - 2) * .07); pieza.updateMatrix(); cristales.setMatrixAt(i, pieza.matrix);
+      cristales.setColorAt(i, new THREE.Color([0x9c54ef, 0x5837ba, 0xdf68db, 0x3868ca][i % 4]));
+    }
+    g.add(cristales);
+    const grietasSuelo = new THREE.InstancedMesh(new THREE.BoxGeometry(1.25, .025, .045), new THREE.MeshLambertMaterial({ color: 0xd35cff, emissive: 0x661399, emissiveIntensity: .85 }), 24);
+    for (let i = 0; i < 24; i++) {
+      const a = i * 2.399, r = 7.4 + (i % 4) * .8;
+      pieza.position.set(Math.cos(a) * r, .02, Math.sin(a) * r - 2); pieza.rotation.set(0, -a + (i % 3) * .25, 0); pieza.scale.set(.65 + (i % 4) * .25, 1, .65); pieza.updateMatrix(); grietasSuelo.setMatrixAt(i, pieza.matrix);
+      grietasSuelo.setColorAt(i, new THREE.Color(i % 3 ? 0x9c42d8 : 0xf06de8));
+    }
+    g.add(grietasSuelo);
+
     for (const [x, y, z, s] of [[-10, 4, -8, 2], [11, 5, -6, 2.4], [-8, 6, 4, 1.8], [9, 3, 5, 2]]) {
       const roca = new THREE.Mesh(new THREE.DodecahedronGeometry(s), new THREE.MeshLambertMaterial({ color: 0x482d70 }));
       roca.position.set(x, y, z);
