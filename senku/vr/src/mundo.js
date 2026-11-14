@@ -716,6 +716,34 @@ function crearMar(scene) {
   scene.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true, fog: true, side: THREE.DoubleSide, toneMapped: false })));
 }
 
+function crearTiendita(scene, cajas) {
+  const grupo = new THREE.Group();
+  const x = -10.5, z = -15;
+  const materiales = ['#e95f63', '#f3c953', '#73b9a6', '#f3e5c8'].map((color) => new THREE.MeshLambertMaterial({ color }));
+  const piezas = [
+    [-2.65, 1.8, 0, 0.7, 3.6, 4.4, 0], [2.65, 1.8, 0, 0.7, 3.6, 4.4, 0], // costados
+    [-1.5, 1.8, 1.85, 1.7, 3.6, 0.7, 0], [1.5, 1.8, 1.85, 1.7, 3.6, 0.7, 0], // frente con puerta
+    [0, 3.25, 1.85, 1.3, 0.7, 0.7, 1], [0, 1.8, -1.85, 6, 3.6, 0.7, 2], // dintel y fondo
+    [0, 3.8, 0, 6.7, 0.45, 4.9, 3], // techo
+    [0, 2.8, 2.23, 5.5, 0.22, 0.22, 1], // marquesina
+  ];
+  const geo = new THREE.BoxGeometry(1, 1, 1);
+  for (const [px, py, pz, sx, sy, sz, material] of piezas) {
+    const m = new THREE.Mesh(geo, materiales[material]);
+    m.position.set(x + px, py, z + pz); m.scale.set(sx, sy, sz); grupo.add(m);
+    if (py < 3.6 && pz !== 2.23) cajas.push({ min: { x: x + px - sx / 2, y: py - sy / 2, z: z + pz - sz / 2 }, max: { x: x + px + sx / 2, y: py + sy / 2, z: z + pz + sz / 2 } });
+  }
+  const lienzo = document.createElement('canvas'); lienzo.width = 768; lienzo.height = 144;
+  const g = lienzo.getContext('2d');
+  g.fillStyle = '#633b56'; g.roundRect(4, 4, 760, 136, 24); g.fill();
+  g.fillStyle = '#ffe184'; g.font = '900 64px system-ui'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('Tiendita Churus', 384, 75);
+  const textura = new THREE.CanvasTexture(lienzo); textura.colorSpace = THREE.SRGBColorSpace;
+  const letrero = new THREE.Mesh(new THREE.PlaneGeometry(4.5, 0.85), new THREE.MeshBasicMaterial({ map: textura, toneMapped: false }));
+  letrero.position.set(x, 3.15, z + 2.22); grupo.add(letrero);
+  scene.add(grupo);
+  return { x, y: 1, z: z + 3.2 };
+}
+
 export function crearMundo(escena) {
   const grupo = new THREE.Group();
   const scene = new Proxy(escena, { get: (objeto, clave) => clave === 'add' ? (...objetos) => grupo.add(...objetos) : Reflect.get(objeto, clave, objeto) });
@@ -733,6 +761,7 @@ export function crearMundo(escena) {
   crearMar(scene);
 
   const cajas = [], tinacos = [], cactus = [], churus = [];
+  let tiendita;
   const arboles = [], jardineras = [], fuentes = [], bancas = [], faroles = [], puestos = [], coches = [];
   const balcones = [], toldos = [], cornisas = [], aires = [], antenas = [], escaleras = [];
   const cruces = [], bordillos = [], banderines = [], letreros = [];
@@ -845,6 +874,7 @@ export function crearMundo(escena) {
   });
   edificios.computeBoundingSphere();
   scene.add(edificios);
+  tiendita = crearTiendita(scene, cajas);
 
   // Tinacos negros (como los de las azoteas mexicanas).
   const tin = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.8, 0.8, 1.8, 10).translate(0, 0.9, 0), new THREE.MeshLambertMaterial({ color: 0x2b2b30 }), tinacos.length);
@@ -923,7 +953,7 @@ export function crearMundo(escena) {
   let farolesDesde = null;
 
   return {
-    grupo, edificios, cajas: cajas.map(({ min, max }) => ({ min, max })), churus, domo, vida,
+    grupo, edificios, cajas: cajas.map(({ min, max }) => ({ min, max })), churus, domo, vida, tiendita,
     carteles: {
       ...carteles,
       encenderFaroles(tiempo) { farolesDesde = tiempo; },

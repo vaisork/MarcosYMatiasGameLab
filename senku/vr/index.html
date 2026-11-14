@@ -42,7 +42,12 @@
   .opcion { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; background: #4a3168; color: #fff; border: 4px solid transparent; font-size: 14px; }
   .opcion img { width: 100%; max-width: 72px; aspect-ratio: 1; }
   .opcion.elegida { border-color: var(--rosa); }
-  #menu-listo { background: var(--rosa); color: #fff; width: 100%; margin-top: 14px; font-size: 20px; }
+  #menu-listo { background: var(--rosa); color: var(--morado); width: 100%; margin-top: 14px; font-size: 20px; }
+  #menu-tienda-listo { background: #ffd27a; color: var(--morado); width: 100%; margin-top: 14px; font-size: 20px; }
+  .tienda-opciones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .tienda-opciones button { min-height: 112px; padding: 10px; background: #4a3168; color: #fff; }
+  .tienda-opciones button:disabled { background: #ded3e8; color: #362647; cursor: default; }
+  #menu-tienda[hidden], #menu-garras[hidden] { display: none; }
   #menu-fps { background: #b8a1d9; color: var(--morado); margin-top: 12px; }
   #abrir-menu { background: #b8a1d9; color: var(--morado); flex: 1 1 100%; }
   #t-menu { display: none; }
@@ -80,6 +85,7 @@
       <li><b>⚡ ¡Ultra Gato!</b> (idea de Matías): vence ratones para llenar la barrita de la muñeca (negro +1, café +2, hámster +3). Cuando brille, <b>aprieta la palanca derecha</b> (zurdas: cualquiera) y salen 5 ratoncitos de cuerda que persiguen a los ratones. Columpiándote, ¡sale uno de premio! La barrita llena se guarda hasta que la dispares.</li>
       <li><b>A / X</b>: saltar. <b>B / Y</b>: menú de garras (apunta con el rayo y elige con el gatillo).</li>
       <li><b>Carteles-portal</b>: choca con ellos para entrar (la garra solo se engancha). Churus, Vaisgard y Taco duran 60 s; vuelve por el aro brillante. El reloj se pausa.</li>
+      <li><b>Tiendita Churus</b>: choca con la puerta de la tienda de colores, cerca del inicio, para comprar mejoras con tu total de churus. Alarga la cuerda, salta más alto o compra vuelo permanente; la cuerda y el salto suben de nivel y cuestan más cada vez. El vuelo también se desbloquea con 5 vuelos perfectos.</li>
     </ul>
     <h2>Sin visor (compu o celular)</h2>
     <ul>
@@ -90,6 +96,7 @@
       <li>En el celular: arrastra a la izquierda para caminar y a la derecha para mirar; un swipe rápido da un zarpazo al ratón más cercano que tengas enfrente.</li>
       <li>Activa <b>📱 Mira</b> para mirar al mover el teléfono y sacudirlo para dar zarpazos. En iPhone, toca el botón y acepta el permiso. Arrastrar con el dedo sigue funcionando.</li>
       <li><b>Carteles-portal</b>: choca con ellos para entrar. Sal por el aro brillante; en el celular usa el mismo control de garra.</li>
+      <li><b>Tiendita Churus</b>: toca la puerta de la tienda cerca del inicio. Compra cuerda más larga o salto más alto por niveles, o vuelo permanente por 500 churus. También puedes desbloquear el vuelo con 5 vuelos perfectos.</li>
     </ul>
     <label><input type="checkbox" id="vineta" checked> Viñeta anti-mareo al moverte rápido</label>
     <div class="botones">
@@ -113,6 +120,7 @@
 <button id="t-menu" aria-label="Menú de garras">≡</button>
 <div id="menu" hidden>
   <div class="tarjeta">
+    <div id="menu-garras">
     <h1>Garras de <span>Senku</span></h1>
     <p class="lema">Todo es gratis: elige tu cuerda y tu pata.</p>
     <h2>Cuerda</h2><div class="opciones" id="menu-cuerda"></div>
@@ -120,6 +128,13 @@
     <label><input type="checkbox" id="menu-comodo"> Giro por pasos (30°)</label>
     <button id="menu-fps">Medidor de FPS: NO</button>
     <button id="menu-listo">¡Listo!</button>
+    </div>
+    <div id="menu-tienda" hidden>
+      <h1>Tiendita <span>Churus</span></h1>
+      <p class="lema">Tienes <b id="tienda-churus">0</b> churus. ¡Elige una mejora!</p>
+      <div class="tienda-opciones" id="tienda-opciones"></div>
+      <button id="menu-tienda-listo">Volver a la ciudad</button>
+    </div>
   </div>
 </div>
 <div class="pista">Izquierda: caminar · Derecha: mirar</div>

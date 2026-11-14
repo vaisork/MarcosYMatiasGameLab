@@ -13,9 +13,12 @@ import { actualizarControlVuelo, cancelarIntentoVuelo, crearEstadoControlVuelo, 
 import { cargarVuelosPerfectos, guardarVuelosPerfectos, registrarVueloPerfecto, VUELOS_PERFECTOS_PARA_VUELO_PERMANENTE } from './mundos/objetivos.mjs';
 import { CUERDAS, PATAS, tramoCuerda, muestraCuerda, muestraPata, leerEleccion, guardarEleccion } from './estilos.js';
 import { detectarSwipe, detectarSacudida, sacudidaDoble, masCercanoEnfrente, listoZarpazo } from './movil.mjs';
+import { comprar, crearEstadoTienda, MEJORAS } from './tienda.mjs';
 
-const ALCANCE = 40, VEL_GARRA = 260, ENFRIAR = 0.35, ENFRIAR_TIRON = 1.0, CUERPO = 1.0;
+let ALCANCE = 40;
+const VEL_GARRA = 260, ENFRIAR = 0.35, ENFRIAR_TIRON = 1.0, CUERPO = 1.0;
 const CLAVE_RECORD = 'senku_vr_record', CLAVE_TOTAL = 'senku_vr_churus_total';
+const CLAVE_TIENDA = 'senku_vr_tienda';
 const ENEMIGOS_MAX = 24, REAPARECER = 3; // Matías pidió más ratones (antes 12 y 5 s)
 const $ = (id) => document.getElementById(id);
 
@@ -73,11 +76,21 @@ const controlVueloGeneral = crearEstadoControlVuelo();
 const leerTotal = () => { try { return Number(localStorage.getItem(CLAVE_TOTAL)) || 0; } catch { return 0; } };
 let totalChurus = leerTotal(); // churus acumulados (para desbloquear cosas después)
 const sumarChurus = (n) => { totalChurus += n; try { localStorage.setItem(CLAVE_TOTAL, String(totalChurus)); } catch { /* sin almacenamiento */ } };
+const leerTienda = () => {
+  try {
+    const guardado = JSON.parse(localStorage.getItem(CLAVE_TIENDA) || '{}');
+    return Object.fromEntries(Object.keys(crearEstadoTienda()).map((id) => [id, Math.max(0, Math.floor(Number(guardado[id]) || 0))]));
+  } catch { return crearEstadoTienda(); }
+};
+let nivelesMejoras = leerTienda();
+ALCANCE = 40 + nivelesMejoras.cuerda * 10;
+const guardarTienda = () => { try { localStorage.setItem(CLAVE_TIENDA, JSON.stringify(nivelesMejoras)); } catch { /* sin almacenamiento */ } };
+const tieneVueloPermanente = () => nivelesMejoras.vuelo > 0 || vuelosPerfectos >= VUELOS_PERFECTOS_PARA_VUELO_PERMANENTE;
 const vida = crearVida();
 const eleccion = leerEleccion(); // {cuerda, pata, comodo}
 vineta = eleccion.vineta;
 $('vineta').checked = vineta;
-let menuAbierto = false, pausaDesde = 0, impulsando = 0;
+let menuAbierto = false, menuTienda = false, pausaDesde = 0, impulsando = 0;
 const estiloCuerda = () => CUERDAS.find((c) => c.id === eleccion.cuerda) || CUERDAS[0];
 const estiloPata = () => PATAS.find((p) => p.id === eleccion.pata) || PATAS[0];
 
@@ -408,9 +421,9 @@ const escalando = () => escaladaTeclado || manos.some((m) => m.escalando);
 
 function saltar() {
   if (!jugando) return;
-  if (escaladaTeclado) { escaladaTeclado = false; camera.getWorldDirection(v1); jugadora.vel.y = 7; jugadora.vel.x = -v1.x * 4; jugadora.vel.z = -v1.z * 4; return; }
+  if (escaladaTeclado) { escaladaTeclado = false; camera.getWorldDirection(v1); jugadora.vel.y = 7 + nivelesMejoras.salto * 1.25; jugadora.vel.x = -v1.x * 4; jugadora.vel.z = -v1.z * 4; return; }
   if (!jugadora.enSuelo) return;
-  jugadora.vel.y = 7.5;
+  jugadora.vel.y = 7.5 + nivelesMejoras.salto * 1.25;
   empezar();
 }
 
@@ -832,9 +845,12 @@ function actualizarPortal(dt, ahora) {
   if (Math.hypot(jugadora.pos.x, jugadora.pos.y - 1, jugadora.pos.z - 4) < 1.5 || portalExpirado(estadoPortales, ahora)) cerrarPortal();
 }
 
-let portalRegresoHasta = 0;
+let portalRegresoHasta = 0, tiendaReingresoHasta = 0;
 function revisarEntradaPortal() {
   if (portalActivo || performance.now() < portalRegresoHasta) return;
+  if (performance.now() >= tiendaReingresoHasta && Math.hypot(jugadora.pos.x - mundo.tiendita.x, jugadora.pos.z - mundo.tiendita.z) < 0.9) {
+    abrirMenuTienda(); return;
+  }
   for (const cartel of mundo.carteles.ubicaciones) {
     if (distanciaCartel(jugadora.pos, cartel) < 0.8) { // idea de Matías: entra al chocar con el cuerpo, no con la garra
       abrirCartel(cartel.anuncio.id); return; }
@@ -1250,11 +1266,14 @@ menuMesh.renderOrder = 1000;
 menuMesh.visible = false;
 scene.add(menuMesh);
 
-const botonesMenu = [];
-const fila = (lista, tipo, y, muestra) => lista.forEach((e, k) => botonesMenu.push({ tipo, id: e.id, texto: e.nombre, x: 21 + k * 202, y, w: 190, h: 190, img: muestra(e.id, 120) }));
+const botonesGarras = [];
+let botonesMenu = botonesGarras;
+const botonesTienda = Object.keys(MEJORAS).map((id, k) => ({ tipo: 'mejora', id, x: 20 + k * 340, y: 150, w: 320, h: 320 }));
+botonesTienda.push({ tipo: 'listo', texto: 'Volver a la ciudad', x: 325, y: 540, w: 390, h: 75 });
+const fila = (lista, tipo, y, muestra) => lista.forEach((e, k) => botonesGarras.push({ tipo, id: e.id, texto: e.nombre, x: 21 + k * 202, y, w: 190, h: 190, img: muestra(e.id, 120) }));
 fila(CUERDAS, 'cuerda', 100, muestraCuerda);
 fila(PATAS, 'pata', 340, muestraPata);
-[['comodo', 'Giro por pasos'], ['sombra', 'Viñeta anti-mareo'], ['fps', 'Medidor de FPS'], ['listo', '¡Listo!']].forEach(([tipo, texto], k) => botonesMenu.push({ tipo, texto, x: 21 + k * 250, y: 545, w: 230, h: 80 }));
+[['comodo', 'Giro por pasos'], ['sombra', 'Viñeta anti-mareo'], ['fps', 'Medidor de FPS'], ['listo', '¡Listo!']].forEach(([tipo, texto], k) => botonesGarras.push({ tipo, texto, x: 21 + k * 250, y: 545, w: 230, h: 80 }));
 
 const elegido = (b) => (b.tipo === 'cuerda' && eleccion.cuerda === b.id) || (b.tipo === 'pata' && eleccion.pata === b.id) || (b.tipo === 'comodo' && eleccion.comodo) || (b.tipo === 'sombra' && vineta) || (b.tipo === 'fps' && fpsVisible);
 function dibujarMenu() {
@@ -1262,6 +1281,27 @@ function dibujarMenu() {
   g.clearRect(0, 0, MW, MH);
   g.fillStyle = 'rgba(42,24,64,0.94)'; g.beginPath(); g.roundRect(0, 0, MW, MH, 36); g.fill();
   g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#fff';
+  if (menuTienda) {
+    botonesMenu = botonesTienda;
+    g.font = 'bold 44px system-ui'; g.fillText('Tiendita Churus', MW / 2, 48);
+    g.font = 'bold 28px system-ui'; g.fillStyle = '#ffd27a'; g.fillText(`Tienes ${totalChurus} churus`, MW / 2, 100);
+    botonesMenu.forEach((b) => {
+      const mejora = MEJORAS[b.id], nivel = nivelesMejoras[b.id];
+      const adquirida = (b.id === 'vuelo' && tieneVueloPermanente()) || nivel >= (mejora?.max ?? Infinity);
+      g.fillStyle = manos.some((m) => m.hover === b) ? '#7a4f9a' : '#4a3168';
+      g.beginPath(); g.roundRect(b.x, b.y, b.w, b.h, 22); g.fill();
+      g.fillStyle = '#fff'; g.font = 'bold 30px system-ui'; g.fillText(mejora?.nombre || b.texto, b.x + b.w / 2, b.y + 65);
+      if (mejora) {
+        g.font = '24px system-ui'; g.fillStyle = '#ffd27a';
+        g.fillText(adquirida ? '¡Ya lo tienes!' : `Nivel ${nivel}`, b.x + b.w / 2, b.y + 135);
+        g.fillStyle = '#fff'; g.fillText(adquirida ? 'Desbloqueado' : `${mejora.precio(nivel)} churus`, b.x + b.w / 2, b.y + 200);
+        g.font = '20px system-ui'; g.fillText(b.id === 'cuerda' ? `Alcance: ${40 + nivel * 10} m` : b.id === 'salto' ? `Impulso: ${7.5 + nivel * 1.25}` : 'Vuela para siempre', b.x + b.w / 2, b.y + 258);
+      }
+    });
+    menuTex.needsUpdate = true;
+    return;
+  }
+  botonesMenu = botonesGarras;
   g.font = 'bold 44px system-ui, sans-serif'; g.fillText('Garras de Senku', MW / 2, 40);
   g.font = 'bold 26px system-ui, sans-serif'; g.fillStyle = '#ffd27a';
   g.fillText('Cuerda', MW / 2, 82); g.fillText('Pata', MW / 2, 322);
@@ -1313,15 +1353,46 @@ for (const [tipo, lista, muestra] of [['cuerda', CUERDAS, muestraCuerda], ['pata
 $('menu-comodo').addEventListener('change', () => activar({ tipo: 'comodo' }));
 $('menu-fps').addEventListener('click', alternarFPS);
 $('menu-listo').addEventListener('click', () => cerrarMenu());
+$('menu-tienda-listo').addEventListener('click', () => cerrarMenu());
+
+function actualizarTiendaHTML() {
+  $('tienda-churus').textContent = totalChurus;
+  const cont = $('tienda-opciones'); cont.replaceChildren();
+  for (const [id, mejora] of Object.entries(MEJORAS)) {
+    const nivel = nivelesMejoras[id], adquirida = (id === 'vuelo' && tieneVueloPermanente()) || (mejora.unico && nivel > 0) || nivel >= (mejora.max ?? Infinity);
+    const b = document.createElement('button');
+    b.disabled = adquirida;
+    b.innerHTML = `<b>${mejora.nombre}</b><br>${adquirida ? '¡Desbloqueado!' : `Nivel ${nivel} · ${mejora.precio(nivel)} churus`}`;
+    b.addEventListener('click', () => activar({ tipo: 'mejora', id }));
+    cont.append(b);
+  }
+}
 
 function sincronizarMenu() {
+  $('menu-garras').hidden = menuTienda;
+  $('menu-tienda').hidden = !menuTienda;
+  if (menuTienda) actualizarTiendaHTML();
   for (const b of menuHTML.querySelectorAll('.opcion')) b.classList.toggle('elegida', eleccion[b.dataset.tipo] === b.dataset.id);
   $('menu-comodo').checked = eleccion.comodo;
   $('vineta').checked = vineta;
   dibujarMenu();
 }
 
+function intentarCompra(id) {
+  if (id === 'vuelo' && tieneVueloPermanente()) { mostrarAviso(['¡El vuelo permanente ya está desbloqueado!']); return; }
+  const nueva = comprar({ churus: totalChurus, niveles: nivelesMejoras }, id);
+  if (!nueva) { mostrarAviso(['Te faltan churus']); sonar.fallo(); return; }
+  totalChurus = nueva.churus; nivelesMejoras = nueva.niveles;
+  try { localStorage.setItem(CLAVE_TOTAL, String(totalChurus)); } catch { /* sin almacenamiento */ }
+  guardarTienda();
+  ALCANCE = 40 + nivelesMejoras.cuerda * 10; raycaster.far = ALCANCE;
+  mostrarAviso([`${MEJORAS[id].nombre} · nivel ${nivelesMejoras[id]}`]);
+  iniciarSonido(); sonar.churu();
+  sincronizarMenu();
+}
+
 function activar(b) {
+  if (b.tipo === 'mejora') { intentarCompra(b.id); return; }
   if (b.tipo === 'cuerda') { eleccion.cuerda = b.id; iniciarSonido(); sonar.enganchar(b.id); }
   else if (b.tipo === 'pata') eleccion.pata = b.id;
   else if (b.tipo === 'comodo') eleccion.comodo = !eleccion.comodo;
@@ -1335,8 +1406,9 @@ function activar(b) {
   sincronizarMenu();
 }
 
-function abrirMenu() {
+function abrirMenu(modo = 'garras') {
   if (menuAbierto) return;
+  menuTienda = modo === 'tienda';
   menuAbierto = true;
   pausaDesde = performance.now();
   sincronizarMenu();
@@ -1353,9 +1425,13 @@ function abrirMenu() {
   }
 }
 
+function abrirMenuTienda() { abrirMenu('tienda'); }
+
 function cerrarMenu() {
   if (!menuAbierto) return;
+  if (menuTienda) tiendaReingresoHasta = performance.now() + 1500;
   menuAbierto = false;
+  menuTienda = false;
   const pausa = performance.now() - pausaDesde; // el reloj no corre con el menú abierto
   if (inicio !== null && fin === null) inicio += pausa;
   if (reinicioEn) reinicioEn += pausa;
@@ -1382,7 +1458,7 @@ function actualizar(dt) {
   if (!renderer.xr.isPresenting) camera.rotation.set(pitch, yaw, 0);
   rig.updateMatrixWorld(true);
   manos.forEach((m) => actualizarMano(m, dt));
-  if (vuelosPerfectos >= VUELOS_PERFECTOS_PARA_VUELO_PERMANENTE && portalActivo?.id !== 'vuelo') {
+  if (tieneVueloPermanente() && portalActivo?.id !== 'vuelo') {
     controlVueloGeneral.reloj += dt;
     actualizarControlVuelo(controlVueloGeneral, dt, {
       jugadora, manos, camara: camera, esVR: renderer.xr.isPresenting,
