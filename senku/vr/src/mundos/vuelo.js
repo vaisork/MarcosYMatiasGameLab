@@ -107,14 +107,33 @@ export default {
 
   crear(g, u) {
     // Plataforma base donde aparece la jugadora y el aro de retorno
-    u.plataforma(0, -0.25, 0, 10, 0.5, 10, 0x8be5a0);
-
-    // Islas flotantes claras y luminosas
-    u.plataforma(14, 4, -14, 8, 0.6, 8, 0x9be8b0);
-    u.plataforma(-16, 7, -10, 9, 0.6, 9, 0xa3ebb6);
-    u.plataforma(10, 10, 12, 7, 0.6, 7, 0x9be8b0);
-    u.plataforma(-12, 11, 14, 8, 0.6, 8, 0xa3ebb6);
-    u.plataforma(0, 15, -24, 10, 0.6, 10, 0xb0f0c0);
+    const islas = [[0,-.25,0,10,.5],[14,4,-14,8,.6],[-16,7,-10,9,.6],[10,10,12,7,.6],[-12,11,14,8,.6],[0,15,-24,10,.6]];
+    const esferaNube = new THREE.SphereGeometry(1, 8, 6);
+    const blancos = [new THREE.MeshLambertMaterial({ color: 0xffffff }), new THREE.MeshLambertMaterial({ color: 0xf2fbff })];
+    islas.forEach(([x,y,z,w,h], idx) => {
+      const suelo = u.plataforma(x, y, z, w, h, w, [0x8be5a0,0x9be8b0,0xa3ebb6,0x9be8b0,0xa3ebb6,0xb0f0c0][idx]);
+      suelo.visible = false;
+      const isla = new THREE.Group(), superficie = new THREE.Mesh(esferaNube, blancos[idx % 2]);
+      superficie.position.set(x, y + h / 2, z); superficie.scale.set(w * .47, .18, w * .47); isla.add(superficie);
+      for (let puff = 0; puff < 6; puff++) {
+        const a = puff * Math.PI / 3, tam = w * (puff % 2 ? .25 : .29);
+        const nube = new THREE.Mesh(esferaNube, blancos[(idx + puff) % 2]);
+        nube.position.set(x + Math.cos(a) * w * .31, y + h / 2 - .02, z + Math.sin(a) * w * .31);
+        nube.scale.set(tam, .36 + (puff % 2) * .08, tam); isla.add(nube);
+      }
+      g.add(isla);
+    });
+    // Aros de viento dorados marcan el rumbo sin confundirse con los objetivos turquesa.
+    const viento = new THREE.Group(), oro = new THREE.MeshLambertMaterial({ color: 0xffd54f, emissive: 0x8a5100, emissiveIntensity: .55 });
+    for (const [x,y,z] of [[5,8,-14],[12,11,-4],[5,14,10],[-9,14,12],[-5,19,-22]]) {
+      const aro = new THREE.Mesh(new THREE.TorusGeometry(1.4,.075,6,20), oro);
+      aro.position.set(x,y,z); viento.add(aro);
+      for (const a of [0, Math.PI / 2, Math.PI, Math.PI * 1.5]) {
+        const brillo = new THREE.Mesh(new THREE.SphereGeometry(.12,6,4), new THREE.MeshBasicMaterial({ color: 0xfff3a1 }));
+        brillo.position.set(x + Math.cos(a) * 1.4, y + Math.sin(a) * 1.4, z); viento.add(brillo);
+      }
+    }
+    g.add(viento);
 
     // Nubes decorativas blancas y esponjosas
     const matNube = new THREE.MeshLambertMaterial({ color: 0xffffff, transparent: true, opacity: 0.92 });
