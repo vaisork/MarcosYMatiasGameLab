@@ -24,9 +24,16 @@ const cordel = (g, a, b, color = 0x8a4f2b, radio = .025) => {
 
 export default {
   id: 'taqueria', nombre: 'Mundo Taco',
-  ambiente: { cielo: 0xf1a95f, suelo: 0x8b523b, niebla: 0xf3c078 },
+  ambiente: { cielo: 0xffa45e, suelo: 0xd84315, niebla: 0xf3c078 },
   crear(g, u) {
-    u.plataforma(0, -.25, 0, 9, 1, 9, 0xa66b45);
+    u.plataforma(0, -.25, 0, 9, 1, 9, 0xd84315);
+    const baldosas = new THREE.InstancedMesh(new THREE.BoxGeometry(.98, .06, .98), mat(0xffb74d), 81);
+    const baldosa = new THREE.Object3D();
+    for (let i = 0; i < 81; i++) {
+      baldosa.position.set((i % 9) - 4, .27, Math.floor(i / 9) - 4);
+      baldosa.updateMatrix(); baldosas.setMatrixAt(i, baldosa.matrix);
+    }
+    g.add(baldosas);
     mesh(g, new THREE.SphereGeometry(3, 12, 8), mat(0xffd777, { emissive: 0x75400d }), [0, 20, -34]);
     for (const [x, y, z] of [[-18, 13, -24], [14, 17, -29], [23, 11, -12]]) {
       for (let i = 0; i < 4; i++) mesh(g, new THREE.SphereGeometry(1, 8, 5), mat(i % 2 ? 0xffd19a : 0xffe0b2), [x + (i - 1.5) * 1.15, y + (i % 2) * .3, z], [1.45, .48, .72]);
@@ -43,7 +50,7 @@ export default {
         churus.push({ m, base: m.position.y, fase: x + z + k });
       }
     });
-    cargarGlb('modelos/taco_isla_r4.glb', (modelo) => sitios.forEach(([x, y, z]) => {
+    cargarGlb('modelos/taco_isla_r5.glb', (modelo) => sitios.forEach(([x, y, z]) => {
       const taco = modelo.clone();
       taco.scale.set(2.35, 2.05, 2.35); taco.position.set(x, y + .4, z); g.add(taco);
     }));

@@ -14,10 +14,11 @@ export default {
   crear(g, u) {
     const base = u.plataforma(0, -.25, 0, 10, 1, 10, 0xe6a071);
     base.material.color.setHex(0xc9866b);
-    const piedra = lambert(0xb98169), sombra = lambert(0x78534c), madera = lambert(0x80502e), cuerda = lambert(0xd7bd8a), bandera = lambert(0xc83849);
+    const piedra = lambert(0xb98169), sombra = lambert(0x78534c), madera = lambert(0x80502e), cuerda = lambert(0xd7bd8a);
     const torres = [[-7, -20, 10], [7, -20, 15], [12, 7, 19], [-10, 9, 13]];
     new GLTFLoader().load('modelos/vaisgard_penascos_r2.glb',({scene})=>torres.forEach(([x,z],i)=>{const peñasco=scene.clone(true);peñasco.position.set(x,0,z);if(i%2)peñasco.scale.x=.9;g.add(peñasco);}),undefined,(e)=>console.error('No se pudieron cargar los peñascos de Vaisgard',e));
     new GLTFLoader().load('modelos/vaisgard_muralla_r4.glb',({scene})=>{scene.position.set(0,0,-20);g.add(scene);},undefined,(e)=>console.error('No se pudo cargar la muralla de Vaisgard',e));
+    new GLTFLoader().load('modelos/vaisgard_castillo_r5.glb',({scene})=>g.add(scene),undefined,(e)=>console.error('No se pudo cargar el castillo de Vaisgard',e));
     const dummy = new THREE.Object3D();
     const merlones = new THREE.InstancedMesh(new THREE.BoxGeometry(.62, .75, .62), piedra, torres.length * 8);
     const troneras = new THREE.InstancedMesh(new THREE.BoxGeometry(.18, 1.3, .14), sombra, torres.length * 8);
@@ -30,14 +31,6 @@ export default {
       fuste.position.set(x, h / 2, z); g.add(fuste);
       const cornisa = new THREE.Mesh(new THREE.CylinderGeometry(2.55, 2.45, .34, 8), sombra);
       cornisa.position.set(x, h - .08, z); g.add(cornisa);
-      const techo = new THREE.Mesh(new THREE.ConeGeometry(2.45, 3.2, 8), i % 2 ? lambert(0xc34e4f) : lambert(0xd79a53));
-      techo.position.set(x, h + 1.45, z); g.add(techo);
-      for (const side of [-1, 1]) {
-        const asta = new THREE.Mesh(new THREE.CylinderGeometry(.045, .045, 2.2, 6), madera);
-        asta.position.set(x + side * .95, h + 3.95, z); g.add(asta);
-        const tela = new THREE.Mesh(new THREE.PlaneGeometry(.9, .55), bandera);
-        tela.position.set(x + side * .55, h + 4.5, z + .03); tela.rotation.y = Math.PI / 2; g.add(tela);
-      }
       for (let j = 0; j < 8; j++) {
         const a = j * Math.PI / 4 + Math.PI / 8;
         dummy.position.set(x + Math.cos(a) * 1.78, h + .62, z + Math.sin(a) * 1.78);
