@@ -17,6 +17,21 @@ export default {
       u.plataforma(x, .8, z, 4, .25, 3, 0xa96f48);
       const plato = new THREE.Mesh(new THREE.CylinderGeometry(1.45, 1.55, .16, 12), new THREE.MeshLambertMaterial({ color: 0xe7c47e }));
       plato.position.set(x, .92, z); g.add(plato);
+      for (const side of [-1, 1]) {
+        const sx = x + side * 2.15;
+        const fuste = new THREE.Mesh(new THREE.CylinderGeometry(.055, .075, .72, 8), new THREE.MeshLambertMaterial({ color: 0xb0bec5 }));
+        fuste.position.set(sx, .38, z); g.add(fuste);
+        const pie = new THREE.Mesh(new THREE.CylinderGeometry(.3, .36, .11, 12), new THREE.MeshLambertMaterial({ color: 0xd32f2f }));
+        pie.position.set(sx, .8, z); g.add(pie);
+      }
+      const limon = new THREE.Mesh(new THREE.SphereGeometry(.22, 8, 5, 0, Math.PI), new THREE.MeshLambertMaterial({ color: 0x76ff03 }));
+      limon.position.set(x - .95, 1.04, z + .3); limon.rotation.x = Math.PI / 2; g.add(limon);
+      const servilleta = new THREE.Mesh(new THREE.ConeGeometry(.3, .035, 3), new THREE.MeshLambertMaterial({ color: 0xfff8e1, side: THREE.DoubleSide }));
+      servilleta.position.set(x + .95, 1.04, z + .35); g.add(servilleta);
+      const vidrio = new THREE.Mesh(new THREE.CylinderGeometry(.15, .19, .72, 10), new THREE.MeshLambertMaterial({ color: 0xff8f00, transparent: true, opacity: .82 }));
+      vidrio.position.set(x, 1.34, z - 1.05); g.add(vidrio);
+      const popote = new THREE.Mesh(new THREE.CylinderGeometry(.025, .025, .55, 6), new THREE.MeshLambertMaterial({ color: 0xfff4dd }));
+      popote.position.set(x + .05, 1.92, z - 1.05); g.add(popote);
     });
     cargarGlb('modelos/taco.glb', (modelo) => sitios.forEach(([x, z]) => {
       const taco = modelo.clone(); taco.scale.setScalar(.72); taco.position.set(x, .94, z); g.add(taco);
@@ -40,6 +55,15 @@ export default {
       cuerda.position.set(x + 1.25, 6.1, -2.5); cuerda.rotation.z = -Math.PI / 2; g.add(cuerda);
       const bandera = new THREE.Mesh(new THREE.ConeGeometry(.45, .55, 3), new THREE.MeshLambertMaterial({ color: colores[i % 3], side: THREE.DoubleSide }));
       bandera.position.set(x + 1.25, 5.72, -2.5); bandera.rotation.z = Math.PI; g.add(bandera);
+    }
+    for (let row = 0; row < 2; row++) {
+      const z = row ? 3 : -3.5;
+      const cable = new THREE.Mesh(new THREE.CylinderGeometry(.018, .018, 18, 5), new THREE.MeshLambertMaterial({ color: 0x704728 }));
+      cable.position.set(0, 6.7, z); cable.rotation.z = Math.PI / 2; g.add(cable);
+      for (let i = 0; i < 10; i++) {
+        const bandera = new THREE.Mesh(new THREE.ConeGeometry(.36, .52, 4), new THREE.MeshLambertMaterial({ color: [0x16984e, 0xf6edda][(i + row) % 2], side: THREE.DoubleSide }));
+        bandera.position.set(-8.1 + i * 1.8, 6.3, z); bandera.rotation.z = Math.PI; g.add(bandera);
+      }
     }
     for (const [x, color] of [[-2.6, 0x4a9a45], [2.6, 0xc84630]]) {
       const tazon = new THREE.Mesh(new THREE.CylinderGeometry(.42, .3, .3, 10), new THREE.MeshLambertMaterial({ color: 0xf5e7cc }));
