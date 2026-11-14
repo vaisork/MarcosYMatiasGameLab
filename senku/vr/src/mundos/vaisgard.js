@@ -17,6 +17,7 @@ export default {
     const piedra = lambert(0xb98169), sombra = lambert(0x78534c), madera = lambert(0x80502e), cuerda = lambert(0xd7bd8a), bandera = lambert(0xc83849);
     const torres = [[-7, -20, 10], [7, -20, 15], [12, 7, 19], [-10, 9, 13]];
     new GLTFLoader().load('modelos/vaisgard_penascos_r2.glb',({scene})=>torres.forEach(([x,z],i)=>{const peñasco=scene.clone(true);peñasco.position.set(x,0,z);if(i%2)peñasco.scale.x=.9;g.add(peñasco);}),undefined,(e)=>console.error('No se pudieron cargar los peñascos de Vaisgard',e));
+    new GLTFLoader().load('modelos/vaisgard_muralla_r4.glb',({scene})=>{scene.position.set(0,0,-20);g.add(scene);},undefined,(e)=>console.error('No se pudo cargar la muralla de Vaisgard',e));
     const dummy = new THREE.Object3D();
     const merlones = new THREE.InstancedMesh(new THREE.BoxGeometry(.62, .75, .62), piedra, torres.length * 8);
     const troneras = new THREE.InstancedMesh(new THREE.BoxGeometry(.18, 1.3, .14), sombra, torres.length * 8);
