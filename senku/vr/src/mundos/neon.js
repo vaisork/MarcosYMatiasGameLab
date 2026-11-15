@@ -17,6 +17,14 @@ export default {
   id: 'neon', nombre: 'Ciudad Neón', ambiente: { cielo: 0x21194f, suelo: 0x59367c, niebla: 0x39265f },
   crear(g, u) {
     const pavimento=u.plataforma(0,-.25,0,32,.5,32,0x161224);
+    const cielo = new THREE.TextureLoader().load(new URL('../../texturas/mundos/cielo_noche_estrellada_r9.webp', import.meta.url).href);
+    cielo.colorSpace = THREE.SRGBColorSpace;
+    const esferaCielo = new THREE.Mesh(new THREE.SphereGeometry(190,32,20),new THREE.MeshBasicMaterial({map:cielo,side:THREE.BackSide,fog:false,depthWrite:false}));
+    esferaCielo.renderOrder=-2;g.add(esferaCielo);
+    const lunaForma = new THREE.Shape();
+    lunaForma.moveTo(0,1.6); lunaForma.bezierCurveTo(-1.35,1.45,-1.55,-.5,-.1,-1.55); lunaForma.bezierCurveTo(-.72,-.55,-.58,.42,0,1.6);
+    const luna = new THREE.Mesh(new THREE.ShapeGeometry(lunaForma,20),new THREE.MeshBasicMaterial({color:0xe0f7fa,emissive:0xb2ebf2,emissiveIntensity:1.6,side:THREE.DoubleSide,fog:false}));
+    luna.position.set(18,28,-55);g.add(luna);
     pavimento.material=new THREE.MeshStandardMaterial({color:0xffffff,map:asfaltoMojado(),roughness:.22,metalness:.25});
     new GLTFLoader().load('modelos/neon_skyline_r2.glb',({scene})=>{scene.position.y=0;g.add(scene);},undefined,(e)=>console.error('No se pudo cargar skyline neón',e));
     // Torres facetadas en el perímetro: dejan libre la ruta de rótulos del centro.
@@ -47,6 +55,10 @@ export default {
     const rotulos=[];
     for(let i=0;i<15;i++){
       const x=(i%5-2)*5,z=(Math.floor(i/5)-1)*5-3;
+      const metalBase=new THREE.MeshLambertMaterial({color:0x263238});
+      const peana=new THREE.Mesh(new THREE.CylinderGeometry(.72,.86,.22,8),metalBase);peana.position.set(x,.11,z);g.add(peana);
+      const fuste=new THREE.Mesh(new THREE.CylinderGeometry(.12,.18,1.18,8),new THREE.MeshLambertMaterial({color:0x90a4ae}));fuste.position.set(x,.78,z);g.add(fuste);
+      const aroBase=new THREE.Mesh(new THREE.TorusGeometry(.32,.065,6,16),new THREE.MeshLambertMaterial({color:0x00e5ff,emissive:0x00e5ff,emissiveIntensity:1.4}));aroBase.rotation.x=Math.PI/2;aroBase.position.set(x,1.44,z);g.add(aroBase);
       const caja=new THREE.Mesh(new THREE.BoxGeometry(1.5,2,.42),new THREE.MeshLambertMaterial({color:0x32274b,emissive:0x271249,emissiveIntensity:.5}));
       caja.position.set(x,2,z);g.add(caja);
       const marco=new THREE.Group(), material=new THREE.MeshLambertMaterial({color:0x00e5ff,emissive:0x00e5ff,emissiveIntensity:1});

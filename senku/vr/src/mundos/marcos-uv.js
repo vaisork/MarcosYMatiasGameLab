@@ -6,6 +6,20 @@ export default {
   id: 'marcos-uv', nombre: 'Cuarto de Luz UV', ambiente: { cielo: 0x171522, suelo: 0x121019, niebla: 0x242035 },
   crear(g, u) {
     u.plataforma(0, -.25, 0, 24, .5, 24, 0x17141f);
+    const cielo = new THREE.TextureLoader().load(new URL('../../texturas/mundos/cielo_noche_estrellada_r9.webp', import.meta.url).href);
+    cielo.colorSpace = THREE.SRGBColorSpace;
+    const esferaCielo = new THREE.Mesh(new THREE.SphereGeometry(190, 32, 20), new THREE.MeshBasicMaterial({ map: cielo, side: THREE.BackSide, fog: false, depthWrite: false }));
+    esferaCielo.renderOrder = -2; g.add(esferaCielo);
+    const paredUV = new THREE.TextureLoader().load(new URL('../../texturas/mundos/marcos_uv_pared_graffiti.webp', import.meta.url).href);
+    paredUV.colorSpace = THREE.SRGBColorSpace; paredUV.wrapS = paredUV.wrapT = THREE.RepeatWrapping; paredUV.repeat.set(5, 1);
+    new GLTFLoader().load('modelos/marcos_uv_arcade_r9.glb', ({ scene }) => {
+      scene.traverse((o) => { if (!o.isMesh) return; const esPared = o.name.includes('wall'); const m = new THREE.MeshLambertMaterial({ color: esPared ? 0xffffff : 0x777777, emissive: esPared ? 0x180b25 : 0x000000, emissiveMap: esPared ? paredUV : null, emissiveIntensity: esPared ? .55 : 0, map: esPared ? paredUV : null }); o.material = m; });
+      const lienzo = document.createElement('canvas'); lienzo.width = 512; lienzo.height = 160;
+      const ctx = lienzo.getContext('2d'); ctx.fillStyle = '#100d1d'; ctx.fillRect(0, 0, 512, 160); ctx.font = 'bold 104px monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#76ff03'; ctx.fillText('20:88', 256, 80);
+      const reloj = new THREE.Mesh(new THREE.PlaneGeometry(2.8, .78), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(lienzo), side: THREE.DoubleSide }));
+      reloj.material.map.colorSpace = THREE.SRGBColorSpace; reloj.position.set(0, 4.15, -7.43); g.add(reloj);
+      g.add(scene);
+    }, undefined, (e) => console.error('No se pudo cargar el arcade UV r9', e));
     new GLTFLoader().load('modelos/marcos_uv_taller_r3.glb', ({ scene }) => {
       scene.traverse((o) => {
         if (!o.isMesh) return;
