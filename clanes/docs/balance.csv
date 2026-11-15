@@ -1,0 +1,55 @@
+tipo,clan,nombre,vida,danio,alcance,velocidad,costo_brote,costo_prisma,tiempo_s,rol
+unidad,Dosel,Semillero,120,6,1,3.0,45,0,12,trabajador
+unidad,Dosel,Zarzapaso,155,15,1,3.3,70,0,18,explorador
+unidad,Dosel,Lanzafruto,95,18,5,2.7,80,10,20,distancia
+unidad,Dosel,Musgaguarda,270,21,1,1.5,115,15,28,defensa
+unidad,Dosel,Planeador de Copa,115,14,4,4.0,95,25,24,vuelo
+unidad,Dosel,Nudoguardia,205,13,2,2.0,110,20,26,control
+unidad,Dosel,Polinizadora,100,5,3,2.8,85,30,22,apoyo
+unidad,Dosel,Trepacopas,185,48,6,1.3,145,40,32,sitio
+heroe,Dosel,Brizna,520,31,1.5,3.1,260,100,60,heroina
+heroe,Dosel,Olmo,460,27,5,2.5,260,115,60,heroe
+edificio,Dosel,Nido de Raices,900,0,0,0,180,0,35,centro
+edificio,Dosel,Huerto de Bruma,520,0,0,0,100,0,22,recoleccion
+edificio,Dosel,Arco de Savia,600,15,6,0,130,15,26,defensa
+edificio,Dosel,Taller de Brotes,650,0,0,0,125,20,28,produccion
+edificio,Dosel,Mirador Florido,420,0,8,0,80,10,18,vision
+edificio,Dosel,Refugio de Polen,500,0,0,0,110,25,24,apoyo
+edificio,Dosel,Corazon de Copa,850,0,0,0,180,70,38,tecnologia
+edificio,Dosel,Puente Trenzado,480,0,0,0,90,10,16,transito
+unidad,Forja,Remachador,135,7,1,2.8,50,0,13,trabajador
+unidad,Forja,Rodacobre,190,18,1,2.5,85,0,21,choque
+unidad,Forja,Bumeran de Chispa,100,16,5,3.0,75,15,20,distancia
+unidad,Forja,Escudo de Teja,330,18,1,1.2,130,20,30,defensa
+unidad,Forja,Saltanubes,125,15,4,3.8,100,20,23,hostigamiento
+unidad,Forja,Tizafaro,145,43,7,1.1,150,45,34,sitio
+unidad,Forja,Cargabobina,125,4,3,2.4,100,35,25,apoyo
+unidad,Forja,Andamio Andante,220,26,2,1.7,140,30,30,asalto
+heroe,Forja,Mica,540,34,1.5,2.8,270,100,62,heroina
+heroe,Forja,Tono,480,24,6,2.3,270,120,62,heroe
+edificio,Forja,Patio de Remaches,950,0,0,0,190,0,36,centro
+edificio,Forja,Colector Eolico,540,0,0,0,105,0,23,recoleccion
+edificio,Forja,Campana de Alerta,650,20,7,0,145,15,27,defensa
+edificio,Forja,Galpon de Ruedas,700,0,0,0,140,20,29,produccion
+edificio,Forja,Cometa de Señales,400,0,9,0,85,10,19,vision
+edificio,Forja,Banco de Bobinas,560,0,0,0,120,30,25,apoyo
+edificio,Forja,Prensa de Cielo,900,0,0,0,190,75,40,tecnologia
+edificio,Forja,Pasarela Plegable,500,0,0,0,100,15,17,transito
+unidad,Marea,Cultivacoral,125,5,1,2.9,45,0,12,trabajador
+unidad,Marea,Remolino,135,17,1,3.5,75,0,19,choque
+unidad,Marea,Arpon de Espuma,105,17,5,2.8,85,10,21,distancia
+unidad,Marea,Concha Firme,300,19,1,1.4,125,15,29,defensa
+unidad,Marea,Salpicavela,110,13,4,4.2,100,25,24,vuelo
+unidad,Marea,Medusario,165,11,3,2.1,105,25,26,control
+unidad,Marea,Farolillo,95,4,3,2.7,90,35,23,apoyo
+unidad,Marea,Caracol de Marea,210,46,6,1.2,150,45,34,sitio
+heroe,Marea,Ondina,510,30,1.5,3.2,265,105,61,heroina
+heroe,Marea,Calder,470,28,5,2.4,265,120,61,heroe
+edificio,Marea,Plaza de la Laguna,920,0,0,0,185,0,36,centro
+edificio,Marea,Vivero de Marea,560,0,0,0,105,0,23,recoleccion
+edificio,Marea,Atalaya de Concha,640,18,6,0,140,15,27,defensa
+edificio,Marea,Taller de Boyas,680,0,0,0,135,20,29,produccion
+edificio,Marea,Faro de Algas,420,0,9,0,85,10,19,vision
+edificio,Marea,Casa de Burbujas,530,0,0,0,115,30,25,apoyo
+edificio,Marea,Pozo de Bajamar,880,0,0,0,185,75,39,tecnologia
+edificio,Marea,Pontones de Concha,490,0,0,0,95,15,17,transito

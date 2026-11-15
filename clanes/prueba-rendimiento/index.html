@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#142a37">
+  <title>Guerra de Clanes — prueba de rendimiento</title>
+  <style>
+    :root{color-scheme:dark;font:15px/1.45 system-ui,sans-serif;background:#142a37;color:#edf5df}*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;touch-action:none}canvas{display:block;width:100%;height:100%}.hud{position:fixed;inset:0;pointer-events:none;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.card{background:#10212ddd;border:1px solid #b9d58b88;border-radius:14px;padding:10px 13px;box-shadow:0 5px 20px #07141c66;backdrop-filter:blur(7px)}h1{font-size:16px;margin:0 0 4px}.muted{color:#c3d3c2;font-size:14px}.stats{text-align:right;min-width:118px}.fps{font-size:23px;font-variant-numeric:tabular-nums;font-weight:750}.hint{position:fixed;bottom:max(12px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);max-width:calc(100% - 24px);text-align:center;white-space:nowrap}.pill{display:inline-block;border-radius:99px;background:#92c986;color:#142a37;padding:1px 8px;font-size:12px;font-weight:700}@media(max-width:560px){.hud{gap:6px}.card{padding:8px 10px}.muted{font-size:12px}.hint{font-size:12px}.fps{font-size:20px}}
+  </style>
+</head>
+<body>
+  <div class="hud">
+    <section class="card"><h1>Guardianes del Dosel</h1><div class="muted">Prueba técnica · 200 caminantes</div><div class="muted">Arrastra para mover · pellizca para zoom</div></section>
+    <section class="card stats"><div class="fps"><span id="fps">—</span> FPS</div><div class="muted"><span id="units">200</span> unidades · <span id="zoom">100</span>%</div></section>
+  </div>
+  <div class="card hint muted">Simulación fija a 30 pasos/s · render adaptable · <span class="pill">sin combate</span></div>
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
+    import { buildFlowField, FixedStep } from './sim.mjs';
+
+    const W=24,H=24,COUNT=200,GOAL=[17,12],blocked=new Set();
+    for(let z=7;z<17;z++)for(let x=10;x<13;x++)if(!(z===11||z===12))blocked.add(z*W+x);
+    const flow=buildFlowField(W,H,i=>blocked.has(i),GOAL),stepper=new FixedStep(1/30,4);
+    const scene=new THREE.Scene();scene.background=new THREE.Color('#b9d6cd');scene.fog=new THREE.Fog('#b9d6cd',35,75);
+    const camera=new THREE.OrthographicCamera(-17,17,12,-12,.1,100);camera.position.set(18,25,22);camera.lookAt(0,0,0);
+    const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=false;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.setClearColor('#b9d6cd');document.body.appendChild(renderer.domElement);
+    const rampData=new Uint8Array([42,76,67,255,112,153,105,255,194,213,141,255,244,235,173,255]);const ramp=new THREE.DataTexture(rampData,4,1);ramp.magFilter=THREE.NearestFilter;ramp.minFilter=THREE.NearestFilter;ramp.generateMipmaps=false;ramp.needsUpdate=true;
+    scene.add(new THREE.HemisphereLight('#fff5d8','#536c68',2.25));const sun=new THREE.DirectionalLight('#fff0c7',2.3);sun.position.set(-8,16,10);scene.add(sun);
+    const ground=new THREE.Mesh(new THREE.PlaneGeometry(W+2,H+2),new THREE.MeshToonMaterial({color:'#456c68',gradientMap:ramp}));ground.rotation.x=-Math.PI/2;ground.position.y=-.22;scene.add(ground);
+    const tileGeometry=new THREE.BoxGeometry(.94,.12,.94),tileMaterial=new THREE.MeshToonMaterial({color:'#a5c488',gradientMap:ramp});const tiles=new THREE.InstancedMesh(tileGeometry,tileMaterial,W*H);const dummy=new THREE.Object3D();
+    for(let z=0;z<H;z++)for(let x=0;x<W;x++){const i=z*W+x;dummy.position.set(x-W/2+.5,-.1,z-H/2+.5);dummy.scale.setScalar(1);dummy.updateMatrix();tiles.setMatrixAt(i,dummy.matrix);tiles.setColorAt(i,blocked.has(i)?new THREE.Color('#506b62'):new THREE.Color((x+z)%2?'#9ab981':'#b5cd8e'));}scene.add(tiles);
+    const lineGeo=new THREE.BufferGeometry(),linePts=[];for(let x=0;x<=W;x++){linePts.push(x-W/2,-.025,-H/2,x-W/2,-.025,H/2)}for(let z=0;z<=H;z++){linePts.push(-W/2,-.025,z-H/2,W/2,-.025,z-H/2)}lineGeo.setAttribute('position',new THREE.Float32BufferAttribute(linePts,3));scene.add(new THREE.LineSegments(lineGeo,new THREE.LineBasicMaterial({color:'#435e50',transparent:true,opacity:.52})));
+    const bodyGeometry=new THREE.CapsuleGeometry(.17,.34,3,6),bodyMaterial=new THREE.MeshToonMaterial({color:'#e8a94c',gradientMap:ramp});const body=new THREE.InstancedMesh(bodyGeometry,bodyMaterial,COUNT);
+    const outlineMaterial=new THREE.MeshBasicMaterial({color:'#283e3b',side:THREE.BackSide});const outlines=new THREE.InstancedMesh(bodyGeometry,outlineMaterial,COUNT);
+    const capGeometry=new THREE.SphereGeometry(.18,8,6),capMaterial=new THREE.MeshToonMaterial({color:'#f5d980',gradientMap:ramp});const caps=new THREE.InstancedMesh(capGeometry,capMaterial,COUNT);
+    const agents=[];let seed=917;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296};
+    for(let i=0;i<COUNT;i++){let x,z;do{x=rand()*W;z=rand()*H}while(blocked.has((z|0)*W+(x|0))||flow.distance[(z|0)*W+(x|0)]<0);const homeX=x-W/2,homeZ=z-H/2;agents.push({x:homeX,z:homeZ,homeX,homeZ,phase:rand()*6.28});}
+    scene.add(outlines,body,caps);
+    const goal=new THREE.Mesh(new THREE.CylinderGeometry(.56,.76,.12,8),new THREE.MeshToonMaterial({color:'#e5ca67',gradientMap:ramp}));goal.position.set(GOAL[0]-W/2+.5,-.01,GOAL[1]-H/2+.5);scene.add(goal);
+    const center=new THREE.Vector3(0,0,0),cameraOffset=new THREE.Vector3(),outlineDummy=new THREE.Object3D();let zoom=1;const pointerMap=new Map();let drag=null,pinch=null;
+    function applyCamera(){const span=17/zoom;camera.left=-span;camera.right=span;camera.top=span*innerHeight/innerWidth;camera.bottom=-camera.top;camera.updateProjectionMatrix();camera.position.set(18/zoom,25/zoom,22/zoom).add(cameraOffset);camera.lookAt(center.clone().add(cameraOffset));document.querySelector('#zoom').textContent=Math.round(zoom*100)}
+    function resize(){renderer.setSize(innerWidth,innerHeight);applyCamera()}addEventListener('resize',resize);applyCamera();
+    renderer.domElement.addEventListener('pointerdown',e=>{renderer.domElement.setPointerCapture(e.pointerId);pointerMap.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointerMap.size===1)drag={x:e.clientX,y:e.clientY};if(pointerMap.size===2){const [a,b]=[...pointerMap.values()];pinch={distance:Math.hypot(a.x-b.x,a.y-b.y),zoom};drag=null}});
+    renderer.domElement.addEventListener('pointermove',e=>{if(!pointerMap.has(e.pointerId))return;const old=pointerMap.get(e.pointerId);pointerMap.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointerMap.size>=2){const [a,b]=[...pointerMap.values()];if(pinch){zoom=THREE.MathUtils.clamp(pinch.zoom*Math.hypot(a.x-b.x,a.y-b.y)/Math.max(1,pinch.distance),.62,1.8);applyCamera()}return}if(drag){const dx=e.clientX-old.x,dy=e.clientY-old.y;const scale=34/(innerWidth*zoom);cameraOffset.x-=dx*scale;cameraOffset.z-=dy*scale;drag={x:e.clientX,y:e.clientY};applyCamera()}});
+    const stop=e=>{pointerMap.delete(e.pointerId);if(pointerMap.size<2)pinch=null;if(!pointerMap.size)drag=null};renderer.domElement.addEventListener('pointerup',stop);renderer.domElement.addEventListener('pointercancel',stop);renderer.domElement.addEventListener('wheel',e=>{zoom=THREE.MathUtils.clamp(zoom*Math.exp(-e.deltaY*.001),.62,1.8);applyCamera()},{passive:true});
+    let last=performance.now(),frames=0,fpsTime=last;const fpsEl=document.querySelector('#fps');
+    function update(dt,tick){for(const a of agents){const gx=Math.max(0,Math.min(W-1,Math.floor(a.x+W/2))),gz=Math.max(0,Math.min(H-1,Math.floor(a.z+H/2))),cell=gz*W+gx;let vx=flow.dx[cell],vz=flow.dz[cell];const len=Math.hypot(vx,vz)||1;vx/=len;vz/=len;a.x+=vx*1.6*dt;a.z+=vz*1.6*dt;a.phase+=dt*8;if(cell===flow.goal||Math.hypot(a.x-(GOAL[0]-W/2+.5),a.z-(GOAL[1]-H/2+.5))<.5){a.x=a.homeX;a.z=a.homeZ;a.phase+=tick*.0001}}}
+    function render(now){const elapsed=Math.min(.2,(now-last)/1000);last=now;stepper.advance(elapsed,update);for(let i=0;i<COUNT;i++){const a=agents[i],bob=Math.sin(a.phase)*.045,x=Math.max(0,Math.min(W-1,Math.floor(a.x+W/2))),z=Math.max(0,Math.min(H-1,Math.floor(a.z+H/2))),cell=z*W+x;dummy.position.set(a.x,.18+bob,a.z);dummy.rotation.set(0,Math.atan2(flow.dz[cell]||0,flow.dx[cell]||1),0);dummy.scale.setScalar(1);dummy.updateMatrix();body.setMatrixAt(i,dummy.matrix);outlineDummy.position.copy(dummy.position);outlineDummy.rotation.copy(dummy.rotation);outlineDummy.scale.setScalar(1.13);outlineDummy.updateMatrix();outlines.setMatrixAt(i,outlineDummy.matrix);dummy.position.y+=.3;dummy.scale.setScalar(.72);dummy.updateMatrix();caps.setMatrixAt(i,dummy.matrix)}body.instanceMatrix.needsUpdate=true;outlines.instanceMatrix.needsUpdate=true;caps.instanceMatrix.needsUpdate=true;renderer.render(scene,camera);frames++;if(now-fpsTime>=500){fpsEl.textContent=Math.round(frames*1000/(now-fpsTime));frames=0;fpsTime=now}requestAnimationFrame(render)}requestAnimationFrame(render);
+  </script>
+</body>
+</html>
