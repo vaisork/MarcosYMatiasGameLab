@@ -191,7 +191,7 @@ class Engine:
             if flag not in state['flags']:state['flags'].append(flag)
             memory=f"En {room['name']} encontraste {self.content.items[found['item']]['name']}."
             if memory not in state['journal']:state['journal'].append(memory)
-            state['events']=[event('discovery',found['text']),event('action',f"Guardas {self.content.items[found['item']]['name']} en la mochila.")]
+            state['events']=[event('discovery',found.get('text') or f"Entre las piedras aparece {self.content.items[found['item']]['name']}."),event('action',f"Guardas {self.content.items[found['item']]['name']} en la mochila.")]
         elif roll<.75:
             traces=search.get('traces') or [room.get('description') or 'No encuentras rastros nuevos; el lugar está tranquilo.'];fraction=(roll-.5)/.25 if roll>=.5 else roll/.5
             fraction=max(0.0,min(0.999,fraction))

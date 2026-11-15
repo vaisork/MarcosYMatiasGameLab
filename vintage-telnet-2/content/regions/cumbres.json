@@ -30,7 +30,8 @@
         "finds": [
           {
             "item": "escama_ceniciento",
-            "weight": 5
+            "weight": 5,
+            "text": "Entre el basalto tibio brilla una escama gris que algún dragón dejó al pasar."
           }
         ],
         "traces": [
