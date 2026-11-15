@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { dificultadVuelo, falloIntentoVuelo, objetivoVuelo, tiempoVueloAgotado } from './objetivos.mjs';
 
 let toqueSalto = 0;
@@ -103,40 +104,34 @@ export function actualizarControlVuelo(s, dt, ctx) {
 export default {
   id: 'vuelo',
   nombre: 'Cielo de Vuelo',
-  ambiente: { cielo: 0x6ed4ff, suelo: 0xa8f5c8, niebla: 0xb2ecff },
+  ambiente: { cielo: 0xff7043, suelo: 0x311b92, niebla: 0xffa270 },
 
   crear(g, u) {
     // Plataforma base donde aparece la jugadora y el aro de retorno
     const islas = [[0,-.25,0,10,.5],[14,4,-14,8,.6],[-16,7,-10,9,.6],[10,10,12,7,.6],[-12,11,14,8,.6],[0,15,-24,10,.6]];
-    const esferaNube = new THREE.SphereGeometry(1, 8, 6);
-    const blancos = [new THREE.MeshLambertMaterial({ color: 0xffffff }), new THREE.MeshLambertMaterial({ color: 0xf2fbff })];
     islas.forEach(([x,y,z,w,h], idx) => {
       const suelo = u.plataforma(x, y, z, w, h, w, [0x8be5a0,0x9be8b0,0xa3ebb6,0x9be8b0,0xa3ebb6,0xb0f0c0][idx]);
       suelo.visible = false;
-      const isla = new THREE.Group(), superficie = new THREE.Mesh(esferaNube, blancos[idx % 2]);
-      superficie.position.set(x, y + h / 2, z); superficie.scale.set(w * .47, .18, w * .47); isla.add(superficie);
-      for (let puff = 0; puff < 6; puff++) {
-        const a = puff * Math.PI / 3, tam = w * (puff % 2 ? .25 : .29);
-        const nube = new THREE.Mesh(esferaNube, blancos[(idx + puff) % 2]);
-        nube.position.set(x + Math.cos(a) * w * .31, y + h / 2 - .02, z + Math.sin(a) * w * .31);
-        nube.scale.set(tam, .36 + (puff % 2) * .08, tam); isla.add(nube);
-      }
-      g.add(isla);
     });
+    new GLTFLoader().load('modelos/vuelo_islas_r8.glb',({scene})=>islas.forEach(([x,y,z,w,h])=>{
+      const isla=scene.clone(true);isla.position.set(x,y+h/2-.75,z);isla.scale.setScalar(w/9.4);g.add(isla);
+    }),undefined,e=>console.error('No se pudieron cargar las islas flotantes',e));
     // Aros de viento dorados marcan el rumbo sin confundirse con los objetivos turquesa.
     const viento = new THREE.Group(), oro = new THREE.MeshLambertMaterial({ color: 0xffd54f, emissive: 0x8a5100, emissiveIntensity: .55 });
+    const polvo=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(.075,0),new THREE.MeshBasicMaterial({color:0xffd86b}),20), p=new THREE.Object3D();let part=0;
     for (const [x,y,z] of [[5,8,-14],[12,11,-4],[5,14,10],[-9,14,12],[-5,19,-22]]) {
       const aro = new THREE.Mesh(new THREE.TorusGeometry(1.4,.075,6,20), oro);
       aro.position.set(x,y,z); viento.add(aro);
+      for(let k=0;k<4;k++){const a=k*Math.PI/2;p.position.set(x+Math.cos(a)*1.9,y+Math.sin(a)*1.9,z+.25);p.scale.setScalar(k%2?.7:1);p.updateMatrix();polvo.setMatrixAt(part++,p.matrix);}
       for (const a of [0, Math.PI / 2, Math.PI, Math.PI * 1.5]) {
         const brillo = new THREE.Mesh(new THREE.SphereGeometry(.12,6,4), new THREE.MeshBasicMaterial({ color: 0xfff3a1 }));
         brillo.position.set(x + Math.cos(a) * 1.4, y + Math.sin(a) * 1.4, z); viento.add(brillo);
       }
     }
-    g.add(viento);
+    g.add(viento,polvo);
 
     // Nubes decorativas blancas y esponjosas
-    const matNube = new THREE.MeshLambertMaterial({ color: 0xffffff, transparent: true, opacity: 0.92 });
+    const matsNube = [new THREE.MeshLambertMaterial({ color: 0xfff3dc }),new THREE.MeshLambertMaterial({ color: 0xe1bee7 })];
     const nubes = [];
     const centrosNubes = [
       [-8, 8, -6, 1.2],
@@ -146,8 +141,11 @@ export default {
       [-20, 9, -20, 1.5],
       [15, 6, 22, 1.0],
       [0, 22, 0, 1.6],
+      [-22, 18, 4, 1.7],
+      [24, 21, -18, 1.8],
+      [2, 26, -28, 1.9],
     ];
-    centrosNubes.forEach(([cx, cy, cz, escala]) => {
+    centrosNubes.forEach(([cx, cy, cz, escala], nubeIdx) => {
       const nube = new THREE.Group();
       const geomPuff = new THREE.SphereGeometry(1.3 * escala, 7, 5);
       [
@@ -157,7 +155,7 @@ export default {
         [0.5 * escala, 0.4 * escala, -0.4 * escala, 0.75],
         [-0.5 * escala, 0.3 * escala, 0.3 * escala, 0.75],
       ].forEach(([ox, oy, oz, s]) => {
-        const puff = new THREE.Mesh(geomPuff, matNube);
+        const puff = new THREE.Mesh(geomPuff, matsNube[nubeIdx%2]);
         puff.position.set(ox, oy, oz);
         puff.scale.setScalar(s);
         nube.add(puff);
