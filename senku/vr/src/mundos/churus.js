@@ -6,18 +6,24 @@ export default {
   id: 'churus', nombre: 'Mundo Churus',
   ambiente: { cielo: 0x83c8ef, suelo: 0xf5c974, niebla: 0xa6dbf3 },
   crear(g, u) {
-    u.plataforma(0, -.25, 0, 9, 1, 9, 0xf2b95d);
+    const suelo = u.plataforma(0, -.25, 0, 34, .5, 34, 0xffffff);
+    const sueloTextura = new THREE.TextureLoader().load(new URL('../../texturas/mundos/churus_suelo_azucar.webp', import.meta.url).href);
+    sueloTextura.wrapS = sueloTextura.wrapT = THREE.RepeatWrapping; sueloTextura.repeat.set(4, 4); sueloTextura.colorSpace = THREE.SRGBColorSpace;
+    suelo.material = new THREE.MeshLambertMaterial({ map: sueloTextura });
     const churus = [];
     const sitios = [[0, 3, -10, 5], [9, 5, -13, 5], [16, 7, -5, 5], [12, 9, 5, 6], [3, 11, 10, 5], [-7, 8, 7, 5], [-13, 5, -1, 5], [-8, 4, -10, 5]];
-    new GLTFLoader().load('modelos/churus_postres_r6.glb', ({ scene }) => {
+    new GLTFLoader().load('modelos/churus_postres_r7.glb', ({ scene }) => {
       const variantes = ['platform_donut', 'platform_cupcake', 'platform_churro'];
       sitios.forEach(([x, y, z, w], i) => {
         const modelo = scene.getObjectByName(variantes[i % variantes.length])?.clone(true);
         if (!modelo) return;
         modelo.position.set(x, y - .35, z); modelo.scale.set(w / 5, .58, w / 5); g.add(modelo);
+        if (variantes[i % variantes.length] === 'platform_cupcake') modelo.scale.y = .25;
       });
     }, undefined, (e) => console.error('No se pudieron cargar los postres de Churus', e));
     const felpas = [0xffd782, 0xf4a979, 0xedcd83];
+    const puentes = new THREE.InstancedMesh(new THREE.CylinderGeometry(.16, .16, 1, 7), new THREE.MeshLambertMaterial({ color: 0xffffff, vertexColors: true }), (sitios.length - 1) * 32);
+    const tramoDummy = new THREE.Object3D(); let tramoId = 0;
     sitios.forEach(([x, y, z, w], i) => {
       const cajaColision = u.plataforma(x, y, z, w, .75, w, felpas[i % felpas.length]);
       cajaColision.visible = false;
@@ -28,10 +34,14 @@ export default {
         const siguiente = sitios[i + 1];
         const inicio = new THREE.Vector3(x + 1.0, y + .2, z + 1.1);
         const fin = new THREE.Vector3(siguiente[0] - 1.1, siguiente[1] + .2, siguiente[2] + .8);
-        for (let j = 0; j < 6; j++) {
-          const t = (j + .5) / 6, p = inicio.clone().lerp(fin, t); p.y -= Math.sin(t * Math.PI) * .38;
-          const plank = new THREE.Mesh(new THREE.BoxGeometry(inicio.distanceTo(fin) / 6 - .06, .13, .68), mat(0xb87845));
-          plank.position.copy(p); plank.rotation.y = Math.atan2(fin.x - inicio.x, fin.z - inicio.z); g.add(plank);
+        const eje = new THREE.Vector3().subVectors(fin, inicio);
+        const tramo = eje.length() / 16;
+        for (let cuerda = 0; cuerda < 2; cuerda++) for (let j = 0; j < 16; j++) {
+          const t = (j + .5) / 16, p = inicio.clone().addScaledVector(eje, t); p.y -= Math.sin(t * Math.PI) * .38;
+          p.x += cuerda ? .2 : -.2; p.z += cuerda ? -.2 : .2;
+          tramoDummy.position.copy(p); tramoDummy.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), eje.clone().normalize());
+          tramoDummy.scale.set(1, tramo + .045, 1); tramoDummy.updateMatrix(); puentes.setMatrixAt(tramoId, tramoDummy.matrix);
+          puentes.setColorAt(tramoId++, new THREE.Color((j + cuerda) % 2 ? 0xff1744 : 0xfff8e7));
         }
       }
 
@@ -41,6 +51,7 @@ export default {
         churus.push({ m, base: m.position.y, fase: x + z + k });
       }
     });
+    puentes.instanceMatrix.needsUpdate = true; if (puentes.instanceColor) puentes.instanceColor.needsUpdate = true; g.add(puentes);
     new GLTFLoader().load('modelos/churus_parque_r3.glb', ({ scene }) => { scene.position.set(-2.8, .35, -1.8); scene.scale.setScalar(.55); g.add(scene); }, undefined, (e) => console.error('No se pudo cargar el parque Churu', e));
     const azucar = new THREE.InstancedMesh(new THREE.BoxGeometry(.12, .025, .055), new THREE.MeshLambertMaterial({ color: 0xfff1c2 }), 64);
     const migaja = new THREE.Object3D();
@@ -50,11 +61,11 @@ export default {
       azucar.setColorAt(i, new THREE.Color([0xfff1c2, 0xf7b955, 0xe88979, 0x9ccc65][i % 4]));
     }
     g.add(azucar);
-    const nubeMat = new THREE.MeshLambertMaterial({ color: 0xfff7f0 });
+    const nubes = [new THREE.MeshLambertMaterial({ color: 0xffc1e3 }), new THREE.MeshLambertMaterial({ color: 0xc2f0ff })];
     for (const [x, y, z, s] of [[-18, 9, -15, 1.5], [18, 12, -16, 1.8], [-20, 15, 8, 1.7], [19, 10, 13, 1.5], [0, 18, -25, 2]]) {
       const nube = new THREE.Group();
-      for (const [dx, dy, dz, escala] of [[0, 0, 0, 1], [-.75, -.12, 0, .75], [.75, -.1, .05, .8], [.2, .32, .1, .7]]) {
-        const algodon = new THREE.Mesh(new THREE.SphereGeometry(s * .7, 8, 6), nubeMat);
+      for (const [j, [dx, dy, dz, escala]] of [[0, 0, 0, 1], [-.75, -.12, 0, .75], [.75, -.1, .05, .8], [.2, .32, .1, .7]].entries()) {
+        const algodon = new THREE.Mesh(new THREE.SphereGeometry(s * .7, 8, 6), nubes[(j + Math.round(x)) & 1]);
         algodon.position.set(dx * s, dy * s, dz * s); algodon.scale.set(escala, escala * .8, escala); nube.add(algodon);
       }
       nube.position.set(x, y, z); g.add(nube);

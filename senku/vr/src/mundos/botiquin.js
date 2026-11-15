@@ -12,7 +12,14 @@ const cargarGatito = (llegar) => new GLTFLoader().load('modelos/gatito.glb', ({ 
   scene.traverse((o) => { if (o.isMesh && o.name === 'Cube') o.visible = false; });
   llegar(scene);
 }, undefined, (e) => console.error('No se pudo cargar modelos/gatito.glb', e));
-const cargarKit = (llegar) => new GLTFLoader().load('modelos/botiquin_carrito_lampara_r2.glb', ({ scene }) => llegar(scene), undefined, (e) => console.error('No se pudo cargar el carrito clínico', e));
+const cargarMobiliario = (llegar) => new GLTFLoader().load('modelos/botiquin_mobiliario_r7.glb', ({ scene }) => {
+  scene.traverse((o) => {
+    if (!o.isMesh) return;
+    const convertir = (m) => new THREE.MeshLambertMaterial({ color: m.color, emissive: m.emissive, emissiveIntensity: m.emissiveIntensity, name: m.name });
+    o.material = Array.isArray(o.material) ? o.material.map(convertir) : convertir(o.material);
+  });
+  llegar(scene);
+}, undefined, (e) => console.error('No se pudo cargar el mobiliario clínico', e));
 
 export default {
   id: 'botiquin',
@@ -20,20 +27,51 @@ export default {
   ambiente: { cielo: 0xd4f3e6, suelo: 0xebfaf2, niebla: 0xdff5eb },
   crear(g, u) {
     u.plataforma(0, -0.25, 0, 32, 0.5, 32, 0xdef0e5);
-    u.plataforma(0, 2, -10, 24, 4, 0.6, 0xbfe5d3);
-    u.plataforma(-12, 2, -1, 0.6, 4, 18, 0xcdeada);
-    u.plataforma(12, 2, -1, 0.6, 4, 18, 0xcdeada);
+    const mosaicos = new THREE.TextureLoader().load(new URL('../../texturas/mundos/clinica_pared_azulejos.webp', import.meta.url).href);
+    mosaicos.wrapS = mosaicos.wrapT = THREE.RepeatWrapping; mosaicos.repeat.set(3, 1); mosaicos.colorSpace = THREE.SRGBColorSpace;
+    const muroMat = new THREE.MeshLambertMaterial({ color: 0xffffff, map: mosaicos });
+    const pared = (x,y,z,sx,sy,sz) => { const m = u.plataforma(x,y,z,sx,sy,sz,0xe8f8f4); m.material = muroMat; return m; };
+    pared(0, 2, -10, 24, 4, 0.6); pared(-12, 2, -1, 0.6, 4, 18); pared(12, 2, -1, 0.6, 4, 18);
     const zoclo = mat(0xfafafa);
     for (const [x,z,sx,sz] of [[0,-9.66,24,.12],[-11.66,-1,.12,18],[11.66,-1,.12,18]]) {
       const franja = new THREE.Mesh(new THREE.BoxGeometry(sx,.32,sz),zoclo); franja.position.set(x,.18,z); g.add(franja);
     }
 
+    const marco = mat(0xffffff), cortina = mat(0xa7ffeb), vidrio = new THREE.MeshLambertMaterial({ color: 0xe0f7fa, emissive: 0xb2ebf2, emissiveIntensity: .65 });
+    for (const x of [-6, 6]) {
+      const cristal = new THREE.Mesh(new THREE.PlaneGeometry(3.5, 2.25), vidrio); cristal.position.set(x, 2.55, -9.62); g.add(cristal);
+      for (const xx of [x - 1.82, x + 1.82]) {
+        const lateral = new THREE.Mesh(new THREE.BoxGeometry(.18, 2.45, .2), marco); lateral.position.set(xx, 2.6, -9.5); g.add(lateral);
+        for (let j = 0; j < 4; j++) {
+          const pliegue = new THREE.Mesh(new THREE.SphereGeometry(.18, 8, 6), cortina);
+          pliegue.scale.set(.8, 2.6, .7); pliegue.position.set(xx + (xx < x ? .12 : -.12), 2.65, -9.42 - j * .015); g.add(pliegue);
+        }
+      }
+      const arco = new THREE.Mesh(new THREE.TorusGeometry(1.8, .12, 7, 18, Math.PI), marco); arco.position.set(x, 3.7, -9.5); g.add(arco);
+      const repisa = new THREE.Mesh(new THREE.BoxGeometry(3.85, .14, .42), marco); repisa.position.set(x, 1.38, -9.45); g.add(repisa);
+      const vertical = new THREE.Mesh(new THREE.BoxGeometry(.1, 2.25, .12), marco); vertical.position.set(x, 2.55, -9.48); g.add(vertical);
+      const horizontal = new THREE.Mesh(new THREE.BoxGeometry(3.45, .1, .12), marco); horizontal.position.set(x, 2.55, -9.48); g.add(horizontal);
+    }
+    const letrero = new THREE.Group(), cruz = mat(0xff1744, { emissive: 0x7f001b, emissiveIntensity: .35 });
+    const placa = new THREE.Mesh(new THREE.BoxGeometry(2.4, .72, .16), mat(0x80deea)); placa.position.set(0, 3.15, -9.35); letrero.add(placa);
+    const cruzV = new THREE.Mesh(new THREE.BoxGeometry(.22, .52, .12), cruz); cruzV.position.set(0, 3.15, -9.22); letrero.add(cruzV);
+    const cruzH = new THREE.Mesh(new THREE.BoxGeometry(.52, .22, .12), cruz); cruzH.position.set(0, 3.15, -9.22); letrero.add(cruzH); g.add(letrero);
+
+    const camas = [[-5, 0.4, -6], [0, 0.4, -7.5], [5, 0.4, -6]];
     // Mostrador clínico acolchado.
     const mostrador = u.plataforma(0, 0.4, -1, 5, 0.8, 1.4, 0xffffff);
     mostrador.visible = false;
-    const superficie = new THREE.Mesh(new THREE.BoxGeometry(5.2, .28, 1.7), mat(0xb2dfdb));
-    superficie.position.set(0, .72, -1); g.add(superficie);
-    for (const x of [-2.2, 2.2]) for (const z of [-1.55, -.45]) barra(g, [x, .08, z], [x, .59, z], .07, 0xb0bec5);
+    cargarMobiliario((base) => {
+      const names = ['clinic_counter', 'clinic_medkit', 'clinic_bed'];
+      const counter = base.getObjectByName(names[0])?.clone(true);
+      if (counter) { counter.position.set(0, 0, -1); counter.scale.y = .62; g.add(counter); }
+      const maletin = base.getObjectByName(names[1])?.clone(true);
+      if (maletin) { maletin.position.set(-4, 0, -1); maletin.scale.y = .85; g.add(maletin); }
+      camas.forEach(([x, , z]) => {
+        const cama = base.getObjectByName(names[2])?.clone(true);
+        if (cama) { cama.position.set(x, 0, z); cama.scale.y = .88; g.add(cama); }
+      });
+    });
 
     const curitas = [];
     const matCurita = mat(0xffe2b8), matCruz = mat(0xef4444);
@@ -48,20 +86,10 @@ export default {
     }
 
     const pacientes = [];
-    const camas = [[-5, 0.4, -6], [0, 0.4, -7.5], [5, 0.4, -6]];
     camas.forEach(([bx, by, bz], i) => {
       const cama = u.plataforma(bx, by, bz, 2.6, 0.8, 3.2, 0xffffff);
       cama.visible = false;
-      // Bastidor tubular y colchón suave con cabecera levantada.
-      for (const x of [bx - 1.12, bx + 1.12]) {
-        for (const z of [bz - 1.25, bz + 1.25]) barra(g, [x, .08, z], [x, .52, z], .055, 0xb0bec5);
-        barra(g, [x, .5, bz - 1.3], [x, .5, bz + 1.3], .05, 0xb0bec5);
-      }
-      const colchon = new THREE.Mesh(new THREE.BoxGeometry(2.3, .26, 2.85), mat(0xb2dfdb));
-      colchon.position.set(bx, .67, bz); colchon.rotation.x = i === 1 ? -.12 : 0; g.add(colchon);
-      const almohada = new THREE.Mesh(new THREE.SphereGeometry(.48, 8, 5), mat(0xe0f2f1));
-      almohada.position.set(bx, .86, bz - .86); almohada.scale.set(1.5, .28, .8); g.add(almohada);
-
+      // La caja invisible conserva la colisión; el mobiliario se carga en GLB.
       const paciente = new THREE.Group(); paciente.position.set(bx, .98, bz); g.add(paciente);
       const matHerido = mat([0x9d7966, 0x777986, 0xb18c79][i]);
       const respaldo = new THREE.Group(); paciente.add(respaldo);
@@ -102,10 +130,6 @@ export default {
       });
       estado.grupo.add(modelo); estado.modelo = modelo;
     }));
-    cargarKit((base) => camas.forEach(([x,y,z], i) => {
-      const kit = base.clone(true); kit.position.set(x + (i === 1 ? 2 : -2), y, z); g.add(kit);
-    }));
-
     // Suero y biombos plegables.
     for (const [x, z] of [[-7.1, -6], [2.2, -7.5], [7.1, -6]]) {
       barra(g, [x, .1, z], [x, 2.25, z], .055, 0xb0bec5);
