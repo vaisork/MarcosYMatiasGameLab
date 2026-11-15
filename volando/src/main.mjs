@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { crearVuelo, actualizarVuelo, resolverChoque, guardarCheckpoint, registrarRozon } from '../fisica.mjs';
+import { crearVuelo, actualizarVuelo, resolverChoque, guardarCheckpoint, registrarRozon, deltaSegundos, puedeResolverChoque } from '../fisica.mjs';
 
 const ANCHO = 512, ALTO = 768, MUNDO_X = 19456, MUNDO_Z = 29184, EXAGERA = 1.2;
 const $ = (id) => document.getElementById(id);
@@ -15,7 +15,7 @@ scene.add(new THREE.HemisphereLight(0xd5f1ec, 0x67483b, 1.45));
 const sol = new THREE.DirectionalLight(0xffe0ae, 3.2); sol.position.set(-4500, 7000, -3000); scene.add(sol);
 const loader = new THREE.TextureLoader();
 let terrain = null, agua = null, anchors = [], rings = [], waterY = 0, routeSamples = [];
-let state = null, running = false, mode = '', elapsed = 0, nextRing = 0, messageUntil = 0;
+let state = null, running = false, mode = '', elapsed = 0, nextRing = 0, messageUntil = 0, previousFrameTime = null;
 const keys = new Set(), input = { pitch: 0, roll: 0 }, latestPointer = null;
 let xrHands = [];
 const HEIGHTS = new Uint16Array(await fetch('assets/terreno-u16.bin').then((r) => r.arrayBuffer()));
@@ -60,12 +60,41 @@ function crearRuta() {
   landing.position.set(end.x,waterY+9,end.z); scene.add(landing);
   return path;
 }
+function segmento(mesh, a, b) {
+  const from=new THREE.Vector3(...a),to=new THREE.Vector3(...b),delta=to.clone().sub(from);
+  mesh.position.copy(from.add(to).multiplyScalar(.5));mesh.scale.y=delta.length();mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),delta.normalize());
+}
+function crearMembrana() {
+  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(new Float32Array(12),3));
+  geo.setIndex([0,1,2,2,1,3]);
+  const mesh=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:0xd77a4b,side:THREE.DoubleSide}));
+  const edge=new THREE.LineSegments(new THREE.BufferGeometry().setAttribute('position',new THREE.Float32BufferAttribute(new Float32Array(24),3)),new THREE.LineBasicMaterial({color:0xe5aa68}));
+  return {mesh,edge};
+}
 function crearParapente() {
-  const wings=new THREE.Group();
-  const body=new THREE.Mesh(new THREE.CapsuleGeometry(.3,1.2,3,6),new THREE.MeshStandardMaterial({color:0x263b40,roughness:.9}));body.rotation.x=Math.PI/2;body.position.z=-3.6;wings.add(body);
-  const cloth=new THREE.Mesh(new THREE.BoxGeometry(4.2,.1,1),new THREE.MeshStandardMaterial({color:0xd45e3f,roughness:.8,side:THREE.DoubleSide}));cloth.position.set(0,.15,-3.5);cloth.rotation.x=-.15;wings.add(cloth);
-  for(const side of [-1,1]){const arm=new THREE.Mesh(new THREE.ConeGeometry(.14,2.1,5),new THREE.MeshStandardMaterial({color:0xe4b96f,roughness:1}));arm.rotation.z=side*-Math.PI/2;arm.position.set(side*1.7,.12,-3.5);wings.add(arm);}
+  const wings=new THREE.Group(), bodyMat=new THREE.MeshStandardMaterial({color:0x263b40,roughness:.9}), clothMat=new THREE.MeshBasicMaterial({color:0xd77a4b,side:THREE.DoubleSide});
+  const body=new THREE.Mesh(new THREE.CapsuleGeometry(.28,.85,3,6),bodyMat);body.rotation.x=Math.PI/2;body.position.z=-3.6;wings.add(body);
+  const neck=new THREE.Mesh(new THREE.SphereGeometry(.2,8,6),new THREE.MeshStandardMaterial({color:0xd9aa70,roughness:1}));neck.position.set(0,.03,-3.05);wings.add(neck);
+  const armGeo=new THREE.CylinderGeometry(.075,.12,1,5), legGeo=new THREE.CylinderGeometry(.09,.15,1.2,5);
+  for(const side of [-1,1]){
+    const arm=new THREE.Mesh(armGeo,new THREE.MeshStandardMaterial({color:0x293b3a,roughness:1}));segmento(arm,[side*.35,.22,-3.25],[side*2.05,.5,-3.45]);wings.add(arm);
+    const leg=new THREE.Mesh(legGeo,bodyMat);segmento(leg,[side*.2,-.08,-3.9],[side*.42,-.45,-4.8]);wings.add(leg);
+    const points=[[side*.45,.2,-3.25],[side*2.05,.5,-3.45],[side*.25,-.05,-3.9],[side*.42,-.45,-4.8]],panel=new THREE.BufferGeometry();panel.setAttribute('position',new THREE.Float32BufferAttribute(points.flat(),3));panel.setIndex([0,1,2,2,1,3]);panel.computeVertexNormals();wings.add(new THREE.Mesh(panel,clothMat));
+    const outlinePoints=[points[0],points[1],points[1],points[3],points[3],points[2],points[2],points[0]].flat();
+    const outline=new THREE.LineSegments(new THREE.BufferGeometry().setAttribute('position',new THREE.Float32BufferAttribute(outlinePoints,3)),new THREE.LineBasicMaterial({color:0xe5aa68}));wings.add(outline);
+  }
+  const inner=new THREE.BufferGeometry();inner.setAttribute('position',new THREE.Float32BufferAttribute([-.18,-.08,-3.9,.18,-.08,-3.9,-.42,-.45,-4.8,.42,-.45,-4.8],3));inner.setIndex([0,1,2,1,3,2]);inner.computeVertexNormals();wings.add(new THREE.Mesh(inner,clothMat));
   rig.add(wings); return wings;
+}
+function crearAlasQuest() {
+  const wings=new THREE.Group(), sleeves=[],panels=[];
+  const sleeveMat=new THREE.MeshStandardMaterial({color:0x293b3a,roughness:1}), sleeveGeo=new THREE.CylinderGeometry(.075,.13,1,6);
+  for(let i=0;i<2;i++){
+    const panel=crearMembrana();panels.push(panel);wings.add(panel.mesh,panel.edge);
+    const sleeve=new THREE.Mesh(sleeveGeo,sleeveMat);wings.add(sleeve);sleeves.push(sleeve);
+  }
+  const inner=crearMembrana();wings.add(inner.mesh,inner.edge);rig.add(wings);
+  return {wings,sleeves,panels,inner};
 }
 function crearParacaidas() {
   const canopy=new THREE.Group();
@@ -76,9 +105,11 @@ function crearParacaidas() {
   canopy.visible=false;rig.add(canopy);return canopy;
 }
 agregarTerreno();
-const path=crearRuta(); const avatar=crearParapente(); const chute=crearParacaidas();
+const path=crearRuta(); const avatar=crearParapente(); const questWings=crearAlasQuest(); const chute=crearParacaidas();
 loader.load('assets/cielo.webp',(sky)=>{sky.mapping=THREE.EquirectangularReflectionMapping;sky.colorSpace=THREE.SRGBColorSpace;scene.background=sky;});
 const start=anchors[0];
+const checkpointAire=routeSamples[Math.floor(routeSamples.length*.035)];
+checkpointAire.y+=115;checkpointAire.yaw=anchors[0].yaw;
 
 function sonido() {
   const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return;
@@ -107,9 +138,9 @@ function actualizarEntrada() {
   }
 }
 function startWorld() {
-  running=true; elapsed=0; nextRing=0; state=crearVuelo(start); $('inicio').hidden=true; $('final').hidden=true;document.body.classList.add('jugando');
+  running=true; elapsed=0; nextRing=0; previousFrameTime=null; state=crearVuelo(start);state.vy=13;state.checkpoint={...checkpointAire};camera.position.set(0,mode==='quest'?0:1.5,mode==='quest'?0:3.8); $('inicio').hidden=true; $('final').hidden=true;document.body.classList.add('jugando');
   if(mode==='celular')document.body.classList.add('tactil');
-  $('progreso').textContent='Mirador · aro 0/8'; ventoSound(); aviso('Salta del mirador y abre los brazos',2.4);
+  $('progreso').textContent='Mirador · aro 0/8'; ventoSound(); aviso(mode==='quest'?'Abre los brazos o pulsa el gatillo para impulsarte':'¡Impulso de salida! Mantén espacio o pulsa Saltar para impulsarte',3.2);
 }
 let ventoSound=()=>{};
 async function startPhone(){mode='celular';
@@ -123,7 +154,7 @@ if(!navigator.xr)$('estado').textContent='Quest 3: abre esta página en el naveg
 else navigator.xr.isSessionSupported('immersive-vr').then((ok)=>{$('quest').disabled=!ok;if(!ok)$('estado').textContent='Este navegador no ofrece WebXR. Usa celular o computadora.';}).catch(()=>{$('estado').textContent='WebXR no está disponible. Usa celular o computadora.';});
 $('quest').addEventListener('click',async()=>{
   if(!navigator.xr)return;
-  try{const session=await navigator.xr.requestSession('immersive-vr',{optionalFeatures:['local-floor','bounded-floor']});renderer.xr.setReferenceSpaceType('local-floor');await renderer.xr.setSession(session);mode='quest';camera.position.set(0,0,0);camera.rotation.set(0,0,0);xrHands=[renderer.xr.getController(0),renderer.xr.getController(1)];xrHands.forEach((h,i)=>{rig.add(h);h.add(new THREE.Mesh(new THREE.SphereGeometry(.09,8,6),new THREE.MeshBasicMaterial({color:i?0xf4be6b:0x65c9c1})));});startWorld();session.addEventListener('end',()=>{running=false;document.body.classList.remove('jugando');$('inicio').hidden=false;camera.position.set(0,2.8,18);camera.rotation.set(0,0,0);});}
+  try{const session=await navigator.xr.requestSession('immersive-vr',{optionalFeatures:['local-floor','bounded-floor']});renderer.xr.setReferenceSpaceType('local-floor');await renderer.xr.setSession(session);mode='quest';camera.position.set(0,0,0);camera.rotation.set(0,0,0);xrHands=[renderer.xr.getController(0),renderer.xr.getController(1)];xrHands.forEach((h,i)=>{rig.add(h);h.add(new THREE.Mesh(new THREE.SphereGeometry(.09,8,6),new THREE.MeshBasicMaterial({color:i?0xf4be6b:0x65c9c1})));h.addEventListener('selectstart',()=>{if(running){state.vy=Math.max(state.vy,13);aviso('¡Impulso!',1);}});});startWorld();session.addEventListener('end',()=>{running=false;document.body.classList.remove('jugando');$('inicio').hidden=false;camera.position.set(0,2.8,18);camera.rotation.set(0,0,0);});}
   catch(e){$('estado').textContent=`No se pudo iniciar Quest: ${e.message}`;}
 });
 $('boton-saltar').addEventListener('pointerdown',(e)=>{e.preventDefault();if(running&&mode==='celular')state.vy=Math.max(state.vy,6);});
@@ -135,23 +166,37 @@ renderer.domElement.addEventListener('pointermove',(e)=>{if(!latestPointer||mode
 renderer.domElement.addEventListener('pointerup',()=>{latestPointer=null;});
 addEventListener('deviceorientation',(e)=>{window.orient=e;},{passive:true});
 function tramo(v){let closest=0,min=Infinity;for(let i=0;i<routeSamples.length;i++){const p=routeSamples[i],d=(p.x-v.x)**2+(p.z-v.z)**2;if(d<min){min=d;closest=i;}}return {i:closest,dist:Math.sqrt(min),progress:closest/(routeSamples.length-1)};}
+function actualizarPanel(panel,points){
+  const pos=panel.mesh.geometry.attributes.position,verts=points.flat();
+  pos.array.set(verts);pos.needsUpdate=true;panel.mesh.geometry.computeVertexNormals();panel.mesh.geometry.computeBoundingSphere();
+  const edges=panel.edge.geometry.attributes.position.array;
+  const pairs=panel.mesh.geometry.index.count===3?[[0,1],[1,2],[2,0]]:[[0,1],[1,3],[3,2],[2,0]];
+  pairs.forEach(([a,b],i)=>{edges.set(points[a],i*6);edges.set(points[b],i*6+3);});panel.edge.geometry.attributes.position.needsUpdate=true;panel.edge.geometry.computeBoundingSphere();
+}
 function finish(){running=false;state.terminado=true;document.body.classList.remove('jugando','rapido');$('final').hidden=false;$('resultado').innerHTML=`${state.score.toLocaleString('es-MX')} puntos<br>${Math.floor(state.tiempo/60)}:${String(Math.floor(state.tiempo%60)).padStart(2,'0')} de vuelo<br>${state.choques} choques · ${state.aros}/8 aros`;
 }
-function tick(_now,dtMs=1000/72){
-  const dt=Math.min(dtMs/1000,.05);
+function tick(now){
+  const stamp=Number.isFinite(now)?now:performance.now();
+  const dt=previousFrameTime===null?1/72:deltaSegundos(stamp,previousFrameTime);previousFrameTime=stamp;
   if(running){elapsed+=dt;actualizarEntrada();
+    if(mode==='quest'&&!state.impulsoQuest){const [left,right]=xrHands.map((h)=>h.position);if(left&&right&&Math.abs(left.x-right.x)>1.15){state.vy=Math.max(state.vy,13);state.impulsoQuest=true;aviso('¡Impulso! Pliega las alas para dirigir',1.4);}}
     const before=tramo(state);
     if(!state.paracaidas&&before.dist<900){const ahead=routeSamples[Math.min(routeSamples.length-1,before.i+2)],want=Math.atan2(-(ahead.x-state.x),-(ahead.z-state.z));let turn=((want-state.yaw+Math.PI*3)%(Math.PI*2))-Math.PI;state.yaw+=Math.max(-.55*dt,Math.min(.55*dt,turn));}
     actualizarVuelo(state,input,dt);
     const seg=tramo(state);const ground=altura(state.x,state.z);
-    if(!state.paracaidas&&(state.y<=ground+18||seg.dist>540)){const pared=seg.dist>540;resolverChoque(state,ground+18,pared);aviso(`${pared?'¡Pared del cañón!':'¡Terreno!'} Regresas al último aro`,1.8);}
+    if(!state.paracaidas&&puedeResolverChoque(elapsed,start,state)&&(state.y<=ground+18||seg.dist>540)){const pared=seg.dist>540;resolverChoque(state,ground+18,pared);aviso(`${pared?'¡Pared del cañón!':'¡Terreno!'} Regresas al último aro`,1.8);}
     if(!state.paracaidas&&registrarRozon(state,Math.abs(470-seg.dist),96))aviso('¡Rozón! +100',1.2);
     if(Math.abs(470-seg.dist)>135)state.rozon=false;
     if(nextRing<rings.length&&state.x**2+state.z**2>=-1){const r=rings[nextRing],d=Math.hypot(state.x-r.position.x,state.y-r.position.y,state.z-r.position.z);if(d<95){guardarCheckpoint(state,r.userData.point);nextRing++;aviso('¡Aro! +250',1.5);}}
     const progress=seg.progress;
     if(progress>.86&&!state.paracaidas){state.paracaidas=true;state.velocidad=Math.min(state.velocidad,24);aviso('¡Paracaídas! Dirígete al río',2.5);}
     if(state.paracaidas){const end=anchors.at(-1), desired=Math.atan2(-(end.x-state.x),-(end.z-state.z));let delta=((desired-state.yaw+Math.PI*3)%(Math.PI*2))-Math.PI;state.yaw+=Math.max(-.55*dt,Math.min(.55*dt,delta));state.velocidad=Math.max(15,state.velocidad-9*dt);const target=waterY+8;state.y+=Math.max(-8,Math.min(0,(target-state.y)*.32))*dt*4;if(progress>.97&&Math.hypot(state.x-end.x,state.z-end.z)<100&&Math.abs(state.y-target)<18)finish();}
-    rig.position.set(state.x,state.y,state.z);rig.rotation.set(0,state.yaw,0);avatar.visible=mode!=='quest'&&!state.paracaidas;chute.visible=state.paracaidas;avatar.rotation.z=state.roll*.3;avatar.rotation.x=-state.pitch*.12;
+    rig.position.set(state.x,state.y,state.z);rig.rotation.set(0,state.yaw,0);avatar.visible=mode!=='quest'&&!state.paracaidas;questWings.wings.visible=mode==='quest'&&!state.paracaidas;chute.visible=state.paracaidas;avatar.rotation.z=state.roll*.3;avatar.rotation.x=-state.pitch*.12;
+    if(mode==='quest'){
+      const [left,right]=xrHands.map((h)=>h.position),head=camera.position,hip=[0,head.y-1.05,head.z],leftLeg=[-.22,head.y-1.75,head.z-.05],rightLeg=[.22,head.y-1.75,head.z-.05];
+      xrHands.forEach((hand,i)=>{const side=i===0?-1:1,h=[hand.position.x,hand.position.y,hand.position.z],shoulder=[side*.2,head.y-.45,head.z],joint=[side*.23,head.y-.95,head.z-.03],ankle=i===0?leftLeg:rightLeg;actualizarPanel(questWings.panels[i],[shoulder,h,joint,ankle]);segmento(questWings.sleeves[i],shoulder,h);});
+      actualizarPanel(questWings.inner,[[0,head.y-1.05,head.z],[0,head.y-1.75,head.z-.05],leftLeg,rightLeg]);
+    }
     camera.rotation.x=mode==='quest'?0:state.pitch*.16-.44;camera.rotation.z=mode==='quest'?0:-state.roll*.08;
     const sp=Math.round(state.velocidad);$('velocidad').textContent=`${sp} m/s`;$('puntos').textContent=`${state.score.toLocaleString('es-MX')} puntos`;$('progreso').textContent=state.paracaidas?'Paracaídas · al río':`Cañón · ${Math.round(progress*100)}% · aro ${nextRing}/8`;
     if(sp>46)document.body.classList.add('rapido');else document.body.classList.remove('rapido');viento(state.velocidad);
