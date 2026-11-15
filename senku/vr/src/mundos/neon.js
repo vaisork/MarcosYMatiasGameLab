@@ -24,7 +24,7 @@ export default {
     const lunaForma = new THREE.Shape();
     lunaForma.moveTo(0,1.6); lunaForma.bezierCurveTo(-1.35,1.45,-1.55,-.5,-.1,-1.55); lunaForma.bezierCurveTo(-.72,-.55,-.58,.42,0,1.6);
     const luna = new THREE.Mesh(new THREE.ShapeGeometry(lunaForma,20),new THREE.MeshBasicMaterial({color:0xe0f7fa,emissive:0xb2ebf2,emissiveIntensity:1.6,side:THREE.DoubleSide,fog:false}));
-    luna.position.set(18,28,-55);g.add(luna);
+    luna.position.set(6,18,-38);g.add(luna);
     pavimento.material=new THREE.MeshStandardMaterial({color:0xffffff,map:asfaltoMojado(),roughness:.22,metalness:.25});
     new GLTFLoader().load('modelos/neon_skyline_r2.glb',({scene})=>{scene.position.y=0;g.add(scene);},undefined,(e)=>console.error('No se pudo cargar skyline neón',e));
     // Torres facetadas en el perímetro: dejan libre la ruta de rótulos del centro.
@@ -43,6 +43,24 @@ export default {
       }
     });
     g.add(ventanas);
+    const fachadas = new THREE.TextureLoader().load(new URL('../../texturas/mundos/neon_avenida_fachadas.webp', import.meta.url).href);
+    fachadas.colorSpace = THREE.SRGBColorSpace;
+    for (const x of [-10, 10]) {
+      const frente = new THREE.Mesh(new THREE.PlaneGeometry(12, 8), new THREE.MeshLambertMaterial({ map: fachadas, color: 0xddddff, emissive: 0x17152a, emissiveMap: fachadas, emissiveIntensity: .45, side: THREE.DoubleSide }));
+      frente.position.set(x, 4, -19); g.add(frente);
+    }
+    const arco = new THREE.Group(), arcoCian = new THREE.MeshLambertMaterial({ color: 0x00e5ff, emissive: 0x00e5ff, emissiveIntensity: 1.8 }), arcoFucsia = new THREE.MeshLambertMaterial({ color: 0xff007f, emissive: 0xff007f, emissiveIntensity: 1.8 });
+    const arcoCianGeo = new THREE.TorusGeometry(7, .09, 8, 40, Math.PI);
+    const arcoSuperior = new THREE.Mesh(arcoCianGeo, arcoCian); arcoSuperior.position.set(0, 4, -7); arco.add(arcoSuperior);
+    for (const x of [-7, 7]) { const poste = new THREE.Mesh(new THREE.CylinderGeometry(.09, .14, 4, 8), arcoFucsia); poste.position.set(x, 2, -7); arco.add(poste); }
+    const letreroCanvas = document.createElement('canvas'); letreroCanvas.width = 1024; letreroCanvas.height = 192;
+    const lc = letreroCanvas.getContext('2d'); lc.fillStyle = '#08091c'; lc.fillRect(0, 0, 1024, 192); lc.font = 'bold 116px sans-serif'; lc.textAlign = 'center'; lc.textBaseline = 'middle'; lc.lineWidth = 10; lc.strokeStyle = '#00e5ff'; lc.strokeText('NEON CITY', 512, 98); lc.fillStyle = '#ffffff'; lc.fillText('NEON CITY', 512, 98);
+    const letreroNeon = new THREE.Mesh(new THREE.PlaneGeometry(5.5, 1.05), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(letreroCanvas), side: THREE.DoubleSide, fog: false })); letreroNeon.material.map.colorSpace = THREE.SRGBColorSpace; letreroNeon.position.set(0, 5.5, -6.86); arco.add(letreroNeon); g.add(arco);
+    for (const x of [-4, 4]) for (const z of [-4, -10]) {
+      const fuste = new THREE.Mesh(new THREE.CylinderGeometry(.075, .11, 3.2, 7), new THREE.MeshLambertMaterial({ color: 0x222033 })); fuste.position.set(x, 1.6, z); g.add(fuste);
+      const globo = new THREE.Mesh(new THREE.SphereGeometry(.24, 10, 8), new THREE.MeshLambertMaterial({ color: 0x00e5ff, emissive: 0x00e5ff, emissiveIntensity: 1.8 })); globo.position.set(x, 3.3, z); g.add(globo);
+      const halo = new THREE.Mesh(new THREE.TorusGeometry(.28, .035, 6, 16), arcoFucsia); halo.position.set(x, 3.3, z); g.add(halo);
+    }
     const escalera=new THREE.InstancedMesh(new THREE.BoxGeometry(1,.07,.07),new THREE.MeshLambertMaterial({color:0x37474f}),72);
     const dummy=new THREE.Object3D();let pel=0;
     ubicaciones.forEach(([x,z],i)=>{const alto=5+(i*7%6);for(const side of [-1,1]){dummy.position.set(x+side*.52,alto*.43,z+1.48);dummy.scale.set(.09,alto*.86,.09);dummy.updateMatrix();escalera.setMatrixAt(pel++,dummy.matrix);}
@@ -54,7 +72,7 @@ export default {
     ubicaciones.forEach(([x,z],i)=>{const alto=5+(i*7%6);dummy.position.set(x,alto+2.75,z);dummy.scale.setScalar(1);dummy.updateMatrix();balizas.setMatrixAt(i,dummy.matrix);});g.add(balizas);
     const rotulos=[];
     for(let i=0;i<15;i++){
-      const x=(i%5-2)*5,z=(Math.floor(i/5)-1)*5-3;
+      const fila = Math.floor(i / 5), xBase = (i % 5 - 2) * 5, x = xBase || (fila % 2 ? 2.6 : -2.6), z=fila*5-8;
       const metalBase=new THREE.MeshLambertMaterial({color:0x263238});
       const peana=new THREE.Mesh(new THREE.CylinderGeometry(.72,.86,.22,8),metalBase);peana.position.set(x,.11,z);g.add(peana);
       const fuste=new THREE.Mesh(new THREE.CylinderGeometry(.12,.18,1.18,8),new THREE.MeshLambertMaterial({color:0x90a4ae}));fuste.position.set(x,.78,z);g.add(fuste);

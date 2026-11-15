@@ -141,6 +141,10 @@ export default {
   ambiente: { cielo: 0x87ceeb, suelo: 0x4a7c39, niebla: 0xa4d49c },
 
   crear(grupo, util) {
+    const cieloTextura = new THREE.TextureLoader().load(new URL('../../texturas/mundos/gallinas_cielo_dia_r10.webp', import.meta.url).href);
+    cieloTextura.colorSpace = THREE.SRGBColorSpace;
+    const cielo = new THREE.Mesh(new THREE.SphereGeometry(220, 32, 20), new THREE.MeshBasicMaterial({ map: cieloTextura, side: THREE.BackSide, fog: false, depthWrite: false }));
+    cielo.renderOrder = -2; grupo.add(cielo);
     // Terreno pradera
     util.plataforma(0, -0.25, 0, 44, 0.5, 44, 0x4a7c39);
     const cesped = new THREE.TextureLoader().load(new URL('../../texturas/mundos/polyhaven_leafy_grass.webp', import.meta.url).href);
@@ -284,6 +288,11 @@ export default {
       grupo.add(mod.grupo);
       return { g, mod };
     });
+    new GLTFLoader().load('modelos/gallina_toon_r10.glb', ({ scene }) => {
+      for (const [x, y, z, escala] of [[3.8, .05, -9.5, .9], [-5.15, 1.05, -8.2, .78]]) {
+        const gallina = scene.clone(true); gallina.position.set(x, y, z); gallina.rotation.y = Math.PI; gallina.scale.setScalar(escala); grupo.add(gallina);
+      }
+    }, undefined, (e) => console.error('No se pudo cargar gallina_toon_r10.glb', e));
 
     return {
       logica,
