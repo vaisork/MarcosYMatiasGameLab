@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { crearVuelo, actualizarVuelo, resolverChoque, guardarCheckpoint, registrarRozon, deltaSegundos, puedeResolverChoque } from '../fisica.mjs';
+import { crearVuelo, actualizarVuelo, resolverChoque, guardarCheckpoint, registrarRozon, deltaSegundos, puedeResolverChoque, mapearPC, mapearCelular, mapearQuest, mapearGamepadXR, multiplicadorAltura } from '../fisica.mjs';
 
 const ANCHO = 512, ALTO = 768, MUNDO_X = 19456, MUNDO_Z = 29184, EXAGERA = 1.2;
 const $ = (id) => document.getElementById(id);
@@ -11,13 +11,16 @@ const scene = new THREE.Scene(); scene.background = new THREE.Color(0x9bc6c4); s
 const camera = new THREE.PerspectiveCamera(74, innerWidth / innerHeight, .1, 28000);
 const rig = new THREE.Group(); rig.add(camera); scene.add(rig);
 camera.position.set(0, 2.8, 10); camera.lookAt(0, 0, -90);
+const estelas = new Float32Array(32 * 6), particulas = Array.from({ length: 32 }, () => ({ x: (Math.random() - .5) * 42, y: (Math.random() - .5) * 25, z: -4 - Math.random() * 76, largo: .18 + Math.random() * .7 }));
+const estelasGeo = new THREE.BufferGeometry(); estelasGeo.setAttribute('position', new THREE.BufferAttribute(estelas, 3));
+const estelasMesh = new THREE.LineSegments(estelasGeo, new THREE.LineBasicMaterial({ color: 0xe4fff4, transparent: true, opacity: 0, depthTest: false })); estelasMesh.frustumCulled = false; camera.add(estelasMesh);
 scene.add(new THREE.HemisphereLight(0xd5f1ec, 0x67483b, 1.45));
 const sol = new THREE.DirectionalLight(0xffe0ae, 3.2); sol.position.set(-4500, 7000, -3000); scene.add(sol);
 const loader = new THREE.TextureLoader();
 let terrain = null, agua = null, anchors = [], rings = [], waterY = 0, routeSamples = [];
 let state = null, running = false, mode = '', elapsed = 0, nextRing = 0, messageUntil = 0, previousFrameTime = null;
-const keys = new Set(), input = { pitch: 0, roll: 0 }, latestPointer = null;
-let xrHands = [];
+const keys = new Set(), input = { pitch: 0, roll: 0 }, latestPointer = { dx: 0, dy: 0 };
+let xrHands = [], phoneNeutralBeta = 0, phoneNeutralGamma = 0, lastDeviceOrientation = null;
 const HEIGHTS = new Uint16Array(await fetch('assets/terreno-u16.bin').then((r) => r.arrayBuffer()));
 const pointMap = (u, v) => ({ x: (u - .5) * MUNDO_X, z: (v - .5) * MUNDO_Z });
 function altura(x, z) {
@@ -117,34 +120,43 @@ function sonido() {
   for(let i=0;i<n;i++)data[i]=Math.random()*2-1;
   const source=ctx.createBufferSource(), filter=ctx.createBiquadFilter(), gain=ctx.createGain();
   source.buffer=buffer;source.loop=true;filter.type='lowpass';filter.frequency.value=650;gain.gain.value=0;source.connect(filter).connect(gain).connect(ctx.destination);source.start();
-  return (speed)=>{filter.frequency.setTargetAtTime(300+speed*82,ctx.currentTime,.08);gain.gain.setTargetAtTime(.012+speed/60*.055,ctx.currentTime,.12);};
+  return (speed,pitch=0)=>{filter.frequency.setTargetAtTime(300+speed*82,ctx.currentTime,.08);gain.gain.setTargetAtTime(.012+speed/60*.055+Math.max(0,-pitch)*.04,ctx.currentTime,.12);};
 }
 let viento=()=>{};
 function aviso(text,seconds=1.5){$('mensaje').textContent=text;$('mensaje').style.opacity='1';messageUntil=elapsed+seconds;}
 function actualizarEntrada() {
   if(mode==='pc'){
-    const k=(...names)=>names.some((n)=>keys.has(n));
-    input.roll=(k('ArrowLeft','a','A')?-1:0)+(k('ArrowRight','d','D')?1:0);
-    input.pitch=(k('ArrowDown','s','S')?-1:0)+(k('ArrowUp','w','W')?1:0);
-    if(latestPointer){input.roll=Math.max(-1,Math.min(1,latestPointer.dx));input.pitch=Math.max(-1,Math.min(1,latestPointer.dy));}
+    Object.assign(input,mapearPC({teclas:keys,mouseX:latestPointer.dx,mouseY:latestPointer.dy}));
   } else if(mode==='celular'){
-    input.roll=Math.max(-1,Math.min(1,(Number(window.orient?.gamma)||0)/32));
-    input.pitch=Math.max(-1,Math.min(1,-((Number(window.orient?.beta)||45)-35)/48));
+    Object.assign(input,mapearCelular(lastDeviceOrientation?.beta??phoneNeutralBeta,lastDeviceOrientation?.gamma??phoneNeutralGamma,phoneNeutralBeta,phoneNeutralGamma));
   } else {
-    const left=xrHands[0]?.position||new THREE.Vector3(),right=xrHands[1]?.position||new THREE.Vector3();
-    input.roll=Math.max(-1,Math.min(1,(left.y-right.y)/.8));
-    const front=(left.z+right.z)*.5;
-    input.pitch=front<-.52?-1:front>.35?.72:0;
+    const session=renderer.xr.getSession(),sources=session?.inputSources||[];
+    const stick=mapearGamepadXR(sources);
+    if(Math.abs(stick.pitch)+Math.abs(stick.roll)>.12)Object.assign(input,stick);
+    else if(xrHands.length>=2&&xrHands.every((hand)=>hand.visible)){
+      const xrCamera=renderer.xr.getCamera(camera);
+      const hand=(controller)=>xrCamera.worldToLocal(controller.getWorldPosition(new THREE.Vector3()));
+      const left=hand(xrHands[0]),right=hand(xrHands[1]);
+      Object.assign(input,mapearQuest(left,right));
+    } else Object.assign(input,stick);
   }
+}
+function avanzarEstelas(dt,speed){
+  estelasMesh.material.opacity=Math.max(0,Math.min(.75,(speed-34)/55));
+  particulas.forEach((p,i)=>{p.z+=speed*dt;if(p.z>-2){p.z=-80;p.x=(Math.random()-.5)*42;p.y=(Math.random()-.5)*25;}
+    estelas.set([p.x,p.y,p.z,p.x,p.y,p.z-p.largo],i*6);});
+  estelasGeo.attributes.position.needsUpdate=true;
 }
 function startWorld() {
   running=true; elapsed=0; nextRing=0; previousFrameTime=null; state=crearVuelo(start);state.vy=13;state.checkpoint={...checkpointAire};camera.position.set(0,mode==='quest'?0:1.5,mode==='quest'?0:3.8); $('inicio').hidden=true; $('final').hidden=true;document.body.classList.add('jugando');
   if(mode==='celular')document.body.classList.add('tactil');
-  $('progreso').textContent='Mirador · aro 0/8'; ventoSound(); aviso(mode==='quest'?'Abre los brazos o pulsa el gatillo para impulsarte':'¡Impulso de salida! Mantén espacio o pulsa Saltar para impulsarte',3.2);
+  $('progreso').textContent='Mirador · aro 0/8'; ventoSound(); aviso(mode==='quest'?'Manos abajo y al frente para bajar · arriba para frenar':mode==='celular'?'Inclina el teléfono hacia adelante para bajar':'S/↓ baja · W/↑ sube · mouse abajo baja',3.2);
 }
 let ventoSound=()=>{};
 async function startPhone(){mode='celular';
   try{if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission)await DeviceOrientationEvent.requestPermission();}catch{}
+  if(!lastDeviceOrientation)await new Promise((resolve)=>{const timeout=setTimeout(done,500);function done(){clearTimeout(timeout);removeEventListener('deviceorientation',capture);resolve();}function capture(){done();}addEventListener('deviceorientation',capture,{once:true});});
+  phoneNeutralBeta=lastDeviceOrientation?.beta??0;phoneNeutralGamma=lastDeviceOrientation?.gamma??0;
   startWorld();
 }
 $('celular').addEventListener('click',startPhone);
@@ -159,12 +171,10 @@ $('quest').addEventListener('click',async()=>{
 });
 $('boton-saltar').addEventListener('pointerdown',(e)=>{e.preventDefault();if(running&&mode==='celular')state.vy=Math.max(state.vy,6);});
 $('reiniciar').addEventListener('click',()=>{$('final').hidden=true;$('inicio').hidden=false;document.body.classList.remove('jugando','tactil');});
-addEventListener('keydown',(e)=>{keys.add(e.key);if(e.key===' '){e.preventDefault();if(!running&&mode==='pc')startWorld();else if(running&&mode==='pc')state.vy=Math.max(state.vy,5);}});
+addEventListener('keydown',(e)=>{keys.add(e.key);if([' ','ArrowDown','ArrowUp','ArrowLeft','ArrowRight'].includes(e.key))e.preventDefault();if(e.key===' '&&!running&&mode==='pc')startWorld();});
 addEventListener('keyup',(e)=>keys.delete(e.key));
-renderer.domElement.addEventListener('pointerdown',(e)=>{latestPointer={x:e.clientX,y:e.clientY,dx:0,dy:0};});
-renderer.domElement.addEventListener('pointermove',(e)=>{if(!latestPointer||mode!=='pc')return;latestPointer.dx=Math.max(-1,Math.min(1,(e.clientX/innerWidth-.5)*2));latestPointer.dy=Math.max(-1,Math.min(1,(e.clientY/innerHeight-.5)*2));});
-renderer.domElement.addEventListener('pointerup',()=>{latestPointer=null;});
-addEventListener('deviceorientation',(e)=>{window.orient=e;},{passive:true});
+renderer.domElement.addEventListener('pointermove',(e)=>{latestPointer.dx=Math.max(-1,Math.min(1,(e.clientX/innerWidth-.5)*2));latestPointer.dy=Math.max(-1,Math.min(1,(e.clientY/innerHeight-.5)*2));});
+addEventListener('deviceorientation',(e)=>{lastDeviceOrientation={beta:e.beta,gamma:e.gamma};},{passive:true});
 function tramo(v){let closest=0,min=Infinity;for(let i=0;i<routeSamples.length;i++){const p=routeSamples[i],d=(p.x-v.x)**2+(p.z-v.z)**2;if(d<min){min=d;closest=i;}}return {i:closest,dist:Math.sqrt(min),progress:closest/(routeSamples.length-1)};}
 function actualizarPanel(panel,points){
   const pos=panel.mesh.geometry.attributes.position,verts=points.flat();
@@ -184,7 +194,9 @@ function tick(now){
     if(!state.paracaidas&&before.dist<900){const ahead=routeSamples[Math.min(routeSamples.length-1,before.i+2)],want=Math.atan2(-(ahead.x-state.x),-(ahead.z-state.z));let turn=((want-state.yaw+Math.PI*3)%(Math.PI*2))-Math.PI;state.yaw+=Math.max(-.55*dt,Math.min(.55*dt,turn));}
     actualizarVuelo(state,input,dt);
     const seg=tramo(state);const ground=altura(state.x,state.z);
-    if(!state.paracaidas&&puedeResolverChoque(elapsed,start,state)&&(state.y<=ground+18||seg.dist>540)){const pared=seg.dist>540;resolverChoque(state,ground+18,pared);aviso(`${pared?'¡Pared del cañón!':'¡Terreno!'} Regresas al último aro`,1.8);}
+    if(!state.paracaidas&&puedeResolverChoque(elapsed,start,state)&&(state.y<=ground+9||seg.dist>540)){const pared=seg.dist>540;resolverChoque(state,ground+9,pared);aviso(`${pared?'¡Pared del cañón!':'¡Terreno!'} Regresas al último aro`,1.8);}
+    const cercaDelSuelo=multiplicadorAltura(state.y-ground);
+    state.score+=Math.round(dt*state.velocidad*.12*cercaDelSuelo);
     if(!state.paracaidas&&registrarRozon(state,Math.abs(470-seg.dist),96))aviso('¡Rozón! +100',1.2);
     if(Math.abs(470-seg.dist)>135)state.rozon=false;
     if(nextRing<rings.length&&state.x**2+state.z**2>=-1){const r=rings[nextRing],d=Math.hypot(state.x-r.position.x,state.y-r.position.y,state.z-r.position.z);if(d<95){guardarCheckpoint(state,r.userData.point);nextRing++;aviso('¡Aro! +250',1.5);}}
@@ -198,8 +210,9 @@ function tick(now){
       actualizarPanel(questWings.inner,[[0,head.y-1.05,head.z],[0,head.y-1.75,head.z-.05],leftLeg,rightLeg]);
     }
     camera.rotation.x=mode==='quest'?0:state.pitch*.16-.44;camera.rotation.z=mode==='quest'?0:-state.roll*.08;
-    const sp=Math.round(state.velocidad);$('velocidad').textContent=`${sp} m/s`;$('puntos').textContent=`${state.score.toLocaleString('es-MX')} puntos`;$('progreso').textContent=state.paracaidas?'Paracaídas · al río':`Cañón · ${Math.round(progress*100)}% · aro ${nextRing}/8`;
-    if(sp>46)document.body.classList.add('rapido');else document.body.classList.remove('rapido');viento(state.velocidad);
+    const sp=Math.round(state.velocidad),fov=mode==='quest'?74:74+Math.max(0,state.velocidad-38)*.48;if(Math.abs(camera.fov-fov)>.1){camera.fov=fov;camera.updateProjectionMatrix();}
+    $('velocidad').textContent=`${sp} m/s`;$('puntos').textContent=`${state.score.toLocaleString('es-MX')} puntos`;$('progreso').textContent=state.paracaidas?'Paracaídas · al río':`Cañón · ${Math.round(progress*100)}% · aro ${nextRing}/8${cercaDelSuelo>1?` · ×${cercaDelSuelo.toFixed(1)} bajo`:''}`;
+    if(sp>46)document.body.classList.add('rapido');else document.body.classList.remove('rapido');avanzarEstelas(dt,state.velocidad);viento(state.velocidad,state.pitch);
     if(elapsed>messageUntil)$('mensaje').style.opacity='0';
   }
   renderer.render(scene,camera);
