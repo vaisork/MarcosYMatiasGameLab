@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import {
   crearEstadoGallinas,
   actualizarHuida,
@@ -127,6 +128,13 @@ function crearModeloGallina() {
   return { grupo, cuerpo, cabeza, alaIzq, alaDer, red, corazones };
 }
 
+function texturaMadera(color, sombra) {
+  const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d');x.fillStyle=color;x.fillRect(0,0,256,256);let seed=8;const rnd=()=>((seed=(seed*1664525+1013904223)>>>0)/4294967296);
+  for(let i=0;i<8;i++){const px=i*32;x.fillStyle=i%2?'rgba(255,220,185,.1)':'rgba(50,15,12,.14)';x.fillRect(px,0,2,256);x.fillStyle='#202326';for(const y of [18,235]){x.beginPath();x.arc(px+8+rnd()*14,y,2.5,0,Math.PI*2);x.fill();}}
+  for(let i=0;i<55;i++){x.strokeStyle=sombra+(i%3===0?'88':'44');x.lineWidth=1+rnd()*2;x.beginPath();const px=rnd()*256,py=rnd()*256;x.moveTo(px,py);x.bezierCurveTo(px-4,py+12,px+4,py+22,px,py+38);x.stroke();}
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;return t;
+}
+
 export default {
   id: 'gallinas',
   nombre: 'Gallinas Escapistas',
@@ -135,6 +143,7 @@ export default {
   crear(grupo, util) {
     // Terreno pradera
     util.plataforma(0, -0.25, 0, 44, 0.5, 44, 0x4a7c39);
+    new GLTFLoader().load('modelos/gallinas_granero_r8.glb',({scene})=>{const rojo=texturaMadera('#c62828','#7b1717'),madera=texturaMadera('#795548','#3e2723');scene.traverse(o=>{if(!o.isMesh)return;for(const m of Array.isArray(o.material)?o.material:[o.material])if(m?.name==='barn red'||m?.name==='warm timber'){m.map=m.name==='barn red'?rojo:madera;m.color.set(0xffffff);m.needsUpdate=true;}});scene.position.set(0,0,-28);grupo.add(scene);},undefined,e=>console.error('No se pudo cargar el granero de Gallinas',e));
 
     // Corral delimitado: x: [-5.5, 5.5], z: [-14.5, -5.5]
     const corralBounds = { minX: -5.5, maxX: 5.5, minZ: -14.5, maxZ: -5.5 };
@@ -150,6 +159,7 @@ export default {
       const poste = new THREE.Mesh(new THREE.BoxGeometry(0.24, 1.4, 0.24), matMadera);
       poste.position.set(x, 0.7, -14.5);
       grupo.add(poste);
+      const punta=new THREE.Mesh(new THREE.ConeGeometry(.17,.34,4),matMadera);punta.position.set(x,1.55,-14.5);grupo.add(punta);
     }
     for (const h of [0.5, 1.0]) {
       const riel = new THREE.Mesh(new THREE.BoxGeometry(11.2, 0.15, 0.1), matRiel);
@@ -163,6 +173,7 @@ export default {
         const poste = new THREE.Mesh(new THREE.BoxGeometry(0.24, 1.4, 0.24), matMadera);
         poste.position.set(side, 0.7, z);
         grupo.add(poste);
+        const punta=new THREE.Mesh(new THREE.ConeGeometry(.17,.34,4),matMadera);punta.position.set(side,1.55,z);grupo.add(punta);
       }
       for (const h of [0.5, 1.0]) {
         const riel = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.15, 9.2), matRiel);
@@ -176,6 +187,7 @@ export default {
       const poste = new THREE.Mesh(new THREE.BoxGeometry(0.24, 1.4, 0.24), matMadera);
       poste.position.set(x, 0.7, -5.5);
       grupo.add(poste);
+      const punta=new THREE.Mesh(new THREE.ConeGeometry(.17,.34,4),matMadera);punta.position.set(x,1.55,-5.5);grupo.add(punta);
     }
     for (const h of [0.5, 1.0]) {
       const rielIzq = new THREE.Mesh(new THREE.BoxGeometry(3.8, 0.15, 0.1), matRiel);

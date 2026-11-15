@@ -2,13 +2,32 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { objetivoSenku2 } from './objetivos.mjs';
 
+function texturaPista(){
+  const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d');x.fillStyle='#77736b';x.fillRect(0,0,256,256);
+  for(let i=0;i<256;i+=32){x.fillStyle=i%64?'#26272b':'#eee9d8';x.fillRect(i,0,32,18);x.fillRect(i,238,32,18);}
+  for(let i=-256;i<512;i+=28){x.strokeStyle='#f6c52b';x.lineWidth=10;x.beginPath();x.moveTo(i,256);x.lineTo(i+256,0);x.stroke();x.strokeStyle='#e53935';x.lineWidth=5;x.beginPath();x.moveTo(i+12,256);x.lineTo(i+268,0);x.stroke();}
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(2,2);return t;
+}
+function gradas(g,z,y){
+  const concreto=new THREE.MeshLambertMaterial({color:0xcfcbbe}),rojo=new THREE.MeshLambertMaterial({color:0xe53935}),blanco=new THREE.MeshLambertMaterial({color:0xffffff});
+  for(const side of [-1,1]){const x=side*4.75;
+    for(let n=0;n<3;n++){const b=new THREE.Mesh(new THREE.BoxGeometry(2.8,.35,4.6-n*.55),concreto);b.position.set(x,y+.25+n*.35,z);g.add(b);}
+    const toldo=new THREE.Mesh(new THREE.BoxGeometry(3.1,.16,5),rojo);toldo.position.set(x,y+1.45,z);g.add(toldo);
+    for(let k=0;k<6;k++){const f=new THREE.Mesh(new THREE.BoxGeometry(.25,.04,5),blanco);f.position.set(x-1.55+k*.62,y+1.54,z);g.add(f);}
+    for(const dz of [-2,2]){const post=new THREE.Mesh(new THREE.CylinderGeometry(.06,.07,1.6,6),blanco);post.position.set(x,y+.75,z+dz);g.add(post);}
+  }
+}
+
 export default {
   id: 'senku2',
   nombre: 'Pista Senku 2',
   ambiente: { cielo: 0x4aa5e6, suelo: 0xf5b565, niebla: 0x8ed0f8 },
   crear(g, u) {
-    u.plataforma(0, -0.25, 0, 12, 0.5, 12, 0xef9a48);
-    u.plataforma(0, 1.5, -96, 14, 0.5, 14, 0xef9a48);
+    const textura=texturaPista();
+    const salida=u.plataforma(0, -0.25, 0, 12, 0.5, 12, 0xef9a48), llegada=u.plataforma(0, 1.5, -96, 14, 0.5, 14, 0xef9a48);
+    for(const p of [salida,llegada])p.material=new THREE.MeshLambertMaterial({color:0xffffff,map:textura});
+    gradas(g,0,-.1);gradas(g,-96,1.65);
+    new GLTFLoader().load('modelos/senku2_escenario_r8.glb',({scene})=>g.add(scene),undefined,e=>console.error('No se pudo cargar el escenario Senku 2',e));
 
     const aros = [];
     const matAro = new THREE.MeshLambertMaterial({ color: 0x00d4ff, emissive: 0x006477, emissiveIntensity: .85 });
