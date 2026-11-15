@@ -4,11 +4,11 @@ Juego web de vuelo en traje de ardilla por la Barranca del Cobre. Sirve desde la
 
 ## Controles
 
-- **Meta Quest 3:** WebXR; brazos abiertos para planear, alabeo con un brazo arriba y otro abajo, ambos al frente para picar.
-- **Celular:** inclinación del teléfono para girar y levantar/picar; botón **Saltar** para dar un impulso vertical.
-- **Computadora:** WASD o flechas para inclinar y girar; mouse arrastrado para dirigir; espacio para saltar.
+- **Meta Quest 3:** manos a la altura de hombros para planear; abajo y al frente para picar; arriba para levantar. Diferencia de altura entre manos para girar. Palancas: Y adelante para picar y X para girar. Gatillo da impulso.
+- **Celular:** al tocar **Volar** se calibra la postura actual; inclinar el teléfono hacia adelante baja y girarlo vira. **Saltar** da impulso vertical.
+- **Computadora:** S/↓ baja, W/↑ sube, A/D/←/→ giran. Mouse abajo baja y arriba sube, con o sin clic; teclas y mouse se suman.
 
-La física está en `fisica.mjs` y sus pruebas focales en `tests/`. El generador `herramientas/crear-terreno.py` usa Pillow ya disponible y las fuentes locales autorizadas; no descarga datos. Heightmap final: 512×768 muestras Terrarium a 38 m/píxel, alturas ×1.2. Malla: 256×384 vértices (195,330 triángulos), sin sombras dinámicas.
+En neutro el vuelo desciende cerca de 3:1; picar acelera hasta 85 m/s y levantar frena hasta 25 m/s. Volar a menos de 60 m del terreno aumenta el puntaje hasta ×2. La física y los mapeos puros están en `fisica.mjs`, con pruebas focales en `tests/`. El generador `herramientas/crear-terreno.py` usa Pillow ya disponible y las fuentes locales autorizadas; no descarga datos. Heightmap final: 512×768 muestras Terrarium a 38 m/píxel, alturas ×1.2. Malla: 256×384 vértices (195,330 triángulos), sin sombras dinámicas.
 
 ## Fuentes
 
