@@ -1,6 +1,6 @@
 # Arquitectura técnica — Guerra de Clanes
 
-Estado: propuesta de fase 1, 14/11/2026. La demo mide render y simulación local; no demuestra todavía rendimiento en teléfono real ni prepara conexión multijugador.
+Estado: prototipo local de fase 2, 15/11/2026. `src/render/three-view.mjs` usa Three.js 0.180.0 desde CDN; la simulación sigue en módulos puros y sin dependencias gráficas. La página `?prueba=200` muestra FPS locales; no certifica rendimiento en teléfonos reales ni prepara conexión multijugador.
 
 ## Plataforma y módulos
 
@@ -20,11 +20,11 @@ Estado: propuesta de fase 1, 14/11/2026. La demo mide render y simulación local
 
 ## Render 3D y presupuesto
 
-- Reutilizar geometrías y materiales. `InstancedMesh` para cada combinación de malla/material animada; agrupar por clan, modelo y nivel de daño. Variar pose con matrices por instancia; animaciones sencillas en shader o pocos clips compartidos.
+- Reutilizar geometrías y materiales. El prototipo agrupa celdas de terreno, agua, árboles y piezas por modelo con `InstancedMesh`; entidades fuera del frustum no actualizan matrices. Niebla cambia al revelar celdas, no cada frame. No hay sombras dinámicas ni LOD todavía.
 - Toon con `MeshToonMaterial` y rampa de cuatro tonos; contorno por extrusión de normales en back faces, solo en siluetas principales. No duplicar contorno en follaje pequeño ni cada accesorio.
-- Cámara ortográfica inclinada, culling por frustum y sectores. LOD de tres niveles: modelo completo cerca, silueta compacta a media distancia, icono/sombra en lejos; unidades invisibles fuera de vista no actualizan animación secundaria.
-- Iluminación horneada o hemisférica; una luz direccional, sin sombras dinámicas por unidad. Sombras de blobs en instancias y sombra de terreno ligera. Evitar postprocesado caro en móvil.
-- Objetivo fase 1: 200 unidades visibles, 30 FPS sostenidos en Android de gama media de referencia, a resolución interna 0.8–1.0 y sin bajar de 24 FPS en escenas densas. Medir dispositivo, navegador, tamaño, temperatura, FPS mediano y percentil 1%; no presentar una captura de escritorio como dato móvil.
+- Cámara ortográfica isométrica a 35°, centrada en el Nido al iniciar. Zoom inicial encuadra cerca de 14×10 celdas; el mínimo muestra el mapa completo. Unidades visibles conservan silueta de 0.6–0.9 celdas.
+- Iluminación hemisférica y direccional, sin sombras dinámicas. Evitar postprocesado caro en móvil; pixel ratio máximo 1.5.
+- Objetivo de prueba: 200 unidades y al menos 30 FPS. Este cambio añade culling por frustum y reduce actualizaciones de niebla; falta medirlo en Intel HD 5500. Registrar dispositivo, navegador, resolución, duración, mediana y percentil 1%; una captura no certifica rendimiento.
 - Presupuesto inicial por frame a 30 FPS: render GPU ≤22 ms; actualización de simulación ≤8 ms para 200 actores; interfaz/audio ≤3 ms; margen restante para GC y sistema. Límite de draw calls objetivo ≤80, memoria GPU ≤180 MB en móvil. Revalidar con arte final.
 - Adaptación: bajar primero resolución interna y LOD; después follaje y partículas; conservar tamaño de texto, contraste y feedback de selección.
 
