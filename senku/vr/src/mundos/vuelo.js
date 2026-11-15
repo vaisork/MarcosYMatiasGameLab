@@ -119,9 +119,19 @@ export default {
     const rayos = new THREE.Group(); rayos.position.set(0,19,-125);
     for (let i=0;i<16;i++) { const a=i*Math.PI/8, r=21; const punta=new THREE.Mesh(new THREE.ConeGeometry(.65, 3.2, 5), new THREE.MeshBasicMaterial({ color: 0xffb74d, transparent: true, opacity: .72, fog: false })); punta.position.set(Math.sin(a)*r,Math.cos(a)*r,0); punta.rotation.z=-a; rayos.add(punta); }
     g.add(rayos);
-    const marNubes = new THREE.Group();
-    const nubeBaja = new THREE.MeshLambertMaterial({ color: 0xffccbc }), nubeLila = new THREE.MeshLambertMaterial({ color: 0xce93d8 });
-    for(let i=0;i<32;i++) { const x=((i*37)%90)-45, z=-110+((i*29)%145), r=2.4+(i%4)*.55; const puff=new THREE.Mesh(new THREE.SphereGeometry(r,8,6),i%3?nubeBaja:nubeLila); puff.scale.set(1.6,.48,1); puff.position.set(x,-17+(i%3)*.7,z); marNubes.add(puff); }
+    const marNubes = new THREE.Group(), nubeGeo = new THREE.SphereGeometry(3, 8, 6);
+    const nubeMats = [0xffccbc, 0xe1bee7, 0xffffff].map((color) => new THREE.MeshLambertMaterial({ color }));
+    const dummyNube = new THREE.Object3D();
+    for (let color = 0; color < 3; color++) {
+      const nubes = new THREE.InstancedMesh(nubeGeo, nubeMats[color], 24);
+      nubes.castShadow = nubes.receiveShadow = false;
+      for (let j = 0; j < 24; j++) {
+        const i = j * 3 + color, col = i % 9, row = Math.floor(i / 9);
+        dummyNube.position.set(-40 + col * 10 + (row % 2) * 2.5, -22 + (i % 3) * .22, -112 + row * 16);
+        dummyNube.scale.set(2.2, .45, 1.8); dummyNube.rotation.y = (i % 5) * .3; dummyNube.updateMatrix(); nubes.setMatrixAt(j, dummyNube.matrix);
+      }
+      marNubes.add(nubes);
+    }
     g.add(marNubes);
 
     // Plataforma base donde aparece la jugadora y el aro de retorno
@@ -132,6 +142,11 @@ export default {
       const suelo = u.plataforma(x, y, z, w, h, w, [0x8be5a0,0x9be8b0,0xa3ebb6,0x9be8b0,0xa3ebb6,0xb0f0c0][idx]);
       suelo.visible = false;
     });
+    const rocaSat = new THREE.MeshLambertMaterial({ color: 0x596c75 }), cristalSat = new THREE.MeshLambertMaterial({ color: 0x80deea, emissive: 0x00bcd4, emissiveIntensity: .8 });
+    for (const [x,y,z] of [[-4,1,-4],[4,1,-4],[-4,.8,4],[4,1.2,4]]) {
+      const roca = new THREE.Mesh(new THREE.ConeGeometry(1.15, 2.1, 6), rocaSat); roca.rotation.x = Math.PI; roca.position.set(x,y,z); g.add(roca);
+      const cristal = new THREE.Mesh(new THREE.OctahedronGeometry(.35, 0), cristalSat); cristal.position.set(x,y+.35,z); g.add(cristal);
+    }
     new GLTFLoader().load('modelos/vuelo_islas_r8.glb',({scene})=>islas.forEach(([x,y,z,w,h])=>{
       const isla=scene.clone(true);isla.position.set(x,y+h/2-.75,z);isla.scale.setScalar(w/9.4);g.add(isla);
     }),undefined,e=>console.error('No se pudieron cargar las islas flotantes',e));

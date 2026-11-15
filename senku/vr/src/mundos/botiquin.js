@@ -43,11 +43,11 @@ export default {
       const ctx = lienzo.getContext('2d'); ctx.font = 'bold 108px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillStyle = '#c62828'; ctx.fillText('CLÍNICA SENKU', 512, 100);
       const rotulo = new THREE.Mesh(new THREE.PlaneGeometry(4.35, .72), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(lienzo), transparent: true, side: THREE.DoubleSide }));
-      rotulo.material.map.colorSpace = THREE.SRGBColorSpace; rotulo.position.set(-.05, 3.9, -9.02); g.add(rotulo);
+      rotulo.material.map.colorSpace = THREE.SRGBColorSpace; rotulo.position.set(-.05, 2.4, -7.48); g.add(rotulo);
       g.add(scene);
     }, undefined, (e) => console.error('No se pudo cargar la clínica r9', e));
     const mosaicos = new THREE.TextureLoader().load(new URL('../../texturas/mundos/clinica_pared_azulejos.webp', import.meta.url).href);
-    mosaicos.wrapS = mosaicos.wrapT = THREE.RepeatWrapping; mosaicos.repeat.set(3, 1); mosaicos.colorSpace = THREE.SRGBColorSpace;
+    mosaicos.wrapS = mosaicos.wrapT = THREE.RepeatWrapping; mosaicos.repeat.set(16, 3); mosaicos.colorSpace = THREE.SRGBColorSpace;
     const muroMat = new THREE.MeshLambertMaterial({ color: 0xffffff, map: mosaicos });
     const pared = (x,y,z,sx,sy,sz) => { const m = u.plataforma(x,y,z,sx,sy,sz,0xe8f8f4); m.material = muroMat; return m; };
     pared(0, 2, -10, 24, 4, 0.6); pared(-12, 2, -1, 0.6, 4, 18); pared(12, 2, -1, 0.6, 4, 18);
@@ -72,11 +72,11 @@ export default {
       const horizontal = new THREE.Mesh(new THREE.BoxGeometry(3.45, .1, .12), marco); horizontal.position.set(x, 2.55, -9.48); g.add(horizontal);
     }
     const letrero = new THREE.Group(), cruz = mat(0xff1744, { emissive: 0x7f001b, emissiveIntensity: .35 });
-    const placa = new THREE.Mesh(new THREE.BoxGeometry(2.4, .72, .16), mat(0x80deea)); placa.position.set(0, 3.15, -9.35); letrero.add(placa);
-    const cruzV = new THREE.Mesh(new THREE.BoxGeometry(.22, .52, .12), cruz); cruzV.position.set(0, 3.15, -9.22); letrero.add(cruzV);
-    const cruzH = new THREE.Mesh(new THREE.BoxGeometry(.52, .22, .12), cruz); cruzH.position.set(0, 3.15, -9.22); letrero.add(cruzH); g.add(letrero);
+    const placa = new THREE.Mesh(new THREE.BoxGeometry(.72, .72, .16), mat(0x80deea)); placa.position.set(-2.8, 2.4, -7.42); letrero.add(placa);
+    const cruzV = new THREE.Mesh(new THREE.BoxGeometry(.22, .52, .12), cruz); cruzV.position.set(-2.8, 2.4, -7.3); letrero.add(cruzV);
+    const cruzH = new THREE.Mesh(new THREE.BoxGeometry(.52, .22, .12), cruz); cruzH.position.set(-2.8, 2.4, -7.3); letrero.add(cruzH); g.add(letrero);
 
-    const camas = [[-5, 0.4, -6], [0, 0.4, -7.5], [5, 0.4, -6]];
+    const camas = [[-5, 0.4, -6], [0, 0.4, -3.8], [5, 0.4, -6]];
     // Mostrador clínico acolchado.
     const mostrador = u.plataforma(0, 0.4, -1, 5, 0.8, 1.4, 0xffffff);
     mostrador.visible = false;
@@ -91,6 +91,23 @@ export default {
         if (cama) { cama.position.set(x, 0, z); cama.scale.y = .88; g.add(cama); }
       });
     });
+
+    // Atrezzo médico sencillo y legible desde el punto de entrada.
+    const monitor = new THREE.Group();
+    const carcasa = new THREE.Mesh(new THREE.BoxGeometry(.58, .43, .22), mat(0xeaf8f5)); carcasa.position.y = .96; monitor.add(carcasa);
+    const marcoMonitor = new THREE.Mesh(new THREE.BoxGeometry(.49, .34, .035), mat(0x36545b)); marcoMonitor.position.set(0, .98, .13); monitor.add(marcoMonitor);
+    const ekg = new THREE.TextureLoader().load(new URL('../../texturas/mundos/clinica_monitor_ekg.webp', import.meta.url).href); ekg.colorSpace = THREE.SRGBColorSpace;
+    const pantalla = new THREE.Mesh(new THREE.PlaneGeometry(.44, .29), new THREE.MeshBasicMaterial({ map: ekg })); pantalla.position.set(0, .98, .151); monitor.add(pantalla);
+    const baseMonitor = new THREE.Mesh(new THREE.CylinderGeometry(.1, .15, .16, 8), mat(0x94aeb0)); baseMonitor.position.set(0, .72, 0); monitor.add(baseMonitor);
+    monitor.position.set(-.72, 0, -1.52); g.add(monitor);
+    const jarabe = new THREE.Mesh(new THREE.CylinderGeometry(.09, .12, .28, 10), new THREE.MeshLambertMaterial({ color: 0xe91e63, emissive: 0x4a001b, transparent: true, opacity: .82 }));
+    jarabe.position.set(.18, .91, -1.5); g.add(jarabe);
+    const tapaJarabe = new THREE.Mesh(new THREE.CylinderGeometry(.055, .055, .09, 8), mat(0xffcdd2)); tapaJarabe.position.set(.18, 1.095, -1.5); g.add(tapaJarabe);
+    const pastillas = new THREE.Group();
+    const bote = new THREE.Mesh(new THREE.CylinderGeometry(.1, .12, .22, 10), mat(0xfff8e1)); bote.position.y = .87; pastillas.add(bote);
+    const cruzBoteH = new THREE.Mesh(new THREE.BoxGeometry(.13, .045, .025), mat(0xe53935)); cruzBoteH.position.set(0, .87, .12); pastillas.add(cruzBoteH);
+    const cruzBoteV = new THREE.Mesh(new THREE.BoxGeometry(.045, .13, .025), mat(0xe53935)); cruzBoteV.position.set(0, .87, .12); pastillas.add(cruzBoteV);
+    pastillas.position.set(.58, 0, -1.5); g.add(pastillas);
 
     const curitas = [];
     const matCurita = mat(0xffe2b8), matCruz = mat(0xef4444);
