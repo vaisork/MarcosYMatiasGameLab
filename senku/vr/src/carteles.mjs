@@ -19,7 +19,7 @@ export const CARTELES = Object.freeze([
   cartel('grieta-madre', 'grieta-madre.webp', ['LA GRIETA MADRE', '¿Qué habrá del otro lado?'], { ubicacion: [2, 0], nuevo: true, techo: true, giro: true }),
   cartel('churus-azotea', 'churus.webp', ['¡CHURUS!', 'Energía para columpiarte'], { ubicacion: [2, 1], techo: true }),
   cartel('busqueda-sur', 'busqueda.webp', ['¡AYÚDANOS A BUSCAR!', 'Gato mecánico perdido'], { ubicacion: [1, 2] }),
-  cartel('senku2-sur', 'senku2.webp', ['SENKU 2', '¡Aventura en cada azotea!'], { ubicacion: [0, 2], techo: true }),
+  cartel('senku2-sur', 'gallinas.webp', ['GALLINAS ESCAPISTAS', '¡Atrapa con telaraña y salva el corral!'], { ubicacion: [0, 2], techo: true }),
   cartel('taqueria-sur', 'taqueria.webp', ['TAQUERÍA', '¡Pasa por unos tacos!'], { ubicacion: [-1, 2], kiosco: true }),
   cartel('neon-oeste', 'neon.webp', ['SENKU', '¡La noche se ilumina!'], { ubicacion: [-2, 1], neon: true }),
   cartel('vaisgard-oeste', 'vaisgard.webp', ['VAISGARD RPG', 'Tu próxima aventura'], { ubicacion: [-2, 0], techo: true }),

@@ -47,7 +47,7 @@ Choca con el cuerpo contra un cartel para entrar; la garra solo se engancha en �
 | rata-taqueria | Cocina de la Rata |
 | columpia-estilo | Pista de Trucos |
 | senku2 | Pista Senku 2 |
-| senku2-sur, gallinas | Gallinas Escapistas |
+| senku2-sur | Gallinas Escapistas |
 | botiquin | Clínica de Héroes |
 | grieta-madre | La Grieta Madre |
 | ultragato | Poder Ultra Gato; no abre mundo |
