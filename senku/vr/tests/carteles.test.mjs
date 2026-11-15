@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import { stat } from 'node:fs/promises';
 import { CARTELES, CARTEL_ANIMACION } from '../src/carteles.mjs';
 
-test('la ciudad ofrece veinte anuncios sobre catorce texturas WebP ligeras', async () => {
+test('la ciudad ofrece veinte anuncios sobre quince texturas WebP ligeras', async () => {
   assert.equal(CARTELES.length, 20);
-  assert.equal(new Set(CARTELES.map(({ textura }) => textura)).size, 14);
+  assert.equal(new Set(CARTELES.map(({ textura }) => textura)).size, 15);
   assert.equal(CARTELES.filter(({ nuevo }) => nuevo).length, 6);
   assert.equal(CARTELES.filter(({ neon }) => neon).length, 3);
   assert.equal(CARTELES.filter(({ marquesina }) => marquesina).length, 3);

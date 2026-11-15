@@ -46,14 +46,11 @@ Choca con el cuerpo contra un cartel para entrar; la garra solo se engancha en �
 | fs-gato | Pecera Cielo |
 | rata-taqueria | Cocina de la Rata |
 | columpia-estilo | Pista de Trucos |
-| senku2, senku2-sur | Sin mundo asignado |
-| ultragato | Poder Ultra Gato; no abre mundo |
-| botiquin, grieta-madre | Sin mundo asignado |
-| senku2, senku2-sur | Pista Senku 2 |
+| senku2 | Pista Senku 2 |
+| senku2-sur | Gallinas Escapistas |
 | botiquin | Clínica de Héroes |
 | grieta-madre | La Grieta Madre |
 | ultragato | Poder Ultra Gato; no abre mundo |
-| marcos-uv, fs-gato, rata-taqueria, columpia-estilo | Sin mundo asignado |
 
 En **Cielo de Vuelo**, PC y celular activan el vuelo con doble salto; en VR,
 junta y separa las manos. Completa los 10 churus en un vuelo sin aterrizar ni
