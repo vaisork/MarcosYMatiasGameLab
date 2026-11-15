@@ -15,6 +15,8 @@ function gradas(g,z,y){
     const toldo=new THREE.Mesh(new THREE.BoxGeometry(3.1,.16,5),rojo);toldo.position.set(x,y+1.45,z);g.add(toldo);
     for(let k=0;k<6;k++){const f=new THREE.Mesh(new THREE.BoxGeometry(.25,.04,5),blanco);f.position.set(x-1.55+k*.62,y+1.54,z);g.add(f);}
     for(const dz of [-2,2]){const post=new THREE.Mesh(new THREE.CylinderGeometry(.06,.07,1.6,6),blanco);post.position.set(x,y+.75,z+dz);g.add(post);}
+    const tonos=[0xe53935,0xffca28,0x1e88e5];
+    for(let fila=0;fila<3;fila++)for(let k=0;k<5;k++){const asiento=new THREE.Mesh(new THREE.BoxGeometry(.42,.2,.48),new THREE.MeshLambertMaterial({color:tonos[(fila+k)%3]}));asiento.position.set(x,y+.48+fila*.35,z-1.55+k*.76);g.add(asiento);}
   }
 }
 
@@ -27,6 +29,17 @@ export default {
     const salida=u.plataforma(0, -0.25, 0, 12, 0.5, 12, 0xef9a48), llegada=u.plataforma(0, 1.5, -96, 14, 0.5, 14, 0xef9a48);
     for(const p of [salida,llegada])p.material=new THREE.MeshLambertMaterial({color:0xffffff,map:textura});
     gradas(g,0,-.1);gradas(g,-96,1.65);
+    const cielo = new THREE.TextureLoader().load(new URL('../../texturas/mundos/senku2_cielo_atardecer_r9.webp', import.meta.url).href);
+    cielo.colorSpace = THREE.SRGBColorSpace;
+    const horizonte = new THREE.Mesh(new THREE.SphereGeometry(210, 32, 20), new THREE.MeshBasicMaterial({ map: cielo, side: THREE.BackSide, fog: false, depthWrite: false }));
+    horizonte.renderOrder = -2; g.add(horizonte);
+    new GLTFLoader().load('modelos/senku2_cordillera_r9.glb', ({ scene }) => {
+      g.add(scene);
+      const lienzo = document.createElement('canvas'); lienzo.width = 1024; lienzo.height = 160;
+      const ctx = lienzo.getContext('2d'); ctx.fillStyle = '#e53935'; ctx.fillRect(0, 0, 1024, 160); ctx.font = 'bold 100px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#ffffff'; ctx.fillText('SENKU RACING', 512, 80);
+      const titulo = new THREE.Mesh(new THREE.PlaneGeometry(5.4, .84), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(lienzo), side: THREE.DoubleSide }));
+      titulo.material.map.colorSpace = THREE.SRGBColorSpace; titulo.position.set(0, 5.25, -1.98); g.add(titulo);
+    }, undefined, (e) => console.error('No se pudo cargar la cordillera r9', e));
     new GLTFLoader().load('modelos/senku2_escenario_r8.glb',({scene})=>g.add(scene),undefined,e=>console.error('No se pudo cargar el escenario Senku 2',e));
 
     const aros = [];

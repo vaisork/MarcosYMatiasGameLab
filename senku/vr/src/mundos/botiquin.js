@@ -27,6 +27,25 @@ export default {
   ambiente: { cielo: 0xd4f3e6, suelo: 0xebfaf2, niebla: 0xdff5eb },
   crear(g, u) {
     u.plataforma(0, -0.25, 0, 32, 0.5, 32, 0xdef0e5);
+    const pisoTex = new THREE.TextureLoader().load(new URL('../../texturas/mundos/clinica_suelo_linoleo.webp', import.meta.url).href);
+    pisoTex.colorSpace = THREE.SRGBColorSpace; pisoTex.wrapS = pisoTex.wrapT = THREE.RepeatWrapping; pisoTex.repeat.set(8, 8);
+    const piso = new THREE.Mesh(new THREE.PlaneGeometry(32, 32), new THREE.MeshLambertMaterial({ map: pisoTex }));
+    piso.rotation.x = -Math.PI / 2; piso.position.y = 0.012; g.add(piso);
+    const cruzPiso = new THREE.Group();
+    const cruzRoja = mat(0xe53935), cruzBlanca = mat(0xffffff);
+    for (const [w,d,m] of [[2.5,.75,cruzBlanca],[.75,2.5,cruzBlanca],[1.9,.42,cruzRoja],[.42,1.9,cruzRoja]]) {
+      const parte = new THREE.Mesh(new THREE.PlaneGeometry(w,d),m); parte.rotation.x=-Math.PI/2; parte.position.set(0,.018,-2.5); cruzPiso.add(parte);
+    }
+    g.add(cruzPiso);
+    new GLTFLoader().load('modelos/botiquin_clinica_r9.glb', ({ scene }) => {
+      scene.traverse((o) => { if (!o.isMesh) return; const convertir = (m) => new THREE.MeshLambertMaterial({ color: m.color, emissive: m.emissive, emissiveIntensity: m.emissiveIntensity }); o.material = Array.isArray(o.material) ? o.material.map(convertir) : convertir(o.material); });
+      const lienzo = document.createElement('canvas'); lienzo.width = 1024; lienzo.height = 192;
+      const ctx = lienzo.getContext('2d'); ctx.font = 'bold 108px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#c62828'; ctx.fillText('CLÍNICA SENKU', 512, 100);
+      const rotulo = new THREE.Mesh(new THREE.PlaneGeometry(4.35, .72), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(lienzo), transparent: true, side: THREE.DoubleSide }));
+      rotulo.material.map.colorSpace = THREE.SRGBColorSpace; rotulo.position.set(-.05, 3.9, -9.02); g.add(rotulo);
+      g.add(scene);
+    }, undefined, (e) => console.error('No se pudo cargar la clínica r9', e));
     const mosaicos = new THREE.TextureLoader().load(new URL('../../texturas/mundos/clinica_pared_azulejos.webp', import.meta.url).href);
     mosaicos.wrapS = mosaicos.wrapT = THREE.RepeatWrapping; mosaicos.repeat.set(3, 1); mosaicos.colorSpace = THREE.SRGBColorSpace;
     const muroMat = new THREE.MeshLambertMaterial({ color: 0xffffff, map: mosaicos });

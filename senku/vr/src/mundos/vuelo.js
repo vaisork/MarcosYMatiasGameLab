@@ -107,9 +107,28 @@ export default {
   ambiente: { cielo: 0xff7043, suelo: 0x311b92, niebla: 0xffa270 },
 
   crear(g, u) {
+    const cielo = new THREE.TextureLoader().load(new URL('../../texturas/mundos/vuelo_cielo_dia_r9.webp', import.meta.url).href);
+    cielo.colorSpace = THREE.SRGBColorSpace;
+    const esferaCielo = new THREE.Mesh(new THREE.SphereGeometry(280, 36, 24), new THREE.MeshBasicMaterial({ map: cielo, side: THREE.BackSide, fog: false, depthWrite: false }));
+    esferaCielo.renderOrder = -2; g.add(esferaCielo);
+    const praderaTex = new THREE.TextureLoader().load(new URL('../../texturas/mundos/vuelo_isla_cesped.webp', import.meta.url).href);
+    praderaTex.colorSpace = THREE.SRGBColorSpace; praderaTex.wrapS = praderaTex.wrapT = THREE.RepeatWrapping;
+    const praderaMat = new THREE.MeshLambertMaterial({ map: praderaTex });
+    const sol = new THREE.Mesh(new THREE.CircleGeometry(18, 40), new THREE.MeshBasicMaterial({ color: 0xfff176, emissive: 0xffb74d, emissiveIntensity: .45, side: THREE.DoubleSide, fog: false }));
+    sol.position.set(0, 19, -125); g.add(sol);
+    const rayos = new THREE.Group(); rayos.position.set(0,19,-125);
+    for (let i=0;i<16;i++) { const a=i*Math.PI/8, r=21; const punta=new THREE.Mesh(new THREE.ConeGeometry(.65, 3.2, 5), new THREE.MeshBasicMaterial({ color: 0xffb74d, transparent: true, opacity: .72, fog: false })); punta.position.set(Math.sin(a)*r,Math.cos(a)*r,0); punta.rotation.z=-a; rayos.add(punta); }
+    g.add(rayos);
+    const marNubes = new THREE.Group();
+    const nubeBaja = new THREE.MeshLambertMaterial({ color: 0xffccbc }), nubeLila = new THREE.MeshLambertMaterial({ color: 0xce93d8 });
+    for(let i=0;i<32;i++) { const x=((i*37)%90)-45, z=-110+((i*29)%145), r=2.4+(i%4)*.55; const puff=new THREE.Mesh(new THREE.SphereGeometry(r,8,6),i%3?nubeBaja:nubeLila); puff.scale.set(1.6,.48,1); puff.position.set(x,-17+(i%3)*.7,z); marNubes.add(puff); }
+    g.add(marNubes);
+
     // Plataforma base donde aparece la jugadora y el aro de retorno
     const islas = [[0,-.25,0,10,.5],[14,4,-14,8,.6],[-16,7,-10,9,.6],[10,10,12,7,.6],[-12,11,14,8,.6],[0,15,-24,10,.6]];
     islas.forEach(([x,y,z,w,h], idx) => {
+      const pradera = new THREE.Mesh(new THREE.PlaneGeometry(w-.35,w-.35), praderaMat);
+      pradera.rotation.x = -Math.PI / 2; pradera.position.set(x,y+h/2+.012,z); g.add(pradera);
       const suelo = u.plataforma(x, y, z, w, h, w, [0x8be5a0,0x9be8b0,0xa3ebb6,0x9be8b0,0xa3ebb6,0xb0f0c0][idx]);
       suelo.visible = false;
     });
@@ -198,7 +217,7 @@ export default {
 
     return {
       churus,
-      nubes,
+      nubes, marNubes, rayos,
       recogidos: new Set(),
       dificultad: dificultadVuelo(0),
       ...crearEstadoControlVuelo(),
@@ -211,6 +230,9 @@ export default {
 
   actualizar(s, dt, ctx) {
     s.reloj += dt;
+
+    s.marNubes.position.x = Math.sin(s.reloj * .035) * 1.5;
+    s.rayos.rotation.z = Math.sin(s.reloj * .16) * .025;
 
     // Animación suave de nubes
     s.nubes.forEach((n, idx) => {

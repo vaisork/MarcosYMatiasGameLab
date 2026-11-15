@@ -143,12 +143,21 @@ export default {
   crear(grupo, util) {
     // Terreno pradera
     util.plataforma(0, -0.25, 0, 44, 0.5, 44, 0x4a7c39);
+    const cesped = new THREE.TextureLoader().load(new URL('../../texturas/mundos/polyhaven_leafy_grass.webp', import.meta.url).href);
+    cesped.colorSpace = THREE.SRGBColorSpace; cesped.wrapS = cesped.wrapT = THREE.RepeatWrapping; cesped.repeat.set(5, 5);
+    const pradera = new THREE.Mesh(new THREE.PlaneGeometry(44, 44), new THREE.MeshLambertMaterial({ color: 0x8fd05a, map: cesped }));
+    pradera.rotation.x = -Math.PI / 2; pradera.position.y = .012; grupo.add(pradera);
     new GLTFLoader().load('modelos/gallinas_granero_r8.glb',({scene})=>{const rojo=texturaMadera('#c62828','#7b1717'),madera=texturaMadera('#795548','#3e2723');scene.traverse(o=>{if(!o.isMesh)return;for(const m of Array.isArray(o.material)?o.material:[o.material])if(m?.name==='barn red'||m?.name==='warm timber'){m.map=m.name==='barn red'?rojo:madera;m.color.set(0xffffff);m.needsUpdate=true;}});scene.position.set(0,0,-28);grupo.add(scene);},undefined,e=>console.error('No se pudo cargar el granero de Gallinas',e));
 
     // Corral delimitado: x: [-5.5, 5.5], z: [-14.5, -5.5]
     const corralBounds = { minX: -5.5, maxX: 5.5, minZ: -14.5, maxZ: -5.5 };
     // Suelo de paja del corral
     util.plataforma(0, 0.02, -10, 10.8, 0.05, 8.8, 0xdfbc67);
+    const paja = new THREE.TextureLoader().load(new URL('../../texturas/mundos/gallinas_suelo_paja.webp', import.meta.url).href);
+    paja.colorSpace = THREE.SRGBColorSpace; paja.wrapS = paja.wrapT = THREE.RepeatWrapping; paja.repeat.set(2, 2);
+    const pisoCorral = new THREE.Mesh(new THREE.PlaneGeometry(10.8, 8.8), new THREE.MeshLambertMaterial({ color: 0xffffff, map: paja }));
+    pisoCorral.rotation.x = -Math.PI / 2; pisoCorral.position.set(0, .052, -10); grupo.add(pisoCorral);
+    new GLTFLoader().load('modelos/gallinas_atrezzo_r9.glb', ({ scene }) => grupo.add(scene), undefined, (e) => console.error('No se pudo cargar el atrezzo rural r9', e));
 
     // Vallas del corral
     const matMadera = new THREE.MeshLambertMaterial({ color: 0x8d5b32 });
@@ -214,7 +223,7 @@ export default {
       new THREE.PlaneGeometry(3.4, 1.7),
       new THREE.MeshBasicMaterial({ map: cartelHUD.textura, side: THREE.DoubleSide })
     );
-    marcoCartel.position.set(0, 2.3, -5.5);
+    marcoCartel.position.set(-5.05, 2.25, -8.1);
     grupo.add(marcoCartel);
 
     // Comedero de gallinas en el fondo del corral
