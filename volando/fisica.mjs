@@ -1,5 +1,14 @@
 export const GRAVEDAD = 9.81;
 
+export function deltaSegundos(now, previous) {
+  if (!Number.isFinite(now) || !Number.isFinite(previous)) return 1 / 72;
+  return Math.max(0, Math.min(0.05, (now - previous) / 1000));
+}
+
+export function puedeResolverChoque(elapsed, inicio, state) {
+  return elapsed >= 4 && Math.hypot(state.x - inicio.x, state.z - inicio.z) >= 150;
+}
+
 export function crearVuelo(inicio = { x: 0, y: 1800, z: -12000, yaw: -0.35 }) {
   return {
     x: inicio.x, y: inicio.y, z: inicio.z, vx: 0, vy: -5, vz: -38,
