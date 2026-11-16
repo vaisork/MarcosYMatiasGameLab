@@ -129,6 +129,17 @@ class RealContentTests(unittest.TestCase):
   for node in state['map']['nodes']:
    self.assertTrue(set(node.get('unexplored_directions',[])).issubset({'norte','sur','este','oeste','hogar','salir'}))
 
+ def test_each_human_rival_has_its_own_full_and_thumbnail_art(self):
+  rivals={cid:creature for cid,creature in self.content.creatures.items() if creature.get('combatant_kind')=='human'}
+  self.assertEqual(len(rivals),5)
+  illustrations={}
+  for cid,creature in rivals.items():
+   illustration=creature['illustration'];self.assertTrue(illustration.startswith('/client/art/rivals/'))
+   full=self.root/illustration.lstrip('/');thumb=self.root/illustration.replace('.webp','-thumb.webp').lstrip('/')
+   self.assertTrue(full.is_file(),cid);self.assertTrue(thumb.is_file(),cid)
+   illustrations[cid]=illustration
+  self.assertEqual(len(set(illustrations.values())),len(rivals))
+
  def test_all_actual_regions_reachable_and_species_private_homes(self):
   self.assertGreaterEqual(len(self.content.rooms),150)
   reached=set();queue=['valdren_plaza']

@@ -284,7 +284,7 @@
       "source": "Ampliación original autorizada: adversario humanoide, sin guerra de especies",
       "combat_intro": "El salteador aprieta el palo con las dos manos y se planta delante de ti. «Está bien. Si no me das la carga, la tomaré yo.» Vigila el palo.",
       "seal_reward": 4,
-      "illustration": "/client/art/encounters/forajido-camino-anime-v1.webp",
+      "illustration": "/client/art/rivals/forajido_camino-anime-v1.webp",
       "dialogue": {
         "qué quieres": "Lo que lleves en la mochila. Déjala en el suelo y sigue tu camino. No me hace falta pelear contigo.",
         "por qué": "Este invierno nadie me ha contratado para cargar. Cuando no hay trabajo, el camino parece fácil de cobrar. Ya sé que no está bien. Hoy no se me ocurre otra cosa.",
@@ -715,7 +715,7 @@
       "source": "Personalidades de salteador (usuario, 2026-10-09); adversario humano sin guerra de especies.",
       "combat_intro": "El salteador sujeta el palo con las dos manos, pálido. «No quiero hacerte daño... pero no me dejes sin nada.»",
       "seal_reward": 2,
-      "illustration": "/client/art/encounters/forajido-camino-anime-v1.webp",
+      "illustration": "/client/art/rivals/salteador_desesperado-anime-v1.webp",
       "dialogue": {
         "qué quieres": "Comida. O algo que pueda cambiar por comida. No necesito tu mochila entera.",
         "por qué": "Perdí el trabajo en los campos. Llevo días caminando y nadie me contrata. No sé hacer esto.",
@@ -747,7 +747,7 @@
       "source": "Personalidades de salteador (usuario, 2026-10-09); adversario humano sin guerra de especies.",
       "combat_intro": "El bravucón se golpea la palma con el garrote. «¡Ja! ¿Tú me vas a parar a mí? ¡Venga, a ver!»",
       "seal_reward": 6,
-      "illustration": "/client/art/encounters/forajido-camino-anime-v1.webp",
+      "illustration": "/client/art/rivals/salteador_bravucon-anime-v1.webp",
       "dialogue": {
         "qué quieres": "¡Todo! La mochila, las botas si me gustan, ¡y que me digas que soy el más fuerte del camino!",
         "por qué": "¡Porque puedo! Bueno... y porque en el pueblo nadie me hace caso. Aquí sí.",
@@ -783,7 +783,7 @@
       "source": "Personalidades de salteador (usuario, 2026-10-09); adversario humano sin guerra de especies.",
       "combat_intro": "La veterana desenvaina sin prisa y se pone de lado. «Tú lo has querido. Cuida los pies.»",
       "seal_reward": 10,
-      "illustration": "/client/art/encounters/forajido-camino-anime-v1.webp",
+      "illustration": "/client/art/rivals/salteador_veterano-anime-v1.webp",
       "dialogue": {
         "qué quieres": "Una parte de lo que lleves. Quien cruza mi tramo paga, como siempre se ha hecho aquí.",
         "por qué": "Hace años guardaba caravanas. Cuando me echaron, me quedé con el camino. Es lo único que conozco.",
@@ -819,7 +819,7 @@
       "source": "Personalidades de salteador (usuario, 2026-10-09); adversario humano sin guerra de especies.",
       "combat_intro": "La negociante suspira y saca el cuchillo. «Qué pena. Con lo bien que íbamos.»",
       "seal_reward": 8,
-      "illustration": "/client/art/encounters/forajido-camino-anime-v1.webp",
+      "illustration": "/client/art/rivals/salteadora_negociante-anime-v1.webp",
       "dialogue": {
         "qué quieres": "Un trato. Tú me das algo que no necesites, yo te digo por dónde no hay salteadores peores que yo.",
         "por qué": "Porque es más fácil convencer que pelear. Y porque soy muy buena convenciendo.",
