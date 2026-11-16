@@ -194,3 +194,15 @@ si el roster ya está completo, este compañero del DM puede exceder el límite.
 La ficha y tarjeta del DM muestran los vínculos aprobados en lectura: nombre,
 especie, activo y ánimo calculado con el reloj del servidor. El resumen de otros
 personajes se sirve únicamente en `/api/master/state`, con sesión master.
+
+## Región o parte nueva: entrega completa (decisión de Javier, 2026-11-16)
+
+Una región, mazmorra o parte nueva del juego no se publica solo con texto y mecánicas. En el mismo lote se entregan:
+
+- **Paisajes:** fondo de cada sala nueva (`client-rpg/backgrounds/`) y escena si el estilo lo usa.
+- **Bestiario:** `illustration` + miniatura de cada criatura nueva.
+- **Rivales:** retrato de cada enemigo humano (`combatant_kind: "human"`), visible en combate y en la pestaña Rivales.
+- **Habitantes:** `portrait` + miniatura de cada habitante nuevo, visible al hablar y en la pestaña Habitantes.
+- **Hallazgos:** texto (`text`) en cada hallazgo de búsqueda.
+
+Las pruebas de contenido fallan si falta cualquiera de estos. Motivo: Cumbres Veladas salió sin 10 criaturas, sin rivales ni habitantes ilustrados y con «Buscar» roto; Marcos lo notó jugando.
