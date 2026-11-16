@@ -94,3 +94,10 @@ test('cinco segundos neutros mantienen rumbo y estado finito desde el mirador', 
   assert.equal(choques,0);
   assert.equal(deltaSegundos(1000,{timestamp:1000}),1/72);
 });
+
+test('mapearGamepadXR acepta XRInputSourceArray (sin .filter, como en Quest)', () => {
+  const fuentes = { length: 1, 0: { gamepad: { axes: [0, 0, 0.5, 1] } }, [Symbol.iterator]: function* () { yield this[0]; } };
+  const r = mapearGamepadXR(fuentes);
+  assert.equal(r.roll, 0.5);
+  assert.equal(r.pitch, 1);
+});

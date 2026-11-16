@@ -39,7 +39,7 @@ export function mapearQuest(izquierda, derecha) {
 }
 
 export function mapearGamepadXR(sources = []) {
-  const sticks = sources.filter((source) => source.gamepad?.axes?.length >= 2);
+  const sticks = Array.from(sources).filter((source) => source.gamepad?.axes?.length >= 2);
   if (!sticks.length) return { pitch: 0, roll: 0 };
   const axes = sticks.map(({ gamepad }) => gamepad.axes.length >= 4 ? gamepad.axes.slice(-2) : gamepad.axes.slice(0, 2));
   return { pitch: limitar(axes.reduce((sum, a) => sum + a[1], 0) / axes.length), roll: limitar(axes.reduce((sum, a) => sum + a[0], 0) / axes.length) };
