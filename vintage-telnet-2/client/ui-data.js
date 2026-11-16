@@ -1865,7 +1865,17 @@ const bestiaryThumbnails=Object.freeze({
   "/client/art/bestiary/sierpe_veta_madre-anime-v1.webp": "/client/art/bestiary/sierpe_veta_madre-anime-v1-thumb.webp",
   "/client/art/bestiary/tallagrietas-anime-v1.webp": "/client/art/bestiary/tallagrietas-anime-v1-thumb.webp",
   "/client/art/bestiary/tejecristal-anime-v1.webp": "/client/art/bestiary/tejecristal-anime-v1-thumb.webp",
-  "/client/art/bestiary/vetasierpe-anime-v1.webp": "/client/art/bestiary/vetasierpe-anime-v1-thumb.webp"
+  "/client/art/bestiary/vetasierpe-anime-v1.webp": "/client/art/bestiary/vetasierpe-anime-v1-thumb.webp",
+  "/client/art/bestiary/archidragon_ignis_aethel-anime-v1.webp": "/client/art/bestiary/archidragon_ignis_aethel-anime-v1-thumb.webp",
+  "/client/art/bestiary/ceniciento_alado-anime-v1.webp": "/client/art/bestiary/ceniciento_alado-anime-v1-thumb.webp",
+  "/client/art/bestiary/custodio_basalto-anime-v1.webp": "/client/art/bestiary/custodio_basalto-anime-v1-thumb.webp",
+  "/client/art/bestiary/draco_forja-anime-v1.webp": "/client/art/bestiary/draco_forja-anime-v1-thumb.webp",
+  "/client/art/bestiary/oros_khar_escriba-anime-v1.webp": "/client/art/bestiary/oros_khar_escriba-anime-v1-thumb.webp",
+  "/client/art/bestiary/plumacresta_ceniza-anime-v1.webp": "/client/art/bestiary/plumacresta_ceniza-anime-v1-thumb.webp",
+  "/client/art/bestiary/remolino_termico-anime-v1.webp": "/client/art/bestiary/remolino_termico-anime-v1-thumb.webp",
+  "/client/art/bestiary/surgencia_primordial-anime-v1.webp": "/client/art/bestiary/surgencia_primordial-anime-v1-thumb.webp",
+  "/client/art/bestiary/vaelok_forjador-anime-v1.webp": "/client/art/bestiary/vaelok_forjador-anime-v1-thumb.webp",
+  "/client/art/bestiary/zephyros_ventisca-anime-v1.webp": "/client/art/bestiary/zephyros_ventisca-anime-v1-thumb.webp"
 });
 export function bestiaryThumbnail(creature){
  const source=creature?.illustration;
