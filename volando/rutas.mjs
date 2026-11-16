@@ -1,0 +1,7 @@
+export const BIOKOVO_RUTA = [
+  [43.3425,17.0569],[43.335,17.048],[43.326,17.047],[43.319,17.033],
+  [43.312,17.03],[43.304,17.035],[43.297,17.026],[43.29,17.02],
+];
+export const ANCHO_CORREDOR = 130;
+export const DISTANCIA_PARED = 42;
+export const ESPACIADO_AROS = 300;
