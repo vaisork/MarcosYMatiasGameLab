@@ -4,11 +4,11 @@ Juego web de vuelo en traje de ardilla por Biokovo (Croacia) y la Barranca del C
 
 ## Controles
 
-- **Meta Quest 3:** inclina las manos para girar; inclinar cabeza y cuerpo añade giro suave. Manos abajo y al frente pican; arriba frena/sube. La palanca dirige y el gatillo impulsa.
-- **Celular:** al tocar **Volar** se calibra la postura actual; inclinar el teléfono hacia adelante baja y girarlo vira. **Saltar** da impulso vertical.
-- **Computadora:** S/↓ baja, W/↑ sube, A/D/←/→ giran. Mouse abajo baja y arriba sube, con o sin clic; teclas y mouse se suman.
+- **Meta Quest 3:** palanca izquierda Y pica/levanta (adelante baja), X alabea; palanca derecha X gira y Y acelera. Gatillo acelera y grip frena. En el menú se puede comparar con mirada o alas; inversión de Y opcional.
+- **Celular:** joystick virtual izquierdo dirige y botón derecho acelera. Los modos alternativos suman inclinación del teléfono.
+- **Computadora:** W/↑ baja, S/↓ levanta, A/D/←/→ alabean; gamepad usa el mismo mapeo que Quest. Shift frena y espacio impulsa.
 
-En neutro el vuelo crucerea a 55 m/s; picar alcanza 95 m/s y levantar frena hasta 25 m/s. Volar a menos de 25 m del terreno muestra «¡Pegado!» y multiplica puntos hasta ×4. El alabeo manda el giro sin corrección automática del rumbo; el radio a fondo es 75 m.
+En neutro el vuelo desciende a unos 22 m/s; picar llega a −40 m/s verticales y 90 m/s de avance. Cada curso escala el mundo (ESCALA_MUNDO=0.35) y guía por un corredor estrecho con aros cada 300 m. El HUD muestra altura sobre el terreno, velocidad vertical y dirección al próximo aro. Volar a menos de 25 m del terreno muestra «¡Pegado!» y multiplica puntos hasta ×4.
 
 La física y los mapeos puros están en `fisica.mjs`, con pruebas focales en `tests/`. Biokovo usa altura Terrarium z14 (≈9 m por muestra) en un área de 9.8×12.2 km, con un corredor de vuelo de 800×55 vértices, terreno detallado LOD de 230×270 y fondo z12 de 100×68; terreno combinado: ≈223 mil triángulos. Barranca mantiene su heightmap z12 y recibe el mismo control y vegetación. Ambos usan Lambert, niebla, instancias y sin sombras dinámicas.
 
