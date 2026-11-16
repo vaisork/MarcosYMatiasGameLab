@@ -14,8 +14,8 @@ class NightMechanicsTests(unittest.TestCase):
   self.now=12*3600;self.engine=Engine(self.content,lambda:self.now,ZeroRandom())
   self.state=m.new_state('humano','juramentado','home:1',self.now)
   self.state.update(location='valdren_fragua',seals=50)
-  self.character={'id':1,'name':'Prueba','species':'humano','class_id':'juramentado','state':self.state}
-  self.world={'flags':[],'deaths':{}}
+  self.character={'id':1,'name':'Prueba','species':'humano','class_id':'juramentado','status':'approved','state':self.state}
+  self.world={'version':0,'flags':[],'deaths':{},'weather':{}}
  def act(self,id,target=None,**kwargs):self.engine.apply(self.character,self.world,dict(id=id,target=target,**kwargs))
  def test_honing_consumes_material_once_and_changes_actual_round_damage(self):
   self.content.rooms['valdren_fragua']['honing_material']='semillas_camino'
@@ -45,16 +45,21 @@ class NightMechanicsTests(unittest.TestCase):
   self.state['location']='valdren_fragua';self.state['flags']=[]
   self.assertFalse(next(a for a in self.engine.actions(self.character,self.world) if a['id']=='mover' and a['target']==direction)['disabled'])
  def test_human_is_evaluable_combatible_and_not_animal_bestiary(self):
-  self.content.creatures['forajido_camino']={'name':'Forajido','description':'Bloquea el sendero.','combatant_kind':'human','victory_flags':['camino_libre']}
+  self.content.creatures['forajido_camino']['victory_flags']=['camino_libre']
   room=self.content.rooms['valdren_fragua'];room['signals']=[{'creature':'forajido_camino','text':'Una persona corta el camino.'}]
   self.engine.observe(self.state,room,self.world);self.assertNotIn('forajido_camino',self.state['bestiary'])
+  self.assertIn('forajido_camino',self.state['rivals'])
   self.act('examinar_criatura','forajido_camino');self.assertNotIn('bestiario',str(self.state['events']))
   self.act('evaluar','forajido_camino');self.act('combatir','forajido_camino')
+  combat_snapshot=self.engine.snapshot(self.character,self.world)
+  self.assertEqual(combat_snapshot['character']['combat']['illustration'],self.content.creatures['forajido_camino']['illustration'])
+  self.assertFalse(any(entry['id']=='forajido_camino' for entry in combat_snapshot['bestiary']))
   completed_combat=self.state['combat']
   self.now+=16;self.engine.tick(self.character,self.world)
   self.assertIsNone(self.state['combat']);self.assertIn('camino_libre',self.state['flags'])
   self.assertIn('victoria:valdren_fragua:forajido_camino',self.state['flags'])
   self.assertNotIn('forajido_camino',self.state['bestiary']);self.assertEqual(self.state['seals'],54)
+  self.assertEqual(self.state['rivals']['forajido_camino']['defeated'],1)
   self.assertEqual([line['amount'] for line in self.state['ledger'] if line['kind']=='combat_seals'],[4])
   self.assertNotIn('no entrega sellos',str(self.state['events']))
   self.engine.tick(self.character,self.world);self.assertEqual(self.state['seals'],54)

@@ -429,6 +429,8 @@ body .room-context .art-icon,body .selection .art-icon{display:inline-grid;place
 .art-peek{display:none;position:absolute;top:calc(100% + 6px);right:0;width:min(280px,80vw);aspect-ratio:3/2;object-fit:cover;border:2px solid var(--gold);border-radius:8px;box-shadow:0 10px 26px #000c;z-index:20;pointer-events:none}
 @media(hover:hover){.art-icon:hover .art-peek{display:block}}
 .art-icon:focus-visible .art-peek{display:block}
+body .selection .combat-opponent-art{display:block;width:min(100%,360px);height:auto;min-height:0;padding:0;margin:8px 0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#f8f5ed}
+.combat-opponent-portrait{display:block;width:100%;aspect-ratio:3/2;object-fit:cover}
 body .selection h3 .art-icon{order:2}
 /* Tienda por secciones */
 .shop-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}

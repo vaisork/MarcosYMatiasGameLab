@@ -382,8 +382,22 @@ class Engine:
         for signal in room.get('signals',[]):
             if not self.allowed(signal,state,world) or not signal_present(signal,room,world,self.clock()):continue
             creature_id=signal['creature'];creature=self.creature_prose(room,creature_id)
-            if creature and creature.get('combatant_kind')!='human':
+            if creature and creature.get('combatant_kind')=='human':
+                self.record_rival(state,room,creature_id,creature)
+            elif creature:
                 state['bestiary'].setdefault(creature_id,{'id':creature_id,'name':creature['name'],'description':creature.get('description',signal['text']),'first_seen':self.clock(),'status':'avistado'})
+
+    def record_rival(self,state,room,creature_id,creature):
+        if creature.get('combatant_kind')!='human':return
+        state.setdefault('bestiary',{}).pop(creature_id,None)
+        region_id=room.get('region')
+        region=self.content.regions.get(region_id,{})
+        entry=state.setdefault('rivals',{}).setdefault(creature_id,{
+            'id':creature_id,'name':creature['name'],'description':creature.get('description',''),
+            'region':region.get('name',region_id or ''),'first_seen':self.clock(),'defeated':0,
+        })
+        entry.update(name=creature['name'],description=creature.get('description',''))
+        return entry
 
     def learn_creature_behavior(self,state,room,creature_id,quiet=False):
         creature=self.creature_prose(room,creature_id)
@@ -582,6 +596,8 @@ class Engine:
         state['xp']+=gain;state['victories']=history;state['combat']=None
         world.setdefault('encounters',{}).pop(f"{state['location']}:{combat['creature']}",None)
         if creature.get('combatant_kind')=='human':
+            rival=self.record_rival(state,self.room(character,world),combat['creature'],creature)
+            rival['defeated']=rival.get('defeated',0)+1
             amount=creature.get('seal_reward',4)+2*(profile['level']-1)
             if type(amount) is not int or amount<1:raise RuleError('El adversario no tiene una recompensa de sellos válida.',409)
             state['seals']+=amount
@@ -1625,7 +1641,9 @@ class Engine:
             start_hp=min(saved_hp,profile['hp']) if (saved_hp is not None and saved_hp>0) else profile['hp']
             preps=m.preparations_for(profile,start_hp)
             prep_action=preps[0] if preps else profile.get('prepared_action')
-            state['combat']={'creature':target,'profile':profile,'hp':start_hp,'round':0,'next_round':self.clock()+4,'prepared':bool(prep_action),'prepared_action':prep_action,'cooldown':0}
+            state['combat']={'creature':target,'profile':profile,'hp':start_hp,'round':0,'next_round':self.clock()+4,'prepared':bool(prep_action),'prepared_action':prep_action,'cooldown':0,
+                             **({'illustration':creature['illustration']} if creature.get('combatant_kind')=='human' and creature.get('illustration') else {})}
+            if creature.get('combatant_kind')=='human':self.record_rival(state,room,target,creature)
             world.setdefault('creature_states',{}).setdefault(ckey,{})['hp']=start_hp
             self.observe(state,room,world)
             if target in state['bestiary']:state['bestiary'][target]['status']='encontrado'
@@ -2036,7 +2054,9 @@ class Engine:
         if combat:
             creature=self.creature_prose(self.room(character,world),combat['creature'])
             safe_combat={'creature':combat['creature'],'combatant_kind':creature.get('combatant_kind','animal'),'name':creature['name']+(f" · nivel {combat['profile']['level']}" if combat['profile'].get('category') in m.SCALED_CATEGORIES and combat['profile']['level']>1 else ''),'round':combat['round'],'next_round':combat['next_round'],'prepared':combat['prepared'],'prepared_action':m.preparation(combat),'hp':combat['hp'],'hp_max':combat['profile']['hp'],'cooldown':combat['cooldown'],'intervention_pending':bool(combat.get('intervention'))}
-            if creature.get('illustration') and creature.get('combatant_kind')=='human':safe_combat['illustration']=creature['illustration']
+            if creature.get('combatant_kind')=='human':
+                illustration=combat.get('illustration') or creature.get('illustration')
+                if isinstance(illustration,str) and illustration.startswith('/client/art/rivals/'):safe_combat['illustration']=illustration
         char={key:character[key] for key in ('id','name','species','class_id','status')}
         char['gender']=state.get('gender')
         char['especializacion']=state.get('especializacion')
@@ -2093,4 +2113,6 @@ class Engine:
             'chat':[{k:v[k] for k in ('id','sender_id','sender','text','at')} for v in world.get('chat',[]) if v['room']==state['location'] and self.clock()-v['at']<600 and character['id'] in v['recipients']][-30:],
             'narrative':state.get('events') or scene,'scene':scene,'world_event':active_event,'actions':self.actions(character,world),
             'map':{'nodes':nodes,'edges':[p for p in state['routes'] if set(p).issubset(known)],'routes':routes,'frontiers':frontiers,**({'recovery':state['last_recovery']} if state.get('last_recovery') else {})},
-            'inventory':state['inventory'],'bestiary':[{**entry,'behavior':list(entry.get('behavior',[])),**({'illustration':self.content.creatures[cid]['illustration']} if self.content.creatures.get(cid,{}).get('illustration') else {})} for cid,entry in state['bestiary'].items()],'journal':state['journal'],'secrets':{'found':sum(1 for secret in getattr(self.content,'secrets',{}).values() if secret.get('flag') in state['flags'] or 'participated:'+str(secret.get('flag')) in state['flags'])},'quests':quests,'ambient':ambient}
+            'inventory':state['inventory'],'bestiary':[{**entry,'behavior':list(entry.get('behavior',[])),**({'illustration':self.content.creatures[cid]['illustration']} if self.content.creatures.get(cid,{}).get('illustration') else {})} for cid,entry in state['bestiary'].items() if self.content.creatures.get(cid,{}).get('combatant_kind')!='human'],
+            'rivals':[{**entry,'illustration':self.content.creatures[cid]['illustration'],'thumbnail':self.content.creatures[cid]['illustration'].replace('.webp','-thumb.webp')} for cid,entry in state.get('rivals',{}).items() if self.content.creatures.get(cid,{}).get('combatant_kind')=='human' and self.content.creatures[cid].get('illustration')],
+            'journal':state['journal'],'secrets':{'found':sum(1 for secret in getattr(self.content,'secrets',{}).values() if secret.get('flag') in state['flags'] or 'participated:'+str(secret.get('flag')) in state['flags'])},'quests':quests,'ambient':ambient}
