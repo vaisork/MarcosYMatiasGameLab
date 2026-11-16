@@ -185,7 +185,7 @@ function actualizarPanel(panel,points){
 }
 function finish(){running=false;state.terminado=true;document.body.classList.remove('jugando','rapido');$('final').hidden=false;$('resultado').innerHTML=`${state.score.toLocaleString('es-MX')} puntos<br>${Math.floor(state.tiempo/60)}:${String(Math.floor(state.tiempo%60)).padStart(2,'0')} de vuelo<br>${state.choques} choques · ${state.aros}/8 aros`;
 }
-function tick(now){
+function paso(now){
   const stamp=Number.isFinite(now)?now:performance.now();
   const dt=previousFrameTime===null?1/72:deltaSegundos(stamp,previousFrameTime);previousFrameTime=stamp;
   if(running){elapsed+=dt;actualizarEntrada();
@@ -215,6 +215,11 @@ function tick(now){
     if(sp>46)document.body.classList.add('rapido');else document.body.classList.remove('rapido');avanzarEstelas(dt,state.velocidad);viento(state.velocidad,state.pitch);
     if(elapsed>messageUntil)$('mensaje').style.opacity='0';
   }
+}
+// Un error en la lógica no debe dejar el visor en negro: siempre se dibuja.
+let ultimoError='';
+function tick(now){
+  try{paso(now);}catch(e){const t=String(e?.message||e);if(t!==ultimoError){ultimoError=t;console.error(e);aviso(`Error: ${t}`,6);}}
   renderer.render(scene,camera);
 }
 function resize(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,1.2));renderer.setSize(innerWidth,innerHeight);}
