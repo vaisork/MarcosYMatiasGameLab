@@ -15,6 +15,21 @@
     "parent_bytes": 399524
   },
   {
+    "target": "client/art/bestiary/archidragon_ignis_aethel-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/archidragon_ignis_aethel-anime-v1.webp",
+    "creatures": [
+      "archidragon_ignis_aethel"
+    ],
+    "bytes": 45394,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "a75ee16050cfdc4cd79c8ebe249038078ec4f5be081b074a5efee41cbd48bf56",
+    "parent_sha256": "e43769e55c9b7c5b415125497749d1c6a32ed7e3a2d7895a7402d8e81bfb13d1",
+    "parent_bytes": 552780
+  },
+  {
     "target": "client/art/bestiary/brasaluz-anime-v1-thumb.webp",
     "illustration": "/client/art/bestiary/brasaluz-anime-v1.webp",
     "creatures": [
@@ -43,6 +58,21 @@
     "sha256": "65ed0889cf3708c5b65d26aa2e38556afe9a97c7ce3d2491af2928c55f85d0ed",
     "parent_sha256": "50e2d4dbafa478a851e1da9d31f31aa724e2dcac877e54b2576c03f56ae89ad0",
     "parent_bytes": 290022
+  },
+  {
+    "target": "client/art/bestiary/ceniciento_alado-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/ceniciento_alado-anime-v1.webp",
+    "creatures": [
+      "ceniciento_alado"
+    ],
+    "bytes": 39428,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "c38b8bafcda42193b6cdeaffa9ac989d654d79ea7486398bbfbd57d52be143ea",
+    "parent_sha256": "4ca5b6aa17a785d23682588a2a614b372e96a523459a9a643666e9e45ff90b9f",
+    "parent_bytes": 424734
   },
   {
     "target": "client/art/bestiary/cienfango-anime-v1-thumb.webp",
@@ -103,6 +133,36 @@
     "sha256": "c2e8680407b90311d43b66e39ac1bb70d60fc06ea4217c2a5d8eb13e3f9cdedb",
     "parent_sha256": "dc7742d70d92ecee3613f0a8afc15fa2961df16064b9a1239fd6b47e02491fc8",
     "parent_bytes": 488884
+  },
+  {
+    "target": "client/art/bestiary/custodio_basalto-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/custodio_basalto-anime-v1.webp",
+    "creatures": [
+      "custodio_basalto"
+    ],
+    "bytes": 41648,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "a2126f1189346b5a8c548fd7f8dbbc2519b760c52d94589e172fdbf809ea072e",
+    "parent_sha256": "08ab254d9b084ec30b95874517173140332aa47a7a4b49cab99bbb9134710a9b",
+    "parent_bytes": 436152
+  },
+  {
+    "target": "client/art/bestiary/draco_forja-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/draco_forja-anime-v1.webp",
+    "creatures": [
+      "draco_forja"
+    ],
+    "bytes": 50406,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "761fb31e436e1ca160201664e728e7274266753ded2d2e28ed57db147fd8972e",
+    "parent_sha256": "080fc4a629f8d7fb966c0bd32308b14ec4d9e938753d4f306327fda0df2c7a75",
+    "parent_bytes": 548122
   },
   {
     "target": "client/art/bestiary/dragon_aguas_antiguas-anime-v1-thumb.webp",
@@ -210,6 +270,36 @@
     "parent_bytes": 400916
   },
   {
+    "target": "client/art/bestiary/oros_khar_escriba-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/oros_khar_escriba-anime-v1.webp",
+    "creatures": [
+      "oros_khar_escriba"
+    ],
+    "bytes": 41834,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "fe754ce8dda295ddd18d654830c07fae044bb01f721f05d20ad736b8fbba762d",
+    "parent_sha256": "ffdc3147abe0390aa8c6afb8d1cb9018f975f07eb07a0311b2346848c04bcae9",
+    "parent_bytes": 499564
+  },
+  {
+    "target": "client/art/bestiary/plumacresta_ceniza-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/plumacresta_ceniza-anime-v1.webp",
+    "creatures": [
+      "plumacresta_ceniza"
+    ],
+    "bytes": 44312,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "91deaf8b901c62db499a76042c78d5ba336d8f2c8fc9df95a32830938c2e9c66",
+    "parent_sha256": "30183c09635a8df4028afbefc01868047af64393328754b2f9691801f9acc8fc",
+    "parent_bytes": 469282
+  },
+  {
     "target": "client/art/bestiary/quebracascara-anime-v1-thumb.webp",
     "illustration": "/client/art/bestiary/quebracascara-anime-v1.webp",
     "creatures": [
@@ -253,6 +343,21 @@
     "sha256": "af6bb1069fbdb1ffeca06972e1efd2a0d1547769fe2e0c104297211b1ef256f7",
     "parent_sha256": "cd170313f829a7daaca8a2f7d3a821e4f3447ad6da6d1937c48166351fa06242",
     "parent_bytes": 438394
+  },
+  {
+    "target": "client/art/bestiary/remolino_termico-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/remolino_termico-anime-v1.webp",
+    "creatures": [
+      "remolino_termico"
+    ],
+    "bytes": 38836,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "1d7ed7d3400695ae2b7496e8d4a4e7056924815b6ae9099960e516e85076b272",
+    "parent_sha256": "818b920f78f5c75ee4a47bc41c3103bf53b040b69f7f55c1da7c01090671c8ea",
+    "parent_bytes": 395704
   },
   {
     "target": "client/art/bestiary/rodacanto-anime-v1-thumb.webp",
@@ -315,6 +420,21 @@
     "parent_bytes": 279720
   },
   {
+    "target": "client/art/bestiary/surgencia_primordial-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/surgencia_primordial-anime-v1.webp",
+    "creatures": [
+      "surgencia_primordial"
+    ],
+    "bytes": 39548,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "374ef3cf31ddb7a53066cd8f57bbc469adc8313045088b53d85c653ff704e0db",
+    "parent_sha256": "015c00b3e8a009269e4358f819567b322ffcad950d7db92eb91c8af79cec390d",
+    "parent_bytes": 467796
+  },
+  {
     "target": "client/art/bestiary/tallagrietas-anime-v1-thumb.webp",
     "illustration": "/client/art/bestiary/tallagrietas-anime-v1.webp",
     "creatures": [
@@ -375,6 +495,21 @@
     "parent_bytes": 438776
   },
   {
+    "target": "client/art/bestiary/vaelok_forjador-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/vaelok_forjador-anime-v1.webp",
+    "creatures": [
+      "vaelok_forjador"
+    ],
+    "bytes": 50178,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "65623e2aa6843eb14d9ec8a739c69d132ceabf3ab96e01dfa5bfed310600d734",
+    "parent_sha256": "6d470c77e13c002dfb5b2bd9ee38334fec9c9c80d5d744b5bac78834cb7281c1",
+    "parent_bytes": 549998
+  },
+  {
     "target": "client/art/bestiary/velomembrana-anime-v1-thumb.webp",
     "illustration": "/client/art/bestiary/velomembrana-anime-v1.webp",
     "creatures": [
@@ -403,5 +538,20 @@
     "sha256": "9a8f3a2d0d90a0993c6d5550ebd58b8aba3514d320c492741967562813bccf48",
     "parent_sha256": "43ffba4d1be5f1f03748aec54242ac15074cecc74b9487f0da3bc8430afa47c5",
     "parent_bytes": 484026
+  },
+  {
+    "target": "client/art/bestiary/zephyros_ventisca-anime-v1-thumb.webp",
+    "illustration": "/client/art/bestiary/zephyros_ventisca-anime-v1.webp",
+    "creatures": [
+      "zephyros_ventisca"
+    ],
+    "bytes": 39902,
+    "dimensions": [
+      384,
+      256
+    ],
+    "sha256": "f8c83c004e186aeb51093ba2652f4bda3476471cdf30dbfe51f87ff34e7c1a85",
+    "parent_sha256": "18dd43acf5dbdaee2460b876b042dcfa7e6496e99531d518c79d8587b19195d0",
+    "parent_bytes": 411570
   }
 ]

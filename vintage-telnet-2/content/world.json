@@ -1076,7 +1076,8 @@
       ],
       "victory_flags": [],
       "presagio": "Plumas grises con borde rojo flotan sobre las fumarolas. En las sabinas gigantes hay nidos enormes hechos de ramas y ceniza.",
-      "warning": "La Plumacresta de Ceniza abre las alas y se deja subir por el aire caliente. Te mira de lado, con la cabeza ladeada. Todavía puedes apartarte antes de que baje en picada."
+      "warning": "La Plumacresta de Ceniza abre las alas y se deja subir por el aire caliente. Te mira de lado, con la cabeza ladeada. Todavía puedes apartarte antes de que baje en picada.",
+      "illustration": "/client/art/bestiary/plumacresta_ceniza-anime-v1.webp"
     },
     "ceniciento_alado": {
       "id": "ceniciento_alado",
@@ -1096,7 +1097,8 @@
         "cumbres_umbral_despejado"
       ],
       "presagio": "En los pilares del Umbral hay marcas de garras antiguas y la ceniza del suelo está tibia, como si algo enorme se hubiera posado hace poco.",
-      "warning": "El Ceniciento Alado baja la cabeza y sopla una nube de ceniza tibia a tus pies. No está enojado: está midiendo tu temple. Aún puedes retroceder antes de cruzar el Umbral."
+      "warning": "El Ceniciento Alado baja la cabeza y sopla una nube de ceniza tibia a tus pies. No está enojado: está midiendo tu temple. Aún puedes retroceder antes de cruzar el Umbral.",
+      "illustration": "/client/art/bestiary/ceniciento_alado-anime-v1.webp"
     },
     "draco_forja": {
       "id": "draco_forja",
@@ -1114,7 +1116,8 @@
       ],
       "victory_flags": [],
       "presagio": "Se oye un martilleo lejano y el aire huele a piedra caliente. En las terrazas quedan escamas negras sueltas, duras como tejas.",
-      "warning": "El Draco de la Forja se sacude y sus placas de basalto chocan como martillos. Sus ojos brillan como carbones. Todavía hay distancia: puedes alejarte de la terraza."
+      "warning": "El Draco de la Forja se sacude y sus placas de basalto chocan como martillos. Sus ojos brillan como carbones. Todavía hay distancia: puedes alejarte de la terraza.",
+      "illustration": "/client/art/bestiary/draco_forja-anime-v1.webp"
     },
     "vaelok_forjador": {
       "id": "vaelok_forjador",
@@ -1134,7 +1137,8 @@
         "cumbres_puerta_archivo_abierta"
       ],
       "presagio": "El suelo del Salón vibra con golpes lentos de yunque. Las brasas cambian de color cada vez que alguien grande respira cerca.",
-      "warning": "Vaelok apoya la maza de basalto en el yunque y te observa de arriba abajo, como quien revisa una espada nueva. Si no te sientes listo, puedes salir del Salón sin pelear."
+      "warning": "Vaelok apoya la maza de basalto en el yunque y te observa de arriba abajo, como quien revisa una espada nueva. Si no te sientes listo, puedes salir del Salón sin pelear.",
+      "illustration": "/client/art/bestiary/vaelok_forjador-anime-v1.webp"
     },
     "custodio_basalto": {
       "id": "custodio_basalto",
@@ -1152,7 +1156,8 @@
       ],
       "victory_flags": [],
       "presagio": "En las galerías hay huellas cuadradas y regulares, todas a la misma distancia. Algunas runas del piso brillan un instante después de que algo pasa.",
-      "warning": "El Custodio de Basalto se detiene y sus runas se encienden una por una. Gira la cabeza de piedra hacia ti, muy despacio. Aún puedes apartarte de su ronda."
+      "warning": "El Custodio de Basalto se detiene y sus runas se encienden una por una. Gira la cabeza de piedra hacia ti, muy despacio. Aún puedes apartarte de su ronda.",
+      "illustration": "/client/art/bestiary/custodio_basalto-anime-v1.webp"
     },
     "oros_khar_escriba": {
       "id": "oros_khar_escriba",
@@ -1172,7 +1177,8 @@
         "cumbres_archivo_superado"
       ],
       "presagio": "Las tablas de piedra flotan en el Santuario y algunas tienen grabados frescos, con polvo de cuarzo todavía brillando en las líneas.",
-      "warning": "Oros-Khar deja de escribir y te mira con calma milenaria. Las tablas se acomodan a su alrededor como si escucharan. Todavía puedes retirarte en silencio."
+      "warning": "Oros-Khar deja de escribir y te mira con calma milenaria. Las tablas se acomodan a su alrededor como si escucharan. Todavía puedes retirarte en silencio.",
+      "illustration": "/client/art/bestiary/oros_khar_escriba-anime-v1.webp"
     },
     "remolino_termico": {
       "id": "remolino_termico",
@@ -1190,7 +1196,8 @@
       ],
       "victory_flags": [],
       "presagio": "Los copos de nieve suben en vez de caer y las piedras pequeñas del camino giran en círculos sobre el suelo.",
-      "warning": "El Remolino Térmico se aprieta y gira más rápido; las esquirlas de hielo zumban a su alrededor. Aún puedes salir de su camino antes de que te alcance."
+      "warning": "El Remolino Térmico se aprieta y gira más rápido; las esquirlas de hielo zumban a su alrededor. Aún puedes salir de su camino antes de que te alcance.",
+      "illustration": "/client/art/bestiary/remolino_termico-anime-v1.webp"
     },
     "zephyros_ventisca": {
       "id": "zephyros_ventisca",
@@ -1210,7 +1217,8 @@
         "cumbres_ventisca_superada"
       ],
       "presagio": "En la Falla hay carámbanos que apuntan todos hacia el mismo lado y un viento frío que sopla aunque el cielo esté quieto.",
-      "warning": "Zephyros despliega sus alas de escarcha y el aire se vuelve de hielo. Te juzga desde lo alto del arco. Todavía puedes bajar la mirada y retroceder."
+      "warning": "Zephyros despliega sus alas de escarcha y el aire se vuelve de hielo. Te juzga desde lo alto del arco. Todavía puedes bajar la mirada y retroceder.",
+      "illustration": "/client/art/bestiary/zephyros_ventisca-anime-v1.webp"
     },
     "surgencia_primordial": {
       "id": "surgencia_primordial",
@@ -1228,7 +1236,8 @@
       ],
       "victory_flags": [],
       "presagio": "En la orilla del lago la roca está blanda y tibia, y burbujas rojas suben despacio desde las grietas.",
-      "warning": "La Surgencia Primordial se levanta del lago y su superficie burbujea más fuerte. El calor te llega a la cara. Aún puedes alejarte de la orilla."
+      "warning": "La Surgencia Primordial se levanta del lago y su superficie burbujea más fuerte. El calor te llega a la cara. Aún puedes alejarte de la orilla.",
+      "illustration": "/client/art/bestiary/surgencia_primordial-anime-v1.webp"
     },
     "archidragon_ignis_aethel": {
       "id": "archidragon_ignis_aethel",
@@ -1248,7 +1257,8 @@
         "cumbres_primer_aliento_renovado"
       ],
       "presagio": "Las columnas de vapor del lago laten al mismo ritmo, como un corazón gigante. El aire huele a lluvia caliente y todas las montañas parecen mirar hacia el Trono.",
-      "warning": "El Archidragón Ignis-Aethel abre los ojos y en ellos se refleja el cielo entero. No tiene prisa ni rabia: espera tu decisión. Todavía puedes retirarte con respeto."
+      "warning": "El Archidragón Ignis-Aethel abre los ojos y en ellos se refleja el cielo entero. No tiene prisa ni rabia: espera tu decisión. Todavía puedes retirarte con respeto.",
+      "illustration": "/client/art/bestiary/archidragon_ignis_aethel-anime-v1.webp"
     }
   },
   "items": {

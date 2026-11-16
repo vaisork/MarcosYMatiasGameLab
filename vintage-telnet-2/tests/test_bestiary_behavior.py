@@ -73,8 +73,6 @@ class BestiaryBehaviorTests(unittest.TestCase):
 
 class BestiaryCoverageTests(unittest.TestCase):
  """Every creature placed in a room must reach the bestiary with a complete entry, so new areas cannot leave it behind."""
- # ponytail: Cumbres creatures still wait for bestiary portraits; remove ids from here as their art lands.
- PENDING_ART={'plumacresta_ceniza','ceniciento_alado','draco_forja','vaelok_forjador','custodio_basalto','oros_khar_escriba','remolino_termico','zephyros_ventisca','surgencia_primordial','archidragon_ignis_aethel'}
  def test_every_placed_creature_has_a_complete_bestiary_entry(self):
   from pathlib import Path
   from server.content import Content
@@ -88,6 +86,6 @@ class BestiaryCoverageTests(unittest.TestCase):
     creature=content.creatures[cid]
     for field in ('name','description','habitat','presagio','warning'):
      self.assertTrue(str(creature.get(field,'')).strip(),f'falta {field}')
-    if cid in self.PENDING_ART:self.assertNotIn('illustration',creature,'ya tiene arte: sácala de PENDING_ART')
-    else:self.assertTrue((root/creature.get('illustration','/missing').lstrip('/')).is_file(),'falta ilustración')
-  self.assertEqual(set(self.PENDING_ART)-set(fauna),set())
+    illustration=creature.get('illustration')
+    self.assertTrue(illustration,'falta illustration')
+    self.assertTrue((root/illustration.lstrip('/')).is_file(),'falta archivo de ilustración')
