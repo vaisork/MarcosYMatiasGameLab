@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_plaza_escamas",
+  "generation_tool": "native image_gen",
+  "sha256": "fc39288614bc06e51d6905bea2e90fe05f9c279e5c4e61cd8adf7a2e73706eb1",
+  "bytes": 239622,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-4b866ae0-6078-4866-9a16-4f9cb313d640.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 75)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape game background for Cumbres Veladas; match reference's hand-painted detailed pixel-cluster JRPG style, dark basalt and warm gold. Plaza de las Escamas Forjadas: the civil and political heart of a dragon-clan citadel, a circular black-basalt agora bounded by three concentric seating tiers, each tier subtly distinct in stonework. A three-faced monolith stands at center, with only abstract shallow grooves, no writing. High three-quarter overhead view. Keep paths broad and walkable. Exactly four open passages at south, west, east, north edges, each continuous stone to the edge. No other exits. No people, creatures, dragons, text, legible glyphs, UI, or baked actors."
+}

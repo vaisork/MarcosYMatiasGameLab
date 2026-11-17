@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_lago_basalto",
+  "generation_tool": "native image_gen",
+  "sha256": "1552f7a1926928ae23ba17b61475231a0bbe8b467651a3b02ad012ac095d3d52",
+  "bytes": 243672,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-621bf7ce-f3bb-4a99-afcf-6351d443823a.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 83)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background matching reference's detailed hand-painted pixel-cluster art and dark basalt. Lago de Basalto Líquido: the circular hydrogeological heart of a great caldera, a vast viscous dark molten-rock surface moving in slow gentle waves as if the earth breathes; a few small pumice islands float like resting pedestals. High three-quarter overhead view. Keep safe broad approaches at exactly four edges: south, west, east, north; no other exits. No people, creatures, dragons, text, symbols, UI, or baked actors."
+}

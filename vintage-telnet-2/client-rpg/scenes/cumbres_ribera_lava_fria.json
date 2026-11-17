@@ -78,5 +78,6 @@
       "11111111111111111111"
     ]
   },
-  "battle_background": "backgrounds/hoshai_battle.webp"
+  "battle_background": "backgrounds/hoshai_battle.webp",
+  "background": "backgrounds/cumbres_ribera_lava_fria.webp"
 }

@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_espolon_helado",
+  "generation_tool": "native image_gen",
+  "sha256": "6e0996f1dbb921f317d436b2fa0e391029a4a45cc219b6a46a22e588e255b0d8",
+  "bytes": 246068,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-42282e71-1d73-4753-aed2-659cc3d9e01a.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 77)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas game background; match attached reference's hand-painted pixel-cluster style, dark volcanic basalt, pale icy blue highlights. Espolón Helado: a narrow rock spur projecting into a polar blizzard cloud; steam from fissures instantly freezes into a grove of transparent ice needles and enormous hanging icicles that chime in wind. Keep a clear safe stone footpath. Exactly two connected passages at south and west boundaries; other edges drop into cloud and ice. No people, creatures, dragons, text, symbols, UI, or baked actors."
+}

@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_galeria_primera_edad",
+  "generation_tool": "native image_gen",
+  "sha256": "b2ee44e22e61dfb35c9d257487ab44a773b1f311421dc65145c0ded0ce0738e0",
+  "bytes": 244190,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-2612f644-e308-46c0-bf25-3f43f6f924a3.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 76)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape environmental background for Cumbres Veladas; match attached reference's detailed hand-painted pixel-cluster JRPG style, dark basalt, gentle warm light. Galería de la Primera Edad: a long vaulted archive nave; wall niches hold thin pumice-stone slabs with abstract ancient cut marks and nonfigurative reliefs of mountain ranges and five wind currents. A single broad flat chapter stone rests in the middle. Keep all marks non-readable and decorative, no letters. High three-quarter overhead view with walkable center and foreground. Exactly two continuous openings at east and north edges; remaining edges are closed walls. No people, creatures, dragons, text, readable glyphs, UI, or baked actors."
+}

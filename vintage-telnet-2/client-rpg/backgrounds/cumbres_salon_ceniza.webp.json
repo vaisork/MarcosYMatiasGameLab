@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_salon_ceniza",
+  "generation_tool": "native image_gen",
+  "sha256": "a1f1385f57cf5283af0648c4b1e9b772009876a565573c2c6259e1d4718c7408",
+  "bytes": 249270,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-c8373f19-4d98-44a9-8965-f6b0d4fd3976.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 82)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape environmental background for Cumbres Veladas; match attached reference's detailed hand-painted pixel-cluster JRPG style and rich basalt. Salón de la Ceniza y el Yunque: a majestic polished basalt vault with the clan's main hearth; a colossal black diorite anvil at center, surrounded by recessed glowing ember pits, heat shimmer rising from the ground. High three-quarter overhead view, broad open stone floor around the anvil. Exactly two open passages: south and north edges, continuous to canvas edge; all other sides closed. No characters, people, creatures, dragons, text, symbols, readable glyphs, UI, or baked actors."
+}

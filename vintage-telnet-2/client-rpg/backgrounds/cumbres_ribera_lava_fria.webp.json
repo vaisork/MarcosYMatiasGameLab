@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_ribera_lava_fria",
+  "generation_tool": "native image_gen",
+  "sha256": "f9458df66c26cafab9820dbe0ec04c7ace296d1a0c1b2cf2a54ca524404a75c0",
+  "bytes": 239914,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-4661a7d1-9c3d-4364-8478-8e12e009cde7.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 78)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background matching reference's detailed hand-painted pixel-cluster art and basalt palette. Ribera de Lava Fría: an undulating plain of cooled black basalt crust with subtle layered texture; pure sulfur veins and smoky quartz form restrained geometric patterns in the dark ground; small vents release delicate threads of crystal-clear vapor. High three-quarter overhead view with a broad traverseable floor. Exactly two continuous passages at east and north boundaries. No other exits. No people, creatures, dragons, text, readable symbols, UI, or baked actors."
+}

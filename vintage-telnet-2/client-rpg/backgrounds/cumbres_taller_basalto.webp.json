@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_taller_basalto",
+  "generation_tool": "native image_gen",
+  "sha256": "87e113b9fa4cbbfbd37902ef0cf7d329de014c813399c612febf02811005720e",
+  "bytes": 244458,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-ec7b0452-66e5-4f6c-a3c8-f16fff13cc03.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 75)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape game background for Cumbres Veladas; match reference's hand-painted detailed pixel-cluster JRPG style, dark basalt with warm amber and turquoise thermal glow. Taller de la Forja Basáltica: an immense cavern lit by furnaces connected to magma vents, colossal bedrock anvils on fossil-iron pedestals, basalt-working chamber shaped by heat rather than destructive flames. High three-quarter overhead view, open central working floor with heavy forges and anvils around the sides. Exactly three continuous passages to the room edges: south, east, and north. No other exits. No workers or creatures, no dragon forms, no text, runes, readable glyphs, UI, or baked actors."
+}

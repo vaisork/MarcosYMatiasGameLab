@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_trono_caldera",
+  "generation_tool": "native image_gen",
+  "sha256": "0fbc90b96e94b42dd7ae194086ee501b9c05c26841d0ca9c412842eb795a5ef5",
+  "bytes": 248374,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-775087fa-206e-4bf9-b513-e8b2fff14f9b.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 73)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background matching reference's hand-painted pixel-cluster art. Trono de la Caldera Sagrada: the ultimate pinnacle, a colossal circular dais carved from an obsidian-and-quartz needle rising at the center of a serene lava lake; pure white steam columns ascend like pillars of a roofless temple toward the sky. Leave the throne platform empty. High three-quarter overhead view. Exactly one clear continuous passage from the south edge to the central dais; other sides are surrounded by lava and cliff. No dragon, people, creatures, text, symbols, UI, or baked actors."
+}

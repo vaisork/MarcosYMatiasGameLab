@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_balcon_vhis",
+  "generation_tool": "native image_gen",
+  "sha256": "8e54c3f72c6a25850cc254c79294fdc943f83f9db0e50bd14f8b571c598093f4",
+  "bytes": 247394,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-9c6093fb-8390-4488-8bb6-eee343cc0377.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 78)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration. Create a new environmental background for a fantasy JRPG, matching the attached Cumbres Veladas background's hand-painted pixel-cluster style, rich basalt textures, warm golden thermal highlights, turquoise steam and high three-quarter overhead game-room view. 4:3 landscape composition intended to be cropped/resized to 1280x960. Scene: Balcón de Vhis, a colossal semicircular balcony carved into a dark basalt cliff. Broad polished stone floor with subtle concentric wind-direction grooves; a low smooth volcanic-stone parapet curves around the outer edge, with a dizzying distant view of fumarole forest canopy and far Khariel ridges. Keep the center and lower half clear and walkable. Exactly two open stone paths: north at the top-center edge and south at bottom-center edge; both continue uninterrupted to the canvas edges. No openings east or west. No characters, creatures, dragons, text, symbols, readable glyphs, UI, or baked-in actors. No visible written marks. The environmental subject should be clear while retaining playable open ground."
+}

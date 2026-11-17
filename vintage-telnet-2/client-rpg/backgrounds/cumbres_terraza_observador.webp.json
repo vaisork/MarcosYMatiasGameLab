@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_terraza_observador",
+  "generation_tool": "native image_gen",
+  "sha256": "ac656278344521e71d5647c23b840edecf5960c1315f1f07b70f22900e9f6824",
+  "bytes": 240930,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-8cd18abf-8214-4ee9-a436-82955c783d4c.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 75)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background matching reference's detailed hand-painted pixel-cluster basalt. Terraza del Observador Celeste: an overhanging balcony on the northern archive cliff, vast open sky dome revealing the highest distant peaks; a low basalt parapet holds several simple stone astronomical measuring instruments, abstract and without markings. High three-quarter overhead game-room view with wide open floor. Exactly four continuous paths at south, west, east and north boundaries. No other exits. No people, creatures, dragons, text, readable symbols, UI, or baked actors."
+}

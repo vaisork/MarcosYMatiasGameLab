@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_galeria_resonadores",
+  "generation_tool": "native image_gen",
+  "sha256": "a8185f1327c389d25bc085fb89e8077fe23cd572eace6b0bafb41195ed302d24",
+  "bytes": 240138,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-fbf50ce6-3ca5-41bd-96eb-fd57c3ad319e.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 86)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape environmental background for the Cumbres Veladas fantasy JRPG. Match the attached reference's detailed hand-painted pixel-cluster rendering and basalt palette, adapted to an indoor vaulted hall, high three-quarter overhead room view. Scene: Galería de los Resonadores, a vast dark basalt nave with a high domed ceiling implied by its curved stone architecture. Repeating smooth curved acoustic niches carved into the side walls and overhead vault, each subtly catching warm amber light; a few narrow conical skylights cast circular golden pools on a broad polished basalt floor. Keep the middle and foreground open and walkable. Exactly two uninterrupted stone passages reach the room boundary: east at the right edge near mid-height, north at the top center. Other edges are closed walls. Quiet, harmonious architectural atmosphere, refined stone detail. No people, creatures, instruments, letters, text, symbols, readable glyphs, UI, or baked-in actors."
+}

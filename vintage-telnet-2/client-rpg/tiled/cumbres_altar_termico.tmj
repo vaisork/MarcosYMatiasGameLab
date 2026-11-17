@@ -795,6 +795,11 @@
       "value": "edran"
     },
     {
+      "name": "background",
+      "type": "string",
+      "value": "backgrounds/cumbres_altar_termico.webp"
+    },
+    {
       "name": "battle_background",
       "type": "string",
       "value": "backgrounds/hoshai_battle.webp"

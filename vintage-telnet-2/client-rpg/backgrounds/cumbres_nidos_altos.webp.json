@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_nidos_altos",
+  "generation_tool": "native image_gen",
+  "sha256": "648611207e65a94bc6c4c8d7b967c0c4ba2c6314f2f741c6af3c5b866d0bc4bb",
+  "bytes": 244206,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-6f5432c3-74d8-4f4b-a1f6-6e3231ba34f0.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 77)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape environmental background for the Cumbres Veladas fantasy JRPG, matching the reference's detailed hand-painted pixel-cluster rendering, basalt palette, warm thermal glows and three-quarter overhead room view. Scene: Nidos Altos de la Ciudadela, a deep sheltered mountain ledge used as a resting place. Large round volcanic-stone nest bowls set around the outer perimeter, filled with dry juniper branches and soft ash-colored feathers; subtle warm hydrothermal seams glow under the dark floor. A massive overhanging cliff roof shelters the ledge, with a narrow distant view of cold high mountains at the edge. Keep center and lower foreground spacious and walkable. Exactly two open passages: west at the left edge near mid-height and north at the top center, each continuous stone ground to the boundary. Other edges closed by rock. No people, creatures, dragons, text, symbols, readable glyphs, UI, or baked-in actors."
+}

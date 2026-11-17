@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_fosa_primordial",
+  "generation_tool": "native image_gen",
+  "sha256": "b2f9143f73e46716760ee1cdd8670bb811b3e43f8a7e5d3bd877a44d7ecfafa3",
+  "bytes": 247284,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-63aabbdc-8229-4f94-8b4c-19c659444c53.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 78)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background matching reference's hand-painted pixel-cluster style and basalt. Fosa de la Falla Primordial: a deep linear fissure in the crater floor, pure ancient steam rises from its depths; nacre-like mineral crystals line the fissure walls and catch warm turquoise and pale-gold light. Leave a wide safe path beside the fissure. High three-quarter overhead view. Exactly three continuous exits at south, east and north boundaries. No other exits. No people, creatures, dragons, text, symbols, UI, or baked actors."
+}

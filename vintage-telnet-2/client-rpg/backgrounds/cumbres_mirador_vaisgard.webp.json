@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_mirador_vaisgard",
+  "generation_tool": "native image_gen",
+  "sha256": "4fe49ef7c4d51ae0e5ae79e8fc1b564508db3d0a92ce0ba2a6631782d9160e50",
+  "bytes": 247560,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-a7c906a7-5e7a-4046-b13f-8597d86c111b.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 77)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background matching reference's hand-painted pixel-cluster art, dramatic high mountain basalt. Mirador de Vaisgard: the clearest highest overlook in the range, broad open ledge with a low stone parapet; distant layered views hint at green Edran fields, silver Lethra estuaries, ochre Korven quarries, deep Nhal forests, and the Khariel ridges, without buildings or labels. High three-quarter overhead view, sparse environment and broad clear floor. Exactly two continuous passages at south and east boundaries. No people, creatures, dragons, text, symbols, UI, or baked actors."
+}

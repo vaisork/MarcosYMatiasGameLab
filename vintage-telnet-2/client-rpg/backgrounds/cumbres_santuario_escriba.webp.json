@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_santuario_escriba",
+  "generation_tool": "native image_gen",
+  "sha256": "1def5d9f5c5c892097d51eec39897d9a32fdf0f1927a64f30b036b6c73fcbac2",
+  "bytes": 241662,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-661c01f6-0da6-48fc-9bd3-47c3d7513a23.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 77)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background matching reference's detailed hand-painted pixel-cluster style, colossal polished basalt cathedral interior, warm thermal glow. Santuario del Escriba Silente: monumental northern archive nave with a semicircular raised dais at the far end; several stone rune-tablets suspended by subtle rising thermal currents, their faces blank or abstract with no legible signs. High three-quarter overhead room view, long clear central aisle. Exactly two passages at south and north boundaries. No people, creatures, dragons, text, readable runes, UI, or baked actors."
+}

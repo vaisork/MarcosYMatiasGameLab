@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_sala_prismas",
+  "generation_tool": "native image_gen",
+  "sha256": "09daa4ea03ed24a6a374823129ccd205a01a6ed33f72d1fbd66b25424bef1bba",
+  "bytes": 245658,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-453eb6a0-a2a2-4b58-9e25-e9e3657bcd81.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 76)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background; match attached reference's hand-painted pixel-cluster style and textured basalt. Sala de los Prismas Astronómicos: octagonal chamber dominated by three colossal clear quartz prisms on rotating basalt mounts; a sun quadrant with simple calibration grooves in the floor; beams refract through fine thermal vapor, casting a restrained rainbow spectrum across stone walls. High three-quarter overhead view, open paths around the fixtures. Exactly four continuous exits at south, west, east and north room edges. No other exits. No people, creatures, star charts, text, readable symbols, UI, or baked actors."
+}

@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_descenso_crater",
+  "generation_tool": "native image_gen",
+  "sha256": "cc75de205133f9d898191e8e626747932e1c8184fff7a45b8dcc143a585b6fce",
+  "bytes": 246240,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-f01efff3-23fc-4a42-95b0-ce42ab4c96ca.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 69)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background matching reference's hand-painted pixel-cluster style. Descenso al Cráter Sagrado: a broad spiral road of black obsidian terraces and volcanic tuff descending toward the floor of a huge caldera; the cold exterior gives way to clean, pleasant warm air and subtle aromatic mineral haze; glassy highlights on the stone under overhead light. High three-quarter overhead view, road remains broad and walkable. Exactly four continuous passages at south, west, east and north boundaries. No other exits. No people, creatures, dragons, text, symbols, UI, or baked actors."
+}

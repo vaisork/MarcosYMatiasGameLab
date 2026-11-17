@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_camara_sabiduria",
+  "generation_tool": "native image_gen",
+  "sha256": "c6047a657425a33233c6054bd7b4b115129d56359b0f4bb41d180be08ccfcb8a",
+  "bytes": 242862,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-35320be5-4448-4da4-a933-ed48b0c455ad.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 76)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background matching reference's detailed hand-painted pixel-cluster art and quiet basalt colors. Cámara de la Sabiduría Olvidada: a peaceful room carved in a cave of soft rose tuff; only woven plant-fiber mats, simple bowls of fresh water, and still open floor, conveying absolute rest. No weapons, mechanisms, ornament overload, or characters. High three-quarter overhead view. Exactly two continuous passages at south and east boundaries. No people, creatures, dragons, text, symbols, UI, or baked actors."
+}

@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_cripta_sabios",
+  "generation_tool": "native image_gen",
+  "sha256": "569ca051a1c49def90a9a5615933be7658dd82577dde77d3fe668f0c269ef617",
+  "bytes": 243646,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-9005e9ed-1c96-4d9d-8b89-2470cb44f614.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 77)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background matching reference's detailed hand-painted pixel-cluster style and austere basalt. Cripta de los Antiguos Cronistas: solemn funerary chamber with orderly basalt niches, simple ash urns and a few large ancient dorsal scales arranged as memorial relics. Aged name-and-era engravings are represented only by abstract non-readable shallow lines, no letters. High three-quarter overhead view, broad respectful open center. Exactly two continuous passages at south and west edges. No people, creatures, dragons, text, readable glyphs, UI, or baked actors."
+}
