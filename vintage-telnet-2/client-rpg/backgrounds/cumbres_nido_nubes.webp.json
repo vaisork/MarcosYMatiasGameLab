@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_nido_nubes",
+  "generation_tool": "native image_gen",
+  "sha256": "e5bf9144ac88f2e29ed024d2cf61f2c1d56a29b6dbe12c57091773e42ff1733a",
+  "bytes": 247496,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-1a1b7c0b-1018-40d7-9350-2570865274de.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 82)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas game background; match attached reference's detailed hand-painted pixel-cluster JRPG style and basalt. Nido sobre las Nubes: a colossal circular landing and lookout platform seeming to float above a vast cloud sea; simple rope-glider mooring posts around the perimeter and small recessed basins of clear meltwater. High three-quarter overhead view, generous open stone floor. Exactly three continuous passages at south, east and north boundaries. No other exits. No people, creatures, dragons, text, symbols, UI, or baked actors."
+}

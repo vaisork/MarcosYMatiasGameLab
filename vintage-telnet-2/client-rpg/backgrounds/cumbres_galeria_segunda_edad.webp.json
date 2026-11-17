@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_galeria_segunda_edad",
+  "generation_tool": "native image_gen",
+  "sha256": "a29c1439bbd4e4daffebf7aa0ef5bb90a48e05b5713c0fe7d5aff4b194b3a2eb",
+  "bytes": 242084,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-d2d35458-409b-4836-a17d-cc6c68f82097.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 77)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background; match reference's detailed hand-painted pixel-cluster look and dark basalt. Galería de la Segunda Edad: a semicircular archive chamber with dark volcanic-glass display cases; inside are primitive stone tools from Brumak and quartz needles from Nhal, displayed neatly as small environmental artifacts. Keep all artifacts small and no readable marks. High three-quarter overhead view, broad open floor. Exactly two continuous passages at west and north boundaries; no other exits. No people, creatures, text, labels, lettering, runes, UI, or baked actors."
+}

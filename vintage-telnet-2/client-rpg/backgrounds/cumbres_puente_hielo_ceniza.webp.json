@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_puente_hielo_ceniza",
+  "generation_tool": "native image_gen",
+  "sha256": "e06fd7b3a1eebd272f6b6c023936d443450c6d14dcdd1e3e224b26a3c880dd55",
+  "bytes": 249348,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-c0e427d6-5737-4017-aa3d-ce4b5c8f71dc.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 78)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas game background; match attached reference's hand-painted pixel-cluster rendering and basalt palette. Puente de Hielo y Ceniza: a natural narrow volcanic-stone bridge reinforced by ancient fossil ice and compacted ash, crossing a deep vertical abyss between high mountain flight routes and a sacred crater. Sheer drop on both sides with far-off clouded mountain floor; keep bridge surface wide, safe and continuous. Exactly three passages at south, west and north boundaries. No other exits. No people, creatures, dragons, text, symbols, UI, or baked actors."
+}

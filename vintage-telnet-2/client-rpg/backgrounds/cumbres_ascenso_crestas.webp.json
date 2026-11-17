@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_ascenso_crestas",
+  "generation_tool": "native image_gen",
+  "sha256": "ed2eaf051829feb01e87cdb4c1d67c0846563553e7e7cbbd3f01d2af1b0362af",
+  "bytes": 243586,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-31571e6e-502d-4e36-a3bb-31a03434190c.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 84)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape game background for Cumbres Veladas; match reference's painted pixel-cluster JRPG style and basalt. Ascenso de las Crestas Afiladas: a narrow zigzag footpath along the razor ridge of a high basalt mountain, sheer open chasms on both sides; fierce northern wind carries wisps of cold mist; a few small ancient alloy anchor pegs are fixed in safe rock. High three-quarter overhead view, clearly continuous trail. Exactly two paths connect at south and north boundaries. No other exits. No people, creatures, dragons, text, symbols, UI, or baked actors."
+}

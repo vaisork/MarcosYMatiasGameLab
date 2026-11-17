@@ -65,5 +65,6 @@
       "111111111..111111111"
     ]
   },
-  "battle_background": "backgrounds/hoshai_battle.webp"
+  "battle_background": "backgrounds/hoshai_battle.webp",
+  "background": "backgrounds/cumbres_trono_caldera.webp"
 }

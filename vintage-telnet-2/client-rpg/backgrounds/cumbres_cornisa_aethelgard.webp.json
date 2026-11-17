@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_cornisa_aethelgard",
+  "generation_tool": "native image_gen",
+  "sha256": "4f3ed7dcec2851fc6da314919d224da152f888adf6fed0da8ad6e84fe2f2ae34",
+  "bytes": 237922,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-be1d1869-1023-4ff9-8f2a-79c7f2eba472.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 78)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background; match reference's detailed hand-painted pixel-cluster style and basalt. Cornisa de las Alas Celestes: a natural terrace projecting over the western abyss; an immense white sea of clouds far below hides the lowlands. A broad standing chapter slab sits at center between monoliths shaped like outstretched wings, strictly stone and unlettered. High three-quarter overhead view with spacious floor. Exactly two continuous passages at east and north boundaries. No other exits. No people, creatures, dragons, text, readable glyphs, UI, or baked actors."
+}

@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_residencia_pyrrok",
+  "generation_tool": "native image_gen",
+  "sha256": "d0d7f43680db04d946a6e206b3f0ed5cc4a662b18cc609c120a0395dffe9a476",
+  "bytes": 241924,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-c856ac6d-573a-4eac-8ab5-6c877bdf2675.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 84)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape game background for Cumbres Veladas; match reference's hand-painted detailed pixel-cluster JRPG style and dark basalt palette with restrained warm highlights. Residencia del Clan Pyrrok: severe monumental rooms excavated from living rock, polished stone slabs, simple tuff-stone seats, and recessed niches holding stone-carving tools; quiet low reliefs on walls depict an old forging history but contain no readable marks. High three-quarter overhead view, spacious uncluttered floor. Exactly two continuous passages to room edges: south and east. Other edges are closed rock walls. No people, creatures, dragons, text, readable glyphs, UI, or baked actors. Edit note: replaced human figures in wall reliefs with abstract nonfigurative stone patterns, tools, and ash-wave carving; preserved layout and composition."
+}

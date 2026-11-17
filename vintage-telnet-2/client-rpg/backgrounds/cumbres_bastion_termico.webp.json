@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_bastion_termico",
+  "generation_tool": "native image_gen",
+  "sha256": "efe2f4be213c7c2f01a1afa30e8eeb3da7e5c6d8ef36b1bd1b130aff2e681663",
+  "bytes": 248032,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-d5020e3d-f95d-42ae-ab58-6778b28e3af7.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 78)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape game background for Cumbres Veladas; match reference's hand-painted detailed pixel-cluster JRPG style and dark basalt, old bronze and warm vapor lighting. Baluarte del Flujo Térmico: an underground pressure-control fortress, old bronze and stone columns support enormous pipes with subtle steam vents; a great ash valve is fixed into the eastern wall. High three-quarter overhead view, broad clear floor through the center. Exactly two passages at south and west boundaries, continuous to canvas edge. East is a closed wall containing the valve. No other exits. No people, creatures, text, symbols, readable glyphs, UI, or baked actors."
+}

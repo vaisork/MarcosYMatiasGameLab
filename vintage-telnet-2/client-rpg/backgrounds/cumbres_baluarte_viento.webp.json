@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_baluarte_viento",
+  "generation_tool": "native image_gen",
+  "sha256": "d40c15d2d707732a296bbaa967d7f679b5475221b55c8837f83eb0f4da630653",
+  "bytes": 247294,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-95b85c42-c4c5-4ff4-84ca-4de4518c189e.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 76)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas game background; match reference's painted pixel-cluster JRPG style and dark basalt. Baluarte del Contrapeso Eólico: a massive stone anchor fort with huge pulley wheels and black-bronze tension chains stabilizing upper walkways; one central stone pedestal supports the main anchor pin. High three-quarter overhead interior view, broad navigable floor and machinery around perimeter. Exactly two continuous passages at west and north boundaries. No other exits. No people, creatures, text, labels, readable glyphs, UI, or baked actors."
+}

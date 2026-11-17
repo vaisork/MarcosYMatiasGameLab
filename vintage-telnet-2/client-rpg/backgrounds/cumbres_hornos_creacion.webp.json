@@ -1,0 +1,14 @@
+{
+  "asset_id": "cumbres_hornos_creacion",
+  "generation_tool": "native image_gen",
+  "sha256": "f36d3a930bb6248a095b04857afdd2b430f12513cd039326e695f8c4b8ba1f08",
+  "bytes": 247572,
+  "dimensions": [
+    1280,
+    960
+  ],
+  "source_original": "exec-5161ad9b-2f43-464e-bc14-58f999881c59.png",
+  "normalization": "Mechanical proportional resize and WebP compression only (quality 76)",
+  "review": "SELF_REVIEW_PASS",
+  "prompt": "stylized-concept illustration, original 4:3 landscape Cumbres Veladas JRPG background matching reference's hand-painted pixel-cluster style and dark basalt. Hornos de la Creación: a group of natural conical chimneys where magmatic gas burns with clean smokeless white flames; ancient basalt foundations and smooth stone hearthwork suggest the three clans shaped the Citadel here. Heat shimmer feels warm and invigorating, not destructive. High three-quarter overhead interior view, clear floor. Exactly two continuous passages at west and north boundaries. No people, creatures, dragons, text, symbols, UI, or baked actors."
+}
