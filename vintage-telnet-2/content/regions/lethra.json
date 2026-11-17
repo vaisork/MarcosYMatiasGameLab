@@ -2707,7 +2707,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/lethra_mira-anime-v1.webp"
     },
     "lethra_sola": {
       "id": "lethra_sola",
@@ -2774,7 +2775,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/lethra_sola-anime-v1.webp"
     },
     "lethra_nima": {
       "id": "lethra_nima",
@@ -2840,7 +2842,8 @@
         "lethra_reunion_cubierta": "Nima mantiene los cuencos bajo la cubierta de la cocina.",
         "lethra_hilo_completado": "Nima remueve la olla con una sonrisa serena: «Las canciones de Narevia siguen sonando mientras haya lumbre en esta cocina.»",
         "rango:defensor:narevia": "Nima sonríe al verte. «Defensor de Narevia. La gente de la orilla sabe que cuidaste el paso»."
-      }
+      },
+      "portrait": "/client/art/residents/lethra_nima-anime-v1.webp"
     },
     "lethra_nera_mercado": {
       "id": "lethra_nera_mercado",
@@ -2886,7 +2889,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/lethra_nera_mercado-anime-v1.webp"
     },
     "lethra_ume": {
       "id": "lethra_ume",
@@ -2902,7 +2906,8 @@
       },
       "memory": {},
       "day": "Ume recibe a viajeros mojados y mantiene un apoyo seco para atenderles sin acercarlos otra vez al agua.",
-      "night": "Ume prepara una lámpara y recibe a quien necesite atención."
+      "night": "Ume prepara una lámpara y recibe a quien necesite atención.",
+      "portrait": "/client/art/residents/lethra_ume-anime-v1.webp"
     }
   },
   "stories": {

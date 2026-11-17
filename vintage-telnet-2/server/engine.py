@@ -24,7 +24,7 @@ def strip_articles(value):
 class RuleError(ValueError):
     def __init__(self,message,status=400):self.status=status;super().__init__(message)
 
-def event(kind,text):return {'kind':kind,'text':text}
+def event(kind,text,**extra):return {'kind':kind,'text':text,**extra}
 
 def signal_present(signal,room,world,now):
  key=f"{room['id']}:{signal['creature']}"
@@ -1590,7 +1590,12 @@ class Engine:
                 self.effects(state,world,response);response=response['text']
             memories=[('personal:'+flag,v) for flag,v in npc.get('memory',{}).items() if flag in state['flags'] or 'participated:'+flag in state['flags']]
             memories += [('world:'+flag,v) for flag,v in npc.get('world_memory',{}).items() if flag in world['flags']]
-            state['events']=[event('npc',f"{npc['name']}: {response}")]
+            known_residents=state.setdefault('known_residents',[])
+            newly_known=target not in known_residents
+            if newly_known:known_residents.append(target)
+            resident=self.content.npcs[target]
+            state['events']=[event('npc',f"{npc['name']}: {response}",**({'portrait':resident['portrait'],'thumbnail':resident['portrait'].replace('.webp','-thumb.webp')} if resident.get('portrait') else {}))]
+            if newly_known:state['events'].append(event('info',f"Añades a {npc['name']} a Habitantes."))
             if memories:
                 memory,text=memories[-1];recollection={'visit':state['visits'].get(room['id'],0),'memory':memory}
                 recalled=state.setdefault('dialogue_memories',{})
@@ -2107,12 +2112,13 @@ class Engine:
             scene.append(event('world',active_event['scene']))
         return {'version':world['version'],'character':char,'attribute_effects':dict(m.ATTRIBUTE_EFFECTS),'numenes':state.get('numenes',{'active':None,'bonded':[],'encounters':{}}),'daily_errands':daily_errands.snapshot(self,character),'room':{'id':room['id'],'name':room['name'],'region':room['region'],'kind':room['kind'],'description':room['description'],
             **({'art_variant':room['art_variant']} if room.get('art_variant') else {}),
-            'npcs':[{'id':n['id'],'name':n['name'],'role':n.get('role',''),'description':n.get('description',''),'topics':[t for t,v in n.get('topics',{}).items() if not isinstance(v,dict) or self.allowed(v,state,world)]} for n in people],
+            'npcs':[{'id':n['id'],'name':n['name'],'role':n.get('role',''),'description':n.get('description',''),'portrait':n.get('portrait'),'topics':[t for t,v in n.get('topics',{}).items() if not isinstance(v,dict) or self.allowed(v,state,world)]} for n in people],
             'exits':[{'direction':d,'label':d.capitalize()} for d in room.get('exits',{})]},
             'presence':[{k:v[k] for k in ('id','name','species','class_id')} for v in world.get('presence',{}).values() if v['id']!=character['id'] and v['room']==state['location'] and self.clock()-v['at']<30],
             'chat':[{k:v[k] for k in ('id','sender_id','sender','text','at')} for v in world.get('chat',[]) if v['room']==state['location'] and self.clock()-v['at']<600 and character['id'] in v['recipients']][-30:],
             'narrative':state.get('events') or scene,'scene':scene,'world_event':active_event,'actions':self.actions(character,world),
             'map':{'nodes':nodes,'edges':[p for p in state['routes'] if set(p).issubset(known)],'routes':routes,'frontiers':frontiers,**({'recovery':state['last_recovery']} if state.get('last_recovery') else {})},
-            'inventory':state['inventory'],'bestiary':[{**entry,'behavior':list(entry.get('behavior',[])),**({'illustration':self.content.creatures[cid]['illustration']} if self.content.creatures.get(cid,{}).get('illustration') else {})} for cid,entry in state['bestiary'].items() if self.content.creatures.get(cid,{}).get('combatant_kind')!='human'],
+            'inventory':state['inventory'],'residents':[{'id':npc_id,'name':self.content.npcs[npc_id]['name'],'region':self.content.regions.get(self.content.rooms.get(self.content.npcs[npc_id].get('home_room'),{}).get('region'),{}).get('name',self.content.rooms.get(self.content.npcs[npc_id].get('home_room'),{}).get('region','')),'role':self.content.npcs[npc_id].get('role',''),'description':self.content.npcs[npc_id].get('description',''),'portrait':self.content.npcs[npc_id].get('portrait'),'thumbnail':self.content.npcs[npc_id]['portrait'].replace('.webp','-thumb.webp')} for npc_id in state.get('known_residents',[]) if npc_id in self.content.npcs and self.content.npcs[npc_id].get('portrait')],
+            'bestiary':[{**entry,'behavior':list(entry.get('behavior',[])),**({'illustration':self.content.creatures[cid]['illustration']} if self.content.creatures.get(cid,{}).get('illustration') else {})} for cid,entry in state['bestiary'].items() if self.content.creatures.get(cid,{}).get('combatant_kind')!='human'],
             'rivals':[{**entry,'illustration':self.content.creatures[cid]['illustration'],'thumbnail':self.content.creatures[cid]['illustration'].replace('.webp','-thumb.webp')} for cid,entry in state.get('rivals',{}).items() if self.content.creatures.get(cid,{}).get('combatant_kind')=='human' and self.content.creatures[cid].get('illustration')],
             'journal':state['journal'],'secrets':{'found':sum(1 for secret in getattr(self.content,'secrets',{}).values() if secret.get('flag') in state['flags'] or 'participated:'+str(secret.get('flag')) in state['flags'])},'quests':quests,'ambient':ambient}

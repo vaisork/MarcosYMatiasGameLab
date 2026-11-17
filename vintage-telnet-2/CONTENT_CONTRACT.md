@@ -203,6 +203,7 @@ Una región, mazmorra o parte nueva del juego no se publica solo con texto y mec
 - **Bestiario:** `illustration` + miniatura de cada criatura nueva.
 - **Rivales:** retrato de cada enemigo humano (`combatant_kind: "human"`), visible en combate y en la pestaña Rivales.
 - **Habitantes:** `portrait` + miniatura de cada habitante nuevo, visible al hablar y en la pestaña Habitantes.
+- **Mapa:** la región aparece en el mapa descubierto y en el mapa ilustrado del mundo (`client/art/map/mundo-anime-v1.webp`).
 - **Hallazgos:** texto (`text`) en cada hallazgo de búsqueda.
 
 Las pruebas de contenido fallan si falta cualquiera de estos. Motivo: Cumbres Veladas salió sin 10 criaturas, sin rivales ni habitantes ilustrados y con «Buscar» roto; Marcos lo notó jugando.

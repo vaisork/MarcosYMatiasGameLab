@@ -2670,7 +2670,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/nhal_leris-anime-v1.webp"
     },
     "nhal_elin": {
       "id": "nhal_elin",
@@ -2708,7 +2709,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/nhal_elin-anime-v1.webp"
     },
     "nhal_desi": {
       "id": "nhal_desi",
@@ -2754,7 +2756,8 @@
       ],
       "memory": {
         "hallazgo:rama_flexible": "«Las ramas flexibles sirven para dar forma a los aros. Si conservaste la que encontraste, no tendrás que buscar otra para un trabajo pequeño.»"
-      }
+      },
+      "portrait": "/client/art/residents/nhal_desi-anime-v1.webp"
     },
     "nhal_varo": {
       "id": "nhal_varo",
@@ -2788,7 +2791,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/nhal_varo-anime-v1.webp"
     },
     "nhal_sira": {
       "id": "nhal_sira",
@@ -2804,7 +2808,8 @@
       },
       "memory": {},
       "day": "Sira acerca la lámpara a la mesa y pregunta por el golpe antes de abrir la caja de paños.",
-      "night": "Sira prepara una lámpara y recibe a quien necesite atención."
+      "night": "Sira prepara una lámpara y recibe a quien necesite atención.",
+      "portrait": "/client/art/residents/nhal_sira-anime-v1.webp"
     }
   },
   "stories": {

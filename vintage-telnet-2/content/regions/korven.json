@@ -3955,7 +3955,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/korven_oma-anime-v1.webp"
     },
     "korven_taren": {
       "id": "korven_taren",
@@ -4059,7 +4060,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/korven_taren-anime-v1.webp"
     },
     "korven_ruma": {
       "id": "korven_ruma",
@@ -4095,7 +4097,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/korven_ruma-anime-v1.webp"
     },
     "korven_ved": {
       "id": "korven_ved",
@@ -4124,7 +4127,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/korven_ved-anime-v1.webp"
     },
     "korven_beran": {
       "id": "korven_beran",
@@ -4142,7 +4146,8 @@
         "hallazgo:piedra_veteada": "Beran reconoce la veta de la piedra que encontraste. «Una muestra útil; revisa el afinado antes de gastar.»"
       },
       "day": "Beran revisa filos y juntas en el banco del taller.",
-      "night": "Una lámpara ilumina el banco de Beran; atiende reparaciones pequeñas sin dejar piezas calientes en el paso."
+      "night": "Una lámpara ilumina el banco de Beran; atiende reparaciones pequeñas sin dejar piezas calientes en el paso.",
+      "portrait": "/client/art/residents/korven_beran-anime-v1.webp"
     },
     "korven_neru": {
       "id": "korven_neru",
@@ -4158,7 +4163,8 @@
       },
       "memory": {},
       "day": "Neru separa el polvo de las capas antes de revisar una herida y pregunta dónde ocurrió la caída.",
-      "night": "Neru prepara una lámpara y recibe a quien necesite atención."
+      "night": "Neru prepara una lámpara y recibe a quien necesite atención.",
+      "portrait": "/client/art/residents/korven_neru-anime-v1.webp"
     }
   },
   "stories": {

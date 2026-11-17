@@ -638,7 +638,7 @@ def new_state(species,class_id,home,now):
  attrs=dict(CLASS_ATTRIBUTES.get(class_id, dict.fromkeys(ATTRIBUTES,10)))
  return {'species':species,'class_id':class_id,'location':home,'home':home,'level':1,'xp':0,'pa':0,'pp':0,'attributes':attrs,
  'hp':100,'fatigue':0,'wound':None,'seals':20,'inventory':[weapon],'equipment':{'weapon':weapon['id'],'armor':None,'block':None},
- 'flags':[],'visited':[home],'known':[home],'routes':[],'bestiary':{},'rivals':{},'journal':[],'visits':{home:1},'last_room':None,
+ 'flags':[],'visited':[home],'known':[home],'known_residents':[],'routes':[],'bestiary':{},'rivals':{},'journal':[],'visits':{home:1},'last_room':None,
  'combat':None,'victories':[],'rest_budget':None,'quests':{},'ledger':[],'last_active':now,'events':[], 'arrival':True,
  'numenes':{'active':None,'bonded':[],'encounters':{}}}
 

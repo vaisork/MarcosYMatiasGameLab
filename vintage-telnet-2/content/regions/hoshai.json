@@ -2745,7 +2745,8 @@
       },
       "schedule": [
         "día"
-      ]
+      ],
+      "portrait": "/client/art/residents/hoshai_iria-anime-v1.webp"
     },
     "hoshai_daren": {
       "id": "hoshai_daren",
@@ -2801,7 +2802,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/hoshai_daren-anime-v1.webp"
     },
     "hoshai_yesa": {
       "id": "hoshai_yesa",
@@ -2822,7 +2824,8 @@
       },
       "memory": {
         "hallazgo:resina_pino": "«La resina se queda pegada a los pinos aunque el viento mueva las ramas. Si guardaste la que encontraste, puede servir para una unión pequeña.»"
-      }
+      },
+      "portrait": "/client/art/residents/hoshai_yesa-anime-v1.webp"
     },
     "hoshai_luma": {
       "id": "hoshai_luma",
@@ -2903,7 +2906,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/hoshai_luma-anime-v1.webp"
     },
     "hoshai_seran": {
       "id": "hoshai_seran",
@@ -2976,7 +2980,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/hoshai_seran-anime-v1.webp"
     },
     "hoshai_ena": {
       "id": "hoshai_ena",
@@ -2992,7 +2997,8 @@
       },
       "memory": {},
       "day": "Ena recibe a quienes llegan con golpes de las pendientes y comprueba el apoyo antes de ayudarles a sentarse.",
-      "night": "Ena prepara una lámpara y recibe a quien necesite atención."
+      "night": "Ena prepara una lámpara y recibe a quien necesite atención.",
+      "portrait": "/client/art/residents/hoshai_ena-anime-v1.webp"
     }
   },
   "stories": {

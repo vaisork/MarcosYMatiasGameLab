@@ -3022,7 +3022,9 @@
         "sur": "veyra_mazmorra_boveda_guardian",
         "este": "veyra_acequia_exterior"
       },
-      "one_way_exits": ["este"],
+      "one_way_exits": [
+        "este"
+      ],
       "examine": {
         "arquetas": "Cuatro arquetas de piedra conservan huecos preparados para armas y pequeñas piezas. Ves joyas cristalinas, una escama tornasolada y un colmillo suavemente curvado entre otros objetos. Ninguna inscripción dice quién preparó el lugar ni por qué.",
         "claraboya": "La abertura es irregular y natural. Por ella se ven el cielo y algunas hierbas que crecen entre las piedras altas. Aquí el aire se mueve libre, distinto del vapor encerrado en la bóveda.",
@@ -3269,7 +3271,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/veyra_nera-anime-v1.webp"
     },
     "veyra_tov": {
       "id": "veyra_tov",
@@ -3318,7 +3321,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/veyra_tov-anime-v1.webp"
     },
     "veyra_seli": {
       "id": "veyra_seli",
@@ -3380,7 +3384,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/veyra_seli-anime-v1.webp"
     },
     "veyra_arel": {
       "id": "veyra_arel",
@@ -3483,7 +3488,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/veyra_arel-anime-v1.webp"
     },
     "veyra_bela": {
       "id": "veyra_bela",
@@ -3499,7 +3505,8 @@
       },
       "memory": {},
       "day": "Bela aparta una cesta para dejar pasar un carro y vuelve a colocar las piezas por tamaño. Un viajero compara un mango con el que trae de su pueblo.",
-      "night": "Bela orienta la lámpara hacia las piezas que alguien quiere comparar. Al otro lado del canal, los puestos cerrados dejan sitio a las cargas de quienes llegan tarde."
+      "night": "Bela orienta la lámpara hacia las piezas que alguien quiere comparar. Al otro lado del canal, los puestos cerrados dejan sitio a las cargas de quienes llegan tarde.",
+      "portrait": "/client/art/residents/veyra_bela-anime-v1.webp"
     },
     "veyra_doma": {
       "id": "veyra_doma",
@@ -3515,7 +3522,8 @@
       },
       "memory": {},
       "day": "Doma deja un paño limpio junto al banco y pregunta dónde ocurrió la herida. Sobre la mesa quedan notas de las cinco rutas.",
-      "night": "Doma prepara una lámpara y recibe a quien necesite atención."
+      "night": "Doma prepara una lámpara y recibe a quien necesite atención.",
+      "portrait": "/client/art/residents/veyra_doma-anime-v1.webp"
     }
   },
   "stories": {
