@@ -2362,7 +2362,10 @@
           "label": "Preguntar por el camino entre las fumarolas",
           "text": "«El vapor brota de las venas de la montaña. Si sigues los claros de azufre encontrarás los pilares de vuelo, y en el refugio este descansa la primera tabla de los sabios.»"
         }
-      }
+      },
+      "portrait": "/client/art/residents/hoshai_kaelen-anime-v1.webp",
+      "role": "rastreador de las fumarolas",
+      "description": "Sigue el rastro del vapor con una capucha de cuero curtido. Para él, la niebla indica que la montaña está viva."
     },
     "hoshai_vhis_sora": {
       "id": "hoshai_vhis_sora",
@@ -2385,7 +2388,10 @@
           "label": "Preguntar por el Dragón de las Aguas Antiguas",
           "text": "«En las crónicas del Clan Quellor se recuerda a quien bajó al Bastión de Veyra para sostener la falla. Sabemos que sigue respirando en su lecho de agua tibia. Marcos lo enfrentó sin apagar su vida; aquí esa memoria no se olvida.»"
         }
-      }
+      },
+      "portrait": "/client/art/residents/hoshai_vhis_sora-anime-v1.webp",
+      "role": "guardiana del manantial tibio",
+      "description": "Joven dragona de escamas azul pálido; pliega sus alas mientras el agua tibia cubre sus patas."
     },
     "hoshai_maelor": {
       "id": "hoshai_maelor",
@@ -2408,7 +2414,10 @@
           "label": "Preguntar por el paso a los riscos",
           "text": "«Más adelante está el Umbral de los Riscos. El Ceniciento Alado vigila el paso. No te dejará subir a la Ciudadela sin medir tu temple.»"
         }
-      }
+      },
+      "portrait": "/client/art/residents/hoshai_maelor-anime-v1.webp",
+      "role": "cantero de las grietas altas",
+      "description": "Cantero dravak que apoya su cincel contra el basalto y compara la roca con vetas vivas de la montaña."
     },
     "cumbres_vhis_kael": {
       "id": "cumbres_vhis_kael",
@@ -2431,7 +2440,10 @@
           "label": "Preguntar cómo acceder al Gran Archivo",
           "text": "«Más allá del salón de Vaelok se abre el Archivo de las Cinco Edades. Solo quienes demuestran firmeza ante el yunque obtienen la llave rúnica para franquear la entrada.»"
         }
-      }
+      },
+      "portrait": "/client/art/residents/cumbres_vhis_kael-anime-v1.webp",
+      "role": "miembro del Clan Aethelgard",
+      "description": "Dragón de alas claras que conversa con serenidad sobre el debate entre los tres clanes y el contacto con otros pueblos."
     },
     "cumbres_artifice_pyrrok": {
       "id": "cumbres_artifice_pyrrok",
@@ -2450,7 +2462,10 @@
           "label": "Preguntar por el maestro Vaelok",
           "text": "«Es el más antiguo de los forjadores vivos. Su corazón late al compás de la gran caldera. No tolera la arrogancia, pero honra a quien resiste sus pruebas con dignidad.»"
         }
-      }
+      },
+      "portrait": "/client/art/residents/cumbres_artifice_pyrrok-anime-v1.webp",
+      "role": "artesano del Clan Pyrrok",
+      "description": "Artesano dragónico que limpia una lámina de basalto templado y explica cómo acomodan los cristales de la roca."
     },
     "cumbres_archivista_sol": {
       "id": "cumbres_archivista_sol",
@@ -2469,7 +2484,10 @@
           "label": "Preguntar por el enigma de la sala de prismas",
           "text": "«Los prismas no son adornos: son la balanza óptica de las cumbres. Si alineas el haz solar con la Marea Magmática que describe el Capítulo III, y el pulso secundario con la memoria de Quellor del Capítulo IV, la piedra misma te entregará su ofrenda.»"
         }
-      }
+      },
+      "portrait": "/client/art/residents/cumbres_archivista_sol-anime-v1.webp",
+      "role": "archivista de las Cinco Edades",
+      "description": "Dragona que acomoda con cuidado los rollos de corteza del Gran Archivo."
     },
     "cumbres_vigia_zephyr": {
       "id": "cumbres_vigia_zephyr",
@@ -2488,7 +2506,10 @@
           "label": "Preguntar por el Señor de la Ventisca",
           "text": "«Es el más veloz de los ancianos de Aethelgard. No tolera la torpeza ni la soberbia. Para cruzar su puerta debes recordar la máxima del testigo que guardan las losas: la fruta no se arranca antes de su sazón.»"
         }
-      }
+      },
+      "portrait": "/client/art/residents/cumbres_vigia_zephyr-anime-v1.webp",
+      "role": "vigía de Aethelgard",
+      "description": "Dragón de alas esbeltas que estudia las corrientes del viento como senderos entre las cumbres."
     },
     "cumbres_anciana_pyrr": {
       "id": "cumbres_anciana_pyrr",
@@ -2507,7 +2528,10 @@
           "label": "Preguntar por el fuego sagrado de la caldera",
           "text": "«No es un fuego que queme por furia. Es el calor que mantiene la savia corriendo en los árboles de Nhal y el vapor en las termas de Veyra. Quien aprende a convivir con él comprende el verdadero latido de Vaisgard.»"
         }
-      }
+      },
+      "portrait": "/client/art/residents/cumbres_anciana_pyrr-anime-v1.webp",
+      "role": "matriarca del Clan Pyrrok",
+      "description": "Anciana dragona de un ojo de obsidiana templada; habla del fuego de la caldera y del pacto entre clanes."
     }
   }
 }

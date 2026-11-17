@@ -314,6 +314,9 @@ body .reading .event-kind{font-family:var(--serif);font-variant:small-caps;lette
 body .reading .event-world .event-kind,body .reading .event-look .event-kind{display:none}
 body .reading .event-location{color:var(--place);font-weight:700;font-size:1.05em;border-top:1px solid #8a6a2644}
 body .reading .event-info{font-size:.9em;font-style:italic}
+body .reading .event-with-portrait{display:flex;align-items:center;gap:10px}
+body .reading .resident-art-peek{flex:0 0 52px;width:52px;height:52px}
+body .reading .event-copy{min-width:0}
 body .reading .event-discovery,body .reading .event-reward{background:#f6e3a855;border-radius:6px;padding:4px 8px 4px 10px}
 body .reading .event-danger,body .reading .event-combat,body .reading .event-damage{background:#f3c9b955;border-radius:6px;padding:4px 8px 4px 10px}
 body .reading-footer{color:var(--ink-soft);font-style:italic}

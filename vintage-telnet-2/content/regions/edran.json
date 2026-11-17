@@ -3725,7 +3725,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/edran_daro-anime-v1.webp"
     },
     "edran_iria": {
       "id": "edran_iria",
@@ -3782,7 +3783,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/edran_iria-anime-v1.webp"
     },
     "edran_bren": {
       "id": "edran_bren",
@@ -3818,7 +3820,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/edran_bren-anime-v1.webp"
     },
     "edran_elva": {
       "id": "edran_elva",
@@ -3852,7 +3855,8 @@
         "encargo_pagado:valdren_revision_cobertizos": "Elva toca la lista de cargas. «Anoté tu comprobación de los dos espacios; queda aquí para quien llegue tarde.»"
       },
       "day": "Elva guarda una taza invertida para quien todavía no ha llegado.",
-      "night": "Elva deja un extremo de la mesa dispuesto para los últimos viajeros."
+      "night": "Elva deja un extremo de la mesa dispuesto para los últimos viajeros.",
+      "portrait": "/client/art/residents/edran_elva-anime-v1.webp"
     },
     "edran_sena": {
       "id": "edran_sena",
@@ -3870,7 +3874,8 @@
         "hallazgo:semillas_camino": "«Las semillas que se encuentran junto al camino también cuentan de qué campo viene una carga. Si aún conservas alguna, compara su forma cuando vuelvas a pasar.»"
       },
       "day": "Sena cambia el paño de la mesa antes de atender a otra persona.",
-      "night": "Sena conserva una lámpara baja y un asiento libre cerca de la puerta."
+      "night": "Sena conserva una lámpara baja y un asiento libre cerca de la puerta.",
+      "portrait": "/client/art/residents/edran_sena-anime-v1.webp"
     },
     "edran_aren": {
       "id": "edran_aren",
@@ -3893,7 +3898,8 @@
         "hallazgo:semillas_camino": "«Las semillas que se encuentran junto al camino también cuentan de qué campo viene una carga. Si aún conservas alguna, compara su forma cuando vuelvas a pasar.»"
       },
       "day": "Aren pregunta desde dónde se vio una carga antes de registrar el mensaje.",
-      "night": "Aren lee junto a la lámpara; las cargas del suelo bajo permanecen cerradas."
+      "night": "Aren lee junto a la lámpara; las cargas del suelo bajo permanecen cerradas.",
+      "portrait": "/client/art/residents/edran_aren-anime-v1.webp"
     },
     "edran_nela": {
       "id": "edran_nela",
@@ -3945,7 +3951,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/edran_nela-anime-v1.webp"
     },
     "edran_oren": {
       "id": "edran_oren",
@@ -3976,7 +3983,8 @@
         "edran_oren_orientado": "Oren ya tiene la manta recogida. «Gracias por hablarme sin sacar el arma.»"
       },
       "day": "Tiene los cordones rotos y una venda limpia en la mano. Deja la taza en el suelo para escucharte.",
-      "night": "Tiene los cordones rotos y una venda limpia en la mano. Deja la taza en el suelo para escucharte."
+      "night": "Tiene los cordones rotos y una venda limpia en la mano. Deja la taza en el suelo para escucharte.",
+      "portrait": "/client/art/residents/edran_oren-anime-v1.webp"
     },
     "edran_lina": {
       "id": "edran_lina",
@@ -4019,7 +4027,8 @@
             }
           }
         }
-      ]
+      ],
+      "portrait": "/client/art/residents/edran_lina-anime-v1.webp"
     }
   },
   "stories": {
