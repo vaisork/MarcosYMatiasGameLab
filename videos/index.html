@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2a1a10">
+  <meta name="description" content="Videos de Marcos y Matías Game Lab: el Diario del hormiguero y las Crónicas de Vaisgard, para ver y descargar.">
+  <link rel="icon" type="image/png" sizes="192x192" href="../portal/marcosmatias-icon-192.png">
+  <title>Videos — Marcos y Matías Game Lab</title>
+  <style>
+    :root{--madera:#6b4226;--papel:#f6ead2;--tinta:#2b1c12;--oro:#f2c56b;--fondo:#1b120b}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% 0,#3a2615 0,var(--fondo) 60%);color:var(--papel);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px max(16px,4vw)}
+    header a{color:var(--oro);text-decoration:none;font-weight:800}
+    main{max-width:1040px;margin:0 auto;padding:8px 16px 48px}
+    h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(2rem,6vw,3.2rem);margin:.2em 0 .1em;color:var(--oro)}
+    h2{font-family:Georgia,"Times New Roman",serif;color:var(--oro);margin:34px 0 4px}
+    .intro{margin:0 0 12px;max-width:60ch;line-height:1.5;opacity:.9}
+    .serie-desc{margin:0 0 16px;opacity:.8;line-height:1.5}
+    .lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:22px}
+    .video{background:#ffffff0d;border:1px solid #ffffff1f;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+    .pantalla{position:relative;aspect-ratio:16/9;background:#000}
+    .pantalla img,.pantalla iframe{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
+    .pantalla button{position:absolute;inset:0;border:0;padding:0;background:none;cursor:pointer}
+    .pantalla button::after{content:"▶";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:#000a;color:#fff;font-size:28px;display:grid;place-items:center;line-height:64px}
+    .pronto{position:absolute;right:10px;bottom:10px;padding:5px 12px;border-radius:999px;background:#000b;font-weight:700;font-size:.8rem}
+    .info{padding:12px 14px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+    .info h3{margin:0;font-size:1.02rem}
+    .info p{margin:0;font-size:.88rem;opacity:.78;line-height:1.45;flex:1}
+    .boton{align-self:flex-start;margin-top:6px;padding:9px 16px;border-radius:999px;background:var(--oro);color:var(--tinta);font-weight:800;text-decoration:none;box-shadow:0 4px 0 #a9762a;font-size:.9rem}
+    .boton:active{transform:translateY(3px);box-shadow:0 1px 0 #a9762a}
+    .compartir{overflow-wrap:anywhere;margin-top:34px;background:#ffffff0d;border:1px solid #ffffff1f;border-radius:14px;padding:16px 18px;line-height:1.55}
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html">← Marcos y Matías Game Lab</a>
+  </header>
+  <main>
+    <h1>🎬 Videos</h1>
+    <p class="intro">Nuestras historias en video. Míralas aquí o descárgalas para verlas sin internet.</p>
+    <div id="series"></div>
+    <p class="compartir">¿Quieres enseñárselos a tus amigos? Mándales este link: <strong>vaisork.github.io/MarcosYMatiasGameLab/videos/</strong></p>
+  </main>
+  <script>
+    // Para agregar un video: súbelo como «no listado» a YouTube, pon su id en yt y sube la copia para celular al release «videos» del repo.
+    const DESCARGA = 'https://github.com/vaisork/MarcosYMatiasGameLab/releases/download/videos/';
+    const SERIES = [
+      {titulo: '🐜 Diario del hormiguero', desc: 'La historia de las hormigas carpinteras de la casa, contada por papá: lo que pasa y lo que vamos aprendiendo.', videos: [
+        {id: 'hormiguero-ep01', titulo: 'Episodio 1 · Llegan las carpinteras', desc: 'Dos reinas, treinta obreras, Senku muy travieso y una mudanza antes de tiempo.', dur: '1:52', mb: 14, yt: ''},
+      ]},
+      {titulo: '📖 Crónicas de Vaisgard', desc: 'El Libro I en video: Lera y su primer camino. El libro completo está en la Biblioteca.', videos: [
+        {id: 'vaisgard-prologo', titulo: 'Prólogo · El inicio de Vaisgard', desc: 'Nadie se pone de acuerdo sobre la edad de Vaisgard.', dur: '5:07', mb: 26, yt: ''},
+        {id: 'vaisgard-cap1', titulo: 'Capítulo 1 · Una decisión al amanecer', desc: 'Lera espera en la plaza de Valdren con una carta que no se atreve a entregar.', dur: '4:13', mb: 23, yt: ''},
+        {id: 'vaisgard-cap2', titulo: 'Capítulo 2 · Lo que se queda', desc: 'Antes de irse, Lera tiene que hablar con los que se quedan.', dur: '4:30', mb: 23, yt: ''},
+        {id: 'vaisgard-cap3', titulo: 'Capítulo 3 · Más allá de las cercas', desc: 'El primer día fuera de Valdren y un encuentro en el rastrojo.', dur: '4:46', mb: 24, yt: ''},
+      ]},
+    ];
+    const el = (tag, attrs = {}, ...kids) => { const e = document.createElement(tag); Object.assign(e, attrs); e.append(...kids); return e; };
+    for (const s of SERIES) {
+      const lista = el('div', {className: 'lista'});
+      for (const v of s.videos) {
+        const pantalla = el('div', {className: 'pantalla'}, el('img', {src: `portadas/${v.id}.webp`, alt: v.titulo, loading: 'lazy'}));
+        if (v.yt) {   // el reproductor de YouTube se carga solo al tocar: la página abre rápido en el celular
+          const play = el('button', {type: 'button', ariaLabel: `Ver ${v.titulo}`});
+          play.onclick = () => pantalla.replaceChildren(el('iframe', {src: `https://www.youtube-nocookie.com/embed/${v.yt}?autoplay=1&rel=0`, title: v.titulo, allow: 'autoplay; fullscreen; picture-in-picture', allowFullscreen: true}));
+          pantalla.append(play);
+        } else pantalla.append(el('span', {className: 'pronto'}, 'Pronto en línea · ya se puede descargar'));
+        lista.append(el('article', {className: 'video'}, pantalla, el('div', {className: 'info'},
+          el('h3', {}, v.titulo), el('p', {}, `${v.desc} (${v.dur})`),
+          el('a', {className: 'boton', href: DESCARGA + v.id + '.mp4', download: ''}, `Descargar (${v.mb} MB)`))));
+      }
+      document.getElementById('series').append(el('h2', {}, s.titulo), el('p', {className: 'serie-desc'}, s.desc), lista);
+    }
+  </script>
+</body>
+</html>
