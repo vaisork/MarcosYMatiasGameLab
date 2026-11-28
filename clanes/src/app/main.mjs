@@ -1,14 +1,35 @@
 import { parseBalance, FARO } from '../content/catalog.mjs';
 import { createGame, enqueue, issue, placeBuilding, step } from '../sim/engine.mjs';
 import { ThreeView } from '../render/three-view.mjs';
+import { MISSIONS, isUnlocked, loadProgress, saveMission } from '../content/campaign.mjs';
 
 const $ = q => document.querySelector(q), catalog = parseBalance(await (await fetch('./docs/balance.csv')).text());
-const game = createGame({ seed: Number(new URLSearchParams(location.search).get('seed') || 917), catalog });
-const benchmark = new URLSearchParams(location.search).get('prueba') === '200';
+const params = new URLSearchParams(location.search);
+const storage = { getItem: (...args) => localStorage.getItem(...args), setItem: (...args) => localStorage.setItem(...args) };
+const requested = params.get('mision');
+const mission = MISSIONS.find(item => item.id === requested && isUnlocked(item, loadProgress(storage))) || null;
+if (requested && !mission) {
+  location.replace('./campana.html');
+  await new Promise(() => {});
+}
+const game = createGame({ seed: mission?.seed ?? Number(params.get('seed') || 917), catalog, mission });
+const benchmark = !mission && params.get('prueba') === '200';
 if (benchmark) { const stats = catalog.find(x => x.nombre === 'Semillero'), extra = Math.max(0, 200 - game.entities.filter(e => e.type === 'unit').length); for (let i = 0; i < extra; i++) game.entities.push({ id: game.nextId++, type: 'unit', owner: 0, name: 'Semillero', x: 2 + (i % 20) * 2.1, z: 2 + Math.floor(i / 20) * 4.2, hp: stats.vida, maxHp: stats.vida, stats, complete: true, progress: 0, order: null, path: [], cooldown: 0, cargo: 0, workTicks: 0, group: 0, stars: 0 }); game.players[0].population = 200; game.players[0].used = game.entities.filter(e => e.owner === 0 && e.type === 'unit').length; }
 const view = new ThreeView($('#world'), game), selected = new Set(), own = () => game.entities.filter(e => selected.has(e.id));
 $('#fps').hidden = !benchmark;
 $('#seed').textContent = game.seed;
+if (mission) {
+  document.body.classList.add('campaign-mission');
+  $('#match').hidden = $('#battle-meta').hidden = true;
+  $('#campaign-link').textContent = 'Volver a la campaña';
+  $('#mission-panel').hidden = false;
+  $('#mission-title').textContent = mission.title;
+  $('#mission-brief').textContent = $('#mission-brief-small').textContent = mission.brief;
+  $('#mission-optional').replaceChildren(...mission.bonuses.map(label => {
+    const item = document.createElement('li'); item.textContent = label; return item;
+  }));
+  $('#mission-replay').onclick = () => location.reload();
+}
 let mode = null, buildName = null, buildMenu = false, pointers = new Map(), drag = null, pinch = null, previous = performance.now(), bank = 0, paused = false, controlsKey = '';
 
 const icons = {
@@ -22,19 +43,37 @@ const icons = {
 };
 const svgIcon = id => `<svg aria-hidden="true"><use href="./assets/emblems.svg#${id}"/></svg>`;
 const icon = name => svgIcon(icons[name] || 'estrella');
+let resultShown = false;
+function showMission(p, worker) {
+  if (!mission) return;
+  $('#mission-progress').textContent = `Deposita Brotes: ${Math.min(80, p.resources.Brote)} / 80 · Prisma: ${p.resources.Prisma} / 10`;
+  $('#mission-guide').textContent = !worker ? 'Toca un Semillero que esté cerca del Nido.' : 'Toca un huerto cerca del Nido. El Semillero vuelve a depositar su carga.';
+  if (!game.result || resultShown) return;
+  resultShown = true;
+  const { stars, bonuses } = game.result;
+  const saved = saveMission(storage, mission.id, stars);
+  $('#mission-rating').textContent = `${stars} de 3 estrellas`;
+  $('#mission-bonuses').replaceChildren(...mission.bonuses.map((label, i) => {
+    const item = document.createElement('li'); item.textContent = `${bonuses[i] ? 'Logrado' : 'Pendiente'}: ${label}`; return item;
+  }));
+  $('#mission-save-status').textContent = saved ? '' : 'Este navegador no pudo guardar tu resultado.';
+  $('#mission-result').showModal();
+}
 function hud() {
   const p = game.players[0], chosen = own(), worker = chosen.some(e => e.type === 'unit' && e.stats?.rol === 'trabajador'), building = chosen.find(e => e.type === 'building'); $('#brote').textContent = Math.floor(p.resources.Brote); $('#prisma').textContent = Math.floor(p.resources.Prisma);
   $('#population').textContent = `${p.used} / ${p.population}`; $('#selection').textContent = chosen.map(e => e.name).filter((x, i, a) => a.indexOf(x) === i).join(', ') || 'Sin selección';
   $('#queue').textContent = p.queue.map((q, i) => `${q.name} ${Math.ceil(q.time / 30)}s`).join('  ›  ') || 'Cola vacía';
   $('#notice').textContent = game.result ? (game.result.winner === 0 ? '¡Victoria!' : 'Derrota') + ` · ${game.result.reason}` : buildName ? `Coloca ${buildName}` : mode ? `Orden: ${mode}` : paused ? 'Partida en pausa' : '';
+  showMission(p, worker);
   const key = `${[...selected].sort((a, b) => a - b)}|${mode}|${buildName}|${buildMenu}|${p.queue.length}`; if (key === controlsKey) return; controlsKey = key;
   $('#actions').replaceChildren(); const add = (label, action, fn, active = false) => { const b = document.createElement('button'); b.innerHTML = `${icon(label)}<span>${label}</span>`; b.title = label; b.classList.toggle('active', active); b.onclick = fn; $('#actions').append(b); };
-  if (!chosen.length) add('Construir', 'build', () => { buildMenu = !buildMenu; hud(); }, buildMenu);
-  else if (!building) for (const [label, action] of [['Mover', 'move'], ['Atacar', 'attack'], ...(worker ? [['Recolectar', 'gather']] : []), ['Parar', 'stop']]) add(label, action, () => { mode = action === 'stop' ? (issue(game, { action, ids: [...selected] }), null) : action; buildName = null; hud(); }, mode === action);
+  $('.panel').hidden = Boolean(mission) && !chosen.length;
+  if (!mission && !chosen.length) add('Construir', 'build', () => { buildMenu = !buildMenu; hud(); }, buildMenu);
+  else if (chosen.length && !building) for (const [label, action] of [['Mover', 'move'], ...(!mission ? [['Atacar', 'attack']] : []), ...(worker ? [['Recolectar', 'gather']] : []), ['Parar', 'stop']]) add(label, action, () => { mode = action === 'stop' ? (issue(game, { action, ids: [...selected] }), null) : action; buildName = null; hud(); }, mode === action);
   $('#buildings').replaceChildren(); $('#units').replaceChildren(); $('#heroes').replaceChildren();
   const button = (parent, item, handler, disabled = false) => { const b = document.createElement('button'); b.innerHTML = `${icon(item.nombre)}<span>${item.nombre}<small>${item.costo_brote} Brote · ${item.costo_prisma} Prisma</small></span>`; b.title = `${item.nombre} · ${item.costo_brote} Brote · ${item.costo_prisma} Prisma`; b.setAttribute('aria-label', b.title); b.disabled = disabled; b.onclick = handler; parent.append(b); };
   const buildings = $('#buildings'), units = $('#units'), heroes = $('#heroes'), buildList = catalog.filter(x => x.clan === 'Dosel' && x.tipo === 'edificio').concat(FARO);
-  buildings.hidden = !(worker || !chosen.length && buildMenu); units.hidden = heroes.hidden = !building || building.name !== 'Taller de Brotes';
+  buildings.hidden = Boolean(mission) || !(worker || !chosen.length && buildMenu); units.hidden = heroes.hidden = !building || building.name !== 'Taller de Brotes';
   $('#build-heading').hidden = buildings.hidden; $('#production-heading').hidden = units.hidden; $('#queue-line').hidden = units.hidden;
   if (!buildings.hidden) for (const item of buildList) button(buildings, item, () => { buildName = item.nombre; mode = 'build'; buildMenu = false; hud(); });
   if (!units.hidden) { const queueFull = p.queue.length >= 5; for (const item of catalog.filter(x => x.clan === 'Dosel' && ['unidad', 'heroe'].includes(x.tipo))) button(item.tipo === 'heroe' ? heroes : units, item, () => { if (!enqueue(game, 0, item.nombre)) flash('Faltan recursos, población o Taller de Brotes.'); hud(); }, queueFull); }
