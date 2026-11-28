@@ -107,6 +107,57 @@ const reduced=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motio
 // Sonido (sonido.js): opcional; el cliente funciona igual sin él.
 const sonido=(nombre,retraso=0)=>globalThis.VaisgardSonido?.fx(nombre,retraso);
 let lastAction=null, stepMark=0;
+// Efectos pixel art: hojas pre-renderizadas de pixelfx en fx/ (atribución en fx/CREDITOS.md). Sin código de la librería en runtime.
+// fx/index.json: nombre -> {src,fps,frames,w,h,cols,pivot,loop}. Cada efecto activo: {name,at,pos(),loop}; pos() devuelve [x,y,tamaño] en píxeles del canvas
+// (o 'cover' para cubrir el canvas, o ['mosaico',escala] para repetir la hoja a la escala de la escena); la escala es entera según el tamaño del actor (~80 px por unidad). Con prefers-reduced-motion no se reproduce nada.
+const fxSheets={}, fxActive=[];
+let fxIndex=null, fxAmbient=null, fxAmbientRoom='';
+const FX_AMBIENTE={montana:'nieve',bosque:'hojas',campo:'hojas'};
+function fxImage(name){
+ const m=fxIndex?.[name];if(!m)return null;
+ if(!fxSheets[name]){const img=new Image();img.src=`/client-rpg/fx/${m.src}`;fxSheets[name]=img;}
+ return fxSheets[name];
+}
+if(typeof fetch==='function')fetch('/client-rpg/fx/index.json').then(r=>r.ok?r.json():null).then(index=>{
+ if(!index||typeof index!=='object'||reduced)return;
+ fxIndex=index;for(const name in index)if(!index[name].loop)fxImage(name);
+}).catch(()=>{});
+function fxPlay(name,pos,{delay=0,loop=false}={}){
+ if(reduced||!fxIndex?.[name])return null;
+ const fx={name,pos,loop,at:performance.now()+delay};fxActive.push(fx);return fx;
+}
+function fxStop(fx){const i=fxActive.indexOf(fx);if(i>=0)fxActive.splice(i,1);}
+function fxDraw(time){
+ for(let i=fxActive.length-1;i>=0;i--){
+  const fx=fxActive[i], m=fxIndex[fx.name], t=(time-fx.at)/1000;
+  if(t<0)continue;
+  let frame=Math.floor(t*m.fps);
+  if(frame>=m.frames){if(fx.loop&&m.loop)frame%=m.frames;else{fxActive.splice(i,1);continue;}}
+  const img=fxImage(fx.name);if(!(img?.complete&&img.naturalWidth))continue;
+  const p=fx.pos(), sx=(frame%m.cols)*m.w, sy=Math.floor(frame/m.cols)*m.h;
+  if(p[0]==='mosaico'){const s=p[1];for(let y=0;y<canvas.height;y+=m.h*s)for(let x=0;x<canvas.width;x+=m.w*s)ctx.drawImage(img,sx,sy,m.w,m.h,x,y,m.w*s,m.h*s);continue;}
+  let s,dx,dy;
+  if(p==='cover'){s=Math.max(1,Math.ceil(Math.max(canvas.width/m.w,canvas.height/m.h)));dx=Math.round((canvas.width-m.w*s)/2);dy=0;}
+  else{s=Math.max(1,Math.round((p[2]||160)/80));dx=Math.round(p[0]-m.pivot[0]*s);dy=Math.round(p[1]-m.pivot[1]*s);}
+  ctx.drawImage(img,sx,sy,m.w,m.h,dx,dy,m.w*s,m.h*s);
+ }
+}
+// Posiciones reales de los actores: en batalla según getBattleLayout; en exploración, los pies del avatar según la cámara.
+const fxEnemyPos=()=>{const L=getBattleLayout(canvas.width,canvas.height).enemy;return [L.x+L.w/2,L.y+L.h*.6,L.w];};
+const fxHeroPos=()=>{
+ if(snapshot?.character?.combat||outcome){const L=getBattleLayout(canvas.width,canvas.height).avatar;return [L.x+L.w/2,L.y+L.h*.85,L.w];}
+ if(!scene)return [canvas.width/2,canvas.height/2,120];
+ const cam=getCamera(canvas.width,canvas.height,scene.size[0],scene.size[1],player.x,player.y);
+ return [player.x*cam.S-cam.camX,player.y*cam.S-cam.camY+Math.round(8*cam.S/32),cam.S*2.5];
+};
+const fxCover=()=>'cover';
+const fxMosaico=()=>['mosaico',scene?Math.max(2,Math.round(getCamera(canvas.width,canvas.height,scene.size[0],scene.size[1],player.x,player.y).S/16)):2];
+function fxAmbiente(room){
+ if(!room||room.id===fxAmbientRoom)return;
+ fxAmbientRoom=room.id;if(fxAmbient)fxStop(fxAmbient);
+ const tema=room.region==='cumbres'?'montana':globalThis.VaisgardSonido?.temaSala?.(room);
+ fxAmbient=FX_AMBIENTE[tema]?fxPlay(FX_AMBIENTE[tema],fxMosaico,{loop:true}):null;
+}
 const battleLocked=()=>busy||Boolean(pending)||selectedRound===snapshot?.character?.combat?.round;
 
 function resizeCanvas(){
@@ -215,13 +266,15 @@ function updatePresentation(previous,next){
  if(!next.character||next.character.id!==previous?.character?.id){selectedRound=null;lastCombat=null;outcome=null;animation=null;lines=[];narrativeKey='';document.body.classList.remove('battling');}
  if(!next.character)return;
  const old=previous?.character?.combat, combat=next.character?.combat;
- if(combat&&!old){sonido('batalla');battleEnteredAt=performance.now();battleStart=previous||next;outcome=null;selectedRound=null;battleGroup=null;panel(false);}
+ if(combat&&!old){sonido('batalla');battleEnteredAt=performance.now();battleStart=previous||next;outcome=null;selectedRound=null;battleGroup=null;panel(false);fxActive.length=0;fxAmbientRoom='';fxPlay('entrada',fxCover);}
  if(combat){
   if(old&&combat.round!==old.round){selectedRound=null;battleGroup=null;animation={at:performance.now(),enemy:old.hp-combat.hp,player:previous.character.hp-next.character.hp,oldEnemy:old.hp,oldPlayer:previous.character.hp};
    // Golpe/crítico/fallo se deducen de las variaciones reales de PV de la ronda (el servidor no marca críticos).
-   if(animation.enemy>0)sonido(animation.enemy>=combat.hp_max*.25?'critico':'golpe');
+   animation.crit=animation.enemy>=combat.hp_max*.25;
+   if(animation.enemy>0){sonido(animation.crit?'critico':'golpe');fxPlay(animation.crit?'critico':'golpe',fxEnemyPos);}
    else if(lastAction&&!['defender','usar','huir'].includes(lastAction.id))sonido('fallo');
-   if(animation.player>0)sonido('herido',260);else if(animation.player<0)sonido('curar',260);
+   if(animation.player>0){sonido('herido',260);fxPlay('herido',fxHeroPos,{delay:260});}else if(animation.player<0){sonido('curar',260);fxPlay('curar',fxHeroPos,{delay:260});}
+   if(lastAction?.id==='defender')fxPlay('defender',fxHeroPos);
    lastAction=null;
   }
   lastCombat=combat;
@@ -235,9 +288,13 @@ function updatePresentation(previous,next){
   outcome={title:defeated?'Has caído':fled?'A salvo':xp>0||loot.length?'Victoria':'Fin del combate',text:[xp?`+${xp} XP`:null,...loot.map(i=>`${i.name} ×${i.quantity}`),defeated?'El servidor te ha llevado a un lugar seguro.':fled?'Has abandonado el encuentro.':null].filter(Boolean).join(' · ')};
   selectedRound=null;animation=null;keys.clear();
   sonido(defeated?'derrota':fled?'huir':outcome.title==='Victoria'?'victoria':'confirmar');
+  if(fled)fxPlay('huir',fxHeroPos);
+  else if(outcome.title==='Victoria')for(const [i,k] of [[0,0],[1,-.35],[2,.3]])fxPlay('brillo',()=>{const [x,y,w]=fxEnemyPos();return [x+k*w,y-i*w*.2,w];},{delay:i*220});
  }
- if(sameCharacter&&next.character.level>(previous.character.level||next.character.level))sonido('nivel',old&&!combat?1700:0);
+ if(sameCharacter&&next.character.level>(previous.character.level||next.character.level)){sonido('nivel',old&&!combat?1700:0);fxPlay('nivel',fxHeroPos,{delay:old&&!combat?1700:0});}
  else if(sameCharacter&&!combat&&!old&&next.character.hp>previous.character.hp&&lastAction&&performance.now()-lastAction.at<5000)sonido('curar');
+ // Recolección fuera de combate: destello cuando una cantidad real del inventario sube.
+ if(sameCharacter&&!combat&&!old&&previous.inventory&&(next.inventory||[]).some(i=>{const was=previous.inventory.find(j=>j.id===i.id);return (i.quantity||1)>(was?was.quantity||1:0);}))fxPlay('brillo',fxHeroPos);
  const text=(next.narrative||[]).map(e=>typeof e==='string'?e:e.text).filter(Boolean), key=JSON.stringify(text);
  if(key!==narrativeKey){
   const oldText=JSON.parse(narrativeKey||'[]');let common=0;while(common<text.length&&common<oldText.length&&text[common]===oldText[common])common++;
@@ -325,6 +382,8 @@ function battleDraw(time){
  const enemyHp=animation?animation.oldEnemy+(b.hp-animation.oldEnemy)*blend:b.hp;
  const shake=!reduced&&elapsed<.6?Math.sin(elapsed*65)*5*(1-elapsed/.6):0;
  const lunge=!reduced&&elapsed<.35?Math.sin(elapsed/.35*Math.PI)*24:0;
+ const quake=!reduced&&animation?.crit&&elapsed<.3?Math.round(Math.sin(elapsed*90)*6*(1-elapsed/.3)):0;
+ if(quake&&ctx.save){ctx.save();ctx.translate(quake,Math.round(quake/2));}
 
  const layout=getBattleLayout(canvas.width,canvas.height);
 
@@ -360,6 +419,7 @@ function battleDraw(time){
    ctx.drawImage(avatarImg,64,96,64,96,avatarX,avatarY,avatarW,avatarH);
   }
  }
+ if(quake&&ctx.restore)ctx.restore();
 
  const enemyHud=$('enemy-hud');
  if(enemyHud){
@@ -383,6 +443,7 @@ function battleDraw(time){
  if(!reduced&&time-battleEnteredAt<400){
   ctx.fillStyle=`rgba(6,11,19,${1-(time-battleEnteredAt)/400})`;ctx.fillRect(0,0,canvas.width,canvas.height);
  }
+ fxDraw(time);
  const remaining=Math.max(0,b.next_round-(Date.now()/1000+serverOffset));
  $('turn').textContent=c.combat?`${selectedRound===b.round?'Esperando turno…':'Ronda '+b.round} · ${remaining.toFixed(1)} s`:'';
 }
@@ -1815,6 +1876,7 @@ function draw(time){
   }
   const front=backgroundImage(scene.foreground);
   if(front)ctx.drawImage(front,-camX,-camY,worldW,worldH);
+  fxAmbiente(snapshot?.room);fxDraw(time);
   const exit=scene.exits.find(e=>{const [x,y,w,h]=e.rect;return player.x>=x&&player.x<x+w&&player.y>=y&&player.y<y+h;});
   if(!exit)exitLatch=null;
   if(exit&&exitLatch!==exit.direction&&!busy&&!pending){
