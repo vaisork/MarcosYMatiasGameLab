@@ -11,19 +11,28 @@ $('#fps').hidden = !benchmark;
 $('#seed').textContent = game.seed;
 let mode = null, buildName = null, buildMenu = false, pointers = new Map(), drag = null, pinch = null, previous = performance.now(), bank = 0, paused = false, controlsKey = '';
 
-const icons = { 'Nido de Raices': '🪺', 'Huerto de Bruma': '🌿', 'Arco de Savia': '🏹', 'Taller de Brotes': '🛠️', 'Mirador Florido': '🔭', 'Refugio de Polen': '🌼', 'Corazon de Copa': '🌳', 'Puente Trenzado': '🌉', 'Faro de Concordia': '🗼', Semillero: '🧑‍🌾', Zarzapaso: '🌵', Lanzafruto: '🍓', Musgaguarda: '🛡️', 'Planeador de Copa': '🪶', Nudoguardia: '🪢', Polinizadora: '🐝', Trepacopas: '🦎', Brizna: '🌸', Olmo: '🌳', Mover: '➜', Atacar: '⚔️', Recolectar: '🌱', Construir: '🔨', Parar: '⏸️' };
-const icon = name => icons[name] || '⭐';
+const icons = {
+  'Nido de Raices': 'dosel', 'Huerto de Bruma': 'brote', 'Arco de Savia': 'atacar',
+  'Taller de Brotes': 'construir', 'Mirador Florido': 'brujula', 'Refugio de Polen': 'inicio',
+  'Corazon de Copa': 'dosel', 'Puente Trenzado': 'ala', 'Faro de Concordia': 'torre',
+  Semillero: 'brote', Zarzapaso: 'mover', Lanzafruto: 'atacar', Musgaguarda: 'guardian',
+  'Planeador de Copa': 'ala', Nudoguardia: 'guardian', Polinizadora: 'brote', Trepacopas: 'dosel',
+  Brizna: 'estrella', Olmo: 'dosel', Mover: 'mover', Atacar: 'atacar',
+  Recolectar: 'brote', Construir: 'construir', Parar: 'parar'
+};
+const svgIcon = id => `<svg aria-hidden="true"><use href="./assets/emblems.svg#${id}"/></svg>`;
+const icon = name => svgIcon(icons[name] || 'estrella');
 function hud() {
-  const p = game.players[0], chosen = own(), worker = chosen.some(e => e.type === 'unit' && e.stats?.rol === 'trabajador'), building = chosen.find(e => e.type === 'building'); $('#resources').textContent = `✿ ${Math.floor(p.resources.Brote)}   ✦ ${Math.floor(p.resources.Prisma)}`;
+  const p = game.players[0], chosen = own(), worker = chosen.some(e => e.type === 'unit' && e.stats?.rol === 'trabajador'), building = chosen.find(e => e.type === 'building'); $('#brote').textContent = Math.floor(p.resources.Brote); $('#prisma').textContent = Math.floor(p.resources.Prisma);
   $('#population').textContent = `${p.used} / ${p.population}`; $('#selection').textContent = chosen.map(e => e.name).filter((x, i, a) => a.indexOf(x) === i).join(', ') || 'Sin selección';
-  $('#queue').textContent = p.queue.map((q, i) => `${icon(q.name)} ${q.name} ${Math.ceil(q.time / 30)}s`).join('  ›  ') || 'Cola vacía';
+  $('#queue').textContent = p.queue.map((q, i) => `${q.name} ${Math.ceil(q.time / 30)}s`).join('  ›  ') || 'Cola vacía';
   $('#notice').textContent = game.result ? (game.result.winner === 0 ? '¡Victoria!' : 'Derrota') + ` · ${game.result.reason}` : buildName ? `Coloca ${buildName}` : mode ? `Orden: ${mode}` : paused ? 'Partida en pausa' : '';
   const key = `${[...selected].sort((a, b) => a - b)}|${mode}|${buildName}|${buildMenu}|${p.queue.length}`; if (key === controlsKey) return; controlsKey = key;
-  $('#actions').replaceChildren(); const add = (label, action, fn, active = false) => { const b = document.createElement('button'); b.innerHTML = `<span aria-hidden="true">${icon(label)}</span><span>${label}</span>`; b.title = label; b.classList.toggle('active', active); b.onclick = fn; $('#actions').append(b); };
+  $('#actions').replaceChildren(); const add = (label, action, fn, active = false) => { const b = document.createElement('button'); b.innerHTML = `${icon(label)}<span>${label}</span>`; b.title = label; b.classList.toggle('active', active); b.onclick = fn; $('#actions').append(b); };
   if (!chosen.length) add('Construir', 'build', () => { buildMenu = !buildMenu; hud(); }, buildMenu);
   else if (!building) for (const [label, action] of [['Mover', 'move'], ['Atacar', 'attack'], ...(worker ? [['Recolectar', 'gather']] : []), ['Parar', 'stop']]) add(label, action, () => { mode = action === 'stop' ? (issue(game, { action, ids: [...selected] }), null) : action; buildName = null; hud(); }, mode === action);
   $('#buildings').replaceChildren(); $('#units').replaceChildren(); $('#heroes').replaceChildren();
-  const button = (parent, item, handler, disabled = false) => { const b = document.createElement('button'); b.innerHTML = `<span class="big-icon" aria-hidden="true">${icon(item.nombre)}</span><span>${item.nombre}<small>${item.costo_brote} ✿ · ${item.costo_prisma} ✦</small></span>`; b.title = `${item.nombre} · ${item.costo_brote} Brote · ${item.costo_prisma} Prisma`; b.setAttribute('aria-label', b.title); b.disabled = disabled; b.onclick = handler; parent.append(b); };
+  const button = (parent, item, handler, disabled = false) => { const b = document.createElement('button'); b.innerHTML = `${icon(item.nombre)}<span>${item.nombre}<small>${item.costo_brote} Brote · ${item.costo_prisma} Prisma</small></span>`; b.title = `${item.nombre} · ${item.costo_brote} Brote · ${item.costo_prisma} Prisma`; b.setAttribute('aria-label', b.title); b.disabled = disabled; b.onclick = handler; parent.append(b); };
   const buildings = $('#buildings'), units = $('#units'), heroes = $('#heroes'), buildList = catalog.filter(x => x.clan === 'Dosel' && x.tipo === 'edificio').concat(FARO);
   buildings.hidden = !(worker || !chosen.length && buildMenu); units.hidden = heroes.hidden = !building || building.name !== 'Taller de Brotes';
   $('#build-heading').hidden = buildings.hidden; $('#production-heading').hidden = units.hidden; $('#queue-line').hidden = units.hidden;
@@ -49,7 +58,7 @@ canvas.addEventListener('pointerup', end); canvas.addEventListener('pointercance
 canvas.addEventListener('wheel', e => { view.zoomBy(Math.exp(-e.deltaY * .001)); }, { passive: true }); canvas.addEventListener('contextmenu', e => { e.preventDefault(); if (!selected.size) return; const [x, z] = view.world(e.clientX, e.clientY), target = game.entities.find(t => t.owner === 1 && t.hp > 0 && game.map.fog[0][Math.floor(t.z) * 48 + Math.floor(t.x)] === 2 && Math.hypot(t.x - x, t.z - z) < 1); issue(game, { action: target ? 'attack' : 'move', ids: [...selected], x, z, targetId: target?.id }); });
 addEventListener('pointermove', e => { if (buildName && pointers.size === 0) { const [x, z] = view.world(e.clientX, e.clientY); view.setGhost(buildName, x, z, canPlace(buildName, x, z)); } });
 addEventListener('keydown', e => { const actions = { m: 'move', a: 'attack', s: 'stop', q: 'cancel' }; if (e.key >= '1' && e.key <= '4') { const n = Number(e.key); if (e.shiftKey) for (const id of selected) { const unit = game.entities.find(x => x.id === id); if (unit) unit.group = n; } else { selected.clear(); game.entities.filter(x => x.owner === 0 && x.group === n).forEach(x => selected.add(x.id)); } } else if (actions[e.key.toLowerCase()] === 'cancel') { mode = buildName = null; buildMenu = false; view.setGhost(null); } else if (actions[e.key.toLowerCase()]) mode = actions[e.key.toLowerCase()]; hud(); });
-$('#pause').onclick = () => { paused = !paused; $('#pause').textContent = paused ? '▶ Reanudar' : 'Ⅱ Pausa'; previous = performance.now(); };
+$('#pause').onclick = () => { paused = !paused; const button = $('#pause'), label = paused ? 'Reanudar' : 'Pausa'; button.innerHTML = svgIcon(paused ? 'reanudar' : 'pausa') + `<span>${label}</span>`; button.setAttribute('aria-label', label); button.title = paused ? 'Reanudar partida' : 'Pausar partida'; previous = performance.now(); };
 $('#home').onclick = () => view.home();
 document.querySelectorAll('[data-group]').forEach(b => { b.onclick = () => { const n = Number(b.dataset.group), group = game.entities.filter(e => e.owner === 0 && e.type === 'unit' && e.group === n); if (group.length) { selected.clear(); group.forEach(e => selected.add(e.id)); hud(); } }; b.oncontextmenu = e => { e.preventDefault(); const n = Number(b.dataset.group); for (const id of selected) { const unit = game.entities.find(x => x.id === id); if (unit?.type === 'unit') unit.group = n; } hud(); }; });
 let fpsFrames = 0, fpsStart = performance.now(); function frame(now) { bank += Math.min(.2, (now - previous) / 1000); previous = now; let updates = 0; if (!paused) while (bank >= 1 / 30 && updates++ < 4) { step(game); bank -= 1 / 30; } else bank = 0; view.draw(selected); hud(); fpsFrames++; if (benchmark && now - fpsStart >= 500) { $('#fps').textContent = `${Math.round(fpsFrames * 1000 / (now - fpsStart))} FPS · ${game.entities.filter(e => e.type === 'unit').length} unidades`; fpsFrames = 0; fpsStart = now; } requestAnimationFrame(frame); }
