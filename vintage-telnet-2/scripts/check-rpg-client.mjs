@@ -833,3 +833,17 @@ assert(/gold-gradient/.test(mapRule('.map-ctrl-btn'))&&/gold-border/.test(mapRul
 console.log('RPG navigation & map enhancements: getCamera free area, exit indicators, dialogue fold and world map OK');
 
 await import("./check-rpg-network.mjs");
+
+// Efectos pixelfx: hoja de sprites por cuadro y escala entera, se retira al terminar, nada con movimiento reducido (matchMedia del stub).
+vm.runInContext(`
+fxIndex={golpe:{src:'golpe.webp',fps:15,frames:9,w:136,h:80,cols:3,pivot:[44,64],loop:false}};
+fxSheets.golpe={complete:true,naturalWidth:408};
+assertNull=fxPlay('golpe',()=>[100,100,240]);
+fxActive.push({name:'golpe',pos:()=>[100,100,240],loop:false,at:0});
+draws=[];fxDraw(100);fxDrawn=draws.length;fxArgs=draws[0];fxDraw(1000);fxLeft=fxActive.length;
+`,context);
+assert.equal(vm.runInContext('assertNull',context),null,'prefers-reduced-motion: fxPlay no encola nada');
+assert.equal(vm.runInContext('fxDrawn',context),1);
+assert.equal(vm.runInContext('JSON.stringify(fxArgs.slice(1))',context),'[136,0,136,80,-32,-92,408,240]','cuadro 1 de la hoja, escala 3, pivote en los pies');
+assert.equal(vm.runInContext('fxLeft',context),0,'el efecto termina y se retira');
+console.log('RPG pixelfx: frame lookup, integer scale, pivot, completion and reduced-motion OK');

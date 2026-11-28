@@ -35,3 +35,8 @@ class RpgRouteTests(unittest.TestCase):
    send.assert_called_once()
   for bad in ('/client-rpg/fonts/cinzel.woff2','/client-rpg/fonts/../secret.ttf','/client-rpg/fonts/Cinzel.ttf','/client-rpg/fonts/evil.otf'):
    self.assertEqual(self.c.get(bad).status_code,404,bad)
+ def test_fx_sheets_route(self):
+  self.assertEqual(self.c.get('/client-rpg/fx/index.json').status_code,200)
+  self.assertEqual(self.c.get('/client-rpg/fx/golpe.webp').status_code,200)
+  for bad in ('/client-rpg/fx/../rpg.css','/client-rpg/fx/CREDITOS.md','/client-rpg/fx/Golpe.webp'):
+   self.assertEqual(self.c.get(bad).status_code,404,bad)
