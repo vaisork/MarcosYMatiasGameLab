@@ -162,8 +162,9 @@ export class ThreeView {
     });
     const fogGeo = new THREE.PlaneGeometry(1.001, 1.001);
     this.exploredFog = new THREE.InstancedMesh(fogGeo, new THREE.MeshBasicMaterial({ color: colors.fog, transparent: true, opacity: .57, depthWrite: false }), S * S);
-    this.unknownFog = new THREE.InstancedMesh(fogGeo, new THREE.MeshBasicMaterial({ color: colors.hidden, transparent: true, opacity: .98, depthWrite: false }), S * S);
+    this.unknownFog = new THREE.InstancedMesh(fogGeo, new THREE.MeshBasicMaterial({ color: colors.hidden, transparent: true, opacity: 1, depthWrite: false }), S * S);
     this.exploredFog.frustumCulled = this.unknownFog.frustumCulled = false;
+    this.exploredFog.renderOrder = this.unknownFog.renderOrder = 2;
     this.scene.add(this.exploredFog, this.unknownFog);
   }
   updateScenery(fog) {
