@@ -1,17 +1,20 @@
 import { makeMap, findPath } from '../path/grid.mjs';
 import { FARO } from '../content/catalog.mjs';
+import { openingMap, openingResult } from '../content/campaign.mjs';
 
 const TICKS = 30;
 const popCost = unit => unit.tipo === 'heroe' ? 4 : unit.nombre === 'Musgaguarda' || unit.nombre === 'Trepacopas' ? 2 : 1;
 const worker = unit => unit.rol === 'trabajador';
 
-export function createGame({ seed = 917, catalog }) {
-  const map = makeMap(seed), game = { seed: seed >>> 0, tick: 0, map, catalog, entities: [], players: [], commands: [], result: null, nextId: 1 };
+export function createGame({ seed = 917, catalog, mission = null }) {
+  const opening = mission?.id === 'semillas-al-alba';
+  const map = opening ? openingMap() : makeMap(seed), game = { mission: opening ? mission : null, seed: seed >>> 0, tick: 0, map, catalog, entities: [], players: [], commands: [], result: null, nextId: 1 };
   for (const [id, clan, x, z] of [[0, 'Dosel', 8, 24], [1, 'Forja', 39, 24]]) {
-    const p = { id, clan, resources: { Brote: 650, Prisma: 220 }, population: 12, used: 0, buildings: [], queue: [], ai: id === 1 };
+    const p = { id, clan, resources: opening ? { Brote: 0, Prisma: 0 } : { Brote: 650, Prisma: 220 }, population: 12, used: 0, buildings: [], queue: [], ai: !opening && id === 1 };
     game.players.push(p);
+    if (opening && id === 1) continue;
     spawn(game, { type: 'building', owner: id, name: id ? 'Patio de Remaches' : 'Nido de Raices', x, z, complete: true, hp: id ? 950 : 900 });
-    const names = id ? ['Remachador', 'Remachador', 'Rodacobre', 'Bumeran de Chispa'] : ['Semillero', 'Semillero', 'Semillero', 'Zarzapaso', 'Lanzafruto'];
+    const names = opening ? ['Semillero', 'Semillero', 'Semillero'] : id ? ['Remachador', 'Remachador', 'Rodacobre', 'Bumeran de Chispa'] : ['Semillero', 'Semillero', 'Semillero', 'Zarzapaso', 'Lanzafruto'];
     names.forEach((name, i) => spawnUnit(game, id, name, x + (i % 2) * 1.2 + 2, z + Math.floor(i / 2) * 1.3 - 1));
   }
   reveal(game);
@@ -72,8 +75,12 @@ export function step(game, ticks = 1) {
     updateBuildings(game, ordered);
     if (game.tick % (90 * TICKS) === 0) for (const r of game.map.resources) r.amount = Math.min(r.max, r.amount + (r.kind === 'Brote' ? 10 : 4));
     if (game.tick % 15 === 0) reveal(game);
-    if (game.tick % (5 * 60 * TICKS) === 0) aiTurn(game);
+    if (game.players[1].ai && game.tick % (5 * 60 * TICKS) === 0) aiTurn(game);
     cleanup(game);
+    if (game.mission) {
+      game.result = openingResult(game.players[0].resources, game.tick);
+      continue;
+    }
     const center = game.entities.find(e => e.type === 'building' && e.name === 'Patio de Remaches' && e.hp > 0);
     const home = game.entities.find(e => e.type === 'building' && e.name === 'Nido de Raices' && e.hp > 0);
     if (!center) game.result = { winner: 0, reason: 'Centro rival destruido' };
@@ -89,14 +96,26 @@ function updateUnit(game, e) {
   if (!order) return;
   if (order.action === 'gather') {
     const node = game.map.resources.find(r => r.id === order.targetId);
-    if (!node || node.amount <= 0) { e.order = null; return; }
-    if (Math.hypot(e.x - node.x, e.z - node.z) > 1) return move(e);
+    if (!node) { e.order = null; return; }
     if (e.cargo) {
-      const home = game.entities.filter(b => b.owner === e.owner && b.type === 'building' && b.complete).sort((a, b) => Math.hypot(e.x - a.x, e.z - a.z) - Math.hypot(e.x - b.x, e.z - b.z))[0];
-      if (Math.hypot(e.x - home.x, e.z - home.z) > 1.5) { e.path = findPath(game.map, e.x, e.z, home.x, home.z); return move(e); }
-      game.players[e.owner].resources[node.kind] += e.cargo; e.cargo = 0; e.path = findPath(game.map, e.x, e.z, node.x, node.z); return;
+      const homes = game.entities.filter(b => b.owner === e.owner && b.type === 'building' && b.complete && b.hp > 0);
+      const home = homes.sort((a, b) => Math.hypot(e.x - a.x, e.z - a.z) - Math.hypot(e.x - b.x, e.z - b.z))[0];
+      if (!home) { e.order = null; return; }
+      if (Math.hypot(e.x - home.x, e.z - home.z) > 1.5) {
+        if (!e.path?.length) e.path = findPath(game.map, e.x, e.z, home.x, home.z);
+        return move(e);
+      }
+      game.players[e.owner].resources[e.cargoKind ?? node.kind] += e.cargo;
+      e.cargo = 0; e.cargoKind = null; e.path = findPath(game.map, e.x, e.z, node.x, node.z);
+      return;
     }
-    if (++e.workTicks >= 54) { e.workTicks = 0; const amount = Math.min(node.kind === 'Brote' ? 10 : 5, node.amount); node.amount -= amount; e.cargo = amount; e.path = findPath(game.map, e.x, e.z, game.entities.find(b => b.owner === e.owner && b.type === 'building' && b.complete).x, game.entities.find(b => b.owner === e.owner && b.type === 'building' && b.complete).z); }
+    if (node.amount <= 0) { e.order = null; return; }
+    if (Math.hypot(e.x - node.x, e.z - node.z) > 1) return move(e);
+    if (++e.workTicks >= 54) {
+      e.workTicks = 0;
+      const amount = Math.min(node.kind === 'Brote' ? 10 : 5, node.amount);
+      node.amount -= amount; e.cargo = amount; e.cargoKind = node.kind; e.path = [];
+    }
     return;
   }
   if (order.action === 'build') {
@@ -171,7 +190,7 @@ function cleanup(game) {
 
 export function stateHash(game) {
   let hash = 2166136261;
-  const data = JSON.stringify({ seed: game.seed, tick: game.tick, result: game.result, players: game.players.map(p => [p.resources.Brote, p.resources.Prisma, p.population, p.used, p.queue.map(q => [q.name, q.time])]), entities: game.entities.map(e => [e.id, e.type, e.owner, e.name, +e.x.toFixed(4), +e.z.toFixed(4), e.hp, e.complete, +e.progress.toFixed(4), e.order, e.path, e.cooldown, e.cargo, e.workTicks, e.group, e.stars]), resources: game.map.resources.map(r => r.amount), fog: game.map.fog.map(f => Array.from(f)), commands: game.commands });
+  const data = JSON.stringify({ seed: game.seed, tick: game.tick, result: game.result, players: game.players.map(p => [p.resources.Brote, p.resources.Prisma, p.population, p.used, p.queue.map(q => [q.name, q.time])]), entities: game.entities.map(e => [e.id, e.type, e.owner, e.name, +e.x.toFixed(4), +e.z.toFixed(4), e.hp, e.complete, +e.progress.toFixed(4), e.order, e.path, e.cooldown, e.cargo, e.cargoKind, e.workTicks, e.group, e.stars]), resources: game.map.resources.map(r => r.amount), fog: game.map.fog.map(f => Array.from(f)), commands: game.commands });
   for (let i = 0; i < data.length; i++) hash = Math.imul(hash ^ data.charCodeAt(i), 16777619) >>> 0;
   return hash.toString(16).padStart(8, '0');
 }

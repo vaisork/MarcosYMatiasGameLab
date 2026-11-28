@@ -1,0 +1,44 @@
+.campaign-page{height:auto;min-height:100%;overflow:auto;touch-action:auto;background:radial-gradient(ellipse at 22% 14%,#496144,#25392c 50%,#182920 90%);background-attachment:fixed}
+html:has(.campaign-page){height:auto;min-height:100%;overflow:auto;touch-action:auto}
+.campaign-sheet{margin:0 auto;max-width:680px;padding:30px max(24px,env(safe-area-inset-left)) 72px}
+.campaign-sheet h1{font-size:clamp(36px,8vw,72px);margin:18px 0 12px}
+.campaign-back,.campaign-link,.result-actions a{color:var(--gold);text-underline-offset:.22em}
+.campaign-back:focus-visible,.campaign-link:focus-visible,.mission-open:focus-visible,.result-actions a:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.campaign-intro{color:var(--soft);max-width:52ch;font-size:16px}
+.campaign-summary{color:var(--moss);font-size:14px;margin-top:14px;font-weight:700}
+.mission-trail{list-style:none;padding:0;margin:24px 0 0}
+.mission-trail li{position:relative}
+.mission-trail li h2{font:800 23px/1.1 Alegreya,Georgia,serif;margin:24px 0 10px;color:var(--bone)}
+.mission-stop{display:flex;align-items:center;gap:14px;min-height:63px;color:var(--soft);text-decoration:none}
+.mission-number{display:grid;place-items:center;flex:0 0 38px;height:38px;border-radius:100%;border:1px solid var(--line);background:#293a2a;font-variant-numeric:tabular-nums;font-size:16px;font-weight:800}
+.mission-trail li:not(:last-child) .mission-stop::after{content:"";position:absolute;width:1px;height:25px;background:var(--line);bottom:-12px;left:18px}
+.mission-trail li:nth-child(4n) .mission-stop::after{display:none}
+.mission-copy{display:grid;gap:3px}
+.mission-copy strong{font-size:16px;color:var(--bone)}
+.mission-copy>span{font-size:13px}
+.mission-open .mission-number{background:var(--gold);color:var(--ink)}
+.mission-open .mission-copy>span{color:var(--moss);text-decoration:underline;text-underline-offset:3px}
+.campaign-link{display:inline-block;margin-top:6px;font-size:13px;font-weight:750}
+.mission-panel{margin-top:8px;padding:9px 15px;max-width:34ch;font-size:13px}
+.mission-panel h2{font:800 22px/1.1 Alegreya,Georgia,serif;color:var(--gold);margin-bottom:3px}
+.mission-progress{margin-top:5px;color:var(--moss);font-size:14px;font-weight:750}
+#mission-guide{margin-top:5px;color:var(--soft)}
+#mission-result{color:var(--bone);max-width:min(91vw,425px);border:1px solid var(--line);padding:22px;border-radius:12px;background:#23382b}
+#mission-result::backdrop{background:#0f211bc9}
+#mission-result h2{font:800 35px/1 Alegreya,Georgia,serif}
+#mission-rating{color:var(--gold);font-size:27px;font-weight:800;margin:8px 0}
+#mission-result ul{padding-left:20px;color:var(--soft)}
+.result-actions{display:flex;align-items:center;gap:14px;margin-top:14px}
+#mission-save-status:empty{display:none}
+@media(max-width:740px){.mission-panel{max-width:28ch;padding:7px 9px}.mission-panel h2{font-size:18px}}
+
+.mission-panel details{margin-top:6px;color:var(--gold)}
+.mission-panel ul{padding-left:17px;margin:3px 0 0;color:var(--soft)}
+
+#mission-brief-small{display:none}
+@media(max-width:520px) and (orientation:portrait){
+ .campaign-mission .stats,.campaign-mission .identity h1,#mission-brief{display:none}
+ #mission-brief-small{display:block;color:var(--soft);margin-top:4px}
+ .campaign-mission .mission-panel{padding-left:0;margin-top:5px;max-width:30ch}
+ .campaign-mission .bottom .panel{flex-basis:100%;order:2}
+}

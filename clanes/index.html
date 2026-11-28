@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#192c21">
   <title>Guerra de Clanes</title>
   <link rel="stylesheet" href="./assets/battlefield.css">
+  <link rel="stylesheet" href="./assets/campaign.css">
 </head>
 <body>
   <div id="world" aria-label="Mapa 3D de Guerra de Clanes"></div><div id="fps" class="fps" hidden></div>
@@ -13,12 +14,20 @@
     <div class="row top">
       <section class="card identity">
         <h1>Guerra de Clanes</h1>
-        <div class="match">
+        <div class="match" id="match">
           <span class="clan dosel"><svg aria-hidden="true"><use href="./assets/emblems.svg#dosel"/></svg>Dosel</span>
           <span class="versus">contra</span>
           <span class="clan forja"><svg aria-hidden="true"><use href="./assets/emblems.svg#forja"/></svg>Forja Errante</span>
         </div>
-        <p class="battle-meta">Nimbora <span>·</span> Paseo <span>·</span> <span class="seed">semilla <span id="seed">917</span></span></p>
+        <p class="battle-meta" id="battle-meta">Nimbora <span>·</span> Paseo <span>·</span> <span class="seed">semilla <span id="seed">917</span></span></p>
+        <a class="campaign-link" id="campaign-link" href="./campana.html">Campaña</a>
+        <div class="mission-panel" id="mission-panel" hidden>
+          <h2 id="mission-title"></h2>
+          <p id="mission-brief"></p>
+          <p class="mission-progress" id="mission-progress"></p>
+          <p id="mission-guide"></p>
+          <details><summary>Historia y estrellas extra</summary><p id="mission-brief-small"></p><ul id="mission-optional"></ul></details>
+        </div>
       </section>
       <section class="card stats" aria-label="Recursos y población">
         <div class="stat brote"><svg aria-hidden="true"><use href="./assets/emblems.svg#brote"/></svg><span>Brote<strong id="brote">0</strong></span></div>
@@ -43,6 +52,14 @@
       </aside>
     </div>
   </main>
+  <dialog id="mission-result" aria-labelledby="mission-result-title">
+    <h2 id="mission-result-title">Misión cumplida</h2>
+    <p id="mission-rating"></p>
+    <p>El Nido de Raíces ya está abastecido.</p>
+    <ul id="mission-bonuses"></ul>
+    <p id="mission-save-status"></p>
+    <div class="result-actions"><button id="mission-replay">Repetir misión</button><a href="./campana.html">Volver a la campaña</a></div>
+  </dialog>
   <script type="module" src="./src/app/main.mjs"></script>
 </body>
 </html>

@@ -68,7 +68,7 @@ const model = (clan, name, type) => {
 
 export class ThreeView {
   constructor(host, game) {
-    this.game = game; this.selected = new Set(); this.box = null; this.ghost = null; this.zoom = 1; this.center = new THREE.Vector3(8.95, 0, 24.55); this.particles = []; this.lastHp = new Map(); this.lastFogTick = -1; this.lastMapTick = -1;
+    this.game = game; this.selected = new Set(); this.box = null; this.ghost = null; this.spawnView = game.mission ? [10.8, 0, 25.3, .8] : [8.95, 0, 24.55, 1]; this.zoom = this.spawnView[3]; this.center = new THREE.Vector3(...this.spawnView.slice(0, 3)); this.particles = []; this.lastHp = new Map(); this.lastFogTick = -1; this.lastMapTick = -1;
     this.scene = new THREE.Scene(); this.scene.background = new THREE.Color(colors.hidden);
     this.camera = new THREE.OrthographicCamera(-25, 25, 7, -7, .1, 180);
     this.renderer = new THREE.WebGLRenderer({ antialias: devicePixelRatio < 1.5, powerPreference: 'high-performance' }); this.renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); this.renderer.shadowMap.enabled = false; this.renderer.outputColorSpace = THREE.SRGBColorSpace; host.replaceChildren(this.renderer.domElement);
@@ -149,6 +149,8 @@ export class ThreeView {
     this.scenery = scenery;
     const gemGeometry = new THREE.OctahedronGeometry(.34);
     const petalGeometry = new THREE.SphereGeometry(.5, 7, 5);
+    const stalkGeometry = new THREE.CylinderGeometry(.048, .077, .49, 6);
+    const stalkMaterial = this.material('#6c9a53');
     const gemMaterials = [this.material('#80d8db'), this.material('#c5f6ee'), this.material('#adc75c'), this.material('#ffcd8c')];
     this.resources = resources.map(r => {
       const group = new THREE.Group(), plant = r.kind === 'Brote';
@@ -156,6 +158,12 @@ export class ThreeView {
         const item = new THREE.Mesh(plant ? petalGeometry : gemGeometry, gemMaterials[plant ? Number(y > .4) + 2 : Number(y > .4)]);
         item.position.set(offset, y, depth); item.scale.set(scale * (plant ? .52 : .78), scale * (plant ? .46 : 1.35), scale * .65);
         item.rotation.z = turn; group.add(item);
+      }
+      if (plant) {
+        const stalk = new THREE.Mesh(stalkGeometry, stalkMaterial);
+        stalk.position.y = .23; group.add(stalk);
+        const leaf = new THREE.Mesh(petalGeometry, gemMaterials[2]);
+        leaf.position.set(-.16, .31, .03); leaf.scale.set(.48, .13, .23); leaf.rotation.z = -.45; group.add(leaf);
       }
       group.position.set(r.x + .5, terrain[r.z * S + r.x] === 1 ? .48 : 0, r.z + .5);
       this.scene.add(group); return [r, group];
@@ -275,7 +283,7 @@ export class ThreeView {
   }
   burst(x, z) { for (let i = 0; i < 32; i++) this.particles.push({ x, y: .6, z, vx: Math.sin(i * 12.3) * .9, vy: .5 + (i % 5) * .12, vz: Math.cos(i * 12.3) * .9, life: .8 }); }
   updateParticles() { const pos = this.sparkles.geometry.attributes.position.array; let n = 0; for (const p of this.particles) { p.x += p.vx * .025; p.y += p.vy * .025; p.z += p.vz * .025; p.vy -= .015; p.life -= .025; if (p.life > 0 && n < 200) { pos[n * 3] = p.x; pos[n * 3 + 1] = p.y; pos[n * 3 + 2] = p.z; n++; } } this.particles = this.particles.filter(p => p.life > 0); this.sparkles.geometry.setDrawRange(0, n); this.sparkles.geometry.attributes.position.needsUpdate = true; }
-  home() { this.center.set(8.95, 0, 24.55); this.zoom = 1; this.resize(); }
+  home() { this.center.set(...this.spawnView.slice(0, 3)); this.zoom = this.spawnView[3]; this.resize(); }
   pan(dx, dy) { const scale = (this.camera.top - this.camera.bottom) / innerHeight, right = new THREE.Vector3().setFromMatrixColumn(this.camera.matrixWorld, 0), up = new THREE.Vector3().setFromMatrixColumn(this.camera.matrixWorld, 1); right.y = 0; up.y = 0; right.normalize(); up.normalize(); this.center.addScaledVector(right, -dx * scale).addScaledVector(up, dy * scale); this.center.x = THREE.MathUtils.clamp(this.center.x, 2, 46); this.center.z = THREE.MathUtils.clamp(this.center.z, 2, 46); this.resize(); }
   zoomBy(factor) { this.zoom = THREE.MathUtils.clamp(this.zoom * factor, .13, 1.8); this.resize(); }
 }
