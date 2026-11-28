@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+<symbol id="dosel" viewBox="0 0 24 24"><path d="M12 21v-8m0 1C5 14 3 10 3 6c5 0 9 2 9 8Zm0 2c6 0 9-5 9-10-5 1-9 4-9 10Zm-3-6 3 3 3-3"/></symbol>
+<symbol id="forja" viewBox="0 0 24 24"><path d="M12 2 22 12 12 22 2 12 12 2Z"/><path d="M7 14h10m-7 0v4m4-4v4M7 8h10l-2 3H9L7 8Z"/></symbol>
+<symbol id="brote" viewBox="0 0 24 24"><path d="M12 21v-9m0 3c-6 0-8-3-8-7 4 0 8 2 8 7Zm0-3c0-5 3-8 8-8 0 5-3 8-8 8Z"/></symbol>
+<symbol id="prisma" viewBox="0 0 24 24"><path d="m12 2 7 10-7 10-7-10 7-10Zm-7 10h14m-7-10-2 10 2 10 2-10-2-10Z"/></symbol>
+<symbol id="poblacion" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20v-2a7 7 0 0 1 14 0v2H5Zm-2-7 2-1m14 0 2 1"/></symbol>
+<symbol id="inicio" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8M6 10v10h12V10m-8 10v-6h4v6"/></symbol>
+<symbol id="pausa" viewBox="0 0 24 24"><path d="M9 5v14m6-14v14" stroke-width="2.6"/></symbol>
+<symbol id="reanudar" viewBox="0 0 24 24"><path d="m9 5 10 7-10 7V5Z"/></symbol>
+<symbol id="mover" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+<symbol id="atacar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></symbol>
+<symbol id="construir" viewBox="0 0 24 24"><path d="m3 19 9-9m0 0 3 3 6-6-4-4-6 6 1 1Z"/></symbol>
+<symbol id="parar" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+<symbol id="torre" viewBox="0 0 24 24"><path d="M6 21h12l-2-10 3-3V4h-4v3h-6V4H5v4l3 3-2 10Zm4 0v-4h4v4"/></symbol>
+<symbol id="guardian" viewBox="0 0 24 24"><path d="m12 3 7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6l7-3Z"/><path d="m9 13 2 2 4-5"/></symbol>
+<symbol id="ala" viewBox="0 0 24 24"><path d="M4 18c1-9 8-13 16-13-1 7-6 13-14 13H4Zm0 2 11-10"/></symbol>
+<symbol id="estrella" viewBox="0 0 24 24"><path d="m12 2 2.4 7.6H22l-6 4.6 2.2 7.4-6.2-4.5-6.2 4.5 2.2-7.4L2 9.6h7.6L12 2Z"/></symbol>
+<symbol id="brujula" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m16 8-2 6-6 2 2-6 6-2Z"/></symbol>
+</svg>
